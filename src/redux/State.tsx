@@ -1,6 +1,6 @@
 import { store } from ".";
 import localForage from "localforage";
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 import { Children } from "../types/Preact";
 import { useEffect, useState } from "preact/hooks";
 
@@ -12,7 +12,7 @@ async function loadState() {
 }
 
 interface Props {
-    children: Children
+    children: Children;
 }
 
 export default function State(props: Props) {
@@ -23,10 +23,6 @@ export default function State(props: Props) {
     }, []);
 
     if (!loaded) return null;
-    
-    return (
-        <Provider store={store}>
-            { props.children }
-        </Provider>
-    )
+
+    return <Provider store={store}>{props.children}</Provider>;
 }

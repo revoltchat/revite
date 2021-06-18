@@ -15,7 +15,10 @@
     "noEmit": true,
     "jsx": "preserve",
     "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment"
+    "jsxFragmentFactory": "Fragment",
+    "types": [
+      "vite-plugin-pwa/client"
+    ]
   },
   "include": ["src", "ui/ui.tsx"]
 }

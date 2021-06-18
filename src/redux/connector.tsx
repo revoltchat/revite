@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { State } from ".";
 import { h } from "preact";
-//import { memo } from "preact/compat";
+// import { memo } from "preact/compat";
 import { connect, ConnectedComponent } from "react-redux";
 
 export function connectState<T>(
@@ -10,7 +12,9 @@ export function connectState<T>(
 ): ConnectedComponent<(props: any) => h.JSX.Element | null, T> {
     return (
         useDispatcher
-            ? connect(mapKeys, dispatcher => { return { dispatcher } })
+            ? connect(mapKeys, (dispatcher) => {
+                  return { dispatcher };
+              })
             : connect(mapKeys)
-    )(component);//(memo(component));
+    )(component); //(memo(component));
 }

@@ -1,4 +1,4 @@
-export type TypingUser = { id: string, started: number };
+export type TypingUser = { id: string; started: number };
 export type Typing = { [key: string]: TypingUser[] };
 
 export type TypingAction =
@@ -24,19 +24,21 @@ export function typing(state: Typing = {}, action: TypingAction): Typing {
                 ...state,
                 [action.channel]: [
                     ...(state[action.channel] ?? []).filter(
-                        x => x.id !== action.user
+                        (x) => x.id !== action.user
                     ),
                     {
                         id: action.user,
-                        started: + new Date()
-                    }
-                ]
+                        started: +new Date(),
+                    },
+                ],
             };
         case "TYPING_STOP":
             return {
                 ...state,
                 [action.channel]:
-                    state[action.channel]?.filter(x => x.id !== action.user) ?? []
+                    state[action.channel]?.filter(
+                        (x) => x.id !== action.user
+                    ) ?? [],
             };
         case "RESET":
             return {};

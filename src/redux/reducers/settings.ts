@@ -8,9 +8,9 @@ export interface NotificationOptions {
     outgoingSoundEnabled?: boolean;
 }
 
-export type EmojiPacks = 'mutant' | 'twemoji' | 'noto' | 'openmoji';
+export type EmojiPacks = "mutant" | "twemoji" | "noto" | "openmoji";
 export interface AppearanceOptions {
-    emojiPack?: EmojiPacks
+    emojiPack?: EmojiPacks;
 }
 
 export interface Settings {
@@ -53,9 +53,9 @@ export function settings(
             return {
                 ...state,
                 theme: {
-                    ...filter(state.theme, [ 'custom', 'preset' ]),
+                    ...filter(state.theme, ["custom", "preset"]),
                     ...action.theme,
-                }
+                },
             };
         case "SETTINGS_SET_THEME_OVERRIDE":
             return {
@@ -64,32 +64,32 @@ export function settings(
                     ...state.theme,
                     custom: {
                         ...state.theme?.custom,
-                        ...action.custom
-                    }
-                }
+                        ...action.custom,
+                    },
+                },
             };
         case "SETTINGS_SET_NOTIFICATION_OPTIONS":
             return {
                 ...state,
                 notification: {
                     ...state.notification,
-                    ...action.options
-                }
+                    ...action.options,
+                },
             };
         case "SETTINGS_SET_APPEARANCE":
             return {
                 ...state,
                 appearance: {
-                    ...filter(state.appearance, [ 'emojiPack' ]),
-                    ...action.options
-                }
-            }
+                    ...filter(state.appearance, ["emojiPack"]),
+                    ...action.options,
+                },
+            };
         case "SYNC_UPDATE":
             return {
                 ...state,
                 appearance: action.update.appearance?.[1] ?? state.appearance,
-                theme: action.update.theme?.[1] ?? state.theme
-            }
+                theme: action.update.theme?.[1] ?? state.theme,
+            };
         case "RESET":
             return {};
         default:

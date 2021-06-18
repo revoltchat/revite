@@ -24,6 +24,7 @@ export type State = {
     experiments: ExperimentOptions;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const store = createStore((state: any, action: any) => {
     if (process.env.NODE_ENV === "development") {
         console.debug("State Update:", action);
@@ -46,9 +47,9 @@ store.subscribe(() => {
         queue,
         drafts,
         sync,
-        experiments
+        experiments,
     } = store.getState() as State;
-    
+
     localForage.setItem("state", {
         locale,
         auth,
@@ -57,6 +58,6 @@ store.subscribe(() => {
         queue,
         drafts,
         sync,
-        experiments
+        experiments,
     });
 });

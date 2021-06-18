@@ -30,18 +30,19 @@ export function auth(
                 accounts: {
                     ...state.accounts,
                     [action.session.user_id]: {
-                        session: action.session
-                    }
+                        session: action.session,
+                    },
                 },
-                active: action.session.user_id
+                active: action.session.user_id,
             };
-        case "LOGOUT":
+        case "LOGOUT": {
             const accounts = Object.assign({}, state.accounts);
             action.user_id && delete accounts[action.user_id];
 
             return {
-                accounts
+                accounts,
             };
+        }
         default:
             return state;
     }

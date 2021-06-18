@@ -42,7 +42,7 @@ export enum Language {
     PIRATE = "pr",
     BOTTOM = "bottom",
     PIGLATIN = "piglatin",
-    HARDCORE = "hardcore"
+    HARDCORE = "hardcore",
 }
 
 export interface LanguageEntry {
@@ -58,7 +58,7 @@ export const Languages: { [key in Language]: LanguageEntry } = {
         display: "English (Traditional)",
         emoji: "🇬🇧",
         i18n: "en",
-        dayjs: "en-gb"
+        dayjs: "en-gb",
     },
 
     ar: { display: "عربي", emoji: "🇸🇦", i18n: "ar", rtl: true },
@@ -80,7 +80,7 @@ export const Languages: { [key in Language]: LanguageEntry } = {
         display: "Português (do Brasil)",
         emoji: "🇧🇷",
         i18n: "pt_BR",
-        dayjs: "pt-br"
+        dayjs: "pt-br",
     },
     ro: { display: "Română", emoji: "🇷🇴", i18n: "ro" },
     ru: { display: "Русский", emoji: "🇷🇺", i18n: "ru" },
@@ -92,19 +92,24 @@ export const Languages: { [key in Language]: LanguageEntry } = {
         display: "中文 (简体)",
         emoji: "🇨🇳",
         i18n: "zh_Hans",
-        dayjs: "zh"
+        dayjs: "zh",
     },
 
     owo: { display: "OwO", emoji: "🐱", i18n: "owo", dayjs: "en-gb" },
     pr: { display: "Pirate", emoji: "🏴‍☠️", i18n: "pr", dayjs: "en-gb" },
     bottom: { display: "Bottom", emoji: "🥺", i18n: "bottom", dayjs: "en-gb" },
-    piglatin: { display: "Pig Latin", emoji: "🐖", i18n: "piglatin", dayjs: "en-gb" },
+    piglatin: {
+        display: "Pig Latin",
+        emoji: "🐖",
+        i18n: "piglatin",
+        dayjs: "en-gb",
+    },
     hardcore: {
         display: "Hardcore Mode",
         emoji: "🔥",
         i18n: "hardcore",
-        dayjs: "en-gb"
-    }
+        dayjs: "en-gb",
+    },
 };
 
 interface Props {
@@ -117,45 +122,48 @@ function Locale({ children, locale }: Props) {
     const lang = Languages[locale];
 
     useEffect(() => {
-        if (locale === 'en') {
+        if (locale === "en") {
             setDefinition(definition);
-            dayjs.locale('en');
+            dayjs.locale("en");
             return;
         }
 
         if (lang.i18n === "hardcore") {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             setDefinition({} as any);
             return;
         }
 
-        import(
-            `../../external/lang/${lang.i18n}.json`
-        ).then(async lang_file => {
-            let defn = lang_file.default;
-            let target = lang.dayjs ?? lang.i18n;
-            let dayjs_locale = await import(/* @vite-ignore */ `/node_modules/dayjs/esm/locale/${target}.js`);
+        import(`../../external/lang/${lang.i18n}.json`).then(
+            async (lang_file) => {
+                const defn = lang_file.default;
+                const target = lang.dayjs ?? lang.i18n;
+                const dayjs_locale = await import(
+                    /* @vite-ignore */ `/node_modules/dayjs/esm/locale/${target}.js`
+                );
 
-            if (defn.dayjs) {
-                dayjs.updateLocale(target, { calendar: defn.dayjs });
+                if (defn.dayjs) {
+                    dayjs.updateLocale(target, { calendar: defn.dayjs });
+                }
+
+                dayjs.locale(dayjs_locale.default);
+                setDefinition(defn);
             }
-
-            dayjs.locale(dayjs_locale.default);
-            setDefinition(defn);
-        });
-    }, [locale]);
+        );
+    }, [locale, lang]);
 
     useEffect(() => {
         document.body.style.direction = lang.rtl ? "rtl" : "";
-    }, [ lang.rtl ]);
+    }, [lang.rtl]);
 
     return <IntlProvider definition={defns}>{children}</IntlProvider>;
 }
 
-export default connectState<Omit<Props, 'locale'>>(
+export default connectState<Omit<Props, "locale">>(
     Locale,
-    state => {
+    (state) => {
         return {
-            locale: state.locale
+            locale: state.locale,
         };
     },
     true

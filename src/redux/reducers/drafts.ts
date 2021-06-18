@@ -20,11 +20,13 @@ export function drafts(state: Drafts = {}, action: DraftAction): Drafts {
         case "SET_DRAFT":
             return {
                 ...state,
-                [action.channel]: action.content
+                [action.channel]: action.content,
             };
-        case "CLEAR_DRAFT":
+        case "CLEAR_DRAFT": {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { [action.channel]: _, ...newState } = state;
             return newState;
+        }
         case "RESET":
             return {};
         default:

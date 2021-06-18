@@ -1,3 +1,4 @@
+import { State } from "..";
 import { combineReducers } from "redux";
 
 import { settings, SettingsAction } from "./settings";
@@ -19,7 +20,7 @@ export default combineReducers({
     typing,
     drafts,
     sync,
-    experiments
+    experiments,
 });
 
 export type Action =
@@ -32,11 +33,13 @@ export type Action =
     | DraftAction
     | SyncAction
     | ExperimentsAction
-    | { type: "__INIT"; state: any };
+    | { type: "__INIT"; state: State };
 
 export type WithDispatcher = { dispatcher: (action: Action) => void };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function filter(obj: any, keys: string[]) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const newObj: any = {};
     for (const key of keys) {
         const v = obj[key];

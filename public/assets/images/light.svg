@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="323" height="202" viewBox="0 0 323 202">
+  <g id="Light" transform="translate(-225 -535)">
+    <g id="Group_188" data-name="Group 188">
+      <rect id="Rectangle_207" data-name="Rectangle 207" width="323" height="202" rx="6" transform="translate(225 535)" fill="#fbfbfb"/>
+      <path id="Rectangle_209" data-name="Rectangle 209" d="M6,0H95a0,0,0,0,1,0,0V202a0,0,0,0,1,0,0H6a6,6,0,0,1-6-6V6A6,6,0,0,1,6,0Z" transform="translate(225 535)" fill="#fff"/>
+      <g id="Group_195" data-name="Group 195" transform="translate(-345 1)">
+        <g id="Group_196" data-name="Group 196" transform="translate(0 -6)">
+          <rect id="Rectangle_221" data-name="Rectangle 221" width="81" height="15" rx="2" transform="translate(577 560)" fill="#e8e8e8"/>
+          <rect id="Rectangle_217" data-name="Rectangle 217" width="22" height="4" rx="1" transform="translate(577 602)" fill="#5a5a5a"/>
+          <rect id="Rectangle_231" data-name="Rectangle 231" width="29" height="4" rx="1" transform="translate(591 566)" fill="#464646"/>
+          <g id="Group_198" data-name="Group 198">
+            <rect id="Rectangle_226" data-name="Rectangle 226" width="81" height="15" rx="2" transform="translate(577 580)" fill="#fff"/>
+            <rect id="Rectangle_232" data-name="Rectangle 232" width="30" height="4" rx="1" transform="translate(613 586)" fill="#464646"/>
+            <rect id="Rectangle_233" data-name="Rectangle 233" width="20" height="4" rx="1" transform="translate(591 586)" fill="#464646"/>
+          </g>
+          <g id="Voice_Channel" data-name="Voice Channel">
+            <rect id="Rectangle_227" data-name="Rectangle 227" width="81" height="15" rx="2" transform="translate(577 614)" fill="#36ad93"/>
+            <rect id="Rectangle_230" data-name="Rectangle 230" width="16" height="4" rx="1" transform="translate(591 620)" fill="#fff"/>
+            <g id="Connected_Users" data-name="Connected Users">
+              <circle id="Ellipse_50" data-name="Ellipse 50" cx="4.5" cy="4.5" r="4.5" transform="translate(630 617)" fill="#8b8b8b"/>
+              <circle id="Ellipse_51" data-name="Ellipse 51" cx="4.5" cy="4.5" r="4.5" transform="translate(635 617)" fill="#b7b7b7"/>
+              <circle id="Ellipse_52" data-name="Ellipse 52" cx="4.5" cy="4.5" r="4.5" transform="translate(641 617)" fill="#e8e8e8"/>
+            </g>
+          </g>
+          <g id="Group_199" data-name="Group 199" transform="translate(0 54)">
+            <rect id="Rectangle_226-2" data-name="Rectangle 226" width="81" height="15" rx="2" transform="translate(577 580)" fill="#fff"/>
+            <rect id="Rectangle_234" data-name="Rectangle 234" width="25" height="4" rx="1" transform="translate(591 586)" fill="#464646"/>
+          </g>
+          <g id="Group_200" data-name="Group 200" transform="translate(0 74)">
+            <rect id="Rectangle_226-3" data-name="Rectangle 226" width="81" height="15" rx="2" transform="translate(577 580)" fill="#fff"/>
+            <rect id="Rectangle_235" data-name="Rectangle 235" width="15" height="4" rx="1" transform="translate(629 586)" fill="#464646"/>
+            <rect id="Rectangle_236" data-name="Rectangle 236" width="36" height="4" rx="1" transform="translate(591 586)" fill="#464646"/>
+          </g>
+          <g id="Group_201" data-name="Group 201" transform="translate(0 94)">
+            <rect id="Rectangle_226-4" data-name="Rectangle 226" width="81" height="15" rx="2" transform="translate(577 580)" fill="#fff"/>
+            <rect id="Rectangle_237" data-name="Rectangle 237" width="20" height="4" rx="1" transform="translate(591 586)" fill="#464646"/>
+            <rect id="Rectangle_238" data-name="Rectangle 238" width="30" height="4" rx="1" transform="translate(613 586)" fill="#464646"/>
+          </g>
+        </g>
+        <path id="Rectangle_224" data-name="Rectangle 224" d="M0,0H95a0,0,0,0,1,0,0V51a0,0,0,0,1,0,0H6a6,6,0,0,1-6-6V0A0,0,0,0,1,0,0Z" transform="translate(570 685)" fill="#c7c7c7"/>
+      </g>
+    </g>
+    <g id="Group_187" data-name="Group 187" transform="translate(0 -9)">
+      <circle id="Ellipse_49" data-name="Ellipse 49" cx="10.5" cy="10.5" r="10.5" transform="translate(336 681)" fill="#cfcfcf"/>
+      <rect id="Rectangle_210" data-name="Rectangle 210" width="34" height="8" rx="2" transform="translate(365 681)" fill="#464646"/>
+      <rect id="Rectangle_211" data-name="Rectangle 211" width="28" height="8" rx="2" transform="translate(404 681)" fill="#676767"/>
+      <rect id="Rectangle_212" data-name="Rectangle 212" width="24" height="6" rx="2" transform="translate(365 696)" fill="#4a4a4a"/>
+      <rect id="Rectangle_213" data-name="Rectangle 213" width="47" height="6" rx="2" transform="translate(393 696)" fill="#4a4a4a"/>
+      <rect id="Rectangle_214" data-name="Rectangle 214" width="55" height="6" rx="2" transform="translate(444 696)" fill="#4a4a4a"/>
+    </g>
+    <g id="Group_189" data-name="Group 189">
+      <line id="Line_18" data-name="Line 18" x2="191" transform="translate(335.5 656.5)" fill="none" stroke="#c5c5c5" stroke-linecap="round" stroke-width="1" opacity="0.5"/>
+    </g>
+    <g id="Group_192" data-name="Group 192" transform="translate(0 -83)">
+      <rect id="Rectangle_210-2" data-name="Rectangle 210" width="34" height="8" rx="2" transform="translate(365 681)" fill="#464646"/>
+      <rect id="Rectangle_211-2" data-name="Rectangle 211" width="28" height="8" rx="2" transform="translate(404 681)" fill="#676767"/>
+      <rect id="Rectangle_212-2" data-name="Rectangle 212" width="81" height="6" rx="2" transform="translate(365 696)" fill="#68abee"/>
+      <g id="Group_194" data-name="Group 194" transform="translate(0 2)">
+        <rect id="Rectangle_219" data-name="Rectangle 219" width="23" height="6" rx="2" transform="translate(372 707)" fill="#68abee"/>
+        <rect id="Rectangle_220" data-name="Rectangle 220" width="103" height="6" rx="2" transform="translate(372 718)" fill="#4a4a4a"/>
+        <line id="Line_35" data-name="Line 35" y2="17" transform="translate(365.5 707.5)" fill="none" stroke="#bfbfbf" stroke-linecap="round" stroke-width="1"/>
+      </g>
+      <circle id="Ellipse_49-2" data-name="Ellipse 49" cx="10.5" cy="10.5" r="10.5" transform="translate(336 681)" fill="#cfcfcf"/>
+    </g>
+    <g id="Group_193" data-name="Group 193" transform="translate(0 -133)">
+      <circle id="Ellipse_49-3" data-name="Ellipse 49" cx="10.5" cy="10.5" r="10.5" transform="translate(336 681)" fill="#cfcfcf"/>
+      <rect id="Rectangle_210-3" data-name="Rectangle 210" width="34" height="8" rx="2" transform="translate(365 681)" fill="#464646"/>
+      <rect id="Rectangle_211-3" data-name="Rectangle 211" width="28" height="8" rx="2" transform="translate(404 681)" fill="#676767"/>
+      <rect id="Rectangle_212-3" data-name="Rectangle 212" width="95" height="6" rx="2" transform="translate(365 696)" fill="#4a4a4a"/>
+      <rect id="Rectangle_213-2" data-name="Rectangle 213" width="29" height="6" rx="2" transform="translate(365 709)" fill="#4a4a4a"/>
+      <rect id="Rectangle_218" data-name="Rectangle 218" width="50" height="6" rx="2" transform="translate(398 709)" fill="#4a4a4a"/>
+      <rect id="Rectangle_214-2" data-name="Rectangle 214" width="68" height="6" rx="2" transform="translate(464 696)" fill="#4a4a4a"/>
+    </g>
+    <rect id="Rectangle_228" data-name="Rectangle 228" width="191" height="18" rx="4" transform="translate(336 709)" fill="#ececec"/>
+    <path id="Rectangle_229" data-name="Rectangle 229" d="M0,0H17a4,4,0,0,1,4,4V14a4,4,0,0,1-4,4H0a0,0,0,0,1,0,0V0A0,0,0,0,1,0,0Z" transform="translate(506 709)" fill="#bebfc1"/>
+  </g>
+</svg>

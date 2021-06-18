@@ -2,7 +2,7 @@ import { AppearanceOptions } from "./settings";
 import { Language } from "../../context/Locale";
 import { ThemeOptions } from "../../context/Theme";
 
-export type SyncKeys = 'theme' | 'appearance' | 'locale';
+export type SyncKeys = "theme" | "appearance" | "locale";
 
 export interface SyncData {
     locale?: Language;
@@ -10,17 +10,21 @@ export interface SyncData {
     appearance?: AppearanceOptions;
 }
 
-export const DEFAULT_ENABLED_SYNC: SyncKeys[] = [ 'theme', 'appearance', 'locale' ];
+export const DEFAULT_ENABLED_SYNC: SyncKeys[] = [
+    "theme",
+    "appearance",
+    "locale",
+];
 export interface SyncOptions {
-    disabled?: SyncKeys[]
+    disabled?: SyncKeys[];
     revision?: {
-        [key: string]: number
-    }
+        [key: string]: number;
+    };
 }
 
 export type SyncUpdateAction = {
     type: "SYNC_UPDATE";
-    update: { [key in SyncKeys]?: [ number, SyncData[key] ] }
+    update: { [key in SyncKeys]?: [number, SyncData[key]] };
 };
 
 export type SyncAction =
@@ -49,24 +53,24 @@ export function sync(
             return {
                 ...state,
                 disabled: [
-                    ...(state.disabled ?? []).filter(v => v !== action.key),
-                    action.key
-                ]
+                    ...(state.disabled ?? []).filter((v) => v !== action.key),
+                    action.key,
+                ],
             };
         case "SYNC_ENABLE_KEY":
             return {
                 ...state,
-                disabled: state.disabled?.filter(v => v !== action.key)
+                disabled: state.disabled?.filter((v) => v !== action.key),
             };
         case "SYNC_SET_REVISION":
             return {
                 ...state,
                 revision: {
                     ...state.revision,
-                    [action.key]: action.timestamp
-                }
+                    [action.key]: action.timestamp,
+                },
             };
-        case "SYNC_UPDATE":
+        case "SYNC_UPDATE": {
             const revision = { ...state.revision };
             for (const key of Object.keys(action.update)) {
                 const value = action.update[key as SyncKeys];
@@ -77,8 +81,9 @@ export function sync(
 
             return {
                 ...state,
-                revision
-            }
+                revision,
+            };
+        }
         default:
             return state;
     }

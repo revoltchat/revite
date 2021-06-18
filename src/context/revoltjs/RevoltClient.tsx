@@ -1,4 +1,4 @@
-import { Client } from 'revolt.js';
+import { Client } from "revolt.js";
 
 export enum ClientStatus {
     LOADING,
@@ -7,7 +7,7 @@ export enum ClientStatus {
     DISCONNECTED,
     CONNECTING,
     RECONNECTING,
-    ONLINE
+    ONLINE,
 }
 
 export const RevoltJSClient = new Client({

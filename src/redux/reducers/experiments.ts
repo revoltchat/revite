@@ -1,8 +1,8 @@
 export type Experiments = never;
-export const AVAILABLE_EXPERIMENTS: Experiments[] = [ ];
+export const AVAILABLE_EXPERIMENTS: Experiments[] = [];
 
 export interface ExperimentOptions {
-    enabled?: Experiments[]
+    enabled?: Experiments[];
 }
 
 export type ExperimentsAction =
@@ -26,16 +26,17 @@ export function experiments(
                 ...state,
                 enabled: [
                     ...(state.enabled ?? [])
-                        .filter(x => AVAILABLE_EXPERIMENTS.includes(x))
-                        .filter(v => v !== action.key),
-                    action.key
-                ]
+                        .filter((x) => AVAILABLE_EXPERIMENTS.includes(x))
+                        .filter((v) => v !== action.key),
+                    action.key,
+                ],
             };
         case "EXPERIMENTS_DISABLE":
             return {
                 ...state,
-                enabled: state.enabled?.filter(v => v !== action.key)
-                    .filter(x => AVAILABLE_EXPERIMENTS.includes(x))
+                enabled: state.enabled
+                    ?.filter((v) => v !== action.key)
+                    .filter((x) => AVAILABLE_EXPERIMENTS.includes(x)),
             };
         default:
             return state;

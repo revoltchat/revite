@@ -1,5 +1,5 @@
 import { Language } from "../../context/Locale";
-import { SyncData, SyncKeys, SyncUpdateAction } from "./sync";
+import { SyncUpdateAction } from "./sync";
 
 export type LocaleAction =
     | { type: undefined }
@@ -19,19 +19,20 @@ export function findLanguage(lang?: string): Language {
     }
 
     const code = lang.replace("-", "_");
-
     const short = code.split("_")[0];
-    for (const key of Object.keys(Language)) {
-        const value = (Language as any)[key];
+
+    const values = [];
+    for (const key in Language) {
+        const value = Language[key as keyof typeof Language];
+        values.push(value);
         if (value.startsWith(code)) {
-            return value;
+            return value as Language;
         }
     }
 
-    for (const key of Object.keys(Language).reverse()) {
-        const value = (Language as any)[key];
+    for (const value of values.reverse()) {
         if (value.startsWith(short)) {
-            return value;
+            return value as Language;
         }
     }
 

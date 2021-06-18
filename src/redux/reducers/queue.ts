@@ -2,7 +2,7 @@ import { MessageObject } from "../../context/revoltjs/messages";
 
 export enum QueueStatus {
     SENDING = "sending",
-    ERRORED = "errored"
+    ERRORED = "errored",
 }
 
 export interface QueuedMessage {
@@ -51,47 +51,47 @@ export function queue(
     switch (action.type) {
         case "QUEUE_ADD": {
             return [
-                ...state.filter(x => x.id !== action.nonce),
+                ...state.filter((x) => x.id !== action.nonce),
                 {
                     id: action.nonce,
                     data: action.message,
                     channel: action.channel,
-                    status: QueueStatus.SENDING
-                }
+                    status: QueueStatus.SENDING,
+                },
             ];
         }
         case "QUEUE_FAIL": {
             const entry = state.find(
-                x => x.id === action.nonce
+                (x) => x.id === action.nonce
             ) as QueuedMessage;
             return [
-                ...state.filter(x => x.id !== action.nonce),
+                ...state.filter((x) => x.id !== action.nonce),
                 {
                     ...entry,
                     status: QueueStatus.ERRORED,
-                    error: action.error
-                }
+                    error: action.error,
+                },
             ];
         }
         case "QUEUE_START": {
             const entry = state.find(
-                x => x.id === action.nonce
+                (x) => x.id === action.nonce
             ) as QueuedMessage;
             return [
-                ...state.filter(x => x.id !== action.nonce),
+                ...state.filter((x) => x.id !== action.nonce),
                 {
                     ...entry,
-                    status: QueueStatus.SENDING
-                }
+                    status: QueueStatus.SENDING,
+                },
             ];
         }
         case "QUEUE_REMOVE":
-            return state.filter(x => x.id !== action.nonce);
+            return state.filter((x) => x.id !== action.nonce);
         case "QUEUE_FAIL_ALL":
-            return state.map(x => {
+            return state.map((x) => {
                 return {
                     ...x,
-                    status: QueueStatus.ERRORED
+                    status: QueueStatus.ERRORED,
                 };
             });
         case "QUEUE_DROP_ALL":
