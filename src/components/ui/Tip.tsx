@@ -3,7 +3,7 @@ import { Info } from "@styled-icons/feather";
 import { Children } from "../../types/Preact";
 
 export const TipBase = styled.div`
-	display: flex;
+    display: flex;
     padding: 12px;
     overflow: hidden;
     align-items: center;
@@ -19,7 +19,7 @@ export const TipBase = styled.div`
             text-decoration: underline;
         }
     }
-    
+
     svg {
         flex-shrink: 0;
         margin-right: 10px;
@@ -30,7 +30,7 @@ export default function Tip(props: { children: Children }) {
     return (
         <TipBase>
             <Info size={20} strokeWidth={2} />
-            <span>{ props.children }</span>
+            <span>{props.children}</span>
         </TipBase>
-    )
+    );
 }

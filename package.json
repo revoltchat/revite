@@ -4,7 +4,8 @@
     "dev": "vite",
     "build": "rimraf build && tsc && vite build",
     "serve": "vite preview",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'"
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "fmt": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
@@ -35,6 +36,7 @@
     "eslint": "^7.28.0",
     "eslint-config-preact": "^1.1.4",
     "preact-i18n": "^2.4.0-preactx",
+    "prettier": "^2.3.1",
     "react-overlapping-panels": "1.1.2-patch.0",
     "rimraf": "^3.0.2",
     "sass": "^1.35.1",

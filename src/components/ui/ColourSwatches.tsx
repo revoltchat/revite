@@ -1,7 +1,7 @@
-import { useRef } from 'preact/hooks';
-import { Check } from '@styled-icons/feather';
-import styled, { css } from 'styled-components';
-import { Pencil } from '@styled-icons/bootstrap';
+import { useRef } from "preact/hooks";
+import { Check } from "@styled-icons/feather";
+import styled, { css } from "styled-components";
+import { Pencil } from "@styled-icons/bootstrap";
 
 interface Props {
     value: string;
@@ -17,7 +17,7 @@ const presets = [
         "#FF7F50",
         "#FD6671",
         "#E91E63",
-        "#D468EE"
+        "#D468EE",
     ],
     [
         "#594CAD",
@@ -27,8 +27,8 @@ const presets = [
         "#CD5B45",
         "#FF424F",
         "#AD1457",
-        "#954AA8"
-    ]
+        "#954AA8",
+    ],
 ];
 
 const SwatchesBase = styled.div`
@@ -43,35 +43,38 @@ const SwatchesBase = styled.div`
     }
 `;
 
-const Swatch = styled.div<{ type: 'small' | 'large', colour: string }>`
+const Swatch = styled.div<{ type: "small" | "large"; colour: string }>`
     flex-shrink: 0;
     cursor: pointer;
     border-radius: 4px;
-    background-color: ${ props => props.colour };
+    background-color: ${(props) => props.colour};
 
     display: grid;
     place-items: center;
 
     &:hover {
         border: 3px solid var(--foreground);
-        transition: border ease-in-out .07s;
+        transition: border ease-in-out 0.07s;
     }
 
     svg {
         color: white;
     }
 
-    ${ props => props.type === 'small' ? css`
-        width: 30px;
-        height: 30px;
+    ${(props) =>
+        props.type === "small"
+            ? css`
+                  width: 30px;
+                  height: 30px;
 
-        svg {
-            stroke-width: 2;
-        }
-    ` : css`
-        width: 68px;
-        height: 68px;
-    ` }
+                  svg {
+                      stroke-width: 2;
+                  }
+              `
+            : css`
+                  width: 68px;
+                  height: 68px;
+              `}
 `;
 
 const Rows = styled.div`
@@ -91,28 +94,37 @@ export default function ColourSwatches({ value, onChange }: Props) {
 
     return (
         <SwatchesBase>
-            <Swatch colour={value} type='large'
-                onClick={() => ref.current.click()}>
+            <Swatch
+                colour={value}
+                type="large"
+                onClick={() => ref.current.click()}
+            >
                 <Pencil size={32} />
             </Swatch>
             <input
                 type="color"
                 value={value}
                 ref={ref}
-                onChange={ev => onChange(ev.currentTarget.value)}
+                onChange={(ev) => onChange(ev.currentTarget.value)}
             />
             <Rows>
                 {presets.map((row, i) => (
                     <div key={i}>
-                        { row.map((swatch, i) => (
-                            <Swatch colour={swatch} type='small' key={i}
-                                onClick={() => onChange(swatch)}>
-                                {swatch === value && <Check size={18} strokeWidth={2} />}
+                        {row.map((swatch, i) => (
+                            <Swatch
+                                colour={swatch}
+                                type="small"
+                                key={i}
+                                onClick={() => onChange(swatch)}
+                            >
+                                {swatch === value && (
+                                    <Check size={18} strokeWidth={2} />
+                                )}
                             </Swatch>
-                        )) }
+                        ))}
                     </div>
                 ))}
             </Rows>
         </SwatchesBase>
-    )
+    );
 }

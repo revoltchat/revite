@@ -1,18 +1,18 @@
 import { Children } from "../../types/Preact";
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 import { CircleFill } from "@styled-icons/bootstrap";
 
 interface Props {
     children: Children;
     description?: Children;
-    
+
     checked: boolean;
     disabled?: boolean;
     onSelect: () => void;
 }
 
 interface BaseProps {
-    selected: boolean
+    selected: boolean;
 }
 
 const RadioBase = styled.label<BaseProps>`
@@ -22,12 +22,12 @@ const RadioBase = styled.label<BaseProps>`
     display: flex;
     cursor: pointer;
     align-items: center;
-    
+
     font-size: 1rem;
     font-weight: 600;
     user-select: none;
     border-radius: 4px;
-    transition: .2s ease all;
+    transition: 0.2s ease all;
 
     &:hover {
         background: var(--hover);
@@ -52,23 +52,25 @@ const RadioBase = styled.label<BaseProps>`
         }
     }
 
-    ${ props => props.selected && css`
-        color: white;
-        cursor: default;
-        background: var(--accent);
-
-        > div {
-            background: white;
-        }
-
-        > div svg {
-            color: var(--accent);
-        }
-
-        &:hover {
+    ${(props) =>
+        props.selected &&
+        css`
+            color: white;
+            cursor: default;
             background: var(--accent);
-        }
-    ` }
+
+            > div {
+                background: white;
+            }
+
+            > div svg {
+                color: var(--accent);
+            }
+
+            &:hover {
+                background: var(--accent);
+            }
+        `}
 `;
 
 const RadioDescription = styled.span<BaseProps>`
@@ -76,9 +78,11 @@ const RadioDescription = styled.span<BaseProps>`
     font-weight: 400;
     color: var(--secondary-foreground);
 
-    ${ props => props.selected && css`
-        color: white;
-    ` }
+    ${(props) =>
+        props.selected &&
+        css`
+            color: white;
+        `}
 `;
 
 export default function Radio(props: Props) {
@@ -86,15 +90,14 @@ export default function Radio(props: Props) {
         <RadioBase
             selected={props.checked}
             disabled={props.disabled}
-            onClick={() => !props.disabled && props.onSelect && props.onSelect()}
+            onClick={() =>
+                !props.disabled && props.onSelect && props.onSelect()
+            }
         >
             <div>
                 <CircleFill size={12} />
             </div>
-            <input
-                type="radio"
-                checked={props.checked}
-            />
+            <input type="radio" checked={props.checked} />
             <span>
                 <span>{props.children}</span>
                 {props.description && (

@@ -1,9 +1,9 @@
-import { Check } from '@styled-icons/feather';
+import { Check } from "@styled-icons/feather";
 import { Children } from "../../types/Preact";
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 const CheckboxBase = styled.label`
-	gap: 4px;
+    gap: 4px;
     z-index: 1;
     padding: 4px;
     display: flex;
@@ -13,8 +13,8 @@ const CheckboxBase = styled.label`
     cursor: pointer;
     font-size: 18px;
     user-select: none;
-    
-    transition: .2s ease all;
+
+    transition: 0.2s ease all;
 
     p {
         margin: 0;
@@ -53,9 +53,11 @@ const Checkmark = styled.div<{ checked: boolean }>`
         stroke-width: 2;
     }
 
-    ${ props => props.checked && css`
-        background: var(--accent);
-    ` }
+    ${(props) =>
+        props.checked &&
+        css`
+            background: var(--accent);
+        `}
 `;
 
 interface Props {
@@ -71,7 +73,7 @@ export default function Checkbox(props: Props) {
     return (
         <CheckboxBase disabled={props.disabled}>
             <CheckboxContent>
-                <span>{ props.children }</span>
+                <span>{props.children}</span>
                 {props.description && (
                     <CheckboxDescription>
                         {props.description}
@@ -89,5 +91,5 @@ export default function Checkbox(props: Props) {
                 <Check size={20} />
             </Checkmark>
         </CheckboxBase>
-    )
+    );
 }

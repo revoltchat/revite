@@ -12,7 +12,7 @@ export default styled.input<Props>`
     border: 2px solid transparent;
     background: var(--primary-background);
     transition: 0.2s ease background-color;
-    transition: border-color .2s ease-in-out;
+    transition: border-color 0.2s ease-in-out;
 
     &:hover {
         background: var(--secondary-background);
@@ -22,12 +22,14 @@ export default styled.input<Props>`
         border: 2px solid var(--accent);
     }
 
-    ${ props => props.contrast && css`
-        color: var(--secondary-foreground);
-        background: var(--secondary-background);
+    ${(props) =>
+        props.contrast &&
+        css`
+            color: var(--secondary-foreground);
+            background: var(--secondary-background);
 
-        &:hover {
-            background: var(--hover);
-        }
-    ` }
+            &:hover {
+                background: var(--hover);
+            }
+        `}
 `;
