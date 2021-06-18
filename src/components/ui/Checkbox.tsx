@@ -1,6 +1,6 @@
 import { Check } from '@styled-icons/feather';
+import { Children } from "../../types/Preact";
 import styled, { css } from 'styled-components';
-import { VNode } from 'preact';
 
 const CheckboxBase = styled.label`
 	gap: 4px;
@@ -62,8 +62,8 @@ interface Props {
     checked: boolean;
     disabled?: boolean;
     className?: string;
-    children: VNode | string;
-    description?: VNode | string;
+    children: Children;
+    description?: Children;
     onChange: (state: boolean) => void;
 }
 
