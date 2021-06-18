@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import '../src/styles/index.scss'
 import { render } from 'preact'
 
-import { GlobalTheme } from '../src/context/Theme';
+import Theme from '../src/context/Theme';
 
 export const UIDemo = styled.div`
 	gap: 12px;
@@ -61,8 +61,9 @@ export function UI() {
 }
 
 render(<>
-    <GlobalTheme />
-    <UIDemo>
-        <UI />
-    </UIDemo>
+    <Theme>
+        <UIDemo>
+            <UI />
+        </UIDemo>
+    </Theme>
 </>, document.getElementById('app')!)
