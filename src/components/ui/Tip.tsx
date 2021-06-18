@@ -26,7 +26,7 @@ export const TipBase = styled.div`
     }
 `;
 
-export function Tip(props: { children: Children }) {
+export default function Tip(props: { children: Children }) {
     return (
         <TipBase>
             <Info size={20} strokeWidth={2} />

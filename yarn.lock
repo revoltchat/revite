@@ -318,6 +318,13 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
 
+"@types/preact-i18n@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@types/preact-i18n/-/preact-i18n-2.3.0.tgz#d99d4a9ad03b0b65e57ed4d874447de74384e32f"
+  integrity sha512-qDgb5QbPnWJ141y+fca5R3MBQis5h7ITnSB9WQiHj5WH41Q5g9Wc4rCnqYERfqSBSC0ac4cE1JAlFisiAUIiLw==
+  dependencies:
+    preact "^10.0.0"
+
 "@types/prop-types@*":
   version "15.7.3"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
@@ -745,14 +752,20 @@ postcss@^8.3.0:
     nanoid "^3.1.23"
     source-map-js "^0.6.2"
 
-preact-i18n@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/preact-i18n/-/preact-i18n-1.5.0.tgz#f9e2ad29cb3abc8b810554963cc90f1a52242605"
-  integrity sha512-gOSyXag3uP1ISSvpcvfP8rdONeLxtQWCEfEZyt+REnGcBUzEWwf7/tjBVZp/ymZeTv4mGh9sALd1NqPYyICkRA==
+preact-i18n@^2.4.0-preactx:
+  version "2.4.0-preactx"
+  resolved "https://registry.yarnpkg.com/preact-i18n/-/preact-i18n-2.4.0-preactx.tgz#fbcb2e3ae22744c7fef5a102db2ef7506057d082"
+  integrity sha512-XJ15wZKdJrpuz2KBs8BkDB9gl85MjIkER5tx8r6RM1+j53hw3/XzUq2DMnkMoLVQiS0VSPI6bXk41CioKwTJIA==
   dependencies:
     dlv "^1.1.3"
+    preact-markup "^2.0.0"
 
-preact@^10.5.13:
+preact-markup@^2.0.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/preact-markup/-/preact-markup-2.1.1.tgz#0451e7eed1dac732d7194c34a7f16ff45a2cfdd7"
+  integrity sha512-8JL2p36mzK8XkspOyhBxUSPjYwMxDM0L5BWBZWxsZMVW8WsGQrYQDgVuDKkRspt2hwrle+Cxr/053hpc9BJwfw==
+
+preact@^10.0.0, preact@^10.5.13:
   version "10.5.13"
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.5.13.tgz#85f6c9197ecd736ce8e3bec044d08fd1330fa019"
   integrity sha512-q/vlKIGNwzTLu+jCcvywgGrt+H/1P/oIRSD6mV4ln3hmlC+Aa34C7yfPI4+5bzW8pONyVXYS7SvXosy2dKKtWQ==

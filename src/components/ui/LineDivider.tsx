@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const LineDivider = styled.div`
+export default styled.div`
     height: 0px;
     opacity: 0.6;
     flex-shrink: 0;

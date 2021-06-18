@@ -4,7 +4,7 @@ interface Props {
     readonly contrast?: boolean;
 };
 
-export const InputBox = styled.input<Props>`
+export default styled.input<Props>`
     z-index: 1;
     padding: 8px 16px;
     border-radius: 6px;

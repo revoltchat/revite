@@ -67,7 +67,7 @@ interface Props {
     onChange: (state: boolean) => void;
 }
 
-export function Checkbox(props: Props) {
+export default function Checkbox(props: Props) {
     return (
         <CheckboxBase disabled={props.disabled}>
             <CheckboxContent>

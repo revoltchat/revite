@@ -32,7 +32,7 @@ const OverlineBase = styled.div<Omit<Props, 'children' | 'error'>>`
     ${ props => props.block && css`display: block;` }
 `;
 
-export function Overline(props: Props) {
+export default function Overline(props: Props) {
     return (
         <OverlineBase {...props}>
             { props.children }

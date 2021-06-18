@@ -81,7 +81,7 @@ const RadioDescription = styled.span<BaseProps>`
     ` }
 `;
 
-export function Radio(props: Props) {
+export default function Radio(props: Props) {
     return (
         <RadioBase
             selected={props.checked}

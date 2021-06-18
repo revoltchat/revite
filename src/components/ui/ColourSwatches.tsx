@@ -86,7 +86,7 @@ const Rows = styled.div`
     }
 `;
 
-export function ColourSwatches({ value, onChange }: Props) {
+export default function ColourSwatches({ value, onChange }: Props) {
     const ref = useRef<HTMLInputElement>();
 
     return (

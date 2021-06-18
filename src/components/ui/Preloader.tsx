@@ -1,3 +1,3 @@
-export function Preloader() {
+export default function Preloader() {
     return <span>LOADING</span>
 }

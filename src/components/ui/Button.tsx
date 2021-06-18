@@ -5,7 +5,7 @@ interface Props {
     readonly error?: boolean;
 };
 
-export const Button = styled.button<Props>`
+export default styled.button<Props>`
 	z-index: 1;
 	padding: 8px;
 	font-size: 16px;
