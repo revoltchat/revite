@@ -28,7 +28,7 @@ export type State = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const store = createStore((state: any, action: any) => {
-    if (process.env.NODE_ENV === "development") {
+    if (import.meta.env.DEV) {
         console.debug("State Update:", action);
     }
 

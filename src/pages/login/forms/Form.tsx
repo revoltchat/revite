@@ -1,14 +1,14 @@
 import { Legal } from "./Legal";
 import { Text } from "preact-i18n";
 import { Link } from "react-router-dom";
-import { useState } from "preact/hooks";
 import styles from "../Login.module.scss";
 import { useForm } from "react-hook-form";
 import { MailProvider } from "./MailProvider";
+import { useContext, useState } from "preact/hooks";
 import { CheckCircle, Mail } from "@styled-icons/feather";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
 import { takeError } from "../../../context/revoltjs/error";
-import { RevoltClient } from "../../../context/revoltjs/RevoltClient";
+import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import FormField from "../FormField";
 import Button from "../../../components/ui/Button";
@@ -34,6 +34,8 @@ function getInviteCode() {
 }
 
 export function Form({ page, callback }: Props) {
+    const { client } = useContext(AppContext);
+
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState<string | undefined>(undefined);
     const [error, setGlobalError] = useState<string | undefined>(undefined);
@@ -73,7 +75,7 @@ export function Form({ page, callback }: Props) {
 
         try {
             if (
-                RevoltClient.configuration?.features.captcha.enabled &&
+                client.configuration?.features.captcha.enabled &&
                 page !== "reset"
             ) {
                 setCaptcha({
@@ -103,7 +105,7 @@ export function Form({ page, callback }: Props) {
     if (typeof success !== "undefined") {
         return (
             <div className={styles.success}>
-                {RevoltClient.configuration?.features.email ? (
+                {client.configuration?.features.email ? (
                     <>
                         <Mail size={72} />
                         <h2>
@@ -157,7 +159,7 @@ export function Form({ page, callback }: Props) {
                         error={errors.password?.message}
                     />
                 )}
-                {RevoltClient.configuration?.features.invite_only &&
+                {client.configuration?.features.invite_only &&
                     page === "create" && (
                         <FormField
                             type="invite"

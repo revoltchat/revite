@@ -6,7 +6,7 @@ import { APP_VERSION } from "../../version";
 import { LIBRARY_VERSION } from "revolt.js";
 import { Route, Switch } from "react-router-dom";
 import { ThemeContext } from "../../context/Theme";
-import { RevoltClient } from "../../context/revoltjs/RevoltClient";
+import { AppContext } from "../../context/revoltjs/RevoltClient";
 
 import background from "./background.jpg";
 
@@ -17,6 +17,7 @@ import { FormReset, FormSendReset } from "./forms/FormReset";
 
 export const Login = () => {
     const theme = useContext(ThemeContext);
+    const { client } = useContext(AppContext);
 
     return (
         <div className={styles.login}>
@@ -27,7 +28,7 @@ export const Login = () => {
                 <div className={styles.attribution}>
                     <span>
                         API:{" "}
-                        <code>{RevoltClient.configuration?.revolt ?? "???"}</code>{" "}
+                        <code>{client.configuration?.revolt ?? "???"}</code>{" "}
                         &middot; revolt.js: <code>{LIBRARY_VERSION}</code>{" "}
                         &middot; App: <code>{APP_VERSION}</code>
                     </span>
