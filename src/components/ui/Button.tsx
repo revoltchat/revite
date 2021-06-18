@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 interface Props {
     readonly contrast?: boolean;
     readonly error?: boolean;
-};
+}
 
 export default styled.button<Props>`
 	z-index: 1;

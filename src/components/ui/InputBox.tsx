@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 interface Props {
     readonly contrast?: boolean;
-};
+}
 
 export default styled.input<Props>`
     z-index: 1;

@@ -102,10 +102,10 @@ export default function ColourSwatches({ value, onChange }: Props) {
                 onChange={ev => onChange(ev.currentTarget.value)}
             />
             <Rows>
-                {presets.map(row => (
-                    <div>
-                        { row.map(swatch => (
-                            <Swatch colour={swatch} type='small'
+                {presets.map((row, i) => (
+                    <div key={i}>
+                        { row.map((swatch, i) => (
+                            <Swatch colour={swatch} type='small' key={i}
                                 onClick={() => onChange(swatch)}>
                                 {swatch === value && <Check size={18} strokeWidth={2} />}
                             </Swatch>

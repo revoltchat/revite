@@ -3,7 +3,21 @@
   "scripts": {
     "dev": "vite",
     "build": "rimraf build && tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "preact",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "ignorePatterns": [
+      "build/"
+    ],
+    "rules": {
+      "@typescript-eslint/explicit-module-boundary-types": "off"
+    }
   },
   "dependencies": {
     "preact": "^10.5.13"
@@ -16,6 +30,10 @@
     "@types/node": "^15.12.3",
     "@types/preact-i18n": "^2.3.0",
     "@types/styled-components": "^5.1.10",
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/parser": "^4.27.0",
+    "eslint": "^7.28.0",
+    "eslint-config-preact": "^1.1.4",
     "preact-i18n": "^2.4.0-preactx",
     "react-overlapping-panels": "1.1.2-patch.0",
     "rimraf": "^3.0.2",
