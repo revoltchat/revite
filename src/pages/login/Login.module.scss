@@ -1,0 +1,123 @@
+.login {
+    display: flex;
+    flex-direction: row;
+
+    svg {
+        margin: auto;
+    }
+
+    > div {
+        flex: 1;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+
+        justify-content: space-between;
+
+        .attribution {
+            color: var(--tertiary-background);
+            font-size: 12px;
+            line-height: 12px;
+            margin: 8px;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .modal {
+            display: flex;
+            flex-direction: row;
+
+            justify-content: center;
+        }
+    }
+
+    .bg {
+        background-size: cover !important;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+
+    img {
+        width: 260px;
+        margin: auto;
+    }
+
+    a {
+        margin-top: 4px;
+    }
+
+    form {
+        margin: 1em 0;
+        display: flex;
+        flex-direction: column;
+
+        button {
+            margin-top: 24px;
+        }
+    }
+
+    .create {
+        text-align: center;
+        color: var(--tertiary-foreground);
+
+        a {
+            margin: 0 4px;
+        }
+    }
+}
+
+.success {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .note {
+        color: var(--tertiary-foreground);
+    }
+
+    .mailProvider {
+        padding: 24px 0;
+    }
+
+    * {
+        margin: 0;
+    }
+
+    h1 {
+        font-weight: 400;
+    }
+
+    h2 {
+        font-weight: 300;
+    }
+}
+
+.footer {
+    margin-top: 12px;
+    text-align: center;
+    color: var(--tertiary6);
+
+    a {
+        color: var(--tertiary-background) !important;
+        cursor: pointer;
+        margin: 0 2px;
+
+        &:hover {
+            color: var(--tertiary-foreground) !important;
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .bg {
+        display: none;
+    }
+}

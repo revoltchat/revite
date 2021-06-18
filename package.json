@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@fontsource/open-sans": "^4.4.5",
+    "@hcaptcha/react-hcaptcha": "^0.3.6",
     "@preact/preset-vite": "^2.0.0",
     "@styled-icons/bootstrap": "^10.34.0",
     "@styled-icons/feather": "^10.34.0",
@@ -36,6 +37,7 @@
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",
     "dayjs": "^1.10.5",
+    "detect-browser": "^5.2.0",
     "eslint": "^7.28.0",
     "eslint-config-preact": "^1.1.4",
     "localforage": "^1.9.0",
@@ -43,6 +45,7 @@
     "prettier": "^2.3.1",
     "react-device-detect": "^1.17.0",
     "react-helmet": "^6.1.0",
+    "react-hook-form": "6.3.0",
     "react-overlapping-panels": "1.1.2-patch.0",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",

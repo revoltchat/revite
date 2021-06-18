@@ -2,13 +2,15 @@ import { CheckAuth } from "./context/revoltjs/CheckAuth";
 import { Route, Switch } from "react-router-dom";
 import Context from "./context";
 
+import { Login } from "./pages/login/Login";
+
 export function App() {
     return (
         <Context>
             <Switch>
                 <Route path="/login">
                     <CheckAuth>
-                        <h1>login</h1>
+                        <Login />
                     </CheckAuth>
                 </Route>
                 <Route path="/">

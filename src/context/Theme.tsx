@@ -1,6 +1,7 @@
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 import { createGlobalStyle } from "styled-components";
 import { Children } from "../types/Preact";
+import { createContext } from "preact";
 import { Helmet } from "react-helmet";
 
 export type Variables =
@@ -111,6 +112,8 @@ const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 }
 `;
 
+export const ThemeContext = createContext<Theme>({} as any);
+
 interface Props {
     children: Children;
 }
@@ -119,7 +122,7 @@ export default function Theme(props: Props) {
     const theme = PRESETS.dark;
 
     return (
-        <>
+        <ThemeContext.Provider value={theme}>
             <Helmet>
                 <meta
                     name="theme-color"
@@ -132,6 +135,6 @@ export default function Theme(props: Props) {
             </Helmet>
             <GlobalTheme theme={theme} />
             {props.children}
-        </>
+        </ThemeContext.Provider>
     );
 }
