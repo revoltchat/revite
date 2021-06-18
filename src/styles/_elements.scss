@@ -1,0 +1,41 @@
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--foreground);
+}
+
+::-moz-selection {
+    background: var(--accent);
+    color: var(--foreground);
+}
+
+::-webkit-selection {
+    background: var(--accent);
+    color: var(--foreground);
+}
+
+a,
+a:link,
+a:visited,
+a:hover {
+    text-decoration: none;
+    color: var(--accent);
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    flex-grow: 1;
+}

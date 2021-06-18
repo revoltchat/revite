@@ -1,0 +1,31 @@
+* {
+	text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+    scrollbar-width: thin;
+    box-sizing: border-box;
+}
+
+html {
+    contain: content;
+    background: var(--background);
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+}
+
+html,
+body {
+    font-family: "Open Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    caret-color: var(--accent);
+    color: var(--foreground);
+
+    -webkit-tap-highlight-color: transparent;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
+    overscroll-behavior: contain;
+
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}

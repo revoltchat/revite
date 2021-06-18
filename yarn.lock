@@ -318,6 +318,11 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
 
+"@types/node@^15.12.3":
+  version "15.12.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.3.tgz#2817bf5f25bc82f56579018c53f7d41b1830b1af"
+  integrity sha512-SNt65CPCXvGNDZ3bvk1TQ0Qxoe3y1RKH88+wZ2Uf05dduBCqqFQ76ADP9pbT+Cpvj60SkRppMCh2Zo8tDixqjQ==
+
 "@types/preact-i18n@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@types/preact-i18n/-/preact-i18n-2.3.0.tgz#d99d4a9ad03b0b65e57ed4d874447de74384e32f"
