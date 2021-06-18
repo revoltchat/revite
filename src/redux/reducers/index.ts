@@ -1,6 +1,7 @@
 import { State } from "..";
 import { combineReducers } from "redux";
 
+import { config, ConfigAction } from "./server_config";
 import { settings, SettingsAction } from "./settings";
 import { locale, LocaleAction } from "./locale";
 import { auth, AuthAction } from "./auth";
@@ -12,6 +13,7 @@ import { sync, SyncAction } from "./sync";
 import { experiments, ExperimentsAction } from "./experiments";
 
 export default combineReducers({
+    config,
     locale,
     auth,
     settings,
@@ -24,6 +26,7 @@ export default combineReducers({
 });
 
 export type Action =
+    | ConfigAction
     | LocaleAction
     | AuthAction
     | SettingsAction

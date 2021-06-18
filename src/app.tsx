@@ -1,19 +1,22 @@
-import { Text } from "preact-i18n";
+import { CheckAuth } from "./context/revoltjs/CheckAuth";
+import { Route, Switch } from "react-router-dom";
 import Context from "./context";
-
-import dayjs from "dayjs";
-
-import localeData from "dayjs/plugin/localeData";
-dayjs.extend(localeData);
 
 export function App() {
     return (
         <Context>
-            <h1>
-                <Text id="general.about" />
-            </h1>
-            <h3>{dayjs.locale()}</h3>
-            <h2>{dayjs.months()}</h2>
+            <Switch>
+                <Route path="/login">
+                    <CheckAuth>
+                        <h1>login</h1>
+                    </CheckAuth>
+                </Route>
+                <Route path="/">
+                    <CheckAuth auth>
+                        <h1>revolt app</h1>
+                    </CheckAuth>
+                </Route>
+            </Switch>
         </Context>
     );
 }

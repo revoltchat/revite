@@ -2,6 +2,7 @@ import { createStore } from "redux";
 import rootReducer from "./reducers";
 import localForage from "localforage";
 
+import { Core } from "revolt.js/dist/api/objects";
 import { Typing } from "./reducers/typing";
 import { Drafts } from "./reducers/drafts";
 import { AuthState } from "./reducers/auth";
@@ -13,6 +14,7 @@ import { QueuedMessage } from "./reducers/queue";
 import { ExperimentOptions } from "./reducers/experiments";
 
 export type State = {
+    config: Core.RevoltNodeConfiguration,
     locale: Language;
     auth: AuthState;
     settings: Settings;
@@ -40,6 +42,7 @@ export const store = createStore((state: any, action: any) => {
 // Save state using localForage.
 store.subscribe(() => {
     const {
+        config,
         locale,
         auth,
         settings,
@@ -51,6 +54,7 @@ store.subscribe(() => {
     } = store.getState() as State;
 
     localForage.setItem("state", {
+        config,
         locale,
         auth,
         settings,
