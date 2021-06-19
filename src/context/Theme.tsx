@@ -148,7 +148,7 @@ function Theme(props: Props) {
     );
 }
 
-export default connectState(Theme, state => {
+export default connectState<{ children: Children }>(Theme, state => {
     return {
         options: state.settings.theme
     };
