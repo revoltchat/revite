@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 export function FormSendReset() {
-    const { client } = useContext(AppContext);
+    const client = useContext(AppContext);
 
     return (
         <Form
@@ -18,7 +18,7 @@ export function FormSendReset() {
 
 export function FormReset() {
     const { token } = useParams<{ token: string }>();
-    const { client } = useContext(AppContext);
+    const client = useContext(AppContext);
     const history = useHistory();
 
     return (

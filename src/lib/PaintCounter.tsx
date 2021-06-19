@@ -9,10 +9,10 @@ export default function PaintCounter({ small }: { small?: boolean }) {
     const count = counts[uniqueId] ?? 0;
     counts[uniqueId] = count + 1;
     return (
-        <span>
+        <div style={{ textAlign: 'center', fontSize: '0.8em' }}>
             { small ? <>P: { count + 1 }</> : <>
                 Painted {count + 1} time(s).
             </> }
-        </span>
+        </div>
     )
 }

@@ -10,7 +10,7 @@ interface Props extends IconBaseProps<Channels.GroupChannel | Channels.TextChann
 
 const fallback = '/assets/group.png';
 export default function ChannelIcon(props: Props & Omit<JSX.HTMLAttributes<HTMLImageElement>, keyof Props>) {
-    const { client } = useContext(AppContext);
+    const client = useContext(AppContext);
 
     const { size, target, attachment, isServerChannel: server, animate, children, as, ...imgProps } = props;
     const iconURL = client.generateFileURL(target?.icon ?? attachment, { max_side: 256 }, animate);

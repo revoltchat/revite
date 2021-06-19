@@ -17,7 +17,7 @@ import { FormReset, FormSendReset } from "./forms/FormReset";
 
 export default function Login() {
     const theme = useContext(ThemeContext);
-    const { client } = useContext(AppContext);
+    const client = useContext(AppContext);
 
     return (
         <div className={styles.login}>

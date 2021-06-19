@@ -1,10 +1,10 @@
 import { openDB } from 'idb';
 import { Client } from "revolt.js";
-import { takeError } from "./error";
+import { takeError } from "./util";
 import { createContext } from "preact";
 import { Children } from "../../types/Preact";
 import { Route } from "revolt.js/dist/api/routes";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import { connectState } from "../../redux/connector";
 import Preloader from "../../components/ui/Preloader";
 import { WithDispatcher } from "../../redux/reducers";
@@ -30,13 +30,9 @@ export interface ClientOperations {
     ready: () => boolean;
 }
 
-export interface AppState {
-    client: Client;
-    status: ClientStatus;
-    operations: ClientOperations;
-}
-
-export const AppContext = createContext<AppState>(undefined as any);
+export const AppContext = createContext<Client>(undefined as any);
+export const StatusContext = createContext<ClientStatus>(undefined as any);
+export const OperationsContext = createContext<ClientOperations>(undefined as any);
 
 type Props = WithDispatcher & {
     auth: AuthState;
@@ -78,10 +74,8 @@ function Context({ auth, sync, children, dispatcher }: Props) {
 
     if (status === ClientStatus.INIT) return null;
 
-    const value: AppState = {
-        client,
-        status,
-        operations: {
+    const operations: ClientOperations = useMemo(() => {
+        return {
             login: async data => {
                 setReconnectDisallowed(true);
 
@@ -131,14 +125,14 @@ function Context({ auth, sync, children, dispatcher }: Props) {
             },
             loggedIn: () => typeof auth.active !== "undefined",
             ready: () => (
-                value.operations.loggedIn() &&
+                operations.loggedIn() &&
                 typeof client.user !== "undefined"
             )
         }
-    };
+    }, [ client, auth.active ]);
 
     useEffect(
-        () => registerEvents({ ...value, dispatcher }, setStatus, client),
+        () => registerEvents({ operations, dispatcher }, setStatus, client),
         [ client ]
     );
 
@@ -155,7 +149,7 @@ function Context({ auth, sync, children, dispatcher }: Props) {
                     return setStatus(ClientStatus.OFFLINE);
                 }
 
-                if (value.operations.ready())
+                if (operations.ready())
                     setStatus(ClientStatus.CONNECTING);
                 
                 if (navigator.onLine) {
@@ -194,7 +188,7 @@ function Context({ auth, sync, children, dispatcher }: Props) {
                     setStatus(ClientStatus.DISCONNECTED);
                     const error = takeError(err);
                     if (error === "Forbidden") {
-                        value.operations.logout(true);
+                        operations.logout(true);
                         // openScreen({ id: "signed_out" });
                     } else {
                         // openScreen({ id: "error", error });
@@ -217,8 +211,12 @@ function Context({ auth, sync, children, dispatcher }: Props) {
     }
 
     return (
-        <AppContext.Provider value={value}>
-            { children }
+        <AppContext.Provider value={client}>
+            <StatusContext.Provider value={status}>
+                <OperationsContext.Provider value={operations}>
+                    { children }
+                </OperationsContext.Provider>
+            </StatusContext.Provider>
         </AppContext.Provider>
     );
 }

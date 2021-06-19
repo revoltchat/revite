@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { useContext } from "preact/hooks";
 import { Redirect } from "react-router-dom";
 
-import { AppContext } from "./RevoltClient";
+import { OperationsContext } from "./RevoltClient";
 
 interface Props {
     auth?: boolean;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const CheckAuth = (props: Props) => {
-    const { operations } = useContext(AppContext);
+    const operations = useContext(OperationsContext);
 
     if (props.auth && !operations.ready()) {
         return <Redirect to="/login" />;

@@ -11,7 +11,7 @@ export interface CaptchaProps {
 }
 
 export function CaptchaBlock(props: CaptchaProps) {
-    const { client } = useContext(AppContext);
+    const client = useContext(AppContext);
 
     useEffect(() => {
         if (!client.configuration?.features.captcha.enabled) {

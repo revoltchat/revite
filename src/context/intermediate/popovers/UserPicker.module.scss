@@ -1,0 +1,21 @@
+.list {
+    width: 400px;
+    max-width: 100%;
+    max-height: 360px;
+    overflow-y: scroll;
+
+    // ! FIXME: very temporary code
+    > label {
+        > span {
+            align-items: flex-start !important;
+            > span {
+                display: flex;
+                padding: 4px;
+                flex-direction: row;
+                gap: 10px;
+                justify-content: flex-start;
+                align-items: center;
+            }
+        }
+    }
+}

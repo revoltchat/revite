@@ -1,0 +1,40 @@
+.onboarding {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    div {
+        flex: 1;
+
+        &.header {
+            padding: 3em;
+            text-align: center;
+
+            h1 {
+                margin: 0;
+            }
+        }
+
+        &.form {
+            flex-grow: 1;
+            max-width: 420px;
+
+            img {
+                margin: auto;
+                display: block;
+                max-height: 420px;
+                border-radius: 8px;
+            }
+
+            input {
+                width: 100%;
+            }
+
+            button {
+                display: block;
+                margin: 24px 0;
+                margin-left: auto;
+            }
+        }
+    }
+}

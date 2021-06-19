@@ -49,11 +49,11 @@ const VoiceIndicator = styled.div<{ status: VoiceStatus }>`
 
 const fallback = '/assets/user.png';
 export default function UserIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGElement>, keyof Props>) {
-    const { client } = useContext(AppContext);
+    const client = useContext(AppContext);
 
     const { target, attachment, size, voice, status, animate, children, as, ...svgProps } = props;
     const iconURL = client.generateFileURL(target?.avatar ?? attachment, { max_side: 256 }, animate)
-        ?? client.users.getDefaultAvatarURL(target!._id);
+        ?? (target && client.users.getDefaultAvatarURL(target._id));
 
     return (
         <IconBase {...svgProps}

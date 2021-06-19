@@ -60,7 +60,7 @@ const Checkmark = styled.div<{ checked: boolean }>`
         `}
 `;
 
-interface Props {
+export interface CheckboxProps {
     checked: boolean;
     disabled?: boolean;
     className?: string;
@@ -69,7 +69,7 @@ interface Props {
     onChange: (state: boolean) => void;
 }
 
-export default function Checkbox(props: Props) {
+export default function Checkbox(props: CheckboxProps) {
     return (
         <CheckboxBase disabled={props.disabled}>
             <CheckboxContent>

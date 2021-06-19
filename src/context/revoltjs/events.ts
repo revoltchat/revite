@@ -2,7 +2,7 @@ import { ClientboundNotification } from "revolt.js/dist/websocket/notifications"
 import { WithDispatcher } from "../../redux/reducers";
 import { Client, Message } from "revolt.js/dist";
 import {
-    AppState,
+    ClientOperations,
     ClientStatus
 } from "./RevoltClient";
 import { StateUpdater } from "preact/hooks";
@@ -17,7 +17,7 @@ export function setReconnectDisallowed(allowed: boolean) {
 export function registerEvents({
     operations,
     dispatcher
-}: AppState & WithDispatcher, setStatus: StateUpdater<ClientStatus>, client: Client) {
+}: { operations: ClientOperations } & WithDispatcher, setStatus: StateUpdater<ClientStatus>, client: Client) {
     const listeners = {
         connecting: () =>
             operations.ready() && setStatus(ClientStatus.CONNECTING),

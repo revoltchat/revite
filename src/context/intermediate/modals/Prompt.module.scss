@@ -1,0 +1,18 @@
+.invite {
+    display: flex;
+    flex-direction: column;
+
+    code {
+        padding: 1em;
+        user-select: all;
+        font-size: 1.4em;
+        text-align: center;
+        font-family: "Fira Mono";
+    }
+}
+
+.column {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

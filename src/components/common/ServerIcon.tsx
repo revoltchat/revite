@@ -20,7 +20,7 @@ const ServerText = styled.div`
 
 const fallback = '/assets/group.png';
 export default function ServerIcon(props: Props & Omit<JSX.HTMLAttributes<HTMLImageElement>, keyof Props>) {
-    const { client } = useContext(AppContext);
+    const client = useContext(AppContext);
 
     const { target, attachment, size, animate, server_name, children, as, ...imgProps } = props;
     const iconURL = client.generateFileURL(target?.icon ?? attachment, { max_side: 256 }, animate);

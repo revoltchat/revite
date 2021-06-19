@@ -9,7 +9,7 @@ export interface HookContext {
 }
 
 export function useForceUpdate(context?: HookContext): HookContext {
-    const { client } = useContext(AppContext);
+    const client = useContext(AppContext);
     if (context) return context;
     const [, updateState] = useState({});
     return { client, forceUpdate: useCallback(() => updateState({}), []) };

@@ -5,4 +5,5 @@ export default styled.div`
     display: flex;
     user-select: none;
     flex-direction: row;
+    align-items: stretch;
 `;

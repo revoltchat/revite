@@ -7,7 +7,7 @@ import { MailProvider } from "./MailProvider";
 import { useContext, useState } from "preact/hooks";
 import { CheckCircle, Mail } from "@styled-icons/feather";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
-import { takeError } from "../../../context/revoltjs/error";
+import { takeError } from "../../../context/revoltjs/util";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import FormField from "../FormField";
@@ -34,7 +34,7 @@ function getInviteCode() {
 }
 
 export function Form({ page, callback }: Props) {
-    const { client } = useContext(AppContext);
+    const client = useContext(AppContext);
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState<string | undefined>(undefined);

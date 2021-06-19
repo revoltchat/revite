@@ -1,10 +1,10 @@
 import { Text } from "preact-i18n";
 import Banner from "../../ui/Banner";
 import { useContext } from "preact/hooks";
-import { AppContext, ClientStatus } from "../../../context/revoltjs/RevoltClient";
+import { ClientStatus, StatusContext } from "../../../context/revoltjs/RevoltClient";
 
 export default function ConnectionStatus() {
-    const { status } = useContext(AppContext);
+    const status = useContext(StatusContext);
 
     if (status === ClientStatus.OFFLINE) {
         return (

@@ -3,7 +3,7 @@ import { useContext } from "preact/hooks";
 import { Form } from "./Form";
 
 export function FormResend() {
-    const { client } = useContext(AppContext);
+    const client = useContext(AppContext);
 
     return (
         <Form

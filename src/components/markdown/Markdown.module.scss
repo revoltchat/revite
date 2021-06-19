@@ -1,0 +1,202 @@
+@import "@fontsource/fira-mono/400.css";
+
+.markdown {
+    :global(.emoji) {
+        height: 1.25em;
+        width: 1.25em;
+        margin: 0 0.05em 0 0.1em;
+        vertical-align: -0.2em;
+    }
+
+    &[data-large-emojis="true"] :global(.emoji) {
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: 0;
+        margin-top: 1px;
+        margin-right: 2px;
+        vertical-align: -.3em;
+    }
+
+    p,
+    pre {
+        margin: 0;
+    }
+
+    a {
+        text-decoration: none;
+
+        &[data-type="mention"] {
+            padding: 0 6px;
+            font-weight: 600;
+            border-radius: 12px;
+            display: inline-block;
+            background: var(--secondary-background);
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul,
+    ol,
+    blockquote {
+        margin: 0;
+    }
+
+    ul,
+    ol {
+        list-style-position: inside;
+        padding-left: 10px;
+    }
+
+    blockquote {
+        margin: 2px 0;
+        padding: 2px 0;
+        border-radius: 4px;
+        background: var(--hover);
+        border-inline-start: 4px solid var(--tertiary-background);
+
+        > * {
+            margin: 0 8px;
+        }
+    }
+
+    pre {
+        padding: 1em;
+        border-radius: 4px;
+        overflow-x: scroll;
+        border-radius: 3px;
+        background: var(--block) !important;
+    }
+
+    p > code {
+        padding: 1px 4px;
+    }
+
+    code {
+        color: white;
+        font-size: 90%;
+        border-radius: 4px;
+        background: var(--block);
+        font-family: "Fira Mono", monospace;
+    }
+
+    input[type="checkbox"] {
+        margin-right: 4px;
+        pointer-events: none;
+    }
+
+    table {
+        border-collapse: collapse;
+
+        th,
+        td {
+            padding: 6px;
+            border: 1px solid var(--tertiary-foreground);
+        }
+    }
+
+    :global(.katex-block) {
+        overflow-x: auto;
+    }
+
+    :global(.spoiler) {
+        padding: 0 2px;
+        cursor: pointer;
+        user-select: none;
+        color: transparent;
+        border-radius: 4px;
+        background: #151515;
+
+        &:global(.shown) {
+            cursor: auto;
+            user-select: all;
+            color: var(--foreground);
+            background: var(--secondary-background);
+        }
+    }
+
+    :global(.code) {
+        font-family: "Fira Mono", monospace;
+
+        :global(.lang) {
+            // height: 8px;
+            // position: relative;
+
+            div {
+                // margin-left: -5px;
+                // margin-top: -16px;
+                // position: absolute;
+
+                color: #111;
+                cursor: pointer;
+                padding: 2px 6px;
+                font-weight: 600;
+                user-select: none;
+                display: inline-block;
+                background: var(--accent);
+
+                font-size: 10px;
+                border-radius: 2px;
+                text-transform: uppercase;
+                box-shadow: 0 2px #787676;
+
+                &:active {
+                    transform: translateY(1px);
+                    box-shadow: 0 1px #787676;
+                }
+            }
+
+            // ! FIXME: had to change this temporarily due to overflow
+            width: fit-content;
+            padding-bottom: 8px;
+        }
+    }
+
+    input[type="checkbox"] {
+        width: 0;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    label {
+        pointer-events: none;
+    }
+
+    input[type="checkbox"] + label:before {
+        width: 12px;
+        height: 12px;
+        content: 'a';
+        font-size: 10px;
+        margin-right: 6px;
+        line-height: 12px;
+        position: relative;
+        border-radius: 4px;
+        background: white;
+        display: inline-block;
+    }
+
+    input[type="checkbox"][checked="true"] + label:before {
+        content: '✓';
+        align-items: center;
+        display: inline-flex;
+        justify-content: center;
+        background: var(--accent);
+    }
+
+    input[type="checkbox"] + label {
+        line-height: 12px;
+        position: relative;
+    }
+}

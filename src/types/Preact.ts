@@ -1,3 +1,4 @@
 import { VNode } from "preact";
 
-export type Children = VNode | (VNode | string)[] | string;
+export type Child = VNode | string | false | undefined;
+export type Children = Child | Child[] | Children[];

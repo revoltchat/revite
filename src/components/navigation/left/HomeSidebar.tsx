@@ -48,7 +48,7 @@ const HomeList = styled.div`
 
 function HomeSidebar(props: Props) {
     const { pathname } = useLocation();
-    const { client } = useContext(AppContext);
+    const client = useContext(AppContext);
     const { channel } = useParams<{ channel: string }>();
     // const { openScreen, writeClipboard } = useContext(IntermediateContext);
 

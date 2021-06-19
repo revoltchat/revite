@@ -2,10 +2,10 @@ import { Form } from "./Form";
 import { useContext } from "preact/hooks";
 import { useHistory } from "react-router-dom";
 import { deviceDetect } from "react-device-detect";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { OperationsContext } from "../../../context/revoltjs/RevoltClient";
 
 export function FormLogin() {
-    const { operations } = useContext(AppContext);
+    const { login } = useContext(OperationsContext);
     const history = useHistory();
 
     return (
@@ -21,7 +21,7 @@ export function FormLogin() {
                     device_name = "Unknown Device";
                 }
 
-                await operations.login({ ...data, device_name });
+                await login({ ...data, device_name });
                 history.push("/");
             }}
         />
