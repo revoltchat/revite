@@ -2969,10 +2969,10 @@ react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-overlapping-panels@1.1.2-patch.0:
-  version "1.1.2-patch.0"
-  resolved "https://registry.yarnpkg.com/react-overlapping-panels/-/react-overlapping-panels-1.1.2-patch.0.tgz#335649735c029d334daea19ef6e30efc76b128fd"
-  integrity sha512-PaXxk5HxBMYg46iADGGhkgXqqweJWo7yjSeT4/o0Q3s6Q7pl7Rz23lM3oW2gdJHBDOs/zBpZ+ZIP4j6grQlCOA==
+react-overlapping-panels@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-overlapping-panels/-/react-overlapping-panels-1.2.1.tgz#3775a09ae6c83604d058d4082d1c8fed5cc59fe9"
+  integrity sha512-vkHLqX+X6HO13nAppZ5Z4tt4s8IMTA8sVf/FZFnnoqlQFIfTJAgdgZDa3LejMIrOJO6YMftVSVpzmusWTxvlUA==
 
 react-redux@^7.2.4:
   version "7.2.4"

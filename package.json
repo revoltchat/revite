@@ -47,7 +47,7 @@
     "react-device-detect": "^1.17.0",
     "react-helmet": "^6.1.0",
     "react-hook-form": "6.3.0",
-    "react-overlapping-panels": "1.1.2-patch.0",
+    "react-overlapping-panels": "1.2.1",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "redux": "^4.1.0",

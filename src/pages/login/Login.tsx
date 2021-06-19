@@ -15,7 +15,7 @@ import { FormCreate } from "./forms/FormCreate";
 import { FormResend } from "./forms/FormResend";
 import { FormReset, FormSendReset } from "./forms/FormReset";
 
-export const Login = () => {
+export default function Login() {
     const theme = useContext(ThemeContext);
     const { client } = useContext(AppContext);
 

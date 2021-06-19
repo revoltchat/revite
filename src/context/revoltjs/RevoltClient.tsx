@@ -201,11 +201,12 @@ function Context({ auth, sync, children, dispatcher }: Props) {
                     }
                 }
             } else {
-                await client
-                    .fetchConfiguration()
-                    .catch(() =>
-                        console.error("Failed to connect to API server.")
-                    );
+                try {
+                    await client.fetchConfiguration()
+                } catch (err) {
+                    console.error("Failed to connect to API server.");
+                }
+
                 setStatus(ClientStatus.READY);
             }
         })();
