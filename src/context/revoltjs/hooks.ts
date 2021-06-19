@@ -68,6 +68,29 @@ export function useServers(ids?: string[], context?: HookContext) {
     return useObject('servers', ids, context) as (Readonly<Servers.Server> | undefined)[];
 }
 
+export function useDMs(context?: HookContext) {
+    const ctx = useForceUpdate(context);
+
+    function mutation(target: string) {
+        let channel = ctx.client.channels.get(target);
+        if (channel) {
+            if ((channel.channel_type === 'DirectMessage' && channel.active) || channel.channel_type === 'Group') {
+                ctx.forceUpdate();
+            }
+        }
+    }
+
+    const map = ctx.client.channels;
+    useEffect(() => {
+        map.addListener("update", mutation);
+        return () => map.removeListener("update", mutation);
+    }, []);
+
+    return map
+        .toArray()
+        .filter(x => x.channel_type === 'DirectMessage' || x.channel_type === 'Group' || x.channel_type === 'SavedMessages') as (Channels.GroupChannel | Channels.DirectMessageChannel | Channels.SavedMessagesChannel)[];
+}
+
 export function useUserPermission(id: string, context?: HookContext) {
     const ctx = useForceUpdate(context);
 

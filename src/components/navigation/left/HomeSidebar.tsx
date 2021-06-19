@@ -7,7 +7,7 @@ import { WithDispatcher } from "../../../redux/reducers";
 import { Unreads } from "../../../redux/reducers/unreads";
 import { connectState } from "../../../redux/connector";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { useChannels, useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
+import { useChannels, useDMs, useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
 import { Users as UsersNS } from 'revolt.js/dist/api/objects';
 import { mapChannelWithUnread, useUnreads } from "./common";
 import { Channels } from "revolt.js/dist/api/objects";
@@ -47,21 +47,23 @@ function HomeSidebar(props: Props) {
     const { pathname } = useLocation();
     const client = useContext(AppContext);
     const { channel } = useParams<{ channel: string }>();
-    const { openScreen, writeClipboard } = useIntermediate();
+    const { openScreen } = useIntermediate();
 
     const ctx = useForceUpdate();
-    const users = useUsers(undefined, ctx);
-    const channels = useChannels(undefined, ctx);
+    const channels = useDMs(ctx);
 
     const obj = channels.find(x => x?._id === channel);
     if (channel && !obj) return <Redirect to="/" />;
     if (obj) useUnreads({ ...props, channel: obj });
 
-    const channelsArr = (channels
-        .filter(
-            x => x && (x.channel_type === "Group" || (x.channel_type === 'DirectMessage' && x.active))
-        ) as (Channels.GroupChannel | Channels.DirectMessageChannel)[])
+    const channelsArr = channels
+        .filter(x => x.channel_type !== 'SavedMessages')
         .map(x => mapChannelWithUnread(x, props.unreads));
+
+    const users = useUsers(
+        (channelsArr as (Channels.DirectMessageChannel | Channels.GroupChannel)[])
+            .reduce((prev: any, cur) => [ ...prev, ...cur.recipients ], [])
+    , ctx);
 
     channelsArr.sort((b, a) => a.timestamp.localeCompare(b.timestamp));
 
