@@ -9,7 +9,11 @@ export interface IconBaseProps<T> {
     animate?: boolean;
 }
 
-export default styled.svg<{ square?: boolean }>`
+interface IconModifiers {
+    square?: boolean
+}
+
+export default styled.svg<IconModifiers>`
     img {
         width: 100%;
         height: 100%;
@@ -19,4 +23,12 @@ export default styled.svg<{ square?: boolean }>`
             border-radius: 50%;
         ` }
     }
+`;
+
+export const ImageIconBase = styled.img<IconModifiers>`
+    object-fit: cover;
+
+    ${ props => !props.square && css`
+        border-radius: 50%;
+    ` }
 `;

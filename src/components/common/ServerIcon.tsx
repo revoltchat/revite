@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useContext } from "preact/hooks";
 import { Server } from "revolt.js/dist/api/objects";
-import IconBase, { IconBaseProps } from "./IconBase";
+import { IconBaseProps, ImageIconBase } from "./IconBase";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
 interface Props extends IconBaseProps<Server> {
@@ -19,10 +19,10 @@ const ServerText = styled.div`
 `;
 
 const fallback = '/assets/group.png';
-export default function ServerIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGElement>, keyof Props>) {
+export default function ServerIcon(props: Props & Omit<JSX.HTMLAttributes<HTMLImageElement>, keyof Props>) {
     const { client } = useContext(AppContext);
 
-    const { target, attachment, size, animate, server_name, children, as, ...svgProps } = props;
+    const { target, attachment, size, animate, server_name, children, as, ...imgProps } = props;
     const iconURL = client.generateFileURL(target?.icon ?? attachment, { max_side: 256 }, animate);
 
     if (typeof iconURL === 'undefined') {
@@ -38,20 +38,16 @@ export default function ServerIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGE
     }
 
     return (
-        <IconBase {...svgProps}
+        <ImageIconBase {...imgProps}
             width={size}
             height={size}
             aria-hidden="true"
-            viewBox="0 0 32 32">
-            <foreignObject x="0" y="0" width="32" height="32">
-                <img src={iconURL}
-                    onError={ e => {
-                        let el = e.currentTarget;
-                        if (el.src !== fallback) {
-                            el.src = fallback
-                        }
-                    }} />
-            </foreignObject>
-        </IconBase>
+            src={iconURL}
+            onError={ e => {
+                let el = e.currentTarget;
+                if (el.src !== fallback) {
+                    el.src = fallback
+                }
+            }} />
     );
 }

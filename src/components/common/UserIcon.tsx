@@ -52,7 +52,8 @@ export default function UserIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGEle
     const { client } = useContext(AppContext);
 
     const { target, attachment, size, voice, status, animate, children, as, ...svgProps } = props;
-    const iconURL = client.generateFileURL(target?.avatar ?? attachment, { max_side: 256 }, animate);
+    const iconURL = client.generateFileURL(target?.avatar ?? attachment, { max_side: 256 }, animate)
+        ?? client.users.getDefaultAvatarURL(target!._id);
 
     return (
         <IconBase {...svgProps}

@@ -1,7 +1,7 @@
 import { useContext } from "preact/hooks";
 import { Hash } from "@styled-icons/feather";
-import IconBase, { IconBaseProps } from "./IconBase";
 import { Channels } from "revolt.js/dist/api/objects";
+import { ImageIconBase, IconBaseProps } from "./IconBase";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
 interface Props extends IconBaseProps<Channels.GroupChannel | Channels.TextChannel> {
@@ -9,10 +9,10 @@ interface Props extends IconBaseProps<Channels.GroupChannel | Channels.TextChann
 }
 
 const fallback = '/assets/group.png';
-export default function ChannelIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGElement>, keyof Props>) {
+export default function ChannelIcon(props: Props & Omit<JSX.HTMLAttributes<HTMLImageElement>, keyof Props>) {
     const { client } = useContext(AppContext);
 
-    const { size, target, attachment, isServerChannel: server, animate, children, as, ...svgProps } = props;
+    const { size, target, attachment, isServerChannel: server, animate, children, as, ...imgProps } = props;
     const iconURL = client.generateFileURL(target?.icon ?? attachment, { max_side: 256 }, animate);
     const isServerChannel = server || target?.channel_type === 'TextChannel';
 
@@ -25,21 +25,18 @@ export default function ChannelIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVG
     }
 
     return (
-        <IconBase {...svgProps}
+        // ! fixme: replace fallback with <picture /> + <source />
+        <ImageIconBase {...imgProps}
             width={size}
             height={size}
             aria-hidden="true"
-            viewBox="0 0 32 32"
-            square={isServerChannel}>
-            <foreignObject x="0" y="0" width="32" height="32">
-                <img src={iconURL ?? fallback}
-                    onError={ e => {
-                        let el = e.currentTarget;
-                        if (el.src !== fallback) {
-                            el.src = fallback
-                        }
-                    } } />
-            </foreignObject>
-        </IconBase>
+            square={isServerChannel}
+            src={iconURL ?? fallback}
+            onError={ e => {
+                let el = e.currentTarget;
+                if (el.src !== fallback) {
+                    el.src = fallback
+                }
+            }} />
     );
 }

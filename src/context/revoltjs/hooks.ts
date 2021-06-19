@@ -3,7 +3,7 @@ import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
 import { Client, PermissionCalculator } from 'revolt.js';
 import { AppContext } from "./RevoltClient";
 
-interface HookContext {
+export interface HookContext {
     client: Client,
     forceUpdate: () => void
 }
