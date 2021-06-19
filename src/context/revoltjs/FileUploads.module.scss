@@ -1,0 +1,82 @@
+.uploader {
+    display: flex;
+    flex-direction: column;
+
+    &.icon {
+        .image {
+            border-radius: 50%;
+        }
+    }
+
+    &.banner {
+        .image {
+            border-radius: 4px;
+        }
+
+        .modify {
+            gap: 4px;
+            flex-direction: row;
+        }
+    }
+
+    .image {
+        cursor: pointer;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        background-color: var(--secondary-background);
+
+        .uploading {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        &:hover .edit {
+            opacity: 1;
+        }
+
+        &:active .edit {
+            filter: brightness(0.8);
+        }
+
+        .edit {
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            color: white;
+            place-items: center;
+            background: rgba(95, 95, 95, 0.5);
+            transition: .2s ease-in-out opacity;
+        }
+    }
+
+    .modify {
+        display: flex;
+        margin-top: 5px;
+        font-size: 12px;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+
+        :first-child {
+            cursor: pointer;
+        }
+
+        .small {
+            display: flex;
+            font-size: 10px;
+            flex-direction: column;
+            color: var(--tertiary-foreground);
+        }
+    }
+
+    &[data-uploading="true"] {
+        .image, .modify:first-child {
+            cursor: not-allowed !important;
+        }
+    }
+}

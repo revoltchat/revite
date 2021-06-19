@@ -1,0 +1,48 @@
+.overview {
+    .row {
+        gap: 20px;
+        display: flex;
+
+        .name {
+            flex-grow: 1;
+
+            input {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.invites {
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+
+    .invite {
+        gap: 8px;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        background: var(--secondary-background);
+
+        code, span {
+            flex: 1;
+        }
+
+        code {
+            font-size: 1.4em;
+            user-select: all;
+        }
+
+        span {
+            gap: 8px;
+            display: flex;
+            color: var(--secondary-foreground);
+        }
+
+        &[data-deleting="true"] {
+            opacity: 0.5;
+        }
+    }
+}

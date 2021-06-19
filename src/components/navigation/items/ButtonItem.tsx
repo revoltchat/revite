@@ -1,13 +1,17 @@
 import classNames from 'classnames';
 import styles from "./Item.module.scss";
+import Tooltip from '../../common/Tooltip';
+import IconButton from '../../ui/IconButton';
 import UserIcon from '../../common/UserIcon';
 import { Localizer, Text } from "preact-i18n";
 import { X, Zap } from "@styled-icons/feather";
 import UserStatus from '../../common/UserStatus';
 import { Children } from "../../../types/Preact";
 import ChannelIcon from '../../common/ChannelIcon';
+import { attachContextMenu } from 'preact-context-menu';
 import { Channels, Users } from "revolt.js/dist/api/objects";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { useIntermediate } from '../../../context/intermediate/Intermediate';
 
 interface CommonProps {
     active?: boolean
@@ -22,7 +26,7 @@ type UserProps = CommonProps & {
 }
 
 export function UserButton({ active, alert, alertCount, user, context, channel }: UserProps) {
-    // const { openScreen } = useContext(IntermediateContext);
+    const { openScreen } = useIntermediate();
 
     return (
         <div
@@ -30,13 +34,12 @@ export function UserButton({ active, alert, alertCount, user, context, channel }
             data-active={active}
             data-alert={typeof alert === 'string'}
             data-online={typeof channel !== 'undefined' || (user.online && user.status?.presence !== Users.Presence.Invisible)}
-            /*onContextMenu={attachContextMenu('Menu', {
+            onContextMenu={attachContextMenu('Menu', {
                 user: user._id,
                 channel: channel?._id,
                 unread: alert,
                 contextualChannel: context?._id
-            })}*/
-        >
+            })}>
             <div className={styles.avatar}>
                 <UserIcon target={user} size={32} status />
             </div>
@@ -56,24 +59,22 @@ export function UserButton({ active, alert, alertCount, user, context, channel }
                 { context?.channel_type === "Group" &&
                     context.owner === user._id && (
                         <Localizer>
-                            {/*<Tooltip
+                            <Tooltip
                                 content={
                                     <Text id="app.main.groups.owner" />
                                 }
-                            >*/}
+                            >
                                 <Zap size={20} />
-                            {/*</Tooltip>*/}
+                            </Tooltip>
                         </Localizer>
                 )}
                 {alert && <div className={styles.alert} data-style={alert}>{ alertCount }</div>}
                 { !isTouchscreenDevice && channel &&
-                    /*<IconButton
+                    <IconButton
                         className={styles.icon}
-                        style="default"
-                        onClick={() => openScreen({ id: 'special_prompt', type: 'close_dm', target: channel })}
-                    >*/
+                        onClick={() => openScreen({ id: 'special_prompt', type: 'close_dm', target: channel })}>
                         <X size={24} />
-                    /*</IconButton>*/
+                    </IconButton>
                 }
             </div>
         </div>
@@ -93,15 +94,14 @@ export function ChannelButton({ active, alert, alertCount, channel, user, compac
         return <UserButton {...{ active, alert, channel, user }} />
     }
 
-    //const { openScreen } = useContext(IntermediateContext);
+    const { openScreen } = useIntermediate();
 
     return (
         <div
             data-active={active}
             data-alert={typeof alert === 'string'}
             className={classNames(styles.item, { [styles.compact]: compact })}
-            //onContextMenu={attachContextMenu('Menu', { channel: channel._id })}>
-            >
+            onContextMenu={attachContextMenu('Menu', { channel: channel._id })}>
             <div className={styles.avatar}>
                 <ChannelIcon target={channel} size={compact ? 24 : 32} />
             </div>
@@ -124,13 +124,11 @@ export function ChannelButton({ active, alert, alertCount, channel, user, compac
             <div className={styles.button}>
                 {alert && <div className={styles.alert} data-style={alert}>{ alertCount }</div>}
                 {!isTouchscreenDevice && channel.channel_type === "Group" && (
-                    /*<IconButton
+                    <IconButton
                         className={styles.icon}
-                        style="default"
-                        onClick={() => openScreen({ id: 'special_prompt', type: 'leave_group', target: channel })}
-                    >*/
+                        onClick={() => openScreen({ id: 'special_prompt', type: 'leave_group', target: channel })}>
                         <X size={24} />
-                    /*</IconButton>*/
+                    </IconButton>
                 )}
             </div>
         </div>

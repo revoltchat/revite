@@ -1,11 +1,11 @@
-import { CheckAuth } from "./context/revoltjs/CheckAuth";
-import Preloader from "./components/ui/Preloader";
+import { CheckAuth } from "../context/revoltjs/CheckAuth";
+import Preloader from "../components/ui/Preloader";
 import { Route, Switch } from "react-router-dom";
-import Context from "./context";
+import Context from "../context";
 
 import { lazy, Suspense } from "preact/compat";
-const Login = lazy(() => import('./pages/login/Login'));
-const RevoltApp = lazy(() => import('./pages/App'));
+const Login = lazy(() => import('./login/Login'));
+const RevoltApp = lazy(() => import('./RevoltApp'));
 
 export function App() {
     return (

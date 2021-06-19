@@ -1,5 +1,6 @@
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 import { createGlobalStyle } from "styled-components";
+import { connectState } from "../redux/connector";
 import { Children } from "../types/Preact";
 import { createContext } from "preact";
 import { Helmet } from "react-helmet";
@@ -116,10 +117,15 @@ export const ThemeContext = createContext<Theme>({} as any);
 
 interface Props {
     children: Children;
+    options?: ThemeOptions;
 }
 
-export default function Theme(props: Props) {
-    const theme = PRESETS.dark;
+function Theme(props: Props) {
+    const theme: Theme = {
+        ...PRESETS["dark"],
+        ...(PRESETS as any)[props.options?.preset as any],
+        ...props.options?.custom
+    };
 
     return (
         <ThemeContext.Provider value={theme}>
@@ -134,7 +140,16 @@ export default function Theme(props: Props) {
                 />
             </Helmet>
             <GlobalTheme theme={theme} />
+            {theme.css && (
+                <style dangerouslySetInnerHTML={{ __html: theme.css }} />
+            )}
             {props.children}
         </ThemeContext.Provider>
     );
 }
+
+export default connectState(Theme, state => {
+    return {
+        options: state.settings.theme
+    };
+});

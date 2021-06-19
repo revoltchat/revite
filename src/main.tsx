@@ -1,6 +1,6 @@
 import { render } from "preact";
 import "./styles/index.scss";
-import { App } from "./app";
+import { App } from "./pages/app";
 
 import { registerSW } from 'virtual:pwa-register'
 

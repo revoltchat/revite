@@ -1,0 +1,31 @@
+.container {
+    font-size: 0.875rem;
+    line-height: 20px;
+    position: relative;
+}
+
+.textarea {
+    width: 100%;
+    white-space: pre-wrap;
+
+    textarea::placeholder {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+
+.hide {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.ghost {
+    width: 100%;
+    white-space: pre-wrap;
+    
+    top: 0;
+    position: absolute;
+    visibility: hidden;
+}

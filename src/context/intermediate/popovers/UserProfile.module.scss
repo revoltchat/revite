@@ -9,6 +9,7 @@
     background-size: cover;
     border-radius: 8px 8px 0 0;
     background-position: center;
+    background-color: var(--secondary-background);
 
     &[data-force="light"] {
         color: white;

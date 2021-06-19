@@ -47,7 +47,7 @@ const ModalContainer = styled.div`
     animation-timing-function: cubic-bezier(.3,.3,.18,1.1);
 `;
 
-const ModalContent = styled.div<{ [key in 'attachment' | 'noBackground' | 'border']?: boolean }>`
+const ModalContent = styled.div<{ [key in 'attachment' | 'noBackground' | 'border' | 'padding']?: boolean }>`
     border-radius: 8px;
     text-overflow: ellipsis;
 
@@ -56,8 +56,11 @@ const ModalContent = styled.div<{ [key in 'attachment' | 'noBackground' | 'borde
     }
 
     ${ props => !props.noBackground && css`
-        padding: 1.5em;
         background: var(--secondary-header);
+    ` }
+
+    ${ props => props.padding && css`
+        padding: 1.5em;
     ` }
 
     ${ props => props.attachment && css`
@@ -110,7 +113,8 @@ export default function Modal(props: Props) {
         <ModalContent
             attachment={!!props.actions}
             noBackground={props.noBackground}
-            border={props.border}>
+            border={props.border}
+            padding={!props.dontModal}>
             {props.title && <h3>{props.title}</h3>}
             {props.children}
         </ModalContent>

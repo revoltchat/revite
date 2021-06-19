@@ -7,8 +7,6 @@ import Button from "../../../components/ui/Button";
 import FormField from "../../../pages/login/FormField";
 import Preloader from "../../../components/ui/Preloader";
 
-// import WideSvg from "../../../assets/wide.svg";
-
 interface Props {
     onClose: () => void;
     callback: (username: string, loginAfterSuccess?: true) => Promise<void>;
@@ -34,6 +32,7 @@ export function OnboardingModal({ onClose, callback }: Props) {
             <div className={styles.header}>
                 <h1>
                     <Text id="app.special.modals.onboarding.welcome" />
+                    <img src="/assets/wide.svg" />
                 </h1>
             </div>
             <div className={styles.form}>

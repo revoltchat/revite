@@ -1,0 +1,209 @@
+@keyframes open {
+    0% {transform: scale(1.2);};
+    100% {transform: scale(1);};
+}
+
+@keyframes opacity {
+    0% {opacity: 0;};
+    20% {opacity: .5;}
+    50% {opacity: 1;}
+}
+
+@keyframes close {
+    0% {transform: scale(1); opacity: 1;};
+    100% {transform: scale(1.2); opacity: 0;};
+}
+
+[data-touchscreen-device="true"] .settings {
+    flex-direction: column;
+    background: var(--primary-header);
+
+    .sidebar, .content {
+        background: var(--primary-background);
+    }
+
+    .sidebar {
+        justify-content: flex-start;
+
+        .container {
+            padding: 20px 8px;
+            min-width: 218px;
+        }
+
+        > div {
+            width: 100%;
+        }
+
+        .version {
+            place-items: center;
+
+        }
+    }
+
+    .content {
+        padding: 10px 12px 50px;
+    }
+}
+
+:global(.app):not([data-touchscreen-device="true"]) .settings {
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    animation: open .18s ease-out,
+               opacity .18s;
+}
+
+.settings {
+    height: 100%;
+    display: flex;
+    user-select: none;
+    flex-direction: row;
+    justify-content: center;
+    background: var(--primary-background);
+
+    .sidebar {
+        flex-grow: 1;
+        display: flex;
+        flex-shrink: 0;
+        overflow-y: scroll;
+        justify-content: flex-end;
+        background: var(--secondary-background);
+
+        .container {
+            width: 218px;
+            padding: 60px 8px;
+        }
+
+        .divider {
+            height: 30px;
+        }
+
+        .donate {
+            color: goldenrod !important;
+        }
+
+        .logOut {
+            color: var(--error) !important;
+        }
+
+        .version {
+            margin: 1rem 12px 0;
+            font-size: 10px;
+            color: var(--secondary-foreground);
+            font-family: "Fira Mono", monospace;
+            user-select: text;
+
+            display: grid;
+            //place-items: center;
+
+            > div {
+                gap: 2px;
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    }
+
+    .content {
+        flex-grow: 2;
+        max-width: 740px;
+        padding: 60px 2em;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        details {
+            margin: 14px 0;
+        }
+
+        h1 {
+            margin-top: 0;
+            line-height: 1em;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 13px;
+            text-transform: uppercase;
+            color: var(--secondary-foreground);
+        }
+
+        h4 {
+            margin: 4px 2px;
+            font-size: 13px;
+
+            color: var(--tertiary-foreground);
+            text-transform: uppercase;
+        }
+
+        .footer {
+            border-top: 1px solid;
+            margin: 0;
+            padding-top: 5px;
+            font-size: 14px;
+            color: var(--secondary-foreground);
+        }
+    }
+
+    .action {
+        flex-grow: 1;
+        flex-shrink: 0;
+        padding: 60px 8px;
+        color: var(--tertiary-background);
+        
+        &:after {
+            content: "ESC";
+            display: flex;
+            text-align: center;
+            align-content: center;
+            justify-content: center;
+            position: relative;
+            color: var(--foreground);
+            width: 48px;
+            opacity: .5;
+            font-size: .75em;
+        }
+
+        > div {
+            display: inline;
+            > svg {
+                &:active {
+                    transform: translateY(2px);
+                }
+            }
+        }
+    }
+}
+
+.loader {
+    > div {
+        margin: auto;
+    }
+}
+
+.textarea {
+    margin-bottom: 1em;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+
+    textarea {
+        resize: none;
+        padding: 12px;
+        min-height: 180px;
+        border-radius: 4px;
+        color: var(--foreground);
+        border: 2px solid transparent;
+        background: var(--secondary-background);
+        transition: border-color .2s ease-in-out;
+
+        &:focus {
+            outline: none;
+            border: 2px solid var(--accent);
+        }
+    }
+}

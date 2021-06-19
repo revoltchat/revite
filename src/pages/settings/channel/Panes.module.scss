@@ -1,0 +1,14 @@
+.overview {
+    .row {
+        gap: 20px;
+        display: flex;
+
+        .name {
+            flex-grow: 1;
+
+            input {
+                width: 100%;
+            }
+        }
+    }
+}

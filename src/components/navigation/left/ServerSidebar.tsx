@@ -12,10 +12,31 @@ import Header from '../../ui/Header';
 import ConnectionStatus from '../items/ConnectionStatus';
 import { connectState } from "../../../redux/connector";
 import PaintCounter from "../../../lib/PaintCounter";
+import styled from "styled-components";
+import { attachContextMenu } from 'preact-context-menu';
 
 interface Props {
     unreads: Unreads;
 }
+
+const ServerBase = styled.div`
+    height: 100%;
+    width: 240px;
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    background: var(--secondary-background);
+`;
+
+const ServerList = styled.div`
+    padding: 6px;
+    flex-grow: 1;
+    overflow-y: scroll;
+
+    > svg {
+        width: 100%;
+    }
+`;
 
 function ServerSidebar(props: Props & WithDispatcher) {
     const { server: server_id, channel: channel_id } = useParams<{ server?: string, channel?: string }>();
@@ -33,7 +54,7 @@ function ServerSidebar(props: Props & WithDispatcher) {
     if (channel) useUnreads({ ...props, channel }, ctx);
 
     return (
-        <div>
+        <ServerBase>
             <Header placement="secondary" background style={{ background: `url('${ctx.client.servers.getBannerURL(server._id, { width: 480 }, true)}')` }}>
                 <div>
                     { server.name }
@@ -45,9 +66,7 @@ function ServerSidebar(props: Props & WithDispatcher) {
                 </div> }
             </Header>
             <ConnectionStatus />
-            <div
-                //onContextMenu={attachContextMenu('Menu', { server_list: server._id })}>
-                >
+            <ServerList onContextMenu={attachContextMenu('Menu', { server_list: server._id })}>
                 {channels.map(entry => {
                     return (
                         <Link to={`/server/${server._id}/channel/${entry._id}`}>
@@ -61,9 +80,9 @@ function ServerSidebar(props: Props & WithDispatcher) {
                         </Link>
                     );
                 })}
-            </div>
+            </ServerList>
             <PaintCounter small />
-        </div>
+        </ServerBase>
     )
 };
 

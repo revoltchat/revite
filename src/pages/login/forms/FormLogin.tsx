@@ -1,7 +1,7 @@
 import { Form } from "./Form";
+import { detect } from "detect-browser";
 import { useContext } from "preact/hooks";
 import { useHistory } from "react-router-dom";
-import { deviceDetect } from "react-device-detect";
 import { OperationsContext } from "../../../context/revoltjs/RevoltClient";
 
 export function FormLogin() {
@@ -12,7 +12,7 @@ export function FormLogin() {
         <Form
             page="login"
             callback={async data => {
-                const browser = deviceDetect();
+                const browser = detect();
                 let device_name;
                 if (browser) {
                     const { name, os } = browser;

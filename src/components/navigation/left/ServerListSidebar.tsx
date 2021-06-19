@@ -1,5 +1,3 @@
-import { useContext } from "preact/hooks";
-import { PlusCircle } from "@styled-icons/feather";
 import { Channel, Servers } from "revolt.js/dist/api/objects";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useChannels, useForceUpdate, useServers } from "../../../context/revoltjs/hooks";
@@ -11,6 +9,7 @@ import { Children } from "../../../types/Preact";
 import LineDivider from "../../ui/LineDivider";
 import ServerIcon from "../../common/ServerIcon";
 import PaintCounter from "../../../lib/PaintCounter";
+import { attachContextMenu } from 'preact-context-menu';
 
 function Icon({ children, unread, size }: { children: Children, unread?: 'mention' | 'unread', size: number }) {
     return (
@@ -157,8 +156,7 @@ export function ServerListSidebar({ unreads }: Props) {
                         <Link to={`/server/${entry!._id}`}>
                             <ServerEntry
                                 active={entry!._id === server?._id}
-                                //onContextMenu={attachContextMenu('Menu', { server: entry!._id })}>
-                                >
+                                onContextMenu={attachContextMenu('Menu', { server: entry!._id })}>
                                 <Icon size={36} unread={entry.unread}>
                                     <ServerIcon size={32} target={entry} />
                                 </Icon>
@@ -169,6 +167,7 @@ export function ServerListSidebar({ unreads }: Props) {
                 <PaintCounter small />
             </ServerList>
         </ServersBase>
+        // ! FIXME: add overlay back
         /*<div className={styles.servers}>
             <div className={styles.list}>
                 <Link to={`/`}>

@@ -1,24 +1,20 @@
 import { Localizer, Text } from "preact-i18n";
-import { useContext, useLayoutEffect } from "preact/hooks";
-import { Home, Users, Tool, Settings, Save } from "@styled-icons/feather";
+import { useContext } from "preact/hooks";
+import { Home, Users, Tool, Save } from "@styled-icons/feather";
 
-import { Link, Redirect, useHistory, useLocation, useParams } from "react-router-dom";
+import { Link, Redirect, useLocation, useParams } from "react-router-dom";
 import { WithDispatcher } from "../../../redux/reducers";
 import { Unreads } from "../../../redux/reducers/unreads";
 import { connectState } from "../../../redux/connector";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { useChannels, useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
-import { User } from "revolt.js";
 import { Users as UsersNS } from 'revolt.js/dist/api/objects';
 import { mapChannelWithUnread, useUnreads } from "./common";
 import { Channels } from "revolt.js/dist/api/objects";
-import UserIcon from '../../common/UserIcon';
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import ConnectionStatus from '../items/ConnectionStatus';
-import UserStatus from '../../common/UserStatus';
 import ButtonItem, { ChannelButton } from '../items/ButtonItem';
 import styled from "styled-components";
-import Header from '../../ui/Header';
 import UserHeader from "../../common/UserHeader";
 import Category from '../../ui/Category';
 import PaintCounter from "../../../lib/PaintCounter";
