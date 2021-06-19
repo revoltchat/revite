@@ -1,12 +1,12 @@
 import { Screen } from "./Intermediate";
 
 import { ErrorModal } from "./modals/Error";
+import { InputModal } from "./modals/Input";
+import { PromptModal } from "./modals/Prompt";
 import { SignedOutModal } from "./modals/SignedOut";
 import { ClipboardModal } from "./modals/Clipboard";
 import { OnboardingModal } from "./modals/Onboarding";
 import { ModifyAccountModal } from "./modals/ModifyAccount";
-import { InputModal, SpecialInputModal } from "./modals/Input";
-import { PromptModal, SpecialPromptModal } from "./modals/Prompt";
 
 export interface Props {
     screen: Screen;
@@ -19,12 +19,8 @@ export default function Modals({ screen, openScreen }: Props) {
     switch (screen.id) {
         case "_prompt":
             return <PromptModal onClose={onClose} {...screen} />;
-        case "special_prompt":
-            return <SpecialPromptModal onClose={onClose} {...screen} />;
         case "_input":
             return <InputModal onClose={onClose} {...screen} />;
-        case "special_input":
-            return <SpecialInputModal onClose={onClose} {...screen} />;
         case "error":
             return <ErrorModal onClose={onClose} {...screen} />;
         case "signed_out":

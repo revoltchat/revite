@@ -1,9 +1,10 @@
 import styled, { css } from "styled-components";
 import { Children } from "../../types/Preact";
+import { Text } from 'preact-i18n';
 
 interface Props {
+    error?: string;
     block?: boolean;
-    error?: Children;
     children?: Children;
     type?: "default" | "subtle" | "error";
 }
@@ -45,7 +46,9 @@ export default function Overline(props: Props) {
         <OverlineBase {...props}>
             {props.children}
             {props.children && props.error && <> &middot; </>}
-            {props.error && <Overline type="error">{props.error}</Overline>}
+            {props.error && <Overline type="error">
+                <Text id={`error.${props.error}`}>{props.error}</Text>
+            </Overline>}
         </OverlineBase>
     );
 }

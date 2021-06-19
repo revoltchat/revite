@@ -2,7 +2,7 @@ import Button from "./Button";
 import classNames from "classnames";
 import { Children } from "../../types/Preact";
 import { createPortal, useEffect } from "preact/compat";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 const open = keyframes`
     0% {opacity: 0;}
@@ -48,6 +48,26 @@ const ModalContainer = styled.div`
 `;
 
 const ModalContent = styled.div<{ [key in 'attachment' | 'noBackground' | 'border']?: boolean }>`
+    border-radius: 8px;
+    text-overflow: ellipsis;
+
+    h3 {
+        margin-top: 0;
+    }
+
+    ${ props => !props.noBackground && css`
+        padding: 1.5em;
+        background: var(--secondary-header);
+    ` }
+
+    ${ props => props.attachment && css`
+        border-radius: 8px 8px 0 0;
+    ` }
+
+    ${ props => props.border && css`
+        border-radius: 10px;
+        border: 2px solid var(--secondary-background);
+    ` }
 `;
 
 const ModalActions = styled.div`
@@ -64,7 +84,8 @@ export interface Action {
     text: Children;
     onClick: () => void;
     confirmation?: boolean;
-    style?: 'default' | 'contrast' | 'error' | 'contrast-error';
+    contrast?: boolean;
+    error?: boolean;
 }
 
 interface Props {
@@ -123,7 +144,9 @@ export default function Modal(props: Props) {
                 {props.actions && (
                     <ModalActions>
                         {props.actions.map(x => (
-                            <Button style={x.style ?? "contrast"}
+                            <Button
+                                contrast={x.contrast ?? true}
+                                error={x.error ?? false}
                                 onClick={x.onClick}
                                 disabled={props.disabled}>
                                 {x.text}

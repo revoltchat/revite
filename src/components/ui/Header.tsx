@@ -17,7 +17,7 @@ export default styled.div<Props>`
     flex-shrink: 0;
     align-items: center;
 
-    background-color: var(--primary-background);
+    background-color: var(--primary-header);
     background-size: cover !important;
     background-position: center !important;
 
@@ -27,6 +27,7 @@ export default styled.div<Props>`
     ` }
 
     ${ props => props.placement === 'secondary' && css`
+        background-color: var(--secondary-header);
         padding: 14px;
     ` }
 `;

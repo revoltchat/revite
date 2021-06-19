@@ -12,7 +12,7 @@ import { AppContext } from "../../revoltjs/RevoltClient";
 interface Props {
     onClose: () => void;
     question: Children;
-    field: Children;
+    field?: Children;
     defaultValue?: string;
     callback: (value: string) => Promise<void>;
 }
@@ -53,9 +53,9 @@ export function InputModal({
             ]}
             onClose={onClose}
         >
-            <Overline error={error} block>
+            { field ? <Overline error={error} block>
                 {field}
-            </Overline>
+            </Overline> : (error && <Overline error={error} type="error" block />) }
             <InputBox
                 value={value}
                 onChange={e => setValue(e.currentTarget.value)}
@@ -65,7 +65,7 @@ export function InputModal({
 }
 
 type SpecialProps = { onClose: () => void } & (
-    { type: "create_group" | "create_server" | "set_custom_status" } |
+    { type: "create_group" | "create_server" | "set_custom_status" | "add_friend" } |
     { type: "create_channel", server: string }
 )
 
@@ -141,6 +141,15 @@ export function SpecialInputModal(props: SpecialProps) {
                             text
                         }
                     })
+                }
+            />;
+        }
+        case "add_friend": {
+            return <InputModal
+                onClose={onClose}
+                question={"Add Friend"}
+                callback={username =>
+                    client.users.addFriend(username)
                 }
             />;
         }

@@ -27,7 +27,7 @@ export type Screen =
     { type: "ban_member", target: Servers.Server, user: string }
 )) |
 ({ id: "special_input" } & (
-    { type: "create_group" | "create_server" | "set_custom_status" } |
+    { type: "create_group" | "create_server" | "set_custom_status" | "add_friend" } |
     { type: "create_channel", server: string }
 ))
 | {

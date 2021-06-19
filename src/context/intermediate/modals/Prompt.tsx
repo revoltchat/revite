@@ -1,7 +1,7 @@
 import { Text } from "preact-i18n";
 import styles from './Prompt.module.scss';
 import { Children } from "../../../types/Preact";
-import { IntermediateContext, useIntermediate } from "../Intermediate";
+import { useIntermediate } from "../Intermediate";
 import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
 import UserIcon from "../../../components/common/UserIcon";
@@ -82,7 +82,8 @@ export function SpecialPromptModal(props: SpecialProps) {
                     actions={[
                         {
                             confirmation: true,
-                            style: 'contrast-error',
+                            contrast: true,
+                            error: true,
                             text: <Text id="app.special.modals.actions.delete" />,
                             onClick: async () => {
                                 setProcessing(true);
@@ -162,7 +163,8 @@ export function SpecialPromptModal(props: SpecialProps) {
                     actions={[
                         {
                             text: <Text id="app.special.modals.actions.kick" />,
-                            style: 'contrast-error',
+                            contrast: true,
+                            error: true,
                             confirmation: true,
                             onClick: async () => {
                                 setProcessing(true);
@@ -200,7 +202,8 @@ export function SpecialPromptModal(props: SpecialProps) {
                     actions={[
                         {
                             text: <Text id="app.special.modals.actions.ban" />,
-                            style: 'contrast-error',
+                            contrast: true,
+                            error: true,
                             confirmation: true,
                             onClick: async () => {
                                 setProcessing(true);

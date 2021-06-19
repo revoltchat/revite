@@ -5,7 +5,8 @@
     "build": "rimraf build && tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "fmt": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
+    "fmt": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
+    "typecheck": "tsc --noEmit"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
@@ -54,6 +55,7 @@
     "markdown-it-emoji": "^2.0.0",
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
+    "preact-context-menu": "^0.1.5",
     "preact-i18n": "^2.4.0-preactx",
     "prettier": "^2.3.1",
     "prismjs": "^1.23.0",
