@@ -1,0 +1,28 @@
+.home {
+    user-select: none;
+
+    h3 {
+        margin: 1em 0;
+        font-size: 48px;
+        text-align: center;
+
+        img {
+            height: 36px;
+        }
+    }
+
+    ul {
+        margin: auto;
+        display: block;
+        font-size: 18px;
+        text-align: center;
+
+        li {
+            list-style: lower-greek;
+        }
+    }
+}
+
+[data-light="true"] .home svg {
+    filter: invert(100%);
+}

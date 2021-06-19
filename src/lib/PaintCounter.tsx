@@ -2,8 +2,8 @@ import { useState } from "preact/hooks";
 
 const counts: { [key: string]: number } = {};
 
-export default function PaintCounter({ small }: { small?: boolean }) {
-    if (import.meta.env.PROD) return null;
+export default function PaintCounter({ small, always }: { small?: boolean, always?: boolean }) {
+    if (import.meta.env.PROD && !always) return null;
 
     const [uniqueId] = useState('' + Math.random());
     const count = counts[uniqueId] ?? 0;

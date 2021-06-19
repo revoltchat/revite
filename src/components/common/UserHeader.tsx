@@ -1,11 +1,17 @@
+import Tooltip from "./Tooltip";
 import { User } from "revolt.js";
 import Header from "../ui/Header";
 import UserIcon from "./UserIcon";
+import { Text } from "preact-i18n";
 import UserStatus from './UserStatus';
 import styled from "styled-components";
 import { Localizer } from 'preact-i18n';
+import { Link } from "react-router-dom";
+import IconButton from "../ui/IconButton";
 import { Settings } from "@styled-icons/feather";
+import { openContextMenu } from "preact-context-menu";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+import { useIntermediate } from "../../context/intermediate/Intermediate";
 
 const HeaderBase = styled.div`
     gap: 0;
@@ -39,12 +45,10 @@ interface Props {
 }
 
 export default function UserHeader({ user }: Props) {
-    function openPresenceSelector() {
-        // openContextMenu("Status");
-    }
+    const { writeClipboard } = useIntermediate();
 
-    function writeClipboard(a: string) {
-        alert('unimplemented');
+    function openPresenceSelector() {
+        openContextMenu("Status");
     }
 
     return (
@@ -57,12 +61,12 @@ export default function UserHeader({ user }: Props) {
             />
             <HeaderBase>
                 <Localizer>
-                    {/*<Tooltip content={<Text id="app.special.copy_username" />}>*/}
+                    <Tooltip content={<Text id="app.special.copy_username" />}>
                         <span className="username"
                             onClick={() => writeClipboard(user.username)}>
                             @{user.username}
                         </span>
-                    {/*</Tooltip>*/}
+                    </Tooltip>
                 </Localizer>
                 <span className="status"
                     onClick={openPresenceSelector}>
@@ -70,9 +74,11 @@ export default function UserHeader({ user }: Props) {
                 </span>
             </HeaderBase>
             { !isTouchscreenDevice && <div className="actions">
-                {/*<IconButton to="/settings">*/}
-                    <Settings size={24} />
-                {/*</IconButton>*/}
+                <Link to="/settings">
+                    <IconButton>
+                        <Settings size={24} />
+                    </IconButton>
+                </Link>
             </div> }
         </Header>
     )

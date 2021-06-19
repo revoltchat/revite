@@ -22,6 +22,7 @@ import Header from '../../ui/Header';
 import UserHeader from "../../common/UserHeader";
 import Category from '../../ui/Category';
 import PaintCounter from "../../../lib/PaintCounter";
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 type Props = WithDispatcher & {
     unreads: Unreads;
@@ -50,7 +51,7 @@ function HomeSidebar(props: Props) {
     const { pathname } = useLocation();
     const client = useContext(AppContext);
     const { channel } = useParams<{ channel: string }>();
-    // const { openScreen, writeClipboard } = useContext(IntermediateContext);
+    const { openScreen, writeClipboard } = useIntermediate();
 
     const ctx = useForceUpdate();
     const users = useUsers(undefined, ctx);
@@ -119,7 +120,7 @@ function HomeSidebar(props: Props) {
                                 <Text id="app.main.categories.conversations" />
                             ) as any
                         }
-                        action={() => /*openScreen({ id: "special_input", type: "create_group" })*/{}}
+                        action={() => openScreen({ id: "special_input", type: "create_group" })}
                     />
                 </Localizer>
                 {channelsArr.length === 0 && <img src="/assets/images/placeholder.svg" />}

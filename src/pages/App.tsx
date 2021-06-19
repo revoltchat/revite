@@ -1,14 +1,17 @@
 import { Docked, OverlappingPanels } from "react-overlapping-panels";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
-import Popovers from "../context/intermediate/Popovers";
 import { Switch, Route } from "react-router-dom";
 import styled from "styled-components";
+
+import Popovers from "../context/intermediate/Popovers";
+import ContextMenus from "../lib/ContextMenus";
 
 import LeftSidebar from "../components/navigation/LeftSidebar";
 import RightSidebar from "../components/navigation/RightSidebar";
 
 import Home from './home/Home';
 import Friends from "./friends/Friends";
+import Developer from "./developer/Developer";
 
 const Routes = styled.div`
     min-width: 0;
@@ -28,6 +31,10 @@ export default function App() {
             docked={isTouchscreenDevice ? Docked.None : Docked.Left}>
             <Routes>
                 <Switch>
+                    <Route path="/dev">
+                        <Developer />
+                    </Route>
+
                     <Route path="/friends">
                         <Friends />
                     </Route>
@@ -37,6 +44,7 @@ export default function App() {
                     </Route>
                 </Switch>
             </Routes>
+            <ContextMenus />
             <Popovers />
         </OverlappingPanels>
     );

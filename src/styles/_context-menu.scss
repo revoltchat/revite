@@ -1,0 +1,58 @@
+.preact-context-menu .context-menu {
+    z-index: 100;
+    min-width: 180px;
+    padding: 6px 8px;
+    user-select: none;
+    border-radius: 4px;
+    color: var(--secondary-foreground);
+    background: var(--primary-background) !important;
+    box-shadow: 0px 0px 8px 8px rgba(0, 0, 0, 0.05);
+
+    > span {
+        gap: 6px;
+        margin: 2px 0;
+        display: flex;
+        padding: 6px 8px;
+        border-radius: 3px;
+        font-size: .875rem;
+        align-items: center;
+        white-space: nowrap;
+        
+        &:not([data-disabled="true"]) {
+            cursor: pointer;
+            
+            &:hover {
+                background: var(--secondary-background);
+            }
+        }
+
+        .tip {
+            flex-grow: 1;
+            font-size: .650rem;
+            text-align: right;
+            color: var(--tertiary-foreground);
+        }
+    }
+
+    .indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+
+        &.online {
+            background: var(--status-online);
+        }
+
+        &.idle {
+            background: var(--status-away);
+        }
+
+        &.busy {
+            background: var(--status-busy);
+        }
+
+        &.invisible {
+            background: var(--status-invisible);
+        }
+    }
+}
