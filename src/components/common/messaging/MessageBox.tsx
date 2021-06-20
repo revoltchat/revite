@@ -8,7 +8,9 @@ import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { SingletonMessageRenderer, SMOOTH_SCROLL_ON_RECEIVE } from "../../../lib/renderer/Singleton";
 import { connectState } from "../../../redux/connector";
 import { WithDispatcher } from "../../../redux/reducers";
+import IconButton from "../../ui/IconButton";
 import TextArea from "../../ui/TextArea";
+import { Send } from '@styled-icons/feather';
 
 type Props = WithDispatcher & {
     channel: Channel;
@@ -70,15 +72,20 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
     }
 
     return (
-        <TextArea
-            value={draft}
-            onKeyDown={e => {
-                if (!e.shiftKey && e.key === "Enter" && !isTouchscreenDevice) {
-                    e.preventDefault();
-                    return send();
-                }
-            }}
-            onChange={e => setMessage(e.currentTarget.value)} />
+        <div style={{ display: 'flex' }}>
+            <TextArea
+                value={draft}
+                onKeyDown={e => {
+                    if (!e.shiftKey && e.key === "Enter" && !isTouchscreenDevice) {
+                        e.preventDefault();
+                        return send();
+                    }
+                }}
+                onChange={e => setMessage(e.currentTarget.value)} />
+            <IconButton onClick={send}>
+                <Send size={20} />
+            </IconButton>
+        </div>
     )
 }
 

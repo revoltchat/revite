@@ -29,7 +29,7 @@ export default function App() {
     return (
         <OverlappingPanels
             width="100vw"
-            height="100%"
+            height="100vh"
             leftPanel={{ width: 292, component: <LeftSidebar /> }}
             rightPanel={{ width: 240, component: <RightSidebar /> }}
             docked={isTouchscreenDevice ? Docked.None : Docked.Left}>
