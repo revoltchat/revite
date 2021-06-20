@@ -2,7 +2,7 @@ import { Text } from "preact-i18n";
 import styles from './Panes.module.scss';
 import Button from "../../../components/ui/Button";
 import { Servers } from "revolt.js/dist/api/objects";
-import { SettingsTextArea } from "../SettingsTextArea";
+import TextArea from "../../../components/ui/TextArea";
 import InputBox from "../../../components/ui/InputBox";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
@@ -65,14 +65,14 @@ export function Overview({ server }: Props) {
             <h3>
                 <Text id="app.main.servers.description" />
             </h3>
-            <SettingsTextArea
-                maxRows={10}
-                minHeight={60}
+            <TextArea
+                // maxRows={10}
+                // minHeight={60}
                 maxLength={1024}
                 value={description}
                 placeholder={"Add a topic..."}
-                onChange={content => {
-                    setDescription(content);
+                onChange={ev => {
+                    setDescription(ev.currentTarget.value);
                     if (!changed) setChanged(true)
                 }}
             />

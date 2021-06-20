@@ -4,12 +4,12 @@ import styles from "./Friend.module.scss";
 import { useContext } from "preact/hooks";
 import { Children } from "../../types/Preact";
 import { X, Plus, Mail } from "@styled-icons/feather";
-import UserIcon from "../../components/common/UserIcon";
 import IconButton from "../../components/ui/IconButton";
 import { attachContextMenu } from "preact-context-menu";
 import { User, Users } from "revolt.js/dist/api/objects";
-import UserStatus from '../../components/common/UserStatus';
 import { stopPropagation } from "../../lib/stopPropagation";
+import UserIcon from "../../components/common/user/UserIcon";
+import UserStatus from '../../components/common/user/UserStatus';
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 

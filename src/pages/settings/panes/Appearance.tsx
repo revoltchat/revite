@@ -2,8 +2,8 @@ import { Text } from "preact-i18n";
 import styles from "./Panes.module.scss";
 import { debounce } from "../../../lib/debounce";
 import Button from "../../../components/ui/Button";
+import TextArea from "../../../components/ui/TextArea";
 import InputBox from "../../../components/ui/InputBox";
-import { SettingsTextArea } from "../SettingsTextArea";
 import { connectState } from "../../../redux/connector";
 import { WithDispatcher } from "../../../redux/reducers";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
@@ -267,11 +267,12 @@ export function Component(props: Props & WithDispatcher) {
                 <h3>
                     <Text id="app.settings.pages.appearance.custom_css" />
                 </h3>
-                <SettingsTextArea
-                    maxRows={20}
-                    minHeight={480}
+                <TextArea
+                    // maxRows={20}
+                    // minHeight={480}
+                    code
                     value={css}
-                    onChange={css => setCSS(css)}
+                    onChange={ev => setCSS(ev.currentTarget.value)}
                 />
             </details>
 

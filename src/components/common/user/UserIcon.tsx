@@ -2,10 +2,10 @@ import { User } from "revolt.js";
 import { useContext } from "preact/hooks";
 import { MicOff } from "@styled-icons/feather";
 import styled, { css } from "styled-components";
-import { ThemeContext } from "../../context/Theme";
 import { Users } from "revolt.js/dist/api/objects";
-import IconBase, { IconBaseProps } from "./IconBase";
-import { AppContext } from "../../context/revoltjs/RevoltClient";
+import { ThemeContext } from "../../../context/Theme";
+import IconBase, { IconBaseProps } from "../IconBase";
+import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 type VoiceStatus = "muted";
 interface Props extends IconBaseProps<User> {
@@ -47,7 +47,7 @@ const VoiceIndicator = styled.div<{ status: VoiceStatus }>`
     ` }
 `;
 
-import fallback from './assets/user.png';
+import fallback from '../assets/user.png';
 
 export default function UserIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGElement>, keyof Props>) {
     const client = useContext(AppContext);

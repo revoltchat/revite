@@ -2,23 +2,23 @@ import { Localizer, Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 import { Home, Users, Tool, Save } from "@styled-icons/feather";
 
-import { Link, Redirect, useLocation, useParams } from "react-router-dom";
-import { WithDispatcher } from "../../../redux/reducers";
-import { Unreads } from "../../../redux/reducers/unreads";
-import { connectState } from "../../../redux/connector";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { useChannels, useDMs, useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
-import { Users as UsersNS } from 'revolt.js/dist/api/objects';
-import { mapChannelWithUnread, useUnreads } from "./common";
-import { Channels } from "revolt.js/dist/api/objects";
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
-import ConnectionStatus from '../items/ConnectionStatus';
-import ButtonItem, { ChannelButton } from '../items/ButtonItem';
 import styled from "styled-components";
-import UserHeader from "../../common/UserHeader";
 import Category from '../../ui/Category';
 import PaintCounter from "../../../lib/PaintCounter";
+import UserHeader from "../../common/user/UserHeader";
+import { Channels } from "revolt.js/dist/api/objects";
+import { connectState } from "../../../redux/connector";
+import ConnectionStatus from '../items/ConnectionStatus';
+import { WithDispatcher } from "../../../redux/reducers";
+import { Unreads } from "../../../redux/reducers/unreads";
+import { mapChannelWithUnread, useUnreads } from "./common";
+import { Users as UsersNS } from 'revolt.js/dist/api/objects';
+import ButtonItem, { ChannelButton } from '../items/ButtonItem';
+import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { Link, Redirect, useLocation, useParams } from "react-router-dom";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { useDMs, useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
 
 type Props = WithDispatcher & {
     unreads: Unreads;
@@ -126,7 +126,11 @@ function HomeSidebar(props: Props) {
                     let user;
                     if (x.channel_type === 'DirectMessage') {
                         let recipient = client.channels.getRecipient(x._id);
-                        user = users.find(x => x!._id === recipient);
+                        user = users.find(x => x?._id === recipient);
+                        if (!user) {
+                            console.warn(`Skipped DM ${x._id} because user was missing.`);
+                            return null;
+                        }
                     }
                     
                     return (

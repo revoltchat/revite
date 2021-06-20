@@ -1,7 +1,7 @@
 import styles from "./Panes.module.scss";
 import Button from "../../../components/ui/Button";
 import { Users } from "revolt.js/dist/api/objects";
-import { SettingsTextArea } from "../SettingsTextArea";
+import TextArea from "../../../components/ui/TextArea";
 import { IntlContext, Text, translate } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -93,14 +93,14 @@ export function Profile() {
             <h3>
                 <Text id="app.settings.pages.profile.info" />
             </h3>
-            <SettingsTextArea
-                maxRows={10}
-                minHeight={200}
+            <TextArea
+                // maxRows={10}
+                // minHeight={200}
                 maxLength={2000}
                 value={profile?.content ?? ""}
                 disabled={typeof profile === "undefined"}
-                onChange={content => {
-                    setProfile({ ...profile, content })
+                onChange={ev => {
+                    setProfile({ ...profile, content: ev.currentTarget.value })
                     if (!changed) setChanged(true)
                 }}
                 placeholder={translate(

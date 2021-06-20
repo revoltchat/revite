@@ -4,7 +4,7 @@ import { Localizer, Text } from "preact-i18n";
 import Radio from "../../../components/ui/Radio";
 import Button from "../../../components/ui/Button";
 import InputBox from "../../../components/ui/InputBox";
-import { SettingsTextArea } from "../SettingsTextArea";
+import TextArea from "../../../components/ui/TextArea";
 import { useSelf } from "../../../context/revoltjs/hooks";
 
 export function Feedback() {
@@ -80,12 +80,12 @@ export function Feedback() {
             <h3>
                 <Text id="app.settings.pages.feedback.describe" />
             </h3>
-            <SettingsTextArea
-                maxRows={10}
+            <TextArea
+                // maxRows={10}
                 value={description}
                 id="entry.685672624"
                 disabled={state === "sending"}
-                onChange={value => setDescription(value)}
+                onChange={ev => setDescription(ev.currentTarget.value)}
             />
             <Button type="submit" contrast>
                 <Text id="app.settings.pages.feedback.send" />

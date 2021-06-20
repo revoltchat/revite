@@ -3,7 +3,7 @@ import styles from "./Panes.module.scss";
 import Button from "../../../components/ui/Button";
 import { Channels } from "revolt.js/dist/api/objects";
 import InputBox from "../../../components/ui/InputBox";
-import { SettingsTextArea } from "../SettingsTextArea";
+import TextArea from "../../../components/ui/TextArea";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -70,14 +70,14 @@ export function Overview({ channel }: Props) {
                     <Text id="app.main.groups.description" /> :
                     <Text id="app.main.servers.channel_description" /> }
             </h3>
-            <SettingsTextArea
-                maxRows={10}
-                minHeight={60}
+            <TextArea
+                // maxRows={10}
+                // minHeight={60}
                 maxLength={1024}
                 value={description}
                 placeholder={"Add a description..."}
-                onChange={content => {
-                    setDescription(content);
+                onChange={ev => {
+                    setDescription(ev.currentTarget.value);
                     if (!changed) setChanged(true)
                 }}
             />

@@ -1,5 +1,5 @@
-import UserIcon from "../UserIcon";
-import { Username } from "../UserShort";
+import UserIcon from "../user/UserIcon";
+import { Username } from "../user/UserShort";
 import Markdown from "../../markdown/Markdown";
 import { Children } from "../../../types/Preact";
 import { attachContextMenu } from "preact-context-menu";

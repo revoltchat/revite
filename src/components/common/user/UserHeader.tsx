@@ -1,17 +1,17 @@
-import Tooltip from "./Tooltip";
+import Tooltip from "../Tooltip";
 import { User } from "revolt.js";
-import Header from "../ui/Header";
 import UserIcon from "./UserIcon";
 import { Text } from "preact-i18n";
+import Header from "../../ui/Header";
 import UserStatus from './UserStatus';
 import styled from "styled-components";
 import { Localizer } from 'preact-i18n';
 import { Link } from "react-router-dom";
-import IconButton from "../ui/IconButton";
+import IconButton from "../../ui/IconButton";
 import { Settings } from "@styled-icons/feather";
 import { openContextMenu } from "preact-context-menu";
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-import { useIntermediate } from "../../context/intermediate/Intermediate";
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 const HeaderBase = styled.div`
     gap: 0;

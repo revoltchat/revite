@@ -1,22 +1,22 @@
-import Modal from "../../../components/ui/Modal";
+import { decodeTime } from "ulid";
 import { Localizer, Text } from "preact-i18n";
 import styles from "./UserProfile.module.scss";
-import Preloader from "../../../components/ui/Preloader";
+import Modal from "../../../components/ui/Modal";
 import { Route } from "revolt.js/dist/api/routes";
 import { Users } from "revolt.js/dist/api/objects";
-import { IntermediateContext, useIntermediate } from "../Intermediate";
-import { Globe, Mail, Edit, UserPlus, Shield } from "@styled-icons/feather";
+import { useIntermediate } from "../Intermediate";
 import { Link, useHistory } from "react-router-dom";
-import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
-import { decodeTime } from "ulid";
 import { CashStack } from "@styled-icons/bootstrap";
-import { AppContext, ClientStatus, StatusContext } from "../../revoltjs/RevoltClient";
-import { useChannels, useForceUpdate, useUser, useUsers } from "../../revoltjs/hooks";
-import UserIcon from '../../../components/common/UserIcon';
-import UserStatus from '../../../components/common/UserStatus';
+import Preloader from "../../../components/ui/Preloader";
 import Tooltip from '../../../components/common/Tooltip';
-import ChannelIcon from '../../../components/common/ChannelIcon';
 import Markdown from '../../../components/markdown/Markdown';
+import UserIcon from '../../../components/common/user/UserIcon';
+import ChannelIcon from '../../../components/common/ChannelIcon';
+import UserStatus from '../../../components/common/user/UserStatus';
+import { Mail, Edit, UserPlus, Shield } from "@styled-icons/feather";
+import { useChannels, useForceUpdate, useUsers } from "../../revoltjs/hooks";
+import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
+import { AppContext, ClientStatus, StatusContext } from "../../revoltjs/RevoltClient";
 
 interface Props {
     user_id: string;

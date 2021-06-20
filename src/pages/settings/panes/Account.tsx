@@ -6,11 +6,11 @@ import { Users } from "revolt.js/dist/api/objects";
 import { Link, useHistory } from "react-router-dom";
 import Overline from "../../../components/ui/Overline";
 import { AtSign, Key, Mail } from "@styled-icons/feather";
-import { useForceUpdate, useSelf } from "../../../context/revoltjs/hooks";
-import UserIcon from "../../../components/common/UserIcon";
 import { useContext, useEffect, useState } from "preact/hooks";
-import { ClientStatus, StatusContext } from "../../../context/revoltjs/RevoltClient";
+import UserIcon from "../../../components/common/user/UserIcon";
+import { useForceUpdate, useSelf } from "../../../context/revoltjs/hooks";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { ClientStatus, StatusContext } from "../../../context/revoltjs/RevoltClient";
 
 export function Account() {
     const { openScreen } = useIntermediate();

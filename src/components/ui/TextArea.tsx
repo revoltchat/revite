@@ -1,12 +1,37 @@
-// ! FIXME: temporarily here until re-written
-// ! DO NOT IMRPOVE, JUST RE-WRITE
+// import classNames from "classnames";
+// import { memo } from "preact/compat";
+// import styles from "./TextArea.module.scss";
+// import { useState, useEffect, useRef, useLayoutEffect } from "preact/hooks";
+import styled, { css } from "styled-components";
 
-import classNames from "classnames";
-import { memo } from "preact/compat";
-import styles from "./TextArea.module.scss";
-import { useState, useEffect, useRef, useLayoutEffect } from "preact/hooks";
+interface Props {
+    code?: boolean;
+}
 
-export interface TextAreaProps {
+export default styled.textarea<Props>`
+    width: 100%;
+    resize: none;
+    display: block;
+    border-radius: 4px;
+
+    color: var(--foreground);
+    border: 2px solid transparent;
+    background: var(--secondary-background);
+    transition: border-color .2s ease-in-out;
+
+    &:focus {
+        outline: none;
+        border: 2px solid var(--accent);
+    }
+
+    ${ props => props.code ? css`
+        font-family: 'Fira Mono', 'Courier New', Courier, monospace;
+    ` : css`
+        font-family: 'Open Sans', sans-serif;
+    ` }
+`;
+
+/*export interface TextAreaProps {
     id?: string;
     value: string;
     maxRows?: number;
@@ -30,7 +55,7 @@ export interface TextAreaProps {
 
 const lineHeight = 20;
 
-export const TextArea = memo((props: TextAreaProps) => {
+export const TextAreaB = memo((props: TextAreaProps) => {
     const padding = props.padding ? props.padding * 2 : 0;
 
     const [height, setHeightState] = useState(
@@ -143,4 +168,4 @@ export const TextArea = memo((props: TextAreaProps) => {
             </div>
         </div>
     );
-});
+});*/

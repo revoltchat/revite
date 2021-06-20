@@ -185,25 +185,3 @@
         margin: auto;
     }
 }
-
-.textarea {
-    margin-bottom: 1em;
-    border-radius: 4px;
-    font-family: 'Courier New', Courier, monospace;
-
-    textarea {
-        resize: none;
-        padding: 12px;
-        min-height: 180px;
-        border-radius: 4px;
-        color: var(--foreground);
-        border: 2px solid transparent;
-        background: var(--secondary-background);
-        transition: border-color .2s ease-in-out;
-
-        &:focus {
-            outline: none;
-            border: 2px solid var(--accent);
-        }
-    }
-}

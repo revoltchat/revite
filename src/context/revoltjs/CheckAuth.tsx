@@ -1,12 +1,12 @@
-import { ReactNode } from "react";
 import { useContext } from "preact/hooks";
 import { Redirect } from "react-router-dom";
+import { Children } from "../../types/Preact";
 
 import { OperationsContext } from "./RevoltClient";
 
 interface Props {
     auth?: boolean;
-    children: ReactNode | ReactNode[];
+    children: Children;
 }
 
 export const CheckAuth = (props: Props) => {

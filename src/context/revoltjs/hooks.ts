@@ -11,8 +11,17 @@ export interface HookContext {
 export function useForceUpdate(context?: HookContext): HookContext {
     const client = useContext(AppContext);
     if (context) return context;
-    const [, updateState] = useState({});
-    return { client, forceUpdate: useCallback(() => updateState({}), []) };
+    const H = useState(undefined);
+    var updateState: (_: undefined) => void;
+    if (Array.isArray(H)) {
+        let [, u] = H;
+        updateState = u;
+    } else {
+        console.warn('Failed to construct using useState.');
+        console.warn(H);
+        updateState = ()=>{};
+    }
+    return { client, forceUpdate: useCallback(() => updateState(undefined), []) };
 }
 
 function useObject(type: string, id?: string | string[], context?: HookContext) {

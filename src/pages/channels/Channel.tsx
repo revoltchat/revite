@@ -4,6 +4,7 @@ import Header from "../../components/ui/Header";
 import { useRenderState } from "../../lib/renderer/Singleton";
 import { useChannel, useForceUpdate, useUsers } from "../../context/revoltjs/hooks";
 import { MessageArea } from "./messaging/MessageArea";
+import MessageBox from "../../components/common/messaging/MessageBox";
 
 const ChannelMain = styled.div`
     flex-grow: 1;
@@ -37,6 +38,7 @@ export default function Channel() {
             <ChannelMain>
                 <ChannelContent>
                     <MessageArea id={id} />
+                    <MessageBox channel={channel} />
                 </ChannelContent>
             </ChannelMain>
         </>

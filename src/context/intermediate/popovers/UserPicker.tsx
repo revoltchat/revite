@@ -4,7 +4,7 @@ import styles from "./UserPicker.module.scss";
 import { useUsers } from "../../revoltjs/hooks";
 import Modal from "../../../components/ui/Modal";
 import { User, Users } from "revolt.js/dist/api/objects";
-import UserCheckbox from "../../../components/common/UserCheckbox";
+import UserCheckbox from "../../../components/common/user/UserCheckbox";
 
 interface Props {
     omit?: string[];

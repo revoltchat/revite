@@ -4,12 +4,12 @@ import { Children } from "../../../types/Preact";
 import { useIntermediate } from "../Intermediate";
 import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
-import UserIcon from "../../../components/common/UserIcon";
+import { AppContext } from "../../revoltjs/RevoltClient";
+import { mapMessage, takeError } from "../../revoltjs/util";
 import Modal, { Action } from "../../../components/ui/Modal";
 import { Channels, Servers } from "revolt.js/dist/api/objects";
 import { useContext, useEffect, useState } from "preact/hooks";
-import { AppContext } from "../../revoltjs/RevoltClient";
-import { mapMessage, takeError } from "../../revoltjs/util";
+import UserIcon from "../../../components/common/user/UserIcon";
 import Message from "../../../components/common/messaging/Message";
 
 interface Props {

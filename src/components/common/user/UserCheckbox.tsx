@@ -1,6 +1,6 @@
 import { User } from "revolt.js";
 import UserIcon from "./UserIcon";
-import Checkbox, { CheckboxProps } from "../ui/Checkbox";
+import Checkbox, { CheckboxProps } from "../../ui/Checkbox";
 
 type UserProps = Omit<CheckboxProps, "children"> & { user: User };
 
