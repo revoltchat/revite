@@ -138,9 +138,7 @@ function Locale({ children, locale }: Props) {
             async (lang_file) => {
                 const defn = lang_file.default;
                 const target = lang.dayjs ?? lang.i18n;
-                const dayjs_locale = await import(
-                    /* @vite-ignore */ `/node_modules/dayjs/esm/locale/${target}.js`
-                );
+                const dayjs_locale = await import(`../../node_modules/dayjs/esm/locale/${target}.js`);
 
                 if (defn.dayjs) {
                     dayjs.updateLocale(target, { calendar: defn.dayjs });
