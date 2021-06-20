@@ -138,7 +138,9 @@ function Context({ auth, sync, children, dispatcher }: Props) {
 
     useEffect(() => {
         (async () => {
-            await client.restore();
+            if (client.db) {
+                await client.restore();
+            }
 
             if (auth.active) {
                 dispatcher({ type: "QUEUE_FAIL_ALL" });
