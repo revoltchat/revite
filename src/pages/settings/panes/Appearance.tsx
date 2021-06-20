@@ -15,6 +15,14 @@ import { useIntermediate } from "../../../context/intermediate/Intermediate";
 // @ts-ignore
 import pSBC from 'shade-blend-color';
 
+import lightSVG from '../assets/light.svg';
+import darkSVG from '../assets/dark.svg';
+
+import mutantSVG from '../assets/mutant_emoji.svg';
+import notoSVG from '../assets/noto_emoji.svg';
+import openmojiSVG from '../assets/openmoji_emoji.svg';
+import twemojiSVG from '../assets/twemoji_emoji.svg';
+
 interface Props {
     settings: Settings;
 }
@@ -72,7 +80,7 @@ export function Component(props: Props & WithDispatcher) {
             <div className={styles.themes}>
                 <div className={styles.theme}>
                     <img
-                        src="/assets/images/light.svg"
+                        src={lightSVG}
                         data-active={selected === "light"}
                         onClick={() =>
                             selected !== "light" &&
@@ -84,7 +92,7 @@ export function Component(props: Props & WithDispatcher) {
                 </div>
                 <div className={styles.theme}>
                     <img
-                        src="/assets/images/dark.svg"
+                        src={darkSVG}
                         data-active={selected === "dark"}
                         onClick={() =>
                             selected !== "dark" && setTheme({ preset: "dark" })
@@ -131,7 +139,7 @@ export function Component(props: Props & WithDispatcher) {
                         <div className={styles.button}
                             onClick={() => setEmojiPack('mutant')}
                             data-active={emojiPack === 'mutant'}>
-                            <img src="/assets/images/mutant_emoji.svg" draggable={false} />
+                            <img src={mutantSVG} draggable={false} />
                         </div>
                         <h4>Mutant Remix <a href="https://mutant.revolt.chat" target="_blank">(by Revolt)</a></h4>
                     </div>
@@ -139,7 +147,7 @@ export function Component(props: Props & WithDispatcher) {
                         <div className={styles.button}
                             onClick={() => setEmojiPack('twemoji')}
                             data-active={emojiPack === 'twemoji'}>
-                            <img src="/assets/images/twemoji_emoji.svg" draggable={false} />
+                            <img src={twemojiSVG} draggable={false} />
                         </div>
                         <h4>Twemoji</h4>
                     </div>
@@ -149,7 +157,7 @@ export function Component(props: Props & WithDispatcher) {
                         <div className={styles.button}
                             onClick={() => setEmojiPack('openmoji')}
                             data-active={emojiPack === 'openmoji'}>
-                            <img src="/assets/images/openmoji_emoji.svg" draggable={false} />
+                            <img src={openmojiSVG} draggable={false} />
                         </div>
                         <h4>Openmoji</h4>
                     </div>
@@ -157,7 +165,7 @@ export function Component(props: Props & WithDispatcher) {
                         <div className={styles.button}
                             onClick={() => setEmojiPack('noto')}
                             data-active={emojiPack === 'noto'}>
-                            <img src="/assets/images/noto_emoji.svg" draggable={false} />
+                            <img src={notoSVG} draggable={false} />
                         </div>
                         <h4>Noto Emoji</h4>
                     </div>

@@ -8,7 +8,8 @@ interface Props extends IconBaseProps<Channels.GroupChannel | Channels.TextChann
     isServerChannel?: boolean;
 }
 
-const fallback = '/assets/group.png';
+import fallback from './assets/group.png';
+
 export default function ChannelIcon(props: Props & Omit<JSX.HTMLAttributes<HTMLImageElement>, keyof Props>) {
     const client = useContext(AppContext);
 

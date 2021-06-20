@@ -47,7 +47,8 @@ const VoiceIndicator = styled.div<{ status: VoiceStatus }>`
     ` }
 `;
 
-const fallback = '/assets/user.png';
+import fallback from './assets/user.png';
+
 export default function UserIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGElement>, keyof Props>) {
     const client = useContext(AppContext);
 

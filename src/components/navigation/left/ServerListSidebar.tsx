@@ -1,15 +1,17 @@
+import LineDivider from "../../ui/LineDivider";
+import { mapChannelWithUnread } from "./common";
+import styled, { css } from "styled-components";
+import ServerIcon from "../../common/ServerIcon";
+import { Children } from "../../../types/Preact";
+import PaintCounter from "../../../lib/PaintCounter";
+import { attachContextMenu } from 'preact-context-menu';
+import { connectState } from "../../../redux/connector";
+import { Unreads } from "../../../redux/reducers/unreads";
 import { Channel, Servers } from "revolt.js/dist/api/objects";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useChannels, useForceUpdate, useServers } from "../../../context/revoltjs/hooks";
-import { mapChannelWithUnread } from "./common";
-import { Unreads } from "../../../redux/reducers/unreads";
-import { connectState } from "../../../redux/connector";
-import styled, { css } from "styled-components";
-import { Children } from "../../../types/Preact";
-import LineDivider from "../../ui/LineDivider";
-import ServerIcon from "../../common/ServerIcon";
-import PaintCounter from "../../../lib/PaintCounter";
-import { attachContextMenu } from 'preact-context-menu';
+
+import logoSVG from '../../../assets/logo.svg';
 
 function Icon({ children, unread, size }: { children: Children, unread?: 'mention' | 'unread', size: number }) {
     return (
@@ -146,7 +148,7 @@ export function ServerListSidebar({ unreads }: Props) {
                     <ServerEntry invert
                         active={typeof server === 'undefined' && !path.startsWith('/invite')}>
                         <Icon size={36} unread={homeUnread}>
-                            <img src="/assets/app_icon.png"  />
+                            <img src={logoSVG} />
                         </Icon>
                     </ServerEntry>
                 </Link>
