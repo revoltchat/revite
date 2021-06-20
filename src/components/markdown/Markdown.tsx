@@ -10,7 +10,7 @@ export interface MarkdownProps {
 export default function Markdown(props: MarkdownProps) {
     return (
         // @ts-expect-error
-        <Suspense fallback="Getting ready to render Markdown...">
+        <Suspense fallback={props.content}>
             <Renderer {...props} />
         </Suspense>
     )

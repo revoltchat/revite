@@ -22,14 +22,13 @@ export function takeError(
     return id;
 }
 
-export function getChannelName(client: Client, channel: Channel, users: User[], prefixType?: boolean): Children {
+export function getChannelName(client: Client, channel: Channel, prefixType?: boolean): Children {
     if (channel.channel_type === "SavedMessages")
         return <Text id="app.navigation.tabs.saved" />;
 
     if (channel.channel_type === "DirectMessage") {
         let uid = client.channels.getRecipient(channel._id);
-
-        return <>{prefixType && "@"}{users.find(x => x._id === uid)?.username}</>;
+        return <>{prefixType && "@"}{client.users.get(uid)?.username}</>;
     }
 
     if (channel.channel_type === "TextChannel" && prefixType) {

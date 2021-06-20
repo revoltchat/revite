@@ -1,4 +1,5 @@
 import { useContext } from "preact/hooks";
+import { TextReact } from "../../lib/i18n";
 import Header from "../../components/ui/Header";
 import PaintCounter from "../../lib/PaintCounter";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
@@ -18,6 +19,9 @@ export default function Developer() {
             <div style={{ padding: "16px" }}>
                 <b>User ID:</b> {client.user!._id} <br/>
                 <b>Permission against self:</b> {userPermission} <br/>
+            </div>
+            <div style={{ padding: "16px" }}>
+                <TextReact id="login.open_mail_provider" fields={{ provider: <b>GAMING!</b> }} />
             </div>
             <div style={{ padding: "16px" }}>
                 {/*<span>

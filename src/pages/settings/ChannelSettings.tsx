@@ -28,7 +28,7 @@ export default function ChannelSettings() {
         <GenericSettings
             pages={[
                 {
-                    category: <Category variant="uniform" text={getChannelName(ctx.client, channel, [], true)} />,
+                    category: <Category variant="uniform" text={getChannelName(ctx.client, channel, true)} />,
                     id: 'overview',
                     icon: <List size={20} strokeWidth={2} />,
                     title: <Text id="app.settings.channel_pages.overview.title" />

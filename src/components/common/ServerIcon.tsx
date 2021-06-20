@@ -42,12 +42,6 @@ export default function ServerIcon(props: Props & Omit<JSX.HTMLAttributes<HTMLIm
             width={size}
             height={size}
             aria-hidden="true"
-            src={iconURL}
-            onError={ e => {
-                let el = e.currentTarget;
-                if (el.src !== fallback) {
-                    el.src = fallback
-                }
-            }} />
+            src={iconURL} />
     );
 }

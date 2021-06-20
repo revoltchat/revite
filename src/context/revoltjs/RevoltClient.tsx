@@ -4,13 +4,14 @@ import { takeError } from "./util";
 import { createContext } from "preact";
 import { Children } from "../../types/Preact";
 import { Route } from "revolt.js/dist/api/routes";
-import { useEffect, useMemo, useState } from "preact/hooks";
 import { connectState } from "../../redux/connector";
 import Preloader from "../../components/ui/Preloader";
 import { WithDispatcher } from "../../redux/reducers";
 import { AuthState } from "../../redux/reducers/auth";
 import { SyncOptions } from "../../redux/reducers/sync";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import { registerEvents, setReconnectDisallowed } from "./events";
+import { SingletonMessageRenderer } from '../../lib/renderer/Singleton';
 
 export enum ClientStatus {
     INIT,
@@ -61,13 +62,15 @@ function Context({ auth, sync, children, dispatcher }: Props) {
                 console.error('Failed to open IndexedDB store, continuing without.');
             }
 
-            setClient(new Client({
+            const client = new Client({
                 autoReconnect: false,
                 apiURL: import.meta.env.VITE_API_URL,
                 debug: import.meta.env.DEV,
                 db
-            }));
+            });
 
+            setClient(client);
+            SingletonMessageRenderer.subscribe(client);
             setStatus(ClientStatus.LOADING);
         })();
     }, [ ]);
@@ -131,10 +134,7 @@ function Context({ auth, sync, children, dispatcher }: Props) {
         }
     }, [ client, auth.active ]);
 
-    useEffect(
-        () => registerEvents({ operations, dispatcher }, setStatus, client),
-        [ client ]
-    );
+    useEffect(() => registerEvents({ operations, dispatcher }, setStatus, client), [ client ]);
 
     useEffect(() => {
         (async () => {

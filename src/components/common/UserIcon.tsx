@@ -54,7 +54,7 @@ export default function UserIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGEle
 
     const { target, attachment, size, voice, status, animate, children, as, ...svgProps } = props;
     const iconURL = client.generateFileURL(target?.avatar ?? attachment, { max_side: 256 }, animate)
-        ?? (target && client.users.getDefaultAvatarURL(target._id));
+        ?? (target ? client.users.getDefaultAvatarURL(target._id) : fallback);
 
     return (
         <IconBase {...svgProps}
@@ -65,13 +65,7 @@ export default function UserIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGEle
             <foreignObject x="0" y="0" width="32" height="32">
                 {
                     <img src={iconURL}
-                        draggable={false}
-                        onError={ e => {
-                            let el = e.currentTarget;
-                            if (el.src !== fallback) {
-                                el.src = fallback
-                            }
-                        }} />
+                        draggable={false} />
                 }
             </foreignObject>
             {props.status && (

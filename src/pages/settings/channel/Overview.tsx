@@ -81,7 +81,7 @@ export function Overview({ channel }: Props) {
                     if (!changed) setChanged(true)
                 }}
             />
-            <Button onClick={save} style="contrast" disabled={!changed}>
+            <Button onClick={save} contrast disabled={!changed}>
                 <Text id="app.special.modals.actions.save" />
             </Button>
         </div>

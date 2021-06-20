@@ -1,7 +1,7 @@
 import { IntlProvider } from "preact-i18n";
 import { connectState } from "../redux/connector";
-import definition from "../../external/lang/en.json";
 import { useEffect, useState } from "preact/hooks";
+import definition from "../../external/lang/en.json";
 
 import dayjs from "dayjs";
 import calendar from "dayjs/plugin/calendar";

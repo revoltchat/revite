@@ -32,12 +32,6 @@ export default function ChannelIcon(props: Props & Omit<JSX.HTMLAttributes<HTMLI
             height={size}
             aria-hidden="true"
             square={isServerChannel}
-            src={iconURL ?? fallback}
-            onError={ e => {
-                let el = e.currentTarget;
-                if (el.src !== fallback) {
-                    el.src = fallback
-                }
-            }} />
+            src={iconURL ?? fallback} />
     );
 }

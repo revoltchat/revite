@@ -11,6 +11,7 @@ import RightSidebar from "../components/navigation/RightSidebar";
 
 import Home from './home/Home';
 import Friends from "./friends/Friends";
+import Channel from "./channels/Channel";
 import Settings from './settings/Settings';
 import Developer from "./developer/Developer";
 import ServerSettings from "./settings/ServerSettings";
@@ -40,6 +41,11 @@ export default function App() {
                     <Route path="/server/:server/settings" component={ServerSettings} />
                     <Route path="/channel/:channel/settings/:page" component={ChannelSettings} />
                     <Route path="/channel/:channel/settings" component={ChannelSettings} />
+
+                    <Route path="/channel/:channel/message/:message" component={Channel} />
+                    <Route path="/server/:server/channel/:channel" component={Channel} />
+                    <Route path="/server/:server" />
+                    <Route path="/channel/:channel" component={Channel} />
                     
                     <Route path="/settings/:page" component={Settings} />
                     <Route path="/settings" component={Settings} />
@@ -57,17 +63,7 @@ export default function App() {
 
 /**
  * 
- * <Route path="/channel/:channel/message/:message">
-                            <ChannelWrapper />
-                        </Route> 
-
-                        <Route path="/server/:server/channel/:channel">
-                            <ChannelWrapper />
-                        </Route>
-                        <Route path="/server/:server" />
-                        <Route path="/channel/:channel">
-                            <ChannelWrapper />
-                        </Route>
+ * 
                         
                         <Route path="/open/:id">
                             <Open />

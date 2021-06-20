@@ -1,0 +1,48 @@
+import dayjs from "dayjs";
+import styled, { css } from "styled-components";
+
+const Base = styled.div<{ unread?: boolean }>`
+    height: 0;
+    display: flex;
+    margin: 14px 10px;
+    user-select: none;
+    align-items: center;
+    border-top: thin solid var(--tertiary-foreground);
+
+    time {
+        margin-top: -2px;
+        font-size: .6875rem;
+        line-height: .6875rem;
+        padding: 2px 5px 2px 0;
+        color: var(--tertiary-foreground);
+        background: var(--primary-background);
+    }
+
+    ${ props => props.unread && css`
+        border-top: thin solid var(--accent);
+    ` }
+`;
+
+const Unread = styled.div`
+    background: var(--accent);
+    color: white;
+    padding: 5px 8px;
+    border-radius: 60px;
+    font-weight: 600;
+`;
+
+interface Props {
+    date: Date;
+    unread?: boolean;
+}
+
+export default function DateDivider(props: Props) {
+    return (
+        <Base unread={props.unread}>
+            { props.unread && <Unread>NEW</Unread> }
+            <time>
+                { dayjs(props.date).format("LL") }
+            </time>
+        </Base>
+    );
+}

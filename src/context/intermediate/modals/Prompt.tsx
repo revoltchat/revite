@@ -9,7 +9,8 @@ import Modal, { Action } from "../../../components/ui/Modal";
 import { Channels, Servers } from "revolt.js/dist/api/objects";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { AppContext } from "../../revoltjs/RevoltClient";
-import { takeError } from "../../revoltjs/util";
+import { mapMessage, takeError } from "../../revoltjs/util";
+import Message from "../../../components/common/messaging/Message";
 
 interface Props {
     onClose: () => void;
@@ -57,26 +58,23 @@ export function SpecialPromptModal(props: SpecialProps) {
         case 'close_dm':
         case 'leave_server':
         case 'delete_server': 
-        case 'delete_message': 
         case 'delete_channel': {
             const EVENTS = {
                 'close_dm':       'confirm_close_dm',
                 'delete_server':  'confirm_delete',
                 'delete_channel': 'confirm_delete',
-                'delete_message': 'confirm_delete_message',
                 'leave_group':    'confirm_leave',
                 'leave_server':   'confirm_leave'
             };
 
             let event = EVENTS[props.type];
-            let name = props.type === 'close_dm' ? client.users.get(client.channels.getRecipient(props.target._id))?.username : 
-                 props.type === 'delete_message' ? undefined : props.target.name;
+            let name = props.type === 'close_dm' ? client.users.get(client.channels.getRecipient(props.target._id))?.username : props.target.name;
 
             return (
                 <PromptModal
                     onClose={onClose}
                     question={<Text
-                        id={props.type === 'delete_message' ? 'app.context_menu.delete_message' : `app.special.modals.prompt.${event}`}
+                        id={`app.special.modals.prompt.${event}`}
                         fields={{ name }}
                     />}
                     actions={[
@@ -91,8 +89,6 @@ export function SpecialPromptModal(props: SpecialProps) {
                                 try {
                                     if (props.type === 'leave_group' || props.type === 'close_dm' || props.type === 'delete_channel') {
                                         await client.channels.delete(props.target._id);
-                                    } else if (props.type === 'delete_message') {
-                                        await client.channels.deleteMessage(props.target.channel, props.target._id);
                                     } else {
                                         await client.servers.delete(props.target._id);
                                     }
@@ -107,6 +103,41 @@ export function SpecialPromptModal(props: SpecialProps) {
                         { text: <Text id="app.special.modals.actions.cancel" />, onClick: onClose }
                     ]}
                     content={<Text id={`app.special.modals.prompt.${event}_long`} />}
+                    disabled={processing}
+                    error={error}
+                />
+            )
+        }
+        case 'delete_message': {
+            return (
+                <PromptModal
+                    onClose={onClose}
+                    question={<Text id={'app.context_menu.delete_message'} />}
+                    actions={[
+                        {
+                            confirmation: true,
+                            contrast: true,
+                            error: true,
+                            text: <Text id="app.special.modals.actions.delete" />,
+                            onClick: async () => {
+                                setProcessing(true);
+
+                                try {
+                                    await client.channels.deleteMessage(props.target.channel, props.target._id);
+
+                                    onClose();
+                                } catch (err) {
+                                    setError(takeError(err));
+                                    setProcessing(false);
+                                }
+                            }
+                        },
+                        { text: <Text id="app.special.modals.actions.cancel" />, onClick: onClose }
+                    ]}
+                    content={<>
+                        <Text id={`app.special.modals.prompt.confirm_delete_message_long`} />
+                        <Message message={mapMessage(props.target)} head={true} contrast />
+                    </>}
                     disabled={processing}
                     error={error}
                 />
