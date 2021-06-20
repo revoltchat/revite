@@ -24,7 +24,7 @@ export function ChannelInfo({ channel_id, onClose }: Props) {
         <Modal visible={true} onClose={onClose}>
             <div className={styles.info}>
                 <div className={styles.header}>
-                    <h1>{ getChannelName(ctx.client, channel, [ ], true) }</h1>
+                    <h1>{ getChannelName(ctx.client, channel, true) }</h1>
                     <div onClick={onClose}>
                         <X size={36} />
                     </div>

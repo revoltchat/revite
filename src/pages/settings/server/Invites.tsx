@@ -41,7 +41,7 @@ export function Invites({ server }: Props) {
                                 <span>
                                     <UserIcon target={creator} size={24} /> {creator?.username ?? 'unknown'}
                                 </span>
-                                <span>{ (channel && creator) ? getChannelName(ctx.client, channel, [ creator ], true) : '#unknown' }</span>
+                                <span>{ (channel && creator) ? getChannelName(ctx.client, channel, true) : '#unknown' }</span>
                                 <IconButton
                                     onClick={async () => {
                                         setDelete([
