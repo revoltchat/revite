@@ -1,0 +1,119 @@
+.attachment {
+    border-radius: 6px;
+    margin: .125rem 0 .125rem;
+    
+    &[data-spoiler="true"] {
+        filter: blur(30px);
+        pointer-events: none;
+    }
+
+    &[data-has-content="true"] {
+        margin-top: 4px;
+    }
+
+    &.image {
+        cursor: pointer;
+    }
+
+    &.video {        
+        .actions {
+            padding: 10px 12px;
+            border-radius: 6px 6px 0 0;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 0 0 6px 6px;
+        }
+    }
+
+    &.audio {
+        gap: 4px;
+        padding: 6px;
+        display: flex;
+        border-radius: 6px;
+        flex-direction: column;
+        background: var(--secondary-background);
+        max-width: 400px;
+
+        > audio {
+            width: 100%;
+        }
+    }
+
+    &.file {
+        > div {
+            width: 400px;
+            padding: 12px;
+            user-select: none;
+            width: fit-content;
+            border-radius: 6px;
+        }
+    }
+
+    &.text {
+        display: flex;
+        overflow: hidden;
+        max-width: 800px;
+        border-radius: 6px;
+        flex-direction: column;
+
+        .textContent {
+            height: 140px;
+            padding: 12px;
+            overflow-x: auto;
+            overflow-y: auto;
+            border-radius: 0 !important;
+            background: var(--secondary-header);
+    
+            pre {
+                margin: 0;
+            }
+    
+            pre code {
+                font-family: "Fira Mono", sans-serif;
+            }
+
+            &[data-loading="true"] {
+                display: flex;
+                
+                > * {
+                    flex-grow: 1;
+                }
+            }
+        }
+    }
+}
+
+.actions {
+    gap: 8px;
+    padding: 8px;
+    display: flex;
+    overflow: none;
+    max-width: 100%;
+    align-items: center;
+    flex-direction: row;
+    color: var(--foreground);
+    background: var(--secondary-background);
+
+    > svg {
+        flex-shrink: 0;
+    }
+    
+    .info {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        > span {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .filesize {
+            font-size: 10px;
+            color: var(--secondary-foreground);
+        }
+    }
+}
