@@ -23,6 +23,7 @@ const Area = styled.div`
     > div {
         display: flex;
         min-height: 100%;
+        padding-bottom: 20px;
         flex-direction: column;
         justify-content: flex-end;
     }

@@ -24,15 +24,19 @@ export default function Message({ attachContext, message, contrast, content: rep
 
     const content = message.content as string;
     return (
-        <MessageBase contrast={contrast}
+        <MessageBase id={message._id}
+            contrast={contrast}
             onContextMenu={attachContext ? attachContextMenu('Menu', { message, contextualChannel: message.channel }) : undefined}>
             <MessageInfo>
                 { head ?
                     <UserIcon target={user} size={36} /> :
-                    <MessageDetail message={message} /> }
+                    <MessageDetail message={message} position="left" /> }
             </MessageInfo>
             <MessageContent>
-                { head && <Username user={user} /> }
+                { head && <span className="author">
+                    <Username user={user} />
+                    <MessageDetail message={message} position="top" />
+                </span> }
                 { replacement ?? <Markdown content={content} /> }
                 { message.attachments?.map((attachment, index) =>
                     <Attachment key={index} attachment={attachment} hasContent={ index > 0 || content.length > 0 } />) }

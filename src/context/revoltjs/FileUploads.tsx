@@ -1,18 +1,15 @@
-// ! FIXME: also TEMP CODE
-// ! RE-WRITE WITH STYLED-COMPONENTS
-
 import { Text } from "preact-i18n";
 import { takeError } from "./util";
 import classNames from "classnames";
+import { AppContext } from "./RevoltClient";
 import styles from './FileUploads.module.scss';
 import Axios, { AxiosRequestConfig } from "axios";
 import { useContext, useState } from "preact/hooks";
-import { Edit, Plus, X } from "@styled-icons/feather";
 import Preloader from "../../components/ui/Preloader";
 import { determineFileSize } from "../../lib/fileSize";
 import IconButton from '../../components/ui/IconButton';
+import { Edit, Plus, X, XCircle } from "@styled-icons/feather";
 import { useIntermediate } from "../intermediate/Intermediate";
-import { AppContext } from "./RevoltClient";
 
 type Props = {
     maxFileSize: number
@@ -20,6 +17,7 @@ type Props = {
     fileType: 'backgrounds' | 'icons' | 'avatars' | 'attachments' | 'banners'
 } & (
     { behaviour: 'ask', onChange: (file: File) => void } |
+    { behaviour: 'multi', onChange: (files: File[]) => void } |
     { behaviour: 'upload', onUpload: (id: string) => Promise<void> }
 ) & (
     { style: 'icon' | 'banner', defaultPreview?: string, previewURL?: string, width?: number, height?: number } |
@@ -40,6 +38,26 @@ export async function uploadFile(autumnURL: string, tag: string, file: File, con
     return res.data.id;
 }
 
+export function grabFiles(maxFileSize: number, cb: (files: File[]) => void, tooLarge: () => void, multiple?: boolean) {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.multiple = multiple ?? false;
+
+    input.onchange = async e => {
+        const files = (e.target as any)?.files;
+        if (!files) return;
+        for (let file of files) {
+            if (file.size > maxFileSize) {
+                return tooLarge();
+            }
+        }
+
+        cb(Array.from(files));
+    };
+
+    input.click();
+}
+
 export function FileUploader(props: Props) {
     const { fileType, maxFileSize, remove } = props;
     const { openScreen } = useIntermediate();
@@ -50,35 +68,25 @@ export function FileUploader(props: Props) {
     function onClick() {
         if (uploading) return;
 
-        const input = document.createElement("input");
-        input.type = "file";
-
-        input.onchange = async e => {
+        grabFiles(maxFileSize, async files => {
             setUploading(true);
 
             try {
-                const files = (e.target as any)?.files;
-                if (files && files[0]) {
-                    let file = files[0];
-
-                    if (file.size > maxFileSize) {
-                        return openScreen({ id: "error", error: "FileTooLarge" });
-                    }
-
-                    if (props.behaviour === 'ask') {
-                        await props.onChange(file);
-                    } else {
-                        await props.onUpload(await uploadFile(client.configuration!.features.autumn.url, fileType, file));
-                    }
+                if (props.behaviour === 'multi') {
+                    props.onChange(files);
+                } else if (props.behaviour === 'ask') {
+                    props.onChange(files[0]);
+                } else {
+                    await props.onUpload(await uploadFile(client.configuration!.features.autumn.url, fileType, files[0]));
                 }
             } catch (err) {
                 return openScreen({ id: "error", error: takeError(err) });
             } finally {
                 setUploading(false);
             }
-        };
-
-        input.click();
+        }, () =>
+            openScreen({ id: "error", error: "FileTooLarge" }),
+            props.behaviour === 'multi');
     }
 
     function removeOrUpload() {
@@ -139,7 +147,7 @@ export function FileUploader(props: Props) {
                     if (attached) return remove();
                     onClick();
                 }}>
-                { attached ? <X size={size} /> : <Plus size={size} />}
+                { uploading ? <XCircle size={size} /> : attached ? <X size={size} /> : <Plus size={size} />}
             </IconButton>
         )
     }

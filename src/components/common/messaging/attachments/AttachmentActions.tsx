@@ -2,21 +2,12 @@ import { useContext } from 'preact/hooks';
 import styles from './Attachment.module.scss';
 import IconButton from '../../../ui/IconButton';
 import { Attachment } from "revolt.js/dist/api/objects";
+import { determineFileSize } from '../../../../lib/fileSize';
 import { AppContext } from '../../../../context/revoltjs/RevoltClient';
 import { Download, ExternalLink, File, Headphones, Video } from '@styled-icons/feather';
 
 interface Props {
     attachment: Attachment;
-}
-
-export function determineFileSize(size: number) {
-    if (size > 1e6) {
-        return `${(size / 1e6).toFixed(2)} MB`;
-    } else if (size > 1e3) {
-        return `${(size / 1e3).toFixed(2)} KB`;
-    }
-
-    return `${size} B`;
 }
 
 export default function AttachmentActions({ attachment }: Props) {

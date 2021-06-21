@@ -160,7 +160,7 @@ function MessageRenderer({ id, state, queue }: Props) {
             );
         }
 
-        render.push(<div>end</div>);
+        // render.push(<div>end</div>);
     } else {
         render.push(
             <RequiresOnline>

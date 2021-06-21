@@ -2,10 +2,10 @@ import { Text } from "preact-i18n";
 import styles from "./Panes.module.scss";
 import { debounce } from "../../../lib/debounce";
 import Button from "../../../components/ui/Button";
-import TextArea from "../../../components/ui/TextArea";
 import InputBox from "../../../components/ui/InputBox";
 import { connectState } from "../../../redux/connector";
 import { WithDispatcher } from "../../../redux/reducers";
+import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
 import { EmojiPacks, Settings } from "../../../redux/reducers/settings";
 import { Theme, ThemeContext, ThemeOptions } from "../../../context/Theme";
@@ -267,19 +267,13 @@ export function Component(props: Props & WithDispatcher) {
                 <h3>
                     <Text id="app.settings.pages.appearance.custom_css" />
                 </h3>
-                <TextArea
-                    // maxRows={20}
-                    // minHeight={480}
+                <TextAreaAutoSize
+                    maxRows={20}
+                    minHeight={480}
                     code
                     value={css}
-                    onChange={ev => setCSS(ev.currentTarget.value)}
-                />
+                    onChange={ev => setCSS(ev.currentTarget.value)} />
             </details>
-
-            {/*<h3>
-                <Text id="app.settings.pages.appearance.sync" />
-            </h3>
-            <p>Coming soon!</p>*/}
         </div>
     );
 }

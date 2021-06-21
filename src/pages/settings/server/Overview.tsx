@@ -2,8 +2,8 @@ import { Text } from "preact-i18n";
 import styles from './Panes.module.scss';
 import Button from "../../../components/ui/Button";
 import { Servers } from "revolt.js/dist/api/objects";
-import TextArea from "../../../components/ui/TextArea";
 import InputBox from "../../../components/ui/InputBox";
+import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -65,9 +65,9 @@ export function Overview({ server }: Props) {
             <h3>
                 <Text id="app.main.servers.description" />
             </h3>
-            <TextArea
-                // maxRows={10}
-                // minHeight={60}
+            <TextAreaAutoSize
+                maxRows={10}
+                minHeight={60}
                 maxLength={1024}
                 value={description}
                 placeholder={"Add a topic..."}

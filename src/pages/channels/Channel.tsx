@@ -1,10 +1,15 @@
 import styled from "styled-components";
+import { useState } from "preact/hooks";
+import ChannelHeader from "./ChannelHeader";
 import { useParams } from "react-router-dom";
-import Header from "../../components/ui/Header";
-import { useRenderState } from "../../lib/renderer/Singleton";
-import { useChannel, useForceUpdate, useUsers } from "../../context/revoltjs/hooks";
 import { MessageArea } from "./messaging/MessageArea";
+// import { useRenderState } from "../../lib/renderer/Singleton";
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import MessageBox from "../../components/common/messaging/MessageBox";
+import { useChannel, useForceUpdate } from "../../context/revoltjs/hooks";
+import MemberSidebar from "../../components/navigation/right/MemberSidebar";
+import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
+import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
 
 const ChannelMain = styled.div`
     flex-grow: 1;
@@ -21,26 +26,30 @@ const ChannelContent = styled.div`
     flex-direction: column;
 `;
 
-export default function Channel() {
-    const { channel: id } = useParams<{ channel: string }>();
-
+export function Channel({ id }: { id: string }) {
     const ctx = useForceUpdate();
     const channel = useChannel(id, ctx);
 
     if (!channel) return null;
-    // const view = useRenderState(id);
+    const [ showMembers, setMembers ] = useState(true);
 
     return (
         <>
-            <Header placement="primary">
-                Channel
-            </Header>
+            <ChannelHeader channel={channel} toggleSidebar={() => setMembers(!showMembers)} />
             <ChannelMain>
                 <ChannelContent>
                     <MessageArea id={id} />
+                    <TypingIndicator id={channel._id} />
+                    <JumpToBottom id={id} />
                     <MessageBox channel={channel} />
                 </ChannelContent>
+                { !isTouchscreenDevice && showMembers && <MemberSidebar channel={channel} /> }
             </ChannelMain>
         </>
     )
+}
+
+export default function() {
+    const { channel } = useParams<{ channel: string }>();
+    return <Channel id={channel} key={channel} />;
 }

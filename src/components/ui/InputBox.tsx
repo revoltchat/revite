@@ -8,18 +8,21 @@ export default styled.input<Props>`
     z-index: 1;
     padding: 8px 16px;
     border-radius: 6px;
+    
     color: var(--foreground);
-    border: 2px solid transparent;
     background: var(--primary-background);
     transition: 0.2s ease background-color;
-    transition: border-color 0.2s ease-in-out;
+    
+    border: none;
+    outline: 2px solid transparent;
+    transition: outline-color 0.2s ease-in-out;
 
     &:hover {
         background: var(--secondary-background);
     }
 
     &:focus {
-        border: 2px solid var(--accent);
+        outline: 2px solid var(--accent);
     }
 
     ${(props) =>

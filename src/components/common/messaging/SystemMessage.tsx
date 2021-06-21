@@ -1,14 +1,11 @@
 import { User } from "revolt.js";
-import classNames from "classnames";
+import styled from "styled-components";
+import UserShort from "../user/UserShort";
+import { TextReact } from "../../../lib/i18n";
 import { attachContextMenu } from "preact-context-menu";
 import { MessageObject } from "../../../context/revoltjs/util";
-import { useForceUpdate, useUser } from "../../../context/revoltjs/hooks";
-import { TextReact } from "../../../lib/i18n";
-import UserIcon from "../user/UserIcon";
-import Username from "../user/UserShort";
-import UserShort from "../user/UserShort";
 import MessageBase, { MessageDetail, MessageInfo } from "./MessageBase";
-import styled from "styled-components";
+import { useForceUpdate, useUser } from "../../../context/revoltjs/hooks";
 
 const SystemContent = styled.div`
     gap: 4px;
@@ -144,7 +141,7 @@ export function SystemMessage({ attachContext, message }: Props) {
                 { message, contextualChannel: message.channel }
             ) : undefined}>
             <MessageInfo>
-                <MessageDetail message={message} />
+                <MessageDetail message={message} position="left" />
             </MessageInfo>
             <SystemContent>{children}</SystemContent>
         </MessageBase>

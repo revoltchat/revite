@@ -2,7 +2,6 @@ import { Localizer, Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 import { Home, Users, Tool, Save } from "@styled-icons/feather";
 
-import styled from "styled-components";
 import Category from '../../ui/Category';
 import PaintCounter from "../../../lib/PaintCounter";
 import UserHeader from "../../common/user/UserHeader";
@@ -16,6 +15,7 @@ import { Users as UsersNS } from 'revolt.js/dist/api/objects';
 import ButtonItem, { ChannelButton } from '../items/ButtonItem';
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 import { Link, Redirect, useLocation, useParams } from "react-router-dom";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useDMs, useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
@@ -23,25 +23,6 @@ import { useDMs, useForceUpdate, useUsers } from "../../../context/revoltjs/hook
 type Props = WithDispatcher & {
     unreads: Unreads;
 }
-
-const HomeBase = styled.div`
-    height: 100%;
-    width: 240px;
-    display: flex;
-    flex-shrink: 0;
-    flex-direction: column;
-    background: var(--secondary-background);
-`;
-
-const HomeList = styled.div`
-    padding: 6px;
-    flex-grow: 1;
-    overflow-y: scroll;
-
-    > svg {
-        width: 100%;
-    }
-`;
 
 function HomeSidebar(props: Props) {
     const { pathname } = useLocation();
@@ -68,10 +49,10 @@ function HomeSidebar(props: Props) {
     channelsArr.sort((b, a) => a.timestamp.localeCompare(b.timestamp));
 
     return (
-        <HomeBase>
+        <GenericSidebarBase>
             <UserHeader user={client.user!} />
             <ConnectionStatus />
-            <HomeList>
+            <GenericSidebarList>
                 {!isTouchscreenDevice && (
                     <>
                         <Link to="/">
@@ -146,8 +127,8 @@ function HomeSidebar(props: Props) {
                     );
                 })}
                 <PaintCounter />
-            </HomeList>
-        </HomeBase>
+            </GenericSidebarList>
+        </GenericSidebarBase>
     );
 };
 

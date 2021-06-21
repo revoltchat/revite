@@ -5,4 +5,12 @@ export default styled.select`
     border-radius: 2px;
     color: var(--secondary-foreground);
     background: var(--secondary-background);
+
+    border: none;
+    outline: 2px solid transparent;
+    transition: outline-color 0.2s ease-in-out;
+
+    &:focus {
+        outline-color: var(--accent);
+    }
 `;

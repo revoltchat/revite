@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
-import styled, { css } from "styled-components";
+import Tooltip from "../Tooltip";
 import { decodeTime } from "ulid";
+import { Text } from "preact-i18n";
+import styled, { css } from "styled-components";
 import { MessageObject } from "../../../context/revoltjs/util";
 
 export interface BaseMessageProps {
@@ -50,6 +52,12 @@ export default styled.div<BaseMessageProps>`
     ${ props => props.status && css`
         color: var(--error);
     ` }
+
+    .author {
+        gap: 8px;
+        display: flex;
+        align-items: center;
+    }
     
     .copy {
         width: 0;
@@ -98,14 +106,47 @@ export const MessageContent = styled.div`
     justify-content: center;
 `;
 
-export function MessageDetail({ message }: { message: MessageObject }) {
+export const DetailBase = styled.div`
+    gap: 4px;
+    font-size: 10px;
+    display: inline-flex;
+    color: var(--tertiary-foreground);
+`;
+
+export function MessageDetail({ message, position }: { message: MessageObject, position: 'left' | 'top' }) {
+    if (position === 'left') {
+        if (message.edited) {
+            return (
+                <span>
+                    <span className="copy">
+                        [<time>{dayjs(decodeTime(message._id)).format("H:mm")}</time>]
+                    </span>
+                    <Tooltip content={dayjs(message.edited).format("LLLL")}>
+                        <Text id="app.main.channel.edited" />
+                    </Tooltip>
+                </span>
+            )
+        } else {
+            return (
+                <>
+                    <time>
+                        <i className="copy">[</i>
+                        { dayjs(decodeTime(message._id)).format("H:mm") }
+                        <i className="copy">]</i>
+                    </time>
+                </>
+            )
+        }
+    }
+
     return (
-        <>
+        <DetailBase>
             <time>
-                <i className="copy">[</i>
-                {dayjs(decodeTime(message._id)).format("H:mm")}
-                <i className="copy">]</i>
+                {dayjs(decodeTime(message._id)).calendar()}
             </time>
-        </>
+            { message.edited && <Tooltip content={dayjs(message.edited).format("LLLL")}>
+                <Text id="app.main.channel.edited" />
+            </Tooltip> }
+        </DetailBase>
     )
 }

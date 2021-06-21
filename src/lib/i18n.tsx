@@ -1,4 +1,4 @@
-import { IntlContext } from "preact-i18n";
+import { IntlContext, translate } from "preact-i18n";
 import { useContext } from "preact/hooks";
 import { Children } from "../types/Preact";
 
@@ -51,4 +51,9 @@ export function TextReact({ id, fields }: Props) {
     }
 
     return <>{ recursiveReplaceFields(entry as string, fields) }</>;
+}
+
+export function useTranslation() {
+    const { intl } = useContext(IntlContext) as unknown as IntlType;
+    return (id: string, fields?: Object, plural?: number, fallback?: string) => translate(id, "", intl.dictionary, fields, plural, fallback);
 }

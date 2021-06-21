@@ -1,8 +1,8 @@
 import { decodeTime } from "ulid";
 import { AppContext } from "./RevoltClient";
+import { useTranslation } from "../../lib/i18n";
 import { Users } from "revolt.js/dist/api/objects";
 import { useContext, useEffect } from "preact/hooks";
-import { IntlContext, translate } from "preact-i18n";
 import { connectState } from "../../redux/connector";
 import { playSound } from "../../assets/sounds/Audio";
 import { Message, SYSTEM_USER_ID, User } from "revolt.js";
@@ -25,7 +25,7 @@ async function createNotification(title: string, options: globalThis.Notificatio
 }
 
 function Notifier(props: Props) {
-    const { intl } = useContext(IntlContext) as any;
+    const translate = useTranslation();
     const showNotification = props.options?.desktopEnabled ?? false;
     // const playIncoming = props.options?.soundEnabled ?? true;
     // const playOutgoing = props.options?.outgoingSoundEnabled ?? true;
@@ -88,45 +88,37 @@ function Notifier(props: Props) {
         } else {
             let users = client.users;
             switch (msg.content.type) {
-                // ! FIXME: update to support new replacements
                 case "user_added":
-                    body = `${users.get(msg.content.id)?.username} ${translate(
-                        "app.main.channel.system.user_joined",
-                        "",
-                        intl.dictionary
-                    )} (${translate(
-                        "app.main.channel.system.added_by",
-                        "",
-                        intl.dictionary
-                    )} ${users.get(msg.content.by)?.username})`;
-                    icon = client.users.getAvatarURL(msg.content.id, { max_side: 256 });
-                    break;
                 case "user_remove":
-                    body = `${users.get(msg.content.id)?.username} ${translate(
-                        "app.main.channel.system.user_left",
-                        "",
-                        intl.dictionary
-                    )} (${translate(
-                        "app.main.channel.system.added_by",
-                        "",
-                        intl.dictionary
-                    )} ${users.get(msg.content.by)?.username})`;
+                    body = translate(
+                        `app.main.channel.system.${msg.content.type === 'user_added' ? 'added_by' : 'removed_by'}`,
+                        { user: users.get(msg.content.id)?.username, other_user: users.get(msg.content.by)?.username }
+                    );
                     icon = client.users.getAvatarURL(msg.content.id, { max_side: 256 });
                     break;
+                case "user_joined":
                 case "user_left":
-                    body = `${users.get(msg.content.id)?.username} ${translate(
-                        "app.main.channel.system.user_left",
-                        "",
-                        intl.dictionary
-                    )}`;
+                case "user_kicked":
+                case "user_banned":
+                    body = translate(
+                        `app.main.channel.system.${msg.content.type}`,
+                        { user: users.get(msg.content.id)?.username }
+                    );
                     icon = client.users.getAvatarURL(msg.content.id, { max_side: 256 });
                     break;
                 case "channel_renamed":
-                    body = `${users.get(msg.content.by)?.username} ${translate(
-                        "app.main.channel.system.channel_renamed",
-                        "",
-                        intl.dictionary
-                    )} ${msg.content.name}`;
+                    body = translate(
+                        `app.main.channel.system.channel_renamed`,
+                        { user: users.get(msg.content.by)?.username, name: msg.content.name }
+                    );
+                    icon = client.users.getAvatarURL(msg.content.by, { max_side: 256 });
+                    break;
+                case "channel_description_changed":
+                case "channel_icon_changed":
+                    body = translate(
+                        `app.main.channel.system.${msg.content.type}`,
+                        { user: users.get(msg.content.by)?.username }
+                    );
                     icon = client.users.getAvatarURL(msg.content.by, { max_side: 256 });
                     break;
             }
@@ -173,20 +165,10 @@ function Notifier(props: Props) {
         let event;
         switch (user.relationship) {
             case Users.Relationship.Incoming:
-                event = translate(
-                    "notifications.sent_request",
-                    "",
-                    intl.dictionary,
-                    { person: user.username }
-                );
+                event = translate("notifications.sent_request", { person: user.username });
                 break;
             case Users.Relationship.Friend:
-                event = translate(
-                    "notifications.now_friends",
-                    "",
-                    intl.dictionary,
-                    { person: user.username }
-                );
+                event = translate("notifications.now_friends", { person: user.username });
                 break;
             default:
                 return;

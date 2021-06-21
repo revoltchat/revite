@@ -1,6 +1,5 @@
-import styled from "styled-components";
-import TextArea, { TextAreaProps } from "../components/ui/TextArea";
-import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
+import TextArea, { DEFAULT_LINE_HEIGHT, DEFAULT_TEXT_AREA_PADDING, TextAreaProps, TEXT_AREA_BORDER_WIDTH } from "../components/ui/TextArea";
+import { useEffect, useRef } from "preact/hooks";
 
 type TextAreaAutoSizeProps = Omit<JSX.HTMLAttributes<HTMLTextAreaElement>, 'style' | 'value'> & TextAreaProps & {
     autoFocus?: boolean,
@@ -9,50 +8,14 @@ type TextAreaAutoSizeProps = Omit<JSX.HTMLAttributes<HTMLTextAreaElement>, 'styl
     value: string
 };
 
-const lineHeight = 20;
-
-const Ghost = styled.div`
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-
-    > div {
-        width: 100%;
-        white-space: pre-wrap;
-        
-        top: 0;
-        position: absolute;
-        visibility: hidden;
-    }
-`;
-
 export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
-    const { autoFocus, minHeight, maxRows, value, padding, children, as, ...textAreaProps } = props;
+    const { autoFocus, minHeight, maxRows, value, padding, lineHeight, hideBorder, children, as, ...textAreaProps } = props;
+    const line = lineHeight ?? DEFAULT_LINE_HEIGHT;
 
-    const heightPadding = (padding ?? 0) * 2;
-    const minimumHeight = (minHeight ?? lineHeight) + heightPadding;
-
-    var height = Math.max(Math.min(value.split('\n').length, maxRows ?? Infinity) * lineHeight + heightPadding, minimumHeight);
+    const heightPadding = ((padding ?? DEFAULT_TEXT_AREA_PADDING) + (hideBorder ? 0 : TEXT_AREA_BORDER_WIDTH)) * 2;
+    const height = Math.max(Math.min(value.split('\n').length, maxRows ?? Infinity) * line + heightPadding, minHeight ?? 0);
+    console.log(value.split('\n').length, line, heightPadding, height);
     const ref = useRef<HTMLTextAreaElement>();
-
-    /*function setHeight(h: number = lineHeight) {
-        let newHeight = Math.min(
-            Math.max(
-                lineHeight,
-                maxRows ? Math.min(h, maxRows * lineHeight) : h
-            ),
-            minHeight ?? Infinity
-        );
-
-        if (heightPadding) newHeight += heightPadding;
-        if (height !== newHeight) {
-            setHeightState(newHeight);
-        }
-    }*/
-
-    {/*useLayoutEffect(() => {
-        setHeight(ghost.current.clientHeight);
-    }, [ghost, value]);*/}
 
     useEffect(() => {
         autoFocus && ref.current.focus();
@@ -89,17 +52,12 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
         return () => document.body.removeEventListener("keydown", keyDown);
     }, [ref]);
 
-    return <>
-        <TextArea
-            ref={ref}
-            value={value}
-            padding={padding}
-            style={{ height }}
-            {...textAreaProps} />
-        {/*<Ghost><div ref={ghost}>
-            { props.value.split('\n')
-                .map(x => `\u0020${x}`)
-                .join('\n') }
-        </div></Ghost>*/}
-    </>;
+    return <TextArea
+        ref={ref}
+        value={value}
+        padding={padding}
+        style={{ height }}
+        hideBorder={hideBorder}
+        lineHeight={lineHeight}
+        {...textAreaProps} />;
 }
