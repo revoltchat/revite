@@ -132,14 +132,14 @@ function MessageRenderer({ id, state, queue }: Props) {
             if (previous) {
                 compare(
                     msg.id,
-                    userId as string,
+                    userId!,
                     previous._id,
                     previous.author
                 );
                 
                 previous = {
                     _id: msg.id,
-                    data: { author: userId as string }
+                    data: { author: userId! }
                 } as any;
             }
 

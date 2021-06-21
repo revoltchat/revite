@@ -43,7 +43,7 @@ export default function EmbedMedia({ embed, width, height }: Props) {
         )
         case 'Soundcloud': return (
             <iframe
-                src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(embed.url as string)}&color=%23FF7F50&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`}
+                src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(embed.url!)}&color=%23FF7F50&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`}
                 frameBorder="0"
                 scrolling="no"
                 style={{ height }} />

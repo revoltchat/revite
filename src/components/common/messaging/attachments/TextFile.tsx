@@ -18,7 +18,7 @@ export default function TextFile({ attachment }: Props) {
     const status = useContext(StatusContext);
     const client = useContext(AppContext);
 
-    const url = client.generateFileURL(attachment);
+    const url = client.generateFileURL(attachment)!;
 
     useEffect(() => {
         if (typeof content !== 'undefined') return;
