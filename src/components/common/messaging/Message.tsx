@@ -26,6 +26,7 @@ export default function Message({ attachContext, message, contrast, content: rep
     return (
         <MessageBase id={message._id}
             contrast={contrast}
+            head={head}
             onContextMenu={attachContext ? attachContextMenu('Menu', { message, contextualChannel: message.channel }) : undefined}>
             <MessageInfo>
                 { head ?

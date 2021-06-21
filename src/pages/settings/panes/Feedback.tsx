@@ -58,6 +58,15 @@ export function Feedback() {
                     onSelect={() => setChecked("Feature Request")}>
                     <Text id="app.settings.pages.feedback.feature" />
                 </Radio>
+                { (location.hostname === 'vite.revolt.chat' || location.hostname === 'local.revolt.chat') && <Radio
+                    disabled={state === "sending"}
+                    checked={other === "Revite"}
+                    onSelect={() => {
+                        setChecked("__other_option__");
+                        setOther("Revite");
+                    }}>
+                    Issues with Revite
+                </Radio> }
                 <Radio
                     disabled={state === "sending"}
                     checked={checked === "__other_option__"}
