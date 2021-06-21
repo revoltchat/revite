@@ -1,6 +1,6 @@
-import { Docked, OverlappingPanels } from "react-overlapping-panels";
+import { Docked, OverlappingPanels, ShowIf } from "react-overlapping-panels";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import ContextMenus from "../lib/ContextMenus";
@@ -11,6 +11,7 @@ import Notifications from "../context/revoltjs/Notifications";
 
 import LeftSidebar from "../components/navigation/LeftSidebar";
 import RightSidebar from "../components/navigation/RightSidebar";
+import BottomNavigation from "../components/navigation/BottomNavigation";
 
 import Home from './home/Home';
 import Friends from "./friends/Friends";
@@ -29,12 +30,20 @@ const Routes = styled.div`
 `;
 
 export default function App() {
+    const path = useLocation().pathname;
+    const fixedBottomNav = (path === '/' || path === '/settings' || path.startsWith("/friends"));
+
     return (
         <OverlappingPanels
             width="100vw"
             height="100vh"
             leftPanel={{ width: 292, component: <LeftSidebar /> }}
             rightPanel={{ width: 240, component: <RightSidebar /> }}
+            bottomNav={{
+                component: <BottomNavigation />,
+                showIf: fixedBottomNav ? ShowIf.Always : ShowIf.Left,
+                height: 50
+            }}
             docked={isTouchscreenDevice ? Docked.None : Docked.Left}>
             <Routes>
                 <Switch>

@@ -7,6 +7,7 @@ import { LIBRARY_VERSION } from "revolt.js";
 import { Route, Switch } from "react-router-dom";
 import { ThemeContext } from "../../context/Theme";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
+import LocaleSelector from "../../components/common/LocaleSelector";
 
 import background from "./background.jpg";
 
@@ -33,7 +34,7 @@ export default function Login() {
                         &middot; App: <code>{APP_VERSION}</code>
                     </span>
                     <span>
-                        {/*<LocaleSelector />*/}
+                        <LocaleSelector />
                     </span>
                 </div>
                 <div className={styles.modal}>

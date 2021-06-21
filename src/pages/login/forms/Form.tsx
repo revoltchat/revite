@@ -6,14 +6,16 @@ import { useForm } from "react-hook-form";
 import { MailProvider } from "./MailProvider";
 import { useContext, useState } from "preact/hooks";
 import { CheckCircle, Mail } from "@styled-icons/feather";
-import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
 import { takeError } from "../../../context/revoltjs/util";
+import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import FormField from "../FormField";
 import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
+
+import wideSVG from '../../../assets/wide.svg';
 
 interface Props {
     page: "create" | "login" | "send_reset" | "reset" | "resend";
@@ -140,6 +142,7 @@ export function Form({ page, callback }: Props) {
 
     return (
         <div className={styles.form}>
+            <img src={wideSVG} />
             <form onSubmit={handleSubmit(onSubmit) as any}>
                 {page !== "reset" && (
                     <FormField
