@@ -33,7 +33,7 @@ export default function Message({ attachContext, message, contrast, content: rep
             </MessageInfo>
             <MessageContent>
                 { head && <Username user={user} /> }
-                { content ?? <Markdown content={content} /> }
+                { replacement ?? <Markdown content={content} /> }
                 { message.attachments?.map((attachment, index) =>
                     <Attachment key={index} attachment={attachment} hasContent={ index > 0 || content.length > 0 } />) }
                 { message.embeds?.map((embed, index) =>

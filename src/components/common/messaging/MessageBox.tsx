@@ -1,16 +1,16 @@
-import { useContext } from "preact/hooks";
-import { Channel } from "revolt.js";
 import { ulid } from "ulid";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { takeError } from "../../../context/revoltjs/util";
+import { Channel } from "revolt.js";
+import TextArea from "../../ui/TextArea";
+import { useContext } from "preact/hooks";
 import { defer } from "../../../lib/defer";
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
-import { SingletonMessageRenderer, SMOOTH_SCROLL_ON_RECEIVE } from "../../../lib/renderer/Singleton";
+import IconButton from "../../ui/IconButton";
+import { Send } from '@styled-icons/feather';
 import { connectState } from "../../../redux/connector";
 import { WithDispatcher } from "../../../redux/reducers";
-import IconButton from "../../ui/IconButton";
-import TextArea from "../../ui/TextArea";
-import { Send } from '@styled-icons/feather';
+import { takeError } from "../../../context/revoltjs/util";
+import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { SingletonMessageRenderer, SMOOTH_SCROLL_ON_RECEIVE } from "../../../lib/renderer/Singleton";
 
 type Props = WithDispatcher & {
     channel: Channel;

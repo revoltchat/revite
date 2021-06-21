@@ -10,6 +10,7 @@ import { WithDispatcher } from "../../redux/reducers";
 import { AuthState } from "../../redux/reducers/auth";
 import { SyncOptions } from "../../redux/reducers/sync";
 import { useEffect, useMemo, useState } from "preact/hooks";
+import { useIntermediate } from '../intermediate/Intermediate';
 import { registerEvents, setReconnectDisallowed } from "./events";
 import { SingletonMessageRenderer } from '../../lib/renderer/Singleton';
 
@@ -42,6 +43,7 @@ type Props = WithDispatcher & {
 };
 
 function Context({ auth, sync, children, dispatcher }: Props) {
+    const { openScreen } = useIntermediate();
     const [status, setStatus] = useState(ClientStatus.INIT);
     const [client, setClient] = useState<Client>(undefined as unknown as Client);
 
@@ -92,13 +94,13 @@ function Context({ auth, sync, children, dispatcher }: Props) {
                         });
 
                     if (onboarding) {
-                        /*openScreen({
+                        openScreen({
                             id: "onboarding",
                             callback: async (username: string) => {
                                 await (onboarding as any)(username, true);
                                 login();
                             }
-                        });*/
+                        });
                     } else {
                         login();
                     }
@@ -113,7 +115,7 @@ function Context({ auth, sync, children, dispatcher }: Props) {
                 delete client.user;
                 dispatcher({ type: "RESET" });
 
-                // openScreen({ id: "none" });
+                openScreen({ id: "none" });
                 setStatus(ClientStatus.READY);
 
                 client.websocket.disconnect();
@@ -168,32 +170,17 @@ function Context({ auth, sync, children, dispatcher }: Props) {
                         active.session
                     );
 
-                    //if (callback) {
-                        /*openScreen({ id: "onboarding", callback });*/
-                    //} else {
-                        /*
-                        // ! FIXME: all this code needs to be re-written
-                        (async () => {
-                            // ! FIXME: should be included in Ready payload
-                            props.dispatcher({
-                                type: 'SYNC_UPDATE',
-                                // ! FIXME: write a procedure to resolve merge conflicts
-                                update: mapSync(
-                                    await client.syncFetchSettings(DEFAULT_ENABLED_SYNC.filter(x => !props.sync?.disabled?.includes(x)))
-                                )
-                            });
-                        })()
-
-                        props.dispatcher({ type: 'UNREADS_SET', unreads: await client.syncFetchUnreads() });*/
-                    //}
+                    if (callback) {
+                        openScreen({ id: "onboarding", callback });
+                    }
                 } catch (err) {
                     setStatus(ClientStatus.DISCONNECTED);
                     const error = takeError(err);
-                    if (error === "Forbidden") {
+                    if (error === "Forbidden" || error === "Unauthorized") {
                         operations.logout(true);
-                        // openScreen({ id: "signed_out" });
+                        openScreen({ id: "signed_out" });
                     } else {
-                        // openScreen({ id: "error", error });
+                        openScreen({ id: "error", error });
                     }
                 }
             } else {

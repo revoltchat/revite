@@ -3,8 +3,11 @@ import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 import { Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 
-import Popovers from "../context/intermediate/Popovers";
 import ContextMenus from "../lib/ContextMenus";
+import Popovers from "../context/intermediate/Popovers";
+import SyncManager from "../context/revoltjs/SyncManager";
+import StateMonitor from "../context/revoltjs/StateMonitor";
+import Notifications from "../context/revoltjs/Notifications";
 
 import LeftSidebar from "../components/navigation/LeftSidebar";
 import RightSidebar from "../components/navigation/RightSidebar";
@@ -57,6 +60,9 @@ export default function App() {
             </Routes>
             <ContextMenus />
             <Popovers />
+            <Notifications />
+            <StateMonitor />
+            <SyncManager />
         </OverlappingPanels>
     );
 };
