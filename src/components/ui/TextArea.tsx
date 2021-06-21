@@ -4,15 +4,17 @@
 // import { useState, useEffect, useRef, useLayoutEffect } from "preact/hooks";
 import styled, { css } from "styled-components";
 
-interface Props {
+export interface TextAreaProps {
     code?: boolean;
+    padding?: number;
 }
 
-export default styled.textarea<Props>`
+export default styled.textarea<TextAreaProps>`
     width: 100%;
     resize: none;
     display: block;
     border-radius: 4px;
+    padding: ${ props => props.padding ?? 16 }px;
 
     color: var(--foreground);
     border: 2px solid transparent;
