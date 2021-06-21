@@ -13,7 +13,9 @@ import LeftSidebar from "../components/navigation/LeftSidebar";
 import RightSidebar from "../components/navigation/RightSidebar";
 import BottomNavigation from "../components/navigation/BottomNavigation";
 
+import Open from "./Open";
 import Home from './home/Home';
+import Invite from "./invite/Invite";
 import Friends from "./friends/Friends";
 import Channel from "./channels/Channel";
 import Settings from './settings/Settings';
@@ -64,6 +66,8 @@ export default function App() {
 
                     <Route path="/dev" component={Developer} />
                     <Route path="/friends" component={Friends} />
+                    <Route path="/open/:id" component={Open} />
+                    <Route path="/invite/:code" component={Invite} />
                     <Route path="/" component={Home} />
                 </Switch>
             </Routes>
@@ -75,15 +79,3 @@ export default function App() {
         </OverlappingPanels>
     );
 };
-
-/**
- * 
- * 
-                        
-                        <Route path="/open/:id">
-                            <Open />
-                        </Route>
-                        {/*<Route path="/invite/:code">
-                            <OpenInvite />
-                        </Route>
- */

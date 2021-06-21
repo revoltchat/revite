@@ -1,0 +1,75 @@
+.invite {
+    height: 100%;
+    display: flex;
+    color: white;
+    user-select: none;
+    align-items: center;
+    flex-direction: column;
+    background-size: cover;
+    justify-content: center;
+    background-position: center;
+
+    * {
+        overflow: visible;
+    }
+
+    .icon {
+        width: 64px;
+        z-index: 100;
+        text-align: left;
+        position: relative;
+
+        > * {
+            top: -32px;
+            position: absolute;
+        }
+    }
+
+    .leave {
+        top: 8px;
+        left: 8px;
+        cursor: pointer;
+        position: fixed;
+    }
+
+    .details {
+        text-align: center;
+        border-radius: 3px;
+        align-self: center;
+        padding: 32px 16px 16px 16px;
+        background: rgba(0, 0, 0, 0.6);
+        
+        h1 {
+            margin: 0;
+            font-weight: 500;
+        }
+
+        h2 {
+            margin: 4px;
+            opacity: 0.7;
+            font-size: 0.8em;
+            font-weight: 400;
+        }
+
+        h3 {
+            gap: 8px;
+            display: flex;
+            font-size: 1em;
+            font-weight: 400;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        button {
+            margin: auto;
+            display: block;
+            background: rgba(0, 0, 0, 0.8);
+        }
+    }
+}
+
+.preloader {
+    height: 100%;
+    display: grid;
+    place-items: center;
+}

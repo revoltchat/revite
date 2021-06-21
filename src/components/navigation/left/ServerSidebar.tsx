@@ -14,6 +14,7 @@ import { connectState } from "../../../redux/connector";
 import PaintCounter from "../../../lib/PaintCounter";
 import styled from "styled-components";
 import { attachContextMenu } from 'preact-context-menu';
+import ServerHeader from "../../common/ServerHeader";
 
 interface Props {
     unreads: Unreads;
@@ -45,7 +46,6 @@ function ServerSidebar(props: Props & WithDispatcher) {
     const server = useServer(server_id, ctx);
     if (!server) return <Redirect to="/" />;
 
-    const permissions = useServerPermission(server._id, ctx);
     const channels = (useChannels(server.channels, ctx)
         .filter(entry => typeof entry !== 'undefined') as Readonly<Channels.TextChannel>[])
         .map(x => mapChannelWithUnread(x, props.unreads));
@@ -55,16 +55,7 @@ function ServerSidebar(props: Props & WithDispatcher) {
 
     return (
         <ServerBase>
-            <Header placement="secondary" background style={{ background: `url('${ctx.client.servers.getBannerURL(server._id, { width: 480 }, true)}')` }}>
-                <div>
-                    { server.name }
-                </div>
-                { (permissions & ServerPermission.ManageServer) > 0 && <div className="actions">
-                    {/*<IconButton to={`/server/${server._id}/settings`}>*/}
-                        <Settings size={24} />
-                    {/*</IconButton>*/}
-                </div> }
-            </Header>
+            <ServerHeader server={server} ctx={ctx} />
             <ConnectionStatus />
             <ServerList onContextMenu={attachContextMenu('Menu', { server_list: server._id })}>
                 {channels.map(entry => {
