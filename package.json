@@ -29,6 +29,7 @@
     "@fontsource/open-sans": "^4.4.5",
     "@hcaptcha/react-hcaptcha": "^0.3.6",
     "@preact/preset-vite": "^2.0.0",
+    "@rollup/plugin-replace": "^2.4.2",
     "@styled-icons/bootstrap": "^10.34.0",
     "@styled-icons/feather": "^10.34.0",
     "@styled-icons/simple-icons": "^10.33.0",

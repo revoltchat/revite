@@ -1,9 +1,24 @@
 import { resolve } from 'path'
+import { readFileSync } from 'fs'
 import { defineConfig } from 'vite'
 import preact from '@preact/preset-vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import replace from '@rollup/plugin-replace'
 
-// https://vitejs.dev/config/
+function getGitRevision() {
+  try {
+    const rev = readFileSync('.git/HEAD').toString().trim();
+    if (rev.indexOf(':') === -1) {
+      return rev;
+    } else {
+      return readFileSync('.git/' + rev.substring(5)).toString().trim();
+    }
+  } catch (err) {
+    console.error('Failed to get Git revision.');
+    return '?';
+  }
+}
+
 export default defineConfig({
   plugins: [
     preact(),
@@ -31,6 +46,10 @@ export default defineConfig({
         ]
       },
       workbox: { }
+    }),
+    replace({
+      __GIT_REVISION__: getGitRevision(),
+      preventAssignment: true
     })
   ],
   build: {

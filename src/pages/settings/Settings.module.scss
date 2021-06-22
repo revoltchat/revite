@@ -104,6 +104,10 @@
                 display: flex;
                 flex-direction: column;
             }
+
+            .revision a:hover {
+                text-decoration: underline;
+            }
         }
 
         scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);

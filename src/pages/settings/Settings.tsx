@@ -20,6 +20,7 @@ import {
     User
 } from "@styled-icons/feather";
 import { Megaphone } from "@styled-icons/bootstrap";
+import { GIT_REVISION, REPO_URL } from "../../revision";
 import LineDivider from "../../components/ui/LineDivider";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import ButtonItem from "../../components/navigation/items/ButtonItem";
@@ -142,6 +143,11 @@ export default function Settings() {
                 </ButtonItem>,
                 <div className={styles.version}>
                     <div>
+                        <span className={styles.revision}>
+                            <a href={`${REPO_URL}/${GIT_REVISION}`} target="_blank">
+                                { GIT_REVISION.substr(0, 7) }
+                            </a>
+                        </span>
                         <span>Stable {APP_VERSION}</span>
                         <span>API: {client.configuration?.revolt ?? "N/A"}</span>
                         <span>revolt.js: {LIBRARY_VERSION}</span>
