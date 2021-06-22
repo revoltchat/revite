@@ -19,6 +19,20 @@ function getGitRevision() {
   }
 }
 
+function getGitBranch() {
+  try {
+    const rev = readFileSync('.git/HEAD').toString().trim();
+    if (rev.indexOf(':') === -1) {
+      return 'DETACHED';
+    } else {
+      return rev.split('/').pop();
+    }
+  } catch (err) {
+    console.error('Failed to get Git branch.');
+    return '?';
+  }
+}
+
 function getVersion() {
   return readFileSync('VERSION').toString();
 }
@@ -55,6 +69,7 @@ export default defineConfig({
     }),
     replace({
       __GIT_REVISION__: getGitRevision(),
+      __GIT_BRANCH__: getGitBranch(),
       __APP_VERSION__: getVersion(),
       preventAssignment: true
     })
