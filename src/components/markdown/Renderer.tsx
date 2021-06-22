@@ -1,10 +1,11 @@
 import MarkdownIt from "markdown-it";
 import { RE_MENTIONS } from "revolt.js";
-import { generateEmoji } from "./Emoji";
 import { useContext } from "preact/hooks";
 import { MarkdownProps } from "./Markdown";
 import styles from "./Markdown.module.scss";
+import { generateEmoji } from "../common/Emoji";
 import { internalEmit } from "../../lib/eventEmitter";
+import { emojiDictionary } from "../../assets/emojis";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
 import Prism from "prismjs";
@@ -47,7 +48,7 @@ export const md: MarkdownIt = MarkdownIt({
     }
 })
 .disable("image")
-.use(MarkdownEmoji/*, { defs: emojiDictionary }*/)
+.use(MarkdownEmoji, { defs: emojiDictionary })
 .use(MarkdownSpoilers)
 .use(MarkdownSup)
 .use(MarkdownSub)

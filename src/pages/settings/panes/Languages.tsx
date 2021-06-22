@@ -1,10 +1,10 @@
 import { Text } from "preact-i18n";
 import styles from "./Panes.module.scss";
 import Tip from "../../../components/ui/Tip";
+import Emoji from "../../../components/common/Emoji";
 import Checkbox from "../../../components/ui/Checkbox";
 import { connectState } from "../../../redux/connector";
 import { WithDispatcher } from "../../../redux/reducers";
-import { Emoji } from "../../../components/markdown/Emoji";
 import { Language, LanguageEntry, Languages as Langs } from "../../../context/Locale";
 
 interface Props {

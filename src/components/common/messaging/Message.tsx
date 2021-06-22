@@ -10,6 +10,8 @@ import { QueuedMessage } from "../../../redux/reducers/queue";
 import { MessageObject } from "../../../context/revoltjs/util";
 import MessageBase, { MessageContent, MessageDetail, MessageInfo } from "./MessageBase";
 import Overline from "../../ui/Overline";
+import { useContext } from "preact/hooks";
+import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 interface Props {
     attachContext?: boolean
@@ -23,7 +25,8 @@ interface Props {
 export default function Message({ attachContext, message, contrast, content: replacement, head, queued }: Props) {
     // TODO: Can improve re-renders here by providing a list
     // TODO: of dependencies. We only need to update on u/avatar.
-    let user = useUser(message.author);
+    const user = useUser(message.author);
+    const client = useContext(AppContext);
 
     const content = message.content as string;
     return (
@@ -31,6 +34,7 @@ export default function Message({ attachContext, message, contrast, content: rep
             head={head}
             contrast={contrast}
             sending={typeof queued !== 'undefined'}
+            mention={message.mentions?.includes(client.user!._id)}
             failed={typeof queued?.error !== 'undefined'}
             onContextMenu={attachContext ? attachContextMenu('Menu', { message, contextualChannel: message.channel, queued }) : undefined}>
             <MessageInfo>

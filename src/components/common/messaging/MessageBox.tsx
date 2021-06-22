@@ -20,6 +20,7 @@ import { SingletonMessageRenderer, SMOOTH_SCROLL_ON_RECEIVE } from "../../../lib
 
 import FilePreview from './bars/FilePreview';
 import { debounce } from "../../../lib/debounce";
+import AutoComplete, { useAutoComplete } from "../AutoComplete";
 
 type Props = WithDispatcher & {
     channel: Channel;
@@ -226,9 +227,11 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
     }
 
     const debouncedStopTyping = useCallback(debounce(stopTyping, 1000), [ channel._id ]);
+    const { onChange, onKeyUp, onKeyDown, onFocus, onBlur, ...autoCompleteProps } = useAutoComplete(setMessage, { users: { type: 'channel', id: channel._id } });
 
     return (
         <>
+            <AutoComplete {...autoCompleteProps} />
             <FilePreview state={uploadState} addFile={() => uploadState.type === 'attached' &&
                 grabFiles(20_000_000, files => setUploadState({ type: 'attached', files: [ ...uploadState.files, ...files ] }),
                     () => openScreen({ id: "error", error: "FileTooLarge" }), true)}
@@ -271,7 +274,10 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                     padding={14}
                     id="message"
                     value={draft ?? ''}
+                    onKeyUp={onKeyUp}
                     onKeyDown={e => {
+                        if (onKeyDown(e)) return;
+
                         if (
                             e.key === "ArrowUp" &&
                             (!draft || draft.length === 0)
@@ -298,7 +304,10 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                     onChange={e => {
                         setMessage(e.currentTarget.value);
                         startTyping();
-                    }} />
+                        onChange(e);
+                    }}
+                    onFocus={onFocus}
+                    onBlur={onBlur} />
                 <Action>
                     <IconButton onClick={send}>
                         <Send size={20} />

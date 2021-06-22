@@ -24,7 +24,7 @@ function parseEmoji(emoji: string) {
     return `https://static.revolt.chat/emoji/${EMOJI_PACK}/${codepoint}.svg?rev=${REVISION}`;
 }
 
-export function Emoji({ emoji, size }: { emoji: string, size?: number }) {
+export default function Emoji({ emoji, size }: { emoji: string, size?: number }) {
     return (
         <img
             alt={emoji}
