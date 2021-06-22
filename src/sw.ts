@@ -3,7 +3,6 @@ import { precacheAndRoute } from 'workbox-precaching'
 import { Server } from 'revolt.js/dist/api/objects'
 import { Channel, Message, User } from 'revolt.js'
 import { IDBPDatabase, openDB } from 'idb'
-import { decodeTime } from 'ulid'
 
 declare let self: ServiceWorkerGlobalScope
 
@@ -13,6 +12,27 @@ self.addEventListener('message', (event) => {
 })
 
 precacheAndRoute(self.__WB_MANIFEST)
+
+// ulid decodeTime(id: string)
+// since crypto is not available in sw.js
+const ENCODING = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
+const ENCODING_LEN = ENCODING.length
+const TIME_LEN = 10
+
+function decodeTime(id: string) {
+    var time = id.substr(0, TIME_LEN)
+		.split("")
+		.reverse()
+		.reduce(function (carry, char, index) {
+			var encodingIndex = ENCODING.indexOf(char);
+			if (encodingIndex === -1)
+				throw "invalid character found: " + char;
+			
+			return carry += encodingIndex * Math.pow(ENCODING_LEN, index);
+		}, 0);
+	
+    return time;
+}
 
 const base_url = `https://autumn.revolt.chat`;
 self.addEventListener("push", event => {
