@@ -1,14 +1,18 @@
+import IconButton from "../../ui/IconButton";
 import LineDivider from "../../ui/LineDivider";
 import { mapChannelWithUnread } from "./common";
 import styled, { css } from "styled-components";
 import ServerIcon from "../../common/ServerIcon";
 import { Children } from "../../../types/Preact";
+import { PlusCircle } from "@styled-icons/feather";
 import PaintCounter from "../../../lib/PaintCounter";
 import { attachContextMenu } from 'preact-context-menu';
 import { connectState } from "../../../redux/connector";
 import { Unreads } from "../../../redux/reducers/unreads";
 import { Channel, Servers } from "revolt.js/dist/api/objects";
 import { Link, useLocation, useParams } from "react-router-dom";
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useChannels, useForceUpdate, useServers } from "../../../context/revoltjs/hooks";
 
 import logoSVG from '../../../assets/logo.svg';
@@ -49,6 +53,10 @@ const ServersBase = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
+
+    ${ isTouchscreenDevice && css`
+        padding-bottom: 50px;
+    ` }
 `;
 
 const ServerList = styled.div`
@@ -128,7 +136,7 @@ export function ServerListSidebar({ unreads }: Props) {
     const { server: server_id } = useParams<{ server?: string }>();
     const server = servers.find(x => x!._id == server_id);
 
-    // const { openScreen } = useContext(IntermediateContext);
+    const { openScreen } = useIntermediate();
 
     let homeUnread: 'mention' | 'unread' | undefined;
     let alertCount = 0;
@@ -166,43 +174,12 @@ export function ServerListSidebar({ unreads }: Props) {
                         </Link>
                     )
                 }
+                <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_server' })}>
+                    <PlusCircle size={36} />
+                </IconButton>
                 <PaintCounter small />
             </ServerList>
         </ServersBase>
-        // ! FIXME: add overlay back
-        /*<div className={styles.servers}>
-            <div className={styles.list}>
-                <Link to={`/`}>
-                    <div className={styles.entry}
-                        data-active={typeof server === 'undefined' && !path.startsWith('/invite')}>
-                        <Icon size={36} unread={homeUnread} alertCount={alertCount}>
-                            <div className={styles.logo} />
-                        </Icon>
-                    </div>
-                </Link>
-                <LineDivider className={styles.divider} />
-                {
-                    servers.map(entry =>
-                        <Link to={`/server/${entry!._id}`}>
-                            <div className={styles.entry}
-                                data-active={entry!._id === server?._id}
-                                onContextMenu={attachContextMenu('Menu', { server: entry!._id })}>
-                                <Icon size={36} unread={entry.unread}>
-                                    <ServerIcon id={entry!._id} size={32} />
-                                </Icon>
-                            </div>
-                        </Link>
-                    )
-                }
-            </div>
-            <div className={styles.overlay}>
-                <div className={styles.actions}>
-                    <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_server' })}>
-                        <PlusCircle size={36} />
-                    </IconButton>
-                </div>
-            </div>
-            </div> */
     )
 }
 

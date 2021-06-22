@@ -49,7 +49,7 @@ function HomeSidebar(props: Props) {
     channelsArr.sort((b, a) => a.timestamp.localeCompare(b.timestamp));
 
     return (
-        <GenericSidebarBase>
+        <GenericSidebarBase padding>
             <UserHeader user={client.user!} />
             <ConnectionStatus />
             <GenericSidebarList>

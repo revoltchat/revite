@@ -9,16 +9,16 @@ import Theme from "./Theme";
 
 export default function Context({ children }: { children: Children }) {
     return (
-        <State>
-            <Locale>
-                <Intermediate>
-                    <BrowserRouter>
+        <BrowserRouter>
+            <State>
+                <Locale>
+                    <Intermediate>
                         <ClientContext>
                             <Theme>{children}</Theme>
                         </ClientContext>
-                    </BrowserRouter>
-                </Intermediate>
-            </Locale>
-        </State>
+                    </Intermediate>
+                </Locale>
+            </State>
+        </BrowserRouter>
     );
 }

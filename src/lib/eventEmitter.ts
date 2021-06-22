@@ -15,4 +15,7 @@ export function internalEmit(ns: string, event: string, ...args: any[]) {
 /// Event List
 // - MessageRenderer/edit_last
 // - MessageRenderer/edit_message
-// - MessageBox/focus
+// - Intermediate/open_profile
+// - Intermediate/navigate
+// - MessageBox/append
+// - TextArea/focus

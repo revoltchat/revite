@@ -4,6 +4,7 @@ import { generateEmoji } from "./Emoji";
 import { useContext } from "preact/hooks";
 import { MarkdownProps } from "./Markdown";
 import styles from "./Markdown.module.scss";
+import { internalEmit } from "../../lib/eventEmitter";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
 import Prism from "prismjs";
@@ -70,9 +71,9 @@ if (typeof window !== "undefined") {
         const pathname = url.pathname;
 
         if (pathname.startsWith("/@")) {
-            //InternalEventEmitter.emit("openProfile", pathname.substr(2));
+            internalEmit("Intermediate", "openProfile", pathname.substr(2));
         } else {
-            //InternalEventEmitter.emit("navigate", pathname);
+            internalEmit("Intermediate", "navigate", pathname.substr(2));
         }
     };
 }

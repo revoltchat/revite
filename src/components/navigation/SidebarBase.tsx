@@ -7,19 +7,19 @@ export default styled.div`
     user-select: none;
     flex-direction: row;
     align-items: stretch;
-
-    ${ isTouchscreenDevice && css`
-        padding-bottom: 50px;
-    ` }
 `;
 
-export const GenericSidebarBase = styled.div`
+export const GenericSidebarBase = styled.div<{ padding?: boolean }>`
     height: 100%;
     width: 240px;
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
     background: var(--secondary-background);
+
+    ${ props => props.padding && isTouchscreenDevice && css`
+        padding-bottom: 50px;
+    ` }
 `;
 
 export const GenericSidebarList = styled.div`

@@ -138,12 +138,12 @@ function ContextMenus(props: WithDispatcher) {
 
                 case "mention":
                     {
-                        // edit draft
-                        /*InternalEventEmitter.emit(
-                            "append_messagebox",
+                        internalEmit(
+                            "MessageBox",
+                            "append",
                             `<@${data.user}>`,
                             "mention"
-                        );*/
+                        );
                     }
                     break;
 
@@ -152,12 +152,12 @@ function ContextMenus(props: WithDispatcher) {
                     break;
                 case "quote_message":
                     {
-                        // edit draft
-                        /*InternalEventEmitter.emit(
-                            "append_messagebox",
+                        internalEmit(
+                            "MessageBox",
+                            "append",
                             data.content,
                             "quote"
-                        );*/
+                        );
                     }
                     break;
 
@@ -190,10 +190,10 @@ function ContextMenus(props: WithDispatcher) {
 
                 case "copy_file_link":
                     {
-                        const { _id, filename } = data.attachment;
+                        const { filename } = data.attachment;
                         writeClipboard(
                             // ! FIXME: do from r.js
-                            client.generateFileURL(data.attachment) + '/${encodeURI(filename)}',
+                            client.generateFileURL(data.attachment) + `/${encodeURI(filename)}`,
                         );
                     }
                     break;

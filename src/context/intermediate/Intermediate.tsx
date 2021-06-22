@@ -1,9 +1,11 @@
 import { Attachment, Channels, EmbedImage, Servers } from "revolt.js/dist/api/objects";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
+import { internalSubscribe } from "../../lib/eventEmitter";
 import { Action } from "../../components/ui/Modal";
 import { useHistory } from "react-router-dom";
 import { Children } from "../../types/Preact";
 import { createContext } from "preact";
+import { Prompt } from "react-router";
 import Modals from './Modals';
 
 export type Screen =
@@ -92,17 +94,15 @@ export default function Intermediate(props: Props) {
     }, []);
 
     useEffect(() => {
-//        const openProfile = (user_id: string) =>
-//            openScreen({ id: "profile", user_id });
-        // const navigate = (path: string) => history.push(path);
+        const openProfile = (user_id: string) => openScreen({ id: "profile", user_id });
+        const navigate = (path: string) => history.push(path);
 
-        // InternalEventEmitter.addListener("openProfile", openProfile);
-        // InternalEventEmitter.addListener("navigate", navigate);
+        const subs = [
+            internalSubscribe("Intermediate", "open_profile", openProfile),
+            internalSubscribe("Intermediate", "navigate", navigate)
+        ]
 
-        return () => {
-            // InternalEventEmitter.removeListener("openProfile", openProfile);
-            // InternalEventEmitter.removeListener("navigate", navigate);
-        };
+        return () => subs.map(unsub => unsub());
     }, []);
 
     return (
@@ -116,15 +116,19 @@ export default function Intermediate(props: Props) {
                         screen.id
                     } /** By specifying a key, we reset state whenever switching screen. */
                 />
-                {/*<Prompt
-                    when={screen.id !== 'none'}
-                    message={() => {
-                        openScreen({ id: 'none' });
-                        setTimeout(() => history.push(history.location), 0);
+                <Prompt
+                    when={[ 'modify_account', 'special_prompt', 'special_input', 'image_viewer', 'profile', 'channel_info', 'user_picker' ].includes(screen.id)}
+                    message={(_, action) => {
+                        if (action === 'POP') {
+                            openScreen({ id: 'none' });
+                            setTimeout(() => history.push(history.location), 0);
 
-                        return false;
+                            return false;
+                        }
+
+                        return true;
                     }}
-                />*/}
+                />
             </IntermediateActionsContext.Provider>
         </IntermediateContext.Provider>
     );

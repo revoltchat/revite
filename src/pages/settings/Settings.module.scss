@@ -14,7 +14,7 @@
     100% {transform: scale(1.2); opacity: 0;};
 }
 
-[data-touchscreen-device="true"] .settings {
+.settings[data-mobile="true"] {
     flex-direction: column;
     background: var(--primary-header);
 
@@ -45,7 +45,7 @@
     }
 }
 
-:global(.app):not([data-touchscreen-device="true"]) .settings {
+.settings:not([data-mobile="true"]) {
     top: 0;
     left: 0;
     z-index: 10;

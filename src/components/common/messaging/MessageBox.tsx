@@ -6,20 +6,20 @@ import IconButton from "../../ui/IconButton";
 import { Send } from '@styled-icons/feather';
 import Axios, { CancelTokenSource } from "axios";
 import { useTranslation } from "../../../lib/i18n";
-import { useCallback, useContext, useState } from "preact/hooks";
 import { connectState } from "../../../redux/connector";
 import { WithDispatcher } from "../../../redux/reducers";
 import { takeError } from "../../../context/revoltjs/util";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
+import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { FileUploader, grabFiles, uploadFile } from "../../../context/revoltjs/FileUploads";
 import { SingletonMessageRenderer, SMOOTH_SCROLL_ON_RECEIVE } from "../../../lib/renderer/Singleton";
 
 import FilePreview from './bars/FilePreview';
 import { debounce } from "../../../lib/debounce";
-import { internalEmit } from "../../../lib/eventEmitter";
 
 type Props = WithDispatcher & {
     channel: Channel;
@@ -70,6 +70,26 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
             });
         }
     }
+
+    useEffect(() => {
+        function append(content: string, action: 'quote' | 'mention') {
+            const text =
+                action === "quote"
+                    ? `${content
+                          .split("\n")
+                          .map(x => `> ${x}`)
+                          .join("\n")}\n\n`
+                    : `${content} `;
+
+            if (!draft || draft.length === 0) {
+                setMessage(text);
+            } else {
+                setMessage(`${draft}\n${text}`);
+            }
+        }
+
+        return internalSubscribe("MessageBox", "append", append);
+    }, [ draft ]);
 
     async function send() {
         if (uploadState.type === 'uploading' || uploadState.type === 'sending') return;
@@ -241,7 +261,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                     autoFocus
                     hideBorder
                     maxRows={5}
-                    padding={15}
+                    padding={14}
                     id="message"
                     value={draft ?? ''}
                     onKeyDown={e => {
