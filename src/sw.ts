@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
-import { Channel, Message, SYSTEM_USER_ID, User } from 'revolt.js'
 import { precacheAndRoute } from 'workbox-precaching'
 import { Server } from 'revolt.js/dist/api/objects'
+import { Channel, Message, User } from 'revolt.js'
 import { IDBPDatabase, openDB } from 'idb'
 import { decodeTime } from 'ulid'
 
@@ -62,7 +62,7 @@ self.addEventListener("push", event => {
 			case "SavedMessages": break;
 			case "DirectMessage": title = `@${username}`; break;
 			case "Group":
-				if (user?._id === SYSTEM_USER_ID) {
+				if (user?._id === '00000000000000000000000000') {
 					title = channel.name;
 				} else {
 					title = `@${user?.username} - ${channel.name}`;
@@ -82,7 +82,8 @@ self.addEventListener("push", event => {
 			body: typeof data.content === "string" ? data.content : JSON.stringify(data.content),
 			timestamp: decodeTime(data._id),
 			tag: data.channel,
-			badge: "https://app.revolt.chat/assets/icons/android-chrome-512x512.png"
+			badge: "https://app.revolt.chat/assets/icons/android-chrome-512x512.png",
+			data: channel?.channel_type === 'TextChannel' ? `/server/${channel.server}/channel/${channel._id}` : `/channel/${data.channel}`
 		});
 	}
 		
