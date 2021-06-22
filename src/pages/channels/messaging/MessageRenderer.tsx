@@ -60,7 +60,7 @@ function MessageRenderer({ id, state, queue }: Props) {
     } else {
         render.push(
             <RequiresOnline>
-                <Preloader />
+                <Preloader type="ring" />
             </RequiresOnline>
         );
     }
@@ -148,7 +148,7 @@ function MessageRenderer({ id, state, queue }: Props) {
     } else {
         render.push(
             <RequiresOnline>
-                <Preloader />
+                <Preloader type="ring" />
             </RequiresOnline>
         );
     }

@@ -27,7 +27,7 @@ export function Invites({ server }: Props) {
 
     return (
         <div className={styles.invites}>
-            { typeof invites === 'undefined' && <Preloader /> }
+            { typeof invites === 'undefined' && <Preloader type="ring" /> }
             {
                 invites?.map(
                     invite => {

@@ -187,7 +187,7 @@ export function FileUploader(props: Props) {
                     onClick={onClick}>
                     { uploading ?
                         <div className={styles.uploading}>
-                            <Preloader />
+                            <Preloader type="ring" />
                         </div> :
                         <div className={styles.edit}>
                             <Edit size={30} />

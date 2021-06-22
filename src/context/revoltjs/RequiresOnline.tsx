@@ -29,7 +29,7 @@ const Base = styled.div`
 export default function RequiresOnline(props: Props) {
     const status = useContext(StatusContext);
 
-    if (status === ClientStatus.CONNECTING) return <Preloader />;
+    if (status === ClientStatus.CONNECTING) return <Preloader type="ring" />;
     if (status !== ClientStatus.ONLINE && status !== ClientStatus.READY)
         return (
             <Base>

@@ -34,13 +34,15 @@ const Routes = styled.div`
 export default function App() {
     const path = useLocation().pathname;
     const fixedBottomNav = (path === '/' || path === '/settings' || path.startsWith("/friends"));
+    const inSettings = path === '/settings';
+    const inChannel = path.includes('/channel');
 
     return (
         <OverlappingPanels
             width="100vw"
             height="100vh"
-            leftPanel={{ width: 292, component: <LeftSidebar /> }}
-            rightPanel={{ width: 240, component: <RightSidebar /> }}
+            leftPanel={inSettings ? undefined : { width: 292, component: <LeftSidebar /> }}
+            rightPanel={(!inSettings && inChannel) ? { width: 240, component: <RightSidebar /> } : undefined}
             bottomNav={{
                 component: <BottomNavigation />,
                 showIf: fixedBottomNav ? ShowIf.Always : ShowIf.Left,

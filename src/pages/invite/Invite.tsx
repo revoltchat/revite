@@ -34,7 +34,7 @@ export default function Invite() {
             <div className={styles.preloader}>
                 <RequiresOnline>
                     { error ? <Overline type="error" error={error} />
-                        : <Preloader /> }
+                        : <Preloader type="spinner" /> }
                 </RequiresOnline>
             </div>
         )
@@ -52,7 +52,7 @@ export default function Invite() {
                 </div> }
 
             <div className={styles.details}>
-                { processing ? <Preloader /> :
+                { processing ? <Preloader type="ring" /> :
                     <>
                         <h1>{ invite.server_name }</h1>
                         <h2>#{invite.channel_name}</h2>

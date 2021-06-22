@@ -39,7 +39,7 @@ export function OnboardingModal({ onClose, callback }: Props) {
             </div>
             <div className={styles.form}>
                 {loading ? (
-                    <Preloader />
+                    <Preloader type="spinner" />
                 ) : (
                     <>
                         <p>

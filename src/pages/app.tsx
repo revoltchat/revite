@@ -12,7 +12,7 @@ export function App() {
         <Context>
             {/* 
             // @ts-expect-error */}
-            <Suspense fallback={<Preloader />}>
+            <Suspense fallback={<Preloader type="spinner" />}>
                 <Switch>
                     <Route path="/login">
                         <CheckAuth>

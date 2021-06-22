@@ -55,7 +55,7 @@ export function Sessions() {
     if (typeof sessions === "undefined") {
         return (
             <div className={styles.loader}>
-                <Preloader />
+                <Preloader type="ring" />
             </div>
         );
     }

@@ -215,10 +215,10 @@ export function MessageArea({ id }: Props) {
         <MessageAreaWidthContext.Provider value={(width ?? 0) - MESSAGE_AREA_PADDING}>
             <Area ref={ref}>
                 <div>
-                    {state.type === "LOADING" && <Preloader />}
+                    {state.type === "LOADING" && <Preloader type="ring" />}
                     {state.type === "WAITING_FOR_NETWORK" && (
                         <RequiresOnline>
-                            <Preloader />
+                            <Preloader type="ring" />
                         </RequiresOnline>
                     )}
                     {state.type === "RENDER" && (

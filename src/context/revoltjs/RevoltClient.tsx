@@ -202,7 +202,7 @@ function Context({ auth, sync, children, dispatcher }: Props) {
     }, []);
 
     if (status === ClientStatus.LOADING) {
-        return <Preloader />;
+        return <Preloader type="spinner" />;
     }
 
     return (

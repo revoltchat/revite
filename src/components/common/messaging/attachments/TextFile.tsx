@@ -49,7 +49,7 @@ export default function TextFile({ attachment }: Props) {
                 content ?
                     <pre><code>{ content }</code></pre>
                     : <RequiresOnline>
-                        <Preloader />
+                        <Preloader type="ring" />
                     </RequiresOnline>
             }
         </div>

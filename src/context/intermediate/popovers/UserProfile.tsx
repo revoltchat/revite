@@ -309,7 +309,7 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
                             )}
                         </div>
                     ) : (
-                        <Preloader />
+                        <Preloader type="ring" />
                     ))}
                 {tab === "groups" && (
                     <div className={styles.entries}>

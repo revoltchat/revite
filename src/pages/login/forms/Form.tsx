@@ -138,7 +138,7 @@ export function Form({ page, callback }: Props) {
     }
 
     if (captcha) return <CaptchaBlock {...captcha} />;
-    if (loading) return <Preloader />;
+    if (loading) return <Preloader type="spinner" />;
 
     return (
         <div className={styles.form}>
