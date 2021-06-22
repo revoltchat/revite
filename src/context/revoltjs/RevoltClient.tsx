@@ -114,11 +114,6 @@ function Context({ auth, sync, children, dispatcher }: Props) {
                 dispatcher({ type: "LOGOUT" });
 
                 delete client.user;
-                // ! FIXME: write procedure client.clear();
-                client.users.clear();
-                client.channels.clear();
-                client.servers.clear();
-                client.servers.members.clear();
                 dispatcher({ type: "RESET" });
 
                 openScreen({ id: "none" });

@@ -1,9 +1,9 @@
 import { Text } from "preact-i18n";
 import styled from "styled-components";
-import { UploadState } from "../MessageBox";
+import { CAN_UPLOAD_AT_ONCE, UploadState } from "../MessageBox";
 import { useEffect, useState } from 'preact/hooks';
-import { XCircle, Plus, Share, X } from "@styled-icons/feather";
 import { determineFileSize } from '../../../../lib/fileSize';
+import { XCircle, Plus, Share, X, FileText } from "@styled-icons/feather";
 
 interface Props {
     state: UploadState,
@@ -39,6 +39,10 @@ const Entry = styled.div`
         background: var(--secondary-background);
     }
 
+    &.fade {
+        opacity: 0.4;
+    }
+
     span.fn {
         margin: auto;
         font-size: .8em;
@@ -56,7 +60,7 @@ const Entry = styled.div`
         text-align: center;
     }
 
-    div {
+    div:first-child {
         position: relative;
         height: 0;
 
@@ -69,7 +73,7 @@ const Entry = styled.div`
             
             opacity: 0;
             transition: 0.1s ease opacity;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.8);
 
             &:hover {
                 opacity: 1;
@@ -84,6 +88,14 @@ const Description = styled.div`
     font-size: 0.9em;
     align-items: center;
     color: var(--secondary-foreground);
+`;
+
+const Divider = styled.div`
+    width: 4px;
+    height: 130px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    background: var(--tertiary-background);
 `;
 
 const EmptyEntry = styled.div`
@@ -102,11 +114,13 @@ const EmptyEntry = styled.div`
     }
 `;
 
-function FileEntry({ file, remove }: { file: File, remove?: () => void }) {
+function FileEntry({ file, remove, index }: { file: File, remove?: () => void, index: number }) {
     if (!file.type.startsWith('image/')) return (
-        <Entry>
+        <Entry className={index >= CAN_UPLOAD_AT_ONCE ? 'fade' : ''}>
             <div><div onClick={remove}><XCircle size={36} /></div></div>
-            
+            <EmptyEntry>
+                <FileText size={36} />
+            </EmptyEntry>
             <span class="fn">{file.name}</span>
             <span class="size">{determineFileSize(file.size)}</span>
         </Entry>
@@ -121,7 +135,7 @@ function FileEntry({ file, remove }: { file: File, remove?: () => void }) {
     }, [ file ]);
 
     return (
-        <Entry>
+        <Entry className={index >= CAN_UPLOAD_AT_ONCE ? 'fade' : ''}>
             { remove && <div><div onClick={remove}><XCircle size={36} /></div></div> }
             <img src={url}
                  alt={file.name} />
@@ -137,10 +151,14 @@ export default function FilePreview({ state, addFile, removeFile }: Props) {
     return (
         <Container>
             <Carousel>
-                { state.files.map((file, index) => <FileEntry file={file} key={file.name} remove={state.type === 'attached' ? () => removeFile(index) : undefined} />) }
+                { state.files.map((file, index) =>
+                    <>
+                        { index === CAN_UPLOAD_AT_ONCE && <Divider /> }
+                        <FileEntry index={index} file={file} key={file.name} remove={state.type === 'attached' ? () => removeFile(index) : undefined} />
+                    </>
+                ) }
                 { state.type === 'attached' && <EmptyEntry onClick={addFile}><Plus size={48} /></EmptyEntry> }
             </Carousel>
-            { state.files.length > 1 && state.type === 'attached' && <Description>Warning: Only first file will be uploaded, this will be changed in a future update.</Description> }
             { state.type === 'uploading' && <Description>
                 <Share size={24} />
                 <Text id="app.main.channel.uploading_file" /> ({state.percent}%)

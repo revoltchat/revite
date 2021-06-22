@@ -50,6 +50,9 @@ const Action = styled.div`
     place-items: center;
 `;
 
+// ! FIXME: add to app config and load from app config
+export const CAN_UPLOAD_AT_ONCE = 5;
+
 function MessageBox({ channel, draft, dispatcher }: Props) {
     const [ uploadState, setUploadState ] = useState<UploadState>({ type: 'none' });
     const [typing, setTyping] = useState<boolean | number>(false);
@@ -133,7 +136,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
 
     async function sendFile(content: string) {
         if (uploadState.type !== 'attached') return;
-        let attachments = [];
+        let attachments: string[] = [];
 
         const cancel = Axios.CancelToken.source();
         const files = uploadState.files;
@@ -141,8 +144,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
         setUploadState({ type: "uploading", files, percent: 0, cancel });
 
         try {
-            for (let i=0;i<files.length;i++) {
-                if (i>0)continue; // ! FIXME: temp, allow multiple uploads on server
+            for (let i=0;i<files.length&&i<CAN_UPLOAD_AT_ONCE;i++) {
                 const file = files[i];
                 attachments.push(
                     await uploadFile(client.configuration!.features.autumn.url, 'attachments', file, {
@@ -150,7 +152,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                         setUploadState({
                             type: "uploading",
                             files,
-                            percent: Math.round(((i * 100) + (100 * e.loaded) / e.total) / (files.length)),
+                            percent: Math.round(((i * 100) + (100 * e.loaded) / e.total) / Math.min(files.length, CAN_UPLOAD_AT_ONCE)),
                             cancel
                         }),
                         cancelToken: cancel.token
@@ -184,7 +186,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
             await client.channels.sendMessage(channel._id, {
                 content,
                 nonce,
-                attachment: attachments[0] // ! FIXME: temp, allow multiple uploads on server
+                attachments // ! FIXME: temp, allow multiple uploads on server
             });
         } catch (err) {
             setUploadState({
@@ -197,7 +199,15 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
         }
 
         setMessage();
-        setUploadState({ type: "none" });
+
+        if (files.length > CAN_UPLOAD_AT_ONCE) {
+            setUploadState({
+                type: "attached",
+                files: files.slice(CAN_UPLOAD_AT_ONCE)
+            });
+        } else {
+            setUploadState({ type: "none" });
+        }
     }
     
     function startTyping() {
