@@ -62,8 +62,7 @@ export function registerEvents({
                     dispatcher({
                         type: "UNREADS_MARK_READ",
                         channel: packet.id,
-                        message: packet.message_id,
-                        request: false
+                        message: packet.message_id
                     });
                     break;
                 }

@@ -91,13 +91,18 @@ function ContextMenus(props: WithDispatcher) {
                     writeClipboard(document.getSelection()?.toString() ?? '');
                     break;
                 case "mark_as_read":
-                    if (data.channel.channel_type === 'SavedMessages') return;
-                    props.dispatcher({
-                        type: "UNREADS_MARK_READ",
-                        channel: data.channel._id,
-                        message: data.channel.channel_type === 'TextChannel' ? data.channel.last_message : data.channel.last_message._id,
-                        request: true
-                    });
+                    {
+                        if (data.channel.channel_type === 'SavedMessages') return;
+
+                        let message = data.channel.channel_type === 'TextChannel' ? data.channel.last_message : data.channel.last_message._id;
+                        props.dispatcher({
+                            type: "UNREADS_MARK_READ",
+                            channel: data.channel._id,
+                            message
+                        });
+
+                        client.req('PUT', `/channels/${data.channel._id}/ack/${message}` as '/channels/id/ack/id');
+                    }
                     break;
 
                 case "retry_message":

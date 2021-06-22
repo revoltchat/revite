@@ -25,9 +25,10 @@ export function useUnreads({ channel, unreads, dispatcher }: UnreadProps, contex
                     dispatcher({
                         type: "UNREADS_MARK_READ",
                         channel: channel._id,
-                        message,
-                        request: true
+                        message
                     });
+                    
+                    ctx.client.req('PUT', `/channels/${channel._id}/ack/${message}` as '/channels/id/ack/id');
                 }
             }
         }

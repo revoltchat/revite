@@ -10,7 +10,6 @@ export type UnreadsAction =
           type: "UNREADS_MARK_READ";
           channel: string;
           message: string;
-          request: boolean;
       }
     | {
           type: "UNREADS_SET";
@@ -28,10 +27,6 @@ export type UnreadsAction =
 export function unreads(state = {} as Unreads, action: UnreadsAction): Unreads {
     switch (action.type) {
         case "UNREADS_MARK_READ":
-            if (action.request) {
-                // client.req('PUT', `/channels/${action.channel}/ack/${action.message}` as '/channels/id/ack/id');
-            }
-
             return {
                 ...state,
                 [action.channel]: {
