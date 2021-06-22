@@ -227,7 +227,11 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
     }
 
     const debouncedStopTyping = useCallback(debounce(stopTyping, 1000), [ channel._id ]);
-    const { onChange, onKeyUp, onKeyDown, onFocus, onBlur, ...autoCompleteProps } = useAutoComplete(setMessage, { users: { type: 'channel', id: channel._id } });
+    const { onChange, onKeyUp, onKeyDown, onFocus, onBlur, ...autoCompleteProps } =
+        useAutoComplete(setMessage, {
+            users: { type: 'channel', id: channel._id },
+            channels: channel.channel_type === 'TextChannel' ? { server: channel.server } : undefined
+        });
 
     return (
         <>

@@ -1,28 +1,33 @@
 import { StateUpdater, useContext, useState } from "preact/hooks";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
+import { Channels } from "revolt.js/dist/api/objects";
 import { emojiDictionary } from "../../assets/emojis";
+import { SYSTEM_USER_ID, User } from "revolt.js";
 import UserIcon from "./user/UserIcon";
 import styled from "styled-components";
-import { SYSTEM_USER_ID, User } from "revolt.js";
 import Emoji from "./Emoji";
+import ChannelIcon from "./ChannelIcon";
 
 export type AutoCompleteState =
     | { type: "none" }
-    | {
-        type: "emoji";
-        matches: string[];
-        selected: number;
-        within: boolean;
-    }
-    | {
-        type: "user";
-        matches: User[];
-        selected: number;
-        within: boolean;
-    };
+    | ({ selected: number; within: boolean; } & (
+        {
+            type: "emoji";
+            matches: string[];
+        } |
+        {
+            type: "user";
+            matches: User[];
+        } |
+        {
+            type: "channel";
+            matches: Channels.TextChannel[];
+        }
+    ));
 
 export type SearchClues = {
-    users?: { type: 'channel', id: string } | { type: 'all' }
+    users?: { type: 'channel', id: string } | { type: 'all' },
+    channels?: { server: string }
 };
 
 export type AutoCompleteProps = {
@@ -44,7 +49,7 @@ export function useAutoComplete(setValue: (v?: string) => void, searchClues?: Se
 
     function findSearchString(
         el: HTMLTextAreaElement
-    ): ["emoji" | "user", string, number] | undefined {
+    ): ["emoji" | "user" | "channel", string, number] | undefined {
         if (el.selectionStart === el.selectionEnd) {
             let cursor = el.selectionStart;
             let content = el.value.slice(0, cursor);
@@ -58,6 +63,12 @@ export function useAutoComplete(setValue: (v?: string) => void, searchClues?: Se
                     "",
                     j
                 ];
+            } else if (content[j] === '#') {
+                return [
+                    "channel",
+                    "",
+                    j
+                ];
             }
 
             while (j >= 0 && valid.test(content[j])) {
@@ -67,10 +78,11 @@ export function useAutoComplete(setValue: (v?: string) => void, searchClues?: Se
             if (j === -1) return;
             let current = content[j];
 
-            if (current === ":" || current === "@") {
+            if (current === ":" || current === "@" || current === "#") {
                 let search = content.slice(j + 1, content.length);
                 if (search.length > 0) {
                     return [
+                        current === "#" ? "channel" :
                         current === ":" ? "emoji" : "user",
                         search.toLowerCase(),
                         j + 1
@@ -137,7 +149,7 @@ export function useAutoComplete(setValue: (v?: string) => void, searchClues?: Se
 
                 users = users.filter(x => x._id !== SYSTEM_USER_ID);
 
-                let matches = (search.length > 0 ? users.filter(user => user?.username.toLowerCase().match(regex)) : users)
+                let matches = (search.length > 0 ? users.filter(user => user.username.toLowerCase().match(regex)) : users)
                     .splice(0, 5)
                     .filter(x => typeof x !== "undefined");
 
@@ -149,6 +161,33 @@ export function useAutoComplete(setValue: (v?: string) => void, searchClues?: Se
                     
                     setState({
                         type: "user",
+                        matches,
+                        selected: Math.min(currentPosition, matches.length - 1),
+                        within: false
+                    });
+
+                    return;
+                }
+            }
+
+            if (type === 'channel' && searchClues?.channels) {
+                let channels = client.servers.get(searchClues.channels.server)
+                    ?.channels
+                    .map(x => client.channels.get(x))
+                    .filter(x => typeof x !== 'undefined') as Channels.TextChannel[];
+
+                let matches = (search.length > 0 ? channels.filter(channel => channel.name.toLowerCase().match(regex)) : channels)
+                    .splice(0, 5)
+                    .filter(x => typeof x !== "undefined");
+
+                if (matches.length > 0) {
+                    let currentPosition =
+                        state.type !== "none"
+                            ? state.selected
+                            : 0;
+                    
+                    setState({
+                        type: "channel",
                         matches,
                         selected: Math.min(currentPosition, matches.length - 1),
                         within: false
@@ -178,11 +217,19 @@ export function useAutoComplete(setValue: (v?: string) => void, searchClues?: Se
                         state.matches[state.selected],
                         ": "
                     );
-                } else {
+                } else if (state.type === 'user') {
                     content.splice(
                         index - 1,
                         search.length + 1,
                         "<@",
+                        state.matches[state.selected]._id,
+                        "> "
+                    );
+                } else {
+                    content.splice(
+                        index - 1,
+                        search.length + 1,
+                        "<#",
                         state.matches[state.selected]._id,
                         "> "
                     );
@@ -356,6 +403,33 @@ export default function AutoComplete({ state, setState, onClick }: Pick<AutoComp
                                 target={match}
                                 status={true} />
                             {match.username}
+                        </button>
+                    ))}
+                {state.type === "channel" &&
+                    state.matches.map((match, i) => (
+                        <button
+                            className={i === state.selected ? "active" : ''}
+                            onMouseEnter={() =>
+                                (i !== state.selected ||
+                                    !state.within) &&
+                                setState({
+                                    ...state,
+                                    selected: i,
+                                    within: true
+                                })
+                            }
+                            onMouseLeave={() =>
+                                state.within &&
+                                setState({
+                                    ...state,
+                                    within: false
+                                })
+                            }
+                            onClick={onClick}>
+                            <ChannelIcon
+                                size={24}
+                                target={match} />
+                            {match.name}
                         </button>
                     ))}
             </div>
