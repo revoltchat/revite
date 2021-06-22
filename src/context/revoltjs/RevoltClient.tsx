@@ -51,6 +51,7 @@ function Context({ auth, sync, children, dispatcher }: Props) {
         (async () => {
             let db;
             try {
+                // Match sw.ts#L23
                 db = await openDB('state', 3, {
                     upgrade(db) {
                         for (let store of [ "channels", "servers", "users", "members" ]) {
