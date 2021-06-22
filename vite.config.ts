@@ -37,6 +37,10 @@ function getVersion() {
   return readFileSync('VERSION').toString();
 }
 
+const branch = getGitBranch();
+const isNightly = branch !== 'production';
+const iconPrefix = isNightly ? 'nightly-' : '';
+
 export default defineConfig({
   plugins: [
     preact(),
@@ -45,9 +49,9 @@ export default defineConfig({
       filename: 'sw.ts',
       strategies: 'injectManifest',
       manifest: {
-        name: "REVOLT",
+        name: isNightly ? "REVOLT nightly" : "REVOLT",
         short_name: "REVOLT",
-        description: "User-first, privacy-focused chat platform.",
+        description: isNightly ? "Early preview builds of REVOLT." : "User-first, privacy-focused chat platform.",
         categories: ["messaging"],
         start_url: "/",
         display: "standalone",
@@ -55,12 +59,12 @@ export default defineConfig({
         background_color: "#101823",
         icons: [
             {
-                "src": "/assets/icons/android-chrome-192x192.png",
+                "src": `/assets/icons/${iconPrefix}android-chrome-192x192.png`,
                 "type": "image/png",
                 "sizes": "192x192"
             },
             {
-                "src": "/assets/icons/android-chrome-512x512.png",
+                "src": `/assets/icons/${iconPrefix}android-chrome-512x512.png`,
                 "type": "image/png",
                 "sizes": "512x512"
             }
