@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { AppContext } from "./RevoltClient";
 import styles from './FileUploads.module.scss';
 import Axios, { AxiosRequestConfig } from "axios";
-import { useContext, useState } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 import Preloader from "../../components/ui/Preloader";
 import { determineFileSize } from "../../lib/fileSize";
 import IconButton from '../../components/ui/IconButton';
@@ -17,8 +17,8 @@ type Props = {
     fileType: 'backgrounds' | 'icons' | 'avatars' | 'attachments' | 'banners'
 } & (
     { behaviour: 'ask', onChange: (file: File) => void } |
-    { behaviour: 'multi', onChange: (files: File[]) => void } |
-    { behaviour: 'upload', onUpload: (id: string) => Promise<void> }
+    { behaviour: 'upload', onUpload: (id: string) => Promise<void> } |
+    { behaviour: 'multi', onChange: (files: File[]) => void, append?: (files: File[]) => void }
 ) & (
     { style: 'icon' | 'banner', defaultPreview?: string, previewURL?: string, width?: number, height?: number } |
     { style: 'attachment', attached: boolean, uploading: boolean, cancel: () => void, size?: number }
@@ -105,6 +105,70 @@ export function FileUploader(props: Props) {
                 onClick();
             }
         }
+    }
+
+    if (props.behaviour === 'multi' && props.append) {
+        useEffect(() => {
+            // File pasting.
+            function paste(e: ClipboardEvent) {
+                const items = e.clipboardData?.items;
+                if (typeof items === "undefined") return;
+                if (props.behaviour !== 'multi' || !props.append) return;
+
+                let files = [];
+                for (const item of items) {
+                    if (!item.type.startsWith("text/")) {
+                        const blob = item.getAsFile();
+                        if (blob) {
+                            if (blob.size > props.maxFileSize) {
+                                openScreen({ id: 'error', error: 'FileTooLarge' });
+                            }
+
+                            files.push(blob);
+                        }
+                    }
+                }
+
+                props.append(files);
+            }
+
+            // Let the browser know we can drop files.
+            function dragover(e: DragEvent) {
+                e.stopPropagation();
+                e.preventDefault();
+                if (e.dataTransfer) e.dataTransfer.dropEffect = "copy";
+            }
+
+            // File dropping.
+            function drop(e: DragEvent) {
+                e.preventDefault();
+                if (props.behaviour !== 'multi' || !props.append) return;
+
+                const dropped = e.dataTransfer?.files;
+                if (dropped) {
+                    let files = [];
+                    for (const item of dropped) {
+                        if (item.size > props.maxFileSize) {
+                            openScreen({ id: 'error', error: 'FileTooLarge' });
+                        }
+
+                        files.push(item);
+                    }
+
+                    props.append(files);
+                }
+            }
+
+            document.addEventListener("paste", paste);
+            document.addEventListener("dragover", dragover);
+            document.addEventListener("drop", drop);
+
+            return () => {
+                document.removeEventListener("paste", paste);
+                document.removeEventListener("dragover", dragover);
+                document.removeEventListener("drop", drop);
+            };
+        }, [ props.append ]);
     }
 
     if (props.style === 'icon' || props.style === 'banner') {

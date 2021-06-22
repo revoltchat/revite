@@ -255,6 +255,13 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                         remove={async () => setUploadState({ type: "none" })}
                         onChange={files => setUploadState({ type: "attached", files })}
                         cancel={() => uploadState.type === 'uploading' && uploadState.cancel.cancel("cancel")}
+                        append={files => {
+                            if (uploadState.type === 'none') {
+                                setUploadState({ type: 'attached', files });
+                            } else if (uploadState.type === 'attached') {
+                                setUploadState({ type: 'attached', files: [ ...uploadState.files, ...files ] });
+                            }
+                        }}
                     />
                 </Action>
                 <TextAreaAutoSize
