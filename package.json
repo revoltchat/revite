@@ -83,6 +83,7 @@
     "ulid": "^2.3.0",
     "use-resize-observer": "^7.0.0",
     "vite": "^2.3.7",
-    "vite-plugin-pwa": "^0.8.1"
+    "vite-plugin-pwa": "^0.8.1",
+    "workbox-precaching": "^6.1.5"
   }
 }

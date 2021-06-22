@@ -23,9 +23,12 @@ export default defineConfig({
   plugins: [
     preact(),
     VitePWA({
+      srcDir: 'src',
+      filename: 'sw.ts',
+      strategies: 'injectManifest',
       manifest: {
-        name: "Revolt",
-        short_name: "Revolt",
+        name: "REVOLT",
+        short_name: "REVOLT",
         description: "User-first, privacy-focused chat platform.",
         categories: ["messaging"],
         start_url: "/",
@@ -44,8 +47,7 @@ export default defineConfig({
                 "sizes": "512x512"
             }
         ]
-      },
-      workbox: { }
+      }
     }),
     replace({
       __GIT_REVISION__: getGitRevision(),

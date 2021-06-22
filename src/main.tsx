@@ -1,9 +1,4 @@
-import { render } from "preact";
-import "./styles/index.scss";
-import { App } from "./pages/app";
-
 import { registerSW } from 'virtual:pwa-register'
-
 const updateSW = registerSW({
     onNeedRefresh() {
         // ! FIXME: temp
@@ -15,6 +10,10 @@ const updateSW = registerSW({
         // show a ready to work offline to user
     },
 })
+
+import { render } from "preact";
+import "./styles/index.scss";
+import { App } from "./pages/app";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 render(<App />, document.getElementById("app")!);
