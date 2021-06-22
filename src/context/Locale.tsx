@@ -51,6 +51,7 @@ export interface LanguageEntry {
     i18n: string;
     dayjs?: string;
     rtl?: boolean;
+    alt?: boolean;
 }
 
 export const Languages: { [key in Language]: LanguageEntry } = {
@@ -95,20 +96,22 @@ export const Languages: { [key in Language]: LanguageEntry } = {
         dayjs: "zh",
     },
 
-    owo: { display: "OwO", emoji: "🐱", i18n: "owo", dayjs: "en-gb" },
-    pr: { display: "Pirate", emoji: "🏴‍☠️", i18n: "pr", dayjs: "en-gb" },
-    bottom: { display: "Bottom", emoji: "🥺", i18n: "bottom", dayjs: "en-gb" },
+    owo: { display: "OwO", emoji: "🐱", i18n: "owo", dayjs: "en-gb", alt: true },
+    pr: { display: "Pirate", emoji: "🏴‍☠️", i18n: "pr", dayjs: "en-gb", alt: true },
+    bottom: { display: "Bottom", emoji: "🥺", i18n: "bottom", dayjs: "en-gb", alt: true },
     piglatin: {
         display: "Pig Latin",
         emoji: "🐖",
         i18n: "piglatin",
         dayjs: "en-gb",
+        alt: true
     },
     hardcore: {
         display: "Hardcore Mode",
         emoji: "🔥",
         i18n: "hardcore",
         dayjs: "en-gb",
+        alt: true
     },
 };
 

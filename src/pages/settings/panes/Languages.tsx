@@ -7,40 +7,57 @@ import { connectState } from "../../../redux/connector";
 import { WithDispatcher } from "../../../redux/reducers";
 import { Language, LanguageEntry, Languages as Langs } from "../../../context/Locale";
 
-interface Props {
+type Props = WithDispatcher & {
     locale: Language;
 }
 
-export function Component({ locale, dispatcher }: Props & WithDispatcher) {
+type Key = [ string, LanguageEntry ];
+
+function Entry({ entry: [ x, lang ], locale, dispatcher }: { entry: Key } & Props) {
+    return (
+        <Checkbox
+            key={x}
+            className={styles.entry}
+            checked={locale === x}
+            onChange={v => {
+                if (v) {
+                    dispatcher({
+                        type: "SET_LOCALE",
+                        locale: x as Language
+                    });
+                }
+            }}
+        >
+            <div className={styles.flag}><Emoji size={42} emoji={lang.emoji} /></div>
+            <span className={styles.description}>
+                {lang.display}
+            </span>
+        </Checkbox>
+    );
+}
+
+export function Component(props: Props) {
+    const languages = Object
+        .keys(Langs)
+        .map(x => [ x, Langs[x as keyof typeof Langs] ]) as Key[];
+
     return (
         <div className={styles.languages}>
             <h3>
                 <Text id="app.settings.pages.language.select" />
             </h3>
             <div className={styles.list}>
-                {Object.keys(Langs).map(x => {
-                    const l = (Langs as any)[x] as LanguageEntry;
-                    return (
-                        <Checkbox
-                            key={x}
-                            className={styles.entry}
-                            checked={locale === x}
-                            onChange={v => {
-                                if (v) {
-                                    dispatcher({
-                                        type: "SET_LOCALE",
-                                        locale: x as Language
-                                    });
-                                }
-                            }}
-                        >
-                            <div className={styles.flag}><Emoji size={42} emoji={l.emoji} /></div>
-                            <span className={styles.description}>
-                                {l.display}
-                            </span>
-                        </Checkbox>
-                    );
-                })}
+                {languages
+                    .filter(([, lang]) => !lang.alt)
+                    .map(([x, lang]) => <Entry key={x} entry={[x, lang]} {...props} />)}
+            </div>
+            <h3>
+                <Text id="app.settings.pages.language.other" />
+            </h3>
+            <div className={styles.list}>
+                {languages
+                    .filter(([, lang]) => lang.alt)
+                    .map(([x, lang]) => <Entry key={x} entry={[x, lang]} {...props} />)}
             </div>
             <Tip>
                 <span>
