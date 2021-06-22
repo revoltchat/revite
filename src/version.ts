@@ -1,1 +1,1 @@
-export const APP_VERSION = "1.0.0-vite";
+export const APP_VERSION = "__APP_VERSION__";

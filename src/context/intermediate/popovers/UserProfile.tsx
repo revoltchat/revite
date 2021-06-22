@@ -1,22 +1,24 @@
 import { decodeTime } from "ulid";
+import { Link, useHistory } from "react-router-dom";
 import { Localizer, Text } from "preact-i18n";
 import styles from "./UserProfile.module.scss";
 import Modal from "../../../components/ui/Modal";
 import { Route } from "revolt.js/dist/api/routes";
 import { Users } from "revolt.js/dist/api/objects";
 import { useIntermediate } from "../Intermediate";
-import { Link, useHistory } from "react-router-dom";
 import { CashStack } from "@styled-icons/bootstrap";
 import Preloader from "../../../components/ui/Preloader";
 import Tooltip from '../../../components/common/Tooltip';
+import IconButton from "../../../components/ui/IconButton";
 import Markdown from '../../../components/markdown/Markdown';
+import { UserPermission } from "revolt.js/dist/api/permissions";
 import UserIcon from '../../../components/common/user/UserIcon';
 import ChannelIcon from '../../../components/common/ChannelIcon';
 import UserStatus from '../../../components/common/user/UserStatus';
 import { Mail, Edit, UserPlus, Shield } from "@styled-icons/feather";
-import { useChannels, useForceUpdate, useUsers } from "../../revoltjs/hooks";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 import { AppContext, ClientStatus, StatusContext } from "../../revoltjs/RevoltClient";
+import { useChannels, useForceUpdate, useUserPermission, useUsers } from "../../revoltjs/hooks";
 
 interface Props {
     user_id: string;
@@ -43,22 +45,24 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
         undefined | null | Route<"GET", "/users/id/mutual">["response"]
     >(undefined);
 
+    const history = useHistory();
     const client = useContext(AppContext);
     const status = useContext(StatusContext);
     const [tab, setTab] = useState("profile");
-    const history = useHistory();
 
     const ctx = useForceUpdate();
     const all_users = useUsers(undefined, ctx);
     const channels = useChannels(undefined, ctx);
-
+    
     const user = all_users.find(x => x!._id === user_id);
     const users = mutual?.users ? all_users.filter(x => mutual.users.includes(x!._id)) : undefined;
-
+    
     if (!user) {
         useEffect(onClose, []);
         return null;
     }
+
+    const permissions = useUserPermission(user!._id, ctx);
 
     useLayoutEffect(() => {
         if (!user_id) return;
@@ -93,17 +97,12 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
         ) {
             setProfile(null);
 
-            // ! FIXME: in the future, also check if mutual guilds
-            // ! maybe just allow mutual group to allow profile viewing
-            /*if (
-                user.relationship === Users.Relationship.Friend ||
-                user.relationship === Users.Relationship.User
-            ) {*/
+            if (permissions & UserPermission.ViewProfile) {
                 client.users
                     .fetchProfile(user_id)
                     .then(data => setProfile(data))
                     .catch(() => {});
-            //}
+            }
         }
     }, [profile, status]);
 
@@ -157,35 +156,31 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
                                     <Text id="app.context_menu.message_user" />
                                 }
                             >
-                                {/*<IconButton
+                                <IconButton
                                     onClick={() => {
                                         onClose();
                                         history.push(`/open/${user_id}`);
-                                    }}
-                                >*/}
+                                    }}>
                                     <Mail size={30} strokeWidth={1.5} />
-                                {/*</IconButton>*/}
+                                </IconButton>
                             </Tooltip>
                         </Localizer>
                     )}
                     {user.relationship === Users.Relationship.User && (
-                        /*<IconButton
+                        <IconButton
                             onClick={() => {
                                 onClose();
                                 if (dummy) return;
                                 history.push(`/settings/profile`);
-                            }}
-                        >*/
+                            }}>
                             <Edit size={28} strokeWidth={1.5} />
-                        /*</IconButton>*/
+                        </IconButton>
                     )}
                     {(user.relationship === Users.Relationship.Incoming ||
                         user.relationship === Users.Relationship.None) && (
-                        /*<IconButton
-                            onClick={() => client.users.addFriend(user.username)}
-                        >*/
+                        <IconButton onClick={() => client.users.addFriend(user.username)}>
                             <UserPlus size={28} strokeWidth={1.5} />
-                        /*</IconButton>*/
+                        </IconButton>
                     )}
                 </div>
                 <div className={styles.tabs}>

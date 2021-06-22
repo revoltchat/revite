@@ -3,6 +3,8 @@ import Modal from "../../../components/ui/Modal";
 import { useContext, useEffect } from "preact/hooks";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { Attachment, EmbedImage } from "revolt.js/dist/api/objects";
+import EmbedMediaActions from "../../../components/common/messaging/embed/EmbedMediaActions";
+import AttachmentActions from "../../../components/common/messaging/attachments/AttachmentActions";
 
 interface Props {
     onClose: () => void;
@@ -11,6 +13,12 @@ interface Props {
 }
 
 export function ImageViewer({ attachment, embed, onClose }: Props) {
+    // ! FIXME: temp code
+    // ! add proxy function to client
+    function proxyImage(url: string) {
+        return 'https://jan.revolt.chat/proxy?url=' + encodeURIComponent(url);
+    }
+    
     if (attachment && attachment.metadata.type !== "Image") return null;
     const client = useContext(AppContext);
 
@@ -31,13 +39,13 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
                 { attachment &&
                     <>
                         <img src={client.generateFileURL(attachment)} />
-                        {/*<AttachmentActions attachment={attachment} />*/}
+                        <AttachmentActions attachment={attachment} />
                     </>
                 }
                 { embed &&
                     <>
-                        {/*<img src={proxyImage(embed.url)} />*/}
-                        {/*<EmbedMediaActions embed={embed} />*/}
+                        <img src={proxyImage(embed.url)} />
+                        <EmbedMediaActions embed={embed} />
                     </>
                 }
             </div>

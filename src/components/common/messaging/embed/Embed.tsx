@@ -52,23 +52,6 @@ export default function Embed({ embed }: Props) {
 
     switch (embed.type) {
         case 'Website': {
-            // ! FIXME: move this to january
-            /*if (embed.url && YOUTUBE_RE.test(embed.url)) {
-                embed.color = '#FF424F';
-            }
-
-            if (embed.url && TWITCH_RE.test(embed.url)) {
-                embed.color = '#7B68EE';
-            }
-
-            if (embed.url && SPOTIFY_RE.test(embed.url)) {
-                embed.color = '#1ABC9C';
-            }
-
-            if (embed.url && SOUNDCLOUD_RE.test(embed.url)) {
-                embed.color = '#FF7F50';
-            }*/
-
             // Determine special embed size.
             let mw, mh;
             let largeMedia = (embed.special && embed.special.type !== 'None') || embed.image?.size === 'Large';

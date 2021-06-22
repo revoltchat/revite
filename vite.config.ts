@@ -19,6 +19,10 @@ function getGitRevision() {
   }
 }
 
+function getVersion() {
+  return readFileSync('VERSION').toString();
+}
+
 export default defineConfig({
   plugins: [
     preact(),
@@ -51,6 +55,7 @@ export default defineConfig({
     }),
     replace({
       __GIT_REVISION__: getGitRevision(),
+      __APP_VERSION__: getVersion(),
       preventAssignment: true
     })
   ],

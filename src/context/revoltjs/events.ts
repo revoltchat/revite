@@ -18,23 +18,28 @@ export function registerEvents({
     operations,
     dispatcher
 }: { operations: ClientOperations } & WithDispatcher, setStatus: StateUpdater<ClientStatus>, client: Client) {
+    function attemptReconnect() {
+        if (preventReconnect) return;
+        function reconnect() {
+            preventUntil = +new Date() + 2000;
+            client.websocket.connect().catch(err => console.error(err));
+        }
+
+        if (+new Date() > preventUntil) {
+            setTimeout(reconnect, 2000);
+        } else {
+            reconnect();
+        }
+    }
+
     const listeners = {
         connecting: () =>
             operations.ready() && setStatus(ClientStatus.CONNECTING),
 
         dropped: () => {
-            operations.ready() && setStatus(ClientStatus.DISCONNECTED);
-
-            if (preventReconnect) return;
-            function reconnect() {
-                preventUntil = +new Date() + 2000;
-                client.websocket.connect().catch(err => console.error(err));
-            }
-
-            if (+new Date() > preventUntil) {
-                setTimeout(reconnect, 2000);
-            } else {
-                reconnect();
+            if (operations.ready()) {
+                setStatus(ClientStatus.DISCONNECTED);
+                attemptReconnect();
             }
         },
 
@@ -79,9 +84,7 @@ export function registerEvents({
             }
         },
 
-        ready: () => {
-            setStatus(ClientStatus.ONLINE);
-        }
+        ready: () => setStatus(ClientStatus.ONLINE)
     };
 
     let listenerFunc: { [key: string]: Function };
@@ -101,20 +104,31 @@ export function registerEvents({
         client.addListener(listener, (listenerFunc as any)[listener]);
     }
 
-    /*const online = () =>
-        operations.ready() && setStatus(ClientStatus.RECONNECTING);
-    const offline = () =>
-        operations.ready() && setStatus(ClientStatus.OFFLINE);
+    const online = () => {
+        if (operations.ready()) {
+            setStatus(ClientStatus.RECONNECTING);
+            setReconnectDisallowed(false);
+            attemptReconnect();
+        }
+    };
+    
+    const offline = () => {
+        if (operations.ready()) {
+            setReconnectDisallowed(true);
+            client.websocket.disconnect();
+            setStatus(ClientStatus.OFFLINE);
+        }
+    };
 
     window.addEventListener("online", online);
     window.addEventListener("offline", offline);
 
     return () => {
         for (const listener of Object.keys(listenerFunc)) {
-            RevoltClient.removeListener(listener, (listenerFunc as any)[listener]);
+            client.removeListener(listener, (listenerFunc as any)[listener]);
         }
 
         window.removeEventListener("online", online);
         window.removeEventListener("offline", offline);
-    };*/
+    };
 }
