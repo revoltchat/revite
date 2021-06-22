@@ -7,7 +7,7 @@ import { MessageObject } from "../../../context/revoltjs/util";
 
 export interface BaseMessageProps {
     head?: boolean,
-    status?: boolean,
+    failed?: boolean,
     mention?: boolean,
     blocked?: boolean,
     sending?: boolean,
@@ -49,7 +49,7 @@ export default styled.div<BaseMessageProps>`
         color: var(--tertiary-foreground);
     ` }
 
-    ${ props => props.status && css`
+    ${ props => props.failed && css`
         color: var(--error);
     ` }
 

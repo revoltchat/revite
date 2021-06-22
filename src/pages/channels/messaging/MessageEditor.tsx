@@ -58,6 +58,7 @@ export default function MessageEditor({ message, finish }: Props) {
     return (
         <EditorBase>
             <TextAreaAutoSize
+                forceFocus
                 maxRows={3}
                 padding={12}
                 value={content}
@@ -73,7 +74,6 @@ export default function MessageEditor({ message, finish }: Props) {
                         save();
                     }
                 }}
-                // forceFocus
             />
             <span className="caption">
                 escape to <a onClick={finish}>cancel</a> &middot;

@@ -1,17 +1,17 @@
 import { decodeTime } from "ulid";
 import MessageEditor from "./MessageEditor";
 import { Children } from "../../../types/Preact";
-import { useEffect, useState } from "preact/hooks";
 import ConversationStart from "./ConversationStart";
 import { connectState } from "../../../redux/connector";
 import Preloader from "../../../components/ui/Preloader";
 import { RenderState } from "../../../lib/renderer/types";
 import DateDivider from "../../../components/ui/DateDivider";
 import { QueuedMessage } from "../../../redux/reducers/queue";
+import { useContext, useEffect, useState } from "preact/hooks";
 import { MessageObject } from "../../../context/revoltjs/util";
 import Message from "../../../components/common/messaging/Message";
+import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
-import { useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
 
@@ -24,17 +24,13 @@ interface Props {
 function MessageRenderer({ id, state, queue }: Props) {
     if (state.type !== 'RENDER') return null;
 
-    const ctx = useForceUpdate();
-    const users = useUsers();
-    const userId = ctx.client.user!._id;
-
-    /*
-    const view = useView(id);*/
+    const client = useContext(AppContext);
+    const userId = client.user!._id;
 
     const [editing, setEditing] = useState<string | undefined>(undefined);
     const stopEditing = () => {
         setEditing(undefined);
-        internalEmit("MessageBox", "focus");
+        internalEmit("TextArea", "focus", "message");
     };
 
     useEffect(() => {
@@ -141,24 +137,14 @@ function MessageRenderer({ id, state, queue }: Props) {
                 } as any;
             }
 
-            /*render.push(
-                <Message
-                    user={users.find(x => x?._id === userId)}
-                    message={msg.data}
-                    queued={msg}
-                    key={msg.id}
-                    head={head}
-                />
-            );*/
             render.push(
                 <Message message={msg.data}
                     key={msg.id}
+                    queued={msg}
                     head={head}
                     attachContext />
             );
         }
-
-        // render.push(<div>end</div>);
     } else {
         render.push(
             <RequiresOnline>

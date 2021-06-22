@@ -19,6 +19,7 @@ import { SingletonMessageRenderer, SMOOTH_SCROLL_ON_RECEIVE } from "../../../lib
 
 import FilePreview from './bars/FilePreview';
 import { debounce } from "../../../lib/debounce";
+import { internalEmit } from "../../../lib/eventEmitter";
 
 type Props = WithDispatcher & {
     channel: Channel;
@@ -237,11 +238,22 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                     />
                 </Action>
                 <TextAreaAutoSize
+                    autoFocus
                     hideBorder
                     maxRows={5}
                     padding={15}
+                    id="message"
                     value={draft ?? ''}
                     onKeyDown={e => {
+                        if (
+                            e.key === "ArrowUp" &&
+                            (!draft || draft.length === 0)
+                        ) {
+                            e.preventDefault();
+                            internalEmit("MessageRenderer", "edit_last");
+                            return;
+                        }
+
                         if (!e.shiftKey && e.key === "Enter" && !isTouchscreenDevice) {
                             e.preventDefault();
                             return send();
