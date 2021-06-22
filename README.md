@@ -1,3 +1,5 @@
-This project is intended to be a REVOLT client re-write one day.
+The port of the original REVOLT client from Webpack to Vite is roughly 90% done.
 
-For now it's a testing ground for me to play with new libraries.
+You can help test the new client at https://vite.revolt.chat
+
+You can track progress of the port on Wekan as usual: https://wekan.insrt.uk/b/jj3x5C6nbYzM6ERQD/revolt
