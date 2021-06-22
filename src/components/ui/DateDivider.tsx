@@ -4,9 +4,9 @@ import styled, { css } from "styled-components";
 const Base = styled.div<{ unread?: boolean }>`
     height: 0;
     display: flex;
-    margin: 14px 10px;
     user-select: none;
     align-items: center;
+    margin: 17px 12px 5px;
     border-top: thin solid var(--tertiary-foreground);
 
     time {

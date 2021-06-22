@@ -17,6 +17,7 @@ import { useChannel, useChannelPermission, useForceUpdate, useServer, useServerP
 import { Children } from "../types/Preact";
 import LineDivider from "../components/ui/LineDivider";
 import { connectState } from "../redux/connector";
+import { internalEmit } from "./eventEmitter";
 
 interface ContextMenuData {
     user?: string;
@@ -162,7 +163,7 @@ function ContextMenus(props: WithDispatcher) {
 
                 case "edit_message":
                     {
-                        // InternalEventEmitter.emit("edit_message", data.id);
+                        internalEmit("MessageRenderer", "edit_message", data.id);
                     }
                     break;
 

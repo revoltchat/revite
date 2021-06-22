@@ -1,4 +1,6 @@
 import { decodeTime } from "ulid";
+import MessageEditor from "./MessageEditor";
+import { Children } from "../../../types/Preact";
 import { useEffect, useState } from "preact/hooks";
 import ConversationStart from "./ConversationStart";
 import { connectState } from "../../../redux/connector";
@@ -7,11 +9,11 @@ import { RenderState } from "../../../lib/renderer/types";
 import DateDivider from "../../../components/ui/DateDivider";
 import { QueuedMessage } from "../../../redux/reducers/queue";
 import { MessageObject } from "../../../context/revoltjs/util";
+import Message from "../../../components/common/messaging/Message";
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
 import { useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
-import { Children } from "../../../types/Preact";
+import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
-import Message from "../../../components/common/messaging/Message";
 
 interface Props {
     id: string;
@@ -32,8 +34,9 @@ function MessageRenderer({ id, state, queue }: Props) {
     const [editing, setEditing] = useState<string | undefined>(undefined);
     const stopEditing = () => {
         setEditing(undefined);
-        // InternalEventEmitter.emit("focus_textarea", "message");
+        internalEmit("MessageBox", "focus");
     };
+
     useEffect(() => {
         function editLast() {
             if (state.type !== 'RENDER') return;
@@ -45,13 +48,12 @@ function MessageRenderer({ id, state, queue }: Props) {
             }
         }
 
-        // InternalEventEmitter.addListener("edit_last", editLast);
-        // InternalEventEmitter.addListener("edit_message", setEditing);
+        const subs = [
+            internalSubscribe("MessageRenderer", "edit_last", editLast),
+            internalSubscribe("MessageRenderer", "edit_message", setEditing)
+        ]
 
-        return () => {
-            // InternalEventEmitter.removeListener("edit_last", editLast);
-            // InternalEventEmitter.removeListener("edit_message", setEditing);
-        };
+        return () => subs.forEach(unsub => unsub());
     }, [state.messages]);
 
     let render: Children[] = [],
@@ -107,17 +109,13 @@ function MessageRenderer({ id, state, queue }: Props) {
                 <Message message={message}
                     key={message._id}
                     head={head}
+                    content={
+                        editing === message._id ?
+                            <MessageEditor message={message} finish={stopEditing} />
+                            : undefined
+                    }
                     attachContext />
             );
-            /*render.push(
-                <Message
-                    editing={editing === message._id ? stopEditing : undefined}
-                    user={users.find(x => x?._id === message.author)}
-                    message={message}
-                    key={message._id}
-                    head={head}
-                />
-            );*/
         }
 
         previous = message;
