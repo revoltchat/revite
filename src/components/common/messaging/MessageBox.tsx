@@ -263,6 +263,8 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                         onChange={files => setUploadState({ type: "attached", files })}
                         cancel={() => uploadState.type === 'uploading' && uploadState.cancel.cancel("cancel")}
                         append={files => {
+                            if (files.length === 0) return;
+
                             if (uploadState.type === 'none') {
                                 setUploadState({ type: 'attached', files });
                             } else if (uploadState.type === 'attached') {

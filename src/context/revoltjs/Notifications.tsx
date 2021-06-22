@@ -136,6 +136,7 @@ function Notifier(props: Props) {
 
         if (notif) {
             notif.addEventListener("click", () => {
+                window.focus();
                 const id = msg.channel;
                 if (id !== channel_id) {
                     let channel = client.channels.get(id);

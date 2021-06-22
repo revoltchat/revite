@@ -62,32 +62,36 @@ export function Component(props: Props & WithDispatcher) {
                 disabled={typeof pushEnabled === "undefined"}
                 checked={pushEnabled ?? false}
                 onChange={async pushEnabled => {
-                    const reg = await navigator.serviceWorker?.getRegistration();
-                    if (reg) {
-                        if (pushEnabled) {
-                            const sub = await reg.pushManager.subscribe({
-                                userVisibleOnly: true,
-                                applicationServerKey: urlBase64ToUint8Array(
-                                    client.configuration!.vapid
-                                )
-                            });
+                    try {
+                        const reg = await navigator.serviceWorker?.getRegistration();
+                        if (reg) {
+                            if (pushEnabled) {
+                                const sub = await reg.pushManager.subscribe({
+                                    userVisibleOnly: true,
+                                    applicationServerKey: urlBase64ToUint8Array(
+                                        client.configuration!.vapid
+                                    )
+                                });
 
-                            // tell the server we just subscribed
-                            const json = sub.toJSON();
-                            if (json.keys) {
-                                client.req("POST", "/push/subscribe", {
-                                    endpoint: sub.endpoint,
-                                    ...json.keys
-                                } as any);
-                                setPushEnabled(true);
+                                // tell the server we just subscribed
+                                const json = sub.toJSON();
+                                if (json.keys) {
+                                    client.req("POST", "/push/subscribe", {
+                                        endpoint: sub.endpoint,
+                                        ...json.keys
+                                    } as any);
+                                    setPushEnabled(true);
+                                }
+                            } else {
+                                const sub = await reg.pushManager.getSubscription();
+                                sub?.unsubscribe();
+                                setPushEnabled(false);
+
+                                client.req("POST", "/push/unsubscribe");
                             }
-                        } else {
-                            const sub = await reg.pushManager.getSubscription();
-                            sub?.unsubscribe();
-                            setPushEnabled(false);
-
-                            client.req("POST", "/push/unsubscribe");
                         }
+                    } catch (err) {
+                        console.error('Failed to enable push!', err);
                     }
                 }}
             >
