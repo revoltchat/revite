@@ -74,7 +74,7 @@ if (typeof window !== "undefined") {
         if (pathname.startsWith("/@")) {
             internalEmit("Intermediate", "openProfile", pathname.substr(2));
         } else {
-            internalEmit("Intermediate", "navigate", pathname.substr(2));
+            internalEmit("Intermediate", "navigate", pathname);
         }
     };
 }
