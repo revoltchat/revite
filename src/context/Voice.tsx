@@ -1,8 +1,8 @@
 import { createContext } from "preact";
 import { Children } from "../types/Preact";
-import VoiceClient from "../lib/vortex/VoiceClient";
 import { AppContext } from "./revoltjs/RevoltClient";
-import { ProduceType, VoiceUser } from "../lib/vortex/Types";
+import type VoiceClient from "../lib/vortex/VoiceClient";
+import type { ProduceType, VoiceUser } from "../lib/vortex/Types";
 import { useContext, useEffect, useMemo, useRef, useState } from "preact/hooks";
 
 export enum VoiceStatus {
@@ -22,21 +22,13 @@ export interface VoiceOperations {
     disconnect: () => void;
     isProducing: (type: ProduceType) => boolean;
     startProducing: (type: ProduceType) => Promise<void>;
-    stopProducing: (type: ProduceType) => Promise<void>;
+    stopProducing: (type: ProduceType) => Promise<void> | undefined;
 }
 
 export interface VoiceState {
     roomId?: string;
     status: VoiceStatus;
     participants?: Readonly<Map<string, VoiceUser>>;
-}
-
-export interface VoiceOperations {
-    connect: (channelId: string) => Promise<void>;
-    disconnect: () => void;
-    isProducing: (type: ProduceType) => boolean;
-    startProducing: (type: ProduceType) => Promise<void>;
-    stopProducing: (type: ProduceType) => Promise<void>;
 }
 
 export const VoiceContext = createContext<VoiceState>(undefined as any);
@@ -48,7 +40,7 @@ type Props = {
 
 export default function Voice({ children }: Props) {
     const revoltClient = useContext(AppContext);
-    const [client,] = useState(new VoiceClient());
+    const [client,] = useState<VoiceClient | undefined>(undefined);
     const [state, setState] = useState<VoiceState>({
         status: VoiceStatus.LOADING,
         participants: new Map()
@@ -57,13 +49,13 @@ export default function Voice({ children }: Props) {
     function setStatus(status: VoiceStatus, roomId?: string) {
         setState({
             status,
-            roomId: roomId ?? client.roomId,
-            participants: client.participants ?? new Map(),
+            roomId: roomId ?? client?.roomId,
+            participants: client?.participants ?? new Map(),
         });
     }
 
     useEffect(() => {
-        if (!client.supported()) {
+        if (!client?.supported()) {
             setStatus(VoiceStatus.UNAVAILABLE);
         } else {
             setStatus(VoiceStatus.READY);
@@ -74,7 +66,7 @@ export default function Voice({ children }: Props) {
     const operations: VoiceOperations = useMemo(() => {
         return {
             connect: async channelId => {
-                if (!client.supported())
+                if (!client?.supported())
                     throw new Error("RTC is unavailable");
                 
                 isConnecting.current = true;
@@ -109,7 +101,7 @@ export default function Voice({ children }: Props) {
                 isConnecting.current = false;
             },
             disconnect: () => {
-                if (!client.supported())
+                if (!client?.supported())
                     throw new Error("RTC is unavailable");
             
                 // if (status <= VoiceStatus.READY) return;
@@ -122,13 +114,13 @@ export default function Voice({ children }: Props) {
             isProducing: (type: ProduceType) => {
                 switch (type) {
                     case "audio":
-                        return client.audioProducer !== undefined;
+                        return client?.audioProducer !== undefined;
                 }
             },
             startProducing: async (type: ProduceType) => {
                 switch (type) {
                     case "audio": {
-                        if (client.audioProducer !== undefined) return;
+                        if (client?.audioProducer !== undefined) return;
                         if (navigator.mediaDevices === undefined) return;
                         const mediaStream = await navigator.mediaDevices.getUserMedia(
                             {
@@ -136,7 +128,7 @@ export default function Voice({ children }: Props) {
                             }
                         );
 
-                        await client.startProduce(
+                        await client?.startProduce(
                             mediaStream.getAudioTracks()[0],
                             "audio"
                         );
@@ -145,13 +137,13 @@ export default function Voice({ children }: Props) {
                 }
             },
             stopProducing: (type: ProduceType) => {
-                return client.stopProduce(type);
+                return client?.stopProduce(type);
             }
         }
     }, [ client ]);
 
     useEffect(() => {
-        if (!client.supported()) return;
+        if (!client?.supported()) return;
 
         /* client.on("startProduce", forceUpdate);
         client.on("stopProduce", forceUpdate);

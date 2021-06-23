@@ -61,7 +61,10 @@ export default styled.div<BaseMessageProps>`
     
     .copy {
         width: 0;
+        height: 0;
         opacity: 0;
+        display: block;
+        overflow: hidden;
     }
 
     &:hover {
@@ -88,10 +91,12 @@ export const MessageInfo = styled.div`
 
     time {
         opacity: 0;
+    }
+
+    time, .edited {
         cursor: default;
         display: inline;
         font-size: 10px;
-        padding-top: 1px;
         color: var(--tertiary-foreground);
     }
 `;
@@ -117,14 +122,16 @@ export function MessageDetail({ message, position }: { message: MessageObject, p
     if (position === 'left') {
         if (message.edited) {
             return (
-                <span>
+                <>
                     <span className="copy">
                         [<time>{dayjs(decodeTime(message._id)).format("H:mm")}</time>]
                     </span>
-                    <Tooltip content={dayjs(message.edited).format("LLLL")}>
-                        <Text id="app.main.channel.edited" />
-                    </Tooltip>
-                </span>
+                    <span className="edited">
+                        <Tooltip content={dayjs(message.edited).format("LLLL")}>
+                            <Text id="app.main.channel.edited" />
+                        </Tooltip>
+                    </span>
+                </>
             )
         } else {
             return (

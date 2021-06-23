@@ -2,7 +2,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "rimraf build && tsc --noEmit && vite build",
+    "build": "rimraf build && vite build",
     "preview": "vite preview",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "fmt": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",

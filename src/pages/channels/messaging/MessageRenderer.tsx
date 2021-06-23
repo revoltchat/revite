@@ -139,7 +139,11 @@ function MessageRenderer({ id, state, queue }: Props) {
             }
 
             render.push(
-                <Message message={msg.data}
+                <Message
+                    message={{
+                        ...msg.data,
+                        replies: msg.data.replies.map(x => x.id)
+                    }}
                     key={msg.id}
                     queued={msg}
                     head={head}
