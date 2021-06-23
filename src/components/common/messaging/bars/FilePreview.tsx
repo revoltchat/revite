@@ -31,14 +31,6 @@ const Entry = styled.div`
     display: flex;
     flex-direction: column;
 
-    img {
-        height: 100px;
-        margin-bottom: 4px;
-        border-radius: 4px;
-        object-fit: contain;
-        background: var(--secondary-background);
-    }
-
     &.fade {
         opacity: 0.4;
     }
@@ -58,27 +50,6 @@ const Entry = styled.div`
         font-size: .6em;
         color: var(--tertiary-foreground);
         text-align: center;
-    }
-
-    div:first-child {
-        position: relative;
-        height: 0;
-
-        div {
-            display: grid;
-            height: 100px;
-            cursor: pointer;
-            border-radius: 4px;
-            place-items: center;
-            
-            opacity: 0;
-            transition: 0.1s ease opacity;
-            background: rgba(0, 0, 0, 0.8);
-
-            &:hover {
-                opacity: 1;
-            }
-        }
     }
 `;
 
@@ -114,13 +85,58 @@ const EmptyEntry = styled.div`
     }
 `;
 
+const PreviewBox = styled.div`
+    display: grid;
+    grid-template: "main" 100px / minmax(100px, 1fr);
+    justify-items: center;
+    
+    background: var(--primary-background);
+
+    overflow: hidden;
+    
+    cursor: pointer;
+    border-radius: 4px;
+    
+    .icon, .overlay { grid-area: main }
+
+    .icon {
+        height: 100px;
+        margin-bottom: 4px;
+        object-fit: contain;
+    }
+
+    .overlay {
+        display: grid;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 100%;
+        
+        opacity: 0;
+        visibility: hidden;
+
+        transition: 0.1s ease opacity;
+    }
+
+    &:hover {
+        .overlay {
+            visibility: visible;
+            opacity: 1;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    }
+` 
+
 function FileEntry({ file, remove, index }: { file: File, remove?: () => void, index: number }) {
     if (!file.type.startsWith('image/')) return (
         <Entry className={index >= CAN_UPLOAD_AT_ONCE ? 'fade' : ''}>
-            <div><div onClick={remove}><XCircle size={36} /></div></div>
-            <EmptyEntry>
-                <FileText size={36} />
-            </EmptyEntry>
+            <PreviewBox onClick={remove}>
+                <EmptyEntry className="icon">
+                    <FileText size={36} />
+                </EmptyEntry>
+                <div class="overlay"><XCircle size={36} /></div>
+            </PreviewBox>
             <span class="fn">{file.name}</span>
             <span class="size">{determineFileSize(file.size)}</span>
         </Entry>
@@ -136,9 +152,10 @@ function FileEntry({ file, remove, index }: { file: File, remove?: () => void, i
 
     return (
         <Entry className={index >= CAN_UPLOAD_AT_ONCE ? 'fade' : ''}>
-            { remove && <div><div onClick={remove}><XCircle size={36} /></div></div> }
-            <img src={url}
-                 alt={file.name} />
+            <PreviewBox onClick={remove}>
+                <img class="icon" src={url} alt={file.name} />
+                <div class="overlay"><XCircle size={36} /></div>
+            </PreviewBox>
             <span class="fn">{file.name}</span>
             <span class="size">{determineFileSize(file.size)}</span>
         </Entry>
