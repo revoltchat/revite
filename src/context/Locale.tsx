@@ -1,4 +1,5 @@
 import { IntlProvider } from "preact-i18n";
+import defaultsDeep from "lodash.defaultsdeep";
 import { connectState } from "../redux/connector";
 import { useEffect, useState } from "preact/hooks";
 import definition from "../../external/lang/en.json";
@@ -148,7 +149,7 @@ function Locale({ children, locale }: Props) {
                 }
 
                 dayjs.locale(dayjs_locale.default);
-                setDefinition(defn);
+                setDefinition(defaultsDeep(defn, definition));
             }
         );
     }, [locale, lang]);

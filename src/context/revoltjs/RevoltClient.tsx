@@ -38,11 +38,10 @@ export const OperationsContext = createContext<ClientOperations>(undefined as an
 
 type Props = WithDispatcher & {
     auth: AuthState;
-    sync: SyncOptions;
     children: Children;
 };
 
-function Context({ auth, sync, children, dispatcher }: Props) {
+function Context({ auth, children, dispatcher }: Props) {
     const { openScreen } = useIntermediate();
     const [status, setStatus] = useState(ClientStatus.INIT);
     const [client, setClient] = useState<Client>(undefined as unknown as Client);

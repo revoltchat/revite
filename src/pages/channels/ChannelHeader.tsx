@@ -1,19 +1,17 @@
 import styled from "styled-components";
 import { Channel, User } from "revolt.js";
 import { useContext } from "preact/hooks";
-import { useHistory } from "react-router-dom";
 import Header from "../../components/ui/Header";
-import IconButton from "../../components/ui/IconButton";
+import HeaderActions from "./actions/HeaderActions";
 import Markdown from "../../components/markdown/Markdown";
 import { getChannelName } from "../../context/revoltjs/util";
 import UserStatus from "../../components/common/user/UserStatus";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+import { Save, AtSign, Users, Hash } from "@styled-icons/feather";
 import { useStatusColour } from "../../components/common/user/UserIcon";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-import { Save, AtSign, Users, Hash, UserPlus, Settings, Sidebar as SidebarIcon } from "@styled-icons/feather";
 
-interface Props {
+export interface ChannelHeaderProps {
     channel: Channel,
     toggleSidebar?: () => void
 }
@@ -51,10 +49,9 @@ const Info = styled.div`
     }
 `;
 
-export default function ChannelHeader({ channel, toggleSidebar }: Props) {
+export default function ChannelHeader({ channel, toggleSidebar }: ChannelHeaderProps) {
     const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
-    const history = useHistory();
 
     const name = getChannelName(client, channel);
     let icon, recipient;
@@ -105,32 +102,7 @@ export default function ChannelHeader({ channel, toggleSidebar }: Props) {
                     </>
                 )}
             </Info>
-            <>
-                { channel.channel_type === "Group" && (
-                    <>
-                        <IconButton onClick={() =>
-                            openScreen({
-                                id: "user_picker",
-                                omit: channel.recipients,
-                                callback: async users => {
-                                    for (const user of users) {
-                                        await client.channels.addMember(channel._id, user);
-                                    }
-                                }
-                            })}>
-                            <UserPlus size={22} />
-                        </IconButton>
-                        <IconButton onClick={() => history.push(`/channel/${channel._id}/settings`)}>
-                            <Settings size={22} />
-                        </IconButton>
-                    </>
-                ) }
-                { channel.channel_type === "Group" && !isTouchscreenDevice && (
-                    <IconButton onClick={toggleSidebar}>
-                        <SidebarIcon size={22} />
-                    </IconButton>
-                ) }
-            </>
+            <HeaderActions channel={channel} toggleSidebar={toggleSidebar} />
         </Header>
     )
 }
