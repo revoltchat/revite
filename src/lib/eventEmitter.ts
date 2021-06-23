@@ -19,3 +19,4 @@ export function internalEmit(ns: string, event: string, ...args: any[]) {
 // - Intermediate/navigate
 // - MessageBox/append
 // - TextArea/focus
+// - ReplyBar/add

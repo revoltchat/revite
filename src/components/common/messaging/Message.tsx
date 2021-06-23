@@ -13,6 +13,7 @@ import Overline from "../../ui/Overline";
 import { useContext } from "preact/hooks";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { memo } from "preact/compat";
+import { MessageReply } from "./attachments/MessageReply";
 
 interface Props {
     attachContext?: boolean
@@ -30,33 +31,36 @@ function Message({ attachContext, message, contrast, content: replacement, head:
     const client = useContext(AppContext);
 
     const content = message.content as string;
-    const head = (message.replies && message.replies.length > 0) || preferHead;
+    const head = preferHead || (message.replies && message.replies.length > 0);
     return (
-        <MessageBase id={message._id}
-            head={head}
-            contrast={contrast}
-            sending={typeof queued !== 'undefined'}
-            mention={message.mentions?.includes(client.user!._id)}
-            failed={typeof queued?.error !== 'undefined'}
-            onContextMenu={attachContext ? attachContextMenu('Menu', { message, contextualChannel: message.channel, queued }) : undefined}>
-            <MessageInfo>
-                { head ?
-                    <UserIcon target={user} size={36} /> :
-                    <MessageDetail message={message} position="left" /> }
-            </MessageInfo>
-            <MessageContent>
-                { head && <span className="author">
-                    <Username user={user} />
-                    <MessageDetail message={message} position="top" />
-                </span> }
-                { replacement ?? <Markdown content={content} /> }
-                { queued?.error && <Overline type="error" error={queued.error} /> }
-                { message.attachments?.map((attachment, index) =>
-                    <Attachment key={index} attachment={attachment} hasContent={ index > 0 || content.length > 0 } />) }
-                { message.embeds?.map((embed, index) =>
-                    <Embed key={index} embed={embed} />) }
-            </MessageContent>
-        </MessageBase>
+        <>
+            { message.replies?.map((message_id, index) => <MessageReply index={index} id={message_id} channel={message.channel} />) }
+            <MessageBase id={message._id}
+                head={head && !message.replies}
+                contrast={contrast}
+                sending={typeof queued !== 'undefined'}
+                mention={message.mentions?.includes(client.user!._id)}
+                failed={typeof queued?.error !== 'undefined'}
+                onContextMenu={attachContext ? attachContextMenu('Menu', { message, contextualChannel: message.channel, queued }) : undefined}>
+                <MessageInfo>
+                    { head ?
+                        <UserIcon target={user} size={36} /> :
+                        <MessageDetail message={message} position="left" /> }
+                </MessageInfo>
+                <MessageContent>
+                    { head && <span className="author">
+                        <Username user={user} />
+                        <MessageDetail message={message} position="top" />
+                    </span> }
+                    { replacement ?? <Markdown content={content} /> }
+                    { queued?.error && <Overline type="error" error={queued.error} /> }
+                    { message.attachments?.map((attachment, index) =>
+                        <Attachment key={index} attachment={attachment} hasContent={ index > 0 || content.length > 0 } />) }
+                    { message.embeds?.map((embed, index) =>
+                        <Embed key={index} embed={embed} />) }
+                </MessageContent>
+            </MessageBase>
+        </>
     )
 }
 

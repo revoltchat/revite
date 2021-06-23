@@ -6,9 +6,9 @@ export function Username({ user }: { user?: User }) {
     return <b>{ user?.username ?? <Text id="app.main.channel.unknown_user" /> }</b>;
 }
 
-export default function UserShort({ user }: { user?: User }) {
+export default function UserShort({ user, size }: { user?: User, size?: number }) {
     return <>
-        <UserIcon size={24} target={user} />
+        <UserIcon size={size ?? 24} target={user} />
         <Username user={user} />
     </>;
 }

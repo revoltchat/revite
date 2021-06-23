@@ -4,8 +4,10 @@ import styled from "styled-components";
 import { defer } from "../../../lib/defer";
 import IconButton from "../../ui/IconButton";
 import { Send } from '@styled-icons/feather';
+import { debounce } from "../../../lib/debounce";
 import Axios, { CancelTokenSource } from "axios";
 import { useTranslation } from "../../../lib/i18n";
+import { Reply } from "../../../redux/reducers/queue";
 import { connectState } from "../../../redux/connector";
 import { WithDispatcher } from "../../../redux/reducers";
 import { takeError } from "../../../context/revoltjs/util";
@@ -18,8 +20,8 @@ import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { FileUploader, grabFiles, uploadFile } from "../../../context/revoltjs/FileUploads";
 import { SingletonMessageRenderer, SMOOTH_SCROLL_ON_RECEIVE } from "../../../lib/renderer/Singleton";
 
+import ReplyBar from "./bars/ReplyBar";
 import FilePreview from './bars/FilePreview';
-import { debounce } from "../../../lib/debounce";
 import AutoComplete, { useAutoComplete } from "../AutoComplete";
 
 type Props = WithDispatcher & {
@@ -55,7 +57,8 @@ export const CAN_UPLOAD_AT_ONCE = 5;
 
 function MessageBox({ channel, draft, dispatcher }: Props) {
     const [ uploadState, setUploadState ] = useState<UploadState>({ type: 'none' });
-    const [typing, setTyping] = useState<boolean | number>(false);
+    const [ typing, setTyping ] = useState<boolean | number>(false);
+    const [ replies, setReplies ] = useState<Reply[]>([]);
     const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
     const translate = useTranslation();
@@ -104,6 +107,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
         
         stopTyping();
         setMessage();
+        setReplies([]);
 
         const nonce = ulid();
         dispatcher({
@@ -114,7 +118,9 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                 _id: nonce,
                 channel: channel._id,
                 author: client.user!._id,
-                content
+                
+                content,
+                replies
             }
         });
 
@@ -123,7 +129,8 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
         try {
             await client.channels.sendMessage(channel._id, {
                 content,
-                nonce
+                nonce,
+                replies
             });
         } catch (error) {
             dispatcher({
@@ -186,7 +193,8 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
             await client.channels.sendMessage(channel._id, {
                 content,
                 nonce,
-                attachments // ! FIXME: temp, allow multiple uploads on server
+                replies,
+                attachments
             });
         } catch (err) {
             setUploadState({
@@ -199,6 +207,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
         }
 
         setMessage();
+        setReplies([]);
 
         if (files.length > CAN_UPLOAD_AT_ONCE) {
             setUploadState({
@@ -257,6 +266,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                         setUploadState({ type: 'attached', files: uploadState.files.filter((_, i) => index !== i) });
                     }
                 }} />
+            <ReplyBar channel={channel._id} replies={replies} setReplies={setReplies} />
             <Base>
                 <Action>
                     <FileUploader

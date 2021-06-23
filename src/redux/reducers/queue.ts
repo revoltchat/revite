@@ -5,10 +5,20 @@ export enum QueueStatus {
     ERRORED = "errored",
 }
 
+export interface Reply {
+    id: string,
+    mention: boolean
+}
+
+export type QueuedMessageData = Omit<MessageObject, 'content' | 'replies'> & {
+    content: string;
+    replies: Reply[];
+}
+
 export interface QueuedMessage {
     id: string;
     channel: string;
-    data: MessageObject;
+    data: QueuedMessageData;
     status: QueueStatus;
     error?: string;
 }
@@ -19,7 +29,7 @@ export type QueueAction =
           type: "QUEUE_ADD";
           nonce: string;
           channel: string;
-          message: MessageObject;
+          message: QueuedMessageData;
       }
     | {
           type: "QUEUE_FAIL";

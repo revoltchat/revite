@@ -39,6 +39,7 @@ type Action =
     | { action: "retry_message"; message: QueuedMessage }
     | { action: "cancel_message"; message: QueuedMessage }
     | { action: "mention"; user: string }
+    | { action: "reply_message"; id: string }
     | { action: "quote_message"; content: string }
     | { action: "edit_message"; id: string }
     | { action: "delete_message"; target: Channels.Message }
@@ -120,8 +121,9 @@ function ContextMenus(props: WithDispatcher) {
                             .sendMessage(
                                 data.message.channel,
                                 {
+                                    nonce: data.message.id,
                                     content: data.message.data.content as string,
-                                    nonce
+                                    replies: data.message.data.replies
                                 }
                             )
                             .catch(fail);
@@ -156,6 +158,17 @@ function ContextMenus(props: WithDispatcher) {
                 case "copy_text":
                     writeClipboard(data.content);
                     break;
+
+                case "reply_message":
+                    {
+                        internalEmit(
+                            "ReplyBar",
+                            "add",
+                            data.id
+                        );
+                    }
+                    break;
+
                 case "quote_message":
                     {
                         internalEmit(
@@ -472,9 +485,15 @@ function ContextMenus(props: WithDispatcher) {
                             message.content.length > 0
                         ) {
                             generateAction({
+                                action: "reply_message",
+                                id: message._id
+                            });
+
+                            generateAction({
                                 action: "quote_message",
                                 content: message.content
                             });
+
                             generateAction({
                                 action: "copy_text",
                                 content: message.content
