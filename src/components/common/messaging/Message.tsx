@@ -12,6 +12,7 @@ import MessageBase, { MessageContent, MessageDetail, MessageInfo } from "./Messa
 import Overline from "../../ui/Overline";
 import { useContext } from "preact/hooks";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { memo } from "preact/compat";
 
 interface Props {
     attachContext?: boolean
@@ -22,7 +23,7 @@ interface Props {
     head?: boolean
 }
 
-export default function Message({ attachContext, message, contrast, content: replacement, head: preferHead, queued }: Props) {
+function Message({ attachContext, message, contrast, content: replacement, head: preferHead, queued }: Props) {
     // TODO: Can improve re-renders here by providing a list
     // TODO: of dependencies. We only need to update on u/avatar.
     const user = useUser(message.author);
@@ -58,3 +59,5 @@ export default function Message({ attachContext, message, contrast, content: rep
         </MessageBase>
     )
 }
+
+export default memo(Message);

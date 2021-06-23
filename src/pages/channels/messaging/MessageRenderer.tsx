@@ -1,4 +1,5 @@
 import { decodeTime } from "ulid";
+import { memo } from "preact/compat";
 import MessageEditor from "./MessageEditor";
 import { Children } from "../../../types/Preact";
 import ConversationStart from "./ConversationStart";
@@ -156,8 +157,8 @@ function MessageRenderer({ id, state, queue }: Props) {
     return <>{ render }</>;
 }
 
-export default connectState<Omit<Props, 'queue'>>(MessageRenderer, state => {
+export default memo(connectState<Omit<Props, 'queue'>>(MessageRenderer, state => {
     return {
         queue: state.queue
     };
-});
+}));

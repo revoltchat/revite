@@ -11,6 +11,7 @@ import { SingletonMessageRenderer } from "../../../lib/renderer/Singleton";
 import { IntermediateContext } from "../../../context/intermediate/Intermediate";
 import { ClientStatus, StatusContext } from "../../../context/revoltjs/RevoltClient";
 import { useContext, useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
+import { defer } from "../../../lib/defer";
 
 const Area = styled.div`
     height: 100%;
@@ -47,21 +48,61 @@ export function MessageArea({ id }: Props) {
     // ? Current channel state.
     const [state, setState] = useState<RenderState>({ type: "LOADING" });
 
-    // ? Hook-based scrolling mechanism.
-    const [scrollState, setSS] = useState<ScrollState>({
-        type: "Free"
-    });
+    // ? useRef to avoid re-renders
+    const scrollState = useRef<ScrollState>({ type: "Free" });
 
     const setScrollState = (v: ScrollState) => {
         if (v.type === 'StayAtBottom') {
-            if (scrollState.type === 'Bottom' || atBottom()) {
-                setSS({ type: 'ScrollToBottom', smooth: v.smooth });
+            if (scrollState.current.type === 'Bottom' || atBottom()) {
+                scrollState.current = { type: 'ScrollToBottom', smooth: v.smooth };
             } else {
-                setSS({ type: 'Free' });
+                scrollState.current = { type: 'Free' };
             }
         } else {
-            setSS(v);
+            scrollState.current = v;
         }
+
+        defer(() => {
+            if (scrollState.current.type === "ScrollToBottom") {
+                setScrollState({ type: "Bottom", scrollingUntil: + new Date() + 150 });
+                
+                animateScroll.scrollToBottom({
+                    container: ref.current,
+                    duration: scrollState.current.smooth ? 150 : 0
+                });
+            } else if (scrollState.current.type === "OffsetTop") {
+                animateScroll.scrollTo(
+                    Math.max(
+                        101,
+                        ref.current.scrollTop +
+                            (ref.current.scrollHeight - scrollState.current.previousHeight)
+                    ),
+                    {
+                        container: ref.current,
+                        duration: 0
+                    }
+                );
+
+                setScrollState({ type: "Free" });
+            } else if (scrollState.current.type === "ScrollTop") {
+                animateScroll.scrollTo(scrollState.current.y, {
+                    container: ref.current,
+                    duration: 0
+                });
+
+                setScrollState({ type: "Free" });
+            }
+        });
+
+        /*if (v.type === 'StayAtBottom') {
+            if (scrollState.current.type === 'Bottom' || atBottom()) {
+                scrollState.current = { type: 'ScrollToBottom', smooth: v.smooth };
+            } else {
+                scrollState.current = { type: 'Free' };
+            }
+        } else {
+            scrollState.current = v;
+        }*/
     }
 
     // ? Determine if we are at the bottom of the scroll container.
@@ -113,19 +154,20 @@ export function MessageArea({ id }: Props) {
 
     // ? Scroll to the bottom before the browser paints.
     useLayoutEffect(() => {
-        if (scrollState.type === "ScrollToBottom") {
+        // ! FIXME: NO REACTIVITY
+        if (scrollState.current.type === "ScrollToBottom") {
             setScrollState({ type: "Bottom", scrollingUntil: + new Date() + 150 });
             
             animateScroll.scrollToBottom({
                 container: ref.current,
-                duration: scrollState.smooth ? 150 : 0
+                duration: scrollState.current.smooth ? 150 : 0
             });
-        } else if (scrollState.type === "OffsetTop") {
+        } else if (scrollState.current.type === "OffsetTop") {
             animateScroll.scrollTo(
                 Math.max(
                     101,
                     ref.current.scrollTop +
-                        (ref.current.scrollHeight - scrollState.previousHeight)
+                        (ref.current.scrollHeight - scrollState.current.previousHeight)
                 ),
                 {
                     container: ref.current,
@@ -134,8 +176,8 @@ export function MessageArea({ id }: Props) {
             );
 
             setScrollState({ type: "Free" });
-        } else if (scrollState.type === "ScrollTop") {
-            animateScroll.scrollTo(scrollState.y, {
+        } else if (scrollState.current.type === "ScrollTop") {
+            animateScroll.scrollTo(scrollState.current.y, {
                 container: ref.current,
                 duration: 0
             });
@@ -148,10 +190,10 @@ export function MessageArea({ id }: Props) {
     // ? Also handle StayAtBottom
     useEffect(() => {
         async function onScroll() {
-            if (scrollState.type === "Free" && atBottom()) {
+            if (scrollState.current.type === "Free" && atBottom()) {
                 setScrollState({ type: "Bottom" });
-            } else if (scrollState.type === "Bottom" && !atBottom()) {
-                if (scrollState.scrollingUntil && scrollState.scrollingUntil > + new Date()) return;
+            } else if (scrollState.current.type === "Bottom" && !atBottom()) {
+                if (scrollState.current.scrollingUntil && scrollState.current.scrollingUntil > + new Date()) return;
                 setScrollState({ type: "Free" });
             }
         }
@@ -178,7 +220,7 @@ export function MessageArea({ id }: Props) {
 
     // ? Scroll down whenever the message area resizes.
     function stbOnResize() {
-        if (!atBottom() && scrollState.type === "Bottom") {
+        if (!atBottom() && scrollState.current.type === "Bottom") {
             animateScroll.scrollToBottom({
                 container: ref.current,
                 duration: 0
