@@ -65,8 +65,7 @@ export function InputModal({
 }
 
 type SpecialProps = { onClose: () => void } & (
-    { type: "create_group" | "create_server" | "set_custom_status" | "add_friend" } |
-    { type: "create_channel", server: string }
+    { type: "create_group" | "create_server" | "set_custom_status" | "add_friend" }
 )
 
 export function SpecialInputModal(props: SpecialProps) {
@@ -107,24 +106,6 @@ export function SpecialInputModal(props: SpecialProps) {
                     );
 
                     history.push(`/server/${server._id}`);
-                }}
-            />;
-        }
-        case "create_channel": {
-            return <InputModal
-                onClose={onClose}
-                question={<Text id="app.context_menu.create_channel" />}
-                field={<Text id="app.main.servers.channel_name" />}
-                callback={async name => {
-                    const channel = await client.servers.createChannel(
-                        props.server,
-                        {
-                            name,
-                            nonce: ulid()
-                        }
-                    );
-
-                    history.push(`/server/${props.server}/channel/${channel._id}`);
                 }}
             />;
         }

@@ -1,10 +1,10 @@
 import { useContext } from "preact/hooks";
-import { Hash } from "@styled-icons/feather";
 import { Channels } from "revolt.js/dist/api/objects";
+import { Hash, Volume2 } from "@styled-icons/feather";
 import { ImageIconBase, IconBaseProps } from "./IconBase";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
-interface Props extends IconBaseProps<Channels.GroupChannel | Channels.TextChannel> {
+interface Props extends IconBaseProps<Channels.GroupChannel | Channels.TextChannel | Channels.VoiceChannel> {
     isServerChannel?: boolean;
 }
 
@@ -15,13 +15,19 @@ export default function ChannelIcon(props: Props & Omit<JSX.HTMLAttributes<HTMLI
 
     const { size, target, attachment, isServerChannel: server, animate, children, as, ...imgProps } = props;
     const iconURL = client.generateFileURL(target?.icon ?? attachment, { max_side: 256 }, animate);
-    const isServerChannel = server || target?.channel_type === 'TextChannel';
+    const isServerChannel = server || (target && (target.channel_type === 'TextChannel' || target.channel_type === 'VoiceChannel'));
 
     if (typeof iconURL === 'undefined') {
         if (isServerChannel) {
-            return (
-                <Hash size={size} />
-            )
+            if (target?.channel_type === 'VoiceChannel') {
+                return (
+                    <Volume2 size={size} />
+                )
+            } else {
+                return (
+                    <Hash size={size} />
+                )
+            }
         }
     }
 

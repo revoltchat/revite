@@ -9,7 +9,7 @@ import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 
 interface Props {
-    channel: Channels.GroupChannel | Channels.TextChannel;
+    channel: Channels.GroupChannel | Channels.TextChannel | Channels.VoiceChannel;
 }
 
 export function Overview({ channel }: Props) {

@@ -1,5 +1,8 @@
+import { ulid } from "ulid";
 import { Text } from "preact-i18n";
 import styles from './Prompt.module.scss';
+import { useHistory } from "react-router-dom";
+import Radio from "../../../components/ui/Radio";
 import { Children } from "../../../types/Preact";
 import { useIntermediate } from "../Intermediate";
 import InputBox from "../../../components/ui/InputBox";
@@ -44,7 +47,8 @@ type SpecialProps = { onClose: () => void } & (
     { type: "delete_message", target: Channels.Message } |
     { type: "create_invite", target: Channels.TextChannel | Channels.GroupChannel } |
     { type: "kick_member", target: Servers.Server, user: string } |
-    { type: "ban_member", target: Servers.Server, user: string }
+    { type: "ban_member", target: Servers.Server, user: string } |
+    { type: "create_channel", target: Servers.Server }
 )
 
 export function SpecialPromptModal(props: SpecialProps) {
@@ -258,6 +262,59 @@ export function SpecialPromptModal(props: SpecialProps) {
                         <Overline><Text id="app.special.modals.prompt.confirm_ban_reason" /></Overline>
                         <InputBox value={reason ?? ''} onChange={e => setReason(e.currentTarget.value)} />
                     </div>}
+                    disabled={processing}
+                    error={error}
+                />
+            )
+        }
+        case 'create_channel': {
+            const [ name, setName ] = useState('');
+            const [ type, setType ] = useState<'Text' | 'Voice'>('Text');
+            const history = useHistory();
+
+            return (
+                <PromptModal
+                    onClose={onClose}
+                    question={<Text id="app.context_menu.create_channel" />}
+                    actions={[
+                        {
+                            confirmation: true,
+                            contrast: true,
+                            text: <Text id="app.special.modals.actions.create" />,
+                            onClick: async () => {
+                                setProcessing(true);
+
+                                try {
+                                    const channel = await client.servers.createChannel(
+                                        props.target._id,
+                                        {
+                                            type,
+                                            name,
+                                            nonce: ulid()
+                                        }
+                                    );
+                
+                                    history.push(`/server/${props.target._id}/channel/${channel._id}`);
+                                    onClose();
+                                } catch (err) {
+                                    setError(takeError(err));
+                                    setProcessing(false);
+                                }
+                            }
+                        },
+                        { text: <Text id="app.special.modals.actions.cancel" />, onClick: onClose }
+                    ]}
+                    content={<>
+                        <Overline block type="subtle"><Text id="app.main.servers.channel_type" /></Overline>
+                        <Radio checked={type === 'Text'} onSelect={() => setType('Text')}>
+                            <Text id="app.main.servers.text_channel" /></Radio>
+                        <Radio checked={type === 'Voice'} onSelect={() => setType('Voice')}>
+                            <Text id="app.main.servers.voice_channel" /></Radio>
+                        <Overline block type="subtle"><Text id="app.main.servers.channel_name" /></Overline>
+                        <InputBox
+                            value={name}
+                            onChange={e => setName(e.currentTarget.value)} />
+                    </>}
                     disabled={processing}
                     error={error}
                 />

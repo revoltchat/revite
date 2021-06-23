@@ -22,13 +22,14 @@ interface Props {
     head?: boolean
 }
 
-export default function Message({ attachContext, message, contrast, content: replacement, head, queued }: Props) {
+export default function Message({ attachContext, message, contrast, content: replacement, head: preferHead, queued }: Props) {
     // TODO: Can improve re-renders here by providing a list
     // TODO: of dependencies. We only need to update on u/avatar.
     const user = useUser(message.author);
     const client = useContext(AppContext);
 
     const content = message.content as string;
+    const head = (message.replies && message.replies.length > 0) || preferHead;
     return (
         <MessageBase id={message._id}
             head={head}

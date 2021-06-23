@@ -3344,10 +3344,10 @@ reusify@^1.0.4:
   resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
   integrity sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
 
-revolt.js@4.3.1-alpha.0:
-  version "4.3.1-alpha.0"
-  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-4.3.1-alpha.0.tgz#21abb0706852468a0b7991a80d81093f547d25f3"
-  integrity sha512-YwDdDgioVYeBYkgZtgtXM37//96WmT18XVPJ7cBJzDQ3GWUKKPrw4VFjmi9FSh0ksfgfkSIrA7/hqmztZWbnVw==
+revolt.js@4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-4.3.2.tgz#2e613ff1d918d77266e9c777e226bfbddd5a9b87"
+  integrity sha512-JyD3fRaory3Rhy/sAWcvHjLb/CluJRZap2Di2ZFFf9uiRJBgLNlClS/3RkBLAcQqx4KVx7Ua3WbKq1/dU6x7dQ==
   dependencies:
     "@insertish/mutable" "1.1.0"
     axios "^0.19.2"

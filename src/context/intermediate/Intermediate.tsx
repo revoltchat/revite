@@ -26,11 +26,11 @@ export type Screen =
     { type: "delete_message", target: Channels.Message } |
     { type: "create_invite", target: Channels.TextChannel | Channels.GroupChannel } |
     { type: "kick_member", target: Servers.Server, user: string } |
-    { type: "ban_member", target: Servers.Server, user: string }
+    { type: "ban_member", target: Servers.Server, user: string } |
+    { type: "create_channel", target: Servers.Server }
 )) |
 ({ id: "special_input" } & (
-    { type: "create_group" | "create_server" | "set_custom_status" | "add_friend" } |
-    { type: "create_channel", server: string }
+    { type: "create_group" | "create_server" | "set_custom_status" | "add_friend" }
 ))
 | {
       id: "_input";

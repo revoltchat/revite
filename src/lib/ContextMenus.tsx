@@ -60,7 +60,7 @@ type Action =
     | { action: "set_presence"; presence: Users.Presence }
     | { action: "set_status" }
     | { action: "clear_status" }
-    | { action: "create_channel"; server: string }
+    | { action: "create_channel"; target: Servers.Server }
     | { action: "create_invite"; target: Channels.GroupChannel | Channels.TextChannel }
     | { action: "leave_group"; target: Channels.GroupChannel }
     | { action: "delete_channel"; target: Channels.TextChannel }
@@ -92,7 +92,8 @@ function ContextMenus(props: WithDispatcher) {
                     break;
                 case "mark_as_read":
                     {
-                        if (data.channel.channel_type === 'SavedMessages') return;
+                        if (data.channel.channel_type === 'SavedMessages' ||
+                            data.channel.channel_type === 'VoiceChannel') return;
 
                         let message = data.channel.channel_type === 'TextChannel' ? data.channel.last_message : data.channel.last_message._id;
                         props.dispatcher({
@@ -280,13 +281,12 @@ function ContextMenus(props: WithDispatcher) {
                 case "delete_channel":
                 case "delete_server":
                 case "delete_message":
+                case "create_channel":
                 // @ts-expect-error
                 case "create_invite": openScreen({ id: "special_prompt", type: data.action, target: data.target }); break;
 
                 case "ban_member":
                 case "kick_member": openScreen({ id: "special_prompt", type: data.action, target: data.target, user: data.user }); break;
-
-                case "create_channel": openScreen({ id: "special_input", type: "create_channel", server: data.server }); break;
 
                 case "open_channel_settings": history.push(`/channel/${data.id}/settings`); break;
                 case "open_server_channel_settings": history.push(`/server/${data.server}/channel/${data.id}/settings`); break;
@@ -341,9 +341,12 @@ function ContextMenus(props: WithDispatcher) {
                     }
 
                     if (server_list) {
+                        let server = useServer(server_list, forceUpdate);
                         let permissions = useServerPermission(server_list, forceUpdate);
-                        if (permissions & ServerPermission.ManageChannels) generateAction({ action: 'create_channel', server: server_list });
-                        if (permissions & ServerPermission.ManageServer) generateAction({ action: 'open_server_settings', id: server_list });
+                        if (server) {
+                            if (permissions & ServerPermission.ManageChannels) generateAction({ action: 'create_channel', target: server });
+                            if (permissions & ServerPermission.ManageServer) generateAction({ action: 'open_server_settings', id: server_list });
+                        }
 
                         return elements;
                     }

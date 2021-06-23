@@ -16,7 +16,8 @@ export function useUnreads({ channel, unreads, dispatcher }: UnreadProps, contex
         function checkUnread(target?: Channel) {
             if (!target) return;
             if (target._id !== channel._id) return;
-            if (target?.channel_type === "SavedMessages") return;
+            if (target.channel_type === "SavedMessages" ||
+                target.channel_type === "VoiceChannel") return;
 
             const unread = unreads[channel._id]?.last_id;
             if (target.last_message) {

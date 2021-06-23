@@ -10,6 +10,7 @@ import { useChannel, useForceUpdate } from "../../context/revoltjs/hooks";
 import MemberSidebar from "../../components/navigation/right/MemberSidebar";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
+import { Channel } from "revolt.js";
 
 const ChannelMain = styled.div`
     flex-grow: 1;
@@ -31,22 +32,36 @@ export function Channel({ id }: { id: string }) {
     const channel = useChannel(id, ctx);
 
     if (!channel) return null;
+
+    if (channel.channel_type === 'VoiceChannel') {
+        return <VoiceChannel channel={channel} />;
+    } else {
+        return <TextChannel channel={channel} />;
+    }
+}
+
+function TextChannel({ channel }: { channel: Channel }) {
     const [ showMembers, setMembers ] = useState(true);
 
-    return (
-        <>
-            <ChannelHeader channel={channel} toggleSidebar={() => setMembers(!showMembers)} />
-            <ChannelMain>
-                <ChannelContent>
-                    <MessageArea id={id} />
-                    <TypingIndicator id={channel._id} />
-                    <JumpToBottom id={id} />
-                    <MessageBox channel={channel} />
-                </ChannelContent>
-                { !isTouchscreenDevice && showMembers && <MemberSidebar channel={channel} /> }
-            </ChannelMain>
-        </>
-    )
+    let id = channel._id;
+    return <>
+        <ChannelHeader channel={channel} toggleSidebar={() => setMembers(!showMembers)} />
+        <ChannelMain>
+            <ChannelContent>
+                <MessageArea id={id} />
+                <TypingIndicator id={id} />
+                <JumpToBottom id={id} />
+                <MessageBox channel={channel} />
+            </ChannelContent>
+            { !isTouchscreenDevice && showMembers && <MemberSidebar channel={channel} /> }
+        </ChannelMain>
+    </>;
+}
+
+function VoiceChannel({ channel }: { channel: Channel }) {
+    return <>
+        <ChannelHeader channel={channel} />
+    </>;
 }
 
 export default function() {
