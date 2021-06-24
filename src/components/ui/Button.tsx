@@ -10,6 +10,7 @@ export default styled.button<Props>`
     padding: 8px;
     font-size: 16px;
     text-align: center;
+    font-family: 'Open Sans', sans-serif;
 
     transition: 0.2s ease opacity;
     transition: 0.2s ease background-color;

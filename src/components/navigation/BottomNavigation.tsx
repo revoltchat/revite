@@ -1,9 +1,9 @@
-import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
 import IconButton from "../ui/IconButton";
 import UserIcon from "../common/user/UserIcon";
+import styled, { css } from "styled-components";
 import { useSelf } from "../../context/revoltjs/hooks";
 import { useHistory, useLocation } from "react-router";
+import ConditionalLink from "../../lib/ConditionalLink";
 import { MessageCircle, Users } from "@styled-icons/feather";
 
 const NavigationBase = styled.div`
@@ -54,18 +54,18 @@ export default function BottomNavigation() {
                 </IconButton>
             </Button>
             <Button active={friendsActive}>
-                <Link to="/friends">
+                <ConditionalLink active={friendsActive} to="/friends">
                     <IconButton>
                         <Users size={26} />
                     </IconButton>
-                </Link>
+                </ConditionalLink>
             </Button>
             <Button active={settingsActive}>
-                <Link to="/settings">
+                <ConditionalLink active={settingsActive} to="/settings">
                     <IconButton>
                         <UserIcon target={user} size={26} status={true} />
                     </IconButton>
-                </Link>
+                </ConditionalLink>
             </Button>
         </NavigationBase>
     );
