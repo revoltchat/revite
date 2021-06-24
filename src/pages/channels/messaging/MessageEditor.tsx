@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { useContext, useEffect, useState } from "preact/hooks";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { MessageObject } from "../../../context/revoltjs/util";
+import { useContext, useEffect, useState } from "preact/hooks";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
-import { IntermediateContext } from "../../../context/intermediate/Intermediate";
+import { IntermediateContext, useIntermediate } from "../../../context/intermediate/Intermediate";
 
 const EditorBase = styled.div`
     display: flex;
@@ -40,6 +40,7 @@ interface Props {
 export default function MessageEditor({ message, finish }: Props) {
     const [ content, setContent ] = useState(message.content as string ?? '');
     const { focusTaken } = useContext(IntermediateContext);
+    const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
 
     async function save() {
