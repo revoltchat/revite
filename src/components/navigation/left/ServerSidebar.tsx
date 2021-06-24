@@ -47,7 +47,7 @@ function ServerSidebar(props: Props & WithDispatcher) {
     if (!server) return <Redirect to="/" />;
 
     const channels = (useChannels(server.channels, ctx)
-        .filter(entry => typeof entry !== 'undefined') as Readonly<Channels.TextChannel>[])
+        .filter(entry => typeof entry !== 'undefined') as Readonly<Channels.TextChannel | Channels.VoiceChannel>[])
         .map(x => mapChannelWithUnread(x, props.unreads));
     
     const channel = channels.find(x => x?._id === channel_id);

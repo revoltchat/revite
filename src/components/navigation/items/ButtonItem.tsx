@@ -82,7 +82,7 @@ export function UserButton({ active, alert, alertCount, user, context, channel }
 }
 
 type ChannelProps = CommonProps & {
-    channel: Channels.Channel,
+    channel: Channels.Channel & { unread?: string },
     user?: Users.User
     compact?: boolean
 }
@@ -101,7 +101,7 @@ export function ChannelButton({ active, alert, alertCount, channel, user, compac
             data-active={active}
             data-alert={typeof alert === 'string'}
             className={classNames(styles.item, { [styles.compact]: compact })}
-            onContextMenu={attachContextMenu('Menu', { channel: channel._id })}>
+            onContextMenu={attachContextMenu('Menu', { channel: channel._id, unread: typeof channel.unread !== 'undefined' })}>
             <div className={styles.avatar}>
                 <ChannelIcon target={channel} size={compact ? 24 : 32} />
             </div>

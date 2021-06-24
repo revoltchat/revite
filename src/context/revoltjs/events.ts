@@ -104,6 +104,16 @@ export function registerEvents({
         client.addListener(listener, (listenerFunc as any)[listener]);
     }
 
+    function logMutation(target: string, key: string) {
+        console.log('(o) Object mutated', target, '\nChanged:', key);
+    }
+
+    if (import.meta.env.DEV) {
+        client.users.addListener('mutation', logMutation);
+        client.servers.addListener('mutation', logMutation);
+        client.channels.addListener('mutation', logMutation);
+    }
+
     const online = () => {
         if (operations.ready()) {
             setStatus(ClientStatus.RECONNECTING);
@@ -126,6 +136,12 @@ export function registerEvents({
     return () => {
         for (const listener of Object.keys(listenerFunc)) {
             client.removeListener(listener, (listenerFunc as any)[listener]);
+        }
+
+        if (import.meta.env.DEV) {
+            client.users.removeListener('mutation', logMutation);
+            client.servers.removeListener('mutation', logMutation);
+            client.channels.removeListener('mutation', logMutation);
         }
 
         window.removeEventListener("online", online);

@@ -11,7 +11,7 @@ export interface HookContext {
 export function useForceUpdate(context?: HookContext): HookContext {
     const client = useContext(AppContext);
     if (context) return context;
-    const H = useState(undefined);
+    /*const H = useState(undefined);
     var updateState: (_: undefined) => void;
     if (Array.isArray(H)) {
         let [, u] = H;
@@ -20,14 +20,16 @@ export function useForceUpdate(context?: HookContext): HookContext {
         console.warn('Failed to construct using useState.');
         console.warn(H);
         updateState = ()=>{};
-    }
-    return { client, forceUpdate: useCallback(() => updateState(undefined), []) };
+    }*/
+
+    const [, updateState] = useState(0);
+    return { client, forceUpdate: () => updateState(Math.random()) };
 }
 
 function useObject(type: string, id?: string | string[], context?: HookContext) {
     const ctx = useForceUpdate(context);
 
-    function mutation(target: string) {
+    function update(target: any) {
         if (typeof id === 'string' ? target === id :
             Array.isArray(id) ? id.includes(target) : true) {
             ctx.forceUpdate();
@@ -36,8 +38,8 @@ function useObject(type: string, id?: string | string[], context?: HookContext) 
 
     const map = (ctx.client as any)[type];
     useEffect(() => {
-        map.addListener("update", mutation);
-        return () => map.removeListener("update", mutation);
+        map.addListener("update", update);
+        return () => map.removeListener("update", update);
     }, [id]);
 
     return typeof id === 'string' ? map.get(id)

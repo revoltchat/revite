@@ -62,9 +62,9 @@ type Action =
     | { action: "set_status" }
     | { action: "clear_status" }
     | { action: "create_channel"; target: Servers.Server }
-    | { action: "create_invite"; target: Channels.GroupChannel | Channels.TextChannel }
+    | { action: "create_invite"; target: Channels.GroupChannel | Channels.TextChannel | Channels.VoiceChannel }
     | { action: "leave_group"; target: Channels.GroupChannel }
-    | { action: "delete_channel"; target: Channels.TextChannel }
+    | { action: "delete_channel"; target: Channels.TextChannel | Channels.VoiceChannel }
     | { action: "close_dm"; target: Channels.DirectMessageChannel }
     | { action: "leave_server"; target: Servers.Server }
     | { action: "delete_server"; target: Servers.Server }
@@ -374,20 +374,17 @@ function ContextMenus(props: WithDispatcher) {
                     const targetChannel = channel ?? contextualChannel;
 
                     const user = useUser(uid, forceUpdate);
-                    const server = useServer(targetChannel?.channel_type === 'TextChannel' ? targetChannel.server : sid, forceUpdate);
+                    const serverChannel = targetChannel && (targetChannel.channel_type === 'TextChannel' || targetChannel.channel_type === 'VoiceChannel') ? targetChannel : undefined;
+                    const server = useServer(serverChannel ? serverChannel.server : sid, forceUpdate);
 
                     const channelPermissions = targetChannel ? useChannelPermission(targetChannel._id, forceUpdate) : 0;
                     const serverPermissions = server ? useServerPermission(server._id, forceUpdate) : (
-                        targetChannel?.channel_type === 'TextChannel' ? useServerPermission(targetChannel.server, forceUpdate) : 0
+                        serverChannel ? useServerPermission(serverChannel.server, forceUpdate) : 0
                     );
                     const userPermissions = user ? useUserPermission(user._id, forceUpdate) : 0;
 
                     if (channel && unread) {
-                        generateAction(
-                            { action: "mark_as_read", channel },
-                            undefined,
-                            true
-                        );
+                        generateAction({ action: "mark_as_read", channel });
                     }
 
                     if (contextualChannel) {
@@ -580,6 +577,7 @@ function ContextMenus(props: WithDispatcher) {
                                     generateAction({ action: "close_dm", target: channel });
                                     break;
                                 case 'TextChannel':
+                                case 'VoiceChannel':
                                     // ! FIXME: add permission for invites
                                     generateAction({ action: "create_invite", target: channel });
 
