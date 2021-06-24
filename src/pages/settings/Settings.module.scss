@@ -65,7 +65,7 @@
     background: var(--primary-background);
 
     .sidebar {
-        flex-grow: 1;
+        flex: 2;
         display: flex;
         flex-shrink: 0;
         overflow-y: scroll;
@@ -114,7 +114,7 @@
     }
 
     .content {
-        flex-grow: 2;
+        flex: 3;
         max-width: 740px;
         padding: 60px 2em;
         overflow-y: scroll;
@@ -155,7 +155,7 @@
     }
 
     .action {
-        flex-grow: 1;
+        flex: 1;
         flex-shrink: 0;
         padding: 60px 8px;
         color: var(--tertiary-background);
