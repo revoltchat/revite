@@ -1,4 +1,5 @@
 .onboarding {
+    height: 100vh;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -7,7 +8,9 @@
         flex: 1;
 
         &.header {
+            gap: 8px;
             padding: 3em;
+            display: flex;
             text-align: center;
 
             h1 {

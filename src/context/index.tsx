@@ -13,17 +13,19 @@ export default function Context({ children }: { children: Children }) {
     return (
         <Router>
             <State>
-                <Settings>
-                    <Locale>
-                        <Intermediate>
-                            <Client>
-                                <Voice>
-                                    <Theme>{children}</Theme>
-                                </Voice>
-                            </Client>
-                        </Intermediate>
-                    </Locale>
-                </Settings>
+                <Theme>
+                    <Settings>
+                        <Locale>
+                            <Intermediate>
+                                <Client>
+                                    <Voice>
+                                        {children}
+                                    </Voice>
+                                </Client>
+                            </Intermediate>
+                        </Locale>
+                    </Settings>
+                </Theme>
             </State>
         </Router>
     );

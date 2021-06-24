@@ -9,9 +9,9 @@
 
 html {
     // contain: content;
-    background: var(--background);
     background-size: cover !important;
     background-repeat: no-repeat !important;
+    background-color: var(--background) !important;
 }
 
 html,
