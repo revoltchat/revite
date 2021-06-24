@@ -330,8 +330,10 @@ const Base = styled.div`
         padding: 6px;
         border: none;
         display: flex;
+        font-size: 1em;
         cursor: pointer;
         border-radius: 6px;
+        align-items: center;
         flex-direction: row;
         background: transparent;
         color: var(--foreground);

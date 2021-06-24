@@ -74,14 +74,13 @@
 
 .appearance {
     .theme {
+        min-width: 0;
         display: flex;
         flex-direction: column;
-        width: 100%;
     }
 
     .themes {
         gap: 8px;
-        width: 100%;
         display: flex;
 
         img {
