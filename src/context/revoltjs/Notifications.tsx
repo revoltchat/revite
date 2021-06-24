@@ -192,7 +192,7 @@ function Notifier(props: Props) {
             client.removeListener("message", message);
             client.users.removeListener("mutation", relationship);
         };
-    }, [client, guild_id, channel_id, showNotification]);
+    }, [client, playSound, guild_id, channel_id, showNotification]);
 
     useEffect(() => {
         function visChange() {
