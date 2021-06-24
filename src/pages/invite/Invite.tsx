@@ -40,6 +40,7 @@ export default function Invite() {
         )
     }
 
+    // ! FIXME: add i18n translations
     return (
         <div className={styles.invite} style={{ backgroundImage: invite.server_banner ? `url('${client.generateFileURL(invite.server_banner)}')` : undefined }}>
             <div className={styles.leave}>

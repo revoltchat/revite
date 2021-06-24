@@ -11,6 +11,7 @@ import MemberSidebar from "../../components/navigation/right/MemberSidebar";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
 import { Channel } from "revolt.js";
+import VoiceHeader from "./voice/VoiceHeader";
 
 const ChannelMain = styled.div`
     flex-grow: 1;
@@ -48,6 +49,7 @@ function TextChannel({ channel }: { channel: Channel }) {
         <ChannelHeader channel={channel} toggleSidebar={() => setMembers(!showMembers)} />
         <ChannelMain>
             <ChannelContent>
+                <VoiceHeader id={id} />
                 <MessageArea id={id} />
                 <TypingIndicator id={id} />
                 <JumpToBottom id={id} />
@@ -61,6 +63,7 @@ function TextChannel({ channel }: { channel: Channel }) {
 function VoiceChannel({ channel }: { channel: Channel }) {
     return <>
         <ChannelHeader channel={channel} />
+        <VoiceHeader id={channel._id} />
     </>;
 }
 

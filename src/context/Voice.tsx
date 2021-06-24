@@ -1,5 +1,6 @@
 import { createContext } from "preact";
 import { Children } from "../types/Preact";
+import { useForceUpdate } from "./revoltjs/hooks";
 import { AppContext } from "./revoltjs/RevoltClient";
 import type VoiceClient from "../lib/vortex/VoiceClient";
 import type { ProduceType, VoiceUser } from "../lib/vortex/Types";
@@ -40,7 +41,7 @@ type Props = {
 
 export default function Voice({ children }: Props) {
     const revoltClient = useContext(AppContext);
-    const [client,] = useState<VoiceClient | undefined>(undefined);
+    const [client, setClient] = useState<VoiceClient | undefined>(undefined);
     const [state, setState] = useState<VoiceState>({
         status: VoiceStatus.LOADING,
         participants: new Map()
@@ -55,11 +56,21 @@ export default function Voice({ children }: Props) {
     }
 
     useEffect(() => {
-        if (!client?.supported()) {
-            setStatus(VoiceStatus.UNAVAILABLE);
-        } else {
-            setStatus(VoiceStatus.READY);
-        }
+        import('../lib/vortex/VoiceClient')
+            .then(({ default: VoiceClient }) => {
+                const client = new VoiceClient();
+                setClient(client);
+
+                if (!client?.supported()) {
+                    setStatus(VoiceStatus.UNAVAILABLE);
+                } else {
+                    setStatus(VoiceStatus.READY);
+                }
+            })
+            .catch(err => {
+                console.error('Failed to load voice library!', err);
+                setStatus(VoiceStatus.UNAVAILABLE);
+            })
     }, []);
 
     const isConnecting = useRef(false);
@@ -83,7 +94,7 @@ export default function Voice({ children }: Props) {
                     }
 
                     // ! FIXME: use configuration to check if voso is enabled
-                    //await client.connect("wss://voso.revolt.chat/ws");
+                    // await client.connect("wss://voso.revolt.chat/ws");
                     await client.connect("wss://voso.revolt.chat/ws", channelId);
 
                     setStatus(VoiceStatus.AUTHENTICATING);
@@ -120,8 +131,8 @@ export default function Voice({ children }: Props) {
             startProducing: async (type: ProduceType) => {
                 switch (type) {
                     case "audio": {
-                        if (client?.audioProducer !== undefined) return;
-                        if (navigator.mediaDevices === undefined) return;
+                        if (client?.audioProducer !== undefined) return console.log('No audio producer.'); // ! FIXME: let the user know
+                        if (navigator.mediaDevices === undefined) return console.log('No media devices.'); // ! FIXME: let the user know
                         const mediaStream = await navigator.mediaDevices.getUserMedia(
                             {
                                 audio: true
@@ -142,27 +153,32 @@ export default function Voice({ children }: Props) {
         }
     }, [ client ]);
 
+    const { forceUpdate } = useForceUpdate();
     useEffect(() => {
         if (!client?.supported()) return;
 
-        /* client.on("startProduce", forceUpdate);
+        // ! FIXME: message for fatal:
+        // ! get rid of these force updates
+        // ! handle it through state or smth
+
+        client.on("startProduce",  forceUpdate);
         client.on("stopProduce", forceUpdate);
 
         client.on("userJoined", forceUpdate);
         client.on("userLeft", forceUpdate);
         client.on("userStartProduce", forceUpdate);
         client.on("userStopProduce", forceUpdate);
-        client.on("close", forceUpdate); */
+        client.on("close", forceUpdate);
 
         return () => {
-            /* client.removeListener("startProduce", forceUpdate);
+            client.removeListener("startProduce", forceUpdate);
             client.removeListener("stopProduce", forceUpdate);
 
             client.removeListener("userJoined", forceUpdate);
             client.removeListener("userLeft", forceUpdate);
             client.removeListener("userStartProduce", forceUpdate);
             client.removeListener("userStopProduce", forceUpdate);
-            client.removeListener("close", forceUpdate); */
+            client.removeListener("close", forceUpdate);
         };
     }, [ client, state ]);
 
