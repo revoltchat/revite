@@ -12,6 +12,7 @@ import { attachContextMenu } from 'preact-context-menu';
 import { Channels, Users } from "revolt.js/dist/api/objects";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { useIntermediate } from '../../../context/intermediate/Intermediate';
+import { stopPropagation } from '../../../lib/stopPropagation';
 
 interface CommonProps {
     active?: boolean
@@ -70,9 +71,8 @@ export function UserButton({ active, alert, alertCount, user, context, channel }
                 )}
                 {alert && <div className={styles.alert} data-style={alert}>{ alertCount }</div>}
                 { !isTouchscreenDevice && channel &&
-                    <IconButton
-                        className={styles.icon}
-                        onClick={() => openScreen({ id: 'special_prompt', type: 'close_dm', target: channel })}>
+                    <IconButton className={styles.icon}
+                        onClick={e => stopPropagation(e) && openScreen({ id: 'special_prompt', type: 'close_dm', target: channel })}>
                         <X size={24} />
                     </IconButton>
                 }

@@ -22,17 +22,6 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
     if (attachment && attachment.metadata.type !== "Image") return null;
     const client = useContext(AppContext);
 
-    useEffect(() => {
-        function keyDown(e: KeyboardEvent) {
-            if (e.key === "Escape") {
-                onClose();
-            }
-        }
-
-        document.body.addEventListener("keydown", keyDown);
-        return () => document.body.removeEventListener("keydown", keyDown);
-    }, []);
-
     return (
         <Modal visible={true} onClose={onClose} noBackground>
             <div className={styles.viewer}>

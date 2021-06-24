@@ -116,12 +116,11 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
     const badges = (user.badges ?? 0) | (decodeTime(user._id) < 1623751765790 ? Badges.EarlyAdopter : 0);
 
     return (
-        <Modal
-            visible
+        <Modal visible
             border={dummy}
+            padding={false}
             onClose={onClose}
-            dontModal={dummy}
-        >
+            dontModal={dummy}>
             <div
                 className={styles.header}
                 data-force={
