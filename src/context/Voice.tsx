@@ -5,6 +5,7 @@ import { AppContext } from "./revoltjs/RevoltClient";
 import type VoiceClient from "../lib/vortex/VoiceClient";
 import type { ProduceType, VoiceUser } from "../lib/vortex/Types";
 import { useContext, useEffect, useMemo, useRef, useState } from "preact/hooks";
+import { SoundContext } from "./Settings";
 
 export enum VoiceStatus {
     LOADING = 0,
@@ -106,6 +107,7 @@ export default function Voice({ children }: Props) {
                 } catch (error) {
                     console.error(error);
                     setStatus(VoiceStatus.READY);
+                    return;
                 }
 
                 setStatus(VoiceStatus.CONNECTED);
@@ -154,6 +156,8 @@ export default function Voice({ children }: Props) {
     }, [ client ]);
 
     const { forceUpdate } = useForceUpdate();
+    const playSound = useContext(SoundContext);
+
     useEffect(() => {
         if (!client?.supported()) return;
 
@@ -164,8 +168,14 @@ export default function Voice({ children }: Props) {
         client.on("startProduce",  forceUpdate);
         client.on("stopProduce", forceUpdate);
 
-        client.on("userJoined", forceUpdate);
-        client.on("userLeft", forceUpdate);
+        client.on("userJoined", () => {
+            playSound('call_join');
+            forceUpdate();
+        });
+        client.on("userLeft", () => {
+            playSound('call_leave');
+            forceUpdate();
+        });
         client.on("userStartProduce", forceUpdate);
         client.on("userStopProduce", forceUpdate);
         client.on("close", forceUpdate);

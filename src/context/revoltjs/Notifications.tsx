@@ -1,10 +1,10 @@
 import { decodeTime } from "ulid";
+import { SoundContext } from "../Settings";
 import { AppContext } from "./RevoltClient";
 import { useTranslation } from "../../lib/i18n";
 import { Users } from "revolt.js/dist/api/objects";
 import { useContext, useEffect } from "preact/hooks";
 import { connectState } from "../../redux/connector";
-import { playSound } from "../../assets/sounds/Audio";
 import { Message, SYSTEM_USER_ID, User } from "revolt.js";
 import { NotificationOptions } from "../../redux/reducers/settings";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
@@ -27,8 +27,6 @@ async function createNotification(title: string, options: globalThis.Notificatio
 function Notifier(props: Props) {
     const translate = useTranslation();
     const showNotification = props.options?.desktopEnabled ?? false;
-    // const playIncoming = props.options?.soundEnabled ?? true;
-    // const playOutgoing = props.options?.outgoingSoundEnabled ?? true;
 
     const client = useContext(AppContext);
     const { guild: guild_id, channel: channel_id } = useParams<{
@@ -36,13 +34,13 @@ function Notifier(props: Props) {
         channel: string;
     }>();
     const history = useHistory();
+    const playSound = useContext(SoundContext);
 
     async function message(msg: Message) {
         if (msg.author === client.user!._id) return;
         if (msg.channel === channel_id && document.hasFocus()) return;
         if (client.user?.status?.presence === Users.Presence.Busy) return;
 
-        // Sounds.playInbound();
         playSound('message');
         if (!showNotification) return;
 

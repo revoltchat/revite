@@ -1,11 +1,22 @@
 import { filter } from ".";
 import { SyncUpdateAction } from "./sync";
+import { Sounds } from "../../assets/sounds/Audio";
 import { Theme, ThemeOptions } from "../../context/Theme";
+
+export type SoundOptions = {
+    [key in Sounds]?: boolean
+}
+
+export const DEFAULT_SOUNDS: SoundOptions = {
+    message: true,
+    outbound: false,
+    call_join: true,
+    call_leave: true
+};
 
 export interface NotificationOptions {
     desktopEnabled?: boolean;
-    soundEnabled?: boolean;
-    outgoingSoundEnabled?: boolean;
+    sounds?: SoundOptions
 }
 
 export type EmojiPacks = "mutant" | "twemoji" | "noto" | "openmoji";

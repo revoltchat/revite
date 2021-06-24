@@ -23,6 +23,7 @@ import { SingletonMessageRenderer, SMOOTH_SCROLL_ON_RECEIVE } from "../../../lib
 import ReplyBar from "./bars/ReplyBar";
 import FilePreview from './bars/FilePreview';
 import AutoComplete, { useAutoComplete } from "../AutoComplete";
+import { SoundContext } from "../../../context/Settings";
 
 type Props = WithDispatcher & {
     channel: Channel;
@@ -59,6 +60,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
     const [ uploadState, setUploadState ] = useState<UploadState>({ type: 'none' });
     const [ typing, setTyping ] = useState<boolean | number>(false);
     const [ replies, setReplies ] = useState<Reply[]>([]);
+    const playSound = useContext(SoundContext);
     const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
     const translate = useTranslation();
@@ -108,6 +110,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
         stopTyping();
         setMessage();
         setReplies([]);
+        playSound('outbound');
 
         const nonce = ulid();
         dispatcher({
@@ -208,6 +211,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
 
         setMessage();
         setReplies([]);
+        playSound('outbound');
 
         if (files.length > CAN_UPLOAD_AT_ONCE) {
             setUploadState({

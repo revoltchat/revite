@@ -1,19 +1,21 @@
 import { Text } from "preact-i18n";
 import styles from "./Panes.module.scss";
+import defaultsDeep from "lodash.defaultsdeep";
 import Checkbox from "../../../components/ui/Checkbox";
 import { connectState } from "../../../redux/connector";
 import { WithDispatcher } from "../../../redux/reducers";
+import { SOUNDS_ARRAY } from "../../../assets/sounds/Audio";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { urlBase64ToUint8Array } from "../../../lib/conversion";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { NotificationOptions } from "../../../redux/reducers/settings";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { DEFAULT_SOUNDS, NotificationOptions, SoundOptions } from "../../../redux/reducers/settings";
 
 interface Props {
     options?: NotificationOptions;
 }
 
-export function Component(props: Props & WithDispatcher) {
+export function Component({ options, dispatcher }: Props & WithDispatcher) {
     const client = useContext(AppContext);
     const { openScreen } = useIntermediate();
     const [pushEnabled, setPushEnabled] = useState<undefined | boolean>(
@@ -28,6 +30,7 @@ export function Component(props: Props & WithDispatcher) {
         });
     }, []);
 
+    const enabledSounds: SoundOptions = defaultsDeep(options?.sounds ?? {}, DEFAULT_SOUNDS);
     return (
         <div className={styles.notifications}>
             <h3>
@@ -35,7 +38,7 @@ export function Component(props: Props & WithDispatcher) {
             </h3>
             <Checkbox
                 disabled={!("Notification" in window)}
-                checked={props.options?.desktopEnabled ?? false}
+                checked={options?.desktopEnabled ?? false}
                 onChange={async desktopEnabled => {
                     if (desktopEnabled) {
                         let permission = await Notification.requestPermission();
@@ -47,7 +50,7 @@ export function Component(props: Props & WithDispatcher) {
                         }
                     }
 
-                    props.dispatcher({
+                    dispatcher({
                         type: "SETTINGS_SET_NOTIFICATION_OPTIONS",
                         options: { desktopEnabled }
                     });
@@ -103,34 +106,25 @@ export function Component(props: Props & WithDispatcher) {
             <h3>
                 <Text id="app.settings.pages.notifications.sounds" />
             </h3>
-            <Checkbox
-                checked={props.options?.soundEnabled ?? true}
-                onChange={soundEnabled =>
-                    props.dispatcher({
-                        type: "SETTINGS_SET_NOTIFICATION_OPTIONS",
-                        options: { soundEnabled }
-                    })
-                }
-            >
-                <Text id="app.settings.pages.notifications.enable_sound" />
-                <p>
-                    <Text id="app.settings.pages.notifications.descriptions.enable_sound" />
-                </p>
-            </Checkbox>
-            <Checkbox
-                checked={props.options?.outgoingSoundEnabled ?? true}
-                onChange={outgoingSoundEnabled =>
-                    props.dispatcher({
-                        type: "SETTINGS_SET_NOTIFICATION_OPTIONS",
-                        options: { outgoingSoundEnabled }
-                    })
-                }
-            >
-                <Text id="app.settings.pages.notifications.enable_outgoing_sound" />
-                <p>
-                    <Text id="app.settings.pages.notifications.descriptions.enable_outgoing_sound" />
-                </p>
-            </Checkbox>
+            {
+                SOUNDS_ARRAY.map(key =>
+                    <Checkbox
+                        checked={enabledSounds[key] ? true : false}
+                        onChange={enabled =>
+                            dispatcher({
+                                type: "SETTINGS_SET_NOTIFICATION_OPTIONS",
+                                options: {
+                                    sounds: {
+                                        ...options?.sounds,
+                                        [key]: enabled
+                                    }
+                                }
+                            })
+                        }>
+                        <Text id={`app.settings.pages.notifications.sound.${key}`} />
+                    </Checkbox>
+                )
+            }
         </div>
     );
 }

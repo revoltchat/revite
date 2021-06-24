@@ -11,8 +11,9 @@ export interface HookContext {
 export function useForceUpdate(context?: HookContext): HookContext {
     const client = useContext(AppContext);
     if (context) return context;
-    /*const H = useState(undefined);
-    var updateState: (_: undefined) => void;
+
+    const H = useState(0);
+    var updateState: (_: number) => void;
     if (Array.isArray(H)) {
         let [, u] = H;
         updateState = u;
@@ -20,9 +21,8 @@ export function useForceUpdate(context?: HookContext): HookContext {
         console.warn('Failed to construct using useState.');
         console.warn(H);
         updateState = ()=>{};
-    }*/
+    }
 
-    const [, updateState] = useState(0);
     return { client, forceUpdate: () => updateState(Math.random()) };
 }
 
@@ -99,7 +99,7 @@ export function useDMs(context?: HookContext) {
 
     return map
         .toArray()
-        .filter(x => x.channel_type === 'DirectMessage' || x.channel_type === 'Group' || x.channel_type === 'SavedMessages') as (Channels.GroupChannel | Channels.DirectMessageChannel | Channels.SavedMessagesChannel)[];
+        .filter(x => (x.channel_type === 'DirectMessage' && x.active) || x.channel_type === 'Group' || x.channel_type === 'SavedMessages') as (Channels.GroupChannel | Channels.DirectMessageChannel | Channels.SavedMessagesChannel)[];
 }
 
 export function useUserPermission(id: string, context?: HookContext) {
