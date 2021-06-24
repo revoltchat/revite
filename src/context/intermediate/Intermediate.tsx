@@ -108,7 +108,7 @@ export default function Intermediate(props: Props) {
     return (
         <IntermediateContext.Provider value={value}>
             <IntermediateActionsContext.Provider value={actions}>
-                {props.children}
+                { screen.id !== 'onboarding' && props.children }
                 <Modals
                     {...value}
                     {...actions}
