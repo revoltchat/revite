@@ -97,8 +97,7 @@ export function ChannelButton({ active, alert, alertCount, channel, user, compac
     const { openScreen } = useIntermediate();
 
     return (
-        <div
-            data-active={active}
+        <div data-active={active}
             data-alert={typeof alert === 'string'}
             className={classNames(styles.item, { [styles.compact]: compact })}
             onContextMenu={attachContextMenu('Menu', { channel: channel._id, unread: typeof channel.unread !== 'undefined' })}>

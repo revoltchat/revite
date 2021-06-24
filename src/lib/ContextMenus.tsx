@@ -562,7 +562,7 @@ function ContextMenus(props: WithDispatcher) {
                         }
                     }
 
-                    let id = server?._id ?? channel?._id ?? user?._id ?? message?._id;
+                    let id = sid ?? cid ?? uid ?? message?._id;
                     if (id) {
                         pushDivider();
 
