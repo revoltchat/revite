@@ -12,6 +12,7 @@ import { SyncOptions } from "./reducers/sync";
 import { Settings } from "./reducers/settings";
 import { QueuedMessage } from "./reducers/queue";
 import { ExperimentOptions } from "./reducers/experiments";
+import { LastOpened } from "./reducers/last_opened";
 
 export type State = {
     config: Core.RevoltNodeConfiguration,
@@ -24,6 +25,7 @@ export type State = {
     drafts: Drafts;
     sync: SyncOptions;
     experiments: ExperimentOptions;
+    lastOpened: LastOpened;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,6 +53,7 @@ store.subscribe(() => {
         drafts,
         sync,
         experiments,
+        lastOpened
     } = store.getState() as State;
 
     localForage.setItem("state", {
@@ -63,5 +66,6 @@ store.subscribe(() => {
         drafts,
         sync,
         experiments,
+        lastOpened
     });
 });

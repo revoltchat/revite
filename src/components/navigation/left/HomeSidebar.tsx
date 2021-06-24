@@ -1,5 +1,5 @@
 import { Localizer, Text } from "preact-i18n";
-import { useContext } from "preact/hooks";
+import { useContext, useEffect } from "preact/hooks";
 import { Home, Users, Tool, Save } from "@styled-icons/feather";
 
 import Category from '../../ui/Category';
@@ -10,6 +10,7 @@ import { connectState } from "../../../redux/connector";
 import ConnectionStatus from '../items/ConnectionStatus';
 import { WithDispatcher } from "../../../redux/reducers";
 import { Unreads } from "../../../redux/reducers/unreads";
+import ConditionalLink from "../../../lib/ConditionalLink";
 import { mapChannelWithUnread, useUnreads } from "./common";
 import { Users as UsersNS } from 'revolt.js/dist/api/objects';
 import ButtonItem, { ChannelButton } from '../items/ButtonItem';
@@ -37,6 +38,16 @@ function HomeSidebar(props: Props) {
     if (channel && !obj) return <Redirect to="/" />;
     if (obj) useUnreads({ ...props, channel: obj });
 
+    useEffect(() => {
+        if (!channel) return;
+
+        props.dispatcher({
+            type: 'LAST_OPENED_SET',
+            parent: 'home',
+            child: channel
+        });
+    }, [ channel ]);
+
     const channelsArr = channels
         .filter(x => x.channel_type !== 'SavedMessages')
         .map(x => mapChannelWithUnread(x, props.unreads));
@@ -55,13 +66,13 @@ function HomeSidebar(props: Props) {
             <GenericSidebarList>
                 {!isTouchscreenDevice && (
                     <>
-                        <Link to="/">
+                        <ConditionalLink active={pathname === "/"} to="/">
                             <ButtonItem active={pathname === "/"}>
                                 <Home size={20} />
                                 <span><Text id="app.navigation.tabs.home" /></span>
                             </ButtonItem>
-                        </Link>
-                        <Link to="/friends">
+                        </ConditionalLink>
+                        <ConditionalLink active={pathname === "/friends"} to="/friends">
                             <ButtonItem
                                 active={pathname === "/friends"}
                                 alert={
@@ -75,15 +86,15 @@ function HomeSidebar(props: Props) {
                                 <Users size={20} />
                                 <span><Text id="app.navigation.tabs.friends" /></span>
                             </ButtonItem>
-                        </Link>
+                        </ConditionalLink>
                     </>
                 )}
-                <Link to="/open/saved">
+                <ConditionalLink active={obj?.channel_type === "SavedMessages"} to="/open/saved">
                     <ButtonItem active={obj?.channel_type === "SavedMessages"}>
                         <Save size={20} />
                         <span><Text id="app.navigation.tabs.saved" /></span>
                     </ButtonItem>
-                </Link>
+                </ConditionalLink>
                 {import.meta.env.DEV && (
                     <Link to="/dev">
                         <ButtonItem active={pathname === "/dev"}>
@@ -115,7 +126,7 @@ function HomeSidebar(props: Props) {
                     }
                     
                     return (
-                        <Link to={`/channel/${x._id}`}>
+                        <ConditionalLink active={x._id === channel} to={`/channel/${x._id}`}>
                             <ChannelButton
                                 user={user}
                                 channel={x}
@@ -123,7 +134,7 @@ function HomeSidebar(props: Props) {
                                 alertCount={x.alertCount}
                                 active={x._id === channel}
                             />
-                        </Link>
+                        </ConditionalLink>
                     );
                 })}
                 <PaintCounter />

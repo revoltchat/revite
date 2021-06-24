@@ -15,6 +15,8 @@ import PaintCounter from "../../../lib/PaintCounter";
 import styled from "styled-components";
 import { attachContextMenu } from 'preact-context-menu';
 import ServerHeader from "../../common/ServerHeader";
+import { useEffect } from "preact/hooks";
+import ConditionalLink from "../../../lib/ConditionalLink";
 
 interface Props {
     unreads: Unreads;
@@ -51,7 +53,18 @@ function ServerSidebar(props: Props & WithDispatcher) {
         .map(x => mapChannelWithUnread(x, props.unreads));
     
     const channel = channels.find(x => x?._id === channel_id);
+    if (channel_id && !channel) return <Redirect to={`/server/${server_id}`} />;
     if (channel) useUnreads({ ...props, channel }, ctx);
+
+    useEffect(() => {
+        if (!channel_id) return;
+
+        props.dispatcher({
+            type: 'LAST_OPENED_SET',
+            parent: server_id!,
+            child: channel_id!
+        });
+    }, [ channel_id ]);
 
     return (
         <ServerBase>
@@ -59,16 +72,18 @@ function ServerSidebar(props: Props & WithDispatcher) {
             <ConnectionStatus />
             <ServerList onContextMenu={attachContextMenu('Menu', { server_list: server._id })}>
                 {channels.map(entry => {
+                    const active = channel?._id === entry._id;
+
                     return (
-                        <Link to={`/server/${server._id}/channel/${entry._id}`}>
+                        <ConditionalLink active={active} to={`/server/${server._id}/channel/${entry._id}`}>
                             <ChannelButton
                                 key={entry._id}
                                 channel={entry}
-                                active={channel?._id === entry._id}
+                                active={active}
                                 alert={entry.unread}
                                 compact
                             />
-                        </Link>
+                        </ConditionalLink>
                     );
                 })}
             </ServerList>

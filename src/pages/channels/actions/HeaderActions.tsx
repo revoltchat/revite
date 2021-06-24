@@ -35,7 +35,7 @@ export default function HeaderActions({ channel, toggleSidebar }: ChannelHeaderP
                 </>
             ) }
             <VoiceActions channel={channel} />
-            { channel.channel_type === "Group" && !isTouchscreenDevice && (
+            { (channel.channel_type === "Group" || channel.channel_type === "TextChannel") && !isTouchscreenDevice && (
                 <IconButton onClick={toggleSidebar}>
                     <SidebarIcon size={22} />
                 </IconButton>
