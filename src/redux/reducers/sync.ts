@@ -1,19 +1,22 @@
 import { AppearanceOptions } from "./settings";
 import { Language } from "../../context/Locale";
 import { ThemeOptions } from "../../context/Theme";
+import { Notifications } from "./notifications";
 
-export type SyncKeys = "theme" | "appearance" | "locale";
+export type SyncKeys = "theme" | "appearance" | "locale" | "notifications";
 
 export interface SyncData {
     locale?: Language;
     theme?: ThemeOptions;
     appearance?: AppearanceOptions;
+    notifications?: Notifications;
 }
 
 export const DEFAULT_ENABLED_SYNC: SyncKeys[] = [
     "theme",
     "appearance",
     "locale",
+    "notifications"
 ];
 export interface SyncOptions {
     disabled?: SyncKeys[];

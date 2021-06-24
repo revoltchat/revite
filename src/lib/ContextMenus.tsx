@@ -5,7 +5,8 @@ import { Attachment, Channels, Message, Servers, Users } from "revolt.js/dist/ap
 import {
     ContextMenu,
     ContextMenuWithData,
-    MenuItem
+    MenuItem,
+    openContextMenu
 } from "preact-context-menu";
 import { ChannelPermission, ServerPermission, UserPermission } from "revolt.js/dist/api/permissions";
 import { QueuedMessage } from "../redux/reducers/queue";
@@ -18,6 +19,9 @@ import { Children } from "../types/Preact";
 import LineDivider from "../components/ui/LineDivider";
 import { connectState } from "../redux/connector";
 import { internalEmit } from "./eventEmitter";
+import { AtSign, Bell, BellOff, Check, CheckSquare, ChevronRight, Slash, Square } from "@styled-icons/feather";
+import { getNotificationState, Notifications, NotificationState } from "../redux/reducers/notifications";
+import { ArrowLeft } from "@styled-icons/bootstrap";
 
 interface ContextMenuData {
     user?: string;
@@ -68,11 +72,17 @@ type Action =
     | { action: "close_dm"; target: Channels.DirectMessageChannel }
     | { action: "leave_server"; target: Servers.Server }
     | { action: "delete_server"; target: Servers.Server }
+    | { action: "open_notification_options", channel: Channels.Channel }
     | { action: "open_channel_settings", id: string }
     | { action: "open_server_settings", id: string }
-    | { action: "open_server_channel_settings", server: string, id: string };
+    | { action: "open_server_channel_settings", server: string, id: string }
+    | { action: "set_notification_state", key: string, state?: NotificationState };
 
-function ContextMenus(props: WithDispatcher) {
+type Props = WithDispatcher & {
+    notifications: Notifications
+};
+
+function ContextMenus(props: Props) {
     const { openScreen, writeClipboard } = useIntermediate();
     const client = useContext(AppContext);
     const userId = client.user!._id;
@@ -301,9 +311,24 @@ function ContextMenus(props: WithDispatcher) {
                 case "ban_member":
                 case "kick_member": openScreen({ id: "special_prompt", type: data.action, target: data.target, user: data.user }); break;
 
+                case "open_notification_options": {
+                    openContextMenu("NotificationOptions", { channel: data.channel });
+                    break;
+                }
+
                 case "open_channel_settings": history.push(`/channel/${data.id}/settings`); break;
                 case "open_server_channel_settings": history.push(`/server/${data.server}/channel/${data.id}/settings`); break;
                 case "open_server_settings": history.push(`/server/${data.id}/settings`); break;
+
+                case "set_notification_state": {
+                    const { key, state } = data;
+                    if (state) {
+                        props.dispatcher({ type: "NOTIFICATIONS_SET", key, state });
+                    } else {
+                        props.dispatcher({ type: "NOTIFICATIONS_REMOVE", key });
+                    }
+                    break;
+                }
             }
         })().catch(err => {
             openScreen({ id: "error", error: takeError(err) });
@@ -567,6 +592,10 @@ function ContextMenus(props: WithDispatcher) {
                         pushDivider();
 
                         if (channel) {
+                            if (channel.channel_type !== 'VoiceChannel') {
+                                generateAction({ action: "open_notification_options", channel }, undefined, undefined, <ChevronRight size={24} />);
+                            }
+
                             switch (channel.channel_type) {
                                 case 'Group':
                                     // ! generateAction({ action: "create_invite", target: channel }); FIXME: add support for group invites
@@ -669,14 +698,50 @@ function ContextMenus(props: WithDispatcher) {
                     </MenuItem>
                 )}
             </ContextMenu>
+            <ContextMenuWithData id="NotificationOptions" onClose={contextClick}>
+                {({ channel }: { channel: Channels.Channel }) => {
+                    const state = props.notifications[channel._id];
+                    const actual = getNotificationState(props.notifications, channel);
+
+                    let elements: Children[] = [
+                        <MenuItem data={{ action: "set_notification_state", key: channel._id }}>
+                            <Text id={`app.main.channel.notifications.default`} />
+                            <div className="tip">
+                                { (state !== undefined) && <Square size={20} /> }
+                                { (state === undefined) && <CheckSquare size={20} /> }
+                            </div>
+                        </MenuItem>
+                    ];
+
+                    function generate(key: string, icon: Children) {
+                        elements.push(
+                            <MenuItem data={{ action: "set_notification_state", key: channel._id, state: key }}>
+                                { icon }
+                                <Text id={`app.main.channel.notifications.${key}`} />
+                                { (state === undefined && actual === key) && <div className="tip"><ArrowLeft size={20} /></div> }
+                                { (state === key) && <div className="tip"><Check size={20} /></div> }
+                            </MenuItem>
+                        );
+                    }
+
+                    generate('all', <Bell size={24} />);
+                    generate('mention', <AtSign size={24} />);
+                    generate('muted', <BellOff size={24} />);
+                    generate('none', <Slash size={24} />);
+
+                    return elements;
+                }}
+            </ContextMenuWithData>
         </>
     );
 }
 
 export default connectState(
     ContextMenus,
-    () => {
-        return {};
+    state => {
+        return {
+            notifications: state.notifications
+        };
     },
     true
 );

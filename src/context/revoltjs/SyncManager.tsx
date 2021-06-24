@@ -9,6 +9,7 @@ import { useContext, useEffect } from "preact/hooks";
 import { connectState } from "../../redux/connector";
 import { WithDispatcher } from "../../redux/reducers";
 import { Settings } from "../../redux/reducers/settings";
+import { Notifications } from "../../redux/reducers/notifications";
 import { AppContext, ClientStatus, StatusContext } from "./RevoltClient";
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 import { DEFAULT_ENABLED_SYNC, SyncData, SyncKeys, SyncOptions } from "../../redux/reducers/sync";
@@ -16,7 +17,8 @@ import { DEFAULT_ENABLED_SYNC, SyncData, SyncKeys, SyncOptions } from "../../red
 type Props = WithDispatcher & {
     settings: Settings,
     locale: Language,
-    sync: SyncOptions
+    sync: SyncOptions,
+    notifications: Notifications
 };
 
 var lastValues: { [key in SyncKeys]?: any } = { };
@@ -78,7 +80,7 @@ function SyncManager(props: Props) {
     }
 
     let disabled = props.sync.disabled ?? [];
-    for (let [key, object] of [ ['appearance', props.settings.appearance], ['theme', props.settings.theme], ['locale', props.locale] ] as [SyncKeys, any][]) {
+    for (let [key, object] of [ ['appearance', props.settings.appearance], ['theme', props.settings.theme], ['locale', props.locale], ['notifications', props.notifications] ] as [SyncKeys, any][]) {
         useEffect(() => {
             if (disabled.indexOf(key) === -1) {
                 if (typeof lastValues[key] !== 'undefined') {
@@ -117,7 +119,8 @@ export default connectState(
         return {
             settings: state.settings,
             locale: state.locale,
-            sync: state.sync
+            sync: state.sync,
+            notifications: state.notifications
         };
     },
     true

@@ -8,9 +8,11 @@ import { connectState } from "../../redux/connector";
 import { Message, SYSTEM_USER_ID, User } from "revolt.js";
 import { NotificationOptions } from "../../redux/reducers/settings";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
+import { getNotificationState, Notifications } from "../../redux/reducers/notifications";
 
 interface Props {
     options?: NotificationOptions;
+    notifs: Notifications;
 }
 
 const notifications: { [key: string]: Notification } = {};
@@ -24,9 +26,9 @@ async function createNotification(title: string, options: globalThis.Notificatio
     }
 }
 
-function Notifier(props: Props) {
+function Notifier({ options, notifs }: Props) {
     const translate = useTranslation();
-    const showNotification = props.options?.desktopEnabled ?? false;
+    const showNotification = options?.desktopEnabled ?? false;
 
     const client = useContext(AppContext);
     const { guild: guild_id, channel: channel_id } = useParams<{
@@ -39,17 +41,27 @@ function Notifier(props: Props) {
     async function message(msg: Message) {
         if (msg.author === client.user!._id) return;
         if (msg.channel === channel_id && document.hasFocus()) return;
-        if (client.user?.status?.presence === Users.Presence.Busy) return;
+        if (client.user!.status?.presence === Users.Presence.Busy) return;
+
+        const channel = client.channels.get(msg.channel);
+        const author = client.users.get(msg.author);
+        if (!channel) return;
+        if (author?.relationship === Users.Relationship.Blocked) return;
+
+        const notifState = getNotificationState(notifs, channel);
+        switch (notifState) {
+            case 'muted':
+            case 'none': return;
+            case 'mention': {
+                if (!msg.mentions?.includes(client.user!._id)) return;
+            }
+        }
 
         playSound('message');
         if (!showNotification) return;
 
-        const channel = client.channels.get(msg.channel);
-        const author = client.users.get(msg.author);
-        if (author?.relationship === Users.Relationship.Blocked) return;
-
         let title;
-        switch (channel?.channel_type) {
+        switch (channel.channel_type) {
             case "SavedMessages":
                 return;
             case "DirectMessage":
@@ -192,7 +204,7 @@ function Notifier(props: Props) {
             client.removeListener("message", message);
             client.users.removeListener("mutation", relationship);
         };
-    }, [client, playSound, guild_id, channel_id, showNotification]);
+    }, [client, playSound, guild_id, channel_id, showNotification, notifs]);
 
     useEffect(() => {
         function visChange() {
@@ -217,7 +229,8 @@ const NotifierComponent = connectState(
     Notifier,
     state => {
         return {
-            options: state.settings.notification
+            options: state.settings.notification,
+            notifs: state.notifications
         };
     },
     true

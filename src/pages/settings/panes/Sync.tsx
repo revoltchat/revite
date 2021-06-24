@@ -20,6 +20,7 @@ export function Component(props: Props & WithDispatcher) {
                     ['appearance', 'appearance.title'],
                     ['theme', 'appearance.theme'],
                     ['locale', 'language.title']
+                    // notifications sync is always-on
                 ] as [ SyncKeys, string ][]).map(
                     ([ key, title ]) =>
                         <Checkbox
