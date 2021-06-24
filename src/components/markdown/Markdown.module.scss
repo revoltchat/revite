@@ -115,15 +115,23 @@
         padding: 0 2px;
         cursor: pointer;
         user-select: none;
-        color: transparent;
         border-radius: 4px;
+        color: transparent;
         background: #151515;
+
+        > * {
+            opacity: 0;
+        }
 
         &:global(.shown) {
             cursor: auto;
             user-select: all;
             color: var(--foreground);
             background: var(--secondary-background);
+
+            > * {
+                opacity: 1;
+            }
         }
     }
 

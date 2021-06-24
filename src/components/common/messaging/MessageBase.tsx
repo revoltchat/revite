@@ -53,10 +53,18 @@ export default styled.div<BaseMessageProps>`
         color: var(--error);
     ` }
 
-    .author {
+    .detail {
         gap: 8px;
         display: flex;
         align-items: center;
+    }
+
+    .author {
+        cursor: pointer;
+        
+        &:hover {
+            text-decoration: underline;
+        }
     }
     
     .copy {
@@ -87,6 +95,10 @@ export const MessageInfo = styled.div`
     ::selection {
         background-color: transparent;
         color: var(--tertiary-foreground);
+    }
+
+    svg {
+        cursor: pointer;
     }
 
     time {

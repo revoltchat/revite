@@ -32,6 +32,8 @@ function Message({ attachContext, message, contrast, content: replacement, head:
 
     const content = message.content as string;
     const head = preferHead || (message.replies && message.replies.length > 0);
+    const userContext = attachContext ? attachContextMenu('Menu', { user: message.author, contextualChannel: message.channel }) : undefined as any; // ! FIXME: tell fatal to make this type generic
+
     return (
         <>
             { message.replies?.map((message_id, index) => <MessageReply index={index} id={message_id} channel={message.channel} />) }
@@ -44,12 +46,14 @@ function Message({ attachContext, message, contrast, content: replacement, head:
                 onContextMenu={attachContext ? attachContextMenu('Menu', { message, contextualChannel: message.channel, queued }) : undefined}>
                 <MessageInfo>
                     { head ?
-                        <UserIcon target={user} size={36} /> :
+                        <UserIcon target={user} size={36} onContextMenu={userContext} /> :
                         <MessageDetail message={message} position="left" /> }
                 </MessageInfo>
                 <MessageContent>
-                    { head && <span className="author">
-                        <Username user={user} />
+                    { head && <span className="detail">
+                        <span className="author">
+                            <Username user={user} onContextMenu={userContext} />
+                        </span>
                         <MessageDetail message={message} position="top" />
                     </span> }
                     { replacement ?? <Markdown content={content} /> }
