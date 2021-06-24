@@ -38,7 +38,7 @@ function Message({ attachContext, message, contrast, content: replacement, head:
         <>
             { message.replies?.map((message_id, index) => <MessageReply index={index} id={message_id} channel={message.channel} />) }
             <MessageBase id={message._id}
-                head={head && !message.replies}
+                head={head && !(message.replies && message.replies.length > 0)}
                 contrast={contrast}
                 sending={typeof queued !== 'undefined'}
                 mention={message.mentions?.includes(client.user!._id)}

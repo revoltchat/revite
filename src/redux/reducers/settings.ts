@@ -2,6 +2,7 @@ import { filter } from ".";
 import { SyncUpdateAction } from "./sync";
 import { Sounds } from "../../assets/sounds/Audio";
 import { Theme, ThemeOptions } from "../../context/Theme";
+import { setEmojiPack } from "../../components/common/Emoji";
 
 export type SoundOptions = {
     [key in Sounds]?: boolean
@@ -57,7 +58,7 @@ export function settings(
     state = {} as Settings,
     action: SettingsAction
 ): Settings {
-    // setEmojiPack(state.appearance?.emojiPack ?? 'mutant');
+    setEmojiPack(state.appearance?.emojiPack ?? 'mutant');
 
     switch (action.type) {
         case "SETTINGS_SET_THEME":
