@@ -117,8 +117,11 @@ function HomeSidebar(props: Props) {
                 {channelsArr.map(x => {
                     let user;
                     if (x.channel_type === 'DirectMessage') {
+                        if (!x.active) return null;
+
                         let recipient = client.channels.getRecipient(x._id);
                         user = users.find(x => x?._id === recipient);
+
                         if (!user) {
                             console.warn(`Skipped DM ${x._id} because user was missing.`);
                             return null;

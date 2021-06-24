@@ -98,6 +98,7 @@ interface Props {
     disallowClosing?: boolean;
     noBackground?: boolean;
     dontModal?: boolean;
+    padding?: boolean;
 
     onClose: () => void;
     actions?: Action[];
@@ -114,7 +115,7 @@ export default function Modal(props: Props) {
             attachment={!!props.actions}
             noBackground={props.noBackground}
             border={props.border}
-            padding={!props.dontModal}>
+            padding={props.padding ?? !props.dontModal}>
             {props.title && <h3>{props.title}</h3>}
             {props.children}
         </ModalContent>
@@ -123,6 +124,19 @@ export default function Modal(props: Props) {
     if (props.dontModal) {
         return content;
     }
+
+    useEffect(() => {
+        if (props.disallowClosing) return;
+
+        function keyDown(e: KeyboardEvent) {
+            if (e.key === "Escape") {
+                props.onClose();
+            }
+        }
+
+        document.body.addEventListener("keydown", keyDown);
+        return () => document.body.removeEventListener("keydown", keyDown);
+    }, [ props.disallowClosing, props.onClose ]);
 
     let confirmationAction = props.actions?.find(action => action.confirmation);
     useEffect(() => {

@@ -19,7 +19,6 @@ export function useForceUpdate(context?: HookContext): HookContext {
         updateState = u;
     } else {
         console.warn('Failed to construct using useState.');
-        console.warn(H);
         updateState = ()=>{};
     }
 
@@ -85,7 +84,7 @@ export function useDMs(context?: HookContext) {
     function mutation(target: string) {
         let channel = ctx.client.channels.get(target);
         if (channel) {
-            if ((channel.channel_type === 'DirectMessage' && channel.active) || channel.channel_type === 'Group') {
+            if (channel.channel_type === 'DirectMessage' || channel.channel_type === 'Group') {
                 ctx.forceUpdate();
             }
         }
@@ -99,7 +98,7 @@ export function useDMs(context?: HookContext) {
 
     return map
         .toArray()
-        .filter(x => (x.channel_type === 'DirectMessage' && x.active) || x.channel_type === 'Group' || x.channel_type === 'SavedMessages') as (Channels.GroupChannel | Channels.DirectMessageChannel | Channels.SavedMessagesChannel)[];
+        .filter(x => x.channel_type === 'DirectMessage' || x.channel_type === 'Group' || x.channel_type === 'SavedMessages') as (Channels.GroupChannel | Channels.DirectMessageChannel | Channels.SavedMessagesChannel)[];
 }
 
 export function useUserPermission(id: string, context?: HookContext) {
