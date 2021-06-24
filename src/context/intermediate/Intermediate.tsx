@@ -116,7 +116,7 @@ export default function Intermediate(props: Props) {
                         screen.id
                     } /** By specifying a key, we reset state whenever switching screen. */
                 />
-                {/*<Prompt
+                <Prompt
                     when={[ 'modify_account', 'special_prompt', 'special_input', 'image_viewer', 'profile', 'channel_info', 'user_picker' ].includes(screen.id)}
                     message={(_, action) => {
                         if (action === 'POP') {
@@ -128,7 +128,7 @@ export default function Intermediate(props: Props) {
 
                         return true;
                     }}
-                />*/}
+                />
             </IntermediateActionsContext.Provider>
         </IntermediateContext.Provider>
     );
