@@ -119,7 +119,7 @@ export function SpecialInputModal(props: SpecialProps) {
                     client.users.editUser({
                         status: {
                             ...client.user?.status,
-                            text
+                            text: text.trim().length > 0 ? text : undefined
                         }
                     })
                 }
