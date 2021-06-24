@@ -12,6 +12,7 @@ import { IntermediateContext } from "../../../context/intermediate/Intermediate"
 import { ClientStatus, StatusContext } from "../../../context/revoltjs/RevoltClient";
 import { useContext, useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { defer } from "../../../lib/defer";
+import { internalEmit } from "../../../lib/eventEmitter";
 
 const Area = styled.div`
     height: 100%;
@@ -246,6 +247,7 @@ export function MessageArea({ id }: Props) {
         function keyUp(e: KeyboardEvent) {
             if (e.key === "Escape" && !focusTaken) {
                 SingletonMessageRenderer.jumpToBottom(id, true);
+                internalEmit("TextArea", "focus", "message");
             }
         }
 

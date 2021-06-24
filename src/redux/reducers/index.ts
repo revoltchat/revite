@@ -11,6 +11,7 @@ import { typing, TypingAction } from "./typing";
 import { drafts, DraftAction } from "./drafts";
 import { sync, SyncAction } from "./sync";
 import { experiments, ExperimentsAction } from "./experiments";
+import { lastOpened, LastOpenedAction } from "./last_opened";
 
 export default combineReducers({
     config,
@@ -23,6 +24,7 @@ export default combineReducers({
     drafts,
     sync,
     experiments,
+    lastOpened
 });
 
 export type Action =
@@ -36,6 +38,7 @@ export type Action =
     | DraftAction
     | SyncAction
     | ExperimentsAction
+    | LastOpenedAction
     | { type: "__INIT"; state: State };
 
 export type WithDispatcher = { dispatcher: (action: Action) => void };

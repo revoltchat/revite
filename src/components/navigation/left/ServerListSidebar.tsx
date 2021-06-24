@@ -8,9 +8,11 @@ import { PlusCircle } from "@styled-icons/feather";
 import PaintCounter from "../../../lib/PaintCounter";
 import { attachContextMenu } from 'preact-context-menu';
 import { connectState } from "../../../redux/connector";
+import { useLocation, useParams } from "react-router-dom";
 import { Unreads } from "../../../redux/reducers/unreads";
+import ConditionalLink from "../../../lib/ConditionalLink";
 import { Channel, Servers } from "revolt.js/dist/api/objects";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { LastOpened } from "../../../redux/reducers/last_opened";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useChannels, useForceUpdate, useServers } from "../../../context/revoltjs/hooks";
@@ -104,9 +106,10 @@ const ServerEntry = styled.div<{ active: boolean, invert?: boolean }>`
 
 interface Props {
     unreads: Unreads;
+    lastOpened: LastOpened;
 }
 
-export function ServerListSidebar({ unreads }: Props) {
+export function ServerListSidebar({ unreads, lastOpened }: Props) {
     const ctx = useForceUpdate();
     const activeServers = useServers(undefined, ctx) as Servers.Server[];
     const channels = (useChannels(undefined, ctx) as Channel[])
@@ -148,31 +151,36 @@ export function ServerListSidebar({ unreads }: Props) {
     }
 
     if (alertCount > 0) homeUnread = 'mention';
+    const homeActive = typeof server === 'undefined' && !path.startsWith('/invite');
 
     return (
         <ServersBase>
             <ServerList>
-                <Link to={`/`}>
-                    <ServerEntry invert
-                        active={typeof server === 'undefined' && !path.startsWith('/invite')}>
+                <ConditionalLink active={homeActive} to={lastOpened.home ? `/channel/${lastOpened.home}` : '/'}>
+                    <ServerEntry invert active={homeActive}>
                         <Icon size={36} unread={homeUnread}>
                             <img src={logoSVG} />
                         </Icon>
                     </ServerEntry>
-                </Link>
+                </ConditionalLink>
                 <LineDivider />
                 {
-                    servers.map(entry =>
-                        <Link to={`/server/${entry!._id}`}>
-                            <ServerEntry
-                                active={entry!._id === server?._id}
-                                onContextMenu={attachContextMenu('Menu', { server: entry!._id })}>
-                                <Icon size={36} unread={entry.unread}>
-                                    <ServerIcon size={32} target={entry} />
-                                </Icon>
-                            </ServerEntry>
-                        </Link>
-                    )
+                    servers.map(entry => {
+                        const active = entry!._id === server?._id;
+                        const id = lastOpened[entry!._id];
+                        
+                        return (
+                            <ConditionalLink active={active} to={`/server/${entry!._id}` + (id ? `/channel/${id}` : '')}>
+                                <ServerEntry
+                                    active={active}
+                                    onContextMenu={attachContextMenu('Menu', { server: entry!._id })}>
+                                    <Icon size={36} unread={entry.unread}>
+                                        <ServerIcon size={32} target={entry} />
+                                    </Icon>
+                                </ServerEntry>
+                            </ConditionalLink>
+                        )
+                    })
                 }
                 <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_server' })}>
                     <PlusCircle size={36} />
@@ -187,7 +195,8 @@ export default connectState(
     ServerListSidebar,
     state => {
         return {
-            unreads: state.unreads
+            unreads: state.unreads,
+            lastOpened: state.lastOpened
         };
     }
 );

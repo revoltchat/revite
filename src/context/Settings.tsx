@@ -24,11 +24,9 @@ interface Props {
 }
 
 function Settings({ settings, children }: Props) {
-    console.info(settings.notification);
     const play = useMemo(() => {
         const enabled: SoundOptions = defaultsDeep(settings.notification ?? {}, DEFAULT_SOUNDS);
         return (sound: Sounds) => {
-            console.info('check if we can play sound', enabled[sound]);
             if (enabled[sound]) {
                 playSound(sound);
             }
