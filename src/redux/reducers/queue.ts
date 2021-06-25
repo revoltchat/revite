@@ -1,4 +1,4 @@
-import { MessageObject } from "../../context/revoltjs/util";
+import type { MessageObject } from "../../context/revoltjs/util";
 
 export enum QueueStatus {
     SENDING = "sending",

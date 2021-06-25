@@ -1,5 +1,5 @@
 import { Language } from "../../context/Locale";
-import { SyncUpdateAction } from "./sync";
+import type { SyncUpdateAction } from "./sync";
 
 export type LocaleAction =
     | { type: undefined }

@@ -1,7 +1,7 @@
-import { AppearanceOptions } from "./settings";
-import { Language } from "../../context/Locale";
-import { ThemeOptions } from "../../context/Theme";
-import { Notifications } from "./notifications";
+import type { AppearanceOptions } from "./settings";
+import type { Language } from "../../context/Locale";
+import type { ThemeOptions } from "../../context/Theme";
+import type { Notifications } from "./notifications";
 
 export type SyncKeys = "theme" | "appearance" | "locale" | "notifications";
 

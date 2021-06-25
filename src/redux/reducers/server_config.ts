@@ -1,4 +1,4 @@
-import { Core } from "revolt.js/dist/api/objects";
+import type { Core } from "revolt.js/dist/api/objects";
 
 export type ConfigAction =
     | { type: undefined }
