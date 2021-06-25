@@ -8,7 +8,7 @@ import { connectState } from "../../redux/connector";
 import { Message, SYSTEM_USER_ID, User } from "revolt.js";
 import { NotificationOptions } from "../../redux/reducers/settings";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
-import { getNotificationState, Notifications } from "../../redux/reducers/notifications";
+import { getNotificationState, Notifications, shouldNotify } from "../../redux/reducers/notifications";
 
 interface Props {
     options?: NotificationOptions;
@@ -49,13 +49,7 @@ function Notifier({ options, notifs }: Props) {
         if (author?.relationship === Users.Relationship.Blocked) return;
 
         const notifState = getNotificationState(notifs, channel);
-        switch (notifState) {
-            case 'muted':
-            case 'none': return;
-            case 'mention': {
-                if (!msg.mentions?.includes(client.user!._id)) return;
-            }
-        }
+        if (!shouldNotify(notifState, msg, client.user!._id)) return;
 
         playSound('message');
         if (!showNotification) return;

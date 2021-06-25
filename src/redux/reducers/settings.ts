@@ -1,7 +1,7 @@
 import { filter } from ".";
-import { SyncUpdateAction } from "./sync";
-import { Sounds } from "../../assets/sounds/Audio";
-import { Theme, ThemeOptions } from "../../context/Theme";
+import type { SyncUpdateAction } from "./sync";
+import type { Sounds } from "../../assets/sounds/Audio";
+import type { Theme, ThemeOptions } from "../../context/Theme";
 import { setEmojiPack } from "../../components/common/Emoji";
 
 export type SoundOptions = {

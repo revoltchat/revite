@@ -1,4 +1,4 @@
-import { Sync } from "revolt.js/dist/api/objects";
+import type { Sync } from "revolt.js/dist/api/objects";
 
 export interface Unreads {
     [key: string]: Partial<Omit<Sync.ChannelUnread, "_id">>;

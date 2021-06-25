@@ -1,4 +1,4 @@
-import { Auth } from "revolt.js/dist/api/objects";
+import type { Auth } from "revolt.js/dist/api/objects";
 
 export interface AuthState {
     accounts: {

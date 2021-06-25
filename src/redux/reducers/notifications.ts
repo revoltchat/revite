@@ -1,4 +1,5 @@
-import { Channel } from "revolt.js";
+import type { Channel, Message } from "revolt.js";
+import type { SyncUpdateAction } from "./sync";
 
 export type NotificationState = 'all' | 'mention' | 'none' | 'muted';
 
@@ -18,6 +19,18 @@ export function getNotificationState(notifications: Notifications, channel: Chan
     return notifications[channel._id] ?? DEFAULT_STATES[channel.channel_type];
 }
 
+export function shouldNotify(state: NotificationState, message: Message, user_id: string) {
+    switch (state) {
+        case 'muted':
+        case 'none': return false;
+        case 'mention': {
+            if (!message.mentions?.includes(user_id)) return false;
+        }
+    }
+
+    return true;
+}
+
 export type NotificationsAction =
     | { type: undefined }
     | {
@@ -29,6 +42,7 @@ export type NotificationsAction =
         type: "NOTIFICATIONS_REMOVE";
         key: string;
       }
+    | SyncUpdateAction
     | {
         type: "RESET";
       };
@@ -48,6 +62,8 @@ export function notifications(
                 const { [action.key]: _, ...newState } = state;
                 return newState;
             }
+        case "SYNC_UPDATE":
+            return action.update.notifications?.[1] ?? state;
         case "RESET":
             return {};
         default:

@@ -3,6 +3,9 @@ import { precacheAndRoute } from 'workbox-precaching'
 import { Server } from 'revolt.js/dist/api/objects'
 import { Channel, Message, User } from 'revolt.js'
 import { IDBPDatabase, openDB } from 'idb'
+import { getItem } from 'localforage'
+import type { State } from './redux'
+import { getNotificationState, shouldNotify } from './redux/reducers/notifications'
 
 declare let self: ServiceWorkerGlobalScope
 
@@ -34,11 +37,17 @@ function decodeTime(id: string) {
     return time;
 }
 
-const base_url = `https://autumn.revolt.chat`;
 self.addEventListener("push", event => {
 	async function process() {
 		if (event.data === null) return;
 		let data: Message = event.data.json();
+
+		let item = await localStorage.getItem('state');
+		if (!item) return;
+
+		const state: State = JSON.parse(item);
+		const autumn_url = state.config.features.autumn.url;
+		const user_id = state.auth.active!;
 
 		let db: IDBPDatabase;
 		try {
@@ -65,18 +74,23 @@ self.addEventListener("push", event => {
 			}
 		}
 		
+		let channel = await get<Channel>('channels', data.channel);
+		let user = await get<User>('users', data.author);
+
+		if (channel) {
+			const notifs = getNotificationState(state.notifications, channel);
+			if (!shouldNotify(notifs, data, user_id)) return;
+		}
+		
+		let title = `@${data.author}`;
+		let username = user?.username ?? data.author;
 		let image;
 		if (data.attachments) {
 			let attachment = data.attachments[0];
 			if (attachment.metadata.type === "Image") {
-				image = `${base_url}/${attachment.tag}/${attachment._id}`;
+				image = `${autumn_url}/${attachment.tag}/${attachment._id}`;
 			}
 		}
-		
-		let title = `@${data.author}`;
-		let channel = await get<Channel>('channels', data.channel);
-		let user = await get<User>('users', data.author);
-		let username = user?.username ?? data.author;
 		
 		switch (channel?.channel_type) {
 			case "SavedMessages": break;
@@ -97,7 +111,7 @@ self.addEventListener("push", event => {
 		}
 		
 		await self.registration.showNotification(title, {
-			icon: user?.avatar ? `${base_url}/${user.avatar.tag}/${user.avatar._id}` : `https://api.revolt.chat/users/${data.author}/default_avatar`,
+			icon: user?.avatar ? `${autumn_url}/${user.avatar.tag}/${user.avatar._id}` : `https://api.revolt.chat/users/${data.author}/default_avatar`,
 			image,
 			body: typeof data.content === "string" ? data.content : JSON.stringify(data.content),
 			timestamp: decodeTime(data._id),
