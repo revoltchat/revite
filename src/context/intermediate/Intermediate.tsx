@@ -15,7 +15,6 @@ export type Screen =
 | { id: "signed_out" }
 | { id: "error"; error: string }
 | { id: "clipboard"; text: string }
-| { id: "modify_account"; field: "username" | "email" | "password" }
 | { id: "_prompt"; question: Children; content?: Children; actions: Action[] }
 | ({ id: "special_prompt" } & (
     { type: "leave_group", target: Channels.GroupChannel } |
@@ -49,6 +48,7 @@ export type Screen =
 
 // Pop-overs
 | { id: "image_viewer"; attachment?: Attachment; embed?: EmbedImage; }
+| { id: "modify_account"; field: "username" | "email" | "password" }
 | { id: "profile"; user_id: string }
 | { id: "channel_info"; channel_id: string }
 | {
