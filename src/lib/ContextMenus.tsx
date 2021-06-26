@@ -502,15 +502,15 @@ function ContextMenus(props: Props) {
                     }
 
                     if (message && !queued) {
+                        generateAction({
+                            action: "reply_message",
+                            id: message._id
+                        });
+                        
                         if (
                             typeof message.content === "string" &&
                             message.content.length > 0
                         ) {
-                            generateAction({
-                                action: "reply_message",
-                                id: message._id
-                            });
-
                             generateAction({
                                 action: "quote_message",
                                 content: message.content
