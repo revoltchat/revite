@@ -1,14 +1,10 @@
-import { Link } from "react-router-dom";
-import { Settings } from "@styled-icons/feather";
 import { Redirect, useParams } from "react-router";
 import { ChannelButton } from "../items/ButtonItem";
 import { Channels } from "revolt.js/dist/api/objects";
-import { ServerPermission } from "revolt.js/dist/api/permissions";
 import { Unreads } from "../../../redux/reducers/unreads";
 import { WithDispatcher } from "../../../redux/reducers";
-import { useChannels, useForceUpdate, useServer, useServerPermission } from "../../../context/revoltjs/hooks";
+import { useChannels, useForceUpdate, useServer } from "../../../context/revoltjs/hooks";
 import { mapChannelWithUnread, useUnreads } from "./common";
-import Header from '../../ui/Header';
 import ConnectionStatus from '../items/ConnectionStatus';
 import { connectState } from "../../../redux/connector";
 import PaintCounter from "../../../lib/PaintCounter";
@@ -16,6 +12,7 @@ import styled from "styled-components";
 import { attachContextMenu } from 'preact-context-menu';
 import ServerHeader from "../../common/ServerHeader";
 import { useEffect } from "preact/hooks";
+import Category from "../../ui/Category";
 import ConditionalLink from "../../../lib/ConditionalLink";
 
 interface Props {
@@ -66,26 +63,48 @@ function ServerSidebar(props: Props & WithDispatcher) {
         });
     }, [ channel_id ]);
 
+    let uncategorised = new Set(server.channels);
+    let elements = [];
+    function addChannel(id: string) {
+        const entry = channels.find(x => x._id === id);
+        if (!entry) return;
+
+        const active = channel?._id === entry._id;
+
+        return (
+            <ConditionalLink active={active} to={`/server/${server!._id}/channel/${entry._id}`}>
+                <ChannelButton
+                    key={entry._id}
+                    channel={entry}
+                    active={active}
+                    alert={entry.unread}
+                    compact
+                />
+            </ConditionalLink>
+        );
+    }
+
+    if (server.categories) {
+        for (let category of server.categories) {
+            elements.push(<Category text={category.title} />);
+
+            for (let id of category.channels) {
+                uncategorised.delete(id);
+                elements.push(addChannel(id));
+            }
+        }
+    }
+
+    for (let id of uncategorised) {
+        elements.unshift(addChannel(id));
+    }
+
     return (
         <ServerBase>
             <ServerHeader server={server} ctx={ctx} />
             <ConnectionStatus />
             <ServerList onContextMenu={attachContextMenu('Menu', { server_list: server._id })}>
-                {channels.map(entry => {
-                    const active = channel?._id === entry._id;
-
-                    return (
-                        <ConditionalLink active={active} to={`/server/${server._id}/channel/${entry._id}`}>
-                            <ChannelButton
-                                key={entry._id}
-                                channel={entry}
-                                active={active}
-                                alert={entry.unread}
-                                compact
-                            />
-                        </ConditionalLink>
-                    );
-                })}
+                { elements }
             </ServerList>
             <PaintCounter small />
         </ServerBase>
