@@ -2,7 +2,7 @@ import { Text } from "preact-i18n";
 import UserShort from "../../user/UserShort";
 import styled, { css } from "styled-components";
 import Markdown from "../../../markdown/Markdown";
-import { CornerUpRight } from "@styled-icons/feather";
+import { CornerUpRight, File } from "@styled-icons/feather";
 import { useUser } from "../../../../context/revoltjs/hooks";
 import { useRenderState } from "../../../../lib/renderer/Singleton";
 
@@ -22,7 +22,12 @@ export const ReplyBase = styled.div<{ head?: boolean, fail?: boolean, preview?: 
     align-items: center;
     color: var(--secondary-foreground);
 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
     svg {
+        flex-shrink: 0;
         color: var(--tertiary-foreground);
     }
 
@@ -59,7 +64,8 @@ export function MessageReply({ index, channel, id }: Props) {
         <ReplyBase head={index === 0}>
             <CornerUpRight size={16} />
             <UserShort user={user} size={16} />
-            <Markdown disallowBigEmoji content={(message.content as string).split('\n').shift()} />
+            { message.attachments && message.attachments.length > 0 && <File size={16} /> }
+            <Markdown disallowBigEmoji content={(message.content as string).replace(/\n/g, ' ')} />
         </ReplyBase>
     )
 }

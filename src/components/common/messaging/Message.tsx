@@ -35,9 +35,9 @@ function Message({ attachContext, message, contrast, content: replacement, head:
     const userContext = attachContext ? attachContextMenu('Menu', { user: message.author, contextualChannel: message.channel }) : undefined as any; // ! FIXME: tell fatal to make this type generic
 
     return (
-        <>
+        <div id={message._id}>
             { message.replies?.map((message_id, index) => <MessageReply index={index} id={message_id} channel={message.channel} />) }
-            <MessageBase id={message._id}
+            <MessageBase
                 head={head && !(message.replies && message.replies.length > 0)}
                 contrast={contrast}
                 sending={typeof queued !== 'undefined'}
@@ -64,7 +64,7 @@ function Message({ attachContext, message, contrast, content: replacement, head:
                         <Embed key={index} embed={embed} />) }
                 </MessageContent>
             </MessageBase>
-        </>
+        </div>
     )
 }
 

@@ -1,14 +1,15 @@
+import { Text } from "preact-i18n";
 import styled from "styled-components";
 import UserShort from "../../user/UserShort";
+import IconButton from "../../../ui/IconButton";
 import Markdown from "../../../markdown/Markdown";
-import { AtSign, CornerUpRight, XCircle } from "@styled-icons/feather";
 import { StateUpdater, useEffect } from "preact/hooks";
 import { ReplyBase } from "../attachments/MessageReply";
 import { Reply } from "../../../../redux/reducers/queue";
 import { useUsers } from "../../../../context/revoltjs/hooks";
 import { internalSubscribe } from "../../../../lib/eventEmitter";
 import { useRenderState } from "../../../../lib/renderer/Singleton";
-import IconButton from "../../../ui/IconButton";
+import { AtSign, CornerUpRight, File, XCircle } from "@styled-icons/feather";
 
 interface Props {
     channel: string,
@@ -58,7 +59,11 @@ export default function ReplyBar({ channel, replies, setReplies }: Props) {
         <div>
             { replies.map((reply, index) => {
                 let message = messages.find(x => reply.id === x._id);
-                if (!message) return;
+                // ! FIXME: better solution would be to
+                // ! have a hook for resolving messages from 
+                // ! render state along with relevant users
+                // -> which then fetches any unknown messages
+                if (!message) return <span><Text id="app.main.channel.misc.failed_load" /></span>;
 
                 let user = users.find(x => message!.author === x?._id);
                 if (!user) return;
@@ -68,7 +73,8 @@ export default function ReplyBar({ channel, replies, setReplies }: Props) {
                         <ReplyBase preview>
                             <CornerUpRight size={22} />
                             <UserShort user={user} size={16} />
-                            <Markdown disallowBigEmoji content={(message.content as string).split('\n').shift()} />
+                            { message.attachments && message.attachments.length > 0 && <File size={16} /> }
+                            <Markdown disallowBigEmoji content={(message.content as string).replace(/\n/g, ' ')} />
                         </ReplyBase>
                         <span class="actions">
                             <IconButton onClick={() => setReplies(replies.map((_, i) => i === index ? { ..._, mention: !_.mention } : _))}>
