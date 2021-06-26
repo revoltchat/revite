@@ -1,18 +1,23 @@
 import { ulid } from "ulid";
+import { Text } from "preact-i18n";
 import { Channel } from "revolt.js";
 import styled from "styled-components";
 import { defer } from "../../../lib/defer";
 import IconButton from "../../ui/IconButton";
-import { Send } from '@styled-icons/feather';
+import { Send, X } from '@styled-icons/feather';
 import { debounce } from "../../../lib/debounce";
 import Axios, { CancelTokenSource } from "axios";
 import { useTranslation } from "../../../lib/i18n";
 import { Reply } from "../../../redux/reducers/queue";
 import { connectState } from "../../../redux/connector";
+import { SoundContext } from "../../../context/Settings";
 import { WithDispatcher } from "../../../redux/reducers";
 import { takeError } from "../../../context/revoltjs/util";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
+import AutoComplete, { useAutoComplete } from "../AutoComplete";
+import { ChannelPermission } from "revolt.js/dist/api/permissions";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { useChannelPermission } from "../../../context/revoltjs/hooks";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
@@ -22,8 +27,6 @@ import { SingletonMessageRenderer, SMOOTH_SCROLL_ON_RECEIVE } from "../../../lib
 
 import ReplyBar from "./bars/ReplyBar";
 import FilePreview from './bars/FilePreview';
-import AutoComplete, { useAutoComplete } from "../AutoComplete";
-import { SoundContext } from "../../../context/Settings";
 
 type Props = WithDispatcher & {
     channel: Channel;
@@ -48,6 +51,14 @@ const Base = styled.div`
     }
 `;
 
+const Blocked = styled.div`
+    padding: 15px 0;
+    line-height: 20px;
+    user-select: none;
+    font-size: .875rem;
+    color: var(--tertiary-foreground);
+`;
+
 const Action = styled.div`
     display: grid;
     place-items: center;
@@ -64,6 +75,15 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
     const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
     const translate = useTranslation();
+
+    const permissions = useChannelPermission(channel._id);
+    if (!(permissions & ChannelPermission.SendMessage)) {
+        return (
+            <Base>
+                <Blocked><Text id="app.main.channel.misc.no_sending" /></Blocked>
+            </Base>
+        )
+    }
 
     function setMessage(content?: string) {
         if (content) {
@@ -272,7 +292,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                 }} />
             <ReplyBar channel={channel._id} replies={replies} setReplies={setReplies} />
             <Base>
-                <Action>
+                { (permissions & ChannelPermission.UploadFiles) ? <Action>
                     <FileUploader
                         size={24}
                         behaviour='multi'
@@ -296,7 +316,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                             }
                         }}
                     />
-                </Action>
+                </Action> : undefined }
                 <TextAreaAutoSize
                     autoFocus
                     hideBorder
@@ -338,11 +358,11 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                     }}
                     onFocus={onFocus}
                     onBlur={onBlur} />
-                <Action>
+                { isTouchscreenDevice && <Action>
                     <IconButton onClick={send}>
                         <Send size={20} />
                     </IconButton>
-                </Action>
+                </Action> }
             </Base>
         </>
     )
