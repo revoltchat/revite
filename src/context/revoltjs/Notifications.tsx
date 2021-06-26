@@ -233,6 +233,9 @@ const NotifierComponent = connectState(
 export default function Notifications() {
     return (
         <Switch>
+            <Route path="/server/:server/channel/:channel">
+                <NotifierComponent />
+            </Route>
             <Route path="/channel/:channel">
                 <NotifierComponent />
             </Route>
