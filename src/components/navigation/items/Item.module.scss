@@ -15,7 +15,6 @@
     transition: .1s ease-in-out background-color;
 
     color: var(--tertiary-foreground);
-    stroke: var(--tertiary-foreground);
 
     &.normal {
         height: 38px;
@@ -117,7 +116,6 @@
 
     &[data-alert="true"], &[data-active="true"], &:hover {
         color: var(--foreground);
-        stroke: var(--foreground);
 
         .subText {
             color: var(--secondary-foreground) !important;
