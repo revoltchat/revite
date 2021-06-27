@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { CAN_UPLOAD_AT_ONCE, UploadState } from "../MessageBox";
 import { useEffect, useState } from 'preact/hooks';
 import { determineFileSize } from '../../../../lib/fileSize';
-import { XCircle, Plus, Share, X, FileText } from "@styled-icons/feather";
+import { XCircle, Plus, Share, X, File } from "@styled-icons/boxicons-regular";
 
 interface Props {
     state: UploadState,
@@ -133,7 +133,7 @@ function FileEntry({ file, remove, index }: { file: File, remove?: () => void, i
         <Entry className={index >= CAN_UPLOAD_AT_ONCE ? 'fade' : ''}>
             <PreviewBox onClick={remove}>
                 <EmptyEntry className="icon">
-                    <FileText size={36} />
+                    <File size={36} />
                 </EmptyEntry>
                 <div class="overlay"><XCircle size={36} /></div>
             </PreviewBox>

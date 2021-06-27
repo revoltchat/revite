@@ -5,7 +5,7 @@ import Button from "../../../components/ui/Button";
 import { Users } from "revolt.js/dist/api/objects";
 import { Link, useHistory } from "react-router-dom";
 import Overline from "../../../components/ui/Overline";
-import { AtSign, Key, Mail } from "@styled-icons/feather";
+import { At, Key, Envelope } from "@styled-icons/boxicons-regular";
 import { useContext, useEffect, useState } from "preact/hooks";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { useForceUpdate, useSelf } from "../../../context/revoltjs/hooks";
@@ -54,8 +54,8 @@ export function Account() {
             </div>
             <div className={styles.details}>
                 {[
-                    ["username", user.username, <AtSign size={24} />],
-                    ["email", email, <Mail size={24} />],
+                    ["username", user.username, <At size={24} />],
+                    ["email", email, <Envelope size={24} />],
                     ["password", "*****", <Key size={24} />]
                 ].map(([field, value, icon]) => (
                     <div>

@@ -5,7 +5,7 @@ import styles from "../Login.module.scss";
 import { useForm } from "react-hook-form";
 import { MailProvider } from "./MailProvider";
 import { useContext, useState } from "preact/hooks";
-import { CheckCircle, Mail } from "@styled-icons/feather";
+import { CheckCircle, Envelope } from "@styled-icons/boxicons-regular";
 import { takeError } from "../../../context/revoltjs/util";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
@@ -109,7 +109,7 @@ export function Form({ page, callback }: Props) {
             <div className={styles.success}>
                 {client.configuration?.features.email ? (
                     <>
-                        <Mail size={72} />
+                        <Envelope size={72} />
                         <h2>
                             <Text id="login.check_mail" />
                         </h2>

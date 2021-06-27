@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import Preloader from "../../components/ui/Preloader";
 import { determineFileSize } from "../../lib/fileSize";
 import IconButton from '../../components/ui/IconButton';
-import { Edit, Plus, X, XCircle } from "@styled-icons/feather";
+import { Edit, Plus, X, XCircle } from "@styled-icons/boxicons-regular";
 import { useIntermediate } from "../intermediate/Intermediate";
 
 type Props = {

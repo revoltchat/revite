@@ -3,7 +3,7 @@ import styles from "./Item.module.scss";
 import Tooltip from '../../common/Tooltip';
 import IconButton from '../../ui/IconButton';
 import { Localizer, Text } from "preact-i18n";
-import { X, Zap } from "@styled-icons/feather";
+import { X, Crown } from "@styled-icons/boxicons-regular";
 import { Children } from "../../../types/Preact";
 import UserIcon from '../../common/user/UserIcon';
 import ChannelIcon from '../../common/ChannelIcon';
@@ -65,7 +65,7 @@ export function UserButton({ active, alert, alertCount, user, context, channel }
                                     <Text id="app.main.groups.owner" />
                                 }
                             >
-                                <Zap size={20} />
+                                <Crown size={20} />
                             </Tooltip>
                         </Localizer>
                 )}

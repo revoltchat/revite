@@ -3,7 +3,8 @@ import Category from "../../components/ui/Category";
 import { GenericSettings } from "./GenericSettings";
 import { useServer } from "../../context/revoltjs/hooks";
 import { Route, useHistory, useParams } from "react-router-dom";
-import { List, Share, Users, XSquare } from "@styled-icons/feather";
+import { ListUl, Share, Group } from "@styled-icons/boxicons-regular";
+import { XSquare } from "@styled-icons/boxicons-solid";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 
 import { Overview } from "./server/Overview";
@@ -31,22 +32,22 @@ export default function ServerSettings() {
                 {
                     category: <Category variant="uniform" text={server.name} />,
                     id: 'overview',
-                    icon: <List size={20} strokeWidth={2} />,
+                    icon: <ListUl size={20} />,
                     title: <Text id="app.settings.channel_pages.overview.title" />
                 },
                 {
                     id: 'members',
-                    icon: <Users size={20} strokeWidth={2} />,
+                    icon: <Group size={20} />,
                     title: "Members"
                 },
                 {
                     id: 'invites',
-                    icon: <Share size={20} strokeWidth={2} />,
+                    icon: <Share size={20} />,
                     title: "Invites"
                 },
                 {
                     id: 'bans',
-                    icon: <XSquare size={20} strokeWidth={2} />,
+                    icon: <XSquare size={20} />,
                     title: "Bans"
                 }
             ]}

@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { Children } from "../../types/Preact";
-import { Plus } from "@styled-icons/feather";
+import { Plus } from "@styled-icons/boxicons-regular";
 
 const CategoryBase = styled.div<Pick<Props, 'variant'>>`
     font-size: 12px;

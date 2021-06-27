@@ -9,7 +9,7 @@ import { Reply } from "../../../../redux/reducers/queue";
 import { useUsers } from "../../../../context/revoltjs/hooks";
 import { internalSubscribe } from "../../../../lib/eventEmitter";
 import { useRenderState } from "../../../../lib/renderer/Singleton";
-import { AtSign, CornerUpRight, File, XCircle } from "@styled-icons/feather";
+import { At, Reply as ReplyIcon, File, XCircle } from "@styled-icons/boxicons-regular";
 
 interface Props {
     channel: string,
@@ -71,7 +71,7 @@ export default function ReplyBar({ channel, replies, setReplies }: Props) {
                 return (
                     <Base key={reply.id}>
                         <ReplyBase preview>
-                            <CornerUpRight size={22} />
+                            <ReplyIcon size={22} />
                             <UserShort user={user} size={16} />
                             { message.attachments && message.attachments.length > 0 && <File size={16} /> }
                             <Markdown disallowBigEmoji content={(message.content as string).replace(/\n/g, ' ')} />
@@ -79,7 +79,7 @@ export default function ReplyBar({ channel, replies, setReplies }: Props) {
                         <span class="actions">
                             <IconButton onClick={() => setReplies(replies.map((_, i) => i === index ? { ..._, mention: !_.mention } : _))}>
                                 <span class="toggle">
-                                    <AtSign size={16} /> { reply.mention ? 'ON' : 'OFF' }
+                                    <At size={16} /> { reply.mention ? 'ON' : 'OFF' }
                                 </span>
                             </IconButton>
                             <IconButton onClick={() => setReplies(replies.filter((_, i) => i !== index))}>

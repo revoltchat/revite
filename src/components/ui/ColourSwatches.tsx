@@ -1,7 +1,6 @@
 import { useRef } from "preact/hooks";
-import { Check } from "@styled-icons/feather";
+import { Check, Pencil } from "@styled-icons/boxicons-regular";
 import styled, { css } from "styled-components";
-import { Pencil } from "@styled-icons/bootstrap";
 
 interface Props {
     value: string;
@@ -68,7 +67,7 @@ const Swatch = styled.div<{ type: "small" | "large"; colour: string }>`
                   height: 30px;
 
                   svg {
-                      stroke-width: 2;
+                      /*stroke-width: 2;*/
                   }
               `
             : css`
@@ -118,7 +117,7 @@ export default function ColourSwatches({ value, onChange }: Props) {
                                 onClick={() => onChange(swatch)}
                             >
                                 {swatch === value && (
-                                    <Check size={18} strokeWidth={2} />
+                                    <Check size={18} />
                                 )}
                             </Swatch>
                         ))}

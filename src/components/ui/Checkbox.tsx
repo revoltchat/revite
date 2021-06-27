@@ -1,4 +1,4 @@
-import { Check } from "@styled-icons/feather";
+import { Check } from "@styled-icons/boxicons-regular";
 import { Children } from "../../types/Preact";
 import styled, { css } from "styled-components";
 
@@ -59,7 +59,6 @@ const Checkmark = styled.div<{ checked: boolean }>`
 
     svg {
         color: var(--secondary-background);
-        stroke-width: 2;
     }
 
     ${(props) =>

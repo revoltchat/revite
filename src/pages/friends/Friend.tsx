@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "./Friend.module.scss";
 import { useContext } from "preact/hooks";
 import { Children } from "../../types/Preact";
-import { X, Plus, Mail } from "@styled-icons/feather";
+import { X, Plus, Envelope } from "@styled-icons/boxicons-regular";
 import IconButton from "../../components/ui/IconButton";
 import { attachContextMenu } from "preact-context-menu";
 import { User, Users } from "revolt.js/dist/api/objects";
@@ -30,7 +30,7 @@ export function Friend({ user }: Props) {
             <IconButton type="circle"
                 onClick={stopPropagation}>
                 <Link to={'/open/' + user._id}>
-                    <Mail size={20} />
+                    <Envelope size={20} />
                 </Link>
             </IconButton>
         );

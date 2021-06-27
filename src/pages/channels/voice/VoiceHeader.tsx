@@ -1,7 +1,7 @@
 import { Text } from "preact-i18n";
 import styled from "styled-components";
 import { useContext } from "preact/hooks";
-import { BarChart } from "@styled-icons/bootstrap";
+import { BarChart } from "@styled-icons/boxicons-regular";
 import Button from "../../../components/ui/Button";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { useForceUpdate, useSelf, useUsers } from "../../../context/revoltjs/hooks";
@@ -93,7 +93,7 @@ export default function VoiceHeader({ id }: Props) {
                 )}
             </div>
             <div className="status">
-                <BarChart size={20} strokeWidth={2} />
+                <BarChart size={20} />
                 { status === VoiceStatus.CONNECTED && <Text id="app.main.channel.voice.connected" /> }
             </div>
             <div className="actions">
@@ -145,7 +145,7 @@ export default function VoiceHeader({ id }: Props) {
                                 )}
                             </div>
                             <div className={styles.status}>
-                                <BarChart size={20} strokeWidth={2} />
+                                <BarChart size={20} />
                                 { voice.status === VoiceStatus.CONNECTED && <Text id="app.main.channel.voice.connected" /> }
                             </div>
                             <div className={styles.actions}>

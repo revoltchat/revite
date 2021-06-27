@@ -19,9 +19,8 @@ import { Children } from "../types/Preact";
 import LineDivider from "../components/ui/LineDivider";
 import { connectState } from "../redux/connector";
 import { internalEmit } from "./eventEmitter";
-import { AtSign, Bell, BellOff, Check, CheckSquare, ChevronRight, Slash, Square } from "@styled-icons/feather";
+import { At, Bell, BellOff, Check, CheckSquare, ChevronRight, Block, Square, LeftArrowAlt } from "@styled-icons/boxicons-regular";
 import { getNotificationState, Notifications, NotificationState } from "../redux/reducers/notifications";
-import { ArrowLeft } from "@styled-icons/bootstrap";
 
 interface ContextMenuData {
     user?: string;
@@ -718,16 +717,16 @@ function ContextMenus(props: Props) {
                             <MenuItem data={{ action: "set_notification_state", key: channel._id, state: key }}>
                                 { icon }
                                 <Text id={`app.main.channel.notifications.${key}`} />
-                                { (state === undefined && actual === key) && <div className="tip"><ArrowLeft size={20} /></div> }
+                                { (state === undefined && actual === key) && <div className="tip"><LeftArrowAlt size={20} /></div> }
                                 { (state === key) && <div className="tip"><Check size={20} /></div> }
                             </MenuItem>
                         );
                     }
 
                     generate('all', <Bell size={24} />);
-                    generate('mention', <AtSign size={24} />);
+                    generate('mention', <At size={24} />);
                     generate('muted', <BellOff size={24} />);
-                    generate('none', <Slash size={24} />);
+                    generate('none', <Block size={24} />);
 
                     return elements;
                 }}

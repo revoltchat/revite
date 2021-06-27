@@ -1,5 +1,5 @@
 import { Text } from "preact-i18n";
-import { List } from "@styled-icons/feather";
+import { ListUl } from "@styled-icons/boxicons-regular";
 import Category from "../../components/ui/Category";
 import { GenericSettings } from "./GenericSettings";
 import { getChannelName } from "../../context/revoltjs/util";
@@ -30,7 +30,7 @@ export default function ChannelSettings() {
                 {
                     category: <Category variant="uniform" text={getChannelName(ctx.client, channel, true)} />,
                     id: 'overview',
-                    icon: <List size={20} strokeWidth={2} />,
+                    icon: <ListUl size={20} />,
                     title: <Text id="app.settings.channel_pages.overview.title" />
                 }
             ]}

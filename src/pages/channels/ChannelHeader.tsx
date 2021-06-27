@@ -7,7 +7,7 @@ import Markdown from "../../components/markdown/Markdown";
 import { getChannelName } from "../../context/revoltjs/util";
 import UserStatus from "../../components/common/user/UserStatus";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
-import { Save, AtSign, Users, Hash } from "@styled-icons/feather";
+import { Save, At, Group, Hash } from "@styled-icons/boxicons-regular";
 import { useStatusColour } from "../../components/common/user/UserIcon";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 
@@ -57,18 +57,18 @@ export default function ChannelHeader({ channel, toggleSidebar }: ChannelHeaderP
     let icon, recipient;
     switch (channel.channel_type) {
         case "SavedMessages":
-            icon = <Save size={20} strokeWidth={1.5} />;
+            icon = <Save size={20} />;
             break;
         case "DirectMessage":
-            icon = <AtSign size={20} strokeWidth={1.5} />;
+            icon = <At size={20} />;
             const uid = client.channels.getRecipient(channel._id);
             recipient = client.users.get(uid);
             break;
         case "Group":
-            icon = <Users size={20} strokeWidth={1.5} />;
+            icon = <Group size={20} />;
             break;
         case "TextChannel":
-            icon = <Hash size={20} strokeWidth={1.5} />;
+            icon = <Hash size={20} />;
             break;
     }
 

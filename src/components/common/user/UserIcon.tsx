@@ -1,6 +1,6 @@
 import { User } from "revolt.js";
 import { useContext } from "preact/hooks";
-import { MicOff } from "@styled-icons/feather";
+import { MicrophoneOff } from "@styled-icons/boxicons-regular";
 import styled, { css } from "styled-components";
 import { Users } from "revolt.js/dist/api/objects";
 import { ThemeContext } from "../../../context/Theme";
@@ -83,7 +83,7 @@ export default function UserIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGEle
                     width="10"
                     height="10">
                     <VoiceIndicator status={props.voice}>
-                        {props.voice === "muted" && <MicOff size={6} />}
+                        {props.voice === "muted" && <MicrophoneOff size={6} />}
                     </VoiceIndicator>
                 </foreignObject>
             )}

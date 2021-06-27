@@ -6,7 +6,7 @@ import Header from '../../components/ui/Header';
 import Category from '../../components/ui/Category';
 import IconButton from "../../components/ui/IconButton";
 import LineDivider from "../../components/ui/LineDivider";
-import { ArrowLeft, X, XCircle } from "@styled-icons/feather";
+import { LeftArrowAlt, X, XCircle } from "@styled-icons/boxicons-regular";
 import { Switch, useHistory, useParams } from "react-router-dom";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import ButtonItem from "../../components/navigation/items/ButtonItem";
@@ -65,7 +65,7 @@ export function GenericSettings({ pages, switchPage, category, custom, children,
                     ) : (
                         <>
                             <IconButton onClick={() => switchPage()}>
-                                <ArrowLeft size={24} />
+                                <LeftArrowAlt size={24} />
                             </IconButton>
                             <Text
                                 id={`app.settings.${category}.${page}.title`}

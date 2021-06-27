@@ -1,6 +1,6 @@
 import { Children } from "../../types/Preact";
 import styled, { css } from "styled-components";
-import { CircleFill } from "@styled-icons/bootstrap";
+import { Circle } from "@styled-icons/boxicons-regular";
 
 interface Props {
     children: Children;
@@ -48,7 +48,7 @@ const RadioBase = styled.label<BaseProps>`
 
         svg {
             color: var(--foreground);
-            stroke-width: 2;
+            /*stroke-width: 2;*/
         }
     }
 
@@ -95,7 +95,7 @@ export default function Radio(props: Props) {
             }
         >
             <div>
-                <CircleFill size={12} />
+                <Circle size={12} />
             </div>
             <input type="radio" checked={props.checked} />
             <span>
