@@ -11,8 +11,8 @@ const updateSW = registerSW({
     },
 })
 
-import { render } from "preact";
 import "./styles/index.scss";
+import { render } from "preact";
 import { App } from "./pages/app";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

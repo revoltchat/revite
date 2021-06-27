@@ -28,6 +28,7 @@ export const ReplyBase = styled.div<{ head?: boolean, fail?: boolean, preview?: 
 
     svg {
         flex-shrink: 0;
+        transform: scaleX(-1);
         color: var(--tertiary-foreground);
     }
 

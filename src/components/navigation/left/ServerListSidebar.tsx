@@ -18,6 +18,7 @@ import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useChannels, useForceUpdate, useServers } from "../../../context/revoltjs/hooks";
 
 import logoSVG from '../../../assets/logo.svg';
+import Tooltip from "../../common/Tooltip";
 
 function Icon({ children, unread, size }: { children: Children, unread?: 'mention' | 'unread', size: number }) {
     return (
@@ -174,9 +175,11 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                                 <ServerEntry
                                     active={active}
                                     onContextMenu={attachContextMenu('Menu', { server: entry!._id })}>
-                                    <Icon size={36} unread={entry.unread}>
-                                        <ServerIcon size={32} target={entry} />
-                                    </Icon>
+                                    <Tooltip content={entry.name} placement="right">
+                                        <Icon size={36} unread={entry.unread}>
+                                            <ServerIcon size={32} target={entry} />
+                                        </Icon>
+                                    </Tooltip>
                                 </ServerEntry>
                             </ConditionalLink>
                         )

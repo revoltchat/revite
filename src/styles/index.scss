@@ -3,4 +3,18 @@
 @import "fonts";
 @import "page";
 
-@import "react-overlapping-panels/dist"
+@import "react-overlapping-panels/dist";
+@import "tippy.js/dist/tippy.css";
+
+.tippy-box {
+    background: var(--secondary-background);
+}
+
+.tippy-content {
+    padding: 8px;
+    font-size: 12px;
+}
+
+.tippy-arrow {
+    color: var(--secondary-background);
+}

@@ -1,26 +1,19 @@
-import styled from "styled-components";
 import { Children } from "../../types/Preact";
-import { Position, Tooltip as TooltipCore, TooltipProps } from "react-tippy";
+import Tippy, { TippyProps } from '@tippyjs/react';
 
-type Props = Omit<TooltipProps, 'html'> & {
-    position?: Position;
+type Props = Omit<TippyProps, 'children'> & {
     children: Children;
     content: Children;
 }
 
-const TooltipBase = styled.div`
-    padding: 8px;
-    font-size: 12px;
-    border-radius: 4px;
-    color: var(--foreground);
-    background: var(--secondary-background);
-`;
-
 export default function Tooltip(props: Props) {
+    const { children, content, ...tippyProps } = props;
+
     return (
-        <TooltipCore
-            {...props}
-            // @ts-expect-error
-            html={<TooltipBase>{props.content}</TooltipBase>} />
+        <Tippy content={content} {...tippyProps}>
+            {/*
+            // @ts-expect-error */}
+            <div>{ children }</div>
+        </Tippy>
     );
 }
