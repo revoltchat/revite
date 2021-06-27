@@ -1,5 +1,5 @@
 import styles from "./Friend.module.scss";
-import { UserPlus } from "@styled-icons/feather";
+import { UserPlus } from "@styled-icons/boxicons-regular";
 
 import { Friend } from "./Friend";
 import { Text } from "preact-i18n";

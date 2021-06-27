@@ -2,7 +2,7 @@ import { Text } from "preact-i18n";
 import styled from "styled-components";
 import { useContext } from "preact/hooks";
 import { Children } from "../../types/Preact";
-import { WifiOff } from "@styled-icons/feather";
+import { WifiOff } from "@styled-icons/boxicons-regular";
 import Preloader from "../../components/ui/Preloader";
 import { ClientStatus, StatusContext } from "./RevoltClient";
 

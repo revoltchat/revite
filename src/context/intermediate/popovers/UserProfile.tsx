@@ -6,7 +6,6 @@ import Modal from "../../../components/ui/Modal";
 import { Route } from "revolt.js/dist/api/routes";
 import { Users } from "revolt.js/dist/api/objects";
 import { useIntermediate } from "../Intermediate";
-import { CashStack } from "@styled-icons/bootstrap";
 import Preloader from "../../../components/ui/Preloader";
 import Tooltip from '../../../components/common/Tooltip';
 import IconButton from "../../../components/ui/IconButton";
@@ -15,7 +14,7 @@ import { UserPermission } from "revolt.js/dist/api/permissions";
 import UserIcon from '../../../components/common/user/UserIcon';
 import ChannelIcon from '../../../components/common/ChannelIcon';
 import UserStatus from '../../../components/common/user/UserStatus';
-import { Mail, Edit, UserPlus, Shield } from "@styled-icons/feather";
+import { Envelope, Edit, UserPlus, Shield, Money } from "@styled-icons/boxicons-regular";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 import { AppContext, ClientStatus, StatusContext } from "../../revoltjs/RevoltClient";
 import { useChannels, useForceUpdate, useUserPermission, useUsers } from "../../revoltjs/hooks";
@@ -160,7 +159,7 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
                                         onClose();
                                         history.push(`/open/${user_id}`);
                                     }}>
-                                    <Mail size={30} strokeWidth={1.5} />
+                                    <Envelope size={30} />
                                 </IconButton>
                             </Tooltip>
                         </Localizer>
@@ -172,13 +171,13 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
                                 if (dummy) return;
                                 history.push(`/settings/profile`);
                             }}>
-                            <Edit size={28} strokeWidth={1.5} />
+                            <Edit size={28} />
                         </IconButton>
                     )}
                     {(user.relationship === Users.Relationship.Incoming ||
                         user.relationship === Users.Relationship.None) && (
                         <IconButton onClick={() => client.users.addFriend(user.username)}>
-                            <UserPlus size={28} strokeWidth={1.5} />
+                            <UserPlus size={28} />
                         </IconButton>
                     )}
                 </div>
@@ -255,7 +254,7 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
                                             <Text id="app.special.popovers.user_profile.badges.supporter" />
                                         }
                                     >
-                                        <CashStack size={32} color="#efab44" />
+                                        <Money size={32} color="#efab44" />
                                     </Tooltip>
                                 ) : (
                                     <></>

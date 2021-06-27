@@ -2,7 +2,7 @@ import Header from "../ui/Header";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import IconButton from "../ui/IconButton";
-import { Settings } from "@styled-icons/feather";
+import { Cog } from "@styled-icons/boxicons-solid";
 import { Server } from "revolt.js/dist/api/objects";
 import { ServerPermission } from "revolt.js/dist/api/permissions";
 import { HookContext, useServerPermission } from "../../context/revoltjs/hooks";
@@ -30,7 +30,7 @@ export default function ServerHeader({ server, ctx }: Props) {
             { (permissions & ServerPermission.ManageServer) > 0 && <div className="actions">
                 <Link to={`/server/${server._id}/settings`}>
                     <IconButton>
-                        <Settings size={24} />
+                        <Cog size={24} />
                     </IconButton>
                 </Link>
             </div> }

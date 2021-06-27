@@ -10,16 +10,16 @@ import {
     Bell,
     Box,
     Coffee,
-    Gitlab,
     Globe,
     Image,
     LogOut,
-    RefreshCw,
+    Sync as SyncIcon,
     Shield,
     ToggleRight,
     User
-} from "@styled-icons/feather";
-import { Megaphone } from "@styled-icons/bootstrap";
+} from "@styled-icons/boxicons-regular";
+import { Megaphone } from "@styled-icons/boxicons-solid";
+import { Gitlab } from "@styled-icons/boxicons-logos";
 import { GIT_BRANCH, GIT_REVISION, REPO_URL } from "../../revision";
 import LineDivider from "../../components/ui/LineDivider";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
@@ -54,49 +54,49 @@ export default function Settings() {
                 {
                     category: <Text id="app.settings.categories.user_settings" />,
                     id: 'account',
-                    icon: <User size={20} strokeWidth={2} />,
+                    icon: <User size={20} />,
                     title: <Text id="app.settings.pages.account.title" />
                 },
                 {
                     id: 'profile',
-                    icon: <Image size={20} strokeWidth={2} />,
+                    icon: <Image size={20} />,
                     title: <Text id="app.settings.pages.profile.title" />
                 },
                 {
                     id: 'sessions',
-                    icon: <Shield size={20} strokeWidth={2} />,
+                    icon: <Shield size={20} />,
                     title: <Text id="app.settings.pages.sessions.title" />
                 },
                 {
                     category: <Text id="app.settings.categories.client_settings" />,
                     id: 'appearance',
-                    icon: <Box size={20} strokeWidth={2} />,
+                    icon: <Box size={20} />,
                     title: <Text id="app.settings.pages.appearance.title" />
                 },
                 {
                     id: 'notifications',
-                    icon: <Bell size={20} strokeWidth={2} />,
+                    icon: <Bell size={20} />,
                     title: <Text id="app.settings.pages.notifications.title" />
                 },
                 {
                     id: 'language',
-                    icon: <Globe size={20} strokeWidth={2} />,
+                    icon: <Globe size={20} />,
                     title: <Text id="app.settings.pages.language.title" />
                 },
                 {
                     id: 'sync',
-                    icon: <RefreshCw size={20} strokeWidth={2} />,
+                    icon: <SyncIcon size={20} />,
                     title: <Text id="app.settings.pages.sync.title" />
                 },
                 {
                     divider: true,
                     id: 'experiments',
-                    icon: <ToggleRight size={20} strokeWidth={2} />,
+                    icon: <ToggleRight size={20} />,
                     title: <Text id="app.settings.pages.experiments.title" />
                 },
                 {
                     id: 'feedback',
-                    icon: <Megaphone size={20} strokeWidth={0.3} />,
+                    icon: <Megaphone size={20} />,
                     title: <Text id="app.settings.pages.feedback.title" />
                 }
             ]}
@@ -122,13 +122,13 @@ export default function Settings() {
                     target="_blank"
                 >
                     <ButtonItem compact>
-                        <Gitlab size={20} strokeWidth={2} />
+                        <Gitlab size={20} />
                         <Text id="app.settings.pages.source_code" />
                     </ButtonItem>
                 </a>,
                 <a href="https://ko-fi.com/insertish" target="_blank">
                     <ButtonItem className={styles.donate} compact>
-                        <Coffee size={20} strokeWidth={2} />
+                        <Coffee size={20} />
                         <Text id="app.settings.pages.donate.title" />
                     </ButtonItem>
                 </a>,
@@ -138,7 +138,7 @@ export default function Settings() {
                     className={styles.logOut}
                     compact
                 >
-                    <LogOut size={20} strokeWidth={2} />
+                    <LogOut size={20} />
                     <Text id="app.settings.pages.logOut" />
                 </ButtonItem>,
                 <div className={styles.version}>

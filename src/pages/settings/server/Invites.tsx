@@ -1,5 +1,5 @@
 import styles from './Panes.module.scss';
-import { XCircle } from "@styled-icons/feather";
+import { XCircle } from "@styled-icons/boxicons-regular";
 import { useEffect, useState } from "preact/hooks";
 import Preloader from "../../../components/ui/Preloader";
 import IconButton from "../../../components/ui/IconButton";

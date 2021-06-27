@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Info } from "@styled-icons/feather";
+import { InfoCircle } from "@styled-icons/boxicons-regular";
 import { Children } from "../../types/Preact";
 
 export const TipBase = styled.div`
@@ -29,7 +29,7 @@ export const TipBase = styled.div`
 export default function Tip(props: { children: Children }) {
     return (
         <TipBase>
-            <Info size={20} strokeWidth={2} />
+            <InfoCircle size={20} />
             <span>{props.children}</span>
         </TipBase>
     );

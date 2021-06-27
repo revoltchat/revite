@@ -6,7 +6,7 @@ import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { VoiceContext, VoiceOperationsContext, VoiceStatus } from "../../../context/Voice";
-import { UserPlus, Settings, Sidebar as SidebarIcon, PhoneCall, PhoneOff } from "@styled-icons/feather";
+import { UserPlus, Cog, Sidebar as SidebarIcon, PhoneCall, PhoneOutgoing } from "@styled-icons/boxicons-regular";
 
 export default function HeaderActions({ channel, toggleSidebar }: ChannelHeaderProps) {
     const { openScreen } = useIntermediate();
@@ -30,7 +30,7 @@ export default function HeaderActions({ channel, toggleSidebar }: ChannelHeaderP
                         <UserPlus size={22} />
                     </IconButton>
                     <IconButton onClick={() => history.push(`/channel/${channel._id}/settings`)}>
-                        <Settings size={22} />
+                        <Cog size={22} />
                     </IconButton>
                 </>
             ) }
@@ -55,7 +55,7 @@ function VoiceActions({ channel }: Pick<ChannelHeaderProps, 'channel'>) {
         if (voice.roomId === channel._id) {
             return (
                 <IconButton onClick={disconnect}>
-                    <PhoneOff size={22} />
+                    <PhoneOutgoing size={22} />
                 </IconButton>
             )
         } else {

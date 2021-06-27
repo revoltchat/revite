@@ -9,7 +9,7 @@ import Preloader from "../../../components/ui/Preloader";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
-import { HelpCircle } from "@styled-icons/feather";
+import { HelpCircle } from "@styled-icons/boxicons-regular";
 import {
     Android,
     Firefoxbrowser,

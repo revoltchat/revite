@@ -1,6 +1,6 @@
 import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect } from "preact/hooks";
-import { Home, Users, Tool, Save } from "@styled-icons/feather";
+import { Home, Group, Wrench, Save } from "@styled-icons/boxicons-regular";
 
 import Category from '../../ui/Category';
 import PaintCounter from "../../../lib/PaintCounter";
@@ -83,7 +83,7 @@ function HomeSidebar(props: Props) {
                                     ) !== "undefined" ? 'unread' : undefined
                                 }
                             >
-                                <Users size={20} />
+                                <Group size={20} />
                                 <span><Text id="app.navigation.tabs.friends" /></span>
                             </ButtonItem>
                         </ConditionalLink>
@@ -98,7 +98,7 @@ function HomeSidebar(props: Props) {
                 {import.meta.env.DEV && (
                     <Link to="/dev">
                         <ButtonItem active={pathname === "/dev"}>
-                            <Tool size={20} />
+                            <Wrench size={20} />
                             <span><Text id="app.navigation.tabs.dev" /></span>
                         </ButtonItem>
                     </Link>

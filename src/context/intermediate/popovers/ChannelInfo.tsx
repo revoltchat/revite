@@ -1,4 +1,4 @@
-import { X } from "@styled-icons/feather";
+import { X } from "@styled-icons/boxicons-regular";
 import styles from "./ChannelInfo.module.scss";
 import Modal from "../../../components/ui/Modal";
 import { getChannelName } from "../../revoltjs/util";

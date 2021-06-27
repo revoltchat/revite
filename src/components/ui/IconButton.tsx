@@ -15,7 +15,7 @@ export default styled.div<Props>`
 
     fill: ${normal};
     color: ${normal};
-    stroke: ${normal};
+    /*stroke: ${normal};*/
 
     a {
         color: ${normal};
@@ -24,7 +24,7 @@ export default styled.div<Props>`
     &:hover {
         fill: ${hover};
         color: ${hover};
-        stroke: ${hover};
+        /*stroke: ${hover};*/
 
         a {
             color: ${hover};

@@ -4,7 +4,7 @@ import { mapChannelWithUnread } from "./common";
 import styled, { css } from "styled-components";
 import ServerIcon from "../../common/ServerIcon";
 import { Children } from "../../../types/Preact";
-import { PlusCircle } from "@styled-icons/feather";
+import { Plus } from "@styled-icons/boxicons-regular";
 import PaintCounter from "../../../lib/PaintCounter";
 import { attachContextMenu } from 'preact-context-menu';
 import { connectState } from "../../../redux/connector";
@@ -51,7 +51,7 @@ function Icon({ children, unread, size }: { children: Children, unread?: 'mentio
 }
 
 const ServersBase = styled.div`
-    width: 52px;
+    width: 72px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -183,7 +183,7 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                     })
                 }
                 <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_server' })}>
-                    <PlusCircle size={36} />
+                    <Plus size={36} />
                 </IconButton>
                 <PaintCounter small />
             </ServerList>

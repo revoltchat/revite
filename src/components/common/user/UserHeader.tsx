@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { Localizer } from 'preact-i18n';
 import { Link } from "react-router-dom";
 import IconButton from "../../ui/IconButton";
-import { Settings } from "@styled-icons/feather";
+import { Cog } from "@styled-icons/boxicons-solid";
 import { openContextMenu } from "preact-context-menu";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
@@ -76,7 +76,7 @@ export default function UserHeader({ user }: Props) {
             { !isTouchscreenDevice && <div className="actions">
                 <Link to="/settings">
                     <IconButton>
-                        <Settings size={24} />
+                        <Cog size={24} />
                     </IconButton>
                 </Link>
             </div> }

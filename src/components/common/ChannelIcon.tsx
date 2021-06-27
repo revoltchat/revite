@@ -1,6 +1,6 @@
 import { useContext } from "preact/hooks";
 import { Channels } from "revolt.js/dist/api/objects";
-import { Hash, Volume2 } from "@styled-icons/feather";
+import { Hash, VolumeFull } from "@styled-icons/boxicons-regular";
 import { ImageIconBase, IconBaseProps } from "./IconBase";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
@@ -21,7 +21,7 @@ export default function ChannelIcon(props: Props & Omit<JSX.HTMLAttributes<HTMLI
         if (isServerChannel) {
             if (target?.channel_type === 'VoiceChannel') {
                 return (
-                    <Volume2 size={size} />
+                    <VolumeFull size={size} />
                 )
             } else {
                 return (

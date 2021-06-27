@@ -4,7 +4,7 @@ import { Channel } from "revolt.js";
 import styled from "styled-components";
 import { defer } from "../../../lib/defer";
 import IconButton from "../../ui/IconButton";
-import { Send, X } from '@styled-icons/feather';
+import { Send, X } from '@styled-icons/boxicons-regular';
 import { debounce } from "../../../lib/debounce";
 import Axios, { CancelTokenSource } from "axios";
 import { useTranslation } from "../../../lib/i18n";

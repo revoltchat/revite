@@ -1,6 +1,6 @@
 import { Text } from "preact-i18n";
 import styled from "styled-components";
-import { ArrowDown } from "@styled-icons/feather";
+import { DownArrow } from "@styled-icons/boxicons-regular";
 import { SingletonMessageRenderer, useRenderState } from "../../../../lib/renderer/Singleton";
 
 const Bar = styled.div`
@@ -46,7 +46,7 @@ export default function JumpToBottom({ id }: { id: string }) {
         <Bar>
             <div onClick={() => SingletonMessageRenderer.jumpToBottom(id, true)}>
                 <div><Text id="app.main.channel.misc.viewing_old" /></div>
-                <div><Text id="app.main.channel.misc.jump_present" /> <ArrowDown size={18} strokeWidth={2}/></div>
+                <div><Text id="app.main.channel.misc.jump_present" /> <DownArrow size={18}/></div>
             </div>
         </Bar>
     )

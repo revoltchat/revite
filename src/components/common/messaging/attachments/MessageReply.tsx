@@ -2,7 +2,7 @@ import { Text } from "preact-i18n";
 import UserShort from "../../user/UserShort";
 import styled, { css } from "styled-components";
 import Markdown from "../../../markdown/Markdown";
-import { CornerUpRight, File } from "@styled-icons/feather";
+import { Reply, File } from "@styled-icons/boxicons-regular";
 import { useUser } from "../../../../context/revoltjs/hooks";
 import { useRenderState } from "../../../../lib/renderer/Singleton";
 
@@ -52,7 +52,7 @@ export function MessageReply({ index, channel, id }: Props) {
     if (!message) {
         return (
             <ReplyBase head={index === 0} fail>
-                <CornerUpRight size={16} />
+                <Reply size={16} />
                 <span><Text id="app.main.channel.misc.failed_load" /></span>
             </ReplyBase>
         )
@@ -62,7 +62,7 @@ export function MessageReply({ index, channel, id }: Props) {
 
     return (
         <ReplyBase head={index === 0}>
-            <CornerUpRight size={16} />
+            <Reply size={16} />
             <UserShort user={user} size={16} />
             { message.attachments && message.attachments.length > 0 && <File size={16} /> }
             <Markdown disallowBigEmoji content={(message.content as string).replace(/\n/g, ' ')} />
