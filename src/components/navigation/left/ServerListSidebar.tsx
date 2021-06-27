@@ -52,7 +52,7 @@ function Icon({ children, unread, size }: { children: Children, unread?: 'mentio
 }
 
 const ServersBase = styled.div`
-    width: 72px;
+    width: 56px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -68,7 +68,6 @@ const ServerList = styled.div`
     overflow-y: scroll;
     padding-bottom: 48px;
     flex-direction: column;
-    border-inline-end: 2px solid var(--sidebar-active);
 
     scrollbar-width: none;
 
@@ -82,21 +81,75 @@ const ServerList = styled.div`
 `;
 
 const ServerEntry = styled.div<{ active: boolean, invert?: boolean }>`
-    height: 44px;
-    padding: 4px;
-    margin: 2px 0 2px 4px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-
-    img {
-        width: 32px;
-        height: 32px;
+    > * {
+        // outline: 1px solid red;
     }
 
-    ${ props => props.active && css`
-        background: var(--sidebar-active);
-    ` }
+    > div, > svg {
+        width: 46px;
+        height: 46px;
+        display: grid;
+        place-items: center;
+        
+        border-start-start-radius: 50%;
+        border-end-start-radius: 50%;
+
+        ${ props => props.active && css`
+            background: var(--accent);
+        ` }
+    }
+
+    span {
+        width: 6px;
+        height: 46px;
+
+        ${ props => props.active && css`
+            background: var(--accent);
+
+            &::before, &::after {
+                // outline: 1px solid blue;
+            }
+
+            &::before {
+                content: "";
+                display: block;
+                position: relative;
+
+                width: 31px;
+                height: 72px;
+                margin-top: -72px;
+                margin-left: -25px;
+                z-index: -1;
+
+                background: var(--background);
+                border-bottom-right-radius: 32px;
+
+                box-shadow: 0 32px 0 0 var(--accent);
+            }
+
+            /*&::after {
+                content: "";
+                display: block;
+                position: relative;
+
+                width: 31px;
+                height: 72px;
+                margin-top: 100px;
+                margin-left: -25px;
+                z-index: -2;
+
+                background: var(--background);
+                border-bottom-left-radius: 32px;
+
+                box-shadow: 0 -32px 0 0 var(--accent);
+            }*/
+        ` }
+    }
 
     ${ props => props.active && props.invert && css`
         img {
@@ -159,12 +212,13 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
             <ServerList>
                 <ConditionalLink active={homeActive} to={lastOpened.home ? `/channel/${lastOpened.home}` : '/'}>
                     <ServerEntry invert active={homeActive}>
-                        <Icon size={36} unread={homeUnread}>
+                        <Icon size={42} unread={homeUnread}>
                             <img src={logoSVG} />
                         </Icon>
+                        <span />
                     </ServerEntry>
                 </ConditionalLink>
-                <LineDivider />
+                {/*<LineDivider />*/}
                 {
                     servers.map(entry => {
                         const active = entry!._id === server?._id;
@@ -176,10 +230,11 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                                     active={active}
                                     onContextMenu={attachContextMenu('Menu', { server: entry!._id })}>
                                     <Tooltip content={entry.name} placement="right">
-                                        <Icon size={36} unread={entry.unread}>
+                                        <Icon size={42} unread={entry.unread}>
                                             <ServerIcon size={32} target={entry} />
                                         </Icon>
                                     </Tooltip>
+                                    <span />
                                 </ServerEntry>
                             </ConditionalLink>
                         )
