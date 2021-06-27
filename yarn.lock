@@ -1082,18 +1082,26 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
-"@styled-icons/bootstrap@^10.34.0":
+"@styled-icons/boxicons-logos@^10.34.0":
   version "10.34.0"
-  resolved "https://registry.yarnpkg.com/@styled-icons/bootstrap/-/bootstrap-10.34.0.tgz#d9142e9eb70dc437f7ef62ffc40168e1ae13ab12"
-  integrity sha512-UpzdVUR7r9BNqEfPrMchJdgMZEg9eXQxLQJUXM0ouvbI5o9j21/y1dGameO4PZtYbutT/dWv5O6y24z5JWzd5w==
+  resolved "https://registry.yarnpkg.com/@styled-icons/boxicons-logos/-/boxicons-logos-10.34.0.tgz#3bb38d4c695893be24b2ef1ff1500eabb395842b"
+  integrity sha512-BukvDfVWarIZ2y33QYFTEcS8K1//A2Timo0zZDpQCx8uMVGOb45ZMV/BqNn38pXdbVT1/KpbUoD8GmsGE7M5mw==
   dependencies:
     "@babel/runtime" "^7.14.0"
     "@styled-icons/styled-icon" "^10.6.3"
 
-"@styled-icons/feather@^10.34.0":
+"@styled-icons/boxicons-regular@^10.34.0":
   version "10.34.0"
-  resolved "https://registry.yarnpkg.com/@styled-icons/feather/-/feather-10.34.0.tgz#fdef1b4231e1ff6cfe454da741161f532788177b"
-  integrity sha512-UdhKaUC8T98V5H4WEh+UBRfVT7ZTcPpgUUrXlRM2CWanuNIUKpIjj0SKhsnkuprqtzV1L6s3Koa40VTfpG9LYQ==
+  resolved "https://registry.yarnpkg.com/@styled-icons/boxicons-regular/-/boxicons-regular-10.34.0.tgz#1ea058d8e02d4e74421441816f82a84064f0e7dc"
+  integrity sha512-w9fcgS0PyZLKHe7woJU/CUSY85/HgLE4btUzRGkLXOMT1dPT/mMV+O0cZEJvFMKQJJDPRJ1poiFbHgnmJ2tFwA==
+  dependencies:
+    "@babel/runtime" "^7.14.0"
+    "@styled-icons/styled-icon" "^10.6.3"
+
+"@styled-icons/boxicons-solid@^10.34.0":
+  version "10.34.0"
+  resolved "https://registry.yarnpkg.com/@styled-icons/boxicons-solid/-/boxicons-solid-10.34.0.tgz#4f31b873a1d52c85230f86eb7106c04f416a12c9"
+  integrity sha512-0DTsuysRgIO/XoSq5sFPeknnidLzhTEmaG5uJuLmCPBw78VjxNt6DQFRcn8ytn+ba5Qhu+Ps3Km8nbY7Zf14/g==
   dependencies:
     "@babel/runtime" "^7.14.0"
     "@styled-icons/styled-icon" "^10.6.3"
