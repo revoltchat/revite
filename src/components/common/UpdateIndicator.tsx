@@ -6,6 +6,7 @@ import { internalSubscribe } from "../../lib/eventEmitter";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 var pendingUpdate = false;
+internalSubscribe('PWA', 'update', () => pendingUpdate = true);
 
 export default function UpdateIndicator() {
     const [ pending, setPending ] = useState(pendingUpdate);
