@@ -24,7 +24,12 @@ const PermissionTooltipBase = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-
+    span {
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--secondary-foreground);
+        font-size: 11px;
+    }
     code {
         font-family: 'Fira Mono';
     }
@@ -35,7 +40,7 @@ export function PermissionTooltip(props: Omit<Props, 'content'> & { permission: 
 
     return (
         <Tooltip content={<PermissionTooltipBase>
-            <Text id="app.permissions.required" />
+            <span><Text id="app.permissions.required" /></span>
             <code>{ permission }</code>
         </PermissionTooltipBase>} {...tooltipProps} />
     )
