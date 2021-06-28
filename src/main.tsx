@@ -1,9 +1,9 @@
-import { registerSW } from 'virtual:pwa-register'
-const updateSW = registerSW({
+import { registerSW } from 'virtual:pwa-register';
+import { internalEmit } from './lib/eventEmitter';
+
+export const updateSW = registerSW({
     onNeedRefresh() {
-        // ! FIXME: temp
-        updateSW(true);
-        // show a prompt to user
+        internalEmit('PWA', 'update');
     },
     onOfflineReady() {
         console.info('Ready to work offline.');
