@@ -11,7 +11,7 @@ interface Props {
 
 export function Component(props: Props & WithDispatcher) {
     return (
-        <div className={styles.notifications}>
+        <div className={styles.experiments}>
             <h3>
                 <Text id="app.settings.pages.experiments.features" />
             </h3>

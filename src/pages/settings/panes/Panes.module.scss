@@ -373,3 +373,13 @@
     display: flex;
     flex-direction: column;
 }
+
+.experiments { /* TOFIX: Center the "No new experiments available at this time" text without having a scrollbar */
+    height: 100%;
+    .empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+}

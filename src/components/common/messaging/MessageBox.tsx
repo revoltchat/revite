@@ -54,6 +54,7 @@ const Base = styled.div`
 
 const Blocked = styled.div`
     display: flex;
+    align-items: center;
     padding: 14px 0;
     user-select: none;
     font-size: .875rem;
@@ -87,7 +88,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
         return (
             <Base>
                 <Blocked>
-                    <ShieldX size={20}/>
+                    <ShieldX size={22}/>
                     <Text id="app.main.channel.misc.no_sending" />
                 </Blocked>
             </Base>
