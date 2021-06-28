@@ -29,7 +29,7 @@ const VoiceBase = styled.div`
         user-select: none;
 
         svg {
-            margin-right: 4px;
+            margin-inline-end: 4px;
             cursor: help;
         }
     }
