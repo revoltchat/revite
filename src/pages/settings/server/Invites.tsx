@@ -1,3 +1,4 @@
+import { Text } from "preact-i18n";
 import styles from './Panes.module.scss';
 import { XCircle } from "@styled-icons/boxicons-regular";
 import { useEffect, useState } from "preact/hooks";
@@ -27,6 +28,12 @@ export function Invites({ server }: Props) {
 
     return (
         <div className={styles.invites}>
+            <div className={styles.subtitle}>
+                <span>Invite Code</span>
+                <span>Invitor</span>
+                <span>Channel</span>
+                <span>Revoke</span>
+            </div>
             { typeof invites === 'undefined' && <Preloader type="ring" /> }
             {
                 invites?.map(
