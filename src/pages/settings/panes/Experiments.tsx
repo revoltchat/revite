@@ -36,7 +36,10 @@ export function Component(props: Props & WithDispatcher) {
             }
             {
                 AVAILABLE_EXPERIMENTS.length === 0 &&
-                <Text id="app.settings.pages.experiments.not_available" />
+                <div className={styles.empty}>
+                    <Text id="app.settings.pages.experiments.not_available" />
+                </div>
+                
             }
         </div>
     );

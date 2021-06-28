@@ -8,17 +8,17 @@ import { GenericSettings } from "./GenericSettings";
 import { Route, useHistory } from "react-router-dom";
 import {
     Bell,
-    Box,
+    Palette,
     Coffee,
     Globe,
-    Image,
+    IdCard,
     LogOut,
     Sync as SyncIcon,
     Shield,
-    ToggleRight,
+    Vial,
     User
 } from "@styled-icons/boxicons-regular";
-import { Megaphone } from "@styled-icons/boxicons-solid";
+import { Brush, Megaphone } from "@styled-icons/boxicons-solid";
 import { Gitlab } from "@styled-icons/boxicons-logos";
 import { GIT_BRANCH, GIT_REVISION, REPO_URL } from "../../revision";
 import LineDivider from "../../components/ui/LineDivider";
@@ -59,7 +59,7 @@ export default function Settings() {
                 },
                 {
                     id: 'profile',
-                    icon: <Image size={20} />,
+                    icon: <IdCard size={20} />,
                     title: <Text id="app.settings.pages.profile.title" />
                 },
                 {
@@ -70,7 +70,7 @@ export default function Settings() {
                 {
                     category: <Text id="app.settings.categories.client_settings" />,
                     id: 'appearance',
-                    icon: <Box size={20} />,
+                    icon: <Palette size={20} />,
                     title: <Text id="app.settings.pages.appearance.title" />
                 },
                 {
@@ -91,7 +91,7 @@ export default function Settings() {
                 {
                     divider: true,
                     id: 'experiments',
-                    icon: <ToggleRight size={20} />,
+                    icon: <Vial size={20} />,
                     title: <Text id="app.settings.pages.experiments.title" />
                 },
                 {

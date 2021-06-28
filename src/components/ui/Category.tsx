@@ -8,7 +8,7 @@ const CategoryBase = styled.div<Pick<Props, 'variant'>>`
     text-transform: uppercase;
 
     margin-top: 4px;
-    padding: 6px 10px;
+    padding: 6px 0;
     margin-bottom: 4px;
     white-space: nowrap;
     
@@ -20,6 +20,11 @@ const CategoryBase = styled.div<Pick<Props, 'variant'>>`
     svg {
         stroke: var(--foreground);
         cursor: pointer;
+    }
+
+    &:first-child {
+        margin-top: 0;
+        padding-top: 0;
     }
 
     ${ props => props.variant === 'uniform' && css`
