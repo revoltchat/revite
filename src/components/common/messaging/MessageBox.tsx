@@ -1,6 +1,6 @@
 import { ulid } from "ulid";
 import { Text } from "preact-i18n";
-import Tooltip from "../Tooltip";
+import Tooltip, { PermissionTooltip } from "../Tooltip";
 import { Channel } from "revolt.js";
 import styled from "styled-components";
 import { defer } from "../../../lib/defer";
@@ -90,9 +90,9 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
         return (
             <Base>
                 <Blocked>
-                    <Tooltip content={<div>Permissions Required<div>Send messages</div></div>} placement="top">
+                    <PermissionTooltip permission="SendMessages" placement="top">
                         <ShieldX size={22}/>
-                    </Tooltip>
+                    </PermissionTooltip>
                     <Text id="app.main.channel.misc.no_sending" />
                 </Blocked>
             </Base>
