@@ -1,5 +1,6 @@
 import { ulid } from "ulid";
 import { Text } from "preact-i18n";
+import Tooltip from "../Tooltip";
 import { Channel } from "revolt.js";
 import styled from "styled-components";
 import { defer } from "../../../lib/defer";
@@ -28,6 +29,7 @@ import { ShieldX } from "@styled-icons/boxicons-regular";
 
 import ReplyBar from "./bars/ReplyBar";
 import FilePreview from './bars/FilePreview';
+import { Styleshare } from "@styled-icons/simple-icons";
 
 type Props = WithDispatcher & {
     channel: Channel;
@@ -88,7 +90,9 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
         return (
             <Base>
                 <Blocked>
-                    <ShieldX size={22}/>
+                    <Tooltip content={<div>Permissions Required<div>Send messages</div></div>} placement="top">
+                        <ShieldX size={22}/>
+                    </Tooltip>
                     <Text id="app.main.channel.misc.no_sending" />
                 </Blocked>
             </Base>
