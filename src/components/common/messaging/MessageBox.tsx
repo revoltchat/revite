@@ -24,6 +24,7 @@ import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { FileUploader, grabFiles, uploadFile } from "../../../context/revoltjs/FileUploads";
 import { SingletonMessageRenderer, SMOOTH_SCROLL_ON_RECEIVE } from "../../../lib/renderer/Singleton";
+import { ShieldX } from "@styled-icons/boxicons-regular";
 
 import ReplyBar from "./bars/ReplyBar";
 import FilePreview from './bars/FilePreview';
@@ -52,11 +53,16 @@ const Base = styled.div`
 `;
 
 const Blocked = styled.div`
-    padding: 15px 0;
-    line-height: 20px;
+    display: flex;
+    padding: 14px 0;
     user-select: none;
     font-size: .875rem;
     color: var(--tertiary-foreground);
+
+    svg {
+        flex-shrink: 0;
+        margin-right: 8px;
+    }
 `;
 
 const Action = styled.div`
@@ -80,7 +86,10 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
     if (!(permissions & ChannelPermission.SendMessage)) {
         return (
             <Base>
-                <Blocked><Text id="app.main.channel.misc.no_sending" /></Blocked>
+                <Blocked>
+                    <ShieldX size={20}/>
+                    <Text id="app.main.channel.misc.no_sending" />
+                </Blocked>
             </Base>
         )
     }

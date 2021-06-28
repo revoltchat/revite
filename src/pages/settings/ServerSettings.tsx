@@ -30,7 +30,7 @@ export default function ServerSettings() {
         <GenericSettings
             pages={[
                 {
-                    category: <Category variant="uniform" text={server.name} />,
+                    category: <Category variant="uniform" text={server.name} />, //TOFIX: Just add the server.name as a string, otherwise it makes a duplicate category
                     id: 'overview',
                     icon: <ListUl size={20} />,
                     title: <Text id="app.settings.channel_pages.overview.title" />
