@@ -4,6 +4,7 @@ import { ChannelHeaderProps } from "../ChannelHeader";
 import IconButton from "../../../components/ui/IconButton";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import UpdateIndicator from "../../../components/common/UpdateIndicator";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { VoiceContext, VoiceOperationsContext, VoiceStatus } from "../../../context/Voice";
 import { UserPlus, Cog, Sidebar as SidebarIcon, PhoneCall, PhoneOutgoing } from "@styled-icons/boxicons-regular";
@@ -15,6 +16,7 @@ export default function HeaderActions({ channel, toggleSidebar }: ChannelHeaderP
 
     return (
         <>
+            <UpdateIndicator />
             { channel.channel_type === "Group" && (
                 <>
                     <IconButton onClick={() =>
