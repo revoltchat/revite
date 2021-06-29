@@ -27,7 +27,7 @@ export const GenericSidebarList = styled.div`
     flex-grow: 1;
     overflow-y: scroll;
 
-    > svg {
+    > img {
         width: 100%;
     }
 `;
