@@ -112,7 +112,7 @@ function Context({ auth, children, dispatcher }: Props) {
             logout: async shouldRequest => {
                 dispatcher({ type: "LOGOUT" });
 
-                delete client.user;
+                client.reset();
                 dispatcher({ type: "RESET" });
 
                 openScreen({ id: "none" });

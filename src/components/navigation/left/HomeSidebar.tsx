@@ -21,6 +21,8 @@ import { Link, Redirect, useLocation, useParams } from "react-router-dom";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useDMs, useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
 
+import placeholderSVG from "../items/placeholder.svg";
+
 type Props = WithDispatcher & {
     unreads: Unreads;
 }
@@ -113,7 +115,7 @@ function HomeSidebar(props: Props) {
                         action={() => openScreen({ id: "special_input", type: "create_group" })}
                     />
                 </Localizer>
-                {channelsArr.length === 0 && <img src="/assets/images/placeholder.svg" />}
+                {channelsArr.length === 0 && <img src={placeholderSVG} />}
                 {channelsArr.map(x => {
                     let user;
                     if (x.channel_type === 'DirectMessage') {
