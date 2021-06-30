@@ -112,6 +112,7 @@ export function registerEvents({
         client.users.addListener('mutation', logMutation);
         client.servers.addListener('mutation', logMutation);
         client.channels.addListener('mutation', logMutation);
+        client.servers.members.addListener('mutation', logMutation);
     }
 
     const online = () => {
@@ -142,6 +143,7 @@ export function registerEvents({
             client.users.removeListener('mutation', logMutation);
             client.servers.removeListener('mutation', logMutation);
             client.channels.removeListener('mutation', logMutation);
+            client.servers.members.removeListener('mutation', logMutation);
         }
 
         window.removeEventListener("online", online);
