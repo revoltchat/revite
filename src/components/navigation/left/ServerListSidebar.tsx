@@ -6,7 +6,7 @@ import ServerIcon from "../../common/ServerIcon";
 import { Children } from "../../../types/Preact";
 import { Plus } from "@styled-icons/boxicons-regular";
 import PaintCounter from "../../../lib/PaintCounter";
-import { attachContextMenu } from 'preact-context-menu';
+import { attachContextMenu, openContextMenu } from 'preact-context-menu';
 import { connectState } from "../../../redux/connector";
 import { useLocation, useParams } from "react-router-dom";
 import { Unreads } from "../../../redux/reducers/unreads";
@@ -15,10 +15,11 @@ import { Channel, Servers } from "revolt.js/dist/api/objects";
 import { LastOpened } from "../../../redux/reducers/last_opened";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { useChannels, useForceUpdate, useServers } from "../../../context/revoltjs/hooks";
+import { useChannels, useForceUpdate, useSelf, useServers } from "../../../context/revoltjs/hooks";
 
 import logoSVG from '../../../assets/logo.svg';
 import Tooltip from "../../common/Tooltip";
+import UserIcon from "../../common/user/UserIcon";
 
 function Icon({ children, unread, size }: { children: Children, unread?: 'mention' | 'unread', size: number }) {
     return (
@@ -81,7 +82,7 @@ const ServerList = styled.div`
     }
 `;
 
-const ServerEntry = styled.div<{ active: boolean, invert?: boolean }>`
+const ServerEntry = styled.div<{ active: boolean, home?: boolean }>`
     height: 58px;
     display: flex;
     align-items: center;
@@ -91,7 +92,7 @@ const ServerEntry = styled.div<{ active: boolean, invert?: boolean }>`
         // outline: 1px solid red;
     }
 
-    > div, > svg {
+    > div {
         width: 46px;
         height: 46px;
         display: grid;
@@ -139,10 +140,8 @@ const ServerEntry = styled.div<{ active: boolean, invert?: boolean }>`
         ` }
     }
 
-    ${ props => props.active && props.invert && css`
-        img {
-            filter: saturate(0) brightness(10);
-        }
+    ${ props => (!props.active || props.home) && css`
+        cursor: pointer;
     ` }
 `;
 
@@ -153,6 +152,7 @@ interface Props {
 
 export function ServerListSidebar({ unreads, lastOpened }: Props) {
     const ctx = useForceUpdate();
+    const self = useSelf(ctx);
     const activeServers = useServers(undefined, ctx) as Servers.Server[];
     const channels = (useChannels(undefined, ctx) as Channel[])
         .map(x => mapChannelWithUnread(x, unreads));
@@ -199,10 +199,13 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
         <ServersBase>
             <ServerList>
                 <ConditionalLink active={homeActive} to={lastOpened.home ? `/channel/${lastOpened.home}` : '/'}>
-                    <ServerEntry invert active={homeActive}>
-                        <Icon size={42} unread={homeUnread}>
-                            <img style={{ width: 32, height: 32 }} src={logoSVG} />
-                        </Icon>
+                    <ServerEntry home active={homeActive}>
+                        <div onContextMenu={attachContextMenu('Status')}
+                            onClick={() => homeActive && openContextMenu("Status")}>
+                            <Icon size={42} unread={homeUnread}>
+                                <UserIcon target={self} size={32} status />
+                            </Icon>
+                        </div>
                         <span />
                     </ServerEntry>
                 </ConditionalLink>

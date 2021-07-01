@@ -19,8 +19,12 @@ import { Children } from "../types/Preact";
 import LineDivider from "../components/ui/LineDivider";
 import { connectState } from "../redux/connector";
 import { internalEmit } from "./eventEmitter";
-import { At, Bell, BellOff, Check, CheckSquare, ChevronRight, Block, Square, LeftArrowAlt } from "@styled-icons/boxicons-regular";
+import { At, Bell, BellOff, Check, CheckSquare, ChevronRight, Block, Square, LeftArrowAlt, Trash } from "@styled-icons/boxicons-regular";
+import { Cog } from "@styled-icons/boxicons-solid";
 import { getNotificationState, Notifications, NotificationState } from "../redux/reducers/notifications";
+import UserStatus from "../components/common/user/UserStatus";
+import { Link } from "react-router-dom";
+import IconButton from "../components/ui/IconButton";
 
 interface ContextMenuData {
     user?: string;
@@ -72,6 +76,7 @@ type Action =
     | { action: "leave_server"; target: Servers.Server }
     | { action: "delete_server"; target: Servers.Server }
     | { action: "open_notification_options", channel: Channels.Channel }
+    | { action: "open_settings" }
     | { action: "open_channel_settings", id: string }
     | { action: "open_server_settings", id: string }
     | { action: "open_server_channel_settings", server: string, id: string }
@@ -315,6 +320,7 @@ function ContextMenus(props: Props) {
                     break;
                 }
 
+                case "open_settings": history.push('/settings'); break;
                 case "open_channel_settings": history.push(`/channel/${data.id}/settings`); break;
                 case "open_server_channel_settings": history.push(`/server/${data.server}/channel/${data.id}/settings`); break;
                 case "open_server_settings": history.push(`/server/${data.id}/settings`); break;
@@ -641,62 +647,75 @@ function ContextMenus(props: Props) {
                     return elements;
                 }}
             </ContextMenuWithData>
-            <ContextMenu id="Status" onClose={contextClick}>
-                <span data-disabled={true}>@{client.user?.username}</span>
-                <LineDivider />
-                <MenuItem
-                    data={{
-                        action: "set_presence",
-                        presence: Users.Presence.Online
-                    }}
-                    disabled={!isOnline}
-                >
-                    <div className="indicator online" />
-                    <Text id={`app.status.online`} />
-                </MenuItem>
-                <MenuItem
-                    data={{
-                        action: "set_presence",
-                        presence: Users.Presence.Idle
-                    }}
-                    disabled={!isOnline}
-                >
-                    <div className="indicator idle" />
-                    <Text id={`app.status.idle`} />
-                </MenuItem>
-                <MenuItem
-                    data={{
-                        action: "set_presence",
-                        presence: Users.Presence.Busy
-                    }}
-                    disabled={!isOnline}
-                >
-                    <div className="indicator busy" />
-                    <Text id={`app.status.busy`} />
-                </MenuItem>
-                <MenuItem
-                    data={{
-                        action: "set_presence",
-                        presence: Users.Presence.Invisible
-                    }}
-                    disabled={!isOnline}
-                >
-                    <div className="indicator invisible" />
-                    <Text id={`app.status.invisible`} />
-                </MenuItem>
-                <LineDivider />
-                <MenuItem data={{ action: "set_status" }} disabled={!isOnline}>
-                    <Text id={`app.context_menu.custom_status`} />
-                </MenuItem>
-                {client.user?.status?.text && (
+            <ContextMenuWithData id="Status" onClose={contextClick} className="Status">
+                {() => <>
+                    <div className="header">
+                        <div className="main">
+                            <div>@{client.user!.username}</div>
+                            <div className="status"><UserStatus user={client.user!} /></div>
+                        </div>
+                        <IconButton>
+                            <MenuItem data={{ action: "open_settings" }}>
+                                <Cog size={18} />
+                            </MenuItem>
+                        </IconButton>
+                    </div>
+                    <LineDivider />
                     <MenuItem
-                        data={{ action: "clear_status" }}
+                        data={{
+                            action: "set_presence",
+                            presence: Users.Presence.Online
+                        }}
                         disabled={!isOnline}
                     >
-                        <Text id={`app.context_menu.clear_status`} />
+                        <div className="indicator online" />
+                        <Text id={`app.status.online`} />
                     </MenuItem>
-                )}
-            </ContextMenu>
+                    <MenuItem
+                        data={{
+                            action: "set_presence",
+                            presence: Users.Presence.Idle
+                        }}
+                        disabled={!isOnline}
+                    >
+                        <div className="indicator idle" />
+                        <Text id={`app.status.idle`} />
+                    </MenuItem>
+                    <MenuItem
+                        data={{
+                            action: "set_presence",
+                            presence: Users.Presence.Busy
+                        }}
+                        disabled={!isOnline}
+                    >
+                        <div className="indicator busy" />
+                        <Text id={`app.status.busy`} />
+                    </MenuItem>
+                    <MenuItem
+                        data={{
+                            action: "set_presence",
+                            presence: Users.Presence.Invisible
+                        }}
+                        disabled={!isOnline}
+                    >
+                        <div className="indicator invisible" />
+                        <Text id={`app.status.invisible`} />
+                    </MenuItem>
+                    <LineDivider />
+                    <div className="header">
+                        <div className="main">
+                            <MenuItem data={{ action: "set_status" }} disabled={!isOnline}>
+                                <Text id={`app.context_menu.custom_status`} />
+                            </MenuItem>
+                        </div>
+                        { client.user!.status?.text && <IconButton>
+                            <MenuItem data={{ action: "clear_status" }}>
+                                <Trash size={18} />
+                            </MenuItem>
+                        </IconButton> }
+                    </div>
+                </>}
+            </ContextMenuWithData>
             <ContextMenuWithData id="NotificationOptions" onClose={contextClick}>
                 {({ channel }: { channel: Channels.Channel }) => {
                     const state = props.notifications[channel._id];
