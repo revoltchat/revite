@@ -47,18 +47,8 @@ interface Props {
 export default function UserHeader({ user }: Props) {
     const { writeClipboard } = useIntermediate();
 
-    function openPresenceSelector() {
-        openContextMenu("Status");
-    }
-
     return (
         <Header borders placement="secondary">
-            <UserIcon
-                target={user}
-                size={32}
-                status
-                onClick={openPresenceSelector}
-            />
             <HeaderBase>
                 <Localizer>
                     <Tooltip content={<Text id="app.special.copy_username" />}>
@@ -69,7 +59,7 @@ export default function UserHeader({ user }: Props) {
                     </Tooltip>
                 </Localizer>
                 <span className="status"
-                    onClick={openPresenceSelector}>
+                    onClick={() => openContextMenu("Status")}>
                     <UserStatus user={user} />
                 </span>
             </HeaderBase>
