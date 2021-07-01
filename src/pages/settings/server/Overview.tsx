@@ -76,9 +76,11 @@ export function Overview({ server }: Props) {
                     if (!changed) setChanged(true)
                 }}
             />
-            <Button onClick={save} contrast disabled={!changed}>
-                <Text id="app.special.modals.actions.save" />
-            </Button>
+            <p>
+                <Button onClick={save} contrast disabled={!changed}>
+                    <Text id="app.special.modals.actions.save" />
+                </Button>
+            </p>
 
             <h3>
                 <Text id="app.main.servers.custom_banner" />

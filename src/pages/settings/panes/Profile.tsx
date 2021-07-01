@@ -113,14 +113,16 @@ export function Profile() {
                     intl.dictionary
                 )}
             />
-            <Button contrast
-                onClick={() => {
-                    setChanged(false);
-                    ctx.client.users.editUser({ profile: { content: profile?.content } })
-                }}
-                disabled={!changed}>
-                <Text id="app.special.modals.actions.save" />
-            </Button>
+            <p>
+                <Button contrast
+                    onClick={() => {
+                        setChanged(false);
+                        ctx.client.users.editUser({ profile: { content: profile?.content } })
+                    }}
+                    disabled={!changed}>
+                    <Text id="app.special.modals.actions.save" />
+                </Button>
+            </p>
         </div>
     );
 }

@@ -1,15 +1,20 @@
-import { useEffect, useState } from "preact/hooks";
+import Tip from "../../../components/ui/Tip";
 import Button from "../../../components/ui/Button";
 import { Servers } from "revolt.js/dist/api/objects";
+import InputBox from "../../../components/ui/InputBox";
 import Checkbox from "../../../components/ui/Checkbox";
+import { useContext, useEffect, useState } from "preact/hooks";
+import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { ChannelPermission, ServerPermission } from "revolt.js/dist/api/permissions";
 
 interface Props {
     server: Servers.Server;
 }
 
+// ! FIXME: bad code :)
 export function Roles({ server }: Props) {
     const [ selected, setSelected ] = useState('default');
+    const client = useContext(AppContext);
 
     const roles = server.roles ?? {};
     const keys = [ 'default', ...Object.keys(roles) ];
@@ -21,10 +26,26 @@ export function Roles({ server }: Props) {
         useEffect(() => setSelected('default'), [ ]);
         return null;
     }
+
+    const [ p, setPerm ] = useState([
+        selectedRole.permissions[0] >>> 0,
+        selectedRole.permissions[1] >>> 0,
+    ]);
+
+    useEffect(() => {
+        setPerm([
+            selectedRole.permissions[0] >>> 0,
+            selectedRole.permissions[1] >>> 0,
+        ]);
+    }, [ selected, selectedRole.permissions ]);
+
+    const [ name, setName ] = useState('');
     
     return (
         <div>
+            <Tip warning>This section is under construction.</Tip>
             <h2>select role</h2>
+            { selected }
             { keys
                 .map(id => {
                     let role: Servers.Role = id === 'default' ? defaultRole : roles[id];
@@ -36,14 +57,21 @@ export function Roles({ server }: Props) {
                     )
                 })
             }
-            <Button disabled={selected === 'default'} error onClick={() => {}}>delete role</Button>
-            <h2>server permmissions</h2>
+            <Button disabled={selected === 'default'} error onClick={() => {
+                setSelected('default');
+                client.servers.deleteRole(server._id, selected);
+            }}>delete role</Button><br/>
+            <InputBox placeholder="role name" value={name} onChange={e => setName(e.currentTarget.value)} />
+            <Button contrast onClick={() => {
+                client.servers.createRole(server._id, name);
+            }}>create</Button>
+            <h2>serverm permmissions</h2>
             { Object.keys(ServerPermission)
                 .map(perm => {
                     let value = ServerPermission[perm as keyof typeof ServerPermission];
 
                     return (
-                        <Checkbox checked={((selectedRole.permissions[0] >>> 0) & value) > 0} onChange={() => {}}>
+                        <Checkbox checked={(p[0] & value) > 0} onChange={c => setPerm([ c ? (p[0] | value) : (p[0] ^ value), p[1] ])}>
                             { perm }
                         </Checkbox>
                     )
@@ -55,12 +83,15 @@ export function Roles({ server }: Props) {
                     let value = ChannelPermission[perm as keyof typeof ChannelPermission];
 
                     return (
-                        <Checkbox checked={((selectedRole.permissions[1] >>> 0) & value) > 0} onChange={() => {}}>
+                        <Checkbox checked={((p[1] >>> 0) & value) > 0} onChange={c => setPerm([ p[0], c ? (p[1] | value) : (p[1] ^ value) ])}>
                             { perm }
                         </Checkbox>
                     )
                 })
             }
+            <Button contrast onClick={() => {
+                client.servers.setPermissions(server._id, selected, { server: p[0], channel: p[1] });
+            }}>click here to save permissions for role</Button>
         </div>
     );
 }

@@ -69,7 +69,7 @@ export function Feedback() {
                 </Radio> }
                 <Radio
                     disabled={state === "sending"}
-                    checked={checked === "__other_option__"}
+                    checked={checked === "__other_option__" && other !== "Revite"}
                     onSelect={() => setChecked("__other_option__")}>
                     <Localizer>
                         <InputBox
@@ -96,9 +96,11 @@ export function Feedback() {
                 disabled={state === "sending"}
                 onChange={ev => setDescription(ev.currentTarget.value)}
             />
-            <Button type="submit" contrast>
-                <Text id="app.settings.pages.feedback.send" />
-            </Button>
+            <p>
+                <Button type="submit" contrast>
+                    <Text id="app.settings.pages.feedback.send" />
+                </Button>
+            </p>
         </form>
     );
 }
