@@ -101,10 +101,12 @@ export const PRESETS: { [key: string]: Theme } = {
     },
 };
 
+const keys = Object.keys(PRESETS.dark);
 const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 :root {
 	${(props) =>
         (Object.keys(props.theme) as Variables[]).map((key) => {
+            if (!keys.includes(key)) return;
             return `--${key}: ${props.theme[key]};`;
         })}
 }
