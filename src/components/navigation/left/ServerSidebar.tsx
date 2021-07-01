@@ -26,6 +26,8 @@ const ServerBase = styled.div`
     flex-shrink: 0;
     flex-direction: column;
     background: var(--secondary-background);
+
+    border-start-start-radius: 8px;
 `;
 
 const ServerList = styled.div`

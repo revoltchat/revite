@@ -49,7 +49,6 @@ export function Component(props: Props & WithDispatcher) {
     function setAccent(accent: string) {
         setOverride({
             accent,
-            "sidebar-active": accent,
             "scrollbar-thumb": pSBC(-0.2, accent)
         });
     }

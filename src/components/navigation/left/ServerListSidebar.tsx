@@ -68,6 +68,7 @@ const ServerList = styled.div`
     overflow-y: scroll;
     padding-bottom: 48px;
     flex-direction: column;
+    // border-right: 2px solid var(--accent);
 
     scrollbar-width: none;
 
@@ -100,7 +101,7 @@ const ServerEntry = styled.div<{ active: boolean, invert?: boolean }>`
         border-end-start-radius: 50%;
 
         ${ props => props.active && css`
-            background: var(--accent);
+            background: var(--sidebar-active);
         ` }
     }
 
@@ -109,13 +110,13 @@ const ServerEntry = styled.div<{ active: boolean, invert?: boolean }>`
         height: 46px;
 
         ${ props => props.active && css`
-            background: var(--accent);
+            background: var(--sidebar-active);
 
             &::before, &::after {
                 // outline: 1px solid blue;
             }
 
-            &::before {
+            &::before, &::after {
                 content: "";
                 display: block;
                 position: relative;
@@ -129,25 +130,12 @@ const ServerEntry = styled.div<{ active: boolean, invert?: boolean }>`
                 background: var(--background);
                 border-bottom-right-radius: 32px;
 
-                box-shadow: 0 32px 0 0 var(--accent);
+                box-shadow: 0 32px 0 0 var(--sidebar-active);
             }
 
-            /*&::after {
-                content: "";
-                display: block;
-                position: relative;
-
-                width: 31px;
-                height: 72px;
-                margin-top: 100px;
-                margin-left: -25px;
-                z-index: -2;
-
-                background: var(--background);
-                border-bottom-left-radius: 32px;
-
-                box-shadow: 0 -32px 0 0 var(--accent);
-            }*/
+            &::after {
+                transform: scaleY(-1) translateY(-118px);
+            }
         ` }
     }
 
@@ -213,12 +201,12 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                 <ConditionalLink active={homeActive} to={lastOpened.home ? `/channel/${lastOpened.home}` : '/'}>
                     <ServerEntry invert active={homeActive}>
                         <Icon size={42} unread={homeUnread}>
-                            <img src={logoSVG} />
+                            <img style={{ width: 32, height: 32 }} src={logoSVG} />
                         </Icon>
                         <span />
                     </ServerEntry>
                 </ConditionalLink>
-                {/*<LineDivider />*/}
+                <LineDivider />
                 {
                     servers.map(entry => {
                         const active = entry!._id === server?._id;

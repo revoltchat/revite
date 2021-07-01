@@ -21,7 +21,8 @@ export default function ServerHeader({ server, ctx }: Props) {
     const bannerURL = ctx.client.servers.getBannerURL(server._id, { width: 480 }, true);
 
     return (
-        <Header placement="secondary"
+        <Header borders
+            placement="secondary"
             background={typeof bannerURL !== 'undefined'}
             style={{ background: bannerURL ? `linear-gradient(to bottom, transparent 50%, #000e), url('${bannerURL}')` : undefined }}>
             <ServerName>

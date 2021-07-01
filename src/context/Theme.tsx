@@ -16,7 +16,6 @@ export type Variables =
     | "warning"
     | "error"
     | "hover"
-    | "sidebar-active"
     | "scrollbar-thumb"
     | "scrollbar-track"
     | "primary-background"
@@ -58,7 +57,6 @@ export const PRESETS: { [key: string]: Theme } = {
         warning: "#FAA352",
         error: "#F06464",
         hover: "rgba(0, 0, 0, 0.2)",
-        "sidebar-active": "#FD6671",
         "scrollbar-thumb": "#CA525A",
         "scrollbar-track": "transparent",
         "primary-background": "#FFFFFF",
@@ -86,7 +84,6 @@ export const PRESETS: { [key: string]: Theme } = {
         warning: "#FAA352",
         error: "#F06464",
         hover: "rgba(0, 0, 0, 0.1)",
-        "sidebar-active": "#FD6671",
         "scrollbar-thumb": "#CA525A",
         "scrollbar-track": "transparent",
         "primary-background": "#242424",
