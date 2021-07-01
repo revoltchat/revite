@@ -26,7 +26,7 @@ export const ReplyBase = styled.div<{ head?: boolean, fail?: boolean, preview?: 
     white-space: nowrap;
     text-overflow: ellipsis;
 
-    svg {
+    svg:first-child {
         flex-shrink: 0;
         transform: scaleX(-1);
         color: var(--tertiary-foreground);
