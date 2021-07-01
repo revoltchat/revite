@@ -55,3 +55,24 @@
         }
     }
 }
+
+.members {
+
+    .subtitle {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        text-transform: uppercase;
+        color: var(--secondary-foreground);
+        font-weight: 700;
+    }
+    
+    .member {
+        gap: 8px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        background: var(--secondary-background);
+    }
+}

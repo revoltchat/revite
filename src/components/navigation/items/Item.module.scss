@@ -17,11 +17,15 @@
     color: var(--tertiary-foreground);
 
     &.normal {
-        height: 38px;
+        height: 42px;
     }
 
     &.compact {
         height: 32px;
+
+        &[data-mobile="true"] { // TOFIX: make sure this works on mobile 
+            height: 50px;
+        }
     }
 
     &.user {
@@ -65,6 +69,7 @@
         }
 
         &.avatar {
+            display: flex;
             flex-shrink: 0;
         }
 
