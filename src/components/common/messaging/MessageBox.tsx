@@ -64,7 +64,7 @@ const Blocked = styled.div`
 
     svg {
         flex-shrink: 0;
-        margin-inline-end: 8px;
+        margin-inline-end: 10px;
     }
 `;
 
