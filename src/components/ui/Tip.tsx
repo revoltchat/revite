@@ -1,8 +1,13 @@
-import styled from "styled-components";
-import { InfoCircle } from "@styled-icons/boxicons-regular";
 import { Children } from "../../types/Preact";
+import styled, { css } from "styled-components";
+import { InfoCircle } from "@styled-icons/boxicons-regular";
 
-export const TipBase = styled.div`
+interface Props {
+    warning?: boolean
+    error?: boolean
+}
+
+export const TipBase = styled.div<Props>`
     display: flex;
     padding: 12px;
     overflow: hidden;
@@ -24,11 +29,24 @@ export const TipBase = styled.div`
         flex-shrink: 0;
         margin-inline-end: 10px;
     }
+
+    ${ props => props.warning && css`
+        color: var(--warning);
+        border: 2px solid var(--warning);
+        background: var(--secondary-header);
+    ` }
+
+    ${ props => props.error && css`
+        color: var(--error);
+        border: 2px solid var(--error);
+        background: var(--secondary-header);
+    ` }
 `;
 
-export default function Tip(props: { children: Children }) {
+export default function Tip(props: Props & { children: Children }) {
+    const { children, ...tipProps } = props;
     return (
-        <TipBase>
+        <TipBase {...tipProps}>
             <InfoCircle size={20} />
             <span>{props.children}</span>
         </TipBase>

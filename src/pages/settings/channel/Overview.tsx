@@ -12,7 +12,7 @@ interface Props {
     channel: Channels.GroupChannel | Channels.TextChannel | Channels.VoiceChannel;
 }
 
-export function Overview({ channel }: Props) {
+export default function Overview({ channel }: Props) {
     const client = useContext(AppContext);
 
     const [name, setName] = useState(channel.name);
@@ -81,9 +81,11 @@ export function Overview({ channel }: Props) {
                     if (!changed) setChanged(true)
                 }}
             />
-            <Button onClick={save} contrast disabled={!changed}>
-                <Text id="app.special.modals.actions.save" />
-            </Button>
+            <p>
+                <Button onClick={save} contrast disabled={!changed}>
+                    <Text id="app.special.modals.actions.save" />
+                </Button>
+            </p>
         </div>
     );
 }

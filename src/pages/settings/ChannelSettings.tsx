@@ -1,12 +1,13 @@
 import { Text } from "preact-i18n";
-import { ListUl } from "@styled-icons/boxicons-regular";
 import Category from "../../components/ui/Category";
 import { GenericSettings } from "./GenericSettings";
 import { getChannelName } from "../../context/revoltjs/util";
 import { Route, useHistory, useParams } from "react-router-dom";
+import { ListCheck, ListUl } from "@styled-icons/boxicons-regular";
 import { useChannel, useForceUpdate } from "../../context/revoltjs/hooks";
 
-import { Overview } from "./channel/Overview";
+import Overview from "./channel/Overview";
+import Permissions from "./channel/Permissions";
 
 export default function ChannelSettings() {
     const { channel: cid } = useParams<{ channel: string; }>();
@@ -17,10 +18,17 @@ export default function ChannelSettings() {
 
     const history = useHistory();
     function switchPage(to?: string) {
+        let base_url;
+        switch (channel?.channel_type) {
+            case 'TextChannel':
+            case 'VoiceChannel': base_url = `/server/${channel.server}/channel/${cid}/settings`; break;
+            default: base_url = `/channel/${cid}/settings`;
+        }
+
         if (to) {
-            history.replace(`/channel/${cid}/settings/${to}`);
+            history.replace(`${base_url}/${to}`);
         } else {
-            history.replace(`/channel/${cid}/settings`);
+            history.replace(base_url);
         }
     }
 
@@ -32,9 +40,17 @@ export default function ChannelSettings() {
                     id: 'overview',
                     icon: <ListUl size={20} />,
                     title: <Text id="app.settings.channel_pages.overview.title" />
+                },
+                {
+                    id: 'permissions',
+                    icon: <ListCheck size={20} />,
+                    title: <Text id="app.settings.channel_pages.permissions.title" />
                 }
             ]}
             children={[
+                <Route path="/server/:server/channel/:channel/settings/permissions"><Permissions channel={channel} /></Route>,
+                <Route path="/channel/:channel/settings/permissions"><Permissions channel={channel} /></Route>,
+
                 <Route path="/"><Overview channel={channel} /></Route>
             ]}
             category="channel_pages"
