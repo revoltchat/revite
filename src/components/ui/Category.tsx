@@ -18,7 +18,6 @@ const CategoryBase = styled.div<Pick<Props, 'variant'>>`
     justify-content: space-between;
 
     svg {
-        stroke: var(--foreground);
         cursor: pointer;
     }
 
