@@ -2,7 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 import Button from "../../../components/ui/Button";
 import { Servers } from "revolt.js/dist/api/objects";
 import Checkbox from "../../../components/ui/Checkbox";
-import { ServerPermission } from "revolt.js/dist/api/permissions";
+import { ChannelPermission, ServerPermission } from "revolt.js/dist/api/permissions";
 
 interface Props {
     server: Servers.Server;
@@ -37,13 +37,25 @@ export function Roles({ server }: Props) {
                 })
             }
             <Button disabled={selected === 'default'} error onClick={() => {}}>delete role</Button>
-            <h2>permmissions</h2>
+            <h2>server permmissions</h2>
             { Object.keys(ServerPermission)
                 .map(perm => {
                     let value = ServerPermission[perm as keyof typeof ServerPermission];
 
                     return (
-                        <Checkbox checked={(selectedRole.permissions[0] & value) > 0} onChange={() => {}}>
+                        <Checkbox checked={((selectedRole.permissions[0] >>> 0) & value) > 0} onChange={() => {}}>
+                            { perm }
+                        </Checkbox>
+                    )
+                })
+            }
+            <h2>channel permmissions</h2>
+            { Object.keys(ChannelPermission)
+                .map(perm => {
+                    let value = ChannelPermission[perm as keyof typeof ChannelPermission];
+
+                    return (
+                        <Checkbox checked={((selectedRole.permissions[1] >>> 0) & value) > 0} onChange={() => {}}>
                             { perm }
                         </Checkbox>
                     )

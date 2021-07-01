@@ -52,7 +52,7 @@ export default function UserHeader({ user }: Props) {
     }
 
     return (
-        <Header placement="secondary">
+        <Header borders placement="secondary">
             <UserIcon
                 target={user}
                 size={32}

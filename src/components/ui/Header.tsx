@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 interface Props {
+    borders?: boolean;
     background?: boolean;
     placement: 'primary' | 'secondary'
 }
@@ -29,5 +30,10 @@ export default styled.div<Props>`
     ${ props => props.placement === 'secondary' && css`
         background-color: var(--secondary-header);
         padding: 14px;
+    ` }
+
+    ${ props => props.borders && css`
+        border-start-start-radius: 8px;
+        border-end-start-radius: 8px;
     ` }
 `;
