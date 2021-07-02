@@ -29,18 +29,18 @@ export function Friend({ user }: Props) {
         subtext = <UserStatus user={user} />
         actions.push(
             <>
-            <IconButton type="circle"
-                onClick={stopPropagation}>
-                <Link to={'/open/' + user._id}>
+            <Link to={'/open/' + user._id}>
+                <IconButton type="circle"
+                    onClick={stopPropagation}>
                     <PhoneCall size={20} />
-                </Link>
-            </IconButton>
-            <IconButton type="circle"
-                onClick={stopPropagation}>
-                <Link to={'/open/' + user._id}>
+                </IconButton>
+            </Link>
+            <Link to={'/open/' + user._id}>
+                <IconButton type="circle"
+                    onClick={stopPropagation}>
                     <Envelope size={20} />
-                </Link>
-            </IconButton>
+                </IconButton>
+            </Link>
             </>
         );
     }
