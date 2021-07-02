@@ -72,16 +72,16 @@
         display: flex;
         gap: 12px;
 
-        > a {
-            height: 40px;
+        .button {
             width: 40px;
+            height: 40px;
 
-            &:nth-child(1):hover {
-                background: var(--status-online); //TOFIX: change to normal green color
+            &:hover.error {
+                background: var(--error);
             }
 
-            &:nth-child(3):hover {
-                background: var(--error);
+            &:hover.success {
+                background: var(--success);
             }
         }
     }

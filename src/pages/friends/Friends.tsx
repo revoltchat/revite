@@ -29,6 +29,9 @@ export default function Friends() {
         x => x.relationship === Users.Relationship.Blocked
     );
 
+    const online = friends.filter(x => x.online && x.status?.presence !== Users.Presence.Invisible);
+    const offline = friends.filter(x => !x.online || x.status?.presence === Users.Presence.Invisible);
+
     return (
         <>
             <Header placement="primary">
@@ -36,7 +39,7 @@ export default function Friends() {
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />
                 </div>
-                <IconButton onClick={() => openScreen({ id: 'special_input', type: 'add_friend' })}> {/* TOFIX: Make sure this opens the "Start Group DM" window on click */}
+                <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_group' })}>
                     <Conversation size={24} />
                 </IconButton>
                 <IconButton onClick={() => openScreen({ id: 'special_input', type: 'add_friend' })}>
@@ -64,13 +67,22 @@ export default function Friends() {
                 {pending.map(y => (
                     <Friend key={y._id} user={y} />
                 ))}
-                {friends.length > 0 && (
+                {online.length > 0 && (
                     <Overline className={styles.overline} type="subtle">
-                        <Text id="app.navigation.tabs.friends" /> —{" "}
-                        {friends.length}
+                        <Text id="app.status.online" /> —{" "}
+                        {online.length}
                     </Overline>
                 )}
-                {friends.map(y => (
+                {online.map(y => (
+                    <Friend key={y._id} user={y} />
+                ))}
+                {offline.length > 0 && (
+                    <Overline className={styles.overline} type="subtle">
+                        <Text id="app.status.offline" /> —{" "}
+                        {offline.length}
+                    </Overline>
+                )}
+                {offline.map(y => (
                     <Friend key={y._id} user={y} />
                 ))}
                 {blocked.length > 0 && (

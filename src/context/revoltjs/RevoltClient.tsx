@@ -3,12 +3,12 @@ import { Client } from "revolt.js";
 import { takeError } from "./util";
 import { createContext } from "preact";
 import { Children } from "../../types/Preact";
+import { useHistory } from 'react-router-dom';
 import { Route } from "revolt.js/dist/api/routes";
 import { connectState } from "../../redux/connector";
 import Preloader from "../../components/ui/Preloader";
 import { WithDispatcher } from "../../redux/reducers";
 import { AuthState } from "../../redux/reducers/auth";
-import { SyncOptions } from "../../redux/reducers/sync";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { useIntermediate } from '../intermediate/Intermediate';
 import { registerEvents, setReconnectDisallowed } from "./events";
@@ -30,6 +30,8 @@ export interface ClientOperations {
     logout: (shouldRequest?: boolean) => Promise<void>;
     loggedIn: () => boolean;
     ready: () => boolean;
+
+    openDM: (user_id: string) => Promise<string>;
 }
 
 export const AppContext = createContext<Client>(undefined as any);
@@ -42,6 +44,7 @@ type Props = WithDispatcher & {
 };
 
 function Context({ auth, children, dispatcher }: Props) {
+    const history = useHistory();
     const { openScreen } = useIntermediate();
     const [status, setStatus] = useState(ClientStatus.INIT);
     const [client, setClient] = useState<Client>(undefined as unknown as Client);
@@ -132,7 +135,12 @@ function Context({ auth, children, dispatcher }: Props) {
             ready: () => (
                 operations.loggedIn() &&
                 typeof client.user !== "undefined"
-            )
+            ),
+            openDM: async (user_id: string) => {
+                let channel = await client.users.openDM(user_id);
+                history.push(`/channel/${channel!._id}`);
+                return channel!._id;
+            }
         }
     }, [ client, auth.active ]);
 

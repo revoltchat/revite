@@ -1,18 +1,19 @@
 import { Text } from "preact-i18n";
-import { Link } from "react-router-dom";
+import classNames from "classnames";
 import styles from "./Friend.module.scss";
 import { useContext } from "preact/hooks";
 import { Children } from "../../types/Preact";
-import { X, Plus } from "@styled-icons/boxicons-regular";
-import { PhoneCall, Envelope } from "@styled-icons/boxicons-solid";
 import IconButton from "../../components/ui/IconButton";
 import { attachContextMenu } from "preact-context-menu";
+import { X, Plus } from "@styled-icons/boxicons-regular";
 import { User, Users } from "revolt.js/dist/api/objects";
 import { stopPropagation } from "../../lib/stopPropagation";
+import { VoiceOperationsContext } from "../../context/Voice";
 import UserIcon from "../../components/common/user/UserIcon";
 import UserStatus from '../../components/common/user/UserStatus';
-import { AppContext } from "../../context/revoltjs/RevoltClient";
+import { PhoneCall, Envelope } from "@styled-icons/boxicons-solid";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
+import { AppContext, OperationsContext } from "../../context/revoltjs/RevoltClient";
 
 interface Props {
     user: User;
@@ -21,6 +22,8 @@ interface Props {
 export function Friend({ user }: Props) {
     const client = useContext(AppContext);
     const { openScreen } = useIntermediate();
+    const { openDM } = useContext(OperationsContext);
+    const { connect } = useContext(VoiceOperationsContext);
 
     const actions: Children[] = [];
     let subtext: Children = null;
@@ -29,18 +32,16 @@ export function Friend({ user }: Props) {
         subtext = <UserStatus user={user} />
         actions.push(
             <>
-            <Link to={'/open/' + user._id}>
                 <IconButton type="circle"
-                    onClick={stopPropagation}>
+                    className={classNames(styles.button, styles.success)}
+                    onClick={ev => stopPropagation(ev, openDM(user._id).then(connect))}>
                     <PhoneCall size={20} />
                 </IconButton>
-            </Link>
-            <Link to={'/open/' + user._id}>
                 <IconButton type="circle"
-                    onClick={stopPropagation}>
+                    className={styles.button}
+                    onClick={ev => stopPropagation(ev, openDM(user._id))}>
                     <Envelope size={20} />
                 </IconButton>
-            </Link>
             </>
         );
     }
@@ -48,6 +49,7 @@ export function Friend({ user }: Props) {
     if (user.relationship === Users.Relationship.Incoming) {
         actions.push(
             <IconButton type="circle"
+                className={styles.button}
                 onClick={ev => stopPropagation(ev, client.users.addFriend(user.username))}>
                 <Plus size={24} />
             </IconButton>
@@ -67,6 +69,7 @@ export function Friend({ user }: Props) {
     ) {
         actions.push(
             <IconButton type="circle"
+                className={classNames(styles.button, styles.error)}
                 onClick={ev => stopPropagation(ev, client.users.removeFriend(user._id))}>
                 <X size={24} />
             </IconButton>
@@ -76,6 +79,7 @@ export function Friend({ user }: Props) {
     if (user.relationship === Users.Relationship.Blocked) {
         actions.push(
             <IconButton type="circle"
+                className={classNames(styles.button, styles.error)}
                 onClick={ev => stopPropagation(ev, client.users.unblockUser(user._id))}>
                 <X size={24} />
             </IconButton>
