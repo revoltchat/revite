@@ -13,11 +13,12 @@ import ButtonItem from "../../components/navigation/items/ButtonItem";
 
 interface Props {
     pages: {
-        category?: Children,
-        divider?: boolean,
-        id: string,
+        category?: Children
+        divider?: boolean
+        id: string
         icon: Children
         title: Children
+        hideTitle?: boolean
     }[]
     custom?: Children
     children: Children
@@ -96,7 +97,7 @@ export function GenericSettings({ pages, switchPage, category, custom, children,
             )}
             {(!isTouchscreenDevice || typeof page === "string") && (
                 <div className={styles.content}>
-                    {!isTouchscreenDevice && (
+                    {!isTouchscreenDevice && !(pages.find(x => x.id === page && x.hideTitle)) && (
                         <h1>
                             <Text
                                 id={`app.settings.${category}.${page ?? defaultPage}.title`}

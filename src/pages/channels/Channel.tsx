@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import ChannelHeader from "./ChannelHeader";
 import { useParams } from "react-router-dom";
 import { MessageArea } from "./messaging/MessageArea";
+import Checkbox from "../../components/ui/Checkbox";
+import Button from "../../components/ui/Button";
 // import { useRenderState } from "../../lib/renderer/Singleton";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import MessageBox from "../../components/common/messaging/MessageBox";
@@ -43,6 +45,20 @@ export function Channel({ id }: { id: string }) {
 
 function TextChannel({ channel }: { channel: Channel }) {
     const [ showMembers, setMembers ] = useState(true);
+
+    if ((channel.channel_type === 'TextChannel' || channel.channel_type === 'Group') && channel.name.includes('nsfw')) {
+        const [ consent, setConsent ] = useState(false);
+        const [ ageGate, setAgeGate ] = useState(false);
+        if (!ageGate) {
+            return (
+                <div style={{ maxWidth: '480px' }}>
+                    <h3>this channel is marked as nsfw</h3>
+                    <Checkbox checked={consent} onChange={v => setConsent(v)}>I am at least 18 years old</Checkbox>
+                    <Button onClick={() => consent && setAgeGate(true)}>view content</Button>
+                </div>
+            )
+        }
+    }
 
     let id = channel._id;
     return <>
