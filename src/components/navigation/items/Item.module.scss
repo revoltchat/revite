@@ -1,5 +1,5 @@
 .item {
-    height: 48px;
+    height: 42px;
     display: flex;
     padding: 0 8px;
     user-select: none;
@@ -31,7 +31,7 @@
     &.user {
         opacity: 0.4;
         cursor: pointer;
-        transition: .15s ease opacity;
+        transition: .1s ease-in-out opacity;
 
         &[data-online="true"],
         &:hover {

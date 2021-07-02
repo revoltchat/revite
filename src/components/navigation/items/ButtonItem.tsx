@@ -41,9 +41,7 @@ export function UserButton({ active, alert, alertCount, user, context, channel }
                 unread: alert,
                 contextualChannel: context?._id
             })}>
-            <div className={styles.avatar}>
-                <UserIcon target={user} size={32} status />
-            </div>
+            <UserIcon className={styles.avatar} target={user} size={32} status />
             <div className={styles.name}>
                 <div>{user.username}</div>
                 {
@@ -99,11 +97,10 @@ export function ChannelButton({ active, alert, alertCount, channel, user, compac
     return (
         <div data-active={active}
             data-alert={typeof alert === 'string'}
+            aria-label={{}} /*TOFIX: ADD ARIA LABEL*/
             className={classNames(styles.item, { [styles.compact]: compact })}
             onContextMenu={attachContextMenu('Menu', { channel: channel._id, unread: typeof channel.unread !== 'undefined' })}>
-            <div className={styles.avatar}>
-                <ChannelIcon target={channel} size={compact ? 24 : 32} />
-            </div>
+            <ChannelIcon className={styles.avatar} target={channel} size={compact ? 24 : 32} />
             <div className={styles.name}>
                 <div>{channel.name}</div>
                 { channel.channel_type === 'Group' &&

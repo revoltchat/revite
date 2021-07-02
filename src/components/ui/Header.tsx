@@ -11,16 +11,23 @@ export default styled.div<Props>`
     font-weight: 600;
     user-select: none;
 
+    display: flex;
+    align-items: center;
+
     gap: 10px;
     flex: 0 auto;
     display: flex;
-    padding: 20px;
+    padding: 0 20px;
     flex-shrink: 0;
     align-items: center;
 
     background-color: var(--primary-header);
     background-size: cover !important;
     background-position: center !important;
+
+    svg {
+        flex-shrink: 0;
+    }
 
     ${ props => props.background && css`
         height: 120px;
