@@ -77,14 +77,14 @@ export default function Friends() {
                 { lists[0][1].length > 0 && <div className={styles.pending}
                     onClick={() => openScreen({ id: 'pending_requests', users: lists[0][1].map(x => x._id) })}>
                     <div className={styles.avatars}>
-                        { lists[0][1].map((x, i) => i < 3 && <UserIcon target={x} size={64} />) }
+                        { lists[0][1].map((x, i) => i < 3 && <UserIcon target={x} size={54} />) }
                     </div>
                     <div className={styles.details}>
                         {/* ! FIXME: i18n */}
-                        <div>Pending requests <span>{ lists[0][1].length }</span></div>
-                        <span>From { lists[0][1].map(x => x.username).join(', ') }</span>
+                        <div className={styles.title}>Pending requests<span>{ lists[0][1].length }</span></div>
+                        <span className={styles.from}>From <span className={styles.user}>{ lists[0][1].map(x => x.username).join(', ') }</span></span>
                     </div>
-                    <ChevronRight size={48} />
+                    <ChevronRight size={28} />
                 </div> }
 
                 {

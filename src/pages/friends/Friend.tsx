@@ -94,7 +94,7 @@ export function Friend({ user }: Props) {
         <div className={styles.friend}
             onClick={() => openScreen({ id: 'profile', user_id: user._id })}
             onContextMenu={attachContextMenu('Menu', { user: user._id })}>
-            <UserIcon target={user} size={38} status />
+            <UserIcon target={user} size={36} status />
             <div className={styles.name}>
                 <span>@{user.username}</span>
                 {subtext && (
