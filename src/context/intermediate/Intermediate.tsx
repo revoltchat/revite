@@ -53,6 +53,7 @@ export type Screen =
 | { id: "modify_account"; field: "username" | "email" | "password" }
 | { id: "profile"; user_id: string }
 | { id: "channel_info"; channel_id: string }
+| { id: "pending_requests"; users: string[] }
 | {
       id: "user_picker";
       omit?: string[];
@@ -119,7 +120,7 @@ export default function Intermediate(props: Props) {
                     } /** By specifying a key, we reset state whenever switching screen. */
                 />
                 <Prompt
-                    when={[ 'modify_account', 'special_prompt', 'special_input', 'image_viewer', 'profile', 'channel_info', 'user_picker' ].includes(screen.id)}
+                    when={[ 'modify_account', 'special_prompt', 'special_input', 'image_viewer', 'profile', 'channel_info', 'pending_requests', 'user_picker' ].includes(screen.id)}
                     message={(_, action) => {
                         if (action === 'POP') {
                             openScreen({ id: 'none' });
