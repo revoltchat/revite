@@ -1,4 +1,4 @@
-import { Attachment, Channels, EmbedImage, Servers } from "revolt.js/dist/api/objects";
+import { Attachment, Channels, EmbedImage, Servers, Users } from "revolt.js/dist/api/objects";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import { internalSubscribe } from "../../lib/eventEmitter";
 import { Action } from "../../components/ui/Modal";
@@ -26,6 +26,8 @@ export type Screen =
     { type: "create_invite", target: Channels.TextChannel | Channels.GroupChannel } |
     { type: "kick_member", target: Servers.Server, user: string } |
     { type: "ban_member", target: Servers.Server, user: string } |
+    { type: "unfriend_user", target: Users.User } |
+    { type: "block_user", target: Users.User } |
     { type: "create_channel", target: Servers.Server }
 )) |
 ({ id: "special_input" } & (
