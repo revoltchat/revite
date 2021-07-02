@@ -36,7 +36,7 @@ export default function App() {
     const fixedBottomNav = (path === '/' || path === '/settings' || path.startsWith("/friends"));
     const inSettings = path.includes('/settings');
     const inChannel = path.includes('/channel');
-    const inSpecial = path.startsWith('/invite') || path.startsWith("/friends") || path.startsWith("/settings");
+    const inSpecial = (path.startsWith("/friends") && isTouchscreenDevice) || path.startsWith('/invite') || path.startsWith("/settings");
 
     return (
         <OverlappingPanels
