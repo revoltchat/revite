@@ -35,6 +35,7 @@ export function InputModal({
             disabled={processing}
             actions={[
                 {
+                    confirmation: true,
                     text: <Text id="app.special.modals.actions.ok" />,
                     onClick: () => {
                         setProcessing(true);

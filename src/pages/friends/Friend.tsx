@@ -70,7 +70,7 @@ export function Friend({ user }: Props) {
         actions.push(
             <IconButton type="circle"
                 className={classNames(styles.button, styles.error)}
-                onClick={ev => stopPropagation(ev, client.users.removeFriend(user._id))}>
+                onClick={ev => stopPropagation(ev, openScreen({ id: 'special_prompt', type: 'unfriend_user', target: user }))}>
                 <X size={24} />
             </IconButton>
         );

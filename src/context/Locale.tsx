@@ -125,10 +125,34 @@ function Locale({ children, locale }: Props) {
     const [defns, setDefinition] = useState(definition);
     const lang = Languages[locale];
 
+    function transformLanguage(obj: { [key: string]: any }) {
+        const dayjs = obj.dayjs;
+        const defaults = dayjs.defaults;
+
+        const twelvehour = defaults?.twelvehour === 'yes' || true;
+        const separator: '/' | '-' | '.' = defaults?.date_separator ?? '/';
+        const date: 'traditional' | 'simplified' | 'ISO8601' = defaults?.date_format ?? 'traditional';
+    
+        const DATE_FORMATS = {
+            traditional: `DD${separator}MM${separator}YYYY`,
+            simplified: `MM${separator}DD${separator}YYYY`,
+            ISO8601: 'YYYY-MM-DD'
+        }
+
+        dayjs['sameElse'] = DATE_FORMATS[date];
+        Object.keys(dayjs)
+            .filter(k => k !== 'defaults')
+            .forEach(k => dayjs[k] = dayjs[k].replace(/{{time}}/g, twelvehour ? 'LT' : 'HH:mm'));
+        
+        return obj;
+    }
+
     useEffect(() => {
         if (locale === "en") {
+            transformLanguage(definition);
             setDefinition(definition);
             dayjs.locale("en");
+            dayjs.updateLocale('en', { calendar: definition.dayjs });
             return;
         }
 
@@ -141,6 +165,7 @@ function Locale({ children, locale }: Props) {
         import(`../../external/lang/${lang.i18n}.json`).then(
             async (lang_file) => {
                 const defn = lang_file.default;
+                transformLanguage(defn);
                 const target = lang.dayjs ?? lang.i18n;
                 const dayjs_locale = await import(`../../node_modules/dayjs/esm/locale/${target}.js`);
 

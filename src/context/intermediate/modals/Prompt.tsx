@@ -10,10 +10,11 @@ import Overline from "../../../components/ui/Overline";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { mapMessage, takeError } from "../../revoltjs/util";
 import Modal, { Action } from "../../../components/ui/Modal";
-import { Channels, Servers } from "revolt.js/dist/api/objects";
+import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
 import { useContext, useEffect, useState } from "preact/hooks";
 import UserIcon from "../../../components/common/user/UserIcon";
 import Message from "../../../components/common/messaging/Message";
+import { TextReact } from "../../../lib/i18n";
 
 interface Props {
     onClose: () => void;
@@ -48,6 +49,8 @@ type SpecialProps = { onClose: () => void } & (
     { type: "create_invite", target: Channels.TextChannel | Channels.GroupChannel } |
     { type: "kick_member", target: Servers.Server, user: string } |
     { type: "ban_member", target: Servers.Server, user: string } |
+    { type: "unfriend_user", target: Users.User } |
+    { type: "block_user", target: Users.User } |
     { type: "create_channel", target: Servers.Server }
 )
 
@@ -62,23 +65,33 @@ export function SpecialPromptModal(props: SpecialProps) {
         case 'close_dm':
         case 'leave_server':
         case 'delete_server': 
-        case 'delete_channel': {
+        case 'delete_channel':
+        case 'unfriend_user': 
+        case 'block_user': {
             const EVENTS = {
-                'close_dm':       'confirm_close_dm',
-                'delete_server':  'confirm_delete',
-                'delete_channel': 'confirm_delete',
-                'leave_group':    'confirm_leave',
-                'leave_server':   'confirm_leave'
+                'close_dm':       ['confirm_close_dm', 'close'],
+                'delete_server':  ['confirm_delete', 'delete'],
+                'delete_channel': ['confirm_delete', 'delete'],
+                'leave_group':    ['confirm_leave', 'leave'],
+                'leave_server':   ['confirm_leave', 'leave'],
+                'unfriend_user':  ['unfriend_user', 'remove'],
+                'block_user':     ['block_user', 'block']
             };
 
             let event = EVENTS[props.type];
-            let name = props.type === 'close_dm' ? client.users.get(client.channels.getRecipient(props.target._id))?.username : props.target.name;
+            let name;
+            switch (props.type) {
+                case 'unfriend_user':
+                case 'block_user': name = props.target.username; break;
+                case 'close_dm': name = client.users.get(client.channels.getRecipient(props.target._id))?.username; break;
+                default: name = props.target.name;
+            }
 
             return (
                 <PromptModal
                     onClose={onClose}
                     question={<Text
-                        id={`app.special.modals.prompt.${event}`}
+                        id={`app.special.modals.prompt.${event[0]}`}
                         fields={{ name }}
                     />}
                     actions={[
@@ -86,15 +99,23 @@ export function SpecialPromptModal(props: SpecialProps) {
                             confirmation: true,
                             contrast: true,
                             error: true,
-                            text: <Text id="app.special.modals.actions.delete" />,
+                            text: <Text id={`app.special.modals.actions.${event[1]}`} />,
                             onClick: async () => {
                                 setProcessing(true);
 
                                 try {
-                                    if (props.type === 'leave_group' || props.type === 'close_dm' || props.type === 'delete_channel') {
-                                        await client.channels.delete(props.target._id);
-                                    } else {
-                                        await client.servers.delete(props.target._id);
+                                    switch (props.type) {
+                                        case 'unfriend_user':
+                                            await client.users.removeFriend(props.target._id); break;
+                                        case 'block_user':
+                                            await client.users.blockUser(props.target._id); break;
+                                        case 'leave_group':
+                                        case 'close_dm':
+                                        case 'delete_channel':
+                                            await client.channels.delete(props.target._id); break;
+                                        case 'leave_server':
+                                        case 'delete_server':
+                                            await client.servers.delete(props.target._id); break;
                                     }
 
                                     onClose();
@@ -106,7 +127,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                         },
                         { text: <Text id="app.special.modals.actions.cancel" />, onClick: onClose }
                     ]}
-                    content={<Text id={`app.special.modals.prompt.${event}_long`} />}
+                    content={<TextReact id={`app.special.modals.prompt.${event[0]}_long`} fields={{ name: <b>{ name }</b> }} />}
                     disabled={processing}
                     error={error}
                 />

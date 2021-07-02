@@ -60,11 +60,11 @@ type Action =
     | { action: "ban_member"; target: Servers.Server; user: string }
     | { action: "view_profile"; user: string }
     | { action: "message_user"; user: string }
-    | { action: "block_user"; user: string }
-    | { action: "unblock_user"; user: string }
-    | { action: "add_friend"; user: string }
-    | { action: "remove_friend"; user: string }
-    | { action: "cancel_friend"; user: string }
+    | { action: "block_user"; user: Users.User }
+    | { action: "unblock_user"; user: Users.User }
+    | { action: "add_friend"; user: Users.User }
+    | { action: "remove_friend"; user: Users.User }
+    | { action: "cancel_friend"; user: Users.User }
     | { action: "set_presence"; presence: Users.Presence }
     | { action: "set_status" }
     | { action: "clear_status" }
@@ -264,22 +264,21 @@ function ContextMenus(props: Props) {
 
                 case "add_friend":
                     {
-                        let user = client.users.get(data.user);
-                        if (user) {
-                            await client.users.addFriend(user.username);
-                        }
+                        await client.users.addFriend(data.user.username);
                     }
                     break;
 
                 case "block_user":
-                    await client.users.blockUser(data.user);
+                    openScreen({ id: 'special_prompt', type: 'block_user', target: data.user });
                     break;
                 case "unblock_user":
-                    await client.users.unblockUser(data.user);
+                    await client.users.unblockUser(data.user._id);
                     break;
                 case "remove_friend":
+                    openScreen({ id: 'special_prompt', type: 'unfriend_user', target: data.user });
+                    break;
                 case "cancel_friend":
-                    await client.users.removeFriend(data.user);
+                    await client.users.removeFriend(data.user._id);
                     break;
 
                 case "set_presence":
@@ -466,7 +465,7 @@ function ContextMenus(props: Props) {
                         for (const action of actions) {
                             generateAction({
                                 action: action as any,
-                                user: user._id
+                                user
                             });
                         }
                     }
