@@ -1,6 +1,7 @@
 import { CheckAuth } from "../context/revoltjs/CheckAuth";
 import Preloader from "../components/ui/Preloader";
 import { Route, Switch } from "react-router-dom";
+import Masks from "../components/ui/Masks";
 import Context from "../context";
 
 import { lazy, Suspense } from "preact/compat";
@@ -10,6 +11,7 @@ const RevoltApp = lazy(() => import('./RevoltApp'));
 export function App() {
     return (
         <Context>
+            <Masks />
             {/* 
             // @ts-expect-error */}
             <Suspense fallback={<Preloader type="spinner" />}>

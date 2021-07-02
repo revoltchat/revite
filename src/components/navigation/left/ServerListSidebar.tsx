@@ -1,12 +1,13 @@
+import Tooltip from "../../common/Tooltip";
 import IconButton from "../../ui/IconButton";
 import LineDivider from "../../ui/LineDivider";
 import { mapChannelWithUnread } from "./common";
 import styled, { css } from "styled-components";
 import ServerIcon from "../../common/ServerIcon";
 import { Children } from "../../../types/Preact";
-import { Plus } from "@styled-icons/boxicons-regular";
+import UserIcon from "../../common/user/UserIcon";
 import PaintCounter from "../../../lib/PaintCounter";
-import { attachContextMenu, openContextMenu } from 'preact-context-menu';
+import { Plus } from "@styled-icons/boxicons-regular";
 import { connectState } from "../../../redux/connector";
 import { useLocation, useParams } from "react-router-dom";
 import { Unreads } from "../../../redux/reducers/unreads";
@@ -14,12 +15,9 @@ import ConditionalLink from "../../../lib/ConditionalLink";
 import { Channel, Servers } from "revolt.js/dist/api/objects";
 import { LastOpened } from "../../../redux/reducers/last_opened";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { attachContextMenu, openContextMenu } from 'preact-context-menu';
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useChannels, useForceUpdate, useSelf, useServers } from "../../../context/revoltjs/hooks";
-
-import logoSVG from '../../../assets/logo.svg';
-import Tooltip from "../../common/Tooltip";
-import UserIcon from "../../common/user/UserIcon";
 
 function Icon({ children, unread, size }: { children: Children, unread?: 'mention' | 'unread', size: number }) {
     return (
@@ -29,13 +27,14 @@ function Icon({ children, unread, size }: { children: Children, unread?: 'mentio
             aria-hidden="true"
             viewBox="0 0 32 32"
         >
-            <foreignObject x="0" y="0" width="32" height="32">
+            <use href="#serverIndicator" />
+            <foreignObject x="0" y="0" width="32" height="32" mask={ unread ? "url(#server)" : undefined }>
                 { children }
             </foreignObject>
             {unread === 'unread' && (
                 <circle
                     cx="27"
-                    cy="27"
+                    cy="5"
                     r="5"
                     fill={"white"}
                 />
@@ -43,7 +42,7 @@ function Icon({ children, unread, size }: { children: Children, unread?: 'mentio
             {unread === 'mention' && (
                 <circle
                     cx="27"
-                    cy="27"
+                    cy="5"
                     r="5"
                     fill={"red"}
                 />
