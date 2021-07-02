@@ -31,18 +31,20 @@ const CategoryBase = styled.div<Pick<Props, 'variant'>>`
     ` }
 `;
 
-interface Props {
+type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'as'> & {
     text: Children;
     action?: () => void;
     variant?: 'default' | 'uniform';
 }
 
 export default function Category(props: Props) {
+    let { text, action, ...otherProps } = props;
+
     return (
-        <CategoryBase>
-            {props.text}
-            {props.action && (
-                <Plus size={16} onClick={props.action} />
+        <CategoryBase {...otherProps}>
+            {text}
+            {action && (
+                <Plus size={16} onClick={action} />
             )}
         </CategoryBase>
     );

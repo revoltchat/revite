@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { Children } from "../../types/Preact";
 import { Text } from 'preact-i18n';
 
-interface Props {
+type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'as'> & {
     error?: string;
     block?: boolean;
     children?: Children;
