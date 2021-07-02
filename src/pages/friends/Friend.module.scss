@@ -3,6 +3,10 @@
     user-select: none;
     overflow-y: scroll;
 
+    .overline {
+        display: flex;
+    }
+
     &[data-empty="true"] {
         img {
             height: 120px;
@@ -41,14 +45,21 @@
 
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        white-space: nowrap;
-        overflow: hidden;
         text-overflow: ellipsis;
+        overflow: hidden;
+
+        span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         .subtext {
             font-size: 12px;
             color: var(--tertiary-foreground);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 
@@ -57,8 +68,16 @@
         gap: 12px;
 
         > div {
-            height: 32px;
-            width: 32px;
+            height: 40px;
+            width: 40px;
+
+            &:nth-child(1):hover {
+                background: var(--status-online); //TOFIX: change to normal green color
+            }
+
+            &:nth-child(3):hover {
+                background: var(--error);
+            }
         }
     }
 }

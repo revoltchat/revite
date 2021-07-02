@@ -22,6 +22,10 @@ const Info = styled.div`
     overflow: hidden;
     white-space: nowrap;
 
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+
     * {
         display: inline-block;
     }

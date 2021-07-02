@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import styles from "./Friend.module.scss";
 import { useContext } from "preact/hooks";
 import { Children } from "../../types/Preact";
-import { X, Plus, Envelope } from "@styled-icons/boxicons-regular";
+import { X, Plus } from "@styled-icons/boxicons-regular";
+import { PhoneCall, Envelope } from "@styled-icons/boxicons-solid";
 import IconButton from "../../components/ui/IconButton";
 import { attachContextMenu } from "preact-context-menu";
 import { User, Users } from "revolt.js/dist/api/objects";
@@ -27,12 +28,20 @@ export function Friend({ user }: Props) {
     if (user.relationship === Users.Relationship.Friend) {
         subtext = <UserStatus user={user} />
         actions.push(
+            <>
+            <IconButton type="circle"
+                onClick={stopPropagation}>
+                <Link to={'/open/' + user._id}>
+                    <PhoneCall size={20} />
+                </Link>
+            </IconButton>
             <IconButton type="circle"
                 onClick={stopPropagation}>
                 <Link to={'/open/' + user._id}>
                     <Envelope size={20} />
                 </Link>
             </IconButton>
+            </>
         );
     }
 
@@ -77,7 +86,7 @@ export function Friend({ user }: Props) {
         <div className={styles.friend}
             onClick={() => openScreen({ id: 'profile', user_id: user._id })}
             onContextMenu={attachContextMenu('Menu', { user: user._id })}>
-            <UserIcon target={user} size={32} status />
+            <UserIcon target={user} size={38} status />
             <div className={styles.name}>
                 <span>@{user.username}</span>
                 {subtext && (

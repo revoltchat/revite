@@ -76,3 +76,17 @@
         background: var(--secondary-background);
     }
 }
+
+.roles {
+    .overview {
+        height: 85vh; //TOFIX change later
+        display: flex;
+        .list {
+            overflow-y: scroll;
+        }
+
+        .permissions {
+            overflow-y: scroll;
+        }
+    }
+}

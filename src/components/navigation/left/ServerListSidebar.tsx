@@ -111,7 +111,7 @@ const ServerEntry = styled.div<{ active: boolean, home?: boolean }>`
         height: 46px;
 
         ${ props => props.active && css`
-            background: var(--sidebar-active);
+            background-color: var(--sidebar-active);
 
             &::before, &::after {
                 // outline: 1px solid blue;
@@ -128,7 +128,7 @@ const ServerEntry = styled.div<{ active: boolean, home?: boolean }>`
                 margin-left: -25px;
                 z-index: -1;
 
-                background: var(--background);
+                background-color: var(--background);
                 border-bottom-right-radius: 32px;
 
                 box-shadow: 0 32px 0 0 var(--sidebar-active);

@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import { useSelf } from "../../context/revoltjs/hooks";
 import { useHistory, useLocation } from "react-router";
 import ConditionalLink from "../../lib/ConditionalLink";
-import { MessageRounded, Group } from "@styled-icons/boxicons-regular";
+import { Message, Group } from "@styled-icons/boxicons-regular";
 
 const NavigationBase = styled.div`
     z-index: 10;
@@ -50,7 +50,7 @@ export default function BottomNavigation() {
                             }
                         }
                     }}>
-                    <MessageRounded size={26} />
+                    <Message size={26} />
                 </IconButton>
             </Button>
             <Button active={friendsActive}>
