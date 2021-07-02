@@ -1,5 +1,5 @@
 import styles from "./Friend.module.scss";
-import { UserPlus } from "@styled-icons/boxicons-regular";
+import { Conversation, UserPlus } from "@styled-icons/boxicons-solid";
 
 import { Friend } from "./Friend";
 import { Text } from "preact-i18n";
@@ -34,11 +34,12 @@ export default function Friends() {
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />
                 </div>
-                <div className="actions">
-                    <IconButton onClick={() => openScreen({ id: 'special_input', type: 'add_friend' })}>
-                        <UserPlus size={24} />
-                    </IconButton>
-                </div>
+                <IconButton onClick={() => openScreen({ id: 'special_input', type: 'add_friend' })}> {/* TOFIX: Make sure this opens the "Start Group DM" window on click */}
+                    <Conversation size={24} />
+                </IconButton>
+                <IconButton onClick={() => openScreen({ id: 'special_input', type: 'add_friend' })}>
+                    <UserPlus size={24} />
+                </IconButton>
             </Header>
             <div
                 className={styles.list}
@@ -53,8 +54,8 @@ export default function Friends() {
                     </>
                 )}
                 {pending.length > 0 && (
-                    <Overline type="subtle">
-                        <Text id="app.special.friends.pending" /> –{" "}
+                    <Overline className={styles.overline} type="subtle">
+                        <Text id="app.special.friends.pending" /> —{" "}
                         {pending.length}
                     </Overline>
                 )}
@@ -62,8 +63,8 @@ export default function Friends() {
                     <Friend key={y._id} user={y} />
                 ))}
                 {friends.length > 0 && (
-                    <Overline type="subtle">
-                        <Text id="app.navigation.tabs.friends" /> –{" "}
+                    <Overline className={styles.overline} type="subtle">
+                        <Text id="app.navigation.tabs.friends" /> —{" "}
                         {friends.length}
                     </Overline>
                 )}
@@ -71,8 +72,8 @@ export default function Friends() {
                     <Friend key={y._id} user={y} />
                 ))}
                 {blocked.length > 0 && (
-                    <Overline type="subtle">
-                        <Text id="app.special.friends.blocked" /> –{" "}
+                    <Overline className={styles.overline} type="subtle">
+                        <Text id="app.special.friends.blocked" /> —{" "}
                         {blocked.length}
                     </Overline>
                 )}
