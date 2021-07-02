@@ -35,7 +35,7 @@ enum Badges {
 }
 
 export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
-    const { writeClipboard } = useIntermediate();
+    const { openScreen, writeClipboard } = useIntermediate();
 
     const [profile, setProfile] = useState<undefined | null | Users.Profile>(
         undefined
@@ -288,15 +288,12 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
                                 users.map(
                                     x =>
                                         x && (
-                                            //<LinkProfile user_id={x._id}>
-                                                <div
-                                                    className={styles.entry}
-                                                    key={x._id}
-                                                >
-                                                    <UserIcon size={32} target={x} />
-                                                    <span>{x.username}</span>
-                                                </div>
-                                            //</LinkProfile>
+                                            <div onClick={() => openScreen({ id: 'profile', user_id: x._id })}
+                                                className={styles.entry}
+                                                key={x._id}>
+                                                <UserIcon size={32} target={x} />
+                                                <span>{x.username}</span>
+                                            </div>
                                         )
                                 )
                             )}
