@@ -18,6 +18,27 @@
         }
     }
 
+    details {
+        summary {
+            outline: none;
+            list-style: none;
+
+            &::marker, &::-webkit-details-marker {
+                display: none;
+            }
+
+            svg {
+                transition: .2s ease transform;
+            }
+        }
+
+        &:not([open]) {
+            summary svg {
+                transform: rotateZ(-90deg);
+            }
+        }
+    }
+
     &[data-empty="true"] {
         img {
             height: 120px;
