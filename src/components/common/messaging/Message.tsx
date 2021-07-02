@@ -55,9 +55,7 @@ function Message({ attachContext, message, contrast, content: replacement, head:
                 </MessageInfo>
                 <MessageContent>
                     { head && <span className="detail">
-                        <span className="author">
-                            <Username user={user} onContextMenu={userContext} onClick={openProfile} />
-                        </span>
+                        <Username className="author" user={user} onContextMenu={userContext} onClick={openProfile} />
                         <MessageDetail message={message} position="top" />
                     </span> }
                     { replacement ?? <Markdown content={content} /> }

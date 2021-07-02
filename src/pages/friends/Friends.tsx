@@ -1,8 +1,7 @@
-import styles from "./Friend.module.scss";
-import { UserDetail, Conversation, UserPlus } from "@styled-icons/boxicons-solid";
-
 import { Friend } from "./Friend";
 import { Text } from "preact-i18n";
+import styles from "./Friend.module.scss";
+import Tooltip from "../../components/common/Tooltip";
 import Header from "../../components/ui/Header";
 import Overline from "../../components/ui/Overline";
 import IconButton from "../../components/ui/IconButton";
@@ -10,6 +9,8 @@ import { useUsers } from "../../context/revoltjs/hooks";
 import { User, Users } from "revolt.js/dist/api/objects";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
+import { ChevronDown, ChevronRight } from "@styled-icons/boxicons-regular";
+import { UserDetail, Conversation, UserPlus, TennisBall } from "@styled-icons/boxicons-solid";
 
 export default function Friends() {
     const { openScreen } = useIntermediate();
@@ -39,12 +40,24 @@ export default function Friends() {
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />
                 </div>
-                <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_group' })}>
-                    <Conversation size={24} />
-                </IconButton>
-                <IconButton onClick={() => openScreen({ id: 'special_input', type: 'add_friend' })}>
-                    <UserPlus size={24} />
-                </IconButton>
+                <Tooltip content={"Create Group"} placement="bottom">
+                    <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_group' })}>
+                        <Conversation size={24} />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip content={"Add Friend"} placement="bottom">
+                    <IconButton onClick={() => openScreen({ id: 'special_input', type: 'add_friend' })}>
+                        <UserPlus size={24} />
+                    </IconButton>
+                </Tooltip>
+                {/* 
+                <div className={styles.divider} />
+                <Tooltip content={"Friend Activity"} placement="bottom">
+                    <IconButton>
+                        <TennisBall size={24} />
+                    </IconButton>            
+                </Tooltip>
+                */}
             </Header>
             <div
                 className={styles.list}
@@ -60,6 +73,7 @@ export default function Friends() {
                 )}
                 {pending.length > 0 && (
                     <Overline className={styles.overline} type="subtle">
+                        <ChevronDown size={20} /> {/* TOFIX: Make each category collapsible */}
                         <Text id="app.special.friends.pending" /> —{" "}
                         {pending.length}
                     </Overline>
@@ -69,6 +83,7 @@ export default function Friends() {
                 ))}
                 {online.length > 0 && (
                     <Overline className={styles.overline} type="subtle">
+                        <ChevronDown size={20} /> {/* TOFIX: Make each category collapsible */}
                         <Text id="app.status.online" /> —{" "}
                         {online.length}
                     </Overline>
@@ -78,6 +93,7 @@ export default function Friends() {
                 ))}
                 {offline.length > 0 && (
                     <Overline className={styles.overline} type="subtle">
+                        <ChevronDown size={20} /> {/* TOFIX: Make each category collapsible */}
                         <Text id="app.status.offline" /> —{" "}
                         {offline.length}
                     </Overline>

@@ -1,6 +1,6 @@
 import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect } from "preact/hooks";
-import { Home, UserDetail, Wrench, Save } from "@styled-icons/boxicons-solid";
+import { Home, UserDetail, Wrench, Notepad } from "@styled-icons/boxicons-solid";
 
 import Category from '../../ui/Category';
 import PaintCounter from "../../../lib/PaintCounter";
@@ -93,7 +93,7 @@ function HomeSidebar(props: Props) {
                 )}
                 <ConditionalLink active={obj?.channel_type === "SavedMessages"} to="/open/saved">
                     <ButtonItem active={obj?.channel_type === "SavedMessages"}>
-                        <Save size={20} />
+                        <Notepad size={20} />
                         <span><Text id="app.navigation.tabs.saved" /></span>
                     </ButtonItem>
                 </ConditionalLink>

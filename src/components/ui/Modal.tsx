@@ -42,8 +42,6 @@ const ModalContainer = styled.div`
     border-radius: 8px;
     max-width: calc(100vw - 20px);
 
-    inline-size: min(100%, 500px);
-
     animation-name: ${zoomIn};
     animation-duration: 0.25s;
     animation-timing-function: cubic-bezier(.3,.3,.18,1.1);
