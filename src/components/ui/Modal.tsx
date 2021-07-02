@@ -55,6 +55,11 @@ const ModalContent = styled.div<{ [key in 'attachment' | 'noBackground' | 'borde
         margin-top: 0;
     }
 
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
     ${ props => !props.noBackground && css`
         background: var(--secondary-header);
     ` }
