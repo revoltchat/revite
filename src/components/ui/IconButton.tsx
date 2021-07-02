@@ -12,6 +12,7 @@ export default styled.div<Props>`
     display: grid;
     cursor: pointer;
     place-items: center;
+    transition: .1s ease background-color;
 
     fill: ${normal};
     color: ${normal};
