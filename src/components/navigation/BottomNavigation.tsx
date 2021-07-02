@@ -7,7 +7,7 @@ import ConditionalLink from "../../lib/ConditionalLink";
 import { Message, Group } from "@styled-icons/boxicons-regular";
 
 const NavigationBase = styled.div`
-    z-index: 10;
+    z-index: 100;
     height: 50px;
     display: flex;
     background: var(--secondary-background);

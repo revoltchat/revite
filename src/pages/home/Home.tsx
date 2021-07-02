@@ -3,13 +3,16 @@ import { Link } from "react-router-dom";
 
 import { Text } from "preact-i18n";
 import Header from "../../components/ui/Header";
-
+import { Home as HomeIcon } from "@styled-icons/boxicons-solid";
 import wideSVG from '../../assets/wide.svg';
 
 export default function Home() {
     return (
         <div className={styles.home}>
-            <Header placement="primary"><Text id="app.navigation.tabs.home" /></Header>
+            <Header placement="primary">
+                <HomeIcon size={24} />
+                <Text id="app.navigation.tabs.home" />
+            </Header>
             <h3>
                 <Text id="app.special.modals.onboarding.welcome" /> <img src={wideSVG} />
             </h3>
