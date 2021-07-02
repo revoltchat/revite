@@ -7,6 +7,7 @@ import { SpecialPromptModal } from "./modals/Prompt";
 import { UserProfile } from "./popovers/UserProfile";
 import { ImageViewer } from "./popovers/ImageViewer";
 import { ChannelInfo } from "./popovers/ChannelInfo";
+import { PendingRequests } from "./popovers/PendingRequests";
 import { ModifyAccountModal } from "./popovers/ModifyAccount";
 
 export default function Popovers() {
@@ -24,6 +25,8 @@ export default function Popovers() {
             return <ImageViewer {...screen} onClose={onClose} />;
         case "channel_info":
             return <ChannelInfo {...screen} onClose={onClose} />;
+        case "pending_requests":
+            return <PendingRequests {...screen} onClose={onClose} />;
         case "modify_account":
             return <ModifyAccountModal onClose={onClose} {...screen} />;
         case "special_prompt":

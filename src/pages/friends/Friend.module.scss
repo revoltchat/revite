@@ -122,6 +122,53 @@
     background: var(--primary-background);
 }
 
+.title {
+    flex-grow: 1;
+}
+
+.pending {
+    gap: 12px;
+    padding: 1em;
+    display: flex;
+    cursor: pointer;
+    margin-top: 1em;
+    align-items: center;
+    flex-direction: row;
+    background: var(--secondary-background);
+
+    .avatars {
+        display: flex;
+    }
+
+    .details {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+
+        > div {
+            font-size: 1.4em;
+            font-weight: 800;
+
+            span {
+                width: 1.5em;
+                height: 1.5em;
+                font-size: 0.8em;
+
+                border-radius: 50%;
+                align-items: center;
+                display: inline-flex;
+                justify-content: center;
+                background: var(--error);
+            }
+        }
+
+        > span {
+            font-weight: 600;
+            color: var(--tertiary-foreground);
+        }
+    }
+}
+
 @media only screen and (max-width: 768px) {
     .list {
         padding: 0 8px 8px 8px;
@@ -130,11 +177,4 @@
     .call {
         display: none;
     }
-}
-
-//! FIXME: Move this to the Header component, do this:
-// 1. Check if header has topic, if yes, flex-grow: 0 on the title.
-// 2. If header has no topic (example: friends page), flex-grow 1 on the header title.
-.title {
-    flex-grow: 1;
 }

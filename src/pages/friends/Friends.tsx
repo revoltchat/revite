@@ -1,16 +1,17 @@
 import { Friend } from "./Friend";
 import { Text } from "preact-i18n";
 import styles from "./Friend.module.scss";
-import Tooltip from "../../components/common/Tooltip";
 import Header from "../../components/ui/Header";
 import Overline from "../../components/ui/Overline";
+import Tooltip from "../../components/common/Tooltip";
 import IconButton from "../../components/ui/IconButton";
 import { useUsers } from "../../context/revoltjs/hooks";
 import { User, Users } from "revolt.js/dist/api/objects";
+import UserIcon from "../../components/common/user/UserIcon";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { ChevronDown, ChevronRight } from "@styled-icons/boxicons-regular";
-import { UserDetail, Conversation, UserPlus, TennisBall } from "@styled-icons/boxicons-solid";
+import { UserDetail, Conversation, UserPlus } from "@styled-icons/boxicons-solid";
 
 export default function Friends() {
     const { openScreen } = useIntermediate();
@@ -22,7 +23,9 @@ export default function Friends() {
 
     const lists = [
         [ 'app.special.friends.pending', users.filter(x =>
-            x.relationship === Users.Relationship.Incoming ||
+            x.relationship === Users.Relationship.Incoming
+        ) ],
+        [ 'app.special.friends.pending', users.filter(x =>
             x.relationship === Users.Relationship.Outgoing
         ) ],
         [ 'app.status.online', friends.filter(x =>
@@ -70,8 +73,23 @@ export default function Friends() {
                         <Text id="app.special.friends.nobody" />
                     </>
                 )}
+
+                { lists[0][1].length > 0 && <div className={styles.pending}
+                    onClick={() => openScreen({ id: 'pending_requests', users: lists[0][1].map(x => x._id) })}>
+                    <div className={styles.avatars}>
+                        { lists[0][1].map((x, i) => i < 3 && <UserIcon target={x} size={64} />) }
+                    </div>
+                    <div className={styles.details}>
+                        {/* ! FIXME: i18n */}
+                        <div>Pending requests <span>{ lists[0][1].length }</span></div>
+                        <span>From { lists[0][1].map(x => x.username).join(', ') }</span>
+                    </div>
+                    <ChevronRight size={48} />
+                </div> }
+
                 {
-                    lists.map(([i18n, list]) => {
+                    lists.map(([i18n, list], index) => {
+                        if (index === 0) return;
                         if (list.length === 0) return;
 
                         return (

@@ -23,7 +23,6 @@ import { At, Bell, BellOff, Check, CheckSquare, ChevronRight, Block, Square, Lef
 import { Cog } from "@styled-icons/boxicons-solid";
 import { getNotificationState, Notifications, NotificationState } from "../redux/reducers/notifications";
 import UserStatus from "../components/common/user/UserStatus";
-import { Link } from "react-router-dom";
 import IconButton from "../components/ui/IconButton";
 
 interface ContextMenuData {
@@ -438,7 +437,7 @@ function ContextMenus(props: Props) {
                                 ];
                                 break;
                             case Users.Relationship.Incoming:
-                                actions = ["add_friend", "block_user"];
+                                actions = ["add_friend", "cancel_friend", "block_user"];
                                 break;
                             case Users.Relationship.Outgoing:
                                 actions = ["cancel_friend", "block_user"];
