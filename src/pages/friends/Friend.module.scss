@@ -10,6 +10,8 @@
         background: var(--primary-background);
         padding: 8px 0;
         z-index: 10;
+        
+        
     }
 
     &[data-empty="true"] {
@@ -28,11 +30,11 @@
 }
 
 .friend {
-    padding: 10px;
+    padding: 0 10px;
+    height: 60px;
     display: flex;
     border-radius: 5px;
     align-items: center;
-    flex-direction: row;
     cursor: pointer;
 
     &:hover {
@@ -47,7 +49,7 @@
         flex-grow: 1;
         margin: 0 12px;
         font-size: 16px;
-
+        font-weight: 600;
         display: flex;
         flex-direction: column;
         text-overflow: ellipsis;
@@ -61,6 +63,7 @@
 
         .subtext {
             font-size: 12px;
+            font-weight: 400;
             color: var(--tertiary-foreground);
             white-space: nowrap;
             overflow: hidden;
@@ -73,8 +76,8 @@
         gap: 12px;
 
         .button {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
 
             &:hover.error {
                 background: var(--error);
@@ -90,6 +93,10 @@
 @media only screen and (max-width: 768px) {
     .list {
         padding: 0 12px 12px 12px;
+    }
+
+    .call {
+        display: none;
     }
 }
 

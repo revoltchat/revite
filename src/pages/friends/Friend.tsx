@@ -33,7 +33,7 @@ export function Friend({ user }: Props) {
         actions.push(
             <>
                 <IconButton type="circle"
-                    className={classNames(styles.button, styles.success)}
+                    className={classNames(styles.button, styles.call, styles.success)}
                     onClick={ev => stopPropagation(ev, openDM(user._id).then(connect))}>
                     <PhoneCall size={20} />
                 </IconButton>
