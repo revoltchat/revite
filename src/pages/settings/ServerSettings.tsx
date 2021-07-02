@@ -34,27 +34,28 @@ export default function ServerSettings() {
                     category: <Category variant="uniform" text={server.name} />, //TOFIX: Just add the server.name as a string, otherwise it makes a duplicate category
                     id: 'overview',
                     icon: <ListUl size={20} />,
-                    title: <Text id="app.settings.channel_pages.overview.title" />
+                    title: <Text id="app.settings.server_pages.overview.title" />
                 },
                 {
                     id: 'members',
                     icon: <Group size={20} />,
-                    title: "Members"
+                    title: <Text id="app.settings.server_pages.members.title" />
                 },
                 {
                     id: 'invites',
                     icon: <Share size={20} />,
-                    title: "Invites"
+                    title: <Text id="app.settings.server_pages.invites.title" />
                 },
                 {
                     id: 'bans',
                     icon: <XSquare size={20} />,
-                    title: "Bans"
+                    title: <Text id="app.settings.server_pages.bans.title" />
                 },
                 {
                     id: 'roles',
                     icon: <ListCheck size={20} />,
-                    title: "Roles"
+                    title: <Text id="app.settings.server_pages.roles.title" />,
+                    hideTitle: true
                 }
             ]}
             children={[

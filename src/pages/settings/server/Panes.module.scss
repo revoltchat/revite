@@ -78,16 +78,21 @@
 }
 
 .roles {
-    .overview {
-        height: 85vh; //TOFIX change later
-        display: flex;
-        
-        .list {
-            overflow-y: scroll;
-        }
+    gap: 12px;
+    height: 100%;
+    display: flex;
 
-        .permissions {
-            overflow-y: scroll;
-        }
+    .list {
+        width: 160px;
+        overflow-y: scroll;
+    }
+
+    .permissions {
+        flex-grow: 1;
+        overflow-y: scroll;
+    }
+
+    h2 {
+        margin: 8px 0;
     }
 }
