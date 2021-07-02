@@ -1,5 +1,5 @@
 import styles from "./Friend.module.scss";
-import { Conversation, UserPlus } from "@styled-icons/boxicons-solid";
+import { UserDetail, Conversation, UserPlus } from "@styled-icons/boxicons-solid";
 
 import { Friend } from "./Friend";
 import { Text } from "preact-i18n";
@@ -8,6 +8,7 @@ import Overline from "../../components/ui/Overline";
 import IconButton from "../../components/ui/IconButton";
 import { useUsers } from "../../context/revoltjs/hooks";
 import { User, Users } from "revolt.js/dist/api/objects";
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 
 export default function Friends() {
@@ -31,6 +32,7 @@ export default function Friends() {
     return (
         <>
             <Header placement="primary">
+                { !isTouchscreenDevice && <UserDetail size={24} /> }
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />
                 </div>

@@ -87,6 +87,13 @@
     }
 }
 
+@media only screen and (max-width: 768px) {
+    .list {
+        padding: 0 12px 12px 12px;
+    }
+}
+
+
 //! FIXME: Move this to the Header component, do this:
 // 1. Check if header has topic, if yes, flex-grow: 0 on the title.
 // 2. If header has no topic (example: friends page), flex-grow 1 on the header title.
