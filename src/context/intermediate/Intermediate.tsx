@@ -98,7 +98,7 @@ export default function Intermediate(props: Props) {
         const navigate = (path: string) => history.push(path);
 
         const subs = [
-            internalSubscribe("Intermediate", "open_profile", openProfile),
+            internalSubscribe("Intermediate", "openProfile", openProfile),
             internalSubscribe("Intermediate", "navigate", navigate)
         ]
 

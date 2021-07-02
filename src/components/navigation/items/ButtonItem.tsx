@@ -14,7 +14,7 @@ import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { useIntermediate } from '../../../context/intermediate/Intermediate';
 import { stopPropagation } from '../../../lib/stopPropagation';
 
-interface CommonProps {
+type CommonProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'as'> & {
     active?: boolean
     alert?: 'unread' | 'mention'
     alertCount?: number
@@ -26,11 +26,12 @@ type UserProps = CommonProps & {
     channel?: Channels.DirectMessageChannel
 }
 
-export function UserButton({ active, alert, alertCount, user, context, channel }: UserProps) {
+export function UserButton(props: UserProps) {
+    const { active, alert, alertCount, user, context, channel, ...divProps } = props;
     const { openScreen } = useIntermediate();
 
     return (
-        <div
+        <div {...divProps}
             className={classNames(styles.item, styles.user)}
             data-active={active}
             data-alert={typeof alert === 'string'}
@@ -85,7 +86,9 @@ type ChannelProps = CommonProps & {
     compact?: boolean
 }
 
-export function ChannelButton({ active, alert, alertCount, channel, user, compact }: ChannelProps) {
+export function ChannelButton(props: ChannelProps) {
+    const { active, alert, alertCount, channel, user, compact, ...divProps } = props;
+
     if (channel.channel_type === 'SavedMessages') throw "Invalid channel type.";
     if (channel.channel_type === 'DirectMessage') {
         if (typeof user === 'undefined') throw "No user provided.";
@@ -95,9 +98,10 @@ export function ChannelButton({ active, alert, alertCount, channel, user, compac
     const { openScreen } = useIntermediate();
 
     return (
-        <div data-active={active}
+        <div {...divProps}
+            data-active={active}
             data-alert={typeof alert === 'string'}
-            aria-label={{}} /*TOFIX: ADD ARIA LABEL*/
+            aria-label={{}} /*FIXME: ADD ARIA LABEL*/
             className={classNames(styles.item, { [styles.compact]: compact })}
             onContextMenu={attachContextMenu('Menu', { channel: channel._id, unread: typeof channel.unread !== 'undefined' })}>
             <ChannelIcon className={styles.avatar} target={channel} size={compact ? 24 : 32} />
@@ -138,9 +142,12 @@ type ButtonProps = CommonProps & {
     compact?: boolean
 }
 
-export default function ButtonItem({ active, alert, alertCount, onClick, className, children, compact }: ButtonProps) {
+export default function ButtonItem(props: ButtonProps) {
+    const { active, alert, alertCount, onClick, className, children, compact, ...divProps } = props;
+
     return (
-        <div className={classNames(styles.item, { [styles.compact]: compact, [styles.normal]: !compact }, className)}
+        <div {...divProps}
+            className={classNames(styles.item, { [styles.compact]: compact, [styles.normal]: !compact }, className)}
             onClick={onClick}
             data-active={active}
             data-alert={typeof alert === 'string'}>

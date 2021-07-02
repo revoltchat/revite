@@ -14,6 +14,7 @@ import { useContext } from "preact/hooks";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { memo } from "preact/compat";
 import { MessageReply } from "./attachments/MessageReply";
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 interface Props {
     attachContext?: boolean
@@ -29,10 +30,13 @@ function Message({ attachContext, message, contrast, content: replacement, head:
     // TODO: of dependencies. We only need to update on u/avatar.
     const user = useUser(message.author);
     const client = useContext(AppContext);
+    const { openScreen } = useIntermediate();
 
     const content = message.content as string;
     const head = preferHead || (message.replies && message.replies.length > 0);
+
     const userContext = attachContext ? attachContextMenu('Menu', { user: message.author, contextualChannel: message.channel }) : undefined as any; // ! FIXME: tell fatal to make this type generic
+    const openProfile = () => openScreen({ id: 'profile', user_id: message.author });
 
     return (
         <div id={message._id}>
@@ -46,13 +50,13 @@ function Message({ attachContext, message, contrast, content: replacement, head:
                 onContextMenu={attachContext ? attachContextMenu('Menu', { message, contextualChannel: message.channel, queued }) : undefined}>
                 <MessageInfo>
                     { head ?
-                        <UserIcon target={user} size={36} onContextMenu={userContext} /> :
+                        <UserIcon target={user} size={36} onContextMenu={userContext} onClick={openProfile} /> :
                         <MessageDetail message={message} position="left" /> }
                 </MessageInfo>
                 <MessageContent>
                     { head && <span className="detail">
                         <span className="author">
-                            <Username user={user} onContextMenu={userContext} />
+                            <Username user={user} onContextMenu={userContext} onClick={openProfile} />
                         </span>
                         <MessageDetail message={message} position="top" />
                     </span> }

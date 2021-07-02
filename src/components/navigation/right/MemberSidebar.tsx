@@ -8,11 +8,12 @@ import { UserButton } from "../items/ButtonItem";
 import { ChannelDebugInfo } from "./ChannelDebugInfo";
 import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
+import { AppContext, ClientStatus, StatusContext } from "../../../context/revoltjs/RevoltClient";
 import { HookContext, useChannel, useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
 
 import placeholderSVG from "../items/placeholder.svg";
-import { AppContext, ClientStatus, StatusContext } from "../../../context/revoltjs/RevoltClient";
 
 interface Props {
     ctx: HookContext
@@ -31,6 +32,7 @@ export default function MemberSidebar(props: { channel?: Channels.Channel }) {
 }
 
 export function GroupMemberSidebar({ channel, ctx }: Props & { channel: Channels.GroupChannel }) {
+    const { openScreen } = useIntermediate();
     const users = useUsers(undefined, ctx);
     let members = channel.recipients
         .map(x => users.find(y => y?._id === x))
@@ -112,13 +114,11 @@ export function GroupMemberSidebar({ channel, ctx }: Props & { channel: Channels
                 {members.map(
                     user =>
                         user && (
-                            // <LinkProfile user_id={user._id}>
-                                <UserButton
-                                    key={user._id}
-                                    user={user}
-                                    context={channel}
-                                />
-                            // </LinkProfile>
+                            <UserButton
+                                key={user._id}
+                                user={user}
+                                context={channel}
+                                onClick={() => openScreen({ id: 'profile', user_id: user._id })} />
                         )
                 )}
             </GenericSidebarList>
