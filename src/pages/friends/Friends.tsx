@@ -18,21 +18,25 @@ export default function Friends() {
     const users = useUsers() as User[];
     users.sort((a, b) => a.username.localeCompare(b.username));
 
-    const pending = users.filter(
-        x =>
+    const friends = users.filter(x => x.relationship === Users.Relationship.Friend);
+
+    const lists = [
+        [ 'app.special.friends.pending', users.filter(x =>
             x.relationship === Users.Relationship.Incoming ||
             x.relationship === Users.Relationship.Outgoing
-    );
-    const friends = users.filter(
-        x => x.relationship === Users.Relationship.Friend
-    );
-    const blocked = users.filter(
-        x => x.relationship === Users.Relationship.Blocked
-    );
+        ) ],
+        [ 'app.status.online', friends.filter(x =>
+            x.online && x.status?.presence !== Users.Presence.Invisible
+        ) ],
+        [ 'app.status.offline', friends.filter(x =>
+            !x.online || x.status?.presence === Users.Presence.Invisible
+        ) ],
+        [ 'app.special.friends.blocked', friends.filter(x =>
+            x.relationship === Users.Relationship.Blocked
+        ) ]
+    ] as [ string, User[] ][];
 
-    const online = friends.filter(x => x.online && x.status?.presence !== Users.Presence.Invisible);
-    const offline = friends.filter(x => !x.online || x.status?.presence === Users.Presence.Invisible);
-
+    const isEmpty = lists.reduce((p: number, n) => p + n.length, 0) === 0;
     return (
         <>
             <Header placement="primary">
@@ -59,57 +63,30 @@ export default function Friends() {
                 </Tooltip>
                 */}
             </Header>
-            <div
-                className={styles.list}
-                data-empty={
-                    pending.length + friends.length + blocked.length === 0
-                }
-            >
-                {pending.length + friends.length + blocked.length === 0 && (
+            <div className={styles.list} data-empty={isEmpty}>
+                {isEmpty && (
                     <>
                         <img src="https://img.insrt.uk/xexu7/XOPoBUTI47.png/raw" />
                         <Text id="app.special.friends.nobody" />
                     </>
                 )}
-                {pending.length > 0 && (
-                    <Overline className={styles.overline} type="subtle">
-                        <ChevronDown size={20} /> {/* TOFIX: Make each category collapsible */}
-                        <Text id="app.special.friends.pending" /> —{" "}
-                        {pending.length}
-                    </Overline>
-                )}
-                {pending.map(y => (
-                    <Friend key={y._id} user={y} />
-                ))}
-                {online.length > 0 && (
-                    <Overline className={styles.overline} type="subtle">
-                        <ChevronDown size={20} /> {/* TOFIX: Make each category collapsible */}
-                        <Text id="app.status.online" /> —{" "}
-                        {online.length}
-                    </Overline>
-                )}
-                {online.map(y => (
-                    <Friend key={y._id} user={y} />
-                ))}
-                {offline.length > 0 && (
-                    <Overline className={styles.overline} type="subtle">
-                        <ChevronDown size={20} /> {/* TOFIX: Make each category collapsible */}
-                        <Text id="app.status.offline" /> —{" "}
-                        {offline.length}
-                    </Overline>
-                )}
-                {offline.map(y => (
-                    <Friend key={y._id} user={y} />
-                ))}
-                {blocked.length > 0 && (
-                    <Overline className={styles.overline} type="subtle">
-                        <Text id="app.special.friends.blocked" /> —{" "}
-                        {blocked.length}
-                    </Overline>
-                )}
-                {blocked.map(y => (
-                    <Friend key={y._id} user={y} />
-                ))}
+                {
+                    lists.map(([i18n, list]) => {
+                        if (list.length === 0) return;
+
+                        return (
+                            <details open>
+                                <summary>
+                                    <Overline className={styles.overline} type="subtle">
+                                        <ChevronDown size={20} />
+                                        <Text id={i18n} /> — { list.length }
+                                    </Overline>
+                                </summary>
+                                { list.map(x => <Friend key={x._id} user={x} />) }
+                            </details>
+                        )
+                    })
+                }
             </div>
         </>
     );
