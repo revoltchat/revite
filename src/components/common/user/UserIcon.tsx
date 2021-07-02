@@ -62,7 +62,7 @@ export default function UserIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGEle
             height={size}
             aria-hidden="true"
             viewBox="0 0 32 32">
-            <foreignObject x="0" y="0" width="32" height="32">
+            <foreignObject x="0" y="0" width="32" height="32" mask={props.status ? "url(#user)" : undefined}>
                 {
                     <img src={iconURL}
                         draggable={false} />
