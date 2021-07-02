@@ -6,12 +6,16 @@
     .overline {
         display: flex;
         position: sticky;
+        align-items: center;
         top: 0;
         background: var(--primary-background);
-        padding: 8px 0;
+        padding: 5px 0;
         z-index: 10;
+        cursor: pointer;
         
-        
+        svg {
+            margin-inline-end: 4px;
+        }
     }
 
     &[data-empty="true"] {
@@ -90,16 +94,22 @@
     }
 }
 
+.divider {
+    width: 1px;
+    height: 24px;
+    margin: 0 8px;
+    background: var(--primary-background);
+}
+
 @media only screen and (max-width: 768px) {
     .list {
-        padding: 0 12px 12px 12px;
+        padding: 0 8px 8px 8px;
     }
 
     .call {
         display: none;
     }
 }
-
 
 //! FIXME: Move this to the Header component, do this:
 // 1. Check if header has topic, if yes, flex-grow: 0 on the title.

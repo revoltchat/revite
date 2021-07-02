@@ -61,6 +61,7 @@ export default styled.div<BaseMessageProps>`
 
     .author {
         cursor: pointer;
+        font-weight: 600 !important;
         
         &:hover {
             text-decoration: underline;
@@ -68,9 +69,6 @@ export default styled.div<BaseMessageProps>`
     }
     
     .copy {
-        width: 0;
-        height: 0;
-        opacity: 0;
         display: block;
         overflow: hidden;
     }
@@ -92,13 +90,23 @@ export const MessageInfo = styled.div`
     flex-direction: row;
     justify-content: center;
 
-    ::selection {
-        background-color: transparent;
-        color: var(--tertiary-foreground);
+    .copyBracket {
+        opacity: 0;
+        position: absolute;
+    }
+
+    .copyTime {
+        opacity: 0;
+        position: absolute;
     }
 
     svg {
+        user-select: none;
         cursor: pointer;
+
+        &:active {
+            transform: translateY(1px);
+        }
     }
 
     time {
@@ -106,10 +114,18 @@ export const MessageInfo = styled.div`
     }
 
     time, .edited {
+        margin-top: 1px;
         cursor: default;
         display: inline;
         font-size: 10px;
         color: var(--tertiary-foreground);
+    }
+
+    time, .edited > div {
+        &::selection {
+            background-color: transparent;
+            color: var(--tertiary-foreground);
+        }
     }
 `;
 
@@ -118,7 +134,7 @@ export const MessageContent = styled.div`
     flex-grow: 1;
     display: flex;
     overflow: hidden;
-    font-size: 0.875rem;
+    font-size: .875rem;
     flex-direction: column;
     justify-content: center;
 `;
@@ -135,9 +151,11 @@ export function MessageDetail({ message, position }: { message: MessageObject, p
         if (message.edited) {
             return (
                 <>
-                    <span className="copy">
-                        [<time>{dayjs(decodeTime(message._id)).format("H:mm")}</time>]
-                    </span>
+                    <time className="copyTime">
+                        <i className="copyBracket">[</i>
+                        {dayjs(decodeTime(message._id)).format("H:mm")}
+                        <i className="copyBracket">]</i>
+                    </time>
                     <span className="edited">
                         <Tooltip content={dayjs(message.edited).format("LLLL")}>
                             <Text id="app.main.channel.edited" />
@@ -149,9 +167,9 @@ export function MessageDetail({ message, position }: { message: MessageObject, p
             return (
                 <>
                     <time>
-                        <i className="copy">[</i>
+                        <i className="copyBracket">[</i>
                         { dayjs(decodeTime(message._id)).format("H:mm") }
-                        <i className="copy">]</i>
+                        <i className="copyBracket">]</i>
                     </time>
                 </>
             )
