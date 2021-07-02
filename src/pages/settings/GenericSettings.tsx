@@ -65,7 +65,7 @@ export function GenericSettings({ pages, switchPage, category, custom, children,
                     ) : (
                         <>
                             <IconButton onClick={() => switchPage()}>
-                                <LeftArrowAlt size={24} />
+                                <LeftArrowAlt size={30} />
                             </IconButton>
                             <Text
                                 id={`app.settings.${category}.${page}.title`}

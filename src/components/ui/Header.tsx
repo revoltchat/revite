@@ -29,6 +29,11 @@ export default styled.div<Props>`
         flex-shrink: 0;
     }
 
+    @media only screen and (max-width: 768px) {
+        padding: 0 12px;
+    }
+    
+
     ${ props => props.background && css`
         height: 120px;
         align-items: flex-end;
