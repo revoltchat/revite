@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "preact/hooks";
 import ChannelHeader from "./ChannelHeader";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { MessageArea } from "./messaging/MessageArea";
 import Checkbox from "../../components/ui/Checkbox";
 import Button from "../../components/ui/Button";
@@ -30,6 +30,32 @@ const ChannelContent = styled.div`
     flex-direction: column;
 `;
 
+const AgeGate = styled.div`
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    padding: 12px;
+
+    img {
+        height: 150px;
+    }
+
+    .subtext {
+        color: var(--secondary-foreground);
+        margin-bottom: 12px;
+        font-size: 14px;
+    }
+
+    .actions {
+        margin-top: 20px;
+        display: flex;
+        gap: 12px;
+    }
+`;
+
 export function Channel({ id }: { id: string }) {
     const ctx = useForceUpdate();
     const channel = useChannel(id, ctx);
@@ -47,15 +73,22 @@ function TextChannel({ channel }: { channel: Channel }) {
     const [ showMembers, setMembers ] = useState(true);
 
     if ((channel.channel_type === 'TextChannel' || channel.channel_type === 'Group') && channel.name.includes('nsfw')) {
+        const goBack = useHistory();
         const [ consent, setConsent ] = useState(false);
         const [ ageGate, setAgeGate ] = useState(false);
         if (!ageGate) {
             return (
-                <div style={{ maxWidth: '480px' }}>
-                    <h3>this channel is marked as nsfw</h3>
-                    <Checkbox checked={consent} onChange={v => setConsent(v)}>I am at least 18 years old</Checkbox>
-                    <Button onClick={() => consent && setAgeGate(true)}>view content</Button>
-                </div>
+                <AgeGate>
+                    <img src={"https://static.revolt.chat/emoji/mutant/26a0.svg"} draggable={false}/>
+                    <h2>{channel.name}</h2>
+                    <span className="subtext">This channel is marked as NSFW. <a href="#">Learn more</a></span>
+
+                    <Checkbox checked={consent} onChange={v => setConsent(v)}>I confirm that I am at least 18 years old.</Checkbox>
+                    <div className="actions">
+                        <Button contrast onClick={() => goBack}>Go back</Button>
+                        <Button contrast onClick={() => consent && setAgeGate(true)}>Enter Channel</Button>
+                    </div>
+                </AgeGate>
             )
         }
     }
