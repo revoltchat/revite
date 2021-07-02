@@ -150,6 +150,11 @@
         display: flex;
         flex-shrink: 0;
         margin-inline-end: 15px;
+
+        svg:not(:first-child) {
+            position: relative;
+            margin-left: -32px;
+        }
     }
 
     .details {

@@ -12,6 +12,8 @@ import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { ChevronDown, ChevronRight } from "@styled-icons/boxicons-regular";
 import { UserDetail, Conversation, UserPlus } from "@styled-icons/boxicons-solid";
+import { TextReact } from "../../lib/i18n";
+import { Children } from "../../types/Preact";
 
 export default function Friends() {
     const { openScreen } = useIntermediate();
@@ -22,10 +24,10 @@ export default function Friends() {
     const friends = users.filter(x => x.relationship === Users.Relationship.Friend);
 
     const lists = [
-        [ 'app.special.friends.pending', users.filter(x =>
+        [ '', users.filter(x =>
             x.relationship === Users.Relationship.Incoming
         ) ],
-        [ 'app.special.friends.pending', users.filter(x =>
+        [ 'app.special.friends.sent', users.filter(x =>
             x.relationship === Users.Relationship.Outgoing
         ) ],
         [ 'app.status.online', friends.filter(x =>
@@ -38,6 +40,10 @@ export default function Friends() {
             x.relationship === Users.Relationship.Blocked
         ) ]
     ] as [ string, User[] ][];
+
+    const incoming = lists[0][1];
+    const userlist: Children[] = incoming.map(x => <b>{ x.username }</b>);
+    for (let i=incoming.length-1;i>0;i--) userlist.splice(i, 0, ', ');
 
     const isEmpty = lists.reduce((p: number, n) => p + n.length, 0) === 0;
     return (
@@ -74,15 +80,20 @@ export default function Friends() {
                     </>
                 )}
 
-                { lists[0][1].length > 0 && <div className={styles.pending}
-                    onClick={() => openScreen({ id: 'pending_requests', users: lists[0][1].map(x => x._id) })}>
+                { incoming.length > 0 && <div className={styles.pending}
+                    onClick={() => openScreen({ id: 'pending_requests', users: incoming.map(x => x._id) })}>
                     <div className={styles.avatars}>
-                        { lists[0][1].map((x, i) => i < 3 && <UserIcon target={x} size={54} />) }
+                        { incoming.map((x, i) => i < 3 && <UserIcon target={x} size={64} mask={ i < Math.min(incoming.length - 1, 2) ? "url(#overlap)" : undefined } />) }
                     </div>
                     <div className={styles.details}>
-                        {/* ! FIXME: i18n */}
-                        <div className={styles.title}>Pending requests<span>{ lists[0][1].length }</span></div>
-                        <span className={styles.from}>From <span className={styles.user}>{ lists[0][1].map(x => x.username).join(', ') }</span></span>
+                        <div><Text id="app.special.friends.pending" /> <span>{ incoming.length }</span></div>
+                        <span>
+                            {
+                                  incoming.length > 3 ? <TextReact id="app.special.friends.from.several" fields={{ userlist: userlist.slice(0, 6), count: incoming.length - 3 }} />
+                                : incoming.length > 1 ? <TextReact id="app.special.friends.from.multiple" fields={{ user: userlist.shift()!, userlist: userlist.slice(1) }} />
+                                : <TextReact id="app.special.friends.from.single" fields={{ user: userlist[0] }} />
+                            }
+                        </span>
                     </div>
                     <ChevronRight size={28} />
                 </div> }

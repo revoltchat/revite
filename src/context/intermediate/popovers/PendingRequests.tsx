@@ -1,3 +1,4 @@
+import { Text } from "preact-i18n";
 import styles from "./UserPicker.module.scss";
 import { useUsers } from "../../revoltjs/hooks";
 import Modal from "../../../components/ui/Modal";
@@ -14,7 +15,7 @@ export function PendingRequests({ users: ids, onClose }: Props) {
     return (
         <Modal
             visible={true}
-            title={"Pending requests"}
+            title={<Text id="app.special.friends.pending" />}
             onClose={onClose}>
             <div className={styles.list}>
                 { users
