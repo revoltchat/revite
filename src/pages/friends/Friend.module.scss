@@ -1,5 +1,5 @@
 .list {
-    padding: 0 20px 20px 20px;
+    padding: 0 10px 10px 10px;
     user-select: none;
     overflow-y: scroll;
 
@@ -22,17 +22,23 @@
         summary {
             outline: none;
             list-style: none;
+            transition: .2s opacity;
 
             &::marker, &::-webkit-details-marker {
                 display: none;
             }
 
             svg {
+                flex-shrink: 0;
                 transition: .2s ease transform;
             }
         }
 
         &:not([open]) {
+            summary {
+                opacity: .7;
+            }
+            
             summary svg {
                 transform: rotateZ(-90deg);
             }
@@ -127,17 +133,23 @@
 }
 
 .pending {
-    gap: 12px;
     padding: 1em;
     display: flex;
     cursor: pointer;
     margin-top: 1em;
+    border-radius: 7px;
     align-items: center;
     flex-direction: row;
     background: var(--secondary-background);
 
+    svg {
+        flex-shrink: 0;
+    }
+
     .avatars {
         display: flex;
+        flex-shrink: 0;
+        margin-inline-end: 15px;
     }
 
     .details {
@@ -145,26 +157,53 @@
         display: flex;
         flex-direction: column;
 
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
         > div {
-            font-size: 1.4em;
+            font-size: 16px;
             font-weight: 800;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            min-width: 0;
+
+            
+            .title {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
 
             span {
                 width: 1.5em;
                 height: 1.5em;
-                font-size: 0.8em;
+                font-size: 12px;
 
                 border-radius: 50%;
                 align-items: center;
                 display: inline-flex;
                 justify-content: center;
                 background: var(--error);
+                flex-shrink: 0;
+            }
+        }
+
+        .from {
+            .user {
+                font-weight: 600;
             }
         }
 
         > span {
-            font-weight: 600;
+            font-weight: 400;
+            font-size: 12px;
             color: var(--tertiary-foreground);
+
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
     }
 }
