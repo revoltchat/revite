@@ -9,6 +9,7 @@ import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 type VoiceStatus = "muted";
 interface Props extends IconBaseProps<User> {
+    mask?: string;
     status?: boolean;
     voice?: VoiceStatus;
 }
@@ -52,7 +53,7 @@ import fallback from '../assets/user.png';
 export default function UserIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGElement>, keyof Props>) {
     const client = useContext(AppContext);
 
-    const { target, attachment, size, voice, status, animate, children, as, ...svgProps } = props;
+    const { target, attachment, size, voice, status, animate, mask, children, as, ...svgProps } = props;
     const iconURL = client.generateFileURL(target?.avatar ?? attachment, { max_side: 256 }, animate)
         ?? (target ? client.users.getDefaultAvatarURL(target._id) : fallback);
 
@@ -62,7 +63,7 @@ export default function UserIcon(props: Props & Omit<JSX.SVGAttributes<SVGSVGEle
             height={size}
             aria-hidden="true"
             viewBox="0 0 32 32">
-            <foreignObject x="0" y="0" width="32" height="32" mask={props.status ? "url(#user)" : undefined}>
+            <foreignObject x="0" y="0" width="32" height="32" mask={mask ?? (status ? "url(#user)" : undefined)}>
                 {
                     <img src={iconURL}
                         draggable={false} />
