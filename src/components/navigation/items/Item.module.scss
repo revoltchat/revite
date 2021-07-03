@@ -22,10 +22,6 @@
 
     &.compact {
         height: 32px;
-
-        &[data-mobile="true"] { // TOFIX: make sure this works on mobile 
-            height: 50px;
-        }
     }
 
     &.user {
@@ -148,3 +144,18 @@
         background: var(--error);
     }
 }
+
+@media (pointer: coarse) {
+    .item {
+        height: 55px;
+
+        &.compact {
+            height: 50px;
+
+            div > svg {
+                height: 22px;
+                width: 22px;
+            }
+        }
+    }
+  }
