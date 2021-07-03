@@ -14,15 +14,18 @@
     padding: 0 10px 10px 10px;
     user-select: none;
     overflow-y: scroll;
+    
+    summary {
+        position: sticky;
+        z-index: 10;
+        top: -1px;
+    }
 
     .overline {
         display: flex;
-        position: sticky;
         align-items: center;
-        top: 0;
         background: var(--primary-background);
         padding: 5px 0;
-        z-index: 10;
         cursor: pointer;
 
         .title {
