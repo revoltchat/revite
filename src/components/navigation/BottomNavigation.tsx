@@ -43,21 +43,21 @@ export function BottomNavigation({ lastOpened }: Props) {
     const settingsActive = path.startsWith("/settings");
     const homeActive = !(friendsActive || settingsActive);
 
-    // console.info(channel_id);
-
     return (
         <NavigationBase>
             <Button active={homeActive}>
                 <IconButton
                     onClick={() => {
-                        if (!homeActive) {
-                            if (settingsActive) {
-                                if (history.length > 0) {
-                                    history.goBack();
-                                } else {
-                                    history.push('/');
-                                }
+                        if (settingsActive) {
+                            if (history.length > 0) {
+                                history.goBack();
                             }
+                        }
+                        
+                        if (channel_id) {
+                            history.push(`/channel/${channel_id}`);
+                        } else {
+                            history.push('/');
                         }
                     }}>
                     <Message size={24} />
