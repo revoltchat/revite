@@ -68,7 +68,8 @@ export function InputModal({
 }
 
 type SpecialProps = { onClose: () => void } & (
-    { type: "create_group" | "create_server" | "set_custom_status" | "add_friend" }
+    { type: "create_group" | "create_server" | "set_custom_status" | "add_friend" } |
+    { type: "create_role", server: string, callback: (id: string) => void }
 )
 
 export function SpecialInputModal(props: SpecialProps) {
@@ -109,6 +110,17 @@ export function SpecialInputModal(props: SpecialProps) {
                     );
 
                     history.push(`/server/${server._id}`);
+                }}
+            />;
+        }
+        case "create_role": {
+            return <InputModal
+                onClose={onClose}
+                question={<Text id="app.settings.permissions.create_role" />}
+                field={<Text id="app.settings.permissions.role_name" />}
+                callback={async name => {
+                    const role = await client.servers.createRole(props.server, name);
+                    props.callback(role.id);
                 }}
             />;
         }

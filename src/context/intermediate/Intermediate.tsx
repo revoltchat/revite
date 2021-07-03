@@ -31,7 +31,8 @@ export type Screen =
     { type: "create_channel", target: Servers.Server }
 )) |
 ({ id: "special_input" } & (
-    { type: "create_group" | "create_server" | "set_custom_status" | "add_friend" }
+    { type: "create_group" | "create_server" | "set_custom_status" | "add_friend" } |
+    { type: "create_role", server: string, callback: (id: string) => void }
 ))
 | {
       id: "_input";

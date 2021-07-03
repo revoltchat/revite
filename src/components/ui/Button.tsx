@@ -61,6 +61,7 @@ export default styled.button<Props>`
 
             &:hover {
                 filter: brightness(1.2);
+                background: var(--error);
             }
 
             &:disabled {
