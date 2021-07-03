@@ -62,7 +62,7 @@ export function GenericSettings({ pages, switchPage, category, custom, children,
                     content={
                         isTouchscreenDevice
                             ? theme["primary-header"]
-                            : theme["background"]
+                            : theme["secondary-background"]
                     }
                 />
             </Helmet>

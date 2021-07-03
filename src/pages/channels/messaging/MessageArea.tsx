@@ -94,16 +94,6 @@ export function MessageArea({ id }: Props) {
                 setScrollState({ type: "Free" });
             }
         });
-
-        /*if (v.type === 'StayAtBottom') {
-            if (scrollState.current.type === 'Bottom' || atBottom()) {
-                scrollState.current = { type: 'ScrollToBottom', smooth: v.smooth };
-            } else {
-                scrollState.current = { type: 'Free' };
-            }
-        } else {
-            scrollState.current = v;
-        }*/
     }
 
     // ? Determine if we are at the bottom of the scroll container.
@@ -152,40 +142,6 @@ export function MessageArea({ id }: Props) {
                 break;
         }
     }, [ status, state ]);
-
-    // ? Scroll to the bottom before the browser paints.
-    useLayoutEffect(() => {
-        // ! FIXME: NO REACTIVITY
-        if (scrollState.current.type === "ScrollToBottom") {
-            setScrollState({ type: "Bottom", scrollingUntil: + new Date() + 150 });
-            
-            animateScroll.scrollToBottom({
-                container: ref.current,
-                duration: scrollState.current.smooth ? 150 : 0
-            });
-        } else if (scrollState.current.type === "OffsetTop") {
-            animateScroll.scrollTo(
-                Math.max(
-                    101,
-                    ref.current.scrollTop +
-                        (ref.current.scrollHeight - scrollState.current.previousHeight)
-                ),
-                {
-                    container: ref.current,
-                    duration: 0
-                }
-            );
-
-            setScrollState({ type: "Free" });
-        } else if (scrollState.current.type === "ScrollTop") {
-            animateScroll.scrollTo(scrollState.current.y, {
-                container: ref.current,
-                duration: 0
-            });
-
-            setScrollState({ type: "Free" });
-        }
-    }, [scrollState]);
 
     // ? When the container is scrolled.
     // ? Also handle StayAtBottom

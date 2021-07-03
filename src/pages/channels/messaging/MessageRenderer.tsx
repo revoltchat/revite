@@ -1,5 +1,6 @@
 import { decodeTime } from "ulid";
 import { memo } from "preact/compat";
+import { defer } from "../../../lib/defer";
 import MessageEditor from "./MessageEditor";
 import { Children } from "../../../types/Preact";
 import ConversationStart from "./ConversationStart";
@@ -15,6 +16,7 @@ import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
+import { Users } from "revolt.js/dist/api/objects";
 
 interface Props {
     id: string;
@@ -89,6 +91,12 @@ function MessageRenderer({ id, state, queue }: Props) {
         head = curAuthor !== prevAuthor || Math.abs(btime - atime) >= 420000;
     }
 
+    let blocked = 0;
+    function pushBlocked() {
+        render.push(<span>{ blocked } blocked messages</span>);
+        blocked = 0;
+    }
+
     for (const message of state.messages) {
         if (previous) {
             compare(
@@ -102,21 +110,30 @@ function MessageRenderer({ id, state, queue }: Props) {
         if (message.author === "00000000000000000000000000") {
             render.push(<SystemMessage key={message._id} message={message} attachContext />);
         } else {
-            render.push(
-                <Message message={message}
-                    key={message._id}
-                    head={head}
-                    content={
-                        editing === message._id ?
-                            <MessageEditor message={message} finish={stopEditing} />
-                            : undefined
-                    }
-                    attachContext />
-            );
+            // ! FIXME: temp solution
+            if (client.users.get(message.author)?.relationship === Users.Relationship.Blocked) {
+                blocked++;
+            } else {
+                if (blocked > 0) pushBlocked();
+
+                render.push(
+                    <Message message={message}
+                        key={message._id}
+                        head={head}
+                        content={
+                            editing === message._id ?
+                                <MessageEditor message={message} finish={stopEditing} />
+                                : undefined
+                        }
+                        attachContext />
+                );
+            }
         }
 
         previous = message;
     }
+    
+    if (blocked > 0) pushBlocked();
 
     const nonces = state.messages.map(x => x.nonce);
     if (state.atBottom) {
