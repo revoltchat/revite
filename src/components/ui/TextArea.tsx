@@ -1,7 +1,3 @@
-// import classNames from "classnames";
-// import { memo } from "preact/compat";
-// import styles from "./TextArea.module.scss";
-// import { useState, useEffect, useRef, useLayoutEffect } from "preact/hooks";
 import styled, { css } from "styled-components";
 
 export interface TextAreaProps {
