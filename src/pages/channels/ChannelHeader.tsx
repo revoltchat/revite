@@ -11,6 +11,7 @@ import { At, Hash } from "@styled-icons/boxicons-regular";
 import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { useStatusColour } from "../../components/common/user/UserIcon";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 export interface ChannelHeaderProps {
     channel: Channel,
@@ -25,14 +26,14 @@ const Info = styled.div`
 
     display: flex;
     gap: 8px;
-    align-items: baseline;
+    align-items: center;
 
     * {
         display: inline-block;
     }
 
     .divider {
-        height: 14px;
+        height: 20px;
         margin: 0 5px;
         padding-left: 1px;
         background-color: var(--tertiary-background);
@@ -48,6 +49,7 @@ const Info = styled.div`
 
     .desc {
         cursor: pointer;
+        margin-top: 2px;
         font-size: 0.8em;
         font-weight: 400;
         color: var(--secondary-foreground);
@@ -82,7 +84,7 @@ export default function ChannelHeader({ channel, toggleSidebar }: ChannelHeaderP
             { icon }
             <Info>
                 <span className="name">{ name }</span>
-                {channel.channel_type === "DirectMessage" && (
+                {isTouchscreenDevice && channel.channel_type === "DirectMessage" && (
                     <>
                         <div className="divider" />
                         <span className="desc">
@@ -91,7 +93,7 @@ export default function ChannelHeader({ channel, toggleSidebar }: ChannelHeaderP
                         </span>
                     </>
                 )}
-                {(channel.channel_type === "Group" || channel.channel_type === "TextChannel") && channel.description && (
+                {!isTouchscreenDevice && (channel.channel_type === "Group" || channel.channel_type === "TextChannel") && channel.description && (
                     <>
                         <div className="divider" />
                         <span
@@ -102,6 +104,7 @@ export default function ChannelHeader({ channel, toggleSidebar }: ChannelHeaderP
                                     channel_id: channel._id
                                 })
                             }>
+                                
                             <Markdown content={channel.description.split("\n")[0] ?? ""} disallowBigEmoji />
                         </span>
                     </>
