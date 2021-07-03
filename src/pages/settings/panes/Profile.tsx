@@ -8,6 +8,7 @@ import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { useForceUpdate, useSelf } from "../../../context/revoltjs/hooks";
 import { UserProfile } from "../../../context/intermediate/popovers/UserProfile";
 import { ClientStatus, StatusContext } from "../../../context/revoltjs/RevoltClient";
+import AutoComplete, { useAutoComplete } from "../../../components/common/AutoComplete";
 
 export function Profile() {
     const { intl } = useContext(IntlContext) as any;
@@ -36,6 +37,15 @@ export function Profile() {
     }, [status]);
 
     const [ changed, setChanged ] = useState(false);
+    function setContent(content?: string) {
+        setProfile({ ...profile, content })
+        if (!changed) setChanged(true)
+    }
+
+    const { onChange, onKeyUp, onKeyDown, onFocus, onBlur, ...autoCompleteProps } =
+        useAutoComplete(setContent, {
+            users: { type: 'all' }
+        });
 
     return (
         <div className={styles.user}>
@@ -93,6 +103,7 @@ export function Profile() {
             <h3>
                 <Text id="app.settings.pages.profile.info" />
             </h3>
+            <AutoComplete detached {...autoCompleteProps} />
             <TextAreaAutoSize
                 maxRows={10}
                 minHeight={200}
@@ -100,8 +111,8 @@ export function Profile() {
                 value={profile?.content ?? ""}
                 disabled={typeof profile === "undefined"}
                 onChange={ev => {
-                    setProfile({ ...profile, content: ev.currentTarget.value })
-                    if (!changed) setChanged(true)
+                    onChange(ev);
+                    setContent(ev.currentTarget.value)
                 }}
                 placeholder={translate(
                     `app.settings.pages.profile.${
@@ -112,6 +123,10 @@ export function Profile() {
                     "",
                     intl.dictionary
                 )}
+                onKeyUp={onKeyUp}
+                onKeyDown={onKeyDown}
+                onFocus={onFocus}
+                onBlur={onBlur}
             />
             <p>
                 <Button contrast
