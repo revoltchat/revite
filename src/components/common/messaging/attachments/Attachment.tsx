@@ -40,6 +40,8 @@ export default function Attachment({ attachment, hasContent }: Props) {
                     <img
                         src={url}
                         alt={filename}
+                        width={metadata.width}
+                        height={metadata.height}
                         data-spoiler={spoiler}
                         data-has-content={hasContent}
                         className={classNames(styles.attachment, styles.image)}
