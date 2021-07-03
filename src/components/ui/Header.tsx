@@ -7,19 +7,15 @@ interface Props {
 }
 
 export default styled.div<Props>`
-    height: 56px;
+    display: flex;
+    height: 48px;
     font-weight: 600;
+    align-items: center;
     user-select: none;
-
-    display: flex;
-    align-items: center;
-
-    gap: 10px;
+    gap: 6px;
     flex: 0 auto;
-    display: flex;
-    padding: 0 20px;
+    padding: 0 16px;
     flex-shrink: 0;
-    align-items: center;
 
     background-color: var(--primary-header);
     background-size: cover !important;
@@ -29,8 +25,12 @@ export default styled.div<Props>`
         flex-shrink: 0;
     }
 
-    @media only screen and (max-width: 768px) {
+    /*@media only screen and (max-width: 768px) {
         padding: 0 12px;
+    }*/
+
+    @media (pointer: coarse) {
+        height: 56px;
     }
     
 
@@ -45,7 +45,6 @@ export default styled.div<Props>`
     ` }
 
     ${ props => props.borders && css`
-        border-start-start-radius: 8px;
-        border-end-start-radius: 8px;
+        /*border-start-start-radius: 8px;*/
     ` }
 `;
