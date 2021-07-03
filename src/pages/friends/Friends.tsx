@@ -10,8 +10,8 @@ import { User, Users } from "revolt.js/dist/api/objects";
 import UserIcon from "../../components/common/user/UserIcon";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-import { ChevronDown, ChevronRight } from "@styled-icons/boxicons-regular";
-import { UserDetail, Conversation, UserPlus } from "@styled-icons/boxicons-solid";
+import { ChevronDown, ChevronRight, ListPlus } from "@styled-icons/boxicons-regular";
+import { UserDetail, MessageAdd, UserPlus } from "@styled-icons/boxicons-solid";
 import { TextReact } from "../../lib/i18n";
 import { Children } from "../../types/Preact";
 
@@ -53,24 +53,32 @@ export default function Friends() {
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />
                 </div>
-                <Tooltip content={"Create Group"} placement="bottom">
-                    <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_group' })}>
-                        <Conversation size={24} />
-                    </IconButton>
-                </Tooltip>
-                <Tooltip content={"Add Friend"} placement="bottom">
-                    <IconButton onClick={() => openScreen({ id: 'special_input', type: 'add_friend' })}>
-                        <UserPlus size={24} />
-                    </IconButton>
-                </Tooltip>
-                {/* 
-                <div className={styles.divider} />
-                <Tooltip content={"Friend Activity"} placement="bottom">
-                    <IconButton>
-                        <TennisBall size={24} />
-                    </IconButton>            
-                </Tooltip>
-                */}
+                <div className={styles.actions}>
+                    {/*<Tooltip content={"Create Category"} placement="bottom">
+                        <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_group' })}>
+                            <ListPlus size={24} />
+                        </IconButton>
+                    </Tooltip>
+                    <div className={styles.divider} />*/}
+                    <Tooltip content={"Create Group"} placement="bottom">
+                        <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_group' })}>
+                            <MessageAdd size={24} />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip content={"Add Friend"} placement="bottom">
+                        <IconButton onClick={() => openScreen({ id: 'special_input', type: 'add_friend' })}>
+                            <UserPlus size={27} />
+                        </IconButton>
+                    </Tooltip>
+                    {/* 
+                    <div className={styles.divider} />
+                    <Tooltip content={"Friend Activity"} placement="bottom">
+                        <IconButton>
+                            <TennisBall size={24} />
+                        </IconButton>            
+                    </Tooltip>
+                    */}
+                </div>
             </Header>
             <div className={styles.list} data-empty={isEmpty}>
                 {isEmpty && (

@@ -7,7 +7,8 @@ import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import UpdateIndicator from "../../../components/common/UpdateIndicator";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { VoiceContext, VoiceOperationsContext, VoiceStatus } from "../../../context/Voice";
-import { UserPlus, Cog, Sidebar as SidebarIcon, PhoneCall, PhoneOutgoing } from "@styled-icons/boxicons-regular";
+import { UserPlus, Cog, PhoneCall, PhoneOutgoing } from "@styled-icons/boxicons-solid";
+import { Sidebar as SidebarIcon } from "@styled-icons/boxicons-regular";
 
 export default function HeaderActions({ channel, toggleSidebar }: ChannelHeaderProps) {
     const { openScreen } = useIntermediate();
@@ -29,10 +30,10 @@ export default function HeaderActions({ channel, toggleSidebar }: ChannelHeaderP
                                 }
                             }
                         })}>
-                        <UserPlus size={22} />
+                        <UserPlus size={27} />
                     </IconButton>
                     <IconButton onClick={() => history.push(`/channel/${channel._id}/settings`)}>
-                        <Cog size={22} />
+                        <Cog size={24} />
                     </IconButton>
                 </>
             ) }
@@ -66,14 +67,14 @@ function VoiceActions({ channel }: Pick<ChannelHeaderProps, 'channel'>) {
                     disconnect();
                     connect(channel._id);
                 }}>
-                    <PhoneCall size={22} />
+                    <PhoneCall size={24} />
                 </IconButton>
             )
         }
     } else {
         return (
             <IconButton>
-                <PhoneCall size={22} /** ! FIXME: TEMP */ color="red" />
+                <PhoneCall size={24} /** ! FIXME: TEMP */ color="red" />
             </IconButton>
         )
     }
