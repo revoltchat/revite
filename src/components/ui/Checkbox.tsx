@@ -31,6 +31,15 @@ const CheckboxBase = styled.label`
             background: var(--background);
         }
     }
+
+    &[disabled] {
+        opacity: 0.5;
+        cursor: unset;
+
+        &:hover {
+            background: unset;
+        }
+    }
 `;
 
 const CheckboxContent = styled.span`
@@ -52,6 +61,7 @@ const Checkmark = styled.div<{ checked: boolean }>`
     width: 24px;
     height: 24px;
     display: grid;
+    flex-shrink: 0;
     border-radius: 4px;
     place-items: center;
     transition: 0.2s ease all;
