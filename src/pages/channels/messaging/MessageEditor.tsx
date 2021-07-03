@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { IntermediateContext, useIntermediate } from "../../../context/intermediate/Intermediate";
+import AutoComplete, { useAutoComplete } from "../../../components/common/AutoComplete";
 
 const EditorBase = styled.div`
     display: flex;
@@ -13,6 +14,7 @@ const EditorBase = styled.div`
     textarea {
         resize: none;
         padding: 12px;
+        font-size: .875rem;
         border-radius: 3px;
         white-space: pre-wrap;
         background: var(--secondary-header);
@@ -70,16 +72,27 @@ export default function MessageEditor({ message, finish }: Props) {
         return () => document.body.removeEventListener("keyup", keyUp);
     }, [focusTaken]);
 
+    const { onChange, onKeyUp, onKeyDown, onFocus, onBlur, ...autoCompleteProps } =
+        useAutoComplete(v => setContent(v ?? ''), {
+            users: { type: 'all' }
+        });
+
     return (
         <EditorBase>
+            <AutoComplete detached {...autoCompleteProps} />
             <TextAreaAutoSize
                 forceFocus
                 maxRows={3}
                 padding={12}
                 value={content}
                 maxLength={2000}
-                onChange={ev => setContent(ev.currentTarget.value)}
+                onChange={ev => {
+                    onChange(ev);
+                    setContent(ev.currentTarget.value)
+                }}
                 onKeyDown={e => {
+                    if (onKeyDown(e)) return;
+
                     if (
                         !e.shiftKey &&
                         e.key === "Enter" &&
@@ -89,6 +102,9 @@ export default function MessageEditor({ message, finish }: Props) {
                         save();
                     }
                 }}
+                onKeyUp={onKeyUp}
+                onFocus={onFocus}
+                onBlur={onBlur}
             />
             <span className="caption">
                 escape to <a onClick={finish}>cancel</a> &middot;
