@@ -1,15 +1,17 @@
 import { Text } from "preact-i18n";
-import { useEffect } from "preact/hooks";
+import { Helmet } from "react-helmet";
 import styles from "./Settings.module.scss";
 import { Children } from "../../types/Preact";
 import Header from '../../components/ui/Header';
+import { ThemeContext } from "../../context/Theme";
 import Category from '../../components/ui/Category';
+import { useContext, useEffect } from "preact/hooks";
 import IconButton from "../../components/ui/IconButton";
 import LineDivider from "../../components/ui/LineDivider";
-import { ArrowBack, X, XCircle } from "@styled-icons/boxicons-regular";
 import { Switch, useHistory, useParams } from "react-router-dom";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import ButtonItem from "../../components/navigation/items/ButtonItem";
+import { ArrowBack, X, XCircle } from "@styled-icons/boxicons-regular";
 
 interface Props {
     pages: {
@@ -30,6 +32,7 @@ interface Props {
 
 export function GenericSettings({ pages, switchPage, category, custom, children, defaultPage, showExitButton }: Props) {
     const history = useHistory();
+    const theme = useContext(ThemeContext);
     const { page } = useParams<{ page: string; }>();
 
     function exitSettings() {
@@ -53,6 +56,16 @@ export function GenericSettings({ pages, switchPage, category, custom, children,
 
     return (
         <div className={styles.settings} data-mobile={isTouchscreenDevice}>
+            <Helmet>
+                <meta
+                    name="theme-color"
+                    content={
+                        isTouchscreenDevice
+                            ? theme["primary-header"]
+                            : theme["background"]
+                    }
+                />
+            </Helmet>
             {isTouchscreenDevice && (
                 <Header placement="primary">
                     {typeof page === "undefined" ? (

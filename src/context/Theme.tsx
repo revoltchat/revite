@@ -134,7 +134,7 @@ function Theme(props: Props) {
                     content={
                         isTouchscreenDevice
                             ? theme["primary-header"]
-                            : theme["tertiary-background"]
+                            : theme["background"]
                     }
                 />
             </Helmet>
