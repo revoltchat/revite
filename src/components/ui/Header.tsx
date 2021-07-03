@@ -7,19 +7,19 @@ interface Props {
 }
 
 export default styled.div<Props>`
-    display: flex;
-    height: 48px;
-    font-weight: 600;
-    align-items: center;
-    user-select: none;
     gap: 6px;
+    height: 48px;
     flex: 0 auto;
-    padding: 0 16px;
+    display: flex;
     flex-shrink: 0;
+    padding: 0 16px;
+    font-weight: 600;
+    user-select: none;
+    align-items: center;
 
-    background-color: var(--primary-header);
     background-size: cover !important;
     background-position: center !important;
+    background-color: var(--primary-header);
 
     svg {
         flex-shrink: 0;
@@ -33,10 +33,11 @@ export default styled.div<Props>`
         height: 56px;
     }
     
-
     ${ props => props.background && css`
-        height: 120px;
+        height: 120px !important;
         align-items: flex-end;
+
+        text-shadow: 0px 0px 1px black;
     ` }
 
     ${ props => props.placement === 'secondary' && css`
@@ -44,7 +45,7 @@ export default styled.div<Props>`
         padding: 14px;
     ` }
 
-    ${ props => props.borders && css`
-        /*border-start-start-radius: 8px;*/
+    ${ props => props.borders && css`    
+        border-end-start-radius: 8px;
     ` }
 `;

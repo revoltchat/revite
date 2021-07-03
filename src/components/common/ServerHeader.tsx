@@ -24,7 +24,7 @@ export default function ServerHeader({ server, ctx }: Props) {
         <Header borders
             placement="secondary"
             background={typeof bannerURL !== 'undefined'}
-            style={{ background: bannerURL ? `linear-gradient(to bottom, transparent 50%, #000e), url('${bannerURL}')` : undefined }}>
+            style={{ background: bannerURL ? `url('${bannerURL}')` : undefined }}>
             <ServerName>
                 { server.name }
             </ServerName>
