@@ -4,7 +4,7 @@ import { Channels } from "revolt.js/dist/api/objects";
 import { emojiDictionary } from "../../assets/emojis";
 import { SYSTEM_USER_ID, User } from "revolt.js";
 import UserIcon from "./user/UserIcon";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Emoji from "./Emoji";
 import ChannelIcon from "./ChannelIcon";
 
@@ -31,6 +31,7 @@ export type SearchClues = {
 };
 
 export type AutoCompleteProps = {
+    detached?: boolean,
     state: AutoCompleteState,
     setState: StateUpdater<AutoCompleteState>,
 
@@ -314,7 +315,7 @@ export function useAutoComplete(setValue: (v?: string) => void, searchClues?: Se
     }
 }
 
-const Base = styled.div`
+const Base = styled.div<{ detached?: boolean }>`
     position: relative;
 
     > div {
@@ -348,11 +349,19 @@ const Base = styled.div`
             background: var(--primary-background);
         }
     }
+
+    ${ props => props.detached && css`
+        bottom: 8px;
+
+        > div {
+            border-radius: 4px;
+        }
+    ` }
 `;
 
-export default function AutoComplete({ state, setState, onClick }: Pick<AutoCompleteProps, 'state' | 'setState' | 'onClick'>) {
+export default function AutoComplete({ detached, state, setState, onClick }: Pick<AutoCompleteProps, 'detached' | 'state' | 'setState' | 'onClick'>) {
     return (
-        <Base>
+        <Base detached={detached}>
             <div>
                 {state.type === "emoji" &&
                     state.matches.map((match, i) => (
