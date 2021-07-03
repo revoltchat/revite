@@ -41,7 +41,7 @@ export default function App() {
     return (
         <OverlappingPanels
             width="100vw"
-            height="100vh"
+            height="var(--app-height)"
             leftPanel={inSpecial ? undefined : { width: 292, component: <LeftSidebar /> }}
             rightPanel={(!inSettings && inChannel) ? { width: 240, component: <RightSidebar /> } : undefined}
             bottomNav={{

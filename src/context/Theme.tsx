@@ -2,6 +2,7 @@ import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 import { createGlobalStyle } from "styled-components";
 import { connectState } from "../redux/connector";
 import { Children } from "../types/Preact";
+import { useEffect } from "preact/hooks";
 import { createContext } from "preact";
 import { Helmet } from "react-helmet";
 
@@ -125,6 +126,14 @@ function Theme(props: Props) {
         ...(PRESETS as any)[props.options?.preset as any],
         ...props.options?.custom
     };
+
+    useEffect(() => {
+        const resize = () => document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+        resize();
+
+        window.addEventListener('resize', resize);
+        return () => window.removeEventListener('resize', resize);
+    }, []);
 
     return (
         <ThemeContext.Provider value={theme}>

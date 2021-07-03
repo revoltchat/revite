@@ -1,6 +1,7 @@
-import TextArea, { DEFAULT_LINE_HEIGHT, DEFAULT_TEXT_AREA_PADDING, TextAreaProps, TEXT_AREA_BORDER_WIDTH } from "../components/ui/TextArea";
 import { useEffect, useRef } from "preact/hooks";
 import { internalSubscribe } from "./eventEmitter";
+import { isTouchscreenDevice } from "./isTouchscreenDevice";
+import TextArea, { DEFAULT_LINE_HEIGHT, DEFAULT_TEXT_AREA_PADDING, TextAreaProps, TEXT_AREA_BORDER_WIDTH } from "../components/ui/TextArea";
 
 type TextAreaAutoSizeProps = Omit<JSX.HTMLAttributes<HTMLTextAreaElement>, 'style' | 'value'> & TextAreaProps & {
     forceFocus?: boolean
@@ -33,6 +34,7 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
             ref.current.focus();
         }
 
+        if (isTouchscreenDevice) return;
         if (autoFocus && !inputSelected()) {
             ref.current.focus();
         }
