@@ -1,8 +1,10 @@
 import { decodeTime } from "ulid";
 import { memo } from "preact/compat";
-import { defer } from "../../../lib/defer";
+import styled from "styled-components";
 import MessageEditor from "./MessageEditor";
 import { Children } from "../../../types/Preact";
+import { Users } from "revolt.js/dist/api/objects";
+import { X } from "@styled-icons/boxicons-regular";
 import ConversationStart from "./ConversationStart";
 import { connectState } from "../../../redux/connector";
 import Preloader from "../../../components/ui/Preloader";
@@ -16,13 +18,23 @@ import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
-import { Users } from "revolt.js/dist/api/objects";
 
 interface Props {
     id: string;
     state: RenderState;
     queue: QueuedMessage[];
 }
+
+const BlockedMessage = styled.div`
+    font-size: 0.8em;
+    margin-top: 6px;
+    padding: 4px 64px;
+    color: var(--tertiary-foreground);
+
+    &:hover {
+        background: var(--hover);
+    }
+`;
 
 function MessageRenderer({ id, state, queue }: Props) {
     if (state.type !== 'RENDER') return null;
@@ -86,6 +98,7 @@ function MessageRenderer({ id, state, queue }: Props) {
             adate.getDate() !== bdate.getDate()
         ) {
             render.push(<DateDivider date={adate} />);
+            head = true;
         }
 
         head = curAuthor !== prevAuthor || Math.abs(btime - atime) >= 420000;
@@ -93,7 +106,7 @@ function MessageRenderer({ id, state, queue }: Props) {
 
     let blocked = 0;
     function pushBlocked() {
-        render.push(<span>{ blocked } blocked messages</span>);
+        render.push(<BlockedMessage><X size={16} /> { blocked } blocked messages</BlockedMessage>);
         blocked = 0;
     }
 
