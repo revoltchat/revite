@@ -100,8 +100,15 @@ const ServerEntry = styled.div<{ active: boolean, home?: boolean }>`
         border-start-start-radius: 50%;
         border-end-start-radius: 50%;
 
+        &:active {
+            transform: translateY(1px);
+        }
+
         ${ props => props.active && css`
             background: var(--sidebar-active);
+            &:active {
+                transform: none;
+            }
         ` }
     }
 
