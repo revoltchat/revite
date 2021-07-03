@@ -116,7 +116,9 @@ export default function Friends() {
                                 <summary>
                                     <Overline className={styles.overline} type="subtle">
                                         <ChevronDown size={20} />
-                                        <Text id={i18n} /> — { list.length }
+                                        <div className={styles.title}>
+                                            <Text id={i18n} /> — { list.length }
+                                        </div>
                                     </Overline>
                                 </summary>
                                 { list.map(x => <Friend key={x._id} user={x} />) }
