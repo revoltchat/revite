@@ -133,7 +133,7 @@ export const MessageContent = styled.div`
     min-width: 0;
     flex-grow: 1;
     display: flex;
-    overflow: hidden;
+    // overflow: hidden;
     font-size: .875rem;
     flex-direction: column;
     justify-content: center;
