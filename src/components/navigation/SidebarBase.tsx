@@ -16,6 +16,7 @@ export const GenericSidebarBase = styled.div<{ padding?: boolean }>`
     flex-shrink: 0;
     flex-direction: column;
     background: var(--secondary-background);
+    border-end-start-radius: 8px;
 
     ${ props => props.padding && isTouchscreenDevice && css`
         padding-bottom: 50px;
