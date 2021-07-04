@@ -23,11 +23,11 @@ type Props = WithDispatcher & {
 
 var lastValues: { [key in SyncKeys]?: any } = { };
 
-export function mapSync(packet: Sync.UserSettings, revision?: { [key: string]: number }) {
+export function mapSync(packet: Sync.UserSettings, revision?: Record<string, number>) {
     let update: { [key in SyncKeys]?: [ number, SyncData[key] ] } = {};
     for (let key of Object.keys(packet)) {
         let [ timestamp, obj ] = packet[key];
-        if (timestamp < (revision ?? {} as any)[key] ?? 0) {
+        if (timestamp < (revision ?? {})[key] ?? 0) {
             continue;
         }
 

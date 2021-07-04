@@ -30,7 +30,8 @@ export type Variables =
     | "status-away"
     | "status-busy"
     | "status-streaming"
-    | "status-invisible";
+    | "status-invisible"
+    | "sidebar-active";
 
 export type Theme = {
     [variable in Variables]: string;
@@ -45,7 +46,7 @@ export interface ThemeOptions {
 }
 
 // Generated from https://gitlab.insrt.uk/revolt/community/themes
-export const PRESETS: { [key: string]: Theme } = {
+export const PRESETS: Record<string, Theme> = {
     light: {
         light: true,
         accent: "#FD6671",
@@ -72,6 +73,7 @@ export const PRESETS: { [key: string]: Theme } = {
         "status-busy": "#F84848",
         "status-streaming": "#977EFF",
         "status-invisible": "#A5A5A5",
+        "sidebar-active": "var(--secondary-background)"
     },
     dark: {
         light: false,
@@ -99,6 +101,7 @@ export const PRESETS: { [key: string]: Theme } = {
         "status-busy": "#F84848",
         "status-streaming": "#977EFF",
         "status-invisible": "#A5A5A5",
+        "sidebar-active": "var(--secondary-background)"
     },
 };
 
@@ -113,7 +116,8 @@ const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 }
 `;
 
-export const ThemeContext = createContext<Theme>({} as any);
+// Load the default default them and apply extras later
+export const ThemeContext = createContext<Theme>(PRESETS['dark']);
 
 interface Props {
     children: Children;
@@ -123,7 +127,7 @@ interface Props {
 function Theme(props: Props) {
     const theme: Theme = {
         ...PRESETS["dark"],
-        ...(PRESETS as any)[props.options?.preset as any],
+        ...PRESETS[props.options?.preset ?? ''],
         ...props.options?.custom
     };
 

@@ -78,11 +78,11 @@ export function Component({ options, dispatcher }: Props & WithDispatcher) {
 
                                 // tell the server we just subscribed
                                 const json = sub.toJSON();
-                                if (json.keys) {
+                                if (json.keys) {;
                                     client.req("POST", "/push/subscribe", {
                                         endpoint: sub.endpoint,
-                                        ...json.keys
-                                    } as any);
+                                        ...(json.keys as { p256dh: string, auth: string })
+                                    });
                                     setPushEnabled(true);
                                 }
                             } else {

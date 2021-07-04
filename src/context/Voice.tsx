@@ -33,8 +33,10 @@ export interface VoiceState {
     participants?: Readonly<Map<string, VoiceUser>>;
 }
 
-export const VoiceContext = createContext<VoiceState>(undefined as any);
-export const VoiceOperationsContext = createContext<VoiceOperations>(undefined as any);
+// [bree] TODO: I feel like these should be typechecked anyways but whatever,
+// I'm asserting that they aren't null because they get used near immedietly from what I can tell
+export const VoiceContext = createContext<VoiceState>(null!);
+export const VoiceOperationsContext = createContext<VoiceOperations>(null!);
 
 type Props = {
     children: Children;

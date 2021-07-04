@@ -55,12 +55,8 @@ export function GroupMemberSidebar({ channel, ctx }: Props & { channel: Channels
 
     members.sort((a, b) => {
         // ! FIXME: should probably rewrite all this code
-        let l = ((a.online &&
-            a.status?.presence !== Users.Presence.Invisible) ??
-            false) as any | 0;
-        let r = ((b.online &&
-            b.status?.presence !== Users.Presence.Invisible) ??
-            false) as any | 0;
+        let l = +((a.online && a.status?.presence !== Users.Presence.Invisible) ?? false) | 0;
+        let r = +((b.online && b.status?.presence !== Users.Presence.Invisible) ?? false) | 0;
 
         let n = r - l;
         if (n !== 0) {
@@ -159,12 +155,8 @@ export function ServerMemberSidebar({ channel, ctx }: Props & { channel: Channel
     // copy paste from above
     users.sort((a, b) => {
         // ! FIXME: should probably rewrite all this code
-        let l = ((a.online &&
-            a.status?.presence !== Users.Presence.Invisible) ??
-            false) as any | 0;
-        let r = ((b.online &&
-            b.status?.presence !== Users.Presence.Invisible) ??
-            false) as any | 0;
+        let l = +((a.online && a.status?.presence !== Users.Presence.Invisible) ?? false) | 0;
+        let r = +((b.online && b.status?.presence !== Users.Presence.Invisible) ?? false) | 0;
 
         let n = r - l;
         if (n !== 0) {
