@@ -57,7 +57,7 @@ export default function Friends() {
                 <div className={styles.actions}>
                     {/*<Tooltip content={"Create Category"} placement="bottom">
                         <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_group' })}>
-                            <ListPlus size={24} />
+                            <ListPlus size={28} />
                         </IconButton>
                     </Tooltip>
                     <div className={styles.divider} />*/}
