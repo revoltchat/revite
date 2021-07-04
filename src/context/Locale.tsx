@@ -127,7 +127,7 @@ function Locale({ children, locale }: Props) {
 
     function transformLanguage(obj: { [key: string]: any }) {
         const dayjs = obj.dayjs;
-        const defaults = dayjs.defaults;
+        const defaults = dayjs?.defaults;
 
         const twelvehour = defaults?.twelvehour === 'yes' || true;
         const separator: '/' | '-' | '.' = defaults?.date_separator ?? '/';
