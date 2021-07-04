@@ -10,22 +10,19 @@ import {
     Bell,
     Palette,
     Coffee,
-    Globe,
     IdCard,
-    LogOut,
-    Sync as SyncIcon,
-    Shield,
-    Vial,
-    User
-} from "@styled-icons/boxicons-regular";
-import { Brush, Megaphone } from "@styled-icons/boxicons-solid";
+    CheckShield,
+    Flask,
+    User,
+    Megaphone
+} from "@styled-icons/boxicons-solid";
+import { Sync as SyncIcon, Globe, LogOut } from "@styled-icons/boxicons-regular";
 import { Gitlab } from "@styled-icons/boxicons-logos";
 import { GIT_BRANCH, GIT_REVISION, REPO_URL } from "../../revision";
 import LineDivider from "../../components/ui/LineDivider";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { AppContext, OperationsContext } from "../../context/revoltjs/RevoltClient";
-
 import { Account } from "./panes/Account";
 import { Profile } from "./panes/Profile";
 import { Sessions } from "./panes/Sessions";
@@ -64,7 +61,7 @@ export default function Settings() {
                 },
                 {
                     id: 'sessions',
-                    icon: <Shield size={20} />,
+                    icon: <CheckShield size={20} />,
                     title: <Text id="app.settings.pages.sessions.title" />
                 },
                 {
@@ -91,7 +88,7 @@ export default function Settings() {
                 {
                     divider: true,
                     id: 'experiments',
-                    icon: <Vial size={20} />,
+                    icon: <Flask size={20} />,
                     title: <Text id="app.settings.pages.experiments.title" />
                 },
                 {
