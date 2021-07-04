@@ -43,7 +43,6 @@ export enum Language {
     PIRATE = "pr",
     BOTTOM = "bottom",
     PIGLATIN = "piglatin",
-    HARDCORE = "hardcore",
 }
 
 export interface LanguageEntry {
@@ -107,13 +106,6 @@ export const Languages: { [key in Language]: LanguageEntry } = {
         dayjs: "en-gb",
         alt: true
     },
-    hardcore: {
-        display: "Hardcore Mode",
-        emoji: "🔥",
-        i18n: "hardcore",
-        dayjs: "en-gb",
-        alt: true
-    },
 };
 
 interface Props {
@@ -125,9 +117,11 @@ function Locale({ children, locale }: Props) {
     const [defns, setDefinition] = useState(definition);
     const lang = Languages[locale];
 
-    function transformLanguage(obj: { [key: string]: any }) {
+    function transformLanguage(source: { [key: string]: any }) {
+        const obj = defaultsDeep(source, definition);
+
         const dayjs = obj.dayjs;
-        const defaults = dayjs?.defaults;
+        const defaults = dayjs.defaults;
 
         const twelvehour = defaults?.twelvehour === 'yes' || true;
         const separator: '/' | '-' | '.' = defaults?.date_separator ?? '/';
@@ -149,10 +143,10 @@ function Locale({ children, locale }: Props) {
 
     useEffect(() => {
         if (locale === "en") {
-            transformLanguage(definition);
-            setDefinition(definition);
+            const defn = transformLanguage(definition);
+            setDefinition(defn);
             dayjs.locale("en");
-            dayjs.updateLocale('en', { calendar: definition.dayjs });
+            dayjs.updateLocale('en', { calendar: defn.dayjs });
             return;
         }
 
@@ -164,8 +158,7 @@ function Locale({ children, locale }: Props) {
 
         import(`../../external/lang/${lang.i18n}.json`).then(
             async (lang_file) => {
-                const defn = lang_file.default;
-                transformLanguage(defn);
+                const defn = transformLanguage(lang_file.default);
                 const target = lang.dayjs ?? lang.i18n;
                 const dayjs_locale = await import(`../../node_modules/dayjs/esm/locale/${target}.js`);
 
@@ -174,7 +167,7 @@ function Locale({ children, locale }: Props) {
                 }
 
                 dayjs.locale(dayjs_locale.default);
-                setDefinition(defaultsDeep(defn, definition));
+                setDefinition(defn);
             }
         );
     }, [locale, lang]);
