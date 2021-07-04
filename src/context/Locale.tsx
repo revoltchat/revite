@@ -150,12 +150,6 @@ function Locale({ children, locale }: Props) {
             return;
         }
 
-        if (lang.i18n === "hardcore") {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            setDefinition({} as any);
-            return;
-        }
-
         import(`../../external/lang/${lang.i18n}.json`).then(
             async (lang_file) => {
                 const defn = transformLanguage(lang_file.default);
