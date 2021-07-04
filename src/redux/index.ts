@@ -14,6 +14,7 @@ import { QueuedMessage } from "./reducers/queue";
 import { ExperimentOptions } from "./reducers/experiments";
 import { LastOpened } from "./reducers/last_opened";
 import { Notifications } from "./reducers/notifications";
+import { SectionToggle } from "./reducers/section_toggle";
 
 export type State = {
     config: Core.RevoltNodeConfiguration,
@@ -28,6 +29,7 @@ export type State = {
     experiments: ExperimentOptions;
     lastOpened: LastOpened;
     notifications: Notifications;
+    sectionToggle: SectionToggle;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -56,7 +58,8 @@ store.subscribe(() => {
         sync,
         experiments,
         lastOpened,
-        notifications
+        notifications,
+        sectionToggle
     } = store.getState() as State;
 
     localForage.setItem("state", {
@@ -70,6 +73,7 @@ store.subscribe(() => {
         sync,
         experiments,
         lastOpened,
-        notifications
+        notifications,
+        sectionToggle
     });
 });

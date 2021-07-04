@@ -31,7 +31,7 @@ const CategoryBase = styled.div<Pick<Props, 'variant'>>`
     ` }
 `;
 
-type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'as'> & {
+type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'as' | 'action'> & {
     text: Children;
     action?: () => void;
     variant?: 'default' | 'uniform';

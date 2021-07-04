@@ -14,30 +14,6 @@
     padding: 0 10px 10px 10px;
     user-select: none;
     overflow-y: scroll;
-    
-    summary {
-        position: sticky;
-        z-index: 10;
-        top: -1px;
-    }
-
-    .overline {
-        display: flex;
-        align-items: center;
-        background: var(--primary-background);
-        padding: 5px 0;
-        cursor: pointer;
-
-        .title {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        
-        svg {
-            margin-inline-end: 4px;
-        }
-    }
 
     &[data-empty="true"] {
         img {

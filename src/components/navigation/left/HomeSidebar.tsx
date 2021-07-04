@@ -1,4 +1,4 @@
-import { Localizer, Text } from "preact-i18n";
+import { Text } from "preact-i18n";
 import { useContext, useEffect } from "preact/hooks";
 import { Home, UserDetail, Wrench, Notepad } from "@styled-icons/boxicons-solid";
 
@@ -105,16 +105,9 @@ function HomeSidebar(props: Props) {
                         </ButtonItem>
                     </Link>
                 )}
-                <Localizer>
-                    <Category
-                        text={
-                            (
-                                <Text id="app.main.categories.conversations" />
-                            ) as any
-                        }
-                        action={() => openScreen({ id: "special_input", type: "create_group" })}
-                    />
-                </Localizer>
+                <Category
+                    text={<Text id="app.main.categories.conversations" />}
+                    action={() => openScreen({ id: "special_input", type: "create_group" })} />
                 {channelsArr.length === 0 && <img src={placeholderSVG} />}
                 {channelsArr.map(x => {
                     let user;
