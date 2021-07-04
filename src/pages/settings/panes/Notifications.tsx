@@ -39,6 +39,7 @@ export function Component({ options, dispatcher }: Props & WithDispatcher) {
             <Checkbox
                 disabled={!("Notification" in window)}
                 checked={options?.desktopEnabled ?? false}
+                description={<Text id="app.settings.pages.notifications.descriptions.enable_desktop" />}
                 onChange={async desktopEnabled => {
                     if (desktopEnabled) {
                         let permission = await Notification.requestPermission();
@@ -57,13 +58,11 @@ export function Component({ options, dispatcher }: Props & WithDispatcher) {
                 }}
             >
                 <Text id="app.settings.pages.notifications.enable_desktop" />
-                <p>
-                    <Text id="app.settings.pages.notifications.descriptions.enable_desktop" />
-                </p>
             </Checkbox>
             <Checkbox
                 disabled={typeof pushEnabled === "undefined"}
                 checked={pushEnabled ?? false}
+                description={<Text id="app.settings.pages.notifications.descriptions.enable_push" />}
                 onChange={async pushEnabled => {
                     try {
                         const reg = await navigator.serviceWorker?.getRegistration();
@@ -99,9 +98,6 @@ export function Component({ options, dispatcher }: Props & WithDispatcher) {
                 }}
             >
                 <Text id="app.settings.pages.notifications.enable_push" />
-                <p>
-                    <Text id="app.settings.pages.notifications.descriptions.enable_push" />
-                </p>
             </Checkbox>
             <h3>
                 <Text id="app.settings.pages.notifications.sounds" />

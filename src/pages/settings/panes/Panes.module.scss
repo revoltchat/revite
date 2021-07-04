@@ -321,30 +321,16 @@
     }
 }
 
-.notifications {
-    label {
-        margin-top: 12px;
-    }
-
-    p {
-        margin-top: 0;
-        font-size: 0.9em;
-        color: var(--secondary-foreground);
-    }
-}
-
 .languages {
     .list {
         margin-bottom: 1em;
         
         .entry {
-            padding: 2px 8px;
             height: 50px;
-            border-radius: 4px;
         }
 
         .entry > span > span {
-            gap: 8px;
+            gap: 20px;
             display: flex;
             align-items: center;
             flex-direction: row;
