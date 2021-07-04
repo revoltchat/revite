@@ -14,6 +14,7 @@ import { ChevronDown, ChevronRight, ListPlus } from "@styled-icons/boxicons-regu
 import { UserDetail, MessageAdd, UserPlus } from "@styled-icons/boxicons-solid";
 import { TextReact } from "../../lib/i18n";
 import { Children } from "../../types/Preact";
+import Details from "../../components/ui/Details";
 
 export default function Friends() {
     const { openScreen } = useIntermediate();
@@ -112,7 +113,7 @@ export default function Friends() {
                         if (list.length === 0) return;
 
                         return (
-                            <details open>
+                            <Details open>
                                 <summary>
                                     <Overline className={styles.overline} type="subtle">
                                         <ChevronDown size={20} />
@@ -122,7 +123,7 @@ export default function Friends() {
                                     </Overline>
                                 </summary>
                                 { list.map(x => <Friend key={x._id} user={x} />) }
-                            </details>
+                            </Details>
                         )
                     })
                 }
