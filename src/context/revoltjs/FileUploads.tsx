@@ -8,7 +8,8 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import Preloader from "../../components/ui/Preloader";
 import { determineFileSize } from "../../lib/fileSize";
 import IconButton from '../../components/ui/IconButton';
-import { Edit, Plus, X, XCircle } from "@styled-icons/boxicons-regular";
+import { Plus, X, XCircle } from "@styled-icons/boxicons-regular";
+import { Pencil } from "@styled-icons/boxicons-solid";
 import { useIntermediate } from "../intermediate/Intermediate";
 
 type Props = {
@@ -190,7 +191,7 @@ export function FileUploader(props: Props) {
                             <Preloader type="ring" />
                         </div> :
                         <div className={styles.edit}>
-                            <Edit size={30} />
+                            <Pencil size={30} />
                         </div> }
                 </div>
                 <div className={styles.modify}>
