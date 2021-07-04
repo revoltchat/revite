@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
 import { Client, PermissionCalculator } from 'revolt.js';
 import { AppContext } from "./RevoltClient";
+import Collection from "revolt.js/dist/maps/Collection";
 
 export interface HookContext {
     client: Client,
@@ -25,7 +26,16 @@ export function useForceUpdate(context?: HookContext): HookContext {
     return { client, forceUpdate: () => updateState(Math.random()) };
 }
 
-function useObject(type: string, id?: string | string[], context?: HookContext) {
+// TODO: utils.d.ts maybe?
+type PickProperties<T, U> = Pick<T, {
+    [K in keyof T]: T[K] extends U ? K : never
+}[keyof T]>
+
+// The keys in Client that are an object
+// for some reason undefined keeps appearing despite there being no reason to so it's filtered out
+type ClientCollectionKey = Exclude<keyof PickProperties<Client, Collection<any>>, undefined>;
+
+function useObject(type: ClientCollectionKey, id?: string | string[], context?: HookContext) {
     const ctx = useForceUpdate(context);
 
     function update(target: any) {
@@ -35,7 +45,7 @@ function useObject(type: string, id?: string | string[], context?: HookContext) 
         }
     }
 
-    const map = (ctx.client as any)[type];
+    const map = ctx.client[type];
     useEffect(() => {
         map.addListener("update", update);
         return () => map.removeListener("update", update);

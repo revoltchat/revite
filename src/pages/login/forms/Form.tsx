@@ -35,6 +35,12 @@ function getInviteCode() {
     return code ?? '';
 }
 
+interface FormInputs {
+    email: string
+    password: string
+    invite: string
+}
+
 export function Form({ page, callback }: Props) {
     const client = useContext(AppContext);
 
@@ -43,7 +49,7 @@ export function Form({ page, callback }: Props) {
     const [error, setGlobalError] = useState<string | undefined>(undefined);
     const [captcha, setCaptcha] = useState<CaptchaProps | undefined>(undefined);
 
-    const { handleSubmit, register, errors, setError } = useForm({
+    const { handleSubmit, register, errors, setError } = useForm<FormInputs>({
         defaultValues: {
             email: '',
             password: '',
@@ -51,11 +57,7 @@ export function Form({ page, callback }: Props) {
         }
     });
 
-    async function onSubmit(data: {
-        email: string;
-        password: string;
-        invite: string;
-    }) {
+    async function onSubmit(data: FormInputs) {
         setGlobalError(undefined);
         setLoading(true);
 
@@ -143,7 +145,8 @@ export function Form({ page, callback }: Props) {
     return (
         <div className={styles.form}>
             <img src={wideSVG} />
-            <form onSubmit={handleSubmit(onSubmit) as any}>
+            {/* Preact / React typing incompatabilities */}
+            <form onSubmit={handleSubmit(onSubmit) as JSX.GenericEventHandler<HTMLFormElement>}>
                 {page !== "reset" && (
                     <FormField
                         type="email"

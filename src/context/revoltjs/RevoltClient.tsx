@@ -34,9 +34,10 @@ export interface ClientOperations {
     openDM: (user_id: string) => Promise<string>;
 }
 
-export const AppContext = createContext<Client>(undefined as any);
-export const StatusContext = createContext<ClientStatus>(undefined as any);
-export const OperationsContext = createContext<ClientOperations>(undefined as any);
+// TODO: remove temporary non-null assertions and properly typecheck these as they aren't always immedietely initialized
+export const AppContext = createContext<Client>(null!);
+export const StatusContext = createContext<ClientStatus>(null!);
+export const OperationsContext = createContext<ClientOperations>(null!);
 
 type Props = WithDispatcher & {
     auth: AuthState;
@@ -93,16 +94,14 @@ function Context({ auth, children, dispatcher }: Props) {
                     const login = () =>
                         dispatcher({
                             type: "LOGIN",
-                            session: client.session as any
+                            session: client.session! // TODO: verify that this null assertion is correct
                         });
 
                     if (onboarding) {
                         openScreen({
                             id: "onboarding",
-                            callback: async (username: string) => {
-                                await (onboarding as any)(username, true);
-                                login();
-                            }
+                            callback: (username: string) =>
+                                onboarding(username, true).then(login)
                         });
                     } else {
                         login();

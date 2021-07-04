@@ -43,8 +43,8 @@ export function grabFiles(maxFileSize: number, cb: (files: File[]) => void, tooL
     input.type = "file";
     input.multiple = multiple ?? false;
 
-    input.onchange = async e => {
-        const files = (e.target as any)?.files;
+    input.onchange = async (e) => {
+        const files = (e.currentTarget as HTMLInputElement)?.files;
         if (!files) return;
         for (let file of files) {
             if (file.size > maxFileSize) {

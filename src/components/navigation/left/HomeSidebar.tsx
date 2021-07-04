@@ -107,11 +107,8 @@ function HomeSidebar(props: Props) {
                 )}
                 <Localizer>
                     <Category
-                        text={
-                            (
-                                <Text id="app.main.categories.conversations" />
-                            ) as any
-                        }
+                        text={<Text id="app.main.categories.conversations" />}
+                        /** @ts-ignore : ignored due to conflicting naming between the Category property name and the existing JSX attribute */
                         action={() => openScreen({ id: "special_input", type: "create_group" })}
                     />
                 </Localizer>

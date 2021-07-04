@@ -122,9 +122,11 @@ interface Props {
 }
 
 function Locale({ children, locale }: Props) {
-    const [defns, setDefinition] = useState(definition);
+    // TODO: create and use LanguageDefinition type here
+    const [defns, setDefinition] = useState<Record<string, unknown>>(definition);
     const lang = Languages[locale];
 
+    // TOOD: clean this up and use the built in Intl API
     function transformLanguage(obj: { [key: string]: any }) {
         const dayjs = obj.dayjs;
         const defaults = dayjs.defaults;
@@ -158,7 +160,7 @@ function Locale({ children, locale }: Props) {
 
         if (lang.i18n === "hardcore") {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            setDefinition({} as any);
+            setDefinition({});
             return;
         }
 
