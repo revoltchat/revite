@@ -2,6 +2,13 @@
     border-radius: 6px;
     margin: .125rem 0 .125rem;
     
+    height: auto;
+    
+    max-height: 640px;
+    max-width: min(480px, 100%);
+    
+    object-fit: contain;
+    
     &[data-spoiler="true"] {
         filter: blur(30px);
         pointer-events: none;
