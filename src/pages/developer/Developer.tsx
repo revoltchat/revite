@@ -4,6 +4,7 @@ import Header from "../../components/ui/Header";
 import PaintCounter from "../../lib/PaintCounter";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 import { useUserPermission } from "../../context/revoltjs/hooks";
+import { Wrench } from "@styled-icons/boxicons-solid";
 
 export default function Developer() {
     // const voice = useContext(VoiceContext);
@@ -12,7 +13,10 @@ export default function Developer() {
 
     return (
         <div>
-            <Header placement="primary">Developer Tab</Header>
+            <Header placement="primary">
+                <Wrench size="24" />
+                Developer Tab
+            </Header>
             <div style={{ padding: "16px" }}>
                 <PaintCounter always />
             </div>
