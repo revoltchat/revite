@@ -1048,6 +1048,18 @@
     eventemitter3 "^4.0.7"
     lodash.isequal "^4.5.0"
 
+"@insertish/vite@2.2.4-crcong-fork":
+  version "2.2.4-crcong-fork"
+  resolved "https://registry.yarnpkg.com/@insertish/vite/-/vite-2.2.4-crcong-fork.tgz#11e9b91478324641e99540c7bdbf2eb8253cb1cd"
+  integrity sha512-CLWK7fXVHDG07ReTZe0do9CeSyycj7GubeDI60Q+FA78BRYj9+fzNKFgHIXn/LaMwHl3pl5zdMEc01nHL1XOQQ==
+  dependencies:
+    esbuild "^0.11.19"
+    postcss "^8.2.1"
+    resolve "^1.19.0"
+    rollup "^2.38.5"
+  optionalDependencies:
+    fsevents "~2.3.1"
+
 "@mdn/browser-compat-data@^2.0.7":
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-2.0.7.tgz#72ec37b9c1e00ce0b4e0309d753be18e2da12ee3"
@@ -2059,6 +2071,11 @@ es-to-primitive@^1.2.1:
     is-callable "^1.1.4"
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
+
+esbuild@^0.11.19:
+  version "0.11.23"
+  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.11.23.tgz#c42534f632e165120671d64db67883634333b4b8"
+  integrity sha512-iaiZZ9vUF5wJV8ob1tl+5aJTrwDczlvGP0JoMmnpC2B0ppiMCu8n8gmy5ZTGl5bcG081XBVn+U+jP+mPFm5T5Q==
 
 esbuild@^0.12.5:
   version "0.12.9"
@@ -3194,7 +3211,7 @@ postcss-value-parser@^4.0.2:
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.1.0.tgz#443f6a20ced6481a2bda4fa8532a6e55d789a2cb"
   integrity sha512-97DXOFbQJhk71ne5/Mt6cOu6yxsSfM0QGQyl0L25Gca4yGWEGJaig7l7gbCX623VqTBNGLRLaVUCnNkcedlRSQ==
 
-postcss@^8.3.0:
+postcss@^8.2.1, postcss@^8.3.0:
   version "8.3.5"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.5.tgz#982216b113412bc20a86289e91eb994952a5b709"
   integrity sha512-NxTuJocUhYGsMiMFHDUkmjSKT3EdH4/WbGF6GCi1NDGk+vbcUTun4fpbOqaPtD8IIsztA2ilZm2DhYCuyN58gA==
