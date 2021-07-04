@@ -23,6 +23,7 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
     const ref = useRef<HTMLTextAreaElement>();
 
     useEffect(() => {
+        if (isTouchscreenDevice) return;
         autoFocus && ref.current.focus();
     }, [value]);
     
