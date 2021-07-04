@@ -71,7 +71,7 @@
             }
     
             pre code {
-                font-family: "Fira Mono", sans-serif;
+                font-family: var(--monoscape-font), sans-serif;
             }
 
             &[data-loading="true"] {

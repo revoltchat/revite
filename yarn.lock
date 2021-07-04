@@ -912,15 +912,90 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/fira-mono@^4.4.5":
+"@fontsource/atkinson-hyperlegible@^4.4.5":
   version "4.4.5"
-  resolved "https://registry.yarnpkg.com/@fontsource/fira-mono/-/fira-mono-4.4.5.tgz#ceac70967cd3c4262195603aba567cd4582493f8"
-  integrity sha512-LWbsPhTr1JRV3zUgvMrOxQDn1BG9F4R0FPeBkqWP8/oqPxvVYAhEepg1DN9M1k6L9sRN2I2HWHBpt4QVbDGXpw==
+  resolved "https://registry.yarnpkg.com/@fontsource/atkinson-hyperlegible/-/atkinson-hyperlegible-4.4.5.tgz#4f2ecf34491d5798ec2a346d7de403d99ca82d39"
+  integrity sha512-HmhcEIWucTCfvl4qB/ucGIGjp7zMyOfGgfeY+n84Qz7x4sFosOpQlziPFmgO1MHiU1Quw9VGGj2t+zNU5EtBFQ==
+
+"@fontsource/bree-serif@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/bree-serif/-/bree-serif-4.4.5.tgz#ac5dc36b9b96bcae17820d66eee7d9f64647fc76"
+  integrity sha512-/a8Ef8O5TTWcKSQKFs7kc/oVZddSFEunxgWJwt9f8q9Z9qSYNeUrBft0q8SGA+V6c4m0svaZSWICqBTg/aeDcQ==
+
+"@fontsource/comic-neue@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/comic-neue/-/comic-neue-4.4.5.tgz#00cb5546ca2a9fe9cc2e0fa73349e9202c7b28d5"
+  integrity sha512-0oTyJMmWxiJaf1ZTyyK10RRHBqhYgatAqE0SJPCdithDTzETkHWINEi51lkd95evo418pqmjmjNHGYBgO5CN9w==
+
+"@fontsource/fira-code@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/fira-code/-/fira-code-4.4.5.tgz#380c964676b1e873b192862ce03a7ad1c7838516"
+  integrity sha512-ap1UKABzbPrUTgIB376n8CSJ7mbJYxGm52A60BHnGHjU2cSDBqNUAColdERgFWgLHfybWXQT13ZrNhAdynf9rg==
+
+"@fontsource/inter@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-4.4.5.tgz#bce26ff9dd83898bd610924cff1342cc30d0e89a"
+  integrity sha512-eRUmB54CbyC3MhAuw2VvTPEc3wy8sFi0/1mVHaC7ZXglXcrSWXY+p8Xad/Zy8AcmS9BuqCCEH2qJbOt9XdX65Q==
+
+"@fontsource/lato@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/lato/-/lato-4.4.5.tgz#82c16ef01ab1a1039f74d774e89ef1f76111def6"
+  integrity sha512-pm9am2tdLnK+21PKCK060oY8R8OKFVzTVvM6pPS+mS7JOZKe3mmDgfB2DGzzyHG/Azj3Pn6onU72BrQsh3XjNw==
+
+"@fontsource/montserrat@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/montserrat/-/montserrat-4.4.5.tgz#f97ebea605f4a2d6b9b23a19bc9bf8fc6f4c79d5"
+  integrity sha512-1F3cR9OIp4Qi1AJHFg/SeFeUWLYemMgI3ldetx0mrlHoWeMuK+p2YentYIIZVkV9ogXOIE2QEw7VnHlGBPo7iw==
+
+"@fontsource/noto-sans@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans/-/noto-sans-4.4.5.tgz#0053bf374f8d5222908c825aa1db6a3078a79cf6"
+  integrity sha512-1P+AMhUvjfpMwuDsLHG1F95ij1SULGM8IiW/4RmdP7+ZHJuvBsSG465Ujps34IDio5bcv6OaLpGyU1YBVTTe+Q==
 
 "@fontsource/open-sans@^4.4.5":
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/@fontsource/open-sans/-/open-sans-4.4.5.tgz#07b31617e62ed753c94cabcf552ebaed4de497ce"
   integrity sha512-PDWEvO1/p8OAHHiielvEmwGXHNbZhrZn96ojV7+/mKgFu+cCUcGVJl9sFs97rCWLe3hKQsYLEsJs4EiLjwa+UQ==
+
+"@fontsource/poppins@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-4.4.5.tgz#c75dcc453f7a9381de3f9b932366c2457887184c"
+  integrity sha512-pu675yvBGFhAHD8D7uj7C0NaHqDxD7mlgmLM8ziyYL4kYH79fil7rJ6U5X2oaKxoyRk3rxxb9k1fG0CCc7CquA==
+
+"@fontsource/raleway@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/raleway/-/raleway-4.4.5.tgz#483871d82aa35e6a981b370b44dbae0b9d59ca6c"
+  integrity sha512-jUOBbqGDadtgjtxQe8YpaiRVy9WGIBUCfQoKlfyuBuI6BNHg1HdsBwL9qetru99uGTTy9L0fEwYoY9J8lhNXqw==
+
+"@fontsource/roboto-mono@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto-mono/-/roboto-mono-4.4.5.tgz#63c54719a8d592d793632501a56d570572c17065"
+  integrity sha512-y9fbKH1eCCkcqtRGhevFlmR5schCRz1GiTT/VYz6z8Ij0WHW0tS26BhMyXhmSgEIiFt+254yS8teqP+cc7Xq0w==
+
+"@fontsource/roboto@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-4.4.5.tgz#9ef1b9288ac4a97b97906da920c63c08dba97c89"
+  integrity sha512-e3s7BF8MDBLpkA2r6lnl5PMnllF0McVvpolK9h2zzvVJw2WPexP1GTgMKHISlglYZRij2lKg/ZjQcIUUYDsAXg==
+
+"@fontsource/source-code-pro@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/source-code-pro/-/source-code-pro-4.4.5.tgz#927ac48da9a7de6054b44b2e1979abd908f00f47"
+  integrity sha512-PuoF6JHR+s3IaceWMZB02fHLIOehIAfYQUGHXBEyuPQ+BdonbbYpS+RIyduKsUYt7ajZURysbBFlg/N0cb/Jhw==
+
+"@fontsource/space-mono@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/space-mono/-/space-mono-4.4.5.tgz#2acc2f08c5060bc983bfbf14f8827770a5ce3c2a"
+  integrity sha512-QBU55UPj+JOzkwI/ezR1y1qBk+iJtYhjxBTHqXJMTrKCXIuWMD+NIXvVYHIJW8i6Aov+6kOksgVOqrU7rqOK8Q==
+
+"@fontsource/ubuntu-mono@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/ubuntu-mono/-/ubuntu-mono-4.4.5.tgz#2653f4eedf89f4efa3708b6cdc990c06f90b5faf"
+  integrity sha512-TvkybOBDDfZwrIE9imcoMMi4xhdZY+0Q1gmmdrGCG2xFxPM2/fuHXBcn6FKLvm5/regKKq93DO6JIPcH2G1r/w==
+
+"@fontsource/ubuntu@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/ubuntu/-/ubuntu-4.4.5.tgz#4d386755a4f3f88bfbc6a9d517f33dcdf263f992"
+  integrity sha512-dK/WdBncYJAZrwhANBGYN7wKrB2+NsYX/QomNBkJuze9kel9uijz7cNQPYdUDogink/X8D4MF2PeLEhF565fSA==
 
 "@hapi/address@^2.1.2":
   version "2.1.4"

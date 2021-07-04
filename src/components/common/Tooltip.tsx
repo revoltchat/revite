@@ -24,14 +24,16 @@ const PermissionTooltipBase = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
+    
     span {
         font-weight: 700;
         text-transform: uppercase;
         color: var(--secondary-foreground);
         font-size: 11px;
     }
+
     code {
-        font-family: 'Fira Mono';
+        font-family: var(--monoscape-font);
     }
 `;
 
