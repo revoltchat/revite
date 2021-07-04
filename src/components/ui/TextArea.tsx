@@ -39,8 +39,10 @@ export default styled.textarea<TextAreaProps>`
     }
 
     ${ props => props.code ? css`
-        font-family: 'Fira Mono', 'Courier New', Courier, monospace;
+        font-family: var(--monoscape-font-font), monospace;
     ` : css`
-        font-family: 'Open Sans', sans-serif;
+        font-family: inherit;
     ` }
+    
+    font-variant-ligatures: var(--ligatures);
 `;

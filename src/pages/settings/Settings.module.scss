@@ -93,7 +93,7 @@
             margin: 1rem 12px 0;
             font-size: 10px;
             color: var(--secondary-foreground);
-            font-family: "Fira Mono", monospace;
+            font-family: var(--monoscape-font), monospace;
             user-select: text;
 
             display: grid;

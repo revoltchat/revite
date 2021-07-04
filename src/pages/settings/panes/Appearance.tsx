@@ -2,15 +2,18 @@ import { Text } from "preact-i18n";
 import styles from "./Panes.module.scss";
 import { debounce } from "../../../lib/debounce";
 import Button from "../../../components/ui/Button";
+import Checkbox from "../../../components/ui/Checkbox";
+import ComboBox from "../../../components/ui/ComboBox";
 import InputBox from "../../../components/ui/InputBox";
 import { connectState } from "../../../redux/connector";
 import { WithDispatcher } from "../../../redux/reducers";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
 import { EmojiPacks, Settings } from "../../../redux/reducers/settings";
-import { Theme, ThemeContext, ThemeOptions } from "../../../context/Theme";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import CollapsibleSection from "../../../components/common/CollapsibleSection";
+import { FONTS, FONT_KEYS, MONOSCAPE_FONTS, MONOSCAPE_FONT_KEYS, Theme, ThemeContext, ThemeOptions } from "../../../context/Theme";
 
 // @ts-ignore
 import pSBC from 'shade-blend-color';
@@ -22,7 +25,6 @@ import mutantSVG from '../assets/mutant_emoji.svg';
 import notoSVG from '../assets/noto_emoji.svg';
 import openmojiSVG from '../assets/openmoji_emoji.svg';
 import twemojiSVG from '../assets/twemoji_emoji.svg';
-import CollapsibleSection from "../../../components/common/CollapsibleSection";
 
 interface Props {
     settings: Settings;
@@ -129,6 +131,25 @@ export function Component(props: Props & WithDispatcher) {
                     <Text id="app.settings.pages.appearance.display.compact" />
                 </Radio>
             </div>*/}
+
+            <h3>
+                <Text id="app.settings.pages.appearance.font" />
+            </h3>
+            <ComboBox value={theme.font} onChange={e => setTheme({ custom: { font: e.currentTarget.value as any } })}>
+                {
+                    FONT_KEYS
+                        .map(key =>
+                            <option value={key}>{ FONTS[key as keyof typeof FONTS].name }</option>
+                        )
+                }
+            </ComboBox>
+            <p>
+                <Checkbox checked={props.settings.theme?.ligatures === true}
+                    onChange={() => setTheme({ ligatures: !props.settings.theme?.ligatures })}
+                    description={<Text id="app.settings.pages.appearance.ligatures_desc" />}>
+                    <Text id="app.settings.pages.appearance.ligatures" />
+                </Checkbox>
+            </p>
 
             <h3>
                 <Text id="app.settings.pages.appearance.emoji_pack" />
@@ -260,6 +281,19 @@ export function Component(props: Props & WithDispatcher) {
                         </div>
                     ))}
                 </div>
+
+                <h3>
+                    <Text id="app.settings.pages.appearance.mono_font" />
+                </h3>
+                <ComboBox value={theme.monoscapeFont} onChange={e => setTheme({ custom: { monoscapeFont: e.currentTarget.value as any } })}>
+                    {
+                        MONOSCAPE_FONT_KEYS
+                            .map(key =>
+                                <option value={key}>{ MONOSCAPE_FONTS[key as keyof typeof MONOSCAPE_FONTS].name }</option>
+                            )
+                    }
+                </ComboBox>
+
                 <h3>
                     <Text id="app.settings.pages.appearance.custom_css" />
                 </h3>
