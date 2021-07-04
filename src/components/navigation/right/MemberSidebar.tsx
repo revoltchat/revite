@@ -2,6 +2,7 @@ import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { User } from "revolt.js";
+import Details from "../../../components/ui/Details";
 import Category from "../../ui/Category";
 import { useParams } from "react-router";
 import { UserButton } from "../items/ButtonItem";
