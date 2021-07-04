@@ -118,7 +118,7 @@ export default function Friends() {
                                 id={`friends_${section_id}`}
                                 defaultValue={true}
                                 sticky large
-                                summary={<Overline type="subtle" className="overline"><Text id={i18n} /> — { list.length }</Overline>}>
+                                summary={<div class="title"><Text id={i18n} /> — { list.length }</div>}>
                                 { list.map(x => <Friend key={x._id} user={x} />) }
                             </CollapsibleSection>
                         )

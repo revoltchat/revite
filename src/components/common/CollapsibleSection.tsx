@@ -39,12 +39,10 @@ export default function CollapsibleSection({ id, defaultValue, summary, children
             onToggle={e => setState(e.currentTarget.open)}
             {...detailsProps}>
             <summary>
-                <ChevronDown size={20} />
-                { summary }
-                {/*<Overline type="subtle" className="overline">*/}
-                    {/*<div className="title">*/}
-                    {/*</div>*/}
-                {/*</Overline>*/}
+                <div class="padding">
+                    <ChevronDown size={20} />
+                    { summary }
+                </div>
             </summary>
             { children }
         </Details>
