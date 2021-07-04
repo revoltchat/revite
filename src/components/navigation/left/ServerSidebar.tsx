@@ -14,6 +14,7 @@ import ServerHeader from "../../common/ServerHeader";
 import { useEffect } from "preact/hooks";
 import Category from "../../ui/Category";
 import ConditionalLink from "../../../lib/ConditionalLink";
+import CollapsibleSection from "../../common/CollapsibleSection";
 
 interface Props {
     unreads: Unreads;
@@ -69,6 +70,7 @@ function ServerSidebar(props: Props & WithDispatcher) {
 
     let uncategorised = new Set(server.channels);
     let elements = [];
+    
     function addChannel(id: string) {
         const entry = channels.find(x => x._id === id);
         if (!entry) return;
@@ -76,9 +78,8 @@ function ServerSidebar(props: Props & WithDispatcher) {
         const active = channel?._id === entry._id;
 
         return (
-            <ConditionalLink active={active} to={`/server/${server!._id}/channel/${entry._id}`}>
+            <ConditionalLink key={entry._id} active={active} to={`/server/${server!._id}/channel/${entry._id}`}>
                 <ChannelButton
-                    key={entry._id}
                     channel={entry}
                     active={active}
                     alert={entry.unread}
@@ -90,16 +91,24 @@ function ServerSidebar(props: Props & WithDispatcher) {
 
     if (server.categories) {
         for (let category of server.categories) {
-            elements.push(<Category text={category.title} />);
-
+            let channels = [];
             for (let id of category.channels) {
                 uncategorised.delete(id);
-                elements.push(addChannel(id));
+                channels.push(addChannel(id));
             }
+
+            elements.push(
+                <CollapsibleSection
+                    id={`category_${category.id}`}
+                    defaultValue
+                    summary={<Category text={category.title} />}>
+                    { channels }
+                </CollapsibleSection>
+            );
         }
     }
 
-    for (let id of uncategorised) {
+    for (let id of Array.from(uncategorised).reverse()) {
         elements.unshift(addChannel(id));
     }
 

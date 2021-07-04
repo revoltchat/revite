@@ -22,6 +22,7 @@ import mutantSVG from '../assets/mutant_emoji.svg';
 import notoSVG from '../assets/noto_emoji.svg';
 import openmojiSVG from '../assets/openmoji_emoji.svg';
 import twemojiSVG from '../assets/twemoji_emoji.svg';
+import CollapsibleSection from "../../../components/common/CollapsibleSection";
 
 interface Props {
     settings: Settings;
@@ -171,11 +172,7 @@ export function Component(props: Props & WithDispatcher) {
                 </div>
             </div>
 
-            <details>
-                <summary>
-                    <Text id="app.settings.pages.appearance.advanced" />
-                    <div className={styles.divider}></div>
-                </summary>
+            <CollapsibleSection id="settings_advanced_appearance" defaultValue={false} summary={<Text id="app.settings.pages.appearance.advanced" />}>
                 <h3>
                     <Text id="app.settings.pages.appearance.overrides" />
                 </h3>
@@ -272,7 +269,7 @@ export function Component(props: Props & WithDispatcher) {
                     code
                     value={css}
                     onChange={ev => setCSS(ev.currentTarget.value)} />
-            </details>
+            </CollapsibleSection>
         </div>
     );
 }

@@ -5,6 +5,7 @@ import { Text } from 'preact-i18n';
 type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'as'> & {
     error?: string;
     block?: boolean;
+    spaced?: boolean;
     children?: Children;
     type?: "default" | "subtle" | "error";
 }
@@ -12,7 +13,10 @@ type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'as'> & {
 const OverlineBase = styled.div<Omit<Props, "children" | "error">>`
     display: inline;
     margin: 0.4em 0;
-    margin-top: 0.8em;
+
+    ${ props => props.spaced && css`
+        margin-top: 0.8em;
+    ` }
 
     font-size: 14px;
     font-weight: 600;

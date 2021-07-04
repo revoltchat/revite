@@ -13,6 +13,7 @@ import { sync, SyncAction } from "./sync";
 import { experiments, ExperimentsAction } from "./experiments";
 import { lastOpened, LastOpenedAction } from "./last_opened";
 import { notifications, NotificationsAction } from "./notifications";
+import { sectionToggle, SectionToggleAction } from "./section_toggle";
 
 export default combineReducers({
     config,
@@ -26,7 +27,8 @@ export default combineReducers({
     sync,
     experiments,
     lastOpened,
-    notifications
+    notifications,
+    sectionToggle
 });
 
 export type Action =
@@ -42,6 +44,7 @@ export type Action =
     | ExperimentsAction
     | LastOpenedAction
     | NotificationsAction
+    | SectionToggleAction
     | { type: "__INIT"; state: State };
 
 export type WithDispatcher = { dispatcher: (action: Action) => void };
