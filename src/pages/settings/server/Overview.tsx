@@ -83,6 +83,20 @@ export function Overview({ server }: Props) {
             />
 
             <h3>
+                <Text id="app.main.servers.custom_banner" />
+            </h3>
+            <FileUploader
+                height={160}
+                style="banner"
+                fileType="banners"
+                behaviour="upload"
+                maxFileSize={6_000_000}
+                onUpload={banner => client.servers.edit(server._id, { banner })}
+                previewURL={client.servers.getBannerURL(server._id, { width: 1000 }, true)}
+                remove={() => client.servers.edit(server._id, { remove: 'Banner' })}
+            />
+
+            <h3>
                 <Text id="app.settings.server_pages.overview.system_messages" />
             </h3>
             {[
@@ -93,7 +107,7 @@ export function Overview({ server }: Props) {
             ].map(([ i18n, key ]) =>
                 // ! FIXME: temporary code just so we can expose the options
                 <p style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <span style={{ flexShrink: '0' }}>{i18n}</span>
+                    <span style={{ flexShrink: '0', flex: `25%` }}>{i18n}</span>
                     <ComboBox value={systemMessages?.[key as keyof typeof systemMessages] ?? 'disabled'}
                         onChange={e => {
                             if (!changed) setChanged(true)
@@ -123,20 +137,6 @@ export function Overview({ server }: Props) {
                     <Text id="app.special.modals.actions.save" />
                 </Button>
             </p>
-
-            <h3>
-                <Text id="app.main.servers.custom_banner" />
-            </h3>
-            <FileUploader
-                height={160}
-                style="banner"
-                fileType="banners"
-                behaviour="upload"
-                maxFileSize={6_000_000}
-                onUpload={banner => client.servers.edit(server._id, { banner })}
-                previewURL={client.servers.getBannerURL(server._id, { width: 1000 }, true)}
-                remove={() => client.servers.edit(server._id, { remove: 'Banner' })}
-            />
         </div>
     );
 }

@@ -5,7 +5,8 @@ import Button from "../../../components/ui/Button";
 import { Users } from "revolt.js/dist/api/objects";
 import { Link, useHistory } from "react-router-dom";
 import Overline from "../../../components/ui/Overline";
-import { At, Key, Envelope } from "@styled-icons/boxicons-regular";
+import { Envelope, Key } from "@styled-icons/boxicons-solid";
+import { At } from "@styled-icons/boxicons-regular";
 import { useContext, useEffect, useState } from "preact/hooks";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { useForceUpdate, useSelf } from "../../../context/revoltjs/hooks";
@@ -47,9 +48,7 @@ export function Account() {
     return (
         <div className={styles.user}>
             <div className={styles.banner}>
-                <Link to="/settings/profile">
-                    <UserIcon target={user} size={72} />
-                </Link>
+                <UserIcon className={styles.avatar} target={user} size={72} onClick={() => switchPage("profile")}/>
                 <div className={styles.username}>@{user.username}</div>
             </div>
             <div className={styles.details}>
