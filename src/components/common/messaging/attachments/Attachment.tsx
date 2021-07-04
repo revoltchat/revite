@@ -15,60 +15,33 @@ interface Props {
 }
 
 const MAX_ATTACHMENT_WIDTH = 480;
-const MAX_ATTACHMENT_HEIGHT = 640;
 
 export default function Attachment({ attachment, hasContent }: Props) {
     const client = useContext(AppContext);
     const { openScreen } = useIntermediate();
     const { filename, metadata } = attachment;
     const [ spoiler, setSpoiler ] = useState(filename.startsWith("SPOILER_"));
-    const maxWidth = Math.min(useContext(MessageAreaWidthContext), MAX_ATTACHMENT_WIDTH);
 
     const url = client.generateFileURL(attachment, { width: MAX_ATTACHMENT_WIDTH * 1.5 }, true);
-    let width  = 0,
-        height = 0;
-    
-    if (metadata.type === 'Image' || metadata.type === 'Video') {
-        let limitingWidth = Math.min(
-            maxWidth,
-            metadata.width
-        );
 
-        let limitingHeight = Math.min(
-            MAX_ATTACHMENT_HEIGHT,
-            metadata.height
-        );
-
-        // Calculate smallest possible WxH.
-        width = Math.min(
-            limitingWidth,
-            limitingHeight * (metadata.width / metadata.height)
-        );
-
-        height = Math.min(
-            limitingHeight,
-            limitingWidth * (metadata.height / metadata.width)
-        );
-    }
 
     switch (metadata.type) {
         case "Image": {
             return (
                 <div
-                    style={{ width }}
                     className={styles.container}
                     onClick={() => spoiler && setSpoiler(false)}
                 >
                     {spoiler && (
                         <div className={styles.overflow}>
-                            <div style={{ width, height }}>
-                                <span><Text id="app.main.channel.misc.spoiler_attachment" /></span>
-                            </div>
+                            <span><Text id="app.main.channel.misc.spoiler_attachment" /></span>
                         </div>
                     )}
                     <img
                         src={url}
                         alt={filename}
+                        width={metadata.width}
+                        height={metadata.height}
                         data-spoiler={spoiler}
                         data-has-content={hasContent}
                         className={classNames(styles.attachment, styles.image)}
@@ -79,7 +52,6 @@ export default function Attachment({ attachment, hasContent }: Props) {
                             ev.button === 1 &&
                             window.open(url, "_blank")
                         }
-                        style={{ width, height }}
                     />
                 </div>
             );
@@ -102,13 +74,10 @@ export default function Attachment({ attachment, hasContent }: Props) {
                     onClick={() => spoiler && setSpoiler(false)}>
                     {spoiler && (
                         <div className={styles.overflow}>
-                            <div style={{ width, height }}>
-                                <span><Text id="app.main.channel.misc.spoiler_attachment" /></span>
-                            </div>
+                            <span><Text id="app.main.channel.misc.spoiler_attachment" /></span>
                         </div>
                     )}
                     <div
-                        style={{ width }}
                         data-spoiler={spoiler}
                         data-has-content={hasContent}
                         className={classNames(styles.attachment, styles.video)}
@@ -117,7 +86,6 @@ export default function Attachment({ attachment, hasContent }: Props) {
                         <video
                             src={url}
                             controls
-                            style={{ width, height }}
                             onMouseDown={ev =>
                                 ev.button === 1 &&
                                 window.open(url, "_blank")
