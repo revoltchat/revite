@@ -1,11 +1,11 @@
 import { ulid } from "ulid";
 import { Text } from "preact-i18n";
-import Tooltip, { PermissionTooltip } from "../Tooltip";
 import { Channel } from "revolt.js";
 import styled from "styled-components";
+import { dispatch } from "../../../redux";
 import { defer } from "../../../lib/defer";
 import IconButton from "../../ui/IconButton";
-import { X } from '@styled-icons/boxicons-regular';
+import { PermissionTooltip } from "../Tooltip";
 import { Send } from '@styled-icons/boxicons-solid';
 import { debounce } from "../../../lib/debounce";
 import Axios, { CancelTokenSource } from "axios";
@@ -13,7 +13,6 @@ import { useTranslation } from "../../../lib/i18n";
 import { Reply } from "../../../redux/reducers/queue";
 import { connectState } from "../../../redux/connector";
 import { SoundContext } from "../../../context/Settings";
-import { WithDispatcher } from "../../../redux/reducers";
 import { takeError } from "../../../context/revoltjs/util";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import AutoComplete, { useAutoComplete } from "../AutoComplete";
@@ -30,9 +29,8 @@ import { ShieldX } from "@styled-icons/boxicons-regular";
 
 import ReplyBar from "./bars/ReplyBar";
 import FilePreview from './bars/FilePreview';
-import { Styleshare } from "@styled-icons/simple-icons";
 
-type Props = WithDispatcher & {
+type Props = {
     channel: Channel;
     draft?: string;
 };
@@ -77,7 +75,7 @@ const Action = styled.div`
 // ! FIXME: add to app config and load from app config
 export const CAN_UPLOAD_AT_ONCE = 5;
 
-function MessageBox({ channel, draft, dispatcher }: Props) {
+function MessageBox({ channel, draft }: Props) {
     const [ uploadState, setUploadState ] = useState<UploadState>({ type: 'none' });
     const [ typing, setTyping ] = useState<boolean | number>(false);
     const [ replies, setReplies ] = useState<Reply[]>([]);
@@ -102,13 +100,13 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
 
     function setMessage(content?: string) {
         if (content) {
-            dispatcher({
+            dispatch({
                 type: "SET_DRAFT",
                 channel: channel._id,
                 content
             });
         } else {
-            dispatcher({
+            dispatch({
                 type: "CLEAR_DRAFT",
                 channel: channel._id
             });
@@ -148,7 +146,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
         playSound('outbound');
 
         const nonce = ulid();
-        dispatcher({
+        dispatch({
             type: "QUEUE_ADD",
             nonce,
             channel: channel._id,
@@ -171,7 +169,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
                 replies
             });
         } catch (error) {
-            dispatcher({
+            dispatch({
                 type: "QUEUE_FAIL",
                 error: takeError(error),
                 nonce
@@ -383,7 +381,7 @@ function MessageBox({ channel, draft, dispatcher }: Props) {
     )
 }
 
-export default connectState<Omit<Props, "dispatcher" | "draft">>(MessageBox, (state, { channel }) => {
+export default connectState<Omit<Props, "dispatch" | "draft">>(MessageBox, (state, { channel }) => {
     return {
         draft: state.drafts[channel._id]
     }

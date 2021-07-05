@@ -1,15 +1,15 @@
 import { Text } from "preact-i18n";
 import styles from "./Panes.module.scss";
+import { dispatch } from "../../../redux";
 import Checkbox from "../../../components/ui/Checkbox";
 import { connectState } from "../../../redux/connector";
-import { WithDispatcher } from "../../../redux/reducers";
 import { AVAILABLE_EXPERIMENTS, ExperimentOptions } from "../../../redux/reducers/experiments";
 
 interface Props {
     options?: ExperimentOptions;
 }
 
-export function Component(props: Props & WithDispatcher) {
+export function Component(props: Props) {
     return (
         <div className={styles.experiments}>
             <h3>
@@ -20,12 +20,12 @@ export function Component(props: Props & WithDispatcher) {
                     key =>
                         <Checkbox
                             checked={(props.options?.enabled ?? []).indexOf(key) > -1}
-                            onChange={enabled => {
-                                props.dispatcher({
+                            onChange={enabled =>
+                                dispatch({
                                     type: enabled ? 'EXPERIMENTS_ENABLE' : 'EXPERIMENTS_DISABLE',
                                     key
-                                });
-                            }}
+                                })
+                            }
                         >
                             <Text id={`app.settings.pages.experiments.titles.${key}`} />
                             <p>
@@ -51,6 +51,5 @@ export const ExperimentsPage = connectState(
         return {
             options: state.experiments
         };
-    },
-    true
+    }
 );

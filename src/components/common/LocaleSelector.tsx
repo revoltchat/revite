@@ -1,9 +1,9 @@
 import ComboBox from "../ui/ComboBox";
+import { dispatch } from "../../redux";
 import { connectState } from "../../redux/connector";
-import { WithDispatcher } from "../../redux/reducers";
 import { LanguageEntry, Languages } from "../../context/Locale";
 
-type Props = WithDispatcher & {
+type Props = {
     locale: string;
 };
 
@@ -12,8 +12,7 @@ export function LocaleSelector(props: Props) {
         <ComboBox
             value={props.locale}
             onChange={e =>
-                props.dispatcher &&
-                props.dispatcher({
+                dispatch({
                     type: "SET_LOCALE",
                     locale: e.currentTarget.value as any
                 })
@@ -37,6 +36,5 @@ export default connectState(
         return {
             locale: state.locale
         };
-    },
-    true
+    }
 );

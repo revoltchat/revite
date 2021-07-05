@@ -7,10 +7,10 @@ import { AppContext } from "./RevoltClient";
 import { Typing } from "../../redux/reducers/typing";
 import { useContext, useEffect } from "preact/hooks";
 import { connectState } from "../../redux/connector";
-import { WithDispatcher } from "../../redux/reducers";
 import { QueuedMessage } from "../../redux/reducers/queue";
+import { dispatch } from "../../redux";
 
-type Props = WithDispatcher & {
+type Props = {
     messages: QueuedMessage[];
     typing: Typing
 };
@@ -19,7 +19,7 @@ function StateMonitor(props: Props) {
     const client = useContext(AppContext);
 
     useEffect(() => {
-        props.dispatcher({
+        dispatch({
             type: 'QUEUE_DROP_ALL'
         });
     }, [ ]);
@@ -29,7 +29,7 @@ function StateMonitor(props: Props) {
             if (!msg.nonce) return;
             if (!props.messages.find(x => x.id === msg.nonce)) return;
 
-            props.dispatcher({
+            dispatch({
                 type: 'QUEUE_REMOVE',
                 nonce: msg.nonce
             });
@@ -47,7 +47,7 @@ function StateMonitor(props: Props) {
 
                 for (let user of users) {
                     if (+ new Date() > user.started + 5000) {
-                        props.dispatcher({
+                        dispatch({
                             type: 'TYPING_STOP',
                             channel,
                             user: user.id
@@ -73,6 +73,5 @@ export default connectState(
             messages: [...state.queue],
             typing: state.typing
         };
-    },
-    true
+    }
 );

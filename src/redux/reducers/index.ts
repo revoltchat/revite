@@ -47,8 +47,6 @@ export type Action =
     | SectionToggleAction
     | { type: "__INIT"; state: State };
 
-export type WithDispatcher = { dispatcher: (action: Action) => void };
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function filter(obj: any, keys: string[]) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
