@@ -270,8 +270,8 @@ interface Props {
 function Theme({ children, options }: Props) {
     const theme: Theme = {
         ...PRESETS["dark"],
-        ...PRESETS[props.options?.preset ?? ''],
-        ...props.options?.custom
+        ...PRESETS[options?.preset ?? ''],
+        ...options?.custom
     };
 
     const root = document.documentElement.style;
