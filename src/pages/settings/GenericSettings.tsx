@@ -1,4 +1,4 @@
-import { ArrowBack, X, XCircle } from "@styled-icons/boxicons-regular";
+import { ArrowBack, X } from "@styled-icons/boxicons-regular";
 import { Helmet } from "react-helmet";
 import { Switch, useHistory, useParams } from "react-router-dom";
 
@@ -148,9 +148,9 @@ export function GenericSettings({
             )}
             {!isTouchscreenDevice && (
                 <div className={styles.action}>
-                    <IconButton onClick={exitSettings}>
-                        <XCircle size={48} />
-                    </IconButton>
+                        <div onClick={exitSettings} className={styles.closeButton}>
+                            <X size={28} />
+                        </div>
                 </div>
             )}
         </div>
