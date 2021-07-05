@@ -5,6 +5,7 @@ import { Attachment } from "revolt.js/dist/api/objects";
 import { determineFileSize } from '../../../../lib/fileSize';
 import { AppContext } from '../../../../context/revoltjs/RevoltClient';
 import { Download, LinkExternal, File, Headphone, Video } from '@styled-icons/boxicons-regular';
+import classNames from 'classnames';
 
 interface Props {
     attachment: Attachment;
@@ -23,17 +24,15 @@ export default function AttachmentActions({ attachment }: Props) {
     switch (metadata.type) {
         case 'Image':
             return (
-                <div className={styles.actions}>
-                    <div className={styles.info}>
-                        <span className={styles.filename}>{filename}</span>
-                        <span className={styles.filesize}>{metadata.width + 'x' + metadata.height} ({filesize})</span>
-                    </div>
-                    <a href={open_url} target="_blank">
+                <div className={classNames(styles.actions, styles.imageAction)}>
+                    <span className={styles.filename}>{filename}</span>
+                    <span className={styles.filesize}>{metadata.width + 'x' + metadata.height} ({filesize})</span>
+                    <a href={open_url} target="_blank" className={styles.iconType} >
                         <IconButton>
                             <LinkExternal size={24} />
                         </IconButton>
                     </a>
-                    <a href={download_url} download target="_blank">
+                    <a href={download_url} className={styles.downloadIcon} download target="_blank">
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
@@ -42,13 +41,11 @@ export default function AttachmentActions({ attachment }: Props) {
             )
         case 'Audio':
             return (
-                <div className={styles.actions}>
-                    <Headphone size={24} />
-                    <div className={styles.info}>
-                        <span className={styles.filename}>{filename}</span>
-                        <span className={styles.filesize}>{filesize}</span>
-                    </div>
-                    <a href={download_url} download target="_blank">
+                <div className={classNames(styles.actions, styles.audioAction)}>
+                    <Headphone size={24} className={styles.iconType} />
+                    <span className={styles.filename}>{filename}</span>
+                    <span className={styles.filesize}>{filesize}</span>
+                    <a href={download_url} className={styles.downloadIcon} download target="_blank">
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
@@ -57,13 +54,11 @@ export default function AttachmentActions({ attachment }: Props) {
             )
         case 'Video':
             return (
-                <div className={styles.actions}>
-                    <Video size={24} />
-                    <div className={styles.info}>
-                        <span className={styles.filename}>{filename}</span>
-                        <span className={styles.filesize}>{metadata.width + 'x' + metadata.height} ({filesize})</span>
-                    </div>
-                    <a href={download_url} download target="_blank">
+                <div className={classNames(styles.actions, styles.videoAction)}>
+                    <Video size={24} className={styles.iconType} />
+                    <span className={styles.filename}>{filename}</span>
+                    <span className={styles.filesize}>{metadata.width + 'x' + metadata.height} ({filesize})</span>
+                    <a href={download_url} className={styles.downloadIcon} download target="_blank">
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
@@ -73,12 +68,10 @@ export default function AttachmentActions({ attachment }: Props) {
         default:
             return (
                 <div className={styles.actions}>
-                    <File size={24} />
-                    <div className={styles.info}>
-                        <span className={styles.filename}>{filename}</span>
-                        <span className={styles.filesize}>{filesize}</span>
-                    </div>
-                    <a href={download_url} download target="_blank">
+                    <File size={24} className={styles.iconType} />
+                    <span className={styles.filename}>{filename}</span>
+                    <span className={styles.filesize}>{filesize}</span>
+                    <a href={download_url} className={styles.downloadIcon} download target="_blank">
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
