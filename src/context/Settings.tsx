@@ -6,44 +6,56 @@
 // if it does cause problems though.
 //
 // This now also supports Audio stuff.
-
-import { DEFAULT_SOUNDS, Settings, SoundOptions } from "../redux/reducers/settings";
-import { playSound, Sounds } from "../assets/sounds/Audio";
-import { connectState } from "../redux/connector";
 import defaultsDeep from "lodash.defaultsdeep";
-import { Children } from "../types/Preact";
+
 import { createContext } from "preact";
 import { useMemo } from "preact/hooks";
 
+import { connectState } from "../redux/connector";
+import {
+	DEFAULT_SOUNDS,
+	Settings,
+	SoundOptions,
+} from "../redux/reducers/settings";
+
+import { playSound, Sounds } from "../assets/sounds/Audio";
+import { Children } from "../types/Preact";
+
 export const SettingsContext = createContext<Settings>({});
-export const SoundContext = createContext<((sound: Sounds) => void)>(null!);
+export const SoundContext = createContext<(sound: Sounds) => void>(null!);
 
 interface Props {
-    children?: Children,
-    settings: Settings
+	children?: Children;
+	settings: Settings;
 }
 
-function Settings({ settings, children }: Props) {
-    const play = useMemo(() => {
-        const enabled: SoundOptions = defaultsDeep(settings.notification?.sounds ?? {}, DEFAULT_SOUNDS);
-        return (sound: Sounds) => {
-            if (enabled[sound]) {
-                playSound(sound);
-            }
-        };
-    }, [ settings.notification ]);
+function SettingsProvider({ settings, children }: Props) {
+	const play = useMemo(() => {
+		const enabled: SoundOptions = defaultsDeep(
+			settings.notification?.sounds ?? {},
+			DEFAULT_SOUNDS,
+		);
+		return (sound: Sounds) => {
+			if (enabled[sound]) {
+				playSound(sound);
+			}
+		};
+	}, [settings.notification]);
 
-    return (
-        <SettingsContext.Provider value={settings}>
-            <SoundContext.Provider value={play}>
-                { children }
-            </SoundContext.Provider>
-        </SettingsContext.Provider>
-    )
+	return (
+		<SettingsContext.Provider value={settings}>
+			<SoundContext.Provider value={play}>
+				{children}
+			</SoundContext.Provider>
+		</SettingsContext.Provider>
+	);
 }
 
-export default connectState<Omit<Props, 'settings'>>(Settings, state => {
-    return {
-        settings: state.settings
-    }
-});
+export default connectState<Omit<Props, "settings">>(
+	SettingsProvider,
+	(state) => {
+		return {
+			settings: state.settings,
+		};
+	},
+);
