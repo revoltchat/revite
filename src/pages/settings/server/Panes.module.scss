@@ -6,6 +6,10 @@
         .name {
             flex-grow: 1;
 
+            h3 {
+                margin-top: 0;
+            }
+
             input {
                 width: 100%;
             }
