@@ -85,7 +85,7 @@ export function GenericSettings({
                         <>
                             {showExitButton && (
                                 <IconButton onClick={exitSettings}>
-                                    <X size={24} />
+                                    <X size={27} style={{marginInlineEnd: "8px"}} />
                                 </IconButton>
                             )}
                             <Text id="app.settings.title" />
@@ -93,7 +93,7 @@ export function GenericSettings({
                     ) : (
                         <>
                             <IconButton onClick={() => switchPage()}>
-                                <ArrowBack size={24} />
+                                <ArrowBack size={24} style={{marginInlineEnd: "10px"}} />
                             </IconButton>
                             <Text
                                 id={`app.settings.${category}.${page}.title`}
