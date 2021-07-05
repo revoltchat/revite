@@ -8,16 +8,18 @@
         align-items: center;
         background: var(--secondary-header);
 
+        .avatar {
+            cursor: pointer;
+            transition: 0.2s ease filter;
+
+            &:hover {
+                filter: brightness(80%);
+            }
+        }
+
         .username {
             font-size: 24px;
-        }
-
-        a {
-            transition: 0.2s ease filter;
-        }
-
-        a:hover {
-            filter: brightness(80%);
+            font-weight: 600;
         }
     }
 
@@ -32,6 +34,10 @@
             display: flex;
             align-items: center;
             flex-direction: row;
+
+            > svg {
+                flex-shrink: 0;
+            }
         }
 
         .detail {
@@ -321,30 +327,16 @@
     }
 }
 
-.notifications {
-    label {
-        margin-top: 12px;
-    }
-
-    p {
-        margin-top: 0;
-        font-size: 0.9em;
-        color: var(--secondary-foreground);
-    }
-}
-
 .languages {
     .list {
         margin-bottom: 1em;
         
         .entry {
-            padding: 2px 8px;
             height: 50px;
-            border-radius: 4px;
         }
 
         .entry > span > span {
-            gap: 8px;
+            gap: 20px;
             display: flex;
             align-items: center;
             flex-direction: row;

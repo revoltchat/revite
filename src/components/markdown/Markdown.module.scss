@@ -1,5 +1,3 @@
-@import "@fontsource/fira-mono/400.css";
-
 .markdown {
     :global(.emoji) {
         height: 1.25em;
@@ -89,7 +87,7 @@
         font-size: 90%;
         border-radius: 4px;
         background: var(--block);
-        font-family: "Fira Mono", monospace;
+        font-family: var(--monoscape-font), monospace;
     }
 
     input[type="checkbox"] {
@@ -136,7 +134,7 @@
     }
 
     :global(.code) {
-        font-family: "Fira Mono", monospace;
+        font-family: var(--monoscape-font), monospace;
 
         :global(.lang) {
             // height: 8px;

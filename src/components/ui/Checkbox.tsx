@@ -3,9 +3,9 @@ import { Children } from "../../types/Preact";
 import styled, { css } from "styled-components";
 
 const CheckboxBase = styled.label`
+    margin-top: 20px;
     gap: 4px;
     z-index: 1;
-    padding: 4px;
     display: flex;
     border-radius: 4px;
     align-items: center;
@@ -16,25 +16,19 @@ const CheckboxBase = styled.label`
 
     transition: 0.2s ease all;
 
-    p {
-        margin: 0;
-    }
-
     input {
         display: none;
     }
 
     &:hover {
-        background: var(--secondary-background);
-
         .check {
             background: var(--background);
         }
     }
 
     &[disabled] {
-        opacity: 0.5;
-        cursor: unset;
+        opacity: .5;
+        cursor: not-allowed;
 
         &:hover {
             background: unset;
@@ -43,15 +37,15 @@ const CheckboxBase = styled.label`
 `;
 
 const CheckboxContent = styled.span`
-    flex-grow: 1;
     display: flex;
+    flex-grow: 1;
     font-size: 1rem;
     font-weight: 600;
     flex-direction: column;
 `;
 
 const CheckboxDescription = styled.span`
-    font-size: 0.8em;
+    font-size: .75rem;
     font-weight: 400;
     color: var(--secondary-foreground);
 `;

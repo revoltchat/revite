@@ -1,7 +1,6 @@
 import styles from './Panes.module.scss';
 import { useEffect, useState } from "preact/hooks";
 import { Servers } from "revolt.js/dist/api/objects";
-import UserIcon from "../../../components/common/user/UserIcon";
 import { useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
 
 interface Props {
@@ -23,7 +22,7 @@ export function Members({ server }: Props) {
     return (
         <div className={styles.members}>
             <div className={styles.subtitle}>
-                X Members
+                { members?.length ?? 0 } Members
             </div>
             { members && members.length > 0 && users?.map(x => x && 
                 <div className={styles.member}>

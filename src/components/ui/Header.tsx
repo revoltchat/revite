@@ -46,6 +46,6 @@ export default styled.div<Props>`
     ` }
 
     ${ props => props.borders && css`    
-        border-end-start-radius: 8px;
+        border-start-start-radius: 8px;
     ` }
 `;

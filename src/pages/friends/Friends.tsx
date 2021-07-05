@@ -14,6 +14,8 @@ import { ChevronDown, ChevronRight, ListPlus } from "@styled-icons/boxicons-regu
 import { UserDetail, MessageAdd, UserPlus } from "@styled-icons/boxicons-solid";
 import { TextReact } from "../../lib/i18n";
 import { Children } from "../../types/Preact";
+import Details from "../../components/ui/Details";
+import CollapsibleSection from "../../components/common/CollapsibleSection";
 
 export default function Friends() {
     const { openScreen } = useIntermediate();
@@ -29,17 +31,17 @@ export default function Friends() {
         ) ],
         [ 'app.special.friends.sent', users.filter(x =>
             x.relationship === Users.Relationship.Outgoing
-        ) ],
+        ), 'outgoing' ],
         [ 'app.status.online', friends.filter(x =>
             x.online && x.status?.presence !== Users.Presence.Invisible
-        ) ],
+        ), 'online' ],
         [ 'app.status.offline', friends.filter(x =>
             !x.online || x.status?.presence === Users.Presence.Invisible
-        ) ],
-        [ 'app.special.friends.blocked', friends.filter(x =>
+        ), 'offline' ],
+        [ 'app.special.friends.blocked', users.filter(x =>
             x.relationship === Users.Relationship.Blocked
-        ) ]
-    ] as [ string, User[] ][];
+        ), 'blocked' ]
+    ] as [ string, User[], string ][];
 
     const incoming = lists[0][1];
     const userlist: Children[] = incoming.map(x => <b>{ x.username }</b>);
@@ -56,7 +58,7 @@ export default function Friends() {
                 <div className={styles.actions}>
                     {/*<Tooltip content={"Create Category"} placement="bottom">
                         <IconButton onClick={() => openScreen({ id: 'special_input', type: 'create_group' })}>
-                            <ListPlus size={24} />
+                            <ListPlus size={28} />
                         </IconButton>
                     </Tooltip>
                     <div className={styles.divider} />*/}
@@ -107,22 +109,18 @@ export default function Friends() {
                 </div> }
 
                 {
-                    lists.map(([i18n, list], index) => {
+                    lists.map(([i18n, list, section_id], index) => {
                         if (index === 0) return;
                         if (list.length === 0) return;
 
                         return (
-                            <details open>
-                                <summary>
-                                    <Overline className={styles.overline} type="subtle">
-                                        <ChevronDown size={20} />
-                                        <div className={styles.title}>
-                                            <Text id={i18n} /> — { list.length }
-                                        </div>
-                                    </Overline>
-                                </summary>
+                            <CollapsibleSection
+                                id={`friends_${section_id}`}
+                                defaultValue={true}
+                                sticky large
+                                summary={<div class="title"><Text id={i18n} /> — { list.length }</div>}>
                                 { list.map(x => <Friend key={x._id} user={x} />) }
-                            </details>
+                            </CollapsibleSection>
                         )
                     })
                 }

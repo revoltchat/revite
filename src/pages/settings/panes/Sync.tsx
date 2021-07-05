@@ -25,6 +25,7 @@ export function Component(props: Props & WithDispatcher) {
                     ([ key, title ]) =>
                         <Checkbox
                             checked={(props.options?.disabled ?? []).indexOf(key) === -1}
+                            description={<Text id={`app.settings.pages.sync.descriptions.${key}`} />}
                             onChange={enabled => {
                                 props.dispatcher({
                                     type: enabled ? 'SYNC_ENABLE_KEY' : 'SYNC_DISABLE_KEY',
@@ -33,9 +34,6 @@ export function Component(props: Props & WithDispatcher) {
                             }}
                         >
                             <Text id={`app.settings.pages.${title}`} />
-                            <p>
-                                <Text id={`app.settings.pages.sync.descriptions.${key}`} />
-                            </p>
                         </Checkbox>
                 )
             }
