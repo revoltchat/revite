@@ -13,9 +13,9 @@ import { useMemo } from "preact/hooks";
 
 import { connectState } from "../redux/connector";
 import {
-	DEFAULT_SOUNDS,
-	Settings,
-	SoundOptions,
+    DEFAULT_SOUNDS,
+    Settings,
+    SoundOptions,
 } from "../redux/reducers/settings";
 
 import { playSound, Sounds } from "../assets/sounds/Audio";
@@ -25,37 +25,37 @@ export const SettingsContext = createContext<Settings>({});
 export const SoundContext = createContext<(sound: Sounds) => void>(null!);
 
 interface Props {
-	children?: Children;
-	settings: Settings;
+    children?: Children;
+    settings: Settings;
 }
 
 function SettingsProvider({ settings, children }: Props) {
-	const play = useMemo(() => {
-		const enabled: SoundOptions = defaultsDeep(
-			settings.notification?.sounds ?? {},
-			DEFAULT_SOUNDS,
-		);
-		return (sound: Sounds) => {
-			if (enabled[sound]) {
-				playSound(sound);
-			}
-		};
-	}, [settings.notification]);
+    const play = useMemo(() => {
+        const enabled: SoundOptions = defaultsDeep(
+            settings.notification?.sounds ?? {},
+            DEFAULT_SOUNDS,
+        );
+        return (sound: Sounds) => {
+            if (enabled[sound]) {
+                playSound(sound);
+            }
+        };
+    }, [settings.notification]);
 
-	return (
-		<SettingsContext.Provider value={settings}>
-			<SoundContext.Provider value={play}>
-				{children}
-			</SoundContext.Provider>
-		</SettingsContext.Provider>
-	);
+    return (
+        <SettingsContext.Provider value={settings}>
+            <SoundContext.Provider value={play}>
+                {children}
+            </SoundContext.Provider>
+        </SettingsContext.Provider>
+    );
 }
 
 export default connectState<Omit<Props, "settings">>(
-	SettingsProvider,
-	(state) => {
-		return {
-			settings: state.settings,
-		};
-	},
+    SettingsProvider,
+    (state) => {
+        return {
+            settings: state.settings,
+        };
+    },
 );

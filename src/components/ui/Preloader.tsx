@@ -21,83 +21,83 @@ const prRing = keyframes`
 `;
 
 const PreloaderBase = styled.div`
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 
-	display: grid;
-	place-items: center;
+    display: grid;
+    place-items: center;
 
-	.spinner {
-		width: 58px;
-		display: flex;
-		text-align: center;
-		margin: 100px auto 0;
-		justify-content: space-between;
-	}
+    .spinner {
+        width: 58px;
+        display: flex;
+        text-align: center;
+        margin: 100px auto 0;
+        justify-content: space-between;
+    }
 
-	.spinner > div {
-		width: 14px;
-		height: 14px;
-		background-color: var(--tertiary-foreground);
+    .spinner > div {
+        width: 14px;
+        height: 14px;
+        background-color: var(--tertiary-foreground);
 
-		border-radius: 100%;
-		display: inline-block;
-		animation: ${skSpinner} 1.4s infinite ease-in-out both;
-	}
+        border-radius: 100%;
+        display: inline-block;
+        animation: ${skSpinner} 1.4s infinite ease-in-out both;
+    }
 
-	.spinner div:nth-child(1) {
-		animation-delay: -0.32s;
-	}
+    .spinner div:nth-child(1) {
+        animation-delay: -0.32s;
+    }
 
-	.spinner div:nth-child(2) {
-		animation-delay: -0.16s;
-	}
+    .spinner div:nth-child(2) {
+        animation-delay: -0.16s;
+    }
 
-	.ring {
-		display: inline-block;
-		position: relative;
-		width: 48px;
-		height: 52px;
-	}
+    .ring {
+        display: inline-block;
+        position: relative;
+        width: 48px;
+        height: 52px;
+    }
 
-	.ring div {
-		width: 32px;
-		margin: 8px;
-		height: 32px;
-		display: block;
-		position: absolute;
-		border-radius: 50%;
-		box-sizing: border-box;
-		border: 2px solid #fff;
-		animation: ${prRing} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-		border-color: #fff transparent transparent transparent;
-	}
+    .ring div {
+        width: 32px;
+        margin: 8px;
+        height: 32px;
+        display: block;
+        position: absolute;
+        border-radius: 50%;
+        box-sizing: border-box;
+        border: 2px solid #fff;
+        animation: ${prRing} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        border-color: #fff transparent transparent transparent;
+    }
 
-	.ring div:nth-child(1) {
-		animation-delay: -0.45s;
-	}
+    .ring div:nth-child(1) {
+        animation-delay: -0.45s;
+    }
 
-	.ring div:nth-child(2) {
-		animation-delay: -0.3s;
-	}
+    .ring div:nth-child(2) {
+        animation-delay: -0.3s;
+    }
 
-	.ring div:nth-child(3) {
-		animation-delay: -0.15s;
-	}
+    .ring div:nth-child(3) {
+        animation-delay: -0.15s;
+    }
 `;
 
 interface Props {
-	type: "spinner" | "ring";
+    type: "spinner" | "ring";
 }
 
 export default function Preloader({ type }: Props) {
-	return (
-		<PreloaderBase>
-			<div class={type}>
-				<div />
-				<div />
-				<div />
-			</div>
-		</PreloaderBase>
-	);
+    return (
+        <PreloaderBase>
+            <div class={type}>
+                <div />
+                <div />
+                <div />
+            </div>
+        </PreloaderBase>
+    );
 }

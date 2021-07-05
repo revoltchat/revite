@@ -12,25 +12,25 @@ const Login = lazy(() => import("./login/Login"));
 const RevoltApp = lazy(() => import("./RevoltApp"));
 
 export function App() {
-	return (
-		<Context>
-			<Masks />
-			{/* 
+    return (
+        <Context>
+            <Masks />
+            {/* 
             // @ts-expect-error */}
-			<Suspense fallback={<Preloader type="spinner" />}>
-				<Switch>
-					<Route path="/login">
-						<CheckAuth>
-							<Login />
-						</CheckAuth>
-					</Route>
-					<Route path="/">
-						<CheckAuth auth>
-							<RevoltApp />
-						</CheckAuth>
-					</Route>
-				</Switch>
-			</Suspense>
-		</Context>
-	);
+            <Suspense fallback={<Preloader type="spinner" />}>
+                <Switch>
+                    <Route path="/login">
+                        <CheckAuth>
+                            <Login />
+                        </CheckAuth>
+                    </Route>
+                    <Route path="/">
+                        <CheckAuth auth>
+                            <RevoltApp />
+                        </CheckAuth>
+                    </Route>
+                </Switch>
+            </Suspense>
+        </Context>
+    );
 }

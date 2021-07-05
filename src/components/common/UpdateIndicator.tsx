@@ -14,18 +14,18 @@ var pendingUpdate = false;
 internalSubscribe("PWA", "update", () => (pendingUpdate = true));
 
 export default function UpdateIndicator() {
-	const [pending, setPending] = useState(pendingUpdate);
+    const [pending, setPending] = useState(pendingUpdate);
 
-	useEffect(() => {
-		return internalSubscribe("PWA", "update", () => setPending(true));
-	});
+    useEffect(() => {
+        return internalSubscribe("PWA", "update", () => setPending(true));
+    });
 
-	if (!pending) return null;
-	const theme = useContext(ThemeContext);
+    if (!pending) return null;
+    const theme = useContext(ThemeContext);
 
-	return (
-		<IconButton onClick={() => updateSW(true)}>
-			<Download size={22} color={theme.success} />
-		</IconButton>
-	);
+    return (
+        <IconButton onClick={() => updateSW(true)}>
+            <Download size={22} color={theme.success} />
+        </IconButton>
+    );
 }

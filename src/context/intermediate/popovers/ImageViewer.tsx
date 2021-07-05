@@ -10,37 +10,37 @@ import Modal from "../../../components/ui/Modal";
 import { AppContext } from "../../revoltjs/RevoltClient";
 
 interface Props {
-	onClose: () => void;
-	embed?: EmbedImage;
-	attachment?: Attachment;
+    onClose: () => void;
+    embed?: EmbedImage;
+    attachment?: Attachment;
 }
 
 export function ImageViewer({ attachment, embed, onClose }: Props) {
-	// ! FIXME: temp code
-	// ! add proxy function to client
-	function proxyImage(url: string) {
-		return "https://jan.revolt.chat/proxy?url=" + encodeURIComponent(url);
-	}
+    // ! FIXME: temp code
+    // ! add proxy function to client
+    function proxyImage(url: string) {
+        return "https://jan.revolt.chat/proxy?url=" + encodeURIComponent(url);
+    }
 
-	if (attachment && attachment.metadata.type !== "Image") return null;
-	const client = useContext(AppContext);
+    if (attachment && attachment.metadata.type !== "Image") return null;
+    const client = useContext(AppContext);
 
-	return (
-		<Modal visible={true} onClose={onClose} noBackground>
-			<div className={styles.viewer}>
-				{attachment && (
-					<>
-						<img src={client.generateFileURL(attachment)} />
-						<AttachmentActions attachment={attachment} />
-					</>
-				)}
-				{embed && (
-					<>
-						<img src={proxyImage(embed.url)} />
-						<EmbedMediaActions embed={embed} />
-					</>
-				)}
-			</div>
-		</Modal>
-	);
+    return (
+        <Modal visible={true} onClose={onClose} noBackground>
+            <div className={styles.viewer}>
+                {attachment && (
+                    <>
+                        <img src={client.generateFileURL(attachment)} />
+                        <AttachmentActions attachment={attachment} />
+                    </>
+                )}
+                {embed && (
+                    <>
+                        <img src={proxyImage(embed.url)} />
+                        <EmbedMediaActions embed={embed} />
+                    </>
+                )}
+            </div>
+        </Modal>
+    );
 }

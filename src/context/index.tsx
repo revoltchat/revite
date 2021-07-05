@@ -11,21 +11,21 @@ import Intermediate from "./intermediate/Intermediate";
 import Client from "./revoltjs/RevoltClient";
 
 export default function Context({ children }: { children: Children }) {
-	return (
-		<Router>
-			<State>
-				<Theme>
-					<Settings>
-						<Locale>
-							<Intermediate>
-								<Client>
-									<Voice>{children}</Voice>
-								</Client>
-							</Intermediate>
-						</Locale>
-					</Settings>
-				</Theme>
-			</State>
-		</Router>
-	);
+    return (
+        <Router>
+            <State>
+                <Theme>
+                    <Settings>
+                        <Locale>
+                            <Intermediate>
+                                <Client>
+                                    <Voice>{children}</Voice>
+                                </Client>
+                            </Intermediate>
+                        </Locale>
+                    </Settings>
+                </Theme>
+            </State>
+        </Router>
+    );
 }

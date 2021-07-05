@@ -16,45 +16,45 @@ import { typing, TypingAction } from "./typing";
 import { unreads, UnreadsAction } from "./unreads";
 
 export default combineReducers({
-	config,
-	locale,
-	auth,
-	settings,
-	unreads,
-	queue,
-	typing,
-	drafts,
-	sync,
-	experiments,
-	lastOpened,
-	notifications,
-	sectionToggle,
+    config,
+    locale,
+    auth,
+    settings,
+    unreads,
+    queue,
+    typing,
+    drafts,
+    sync,
+    experiments,
+    lastOpened,
+    notifications,
+    sectionToggle,
 });
 
 export type Action =
-	| ConfigAction
-	| LocaleAction
-	| AuthAction
-	| SettingsAction
-	| UnreadsAction
-	| QueueAction
-	| TypingAction
-	| DraftAction
-	| SyncAction
-	| ExperimentsAction
-	| LastOpenedAction
-	| NotificationsAction
-	| SectionToggleAction
-	| { type: "__INIT"; state: State };
+    | ConfigAction
+    | LocaleAction
+    | AuthAction
+    | SettingsAction
+    | UnreadsAction
+    | QueueAction
+    | TypingAction
+    | DraftAction
+    | SyncAction
+    | ExperimentsAction
+    | LastOpenedAction
+    | NotificationsAction
+    | SectionToggleAction
+    | { type: "__INIT"; state: State };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function filter(obj: any, keys: string[]) {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const newObj: any = {};
-	for (const key of keys) {
-		const v = obj[key];
-		if (v) newObj[key] = v;
-	}
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const newObj: any = {};
+    for (const key of keys) {
+        const v = obj[key];
+        if (v) newObj[key] = v;
+    }
 
-	return newObj;
+    return newObj;
 }

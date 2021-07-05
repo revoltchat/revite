@@ -13,64 +13,64 @@ import { Typing } from "../../redux/reducers/typing";
 import { AppContext } from "./RevoltClient";
 
 type Props = {
-	messages: QueuedMessage[];
-	typing: Typing;
+    messages: QueuedMessage[];
+    typing: Typing;
 };
 
 function StateMonitor(props: Props) {
-	const client = useContext(AppContext);
+    const client = useContext(AppContext);
 
-	useEffect(() => {
-		dispatch({
-			type: "QUEUE_DROP_ALL",
-		});
-	}, []);
+    useEffect(() => {
+        dispatch({
+            type: "QUEUE_DROP_ALL",
+        });
+    }, []);
 
-	useEffect(() => {
-		function add(msg: Message) {
-			if (!msg.nonce) return;
-			if (!props.messages.find((x) => x.id === msg.nonce)) return;
+    useEffect(() => {
+        function add(msg: Message) {
+            if (!msg.nonce) return;
+            if (!props.messages.find((x) => x.id === msg.nonce)) return;
 
-			dispatch({
-				type: "QUEUE_REMOVE",
-				nonce: msg.nonce,
-			});
-		}
+            dispatch({
+                type: "QUEUE_REMOVE",
+                nonce: msg.nonce,
+            });
+        }
 
-		client.addListener("message", add);
-		return () => client.removeListener("message", add);
-	}, [props.messages]);
+        client.addListener("message", add);
+        return () => client.removeListener("message", add);
+    }, [props.messages]);
 
-	useEffect(() => {
-		function removeOld() {
-			if (!props.typing) return;
-			for (let channel of Object.keys(props.typing)) {
-				let users = props.typing[channel];
+    useEffect(() => {
+        function removeOld() {
+            if (!props.typing) return;
+            for (let channel of Object.keys(props.typing)) {
+                let users = props.typing[channel];
 
-				for (let user of users) {
-					if (+new Date() > user.started + 5000) {
-						dispatch({
-							type: "TYPING_STOP",
-							channel,
-							user: user.id,
-						});
-					}
-				}
-			}
-		}
+                for (let user of users) {
+                    if (+new Date() > user.started + 5000) {
+                        dispatch({
+                            type: "TYPING_STOP",
+                            channel,
+                            user: user.id,
+                        });
+                    }
+                }
+            }
+        }
 
-		removeOld();
+        removeOld();
 
-		let interval = setInterval(removeOld, 1000);
-		return () => clearInterval(interval);
-	}, [props.typing]);
+        let interval = setInterval(removeOld, 1000);
+        return () => clearInterval(interval);
+    }, [props.typing]);
 
-	return null;
+    return null;
 }
 
 export default connectState(StateMonitor, (state) => {
-	return {
-		messages: [...state.queue],
-		typing: state.typing,
-	};
+    return {
+        messages: [...state.queue],
+        typing: state.typing,
+    };
 });
