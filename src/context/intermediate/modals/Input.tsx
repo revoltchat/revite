@@ -119,9 +119,8 @@ export function SpecialInputModal(props: SpecialProps) {
                 question={<Text id="app.settings.permissions.create_role" />}
                 field={<Text id="app.settings.permissions.role_name" />}
                 callback={async name => {
-                    // bree: this returns void, dunno why props.callback was being called
                     const role = await client.servers.createRole(props.server, name);
-                    // props.callback(role.id);
+                    props.callback(role.id);
                 }}
             />;
         }

@@ -33,7 +33,6 @@ const CategoryBase = styled.div<Pick<Props, 'variant'>>`
 
 type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'as' | 'action'> & {
     text: Children;
-    // TODO: rename from action to prevent type conflicts with the dom
     action?: () => void;
     variant?: 'default' | 'uniform';
 }
