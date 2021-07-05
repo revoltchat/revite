@@ -7,6 +7,13 @@ interface Props {
     error?: boolean
 }
 
+export const Separator = styled.div<Props>`
+    height: 1px;
+    width: calc(100% - 10px);
+    background: var(--secondary-header);
+    margin: 18px auto;
+`;
+
 export const TipBase = styled.div<Props>`
     display: flex;
     padding: 12px;
@@ -46,9 +53,13 @@ export const TipBase = styled.div<Props>`
 export default function Tip(props: Props & { children: Children }) {
     const { children, ...tipProps } = props;
     return (
-        <TipBase {...tipProps}>
-            <InfoCircle size={20} />
-            <span>{props.children}</span>
-        </TipBase>
+        <>
+            <Separator />
+            <TipBase {...tipProps}>
+                <InfoCircle size={20} />
+                <span>{props.children}</span>
+            </TipBase>
+        </>
+        
     );
 }

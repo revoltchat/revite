@@ -51,7 +51,13 @@
         }
 
         .status {
-            font-size: .6rem;
+            max-width: 132px;
+            font-size: .625rem;
+            color: var(--secondary-foreground);
+
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
     }
 

@@ -18,7 +18,9 @@ html,
 body {
     margin: 0;
     height: 100%;
-    font-family: "Open Sans", sans-serif;
+    font-family: var(--font), sans-serif;
+    font-variant-ligatures: var(--ligatures);
+
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     caret-color: var(--accent);

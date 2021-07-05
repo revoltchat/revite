@@ -25,8 +25,23 @@
     "preact": "^10.5.13"
   },
   "devDependencies": {
-    "@fontsource/fira-mono": "^4.4.5",
+    "@fontsource/atkinson-hyperlegible": "^4.4.5",
+    "@fontsource/bree-serif": "^4.4.5",
+    "@fontsource/comic-neue": "^4.4.5",
+    "@fontsource/fira-code": "^4.4.5",
+    "@fontsource/inter": "^4.4.5",
+    "@fontsource/lato": "^4.4.5",
+    "@fontsource/montserrat": "^4.4.5",
+    "@fontsource/noto-sans": "^4.4.5",
     "@fontsource/open-sans": "^4.4.5",
+    "@fontsource/poppins": "^4.4.5",
+    "@fontsource/raleway": "^4.4.5",
+    "@fontsource/roboto": "^4.4.5",
+    "@fontsource/roboto-mono": "^4.4.5",
+    "@fontsource/source-code-pro": "^4.4.5",
+    "@fontsource/space-mono": "^4.4.5",
+    "@fontsource/ubuntu": "^4.4.5",
+    "@fontsource/ubuntu-mono": "^4.4.5",
     "@hcaptcha/react-hcaptcha": "^0.3.6",
     "@preact/preset-vite": "^2.0.0",
     "@rollup/plugin-replace": "^2.4.2",
@@ -86,7 +101,7 @@
     "typescript": "^4.3.2",
     "ulid": "^2.3.0",
     "use-resize-observer": "^7.0.0",
-    "vite": "^2.3.7",
+    "vite": "npm:@insertish/vite@2.2.4-dynamic-import-css-f428476",
     "vite-plugin-pwa": "^0.8.1",
     "workbox-precaching": "^6.1.5"
   }

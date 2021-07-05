@@ -49,7 +49,7 @@ export function Roles({ server }: Props) {
             <div className={styles.list}>
                 <div className={styles.title}>
                     <h1><Text id="app.settings.server_pages.roles.title" /></h1>
-                    <Plus size={16} onClick={() =>
+                    <Plus size={22} onClick={() =>
                         openScreen({ id: 'special_input', type: 'create_role', server: server._id, callback: id => setRole(id) })} />
                 </div>
                 { [ 'default', ...Object.keys(roles) ]

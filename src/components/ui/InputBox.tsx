@@ -9,6 +9,7 @@ export default styled.input<Props>`
     padding: 8px 16px;
     border-radius: 6px;
     
+    font-family: inherit;
     color: var(--foreground);
     background: var(--primary-background);
     transition: 0.2s ease background-color;

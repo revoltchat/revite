@@ -1,5 +1,6 @@
 import { useRef } from "preact/hooks";
-import { Check, Pencil } from "@styled-icons/boxicons-regular";
+import { Check } from "@styled-icons/boxicons-regular";
+import { Palette } from "@styled-icons/boxicons-solid";
 import styled, { css } from "styled-components";
 
 interface Props {
@@ -98,7 +99,7 @@ export default function ColourSwatches({ value, onChange }: Props) {
                 type="large"
                 onClick={() => ref.current.click()}
             >
-                <Pencil size={32} />
+                <Palette size={32} />
             </Swatch>
             <input
                 type="color"

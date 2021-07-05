@@ -65,7 +65,7 @@ export function settings(
             return {
                 ...state,
                 theme: {
-                    ...filter(state.theme, ["custom", "preset"]),
+                    ...filter(state.theme, ["custom", "preset", "ligatures"]),
                     ...action.theme,
                 },
             };
