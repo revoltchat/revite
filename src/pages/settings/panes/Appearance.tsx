@@ -118,6 +118,15 @@ export function Component(props: Props) {
                     </h4>
                 </div>
             </div>
+            {/*<Checkbox
+                    checked={props.settings.theme?.ligatures === true}
+                    onChange={() =>
+                        setTheme({
+                            ligatures: !props.settings.theme?.ligatures,
+                        })
+                    }>
+                    Use the system theme
+                </Checkbox>*/}
 
             <h3>
                 <Text id="app.settings.pages.appearance.accent_selector" />
