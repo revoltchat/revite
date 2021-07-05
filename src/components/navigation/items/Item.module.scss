@@ -20,7 +20,7 @@
         height: 42px;
     }
 
-    &.compact {
+    &.compact { /* TOFIX: Introduce two separate compact items, one for settings, other for channels. */
         height: 32px;
     }
 
@@ -46,7 +46,7 @@
         transition: color .1s ease-in-out;
 
         &.content {
-            gap: 8px;
+            gap: 10px;
             flex-grow: 1;
             min-width: 0;
             display: flex;
