@@ -3,7 +3,7 @@ module.exports = {
     "useTabs": true,
     "trailingComma": "all",
     "jsxBracketSameLine": true,
-    "importOrder": ["/(lib)", "/(redux)", "/(context)", "/(ui|common)|.svg$", "^[./]"],
+    "importOrder": ["preact|classnames|.scss$", "/(lib)", "/(redux)", "/(context)", "/(ui|common)|.svg$", "^[./]"],
     "importOrderSeparation": true,
 }
   

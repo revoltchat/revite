@@ -1,22 +1,23 @@
-import { useContext } from "preact/hooks";
 import { Redirect } from "react-router-dom";
-import { Children } from "../../types/Preact";
 
+import { useContext } from "preact/hooks";
+
+import { Children } from "../../types/Preact";
 import { OperationsContext } from "./RevoltClient";
 
 interface Props {
-    auth?: boolean;
-    children: Children;
+	auth?: boolean;
+	children: Children;
 }
 
 export const CheckAuth = (props: Props) => {
-    const operations = useContext(OperationsContext);
+	const operations = useContext(OperationsContext);
 
-    if (props.auth && !operations.ready()) {
-        return <Redirect to="/login" />;
-    } else if (!props.auth && operations.ready()) {
-        return <Redirect to="/" />;
-    }
+	if (props.auth && !operations.ready()) {
+		return <Redirect to="/login" />;
+	} else if (!props.auth && operations.ready()) {
+		return <Redirect to="/" />;
+	}
 
-    return <>{props.children}</>;
+	return <>{props.children}</>;
 };

@@ -1,51 +1,55 @@
-import styled, { css } from "styled-components";
-import { Children } from "../../types/Preact";
 import { Plus } from "@styled-icons/boxicons-regular";
+import styled, { css } from "styled-components";
 
-const CategoryBase = styled.div<Pick<Props, 'variant'>>`
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
+import { Children } from "../../types/Preact";
 
-    margin-top: 4px;
-    padding: 6px 0;
-    margin-bottom: 4px;
-    white-space: nowrap;
-    
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
+const CategoryBase = styled.div<Pick<Props, "variant">>`
+	font-size: 12px;
+	font-weight: 700;
+	text-transform: uppercase;
 
-    svg {
-        cursor: pointer;
-    }
+	margin-top: 4px;
+	padding: 6px 0;
+	margin-bottom: 4px;
+	white-space: nowrap;
 
-    &:first-child {
-        margin-top: 0;
-        padding-top: 0;
-    }
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	justify-content: space-between;
 
-    ${ props => props.variant === 'uniform' && css`
-        padding-top: 6px;
-    ` }
+	svg {
+		cursor: pointer;
+	}
+
+	&:first-child {
+		margin-top: 0;
+		padding-top: 0;
+	}
+
+	${(props) =>
+		props.variant === "uniform" &&
+		css`
+			padding-top: 6px;
+		`}
 `;
 
-type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'as' | 'action'> & {
-    text: Children;
-    action?: () => void;
-    variant?: 'default' | 'uniform';
-}
+type Props = Omit<
+	JSX.HTMLAttributes<HTMLDivElement>,
+	"children" | "as" | "action"
+> & {
+	text: Children;
+	action?: () => void;
+	variant?: "default" | "uniform";
+};
 
 export default function Category(props: Props) {
-    let { text, action, ...otherProps } = props;
+	let { text, action, ...otherProps } = props;
 
-    return (
-        <CategoryBase {...otherProps}>
-            {text}
-            {action && (
-                <Plus size={16} onClick={action} />
-            )}
-        </CategoryBase>
-    );
-};
+	return (
+		<CategoryBase {...otherProps}>
+			{text}
+			{action && <Plus size={16} onClick={action} />}
+		</CategoryBase>
+	);
+}

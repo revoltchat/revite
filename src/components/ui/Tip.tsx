@@ -1,65 +1,69 @@
-import { Children } from "../../types/Preact";
-import styled, { css } from "styled-components";
 import { InfoCircle } from "@styled-icons/boxicons-regular";
+import styled, { css } from "styled-components";
+
+import { Children } from "../../types/Preact";
 
 interface Props {
-    warning?: boolean
-    error?: boolean
+	warning?: boolean;
+	error?: boolean;
 }
 
 export const Separator = styled.div<Props>`
-    height: 1px;
-    width: calc(100% - 10px);
-    background: var(--secondary-header);
-    margin: 18px auto;
+	height: 1px;
+	width: calc(100% - 10px);
+	background: var(--secondary-header);
+	margin: 18px auto;
 `;
 
 export const TipBase = styled.div<Props>`
-    display: flex;
-    padding: 12px;
-    overflow: hidden;
-    align-items: center;
+	display: flex;
+	padding: 12px;
+	overflow: hidden;
+	align-items: center;
 
-    font-size: 14px;
-    border-radius: 7px;
-    background: var(--primary-header);
-    border: 2px solid var(--secondary-header);
+	font-size: 14px;
+	border-radius: 7px;
+	background: var(--primary-header);
+	border: 2px solid var(--secondary-header);
 
-    a {
-        cursor: pointer;
-        &:hover {
-            text-decoration: underline;
-        }
-    }
+	a {
+		cursor: pointer;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 
-    svg {
-        flex-shrink: 0;
-        margin-inline-end: 10px;
-    }
+	svg {
+		flex-shrink: 0;
+		margin-inline-end: 10px;
+	}
 
-    ${ props => props.warning && css`
-        color: var(--warning);
-        border: 2px solid var(--warning);
-        background: var(--secondary-header);
-    ` }
+	${(props) =>
+		props.warning &&
+		css`
+			color: var(--warning);
+			border: 2px solid var(--warning);
+			background: var(--secondary-header);
+		`}
 
-    ${ props => props.error && css`
-        color: var(--error);
-        border: 2px solid var(--error);
-        background: var(--secondary-header);
-    ` }
+	${(props) =>
+		props.error &&
+		css`
+			color: var(--error);
+			border: 2px solid var(--error);
+			background: var(--secondary-header);
+		`}
 `;
 
 export default function Tip(props: Props & { children: Children }) {
-    const { children, ...tipProps } = props;
-    return (
-        <>
-            <Separator />
-            <TipBase {...tipProps}>
-                <InfoCircle size={20} />
-                <span>{props.children}</span>
-            </TipBase>
-        </>
-        
-    );
+	const { children, ...tipProps } = props;
+	return (
+		<>
+			<Separator />
+			<TipBase {...tipProps}>
+				<InfoCircle size={20} />
+				<span>{props.children}</span>
+			</TipBase>
+		</>
+	);
 }
