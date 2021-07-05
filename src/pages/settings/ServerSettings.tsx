@@ -1,10 +1,5 @@
-import {
-    ListUl,
-    Share,
-    Group,
-    ListCheck,
-} from "@styled-icons/boxicons-regular";
-import { XSquare } from "@styled-icons/boxicons-solid";
+import { ListUl, ListCheck } from "@styled-icons/boxicons-regular";
+import { XSquare, Share, Group } from "@styled-icons/boxicons-solid";
 import { Route, useHistory, useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";

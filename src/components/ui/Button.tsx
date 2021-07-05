@@ -33,6 +33,7 @@ export default styled.button<Props>`
     }
 
     &:disabled {
+        cursor: not-allowed;
         background: var(--primary-background);
     }
 
@@ -50,6 +51,7 @@ export default styled.button<Props>`
             }
 
             &:disabled {
+                cursor: not-allowed;
                 opacity: .5;
             }
 
@@ -69,6 +71,7 @@ export default styled.button<Props>`
             }
 
             &:disabled {
+                cursor: not-allowed;
                 background: var(--secondary-header);
             }
 
@@ -89,6 +92,7 @@ export default styled.button<Props>`
             }
 
             &:disabled {
+                cursor: not-allowed;
                 background: var(--error);
             }
         `}
