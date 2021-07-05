@@ -1,13 +1,12 @@
 .attachment {
+    display: grid;
+    grid-auto-columns: min(100%, 480px);
+    grid-auto-flow: row dense;
+    
+    width: max-content;
+    
     border-radius: 6px;
     margin: .125rem 0 .125rem;
-    
-    height: auto;
-    
-    max-height: 640px;
-    max-width: min(480px, 100%);
-    
-    object-fit: contain;
     
     &[data-spoiler="true"] {
         filter: blur(30px);
@@ -20,6 +19,16 @@
 
     &.image {
         cursor: pointer;
+        
+        max-height: 640px;
+        max-width: min(480px, 100%);
+        
+        object-fit: contain;
+
+        &.loaded {
+            width: auto;
+            height: auto;
+        }
     }
 
     &.video {        
@@ -29,8 +38,15 @@
         }
 
         video {
-            width: 100%;
             border-radius: 0 0 6px 6px;
+            
+            max-height: 640px;
+            max-width: min(480px, 100%);
+        }
+
+        video.loaded {
+            width: auto;
+            height: auto;
         }
     }
 
@@ -59,11 +75,12 @@
     }
 
     &.text {
-        display: flex;
-        overflow: hidden;
+        width: 100%;
         max-width: 800px;
+        overflow: hidden;
+        grid-auto-columns: unset;
+
         border-radius: 6px;
-        flex-direction: column;
 
         .textContent {
             height: 140px;
@@ -92,35 +109,48 @@
     }
 }
 
+.actions.imageAction {
+    grid-template: 
+        "name icon download" auto
+        "size icon download" auto
+        / minmax(20px, 1fr) min-content min-content;
+}
+
 .actions {
-    gap: 8px;
-    padding: 8px;
-    display: flex;
-    overflow: none;
-    max-width: 100%;
+    display: grid;
+    grid-template: 
+        "icon name download" auto
+        "icon size download" auto
+        / min-content minmax(20px, 1fr) min-content;
+
     align-items: center;
-    flex-direction: row;
+    column-gap: 8px;
+    
+    width: 100%;
+    padding: 8px;
+    overflow: none;
+
     color: var(--foreground);
     background: var(--secondary-background);
 
-    > svg {
-        flex-shrink: 0;
+    span {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
     
-    .info {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
+    .filesize {
+        grid-area: size;
 
-        > span {
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-        }
+        font-size: 10px;
+        color: var(--secondary-foreground);
+    }
 
-        .filesize {
-            font-size: 10px;
-            color: var(--secondary-foreground);
-        }
+    .downloadIcon {
+        grid-area: download;
+    }
+
+    .iconType {
+        grid-area: icon;
     }
 }

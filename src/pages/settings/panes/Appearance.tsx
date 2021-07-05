@@ -6,14 +6,13 @@ import Checkbox from "../../../components/ui/Checkbox";
 import ComboBox from "../../../components/ui/ComboBox";
 import InputBox from "../../../components/ui/InputBox";
 import { connectState } from "../../../redux/connector";
-import { WithDispatcher } from "../../../redux/reducers";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
 import { EmojiPacks, Settings } from "../../../redux/reducers/settings";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
-import { FONTS, FONT_KEYS, MONOSCAPE_FONTS, MONOSCAPE_FONT_KEYS, Theme, ThemeContext, ThemeOptions } from "../../../context/Theme";
+import { DEFAULT_FONT, DEFAULT_MONO_FONT, FONTS, FONT_KEYS, MONOSCAPE_FONTS, MONOSCAPE_FONT_KEYS, Theme, ThemeContext, ThemeOptions } from "../../../context/Theme";
 
 // @ts-ignore
 import pSBC from 'shade-blend-color';
@@ -25,25 +24,26 @@ import mutantSVG from '../assets/mutant_emoji.svg';
 import notoSVG from '../assets/noto_emoji.svg';
 import openmojiSVG from '../assets/openmoji_emoji.svg';
 import twemojiSVG from '../assets/twemoji_emoji.svg';
+import { dispatch } from "../../../redux";
 
 interface Props {
     settings: Settings;
 }
 
 // ! FIXME: code needs to be rewritten to fix jittering
-export function Component(props: Props & WithDispatcher) {
+export function Component(props: Props) {
     const theme = useContext(ThemeContext);
     const { writeClipboard, openScreen } = useIntermediate();
 
     function setTheme(theme: ThemeOptions) {
-        props.dispatcher({
+        dispatch({
             type: "SETTINGS_SET_THEME",
             theme
         });
     }
 
     function pushOverride(custom: Partial<Theme>) {
-        props.dispatcher({
+        dispatch({
             type: "SETTINGS_SET_THEME_OVERRIDE",
             custom
         });
@@ -58,7 +58,7 @@ export function Component(props: Props & WithDispatcher) {
 
     const emojiPack = props.settings.appearance?.emojiPack ?? 'mutant';
     function setEmojiPack(emojiPack: EmojiPacks) {
-        props.dispatcher({
+        dispatch({
             type: 'SETTINGS_SET_APPEARANCE',
             options: {
                 emojiPack
@@ -135,7 +135,7 @@ export function Component(props: Props & WithDispatcher) {
             <h3>
                 <Text id="app.settings.pages.appearance.font" />
             </h3>
-            <ComboBox value={theme.font} onChange={e => setTheme({ custom: { font: e.currentTarget.value as any } })}>
+            <ComboBox value={theme.font ?? DEFAULT_FONT} onChange={e => setTheme({ custom: { font: e.currentTarget.value as any } })}>
                 {
                     FONT_KEYS
                         .map(key =>
@@ -284,7 +284,7 @@ export function Component(props: Props & WithDispatcher) {
                 <h3>
                     <Text id="app.settings.pages.appearance.mono_font" />
                 </h3>
-                <ComboBox value={theme.monoscapeFont} onChange={e => setTheme({ custom: { monoscapeFont: e.currentTarget.value as any } })}>
+                <ComboBox value={theme.monoscapeFont ?? DEFAULT_MONO_FONT} onChange={e => setTheme({ custom: { monoscapeFont: e.currentTarget.value as any } })}>
                     {
                         MONOSCAPE_FONT_KEYS
                             .map(key =>
@@ -313,6 +313,5 @@ export const Appearance = connectState(
         return {
             settings: state.settings
         };
-    },
-    true
+    }
 );

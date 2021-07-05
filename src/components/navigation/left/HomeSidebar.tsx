@@ -3,12 +3,12 @@ import { useContext, useEffect } from "preact/hooks";
 import { Home, UserDetail, Wrench, Notepad } from "@styled-icons/boxicons-solid";
 
 import Category from '../../ui/Category';
+import { dispatch } from "../../../redux";
 import PaintCounter from "../../../lib/PaintCounter";
 import UserHeader from "../../common/user/UserHeader";
 import { Channels } from "revolt.js/dist/api/objects";
 import { connectState } from "../../../redux/connector";
 import ConnectionStatus from '../items/ConnectionStatus';
-import { WithDispatcher } from "../../../redux/reducers";
 import { Unreads } from "../../../redux/reducers/unreads";
 import ConditionalLink from "../../../lib/ConditionalLink";
 import { mapChannelWithUnread, useUnreads } from "./common";
@@ -23,7 +23,7 @@ import { useDMs, useForceUpdate, useUsers } from "../../../context/revoltjs/hook
 
 import placeholderSVG from "../items/placeholder.svg";
 
-type Props = WithDispatcher & {
+type Props = {
     unreads: Unreads;
 }
 
@@ -43,7 +43,7 @@ function HomeSidebar(props: Props) {
     useEffect(() => {
         if (!channel) return;
 
-        props.dispatcher({
+        dispatch({
             type: 'LAST_OPENED_SET',
             parent: 'home',
             child: channel
@@ -148,6 +148,5 @@ export default connectState(
             unreads: state.unreads
         };
     },
-    true,
     true
 );

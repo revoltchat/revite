@@ -2,7 +2,6 @@ import { Redirect, useParams } from "react-router";
 import { ChannelButton } from "../items/ButtonItem";
 import { Channels } from "revolt.js/dist/api/objects";
 import { Unreads } from "../../../redux/reducers/unreads";
-import { WithDispatcher } from "../../../redux/reducers";
 import { useChannels, useForceUpdate, useServer } from "../../../context/revoltjs/hooks";
 import { mapChannelWithUnread, useUnreads } from "./common";
 import ConnectionStatus from '../items/ConnectionStatus';
@@ -13,6 +12,7 @@ import { attachContextMenu } from 'preact-context-menu';
 import ServerHeader from "../../common/ServerHeader";
 import { useEffect } from "preact/hooks";
 import Category from "../../ui/Category";
+import { dispatch } from "../../../redux";
 import ConditionalLink from "../../../lib/ConditionalLink";
 import CollapsibleSection from "../../common/CollapsibleSection";
 
@@ -43,7 +43,7 @@ const ServerList = styled.div`
     }
 `;
 
-function ServerSidebar(props: Props & WithDispatcher) {
+function ServerSidebar(props: Props) {
     const { server: server_id, channel: channel_id } = useParams<{ server?: string, channel?: string }>();
     const ctx = useForceUpdate();
 
@@ -61,7 +61,7 @@ function ServerSidebar(props: Props & WithDispatcher) {
     useEffect(() => {
         if (!channel_id) return;
 
-        props.dispatcher({
+        dispatch({
             type: 'LAST_OPENED_SET',
             parent: server_id!,
             child: channel_id!
@@ -130,6 +130,5 @@ export default connectState(
         return {
             unreads: state.unreads
         };
-    },
-    true
+    }
 );
