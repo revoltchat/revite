@@ -34,6 +34,7 @@
             display: flex;
             align-items: center;
             flex-direction: row;
+            margin-bottom: 5px;
 
             > svg {
                 flex-shrink: 0;
@@ -42,10 +43,20 @@
 
         .detail {
             flex-grow: 1;
+
+            .subtext {
+                display: inline;
+                margin: 0.4em 0;
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--foreground);
+                text-transform: uppercase;
+            }
         }
 
         p {
             margin: 0;
+            font-size: 1rem;
             color: var(--tertiary-foreground);
         }
     }
