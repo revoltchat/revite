@@ -121,7 +121,7 @@ export default function Friends() {
                     */}
                 </div>
             </Header>
-            <div className={styles.list} data-empty={isEmpty}>
+            <div className={styles.list} data-empty={isEmpty} data-mobile={isTouchscreenDevice}>
                 {isEmpty && (
                     <>
                         <img src="https://img.insrt.uk/xexu7/XOPoBUTI47.png/raw" />
@@ -210,6 +210,8 @@ export default function Friends() {
                         </CollapsibleSection>
                     );
                 })}
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><h1>test</h1>
             </div>
         </>
     );

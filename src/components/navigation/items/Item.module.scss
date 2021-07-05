@@ -150,7 +150,7 @@
         height: 40px;
 
         &.compact {
-            height: 50px;
+            height: var(--bottom-navigation-height);
 
             > div {
                 gap: 20px;

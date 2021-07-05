@@ -28,6 +28,10 @@
         flex-direction: column;
         justify-content: center;
     }
+
+    &[data-mobile="true"] {
+        padding-bottom: var(--bottom-navigation-height);
+    }
 }
 
 .friend {

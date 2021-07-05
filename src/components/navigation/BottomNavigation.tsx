@@ -14,8 +14,8 @@ import IconButton from "../ui/IconButton";
 
 const NavigationBase = styled.div`
     z-index: 100;
-    height: 50px;
     display: flex;
+    height: var(--bottom-navigation-height);
     background: var(--secondary-background);
 `;
 
