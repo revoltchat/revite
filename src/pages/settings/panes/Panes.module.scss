@@ -186,11 +186,20 @@
             text-transform: unset;
 
             a {
+                
                 opacity: 0.7;
                 color: var(--accent);
                 font-weight: 600;
                 &:hover {
                     text-decoration: underline;
+                }
+
+                
+            }
+
+            @media only screen and (max-width: 800px) {
+                a {
+                    display: block;
                 }
             }
         }

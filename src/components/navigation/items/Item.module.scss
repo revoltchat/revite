@@ -147,14 +147,18 @@
 
 @media (pointer: coarse) {
     .item {
-        height: 55px;
+        height: 40px;
 
         &.compact {
             height: 50px;
 
-            div > svg {
-                height: 22px;
-                width: 22px;
+            > div {
+                gap: 20px;
+
+                > svg {
+                    height: 24px;
+                    width: 24px;
+                }
             }
         }
     }
