@@ -15,7 +15,7 @@ export default function UpdateIndicator() {
         return internalSubscribe('PWA', 'update', () => setPending(true));
     });
 
-    if (!pending) return <></>;
+    if (!pending) return null;
     const theme = useContext(ThemeContext);
 
     return (

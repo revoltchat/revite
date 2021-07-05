@@ -110,7 +110,7 @@ function SyncManager(props: Props) {
         return () => client.removeListener('packet', onPacket);
     }, [ disabled, props.sync ]);
 
-    return <></>;
+    return null;
 }
 
 export default connectState(
