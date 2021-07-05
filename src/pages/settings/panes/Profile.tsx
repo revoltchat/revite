@@ -11,7 +11,7 @@ import { ClientStatus, StatusContext } from "../../../context/revoltjs/RevoltCli
 import AutoComplete, { useAutoComplete } from "../../../components/common/AutoComplete";
 
 export function Profile() {
-    const { intl } = useContext(IntlContext) as any;
+    const { intl } = useContext(IntlContext);
     const status = useContext(StatusContext);
 
     const ctx = useForceUpdate();
@@ -121,7 +121,7 @@ export function Profile() {
                             : "placeholder"
                     }`,
                     "",
-                    intl.dictionary
+                    (intl as any).dictionary as Record<string, unknown>
                 )}
                 onKeyUp={onKeyUp}
                 onKeyDown={onKeyDown}

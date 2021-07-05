@@ -1,6 +1,6 @@
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./Onboarding.module.scss";
 import { takeError } from "../../revoltjs/util";
 import Button from "../../../components/ui/Button";
@@ -14,12 +14,16 @@ interface Props {
     callback: (username: string, loginAfterSuccess?: true) => Promise<void>;
 }
 
+interface FormInputs {
+    username: string
+}
+
 export function OnboardingModal({ onClose, callback }: Props) {
-    const { handleSubmit, register } = useForm();
+    const { handleSubmit, register } = useForm<FormInputs>();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
 
-    async function onSubmit({ username }: { username: string }) {
+    const onSubmit: SubmitHandler<FormInputs> = ({ username }) => {
         setLoading(true);
         callback(username, true)
             .then(onClose)
@@ -45,7 +49,7 @@ export function OnboardingModal({ onClose, callback }: Props) {
                         <p>
                             <Text id="app.special.modals.onboarding.pick" />
                         </p>
-                        <form onSubmit={handleSubmit(onSubmit) as any}>
+                        <form onSubmit={handleSubmit(onSubmit) as JSX.GenericEventHandler<HTMLFormElement>}>
                             <div>
                                 <FormField
                                     type="username"

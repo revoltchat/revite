@@ -26,6 +26,8 @@ export default function FormField({
             )}
             <Localizer>
                 <InputBox
+                    // Styled uses React typing while we use Preact
+                    // this leads to inconsistances where things need to be typed oddly
                     placeholder={(<Text id={`login.enter.${type}`} />) as any}
                     name={
                         type === "current_password" ? "password" : name ?? type

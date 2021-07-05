@@ -15,8 +15,8 @@ import { Children } from "../types/Preact";
 import { createContext } from "preact";
 import { useMemo } from "preact/hooks";
 
-export const SettingsContext = createContext<Settings>({} as any);
-export const SoundContext = createContext<(sound: Sounds) => void>({} as any);
+export const SettingsContext = createContext<Settings>({});
+export const SoundContext = createContext<((sound: Sounds) => void)>(null!);
 
 interface Props {
     children?: Children,

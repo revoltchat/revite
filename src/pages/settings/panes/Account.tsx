@@ -52,11 +52,11 @@ export function Account() {
                 <div className={styles.username}>@{user.username}</div>
             </div>
             <div className={styles.details}>
-                {[
+                {([
                     ["username", user.username, <At size={24} />],
                     ["email", email, <Envelope size={24} />],
                     ["password", "*****", <Key size={24} />]
-                ].map(([field, value, icon]) => (
+                ] as const).map(([field, value, icon]) => (
                     <div>
                         {icon}
                         <div className={styles.detail}>
@@ -70,7 +70,7 @@ export function Account() {
                                 onClick={() =>
                                     openScreen({
                                         id: "modify_account",
-                                        field: field as any
+                                        field: field
                                     })
                                 }
                                 contrast

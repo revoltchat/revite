@@ -34,9 +34,12 @@ export interface ClientOperations {
     openDM: (user_id: string) => Promise<string>;
 }
 
-export const AppContext = createContext<Client>(undefined as any);
-export const StatusContext = createContext<ClientStatus>(undefined as any);
-export const OperationsContext = createContext<ClientOperations>(undefined as any);
+// By the time they are used, they should all be initialized.
+// Currently the app does not render until a client is built and the other two are always initialized on first render.
+// - insert's words
+export const AppContext = createContext<Client>(null!);
+export const StatusContext = createContext<ClientStatus>(null!);
+export const OperationsContext = createContext<ClientOperations>(null!);
 
 type Props = {
     auth: AuthState;
@@ -93,16 +96,14 @@ function Context({ auth, children }: Props) {
                     const login = () =>
                         dispatch({
                             type: "LOGIN",
-                            session: client.session as any
+                            session: client.session! // This [null assertion] is ok, we should have a session by now. - insert's words
                         });
 
                     if (onboarding) {
                         openScreen({
                             id: "onboarding",
-                            callback: async (username: string) => {
-                                await (onboarding as any)(username, true);
-                                login();
-                            }
+                            callback: (username: string) =>
+                                onboarding(username, true).then(login)
                         });
                     } else {
                         login();

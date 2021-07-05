@@ -23,11 +23,11 @@ type Props = {
 
 var lastValues: { [key in SyncKeys]?: any } = { };
 
-export function mapSync(packet: Sync.UserSettings, revision?: { [key: string]: number }) {
+export function mapSync(packet: Sync.UserSettings, revision?: Record<string, number>) {
     let update: { [key in SyncKeys]?: [ number, SyncData[key] ] } = {};
     for (let key of Object.keys(packet)) {
         let [ timestamp, obj ] = packet[key];
-        if (timestamp < (revision ?? {} as any)[key] ?? 0) {
+        if (timestamp < (revision ?? {})[key] ?? 0) {
             continue;
         }
 
@@ -110,7 +110,7 @@ function SyncManager(props: Props) {
         return () => client.removeListener('packet', onPacket);
     }, [ disabled, props.sync ]);
 
-    return <></>;
+    return null;
 }
 
 export default connectState(

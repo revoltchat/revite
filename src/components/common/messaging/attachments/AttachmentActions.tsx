@@ -19,7 +19,8 @@ export default function AttachmentActions({ attachment }: Props) {
     const open_url = `${url}/${filename}`;
     const download_url = url.replace('attachments', 'attachments/download')
 
-    const filesize = determineFileSize(size as any);
+    // for some reason revolt.js says the size is a string even though it's a number
+    const filesize = determineFileSize(size);
 
     switch (metadata.type) {
         case 'Image':

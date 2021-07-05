@@ -63,7 +63,7 @@ function StateMonitor(props: Props) {
         return () => clearInterval(interval);
     }, [ props.typing ]);
 
-    return <></>;
+    return null;
 }
 
 export default connectState(

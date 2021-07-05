@@ -114,9 +114,11 @@ interface Props {
 }
 
 function Locale({ children, locale }: Props) {
-    const [defns, setDefinition] = useState(definition);
+    // TODO: create and use LanguageDefinition type here
+    const [defns, setDefinition] = useState<Record<string, unknown>>(definition);
     const lang = Languages[locale];
 
+    // TODO: clean this up and use the built in Intl API
     function transformLanguage(source: { [key: string]: any }) {
         const obj = defaultsDeep(source, definition);
 

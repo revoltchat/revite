@@ -216,7 +216,7 @@ function Notifier({ options, notifs }: Props) {
             document.removeEventListener("visibilitychange", visChange);
     }, [guild_id, channel_id]);
 
-    return <></>;
+    return null;
 }
 
 const NotifierComponent = connectState(

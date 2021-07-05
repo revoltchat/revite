@@ -30,7 +30,15 @@ export type Variables =
     | "status-away"
     | "status-busy"
     | "status-streaming"
-    | "status-invisible";
+    | "status-invisible"
+
+// While this isn't used, it'd be good to keep this up to date as a reference or for future use
+export type HiddenVariables =
+    | "font"
+    | "ligatures"
+    | "app-height"
+    | "sidebar-active"
+    | "monospace-font"
 
 export type Fonts = 'Open Sans' | 'Inter' | 'Atkinson Hyperlegible' | 'Roboto' | 'Noto Sans' | 'Lato' | 'Bree Serif' | 'Montserrat' | 'Poppins' | 'Raleway' | 'Ubuntu' | 'Comic Neue';
 export type MonoscapeFonts = 'Fira Code' | 'Roboto Mono' | 'Source Code Pro' | 'Space Mono' | 'Ubuntu Mono';
@@ -191,7 +199,7 @@ export const DEFAULT_FONT = 'Open Sans';
 export const DEFAULT_MONO_FONT = 'Fira Code';
 
 // Generated from https://gitlab.insrt.uk/revolt/community/themes
-export const PRESETS: { [key: string]: Theme } = {
+export const PRESETS: Record<string, Theme> = {
     light: {
         light: true,
         accent: "#FD6671",
@@ -217,7 +225,7 @@ export const PRESETS: { [key: string]: Theme } = {
         "status-away": "#F39F00",
         "status-busy": "#F84848",
         "status-streaming": "#977EFF",
-        "status-invisible": "#A5A5A5",
+        "status-invisible": "#A5A5A5"
     },
     dark: {
         light: false,
@@ -244,7 +252,7 @@ export const PRESETS: { [key: string]: Theme } = {
         "status-away": "#F39F00",
         "status-busy": "#F84848",
         "status-streaming": "#977EFF",
-        "status-invisible": "#A5A5A5",
+        "status-invisible": "#A5A5A5"
     },
 };
 
@@ -259,7 +267,8 @@ const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 }
 `;
 
-export const ThemeContext = createContext<Theme>({} as any);
+// Load the default default them and apply extras later
+export const ThemeContext = createContext<Theme>(PRESETS['dark']);
 
 interface Props {
     children: Children;
@@ -269,7 +278,7 @@ interface Props {
 function Theme({ children, options }: Props) {
     const theme: Theme = {
         ...PRESETS["dark"],
-        ...(PRESETS as any)[options?.preset as any],
+        ...PRESETS[options?.preset ?? ''],
         ...options?.custom
     };
 

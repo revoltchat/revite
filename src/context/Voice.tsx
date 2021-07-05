@@ -33,8 +33,9 @@ export interface VoiceState {
     participants?: Readonly<Map<string, VoiceUser>>;
 }
 
-export const VoiceContext = createContext<VoiceState>(undefined as any);
-export const VoiceOperationsContext = createContext<VoiceOperations>(undefined as any);
+// They should be present from first render. - insert's words
+export const VoiceContext = createContext<VoiceState>(null!);
+export const VoiceOperationsContext = createContext<VoiceOperations>(null!);
 
 type Props = {
     children: Children;
