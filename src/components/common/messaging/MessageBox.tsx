@@ -61,7 +61,7 @@ export type UploadState =
 
 const Base = styled.div`
     display: flex;
-    padding: 0 12px;
+    /*padding: 0 12px;*/
     background: var(--message-box);
 
     textarea {
@@ -87,6 +87,10 @@ const Blocked = styled.div`
 const Action = styled.div`
     display: grid;
     place-items: center;
+
+    > div {
+        padding: 10px 12px;
+    }
 `;
 
 // ! FIXME: add to app config and load from app config
