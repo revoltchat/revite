@@ -68,11 +68,6 @@ const Base = styled.div`
         font-size: 0.875rem;
         background: transparent;
     }
-
-    .textarea {
-        flex-grow: 1;
-        padding: 12px 0;
-    }
 `;
 
 const Blocked = styled.div`
@@ -424,64 +419,62 @@ function MessageBox({ channel, draft }: Props) {
                         />
                     </Action>
                 ) : undefined}
-                <div class="textarea">
-                    <TextAreaAutoSize
-                        autoFocus
-                        hideBorder
-                        maxRows={20}
-                        padding={0}
-                        id="message"
-                        value={draft ?? ""}
-                        onKeyUp={onKeyUp}
-                        onKeyDown={(e) => {
-                            if (onKeyDown(e)) return;
+                <TextAreaAutoSize
+                    autoFocus
+                    hideBorder
+                    maxRows={20}
+                    padding={12}
+                    id="message"
+                    value={draft ?? ""}
+                    onKeyUp={onKeyUp}
+                    onKeyDown={(e) => {
+                        if (onKeyDown(e)) return;
 
-                            if (
-                                e.key === "ArrowUp" &&
-                                (!draft || draft.length === 0)
-                            ) {
-                                e.preventDefault();
-                                internalEmit("MessageRenderer", "edit_last");
-                                return;
-                            }
-
-                            if (
-                                !e.shiftKey &&
-                                e.key === "Enter" &&
-                                !isTouchscreenDevice
-                            ) {
-                                e.preventDefault();
-                                return send();
-                            }
-
-                            debouncedStopTyping(true);
-                        }}
-                        placeholder={
-                            channel.channel_type === "DirectMessage"
-                                ? translate("app.main.channel.message_who", {
-                                    person: client.users.get(
-                                        client.channels.getRecipient(channel._id),
-                                    )?.username,
-                                })
-                                : channel.channel_type === "SavedMessages"
-                                ? translate("app.main.channel.message_saved")
-                                : translate("app.main.channel.message_where", {
-                                    channel_name: channel.name,
-                                })
+                        if (
+                            e.key === "ArrowUp" &&
+                            (!draft || draft.length === 0)
+                        ) {
+                            e.preventDefault();
+                            internalEmit("MessageRenderer", "edit_last");
+                            return;
                         }
-                        disabled={
-                            uploadState.type === "uploading" ||
-                            uploadState.type === "sending"
+
+                        if (
+                            !e.shiftKey &&
+                            e.key === "Enter" &&
+                            !isTouchscreenDevice
+                        ) {
+                            e.preventDefault();
+                            return send();
                         }
-                        onChange={(e) => {
-                            setMessage(e.currentTarget.value);
-                            startTyping();
-                            onChange(e);
-                        }}
-                        onFocus={onFocus}
-                        onBlur={onBlur}
-                    />
-                </div>
+
+                        debouncedStopTyping(true);
+                    }}
+                    placeholder={
+                        channel.channel_type === "DirectMessage"
+                            ? translate("app.main.channel.message_who", {
+                                person: client.users.get(
+                                    client.channels.getRecipient(channel._id),
+                                )?.username,
+                            })
+                            : channel.channel_type === "SavedMessages"
+                            ? translate("app.main.channel.message_saved")
+                            : translate("app.main.channel.message_where", {
+                                channel_name: channel.name,
+                            })
+                    }
+                    disabled={
+                        uploadState.type === "uploading" ||
+                        uploadState.type === "sending"
+                    }
+                    onChange={(e) => {
+                        setMessage(e.currentTarget.value);
+                        startTyping();
+                        onChange(e);
+                    }}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                />
                 {isTouchscreenDevice && (
                     <Action>
                         <IconButton onClick={send}>
