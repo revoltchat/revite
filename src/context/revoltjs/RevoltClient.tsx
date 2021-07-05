@@ -34,7 +34,9 @@ export interface ClientOperations {
     openDM: (user_id: string) => Promise<string>;
 }
 
-// TODO: remove temporary non-null assertions and properly typecheck these as they aren't always immedietely initialized
+// By the time they are used, they should all be initialized.
+// Currently the app does not render until a client is built and the other two are always initialized on first render.
+// - insert's words
 export const AppContext = createContext<Client>(null!);
 export const StatusContext = createContext<ClientStatus>(null!);
 export const OperationsContext = createContext<ClientOperations>(null!);
@@ -94,7 +96,7 @@ function Context({ auth, children, dispatcher }: Props) {
                     const login = () =>
                         dispatcher({
                             type: "LOGIN",
-                            session: client.session! // TODO: verify that this null assertion is correct
+                            session: client.session! // This [null assertion] is ok, we should have a session by now. - insert's words
                         });
 
                     if (onboarding) {

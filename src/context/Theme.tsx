@@ -31,7 +31,14 @@ export type Variables =
     | "status-busy"
     | "status-streaming"
     | "status-invisible"
-    | "sidebar-active";
+
+// While this isn't used, it'd be good to keep this up to date as a reference or for future use
+export type HiddenVariables =
+    | "font"
+    | "ligatures"
+    | "app-height"
+    | "sidebar-active"
+    | "monospace-font"
 
 export type Fonts = 'Open Sans' | 'Inter' | 'Atkinson Hyperlegible' | 'Roboto' | 'Noto Sans' | 'Lato' | 'Bree Serif' | 'Montserrat' | 'Poppins' | 'Raleway' | 'Ubuntu' | 'Comic Neue';
 export type MonoscapeFonts = 'Fira Code' | 'Roboto Mono' | 'Source Code Pro' | 'Space Mono' | 'Ubuntu Mono';
@@ -215,8 +222,7 @@ export const PRESETS: Record<string, Theme> = {
         "status-away": "#F39F00",
         "status-busy": "#F84848",
         "status-streaming": "#977EFF",
-        "status-invisible": "#A5A5A5",
-        "sidebar-active": "var(--secondary-background)"
+        "status-invisible": "#A5A5A5"
     },
     dark: {
         light: false,
@@ -243,8 +249,7 @@ export const PRESETS: Record<string, Theme> = {
         "status-away": "#F39F00",
         "status-busy": "#F84848",
         "status-streaming": "#977EFF",
-        "status-invisible": "#A5A5A5",
-        "sidebar-active": "var(--secondary-background)"
+        "status-invisible": "#A5A5A5"
     },
 };
 

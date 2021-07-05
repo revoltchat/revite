@@ -33,8 +33,7 @@ export interface VoiceState {
     participants?: Readonly<Map<string, VoiceUser>>;
 }
 
-// [bree] TODO: I feel like these should be typechecked anyways but whatever,
-// I'm asserting that they aren't null because they get used near immedietly from what I can tell
+// They should be present from first render. - insert's words
 export const VoiceContext = createContext<VoiceState>(null!);
 export const VoiceOperationsContext = createContext<VoiceOperations>(null!);
 
