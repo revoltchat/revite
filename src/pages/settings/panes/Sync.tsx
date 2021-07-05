@@ -1,15 +1,15 @@
 import { Text } from "preact-i18n";
 import styles from "./Panes.module.scss";
+import { dispatch } from "../../../redux";
 import Checkbox from "../../../components/ui/Checkbox";
 import { connectState } from "../../../redux/connector";
-import { WithDispatcher } from "../../../redux/reducers";
 import { SyncKeys, SyncOptions } from "../../../redux/reducers/sync";
 
 interface Props {
     options?: SyncOptions;
 }
 
-export function Component(props: Props & WithDispatcher) {
+export function Component(props: Props) {
     return (
         <div className={styles.notifications}>
             <h3>
@@ -26,12 +26,12 @@ export function Component(props: Props & WithDispatcher) {
                         <Checkbox
                             checked={(props.options?.disabled ?? []).indexOf(key) === -1}
                             description={<Text id={`app.settings.pages.sync.descriptions.${key}`} />}
-                            onChange={enabled => {
-                                props.dispatcher({
+                            onChange={enabled =>
+                                dispatch({
                                     type: enabled ? 'SYNC_ENABLE_KEY' : 'SYNC_DISABLE_KEY',
                                     key
-                                });
-                            }}
+                                })
+                            }
                         >
                             <Text id={`app.settings.pages.${title}`} />
                         </Checkbox>
@@ -47,6 +47,5 @@ export const Sync = connectState(
         return {
             options: state.sync
         };
-    },
-    true
+    }
 );

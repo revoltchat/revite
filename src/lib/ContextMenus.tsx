@@ -10,7 +10,6 @@ import {
 } from "preact-context-menu";
 import { ChannelPermission, ServerPermission, UserPermission } from "revolt.js/dist/api/permissions";
 import { QueuedMessage } from "../redux/reducers/queue";
-import { WithDispatcher } from "../redux/reducers";
 import { useIntermediate } from "../context/intermediate/Intermediate";
 import { AppContext, ClientStatus, StatusContext } from "../context/revoltjs/RevoltClient";
 import { takeError } from "../context/revoltjs/util";
@@ -24,6 +23,7 @@ import { Cog } from "@styled-icons/boxicons-solid";
 import { getNotificationState, Notifications, NotificationState } from "../redux/reducers/notifications";
 import UserStatus from "../components/common/user/UserStatus";
 import IconButton from "../components/ui/IconButton";
+import { dispatch } from "../redux";
 
 interface ContextMenuData {
     user?: string;
@@ -81,7 +81,7 @@ type Action =
     | { action: "open_server_channel_settings", server: string, id: string }
     | { action: "set_notification_state", key: string, state?: NotificationState };
 
-type Props = WithDispatcher & {
+type Props = {
     notifications: Notifications
 };
 
@@ -110,7 +110,7 @@ function ContextMenus(props: Props) {
                             data.channel.channel_type === 'VoiceChannel') return;
 
                         let message = data.channel.channel_type === 'TextChannel' ? data.channel.last_message : data.channel.last_message._id;
-                        props.dispatcher({
+                        dispatch({
                             type: "UNREADS_MARK_READ",
                             channel: data.channel._id,
                             message
@@ -124,7 +124,7 @@ function ContextMenus(props: Props) {
                     {
                         const nonce = data.message.id;
                         const fail = (error: any) =>
-                            props.dispatcher({
+                            dispatch({
                                 type: "QUEUE_FAIL",
                                 nonce,
                                 error
@@ -141,7 +141,7 @@ function ContextMenus(props: Props) {
                             )
                             .catch(fail);
 
-                        props.dispatcher({
+                        dispatch({
                             type: "QUEUE_START",
                             nonce
                         });
@@ -150,7 +150,7 @@ function ContextMenus(props: Props) {
 
                 case "cancel_message":
                     {
-                        props.dispatcher({
+                        dispatch({
                             type: "QUEUE_REMOVE",
                             nonce: data.message.id
                         });
@@ -326,9 +326,9 @@ function ContextMenus(props: Props) {
                 case "set_notification_state": {
                     const { key, state } = data;
                     if (state) {
-                        props.dispatcher({ type: "NOTIFICATIONS_SET", key, state });
+                        dispatch({ type: "NOTIFICATIONS_SET", key, state });
                     } else {
-                        props.dispatcher({ type: "NOTIFICATIONS_REMOVE", key });
+                        dispatch({ type: "NOTIFICATIONS_REMOVE", key });
                     }
                     break;
                 }
@@ -758,6 +758,5 @@ export default connectState(
         return {
             notifications: state.notifications
         };
-    },
-    true
+    }
 );

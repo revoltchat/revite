@@ -1,19 +1,19 @@
 import { Text } from "preact-i18n";
 import styles from "./Panes.module.scss";
+import { dispatch } from "../../../redux";
 import Tip from "../../../components/ui/Tip";
 import Emoji from "../../../components/common/Emoji";
 import Checkbox from "../../../components/ui/Checkbox";
 import { connectState } from "../../../redux/connector";
-import { WithDispatcher } from "../../../redux/reducers";
 import { Language, LanguageEntry, Languages as Langs } from "../../../context/Locale";
 
-type Props = WithDispatcher & {
+type Props = {
     locale: Language;
 }
 
 type Key = [ string, LanguageEntry ];
 
-function Entry({ entry: [ x, lang ], locale, dispatcher }: { entry: Key } & Props) {
+function Entry({ entry: [ x, lang ], locale }: { entry: Key } & Props) {
     return (
         <Checkbox
             key={x}
@@ -21,7 +21,7 @@ function Entry({ entry: [ x, lang ], locale, dispatcher }: { entry: Key } & Prop
             checked={locale === x}
             onChange={v => {
                 if (v) {
-                    dispatcher({
+                    dispatch({
                         type: "SET_LOCALE",
                         locale: x as Language
                     });
@@ -80,6 +80,5 @@ export const Languages = connectState(
         return {
             locale: state.locale
         };
-    },
-    true
+    }
 );

@@ -1,11 +1,11 @@
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
-import { WithDispatcher } from "../../redux/reducers";
 import { Client, Message } from "revolt.js/dist";
 import {
     ClientOperations,
     ClientStatus
 } from "./RevoltClient";
 import { StateUpdater } from "preact/hooks";
+import { dispatch } from "../../redux";
 
 export var preventReconnect = false;
 let preventUntil = 0;
@@ -15,9 +15,8 @@ export function setReconnectDisallowed(allowed: boolean) {
 }
 
 export function registerEvents({
-    operations,
-    dispatcher
-}: { operations: ClientOperations } & WithDispatcher, setStatus: StateUpdater<ClientStatus>, client: Client) {
+    operations
+}: { operations: ClientOperations }, setStatus: StateUpdater<ClientStatus>, client: Client) {
     function attemptReconnect() {
         if (preventReconnect) return;
         function reconnect() {
@@ -47,7 +46,7 @@ export function registerEvents({
             switch (packet.type) {
                 case "ChannelStartTyping": {
                     if (packet.user === client.user?._id) return;
-                    dispatcher({
+                    dispatch({
                         type: "TYPING_START",
                         channel: packet.id,
                         user: packet.user
@@ -56,7 +55,7 @@ export function registerEvents({
                 }
                 case "ChannelStopTyping": {
                     if (packet.user === client.user?._id) return;
-                    dispatcher({
+                    dispatch({
                         type: "TYPING_STOP",
                         channel: packet.id,
                         user: packet.user
@@ -64,7 +63,7 @@ export function registerEvents({
                     break;
                 }
                 case "ChannelAck": {
-                    dispatcher({
+                    dispatch({
                         type: "UNREADS_MARK_READ",
                         channel: packet.id,
                         message: packet.message_id
@@ -76,7 +75,7 @@ export function registerEvents({
 
         message: (message: Message) => {
             if (message.mentions?.includes(client.user!._id)) {
-                dispatcher({
+                dispatch({
                     type: "UNREADS_MENTION",
                     channel: message.channel,
                     message: message._id

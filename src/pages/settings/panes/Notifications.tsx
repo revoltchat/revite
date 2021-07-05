@@ -1,9 +1,9 @@
 import { Text } from "preact-i18n";
 import styles from "./Panes.module.scss";
+import { dispatch } from "../../../redux";
 import defaultsDeep from "lodash.defaultsdeep";
 import Checkbox from "../../../components/ui/Checkbox";
 import { connectState } from "../../../redux/connector";
-import { WithDispatcher } from "../../../redux/reducers";
 import { SOUNDS_ARRAY } from "../../../assets/sounds/Audio";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { urlBase64ToUint8Array } from "../../../lib/conversion";
@@ -15,7 +15,7 @@ interface Props {
     options?: NotificationOptions;
 }
 
-export function Component({ options, dispatcher }: Props & WithDispatcher) {
+export function Component({ options }: Props) {
     const client = useContext(AppContext);
     const { openScreen } = useIntermediate();
     const [pushEnabled, setPushEnabled] = useState<undefined | boolean>(
@@ -51,7 +51,7 @@ export function Component({ options, dispatcher }: Props & WithDispatcher) {
                         }
                     }
 
-                    dispatcher({
+                    dispatch({
                         type: "SETTINGS_SET_NOTIFICATION_OPTIONS",
                         options: { desktopEnabled }
                     });
@@ -107,7 +107,7 @@ export function Component({ options, dispatcher }: Props & WithDispatcher) {
                     <Checkbox
                         checked={enabledSounds[key] ? true : false}
                         onChange={enabled =>
-                            dispatcher({
+                            dispatch({
                                 type: "SETTINGS_SET_NOTIFICATION_OPTIONS",
                                 options: {
                                     sounds: {
@@ -131,6 +131,5 @@ export const Notifications = connectState(
         return {
             options: state.settings.notification
         };
-    },
-    true
+    }
 );

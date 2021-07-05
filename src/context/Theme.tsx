@@ -187,6 +187,9 @@ export const MONOSCAPE_FONTS: Record<MonoscapeFonts, { name: string, load: () =>
 export const FONT_KEYS = Object.keys(FONTS).sort();
 export const MONOSCAPE_FONT_KEYS = Object.keys(MONOSCAPE_FONTS).sort();
 
+export const DEFAULT_FONT = 'Open Sans';
+export const DEFAULT_MONO_FONT = 'Fira Code';
+
 // Generated from https://gitlab.insrt.uk/revolt/community/themes
 export const PRESETS: { [key: string]: Theme } = {
     light: {
@@ -272,13 +275,13 @@ function Theme({ children, options }: Props) {
 
     const root = document.documentElement.style;
     useEffect(() => {
-        const font = theme.font ?? 'Inter';
+        const font = theme.font ?? DEFAULT_FONT;
         root.setProperty('--font', `"${font}"`);
         FONTS[font].load();
     }, [ theme.font ]);
 
     useEffect(() => {
-        const font = theme.monoscapeFont ?? 'Fira Code';
+        const font = theme.monoscapeFont ?? DEFAULT_MONO_FONT;
         root.setProperty('--monoscape-font', `"${font}"`);
         MONOSCAPE_FONTS[font].load();
     }, [ theme.monoscapeFont ]);

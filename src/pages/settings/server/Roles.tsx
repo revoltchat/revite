@@ -30,7 +30,7 @@ export function Roles({ server }: Props) {
 
     if (role !== 'default' && typeof roles[role] === 'undefined') {
         useEffect(() => setRole('default'));
-        return;
+        return null;
     }
 
     const v = (id: string) => I32ToU32(id === 'default' ? server.default_permissions : roles[id].permissions)

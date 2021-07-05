@@ -7,14 +7,14 @@ import { Language } from "../Locale";
 import { Sync } from "revolt.js/dist/api/objects";
 import { useContext, useEffect } from "preact/hooks";
 import { connectState } from "../../redux/connector";
-import { WithDispatcher } from "../../redux/reducers";
 import { Settings } from "../../redux/reducers/settings";
 import { Notifications } from "../../redux/reducers/notifications";
 import { AppContext, ClientStatus, StatusContext } from "./RevoltClient";
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 import { DEFAULT_ENABLED_SYNC, SyncData, SyncKeys, SyncOptions } from "../../redux/reducers/sync";
+import { dispatch } from "../../redux";
 
-type Props = WithDispatcher & {
+type Props = {
     settings: Settings,
     locale: Language,
     sync: SyncOptions,
@@ -54,7 +54,7 @@ function SyncManager(props: Props) {
             client
                 .syncFetchSettings(DEFAULT_ENABLED_SYNC.filter(x => !props.sync?.disabled?.includes(x)))
                 .then(data => {
-                    props.dispatcher({
+                    dispatch({
                         type: 'SYNC_UPDATE',
                         update: mapSync(data)
                     });
@@ -62,13 +62,13 @@ function SyncManager(props: Props) {
 
             client
                 .syncFetchUnreads()
-                .then(unreads => props.dispatcher({ type: 'UNREADS_SET', unreads }));
+                .then(unreads => dispatch({ type: 'UNREADS_SET', unreads }));
         }
     }, [ status ]);
 
     function syncChange(key: SyncKeys, data: any) {
         let timestamp = + new Date();
-        props.dispatcher({
+        dispatch({
             type: 'SYNC_SET_REVISION',
             key,
             timestamp
@@ -99,7 +99,7 @@ function SyncManager(props: Props) {
             if (packet.type === 'UserSettingsUpdate') {
                 let update: { [key in SyncKeys]?: [ number, SyncData[key] ] } = mapSync(packet.update, props.sync.revision);
 
-                props.dispatcher({
+                dispatch({
                     type: 'SYNC_UPDATE',
                     update
                 });
@@ -122,6 +122,5 @@ export default connectState(
             sync: state.sync,
             notifications: state.notifications
         };
-    },
-    true
+    }
 );

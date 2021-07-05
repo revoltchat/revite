@@ -2,7 +2,6 @@ import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { User } from "revolt.js";
-import Details from "../../../components/ui/Details";
 import Category from "../../ui/Category";
 import { useParams } from "react-router";
 import { UserButton } from "../items/ButtonItem";
@@ -15,6 +14,7 @@ import { AppContext, ClientStatus, StatusContext } from "../../../context/revolt
 import { HookContext, useChannel, useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
 
 import placeholderSVG from "../items/placeholder.svg";
+import Preloader from "../../ui/Preloader";
 
 interface Props {
     ctx: HookContext
@@ -130,6 +130,7 @@ export function GroupMemberSidebar({ channel, ctx }: Props & { channel: Channels
 export function ServerMemberSidebar({ channel, ctx }: Props & { channel: Channels.TextChannel }) {
     const [members, setMembers] = useState<Servers.Member[] | undefined>(undefined);
     const users = useUsers(members?.map(x => x._id.user) ?? []).filter(x => typeof x !== 'undefined', ctx) as Users.User[];
+    const { openScreen } = useIntermediate();
     const status = useContext(StatusContext);
     const client = useContext(AppContext);
 
@@ -188,17 +189,16 @@ export function ServerMemberSidebar({ channel, ctx }: Props & { channel: Channel
                         </span>
                     }
                 />
-                {users.length === 0 && <img src={placeholderSVG} />}
+                {!members && <Preloader type="ring" />}
+                {members && users.length === 0 && <img src={placeholderSVG} />}
                 {users.map(
                     user =>
                         user && (
-                            // <LinkProfile user_id={user._id}>
-                                <UserButton
-                                    key={user._id}
-                                    user={user}
-                                    context={channel}
-                                />
-                            // </LinkProfile>
+                            <UserButton
+                                key={user._id}
+                                user={user}
+                                context={channel}
+                                onClick={() => openScreen({ id: 'profile', user_id: user._id })} />
                         )
                 )}
             </GenericSidebarList>
