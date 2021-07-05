@@ -5,14 +5,14 @@ import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { Form } from "./Form";
 
 export function FormResend() {
-	const client = useContext(AppContext);
+    const client = useContext(AppContext);
 
-	return (
-		<Form
-			page="resend"
-			callback={async (data) => {
-				await client.req("POST", "/auth/resend", data);
-			}}
-		/>
-	);
+    return (
+        <Form
+            page="resend"
+            callback={async (data) => {
+                await client.req("POST", "/auth/resend", data);
+            }}
+        />
+    );
 }

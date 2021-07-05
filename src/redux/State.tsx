@@ -7,22 +7,22 @@ import { dispatch, State, store } from ".";
 import { Children } from "../types/Preact";
 
 interface Props {
-	children: Children;
+    children: Children;
 }
 
 export default function StateLoader(props: Props) {
-	const [loaded, setLoaded] = useState(false);
+    const [loaded, setLoaded] = useState(false);
 
-	useEffect(() => {
-		localForage.getItem("state").then((state) => {
-			if (state !== null) {
-				dispatch({ type: "__INIT", state: state as State });
-			}
+    useEffect(() => {
+        localForage.getItem("state").then((state) => {
+            if (state !== null) {
+                dispatch({ type: "__INIT", state: state as State });
+            }
 
-			setLoaded(true);
-		});
-	}, []);
+            setLoaded(true);
+        });
+    }, []);
 
-	if (!loaded) return null;
-	return <Provider store={store}>{props.children}</Provider>;
+    if (!loaded) return null;
+    return <Provider store={store}>{props.children}</Provider>;
 }

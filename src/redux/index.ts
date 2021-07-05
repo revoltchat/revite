@@ -18,67 +18,67 @@ import { Typing } from "./reducers/typing";
 import { Unreads } from "./reducers/unreads";
 
 export type State = {
-	config: Core.RevoltNodeConfiguration;
-	locale: Language;
-	auth: AuthState;
-	settings: Settings;
-	unreads: Unreads;
-	queue: QueuedMessage[];
-	typing: Typing;
-	drafts: Drafts;
-	sync: SyncOptions;
-	experiments: ExperimentOptions;
-	lastOpened: LastOpened;
-	notifications: Notifications;
-	sectionToggle: SectionToggle;
+    config: Core.RevoltNodeConfiguration;
+    locale: Language;
+    auth: AuthState;
+    settings: Settings;
+    unreads: Unreads;
+    queue: QueuedMessage[];
+    typing: Typing;
+    drafts: Drafts;
+    sync: SyncOptions;
+    experiments: ExperimentOptions;
+    lastOpened: LastOpened;
+    notifications: Notifications;
+    sectionToggle: SectionToggle;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const store = createStore((state: any, action: any) => {
-	if (import.meta.env.DEV) {
-		console.debug("State Update:", action);
-	}
+    if (import.meta.env.DEV) {
+        console.debug("State Update:", action);
+    }
 
-	if (action.type === "__INIT") {
-		return action.state;
-	}
+    if (action.type === "__INIT") {
+        return action.state;
+    }
 
-	return rootReducer(state, action);
+    return rootReducer(state, action);
 });
 
 // Save state using localForage.
 store.subscribe(() => {
-	const {
-		config,
-		locale,
-		auth,
-		settings,
-		unreads,
-		queue,
-		drafts,
-		sync,
-		experiments,
-		lastOpened,
-		notifications,
-		sectionToggle,
-	} = store.getState() as State;
+    const {
+        config,
+        locale,
+        auth,
+        settings,
+        unreads,
+        queue,
+        drafts,
+        sync,
+        experiments,
+        lastOpened,
+        notifications,
+        sectionToggle,
+    } = store.getState() as State;
 
-	localForage.setItem("state", {
-		config,
-		locale,
-		auth,
-		settings,
-		unreads,
-		queue,
-		drafts,
-		sync,
-		experiments,
-		lastOpened,
-		notifications,
-		sectionToggle,
-	});
+    localForage.setItem("state", {
+        config,
+        locale,
+        auth,
+        settings,
+        unreads,
+        queue,
+        drafts,
+        sync,
+        experiments,
+        lastOpened,
+        notifications,
+        sectionToggle,
+    });
 });
 
 export function dispatch(action: Action) {
-	store.dispatch(action);
+    store.dispatch(action);
 }

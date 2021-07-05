@@ -11,29 +11,29 @@ import { UserPicker } from "./popovers/UserPicker";
 import { UserProfile } from "./popovers/UserProfile";
 
 export default function Popovers() {
-	const { screen } = useContext(IntermediateContext);
-	const { openScreen } = useIntermediate();
+    const { screen } = useContext(IntermediateContext);
+    const { openScreen } = useIntermediate();
 
-	const onClose = () => openScreen({ id: "none" });
+    const onClose = () => openScreen({ id: "none" });
 
-	switch (screen.id) {
-		case "profile":
-			return <UserProfile {...screen} onClose={onClose} />;
-		case "user_picker":
-			return <UserPicker {...screen} onClose={onClose} />;
-		case "image_viewer":
-			return <ImageViewer {...screen} onClose={onClose} />;
-		case "channel_info":
-			return <ChannelInfo {...screen} onClose={onClose} />;
-		case "pending_requests":
-			return <PendingRequests {...screen} onClose={onClose} />;
-		case "modify_account":
-			return <ModifyAccountModal onClose={onClose} {...screen} />;
-		case "special_prompt":
-			return <SpecialPromptModal onClose={onClose} {...screen} />;
-		case "special_input":
-			return <SpecialInputModal onClose={onClose} {...screen} />;
-	}
+    switch (screen.id) {
+        case "profile":
+            return <UserProfile {...screen} onClose={onClose} />;
+        case "user_picker":
+            return <UserPicker {...screen} onClose={onClose} />;
+        case "image_viewer":
+            return <ImageViewer {...screen} onClose={onClose} />;
+        case "channel_info":
+            return <ChannelInfo {...screen} onClose={onClose} />;
+        case "pending_requests":
+            return <PendingRequests {...screen} onClose={onClose} />;
+        case "modify_account":
+            return <ModifyAccountModal onClose={onClose} {...screen} />;
+        case "special_prompt":
+            return <SpecialPromptModal onClose={onClose} {...screen} />;
+        case "special_input":
+            return <SpecialInputModal onClose={onClose} {...screen} />;
+    }
 
-	return null;
+    return null;
 }

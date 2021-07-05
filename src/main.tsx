@@ -8,13 +8,13 @@ import { internalEmit } from "./lib/eventEmitter";
 import { App } from "./pages/app";
 
 export const updateSW = registerSW({
-	onNeedRefresh() {
-		internalEmit("PWA", "update");
-	},
-	onOfflineReady() {
-		console.info("Ready to work offline.");
-		// show a ready to work offline to user
-	},
+    onNeedRefresh() {
+        internalEmit("PWA", "update");
+    },
+    onOfflineReady() {
+        console.info("Ready to work offline.");
+        // show a ready to work offline to user
+    },
 });
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

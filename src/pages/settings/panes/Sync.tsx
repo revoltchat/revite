@@ -8,49 +8,49 @@ import { SyncKeys, SyncOptions } from "../../../redux/reducers/sync";
 import Checkbox from "../../../components/ui/Checkbox";
 
 interface Props {
-	options?: SyncOptions;
+    options?: SyncOptions;
 }
 
 export function Component(props: Props) {
-	return (
-		<div className={styles.notifications}>
-			<h3>
-				<Text id="app.settings.pages.sync.categories" />
-			</h3>
-			{(
-				[
-					["appearance", "appearance.title"],
-					["theme", "appearance.theme"],
-					["locale", "language.title"],
-					// notifications sync is always-on
-				] as [SyncKeys, string][]
-			).map(([key, title]) => (
-				<Checkbox
-					checked={
-						(props.options?.disabled ?? []).indexOf(key) === -1
-					}
-					description={
-						<Text
-							id={`app.settings.pages.sync.descriptions.${key}`}
-						/>
-					}
-					onChange={(enabled) =>
-						dispatch({
-							type: enabled
-								? "SYNC_ENABLE_KEY"
-								: "SYNC_DISABLE_KEY",
-							key,
-						})
-					}>
-					<Text id={`app.settings.pages.${title}`} />
-				</Checkbox>
-			))}
-		</div>
-	);
+    return (
+        <div className={styles.notifications}>
+            <h3>
+                <Text id="app.settings.pages.sync.categories" />
+            </h3>
+            {(
+                [
+                    ["appearance", "appearance.title"],
+                    ["theme", "appearance.theme"],
+                    ["locale", "language.title"],
+                    // notifications sync is always-on
+                ] as [SyncKeys, string][]
+            ).map(([key, title]) => (
+                <Checkbox
+                    checked={
+                        (props.options?.disabled ?? []).indexOf(key) === -1
+                    }
+                    description={
+                        <Text
+                            id={`app.settings.pages.sync.descriptions.${key}`}
+                        />
+                    }
+                    onChange={(enabled) =>
+                        dispatch({
+                            type: enabled
+                                ? "SYNC_ENABLE_KEY"
+                                : "SYNC_DISABLE_KEY",
+                            key,
+                        })
+                    }>
+                    <Text id={`app.settings.pages.${title}`} />
+                </Checkbox>
+            ))}
+        </div>
+    );
 }
 
 export const Sync = connectState(Component, (state) => {
-	return {
-		options: state.sync,
-	};
+    return {
+        options: state.sync,
+    };
 });
