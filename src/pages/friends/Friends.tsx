@@ -210,8 +210,6 @@ export default function Friends() {
                         </CollapsibleSection>
                     );
                 })}
-
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><h1>test</h1>
             </div>
         </>
     );

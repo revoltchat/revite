@@ -152,7 +152,7 @@ export function Component(props: Props) {
             <ComboBox
                 value={theme.font ?? DEFAULT_FONT}
                 onChange={(e) =>
-                    setTheme({ custom: { font: e.currentTarget.value as any } })
+                    pushOverride({ font: e.currentTarget.value as any })
                 }>
                 {FONT_KEYS.map((key) => (
                     <option value={key}>
@@ -335,10 +335,8 @@ export function Component(props: Props) {
                 <ComboBox
                     value={theme.monoscapeFont ?? DEFAULT_MONO_FONT}
                     onChange={(e) =>
-                        setTheme({
-                            custom: {
-                                monoscapeFont: e.currentTarget.value as any,
-                            },
+                        pushOverride({
+                            monoscapeFont: e.currentTarget.value as any,
                         })
                     }>
                     {MONOSCAPE_FONT_KEYS.map((key) => (
