@@ -155,7 +155,7 @@ export function Sessions() {
                                     ]);
                                     await client.req(
                                         "DELETE",
-                                        `/auth/sessions/${session.id}` as any
+                                        `/auth/sessions/${session.id}` as '/auth/sessions'
                                     );
                                     setSessions(
                                         sessions?.filter(

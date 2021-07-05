@@ -31,7 +31,7 @@ export function registerEvents({
         }
     }
 
-    const listeners = {
+    let listeners: Record<string, (...args: any[]) => void> = {
         connecting: () =>
             operations.ready() && setStatus(ClientStatus.CONNECTING),
 
@@ -86,21 +86,18 @@ export function registerEvents({
         ready: () => setStatus(ClientStatus.ONLINE)
     };
 
-    let listenerFunc: { [key: string]: Function };
     if (import.meta.env.DEV) {
-        listenerFunc = {};
-        for (const listener of Object.keys(listeners)) {
-            listenerFunc[listener] = (...args: any[]) => {
-                console.debug(`Calling ${listener} with`, args);
-                (listeners as any)[listener](...args);
-            };
-        }
-    } else {
-        listenerFunc = listeners;
+        listeners = new Proxy(listeners, {
+            get: (target, listener, receiver) => (...args: unknown[]) => {
+                console.debug(`Calling ${listener.toString()} with`, args);
+                Reflect.get(target, listener)(...args)
+            }
+        })
     }
 
-    for (const listener of Object.keys(listenerFunc)) {
-        client.addListener(listener, (listenerFunc as any)[listener]);
+    // TODO: clean this a bit and properly handle types
+    for (const listener in listeners) {
+        client.addListener(listener, listeners[listener]);
     }
 
     function logMutation(target: string, key: string) {
@@ -134,8 +131,8 @@ export function registerEvents({
     window.addEventListener("offline", offline);
 
     return () => {
-        for (const listener of Object.keys(listenerFunc)) {
-            client.removeListener(listener, (listenerFunc as any)[listener]);
+        for (const listener in listeners) {
+            client.removeListener(listener, listeners[listener as keyof typeof listeners]);
         }
 
         if (import.meta.env.DEV) {

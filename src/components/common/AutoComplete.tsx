@@ -384,7 +384,7 @@ export default function AutoComplete({ detached, state, setState, onClick }: Pic
                                 })
                             }
                             onClick={onClick}>
-                            <Emoji emoji={(emojiDictionary as any)[match]} size={20} />
+                            <Emoji emoji={(emojiDictionary as Record<string, string>)[match]} size={20} />
                             :{match}:
                         </button>
                     ))}

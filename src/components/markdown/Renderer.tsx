@@ -22,13 +22,21 @@ import MarkdownSup from "markdown-it-sup";
 // @ts-ignore
 import MarkdownSub from "markdown-it-sub";
 
+// TODO: global.d.ts file for defining globals
+declare global {
+    interface Window {
+        copycode: (element: HTMLDivElement) => void
+    }
+}
+
+
 // Handler for code block copy.
 if (typeof window !== "undefined") {
-    (window as any).copycode = function(element: HTMLDivElement) {
+    window.copycode = function(element: HTMLDivElement) {
         try {
             let code = element.parentElement?.parentElement?.children[1];
             if (code) {
-                navigator.clipboard.writeText((code as any).innerText.trim());
+                navigator.clipboard.writeText(code.textContent?.trim() ?? '');
             }
         } catch (e) {}
     };
@@ -65,10 +73,17 @@ const defaultRender =
         return self.renderToken(tokens, idx, options);
     };
 
+// TODO: global.d.ts file for defining globals
+declare global {
+    interface Window {
+        internalHandleURL: (element: HTMLAnchorElement) => void
+    }
+}
+
 // Handler for internal links, pushes events to React using magic.
 if (typeof window !== "undefined") {
-    (window as any).internalHandleURL = function(element: HTMLAnchorElement) {
-        const url = new URL(element.href, location as any);
+    window.internalHandleURL = function(element: HTMLAnchorElement) {
+        const url = new URL(element.href, location.href);
         const pathname = url.pathname;
 
         if (pathname.startsWith("/@")) {
@@ -87,7 +102,7 @@ md.renderer.rules.link_open = function(tokens, idx, options, env, self) {
             // For internal links, we should use our own handler to use react-router history.
             // @ts-ignore
             const href = tokens[idx].attrs[hIndex][1];
-            const url = new URL(href, location as any);
+            const url = new URL(href, location.href);
 
             if (url.hostname === location.hostname) {
                 internal = true;
@@ -161,7 +176,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
             data-large-emojis={useLargeEmojis}
             onClick={ev => {
                 if (ev.target) {
-                    let element: Element = ev.target as any;
+                    let element = ev.currentTarget;
                     if (element.classList.contains("spoiler")) {
                         element.classList.add("shown");
                     }

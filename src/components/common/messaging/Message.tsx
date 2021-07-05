@@ -35,7 +35,12 @@ function Message({ attachContext, message, contrast, content: replacement, head:
     const content = message.content as string;
     const head = preferHead || (message.replies && message.replies.length > 0);
 
-    const userContext = attachContext ? attachContextMenu('Menu', { user: message.author, contextualChannel: message.channel }) : undefined as any; // ! FIXME: tell fatal to make this type generic
+     // ! FIXME: tell fatal to make this type generic
+    // bree: Fatal please...
+    const userContext = attachContext 
+        ? attachContextMenu('Menu', { user: message.author, contextualChannel: message.channel }) as any
+        : undefined;
+
     const openProfile = () => openScreen({ id: 'profile', user_id: message.author });
 
     return (

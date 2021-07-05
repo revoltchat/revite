@@ -1,5 +1,5 @@
 import { Text } from "preact-i18n";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Modal from "../../../components/ui/Modal";
 import { takeError } from "../../revoltjs/util";
 import { useContext, useState } from "preact/hooks";
@@ -12,22 +12,28 @@ interface Props {
     field: "username" | "email" | "password";
 }
 
+interface FormInputs {
+    password: string,
+    new_email: string,
+    new_username: string,
+    new_password: string,
+
+    // TODO: figure out if this is correct or not
+    // it wasn't in the types before this was typed but the element itself was there
+    current_password?: string
+}
+
 export function ModifyAccountModal({ onClose, field }: Props) {
     const client = useContext(AppContext);
-    const { handleSubmit, register, errors } = useForm();
+    const { handleSubmit, register, errors } = useForm<FormInputs>();
     const [error, setError] = useState<string | undefined>(undefined);
 
-    async function onSubmit({
+    const onSubmit: SubmitHandler<FormInputs> = async ({
         password,
         new_username,
         new_email,
         new_password
-    }: {
-        password: string;
-        new_username: string;
-        new_email: string;
-        new_password: string;
-    }) {
+    }) => {
         try {
             if (field === "email") {
                 await client.req("POST", "/auth/change/email", {
@@ -75,7 +81,8 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                 }
             ]}
         >
-            <form onSubmit={handleSubmit(onSubmit) as any}>
+            {/* Preact / React typing incompatabilities */}
+            <form onSubmit={handleSubmit(onSubmit) as JSX.GenericEventHandler<HTMLFormElement>}>
                 {field === "email" && (
                     <FormField
                         type="email"

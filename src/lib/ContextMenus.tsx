@@ -307,11 +307,15 @@ function ContextMenus(props: Props) {
                 case "delete_server":
                 case "delete_message":
                 case "create_channel":
-                // @ts-expect-error
-                case "create_invite": openScreen({ id: "special_prompt", type: data.action, target: data.target }); break;
+                case "create_invite":
+                    // The any here is because typescript flattens the case types into a single type and type structure and specifity is lost or whatever
+                    openScreen({ id: "special_prompt", type: data.action, target: data.target as any }); 
+                    break;
 
                 case "ban_member":
-                case "kick_member": openScreen({ id: "special_prompt", type: data.action, target: data.target, user: data.user }); break;
+                case "kick_member": 
+                    openScreen({ id: "special_prompt", type: data.action, target: data.target, user: data.user });
+                    break;
 
                 case "open_notification_options": {
                     openContextMenu("NotificationOptions", { channel: data.channel });
@@ -427,7 +431,7 @@ function ContextMenus(props: Props) {
                     }
 
                     if (user) {
-                        let actions: string[];
+                        let actions: Action['action'][];
                         switch (user.relationship) {
                             case Users.Relationship.User: actions = []; break;
                             case Users.Relationship.Friend:
@@ -461,11 +465,9 @@ function ContextMenus(props: Props) {
                             generateAction({ action: 'message_user', user: user._id });
                         }
 
-                        for (const action of actions) {
-                            generateAction({
-                                action: action as any,
-                                user
-                            });
+                        for(let i = 0; i < actions.length; i++) {
+                            // The any here is because typescript can't determine that user the actions are linked together correctly
+                            generateAction({ action: actions[i] as any, user })
                         }
                     }
 

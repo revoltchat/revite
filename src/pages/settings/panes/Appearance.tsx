@@ -226,7 +226,7 @@ export function Component(props: Props) {
                     </Button>
                 </div>
                 <div className={styles.overrides}>
-                    {[
+                    {([
                         "accent",
                         "background",
                         "foreground",
@@ -240,7 +240,6 @@ export function Component(props: Props) {
                         "block",
                         "message-box",
                         "mention",
-                        "sidebar-active",
                         "scrollbar-thumb",
                         "scrollbar-track",
                         "status-online",
@@ -252,15 +251,15 @@ export function Component(props: Props) {
                         "warning",
                         "error",
                         "hover"
-                    ].map(x => (
+                    ] as const).map(x => (
                         <div className={styles.entry} key={x}>
                             <span>{x}</span>
                             <div className={styles.override}>
                                 <div className={styles.picker}
-                                    style={{ backgroundColor: (theme as any)[x as any] }}>
+                                    style={{ backgroundColor: theme[x] }}>
                                     <input
                                         type="color"
-                                        value={(theme as any)[x as any]}
+                                        value={theme[x]}
                                         onChange={v =>
                                             setOverride({
                                                 [x]: v.currentTarget.value
@@ -270,7 +269,7 @@ export function Component(props: Props) {
                                 </div>
                                 <InputBox
                                     className={styles.text}
-                                    value={(theme as any)[x as any]}
+                                    value={theme[x]}
                                     onChange={y =>
                                         setOverride({
                                             [x]: y.currentTarget.value

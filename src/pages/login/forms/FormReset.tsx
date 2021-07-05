@@ -25,9 +25,9 @@ export function FormReset() {
         <Form
             page="reset"
             callback={async data => {
-                await client.req("POST", "/auth/reset" as any, {
+                await client.req("POST", "/auth/reset", {
                     token,
-                    ...(data as any)
+                    ...data
                 });
                 history.push("/login");
             }}
