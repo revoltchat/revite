@@ -2,15 +2,21 @@ import styled, { css } from "styled-components";
 
 interface Props {
     readonly contrast?: boolean;
+    readonly plain?: boolean;
     readonly error?: boolean;
 }
 
 export default styled.button<Props>`
     z-index: 1;
-    padding: 8px;
-    font-size: 16px;
-    text-align: center;
+    display: flex;
+    height: 38px;
+    min-width: 96px;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 16px;
+    font-size: .875rem;
     font-family: inherit;
+    font-weight: 500;
 
     transition: 0.2s ease opacity;
     transition: 0.2s ease background-color;
@@ -18,7 +24,7 @@ export default styled.button<Props>`
     background: var(--primary-background);
     color: var(--foreground);
 
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
     border: none;
 
@@ -33,6 +39,24 @@ export default styled.button<Props>`
     &:active {
         background: var(--secondary-background);
     }
+
+    ${(props) =>
+        props.plain &&
+        css`
+            background: transparent !important;
+
+            &:hover {
+                text-decoration: underline;
+            }
+
+            &:disabled {
+                opacity: .5;
+            }
+
+            &:active {
+                background: var(--secondary-background);
+            }
+        `}
 
     ${(props) =>
         props.contrast &&

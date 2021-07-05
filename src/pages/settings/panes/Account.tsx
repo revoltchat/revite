@@ -67,15 +67,15 @@ export function Account() {
                     [
                         ["username", user.username, <At size={24} />],
                         ["email", email, <Envelope size={24} />],
-                        ["password", "*****", <Key size={24} />],
+                        ["password", "***********", <Key size={24} />],
                     ] as const
                 ).map(([field, value, icon]) => (
                     <div>
                         {icon}
                         <div className={styles.detail}>
-                            <Overline>
+                            <div className={styles.subtext}>
                                 <Text id={`login.${field}`} />
-                            </Overline>
+                            </div>
                             <p>{value}</p>
                         </div>
                         <div>
@@ -93,6 +93,16 @@ export function Account() {
                     </div>
                 ))}
             </div>
+            {/*<h3>Two-factor Authentication</h3>
+            <h5>Coming Soon</h5>
+            <h3>Account Management</h3>
+            <h5>Disable, schedule your deletion or outright delete your account at any time. This action will log you out and fully delete your account, including your chat history and friends.</h5>
+            <Button contrast>
+                Disable Account
+            </Button>
+            <Button contrast>
+                Delete Account
+            </Button>*/}
             <Tip>
                 <span>
                     <Text id="app.settings.tips.account.a" />
