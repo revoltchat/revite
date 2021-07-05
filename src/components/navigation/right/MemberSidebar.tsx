@@ -233,7 +233,10 @@ export function ServerMemberSidebar({
         <GenericSidebarBase>
             <GenericSidebarList>
                 <ChannelDebugInfo id={channel._id} />
-                <Category
+                <div>
+                    {!members && <Preloader type="ring" />}
+                </div>
+                { members && <Category
                     variant="uniform"
                     text={
                         <span>
@@ -241,8 +244,7 @@ export function ServerMemberSidebar({
                             {users.length}
                         </span>
                     }
-                />
-                {!members && <Preloader type="ring" />}
+                /> }
                 {members && users.length === 0 && <img src={placeholderSVG} />}
                 {users.map(
                     (user) =>
