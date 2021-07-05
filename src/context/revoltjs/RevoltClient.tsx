@@ -2,12 +2,12 @@ import { openDB } from 'idb';
 import { Client } from "revolt.js";
 import { takeError } from "./util";
 import { createContext } from "preact";
+import { dispatch } from '../../redux';
 import { Children } from "../../types/Preact";
 import { useHistory } from 'react-router-dom';
 import { Route } from "revolt.js/dist/api/routes";
 import { connectState } from "../../redux/connector";
 import Preloader from "../../components/ui/Preloader";
-import { WithDispatcher } from "../../redux/reducers";
 import { AuthState } from "../../redux/reducers/auth";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { useIntermediate } from '../intermediate/Intermediate';
@@ -41,12 +41,12 @@ export const AppContext = createContext<Client>(null!);
 export const StatusContext = createContext<ClientStatus>(null!);
 export const OperationsContext = createContext<ClientOperations>(null!);
 
-type Props = WithDispatcher & {
+type Props = {
     auth: AuthState;
     children: Children;
 };
 
-function Context({ auth, children, dispatcher }: Props) {
+function Context({ auth, children }: Props) {
     const history = useHistory();
     const { openScreen } = useIntermediate();
     const [status, setStatus] = useState(ClientStatus.INIT);
@@ -94,7 +94,7 @@ function Context({ auth, children, dispatcher }: Props) {
                     const onboarding = await client.login(data);
                     setReconnectDisallowed(false);
                     const login = () =>
-                        dispatcher({
+                        dispatch({
                             type: "LOGIN",
                             session: client.session! // This [null assertion] is ok, we should have a session by now. - insert's words
                         });
@@ -114,10 +114,10 @@ function Context({ auth, children, dispatcher }: Props) {
                 }
             },
             logout: async shouldRequest => {
-                dispatcher({ type: "LOGOUT" });
+                dispatch({ type: "LOGOUT" });
 
                 client.reset();
-                dispatcher({ type: "RESET" });
+                dispatch({ type: "RESET" });
 
                 openScreen({ id: "none" });
                 setStatus(ClientStatus.READY);
@@ -145,7 +145,7 @@ function Context({ auth, children, dispatcher }: Props) {
         }
     }, [ client, auth.active ]);
 
-    useEffect(() => registerEvents({ operations, dispatcher }, setStatus, client), [ client ]);
+    useEffect(() => registerEvents({ operations }, setStatus, client), [ client ]);
 
     useEffect(() => {
         (async () => {
@@ -154,7 +154,7 @@ function Context({ auth, children, dispatcher }: Props) {
             }
 
             if (auth.active) {
-                dispatcher({ type: "QUEUE_FAIL_ALL" });
+                dispatch({ type: "QUEUE_FAIL_ALL" });
 
                 const active = auth.accounts[auth.active];
                 client.user = client.users.get(active.session.user_id);
@@ -226,6 +226,5 @@ export default connectState<{ children: Children }>(
             auth: state.auth,
             sync: state.sync
         };
-    },
-    true
+    }
 );

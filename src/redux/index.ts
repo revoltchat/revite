@@ -1,6 +1,6 @@
 import { createStore } from "redux";
-import rootReducer from "./reducers";
 import localForage from "localforage";
+import rootReducer, { Action } from "./reducers";
 
 import { Core } from "revolt.js/dist/api/objects";
 import { Typing } from "./reducers/typing";
@@ -77,3 +77,7 @@ store.subscribe(() => {
         sectionToggle
     });
 });
+
+export function dispatch(action: Action) {
+    store.dispatch(action);
+}

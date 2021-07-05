@@ -21,6 +21,7 @@ export default function Attachment({ attachment, hasContent }: Props) {
     const { openScreen } = useIntermediate();
     const { filename, metadata } = attachment;
     const [ spoiler, setSpoiler ] = useState(filename.startsWith("SPOILER_"));
+    const [ loaded, setLoaded ] = useState(false)
 
     const url = client.generateFileURL(attachment, { width: MAX_ATTACHMENT_WIDTH * 1.5 }, true);
 
@@ -44,7 +45,7 @@ export default function Attachment({ attachment, hasContent }: Props) {
                         height={metadata.height}
                         data-spoiler={spoiler}
                         data-has-content={hasContent}
-                        className={classNames(styles.attachment, styles.image)}
+                        className={classNames(styles.attachment, styles.image, loaded && styles.loaded)}
                         onClick={() =>
                             openScreen({ id: "image_viewer", attachment })
                         }
@@ -52,6 +53,7 @@ export default function Attachment({ attachment, hasContent }: Props) {
                             ev.button === 1 &&
                             window.open(url, "_blank")
                         }
+                        onLoad={() => setLoaded(true)}
                     />
                 </div>
             );
@@ -85,11 +87,15 @@ export default function Attachment({ attachment, hasContent }: Props) {
                         <AttachmentActions attachment={attachment} />
                         <video
                             src={url}
+                            width={metadata.width}
+                            height={metadata.height}
+                            className={classNames(loaded && styles.loaded)}
                             controls
                             onMouseDown={ev =>
                                 ev.button === 1 &&
                                 window.open(url, "_blank")
                             }
+                            onLoadedMetadata={() => setLoaded(true)}
                         />
                     </div>
                 </div>

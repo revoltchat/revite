@@ -1,15 +1,15 @@
 import { Channel } from "revolt.js";
+import { dispatch } from "../../../redux";
 import { useLayoutEffect } from "preact/hooks";
-import { WithDispatcher } from "../../../redux/reducers";
 import { Unreads } from "../../../redux/reducers/unreads";
 import { HookContext, useForceUpdate } from "../../../context/revoltjs/hooks";
 
-type UnreadProps = WithDispatcher & {
+type UnreadProps = {
     channel: Channel;
     unreads: Unreads;
 }
 
-export function useUnreads({ channel, unreads, dispatcher }: UnreadProps, context?: HookContext) {
+export function useUnreads({ channel, unreads }: UnreadProps, context?: HookContext) {
     const ctx = useForceUpdate(context);
 
     useLayoutEffect(() => {
@@ -23,7 +23,7 @@ export function useUnreads({ channel, unreads, dispatcher }: UnreadProps, contex
             if (target.last_message) {
                 const message = typeof target.last_message === 'string' ? target.last_message : target.last_message._id;
                 if (!unread || (unread && message.localeCompare(unread) > 0)) {
-                    dispatcher({
+                    dispatch({
                         type: "UNREADS_MARK_READ",
                         channel: channel._id,
                         message
