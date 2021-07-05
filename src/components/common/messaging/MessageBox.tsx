@@ -61,12 +61,17 @@ export type UploadState =
 
 const Base = styled.div`
     display: flex;
-    /*padding: 0 12px;*/
+    align-items: flex-start;
     background: var(--message-box);
 
     textarea {
         font-size: 0.875rem;
         background: transparent;
+    }
+
+    .textarea {
+        flex-grow: 1;
+        padding: 12px 0;
     }
 `;
 
@@ -419,62 +424,64 @@ function MessageBox({ channel, draft }: Props) {
                         />
                     </Action>
                 ) : undefined}
-                <TextAreaAutoSize
-                    autoFocus
-                    hideBorder
-                    maxRows={5}
-                    padding={14}
-                    id="message"
-                    value={draft ?? ""}
-                    onKeyUp={onKeyUp}
-                    onKeyDown={(e) => {
-                        if (onKeyDown(e)) return;
+                <div class="textarea">
+                    <TextAreaAutoSize
+                        autoFocus
+                        hideBorder
+                        maxRows={20}
+                        padding={0}
+                        id="message"
+                        value={draft ?? ""}
+                        onKeyUp={onKeyUp}
+                        onKeyDown={(e) => {
+                            if (onKeyDown(e)) return;
 
-                        if (
-                            e.key === "ArrowUp" &&
-                            (!draft || draft.length === 0)
-                        ) {
-                            e.preventDefault();
-                            internalEmit("MessageRenderer", "edit_last");
-                            return;
+                            if (
+                                e.key === "ArrowUp" &&
+                                (!draft || draft.length === 0)
+                            ) {
+                                e.preventDefault();
+                                internalEmit("MessageRenderer", "edit_last");
+                                return;
+                            }
+
+                            if (
+                                !e.shiftKey &&
+                                e.key === "Enter" &&
+                                !isTouchscreenDevice
+                            ) {
+                                e.preventDefault();
+                                return send();
+                            }
+
+                            debouncedStopTyping(true);
+                        }}
+                        placeholder={
+                            channel.channel_type === "DirectMessage"
+                                ? translate("app.main.channel.message_who", {
+                                    person: client.users.get(
+                                        client.channels.getRecipient(channel._id),
+                                    )?.username,
+                                })
+                                : channel.channel_type === "SavedMessages"
+                                ? translate("app.main.channel.message_saved")
+                                : translate("app.main.channel.message_where", {
+                                    channel_name: channel.name,
+                                })
                         }
-
-                        if (
-                            !e.shiftKey &&
-                            e.key === "Enter" &&
-                            !isTouchscreenDevice
-                        ) {
-                            e.preventDefault();
-                            return send();
+                        disabled={
+                            uploadState.type === "uploading" ||
+                            uploadState.type === "sending"
                         }
-
-                        debouncedStopTyping(true);
-                    }}
-                    placeholder={
-                        channel.channel_type === "DirectMessage"
-                            ? translate("app.main.channel.message_who", {
-                                  person: client.users.get(
-                                      client.channels.getRecipient(channel._id),
-                                  )?.username,
-                              })
-                            : channel.channel_type === "SavedMessages"
-                            ? translate("app.main.channel.message_saved")
-                            : translate("app.main.channel.message_where", {
-                                  channel_name: channel.name,
-                              })
-                    }
-                    disabled={
-                        uploadState.type === "uploading" ||
-                        uploadState.type === "sending"
-                    }
-                    onChange={(e) => {
-                        setMessage(e.currentTarget.value);
-                        startTyping();
-                        onChange(e);
-                    }}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                />
+                        onChange={(e) => {
+                            setMessage(e.currentTarget.value);
+                            startTyping();
+                            onChange(e);
+                        }}
+                        onFocus={onFocus}
+                        onBlur={onBlur}
+                    />
+                </div>
                 {isTouchscreenDevice && (
                     <Action>
                         <IconButton onClick={send}>
