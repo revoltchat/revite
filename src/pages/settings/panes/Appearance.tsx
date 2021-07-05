@@ -240,7 +240,6 @@ export function Component(props: Props & WithDispatcher) {
                         "block",
                         "message-box",
                         "mention",
-                        "sidebar-active",
                         "scrollbar-thumb",
                         "scrollbar-track",
                         "status-online",
