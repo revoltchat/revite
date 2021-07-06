@@ -6,7 +6,7 @@ export default styled.select`
     font-family: inherit;
     color: var(--secondary-foreground);
     background: var(--secondary-background);
-    font-size: 0.875rem;
+    font-size: var(--text-size);
     border: none;
     outline: 2px solid transparent;
     transition: outline-color 0.2s ease-in-out;

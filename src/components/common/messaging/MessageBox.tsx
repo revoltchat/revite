@@ -65,7 +65,7 @@ const Base = styled.div`
     background: var(--message-box);
 
     textarea {
-        font-size: 0.875rem;
+        font-size: var(--text-size);
         background: transparent;
     }
 `;
@@ -75,7 +75,7 @@ const Blocked = styled.div`
     align-items: center;
     padding: 14px 0;
     user-select: none;
-    font-size: 0.875rem;
+    font-size: var(--text-size);
     color: var(--tertiary-foreground);
 
     svg {
@@ -423,10 +423,10 @@ function MessageBox({ channel, draft }: Props) {
                     autoFocus
                     hideBorder
                     maxRows={20}
-                    padding={12}
                     id="message"
-                    value={draft ?? ""}
                     onKeyUp={onKeyUp}
+                    value={draft ?? ""}
+                    padding="var(--message-box-padding)"
                     onKeyDown={(e) => {
                         if (onKeyDown(e)) return;
 

@@ -1,4 +1,6 @@
-import { useEffect, useRef } from "preact/hooks";
+import styled from "styled-components";
+
+import { useEffect, useLayoutEffect, useRef } from "preact/hooks";
 
 import TextArea, {
     DEFAULT_LINE_HEIGHT,
@@ -12,7 +14,7 @@ import { isTouchscreenDevice } from "./isTouchscreenDevice";
 
 type TextAreaAutoSizeProps = Omit<
     JSX.HTMLAttributes<HTMLTextAreaElement>,
-    "style" | "value"
+    "style" | "value" | "onChange"
 > &
     TextAreaProps & {
         forceFocus?: boolean;
@@ -22,7 +24,36 @@ type TextAreaAutoSizeProps = Omit<
         value: string;
 
         id?: string;
+
+        onChange?: (ev: JSX.TargetedEvent<HTMLTextAreaElement, Event>) => void;
     };
+
+const Container = styled.div`
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+`;
+
+const Ghost = styled.div<{ lineHeight: string, maxRows: number }>`
+    flex: 0;
+    width: 100%;
+    overflow: hidden;
+    visibility: hidden;
+    position: relative;
+
+    > div {
+        width: 100%;
+        white-space: pre-wrap;
+        word-break: break-all;
+        
+        top: 0;
+        position: absolute;
+        font-size: var(--text-size);
+        line-height: ${(props) => props.lineHeight};
+
+        max-height: calc(calc( ${(props) => props.lineHeight} * ${ (props) => props.maxRows } ));
+    }
+`;
 
 export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
     const {
@@ -39,19 +70,13 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
         onChange,
         ...textAreaProps
     } = props;
-    const line = lineHeight ?? DEFAULT_LINE_HEIGHT;
-
-    const heightPadding =
-        ((padding ?? DEFAULT_TEXT_AREA_PADDING) +
-            (hideBorder ? 0 : TEXT_AREA_BORDER_WIDTH)) *
-        2;
-    const height = Math.max(
-        Math.min(value.split("\n").length, maxRows ?? Infinity) * line +
-            heightPadding,
-        minHeight ?? 0,
-    );
 
     const ref = useRef<HTMLTextAreaElement>();
+    const ghost = useRef<HTMLDivElement>();
+
+    useLayoutEffect(() => {
+        ref.current.style.height = ghost.current.clientHeight + 'px';
+    }, [ghost, props.value]);
 
     useEffect(() => {
         if (isTouchscreenDevice) return;
@@ -101,18 +126,29 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
     }, [ref]);
 
     return (
-        <TextArea
-            ref={ref}
-            value={value}
-            padding={padding}
-            style={{ height }}
-            hideBorder={hideBorder}
-            lineHeight={lineHeight}
-
-            onChange={ev => {
-                onChange && onChange(ev);
-            }}
-            {...textAreaProps}
-        />
+        <Container>
+            <TextArea
+                ref={ref}
+                value={value}
+                padding={padding}
+                style={{ height: minHeight }}
+                hideBorder={hideBorder}
+                lineHeight={lineHeight}
+                onChange={(ev) => {
+                    onChange && onChange(ev);
+                }}
+                {...textAreaProps}
+            />
+            <Ghost lineHeight={lineHeight ?? 'var(--textarea-line-height)'} maxRows={maxRows ?? 5}>
+                <div ref={ghost} style={{ padding }}>
+                    {props.value
+                        ? props.value
+                              .split("\n")
+                              .map((x) => `\u200e${x}`)
+                              .join("\n")
+                        : undefined ?? "‎\n"}
+                </div>
+            </Ghost>
+        </Container>
     );
 }

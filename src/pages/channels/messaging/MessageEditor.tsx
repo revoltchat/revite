@@ -23,9 +23,9 @@ const EditorBase = styled.div`
     textarea {
         resize: none;
         padding: 12px;
-        font-size: 0.875rem;
         border-radius: 3px;
         white-space: pre-wrap;
+        font-size: var(--text-size);
         background: var(--secondary-header);
     }
 
@@ -101,9 +101,9 @@ export default function MessageEditor({ message, finish }: Props) {
             <TextAreaAutoSize
                 forceFocus
                 maxRows={3}
-                padding={12}
                 value={content}
                 maxLength={2000}
+                padding="var(--message-box-padding)"
                 onChange={(ev) => {
                     onChange(ev);
                     setContent(ev.currentTarget.value);
