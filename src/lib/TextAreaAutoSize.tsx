@@ -36,6 +36,7 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
         forceFocus,
         children,
         as,
+        onChange,
         ...textAreaProps
     } = props;
     const line = lineHeight ?? DEFAULT_LINE_HEIGHT;
@@ -107,6 +108,10 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
             style={{ height }}
             hideBorder={hideBorder}
             lineHeight={lineHeight}
+
+            onChange={ev => {
+                onChange && onChange(ev);
+            }}
             {...textAreaProps}
         />
     );

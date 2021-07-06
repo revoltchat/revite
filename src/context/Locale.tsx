@@ -160,7 +160,7 @@ function Locale({ children, locale }: Props) {
 
         dayjs["sameElse"] = DATE_FORMATS[date];
         Object.keys(dayjs)
-            .filter((k) => k !== "defaults")
+            .filter((k) => typeof dayjs[k] === 'string')
             .forEach(
                 (k) =>
                     (dayjs[k] = dayjs[k].replace(
