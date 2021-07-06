@@ -81,7 +81,7 @@
     "markdown-it-emoji": "^2.0.0",
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
-    "mediasoup-client": "^3.6.33",
+    "mediasoup-client": "3.6.36",
     "preact-context-menu": "^0.1.5",
     "preact-i18n": "^2.4.0-preactx",
     "prettier": "^2.3.1",
@@ -102,7 +102,7 @@
     "typescript": "^4.3.2",
     "ulid": "^2.3.0",
     "use-resize-observer": "^7.0.0",
-    "vite": "npm:@insertish/vite@2.2.4-dynamic-import-css-f428476",
+    "vite": "npm:@insertish/vite@2.4.0-beta.3-dynamic-import-css-3c1466b",
     "vite-plugin-pwa": "^0.8.1",
     "workbox-precaching": "^6.1.5"
   }
