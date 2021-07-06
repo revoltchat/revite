@@ -1,6 +1,8 @@
 import styled, { css } from "styled-components";
 
 interface Props {
+    readonly compact?: boolean;
+    readonly accent?: boolean;
     readonly contrast?: boolean;
     readonly plain?: boolean;
     readonly error?: boolean;
@@ -42,6 +44,19 @@ export default styled.button<Props>`
     &:active {
         background: var(--secondary-background);
     }
+
+    ${(props) =>
+        props.compact &&
+        css`
+            height: 32px !important;
+            padding: 2px 12px !important;
+        `}
+
+    ${(props) =>
+        props.accent &&
+        css`
+            background: var(--accent) !important;
+        `}
 
     ${(props) =>
         props.plain &&

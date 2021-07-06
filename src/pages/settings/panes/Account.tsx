@@ -64,7 +64,7 @@ export function Account() {
                 <div className={styles.userDetail}>
                     <div className={styles.username}>@{user.username}</div>
                     <div className={styles.userid}>
-                        <Tooltip content={"This is your unique user identificator"}>
+                        <Tooltip content={<Text id="app.settings.pages.account.tooltip_ulid" />}>
                             <HelpCircle size={16} />
                         </Tooltip>
                         {user._id}
@@ -102,16 +102,21 @@ export function Account() {
                     </div>
                 ))}
             </div>
-            {/*<h3>Two-factor Authentication</h3>
-            <h5>Coming Soon</h5>
-            <h3>Account Management</h3>
-            <h5>Disable, schedule your deletion or outright delete your account at any time. This action will log you out and fully delete your account, including your chat history and friends.</h5>
-            <Button contrast>
-                Disable Account
-            </Button>
-            <Button contrast>
-                Delete Account
+            {/*<h3><Text id="app.settings.pages.account.two_factor_auth.title" /></h3>
+            <h5><Text id="app.settings.pages.account.two_factor_auth.description" /></h5>
+            <Button accent compact>
+                <Text id="app.settings.pages.account.two_factor_auth.add_auth" />
             </Button>*/}
+            <h3><Text id="app.settings.pages.account.account_management.title" /></h3>
+            <h5><Text id="app.settings.pages.account.account_management.description" /></h5>
+            <div className={styles.buttons}>
+                {/*<Button error compact>
+                    <Text id="app.settings.pages.account.account_management.disable_account" />
+                </Button>*/}
+                <Button error compact>
+                    <Text id="app.settings.pages.account.account_management.delete_account" />
+                </Button>
+            </div>
             <Tip>
                 <span>
                     <Text id="app.settings.tips.account.a" />

@@ -7,6 +7,7 @@
         border-radius: 6px;
         align-items: center;
         background: var(--secondary-header);
+        overflow: hidden;
 
         .avatar {
             cursor: pointer;
@@ -95,6 +96,11 @@
         .background {
             flex-grow: 1;
         }
+    }
+
+    .buttons {
+        display: flex;
+        gap: 12px;
     }
 }
 
