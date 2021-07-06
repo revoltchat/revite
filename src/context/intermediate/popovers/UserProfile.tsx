@@ -152,7 +152,7 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
                         </Localizer>
                         {user.status?.text && (
                             <span className={styles.status}>
-                                <UserStatus user={user} />
+                                <UserStatus user={user} tooltip />
                             </span>
                         )}
                     </div>
