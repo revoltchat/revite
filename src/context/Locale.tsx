@@ -175,9 +175,6 @@ function Locale({ children, locale }: Props) {
         return obj;
     }
 
-    dayjs.updateLocale("en", {
-        calendar: { ...definition.dayjs, sameDay: "sussy baka" },
-    });
     useEffect(() => {
         if (locale === "en") {
             const defn = transformLanguage(definition);
