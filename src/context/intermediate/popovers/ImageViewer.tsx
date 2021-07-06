@@ -22,7 +22,10 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
         return "https://jan.revolt.chat/proxy?url=" + encodeURIComponent(url);
     }
 
-    if (attachment && attachment.metadata.type !== "Image") return null;
+    if (attachment?.metadata.type !== "Image") {
+        return null;
+    }
+
     const client = useContext(AppContext);
 
     return (
@@ -30,13 +33,21 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
             <div className={styles.viewer}>
                 {attachment && (
                     <>
-                        <img src={client.generateFileURL(attachment)} />
+                        <img
+                            src={client.generateFileURL(attachment)}
+                            width={attachment.metadata.width}
+                            height={attachment.metadata.height}
+                        />
                         <AttachmentActions attachment={attachment} />
                     </>
                 )}
                 {embed && (
                     <>
-                        <img src={proxyImage(embed.url)} />
+                        <img
+                            src={proxyImage(embed.url)}
+                            width={attachment.metadata.width}
+                            height={attachment.metadata.height}
+                        />
                         <EmbedMediaActions embed={embed} />
                     </>
                 )}
