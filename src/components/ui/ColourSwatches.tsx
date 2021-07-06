@@ -117,7 +117,7 @@ export default function ColourSwatches({ value, onChange }: Props) {
                                 type="small"
                                 key={i}
                                 onClick={() => onChange(swatch)}>
-                                {swatch === value && <Check size={18} />}
+                                {swatch === value && <Check size={22} />}
                             </Swatch>
                         ))}
                     </div>

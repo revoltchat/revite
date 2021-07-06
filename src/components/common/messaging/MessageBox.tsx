@@ -129,11 +129,11 @@ export default function MessageBox({ channel }: Props) {
             <Base>
                 <Blocked>
                     <Action>
-                    <PermissionTooltip
-                        permission="SendMessages"
-                        placement="top">
-                        <ShieldX size={22} />
-                    </PermissionTooltip>
+                        <PermissionTooltip
+                            permission="SendMessages"
+                            placement="top">
+                            <ShieldX size={22} />
+                        </PermissionTooltip>
                     </Action>
                     <div className="text">
                         <Text id="app.main.channel.misc.no_sending" />
