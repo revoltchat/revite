@@ -1,6 +1,16 @@
 .viewer {
+    display: flex;
+    flex-direction: column;
+    border-end-end-radius: 4px;
+    border-end-start-radius: 4px;
+    overflow: hidden;
+
     img {
+        width: auto;
+        height: auto;
         max-width: 90vw;
-        max-height: 90vh;
+        max-height: 75vh;
+        border-bottom: thin solid var(--tertiary-foreground);
+        object-fit: contain;
     }
 }
