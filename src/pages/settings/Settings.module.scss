@@ -189,9 +189,13 @@
             width: 40px;
             border: 3px solid var(--tertiary-background);
             cursor: pointer;
-
+            
             svg {
                 color: var(--secondary-foreground);
+            }
+
+            &:hover {
+                background: var(--secondary-header);
             }
 
             &:active {

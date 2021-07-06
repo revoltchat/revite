@@ -1,5 +1,4 @@
-import { ShieldX } from "@styled-icons/boxicons-regular";
-import { Send } from "@styled-icons/boxicons-solid";
+import { Send, HappyAlt, ShieldX } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
 import { Channel } from "revolt.js";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
@@ -40,6 +39,7 @@ import AutoComplete, { useAutoComplete } from "../AutoComplete";
 import { PermissionTooltip } from "../Tooltip";
 import FilePreview from "./bars/FilePreview";
 import ReplyBar from "./bars/ReplyBar";
+import { Styleshare } from "@styled-icons/simple-icons";
 
 type Props = {
     channel: Channel;
@@ -65,29 +65,45 @@ const Base = styled.div`
     textarea {
         font-size: var(--text-size);
         background: transparent;
+
+        &::placeholder {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 `;
 
 const Blocked = styled.div`
     display: flex;
     align-items: center;
-    padding: 14px 0;
     user-select: none;
     font-size: var(--text-size);
     color: var(--tertiary-foreground);
 
+    .text {
+        padding: 14px 14px 14px 0;
+    }
+
     svg {
         flex-shrink: 0;
-        margin-inline-end: 10px;
     }
 `;
 
 const Action = styled.div`
-    display: grid;
+    display: flex;
     place-items: center;
 
     > div {
-        padding: 10px 12px;
+        height: 48px;
+        width: 48px;
+        padding: 12px;
+    }
+
+    .mobile {
+        @media (pointer: fine) {
+            display: none;
+        }
     }
 `;
 
@@ -112,12 +128,16 @@ export default function MessageBox({ channel }: Props) {
         return (
             <Base>
                 <Blocked>
+                    <Action>
                     <PermissionTooltip
                         permission="SendMessages"
                         placement="top">
                         <ShieldX size={22} />
                     </PermissionTooltip>
-                    <Text id="app.main.channel.misc.no_sending" />
+                    </Action>
+                    <div className="text">
+                        <Text id="app.main.channel.misc.no_sending" />
+                    </div>
                 </Blocked>
             </Base>
         );
@@ -477,13 +497,14 @@ export default function MessageBox({ channel }: Props) {
                     onFocus={onFocus}
                     onBlur={onBlur}
                 />
-                {isTouchscreenDevice && (
-                    <Action>
-                        <IconButton onClick={send}>
-                            <Send size={20} />
-                        </IconButton>
-                    </Action>
-                )}
+                <Action>
+                    {/*<IconButton onClick={emojiPicker}>
+                        <HappyAlt size={20} />
+                </IconButton>*/}
+                    <IconButton className="mobile" onClick={send}>
+                        <Send size={20} />
+                    </IconButton>
+                </Action>
             </Base>
         </>
     );
