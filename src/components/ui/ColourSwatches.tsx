@@ -2,8 +2,8 @@ import { Check } from "@styled-icons/boxicons-regular";
 import { Palette } from "@styled-icons/boxicons-solid";
 import styled, { css } from "styled-components";
 
-import { useRef } from "preact/hooks";
 import { RefObject } from "preact";
+import { useRef } from "preact/hooks";
 
 interface Props {
     value: string;

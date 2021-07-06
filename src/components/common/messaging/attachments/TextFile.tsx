@@ -31,7 +31,9 @@ export default function TextFile({ attachment }: Props) {
         if (loading) return;
 
         if (attachment.size > 20_000) {
-            setContent('This file is > 20 KB, for your sake I did not load it.\nSee tracking issue here for previews: https://gitlab.insrt.uk/revolt/revite/-/issues/2');
+            setContent(
+                "This file is > 20 KB, for your sake I did not load it.\nSee tracking issue here for previews: https://gitlab.insrt.uk/revolt/revite/-/issues/2",
+            );
             return;
         }
 

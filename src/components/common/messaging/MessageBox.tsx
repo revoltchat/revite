@@ -1,4 +1,5 @@
 import { Send, HappyAlt, ShieldX } from "@styled-icons/boxicons-solid";
+import { Styleshare } from "@styled-icons/simple-icons";
 import Axios, { CancelTokenSource } from "axios";
 import { Channel } from "revolt.js";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
@@ -39,7 +40,6 @@ import AutoComplete, { useAutoComplete } from "../AutoComplete";
 import { PermissionTooltip } from "../Tooltip";
 import FilePreview from "./bars/FilePreview";
 import ReplyBar from "./bars/ReplyBar";
-import { Styleshare } from "@styled-icons/simple-icons";
 
 type Props = {
     channel: Channel;
@@ -111,7 +111,7 @@ const Action = styled.div`
 export const CAN_UPLOAD_AT_ONCE = 4;
 
 export default function MessageBox({ channel }: Props) {
-    const [draft, setDraft] = useState(getState().drafts[channel._id] ?? '');
+    const [draft, setDraft] = useState(getState().drafts[channel._id] ?? "");
 
     const [uploadState, setUploadState] = useState<UploadState>({
         type: "none",
@@ -144,8 +144,8 @@ export default function MessageBox({ channel }: Props) {
     }
 
     function setMessage(content?: string) {
-        setDraft(content ?? '');
-        
+        setDraft(content ?? "");
+
         if (content) {
             dispatch({
                 type: "SET_DRAFT",
@@ -475,15 +475,15 @@ export default function MessageBox({ channel }: Props) {
                     placeholder={
                         channel.channel_type === "DirectMessage"
                             ? translate("app.main.channel.message_who", {
-                                person: client.users.get(
-                                    client.channels.getRecipient(channel._id),
-                                )?.username,
-                            })
+                                  person: client.users.get(
+                                      client.channels.getRecipient(channel._id),
+                                  )?.username,
+                              })
                             : channel.channel_type === "SavedMessages"
                             ? translate("app.main.channel.message_saved")
                             : translate("app.main.channel.message_where", {
-                                channel_name: channel.name,
-                            })
+                                  channel_name: channel.name,
+                              })
                     }
                     disabled={
                         uploadState.type === "uploading" ||

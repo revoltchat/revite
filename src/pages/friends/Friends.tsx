@@ -121,7 +121,10 @@ export default function Friends() {
                     */}
                 </div>
             </Header>
-            <div className={styles.list} data-empty={isEmpty} data-mobile={isTouchscreenDevice}>
+            <div
+                className={styles.list}
+                data-empty={isEmpty}
+                data-mobile={isTouchscreenDevice}>
                 {isEmpty && (
                     <>
                         <img src="https://img.insrt.uk/xexu7/XOPoBUTI47.png/raw" />

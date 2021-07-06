@@ -10,7 +10,6 @@ import {
     Safari,
     Windows,
 } from "@styled-icons/simple-icons";
-
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useHistory } from "react-router-dom";
 import { decodeTime } from "ulid";
@@ -19,12 +18,12 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { dayjs } from "../../../context/Locale";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import Button from "../../../components/ui/Button";
 import Preloader from "../../../components/ui/Preloader";
 import Tip from "../../../components/ui/Tip";
-import { dayjs } from "../../../context/Locale";
 
 dayjs.extend(relativeTime);
 
@@ -134,7 +133,12 @@ export function Sessions() {
                             <div>{getSystemIcon(session)}</div>
                         </div>
                         <div className={styles.info}>
-                            <input type="text" className={styles.name} value={session.friendly_name} autocomplete="off" />
+                            <input
+                                type="text"
+                                className={styles.name}
+                                value={session.friendly_name}
+                                autocomplete="off"
+                            />
                             <span className={styles.time}>
                                 <Text
                                     id="app.settings.pages.sessions.created"

@@ -155,7 +155,7 @@ export function SpecialInputModal(props: SpecialProps) {
                             status: {
                                 ...client.user?.status,
                                 text: text.trim().length > 0 ? text : undefined,
-                            }
+                            },
                         })
                     }
                 />

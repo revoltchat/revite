@@ -100,14 +100,16 @@ export default function AttachmentActions({ attachment }: Props) {
                     <File size={24} className={styles.iconType} />
                     <span className={styles.filename}>{filename}</span>
                     <span className={styles.filesize}>{filesize}</span>
-                    { metadata.type === 'Text' && <a
-                        href={open_url}
-                        target="_blank"
-                        className={styles.externalType}>
-                        <IconButton>
-                            <LinkExternal size={24} />
-                        </IconButton>
-                    </a> }
+                    {metadata.type === "Text" && (
+                        <a
+                            href={open_url}
+                            target="_blank"
+                            className={styles.externalType}>
+                            <IconButton>
+                                <LinkExternal size={24} />
+                            </IconButton>
+                        </a>
+                    )}
                     <a
                         href={download_url}
                         className={styles.downloadIcon}

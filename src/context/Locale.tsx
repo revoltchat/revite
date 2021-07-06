@@ -1,6 +1,4 @@
 import dayJS from "dayjs";
-export const dayjs = dayJS;
-
 import calendar from "dayjs/plugin/calendar";
 import format from "dayjs/plugin/localizedFormat";
 import update from "dayjs/plugin/updateLocale";
@@ -12,6 +10,8 @@ import { useEffect, useState } from "preact/hooks";
 import { connectState } from "../redux/connector";
 
 import definition from "../../external/lang/en.json";
+
+export const dayjs = dayJS;
 
 dayjs.extend(calendar);
 dayjs.extend(format);
@@ -163,7 +163,7 @@ function Locale({ children, locale }: Props) {
         dayjs["timeFormat"] = twelvehour ? "hh:mm A" : "HH:mm";
 
         Object.keys(dayjs)
-            .filter((k) => typeof dayjs[k] === 'string')
+            .filter((k) => typeof dayjs[k] === "string")
             .forEach(
                 (k) =>
                     (dayjs[k] = dayjs[k].replace(
@@ -175,7 +175,9 @@ function Locale({ children, locale }: Props) {
         return obj;
     }
 
-    dayjs.updateLocale("en", { calendar: { ...definition.dayjs, sameDay: 'sussy baka' } });
+    dayjs.updateLocale("en", {
+        calendar: { ...definition.dayjs, sameDay: "sussy baka" },
+    });
     useEffect(() => {
         if (locale === "en") {
             const defn = transformLanguage(definition);

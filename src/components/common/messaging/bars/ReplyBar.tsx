@@ -4,6 +4,7 @@ import {
     File,
     XCircle,
 } from "@styled-icons/boxicons-regular";
+import { SYSTEM_USER_ID } from "revolt.js";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
@@ -20,9 +21,8 @@ import IconButton from "../../../ui/IconButton";
 
 import Markdown from "../../../markdown/Markdown";
 import UserShort from "../../user/UserShort";
-import { ReplyBase } from "../attachments/MessageReply";
 import { SystemMessage } from "../SystemMessage";
-import { SYSTEM_USER_ID } from "revolt.js";
+import { ReplyBase } from "../attachments/MessageReply";
 
 interface Props {
     channel: string;
@@ -102,13 +102,16 @@ export default function ReplyBar({ channel, replies, setReplies }: Props) {
                                 message.attachments.length > 0 && (
                                     <File size={16} />
                                 )}
-                            { message.author === SYSTEM_USER_ID ?
-                                <SystemMessage message={message} /> :
+                            {message.author === SYSTEM_USER_ID ? (
+                                <SystemMessage message={message} />
+                            ) : (
                                 <Markdown
                                     disallowBigEmoji
-                                    content={(message.content as string).replace(/\n/g, " ")}
+                                    content={(
+                                        message.content as string
+                                    ).replace(/\n/g, " ")}
                                 />
-                            }
+                            )}
                         </ReplyBase>
                         <span class="actions">
                             <IconButton

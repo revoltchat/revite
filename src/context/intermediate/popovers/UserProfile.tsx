@@ -1,10 +1,5 @@
-import {
-    Envelope,
-    Edit,
-    UserPlus,
-    Shield
-} from "@styled-icons/boxicons-solid";
 import { Money } from "@styled-icons/boxicons-regular";
+import { Envelope, Edit, UserPlus, Shield } from "@styled-icons/boxicons-solid";
 import { Link, useHistory } from "react-router-dom";
 import { Users } from "revolt.js/dist/api/objects";
 import { UserPermission } from "revolt.js/dist/api/permissions";

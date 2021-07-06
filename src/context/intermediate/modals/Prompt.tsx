@@ -256,7 +256,9 @@ export function SpecialPromptModal(props: SpecialProps) {
                     question={<Text id={`app.context_menu.create_invite`} />}
                     actions={[
                         {
-                            children: <Text id="app.special.modals.actions.ok" />,
+                            children: (
+                                <Text id="app.special.modals.actions.ok" />
+                            ),
                             confirmation: true,
                             onClick: onClose,
                         },
@@ -292,7 +294,9 @@ export function SpecialPromptModal(props: SpecialProps) {
                     question={<Text id={`app.context_menu.kick_member`} />}
                     actions={[
                         {
-                            children: <Text id="app.special.modals.actions.kick" />,
+                            children: (
+                                <Text id="app.special.modals.actions.kick" />
+                            ),
                             contrast: true,
                             error: true,
                             confirmation: true,
@@ -342,7 +346,9 @@ export function SpecialPromptModal(props: SpecialProps) {
                     question={<Text id={`app.context_menu.ban_member`} />}
                     actions={[
                         {
-                            children: <Text id="app.special.modals.actions.ban" />,
+                            children: (
+                                <Text id="app.special.modals.actions.ban" />
+                            ),
                             contrast: true,
                             error: true,
                             confirmation: true,

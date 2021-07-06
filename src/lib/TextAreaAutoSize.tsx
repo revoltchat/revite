@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
+import { RefObject } from "preact";
 import { useEffect, useLayoutEffect, useRef } from "preact/hooks";
 
 import TextArea, { TextAreaProps } from "../components/ui/TextArea";
 
 import { internalSubscribe } from "./eventEmitter";
 import { isTouchscreenDevice } from "./isTouchscreenDevice";
-import { RefObject } from "preact";
 
 type TextAreaAutoSizeProps = Omit<
     JSX.HTMLAttributes<HTMLTextAreaElement>,
@@ -30,7 +30,7 @@ const Container = styled.div`
     flex-direction: column;
 `;
 
-const Ghost = styled.div<{ lineHeight: string, maxRows: number }>`
+const Ghost = styled.div<{ lineHeight: string; maxRows: number }>`
     flex: 0;
     width: 100%;
     overflow: hidden;
@@ -41,13 +41,15 @@ const Ghost = styled.div<{ lineHeight: string, maxRows: number }>`
         width: 100%;
         white-space: pre-wrap;
         word-break: break-all;
-        
+
         top: 0;
         position: absolute;
         font-size: var(--text-size);
         line-height: ${(props) => props.lineHeight};
 
-        max-height: calc(calc( ${(props) => props.lineHeight} * ${ (props) => props.maxRows } ));
+        max-height: calc(
+            calc(${(props) => props.lineHeight} * ${(props) => props.maxRows})
+        );
     }
 `;
 
@@ -72,7 +74,7 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
 
     useLayoutEffect(() => {
         if (ref.current && ghost.current) {
-            ref.current.style.height = ghost.current.clientHeight + 'px';
+            ref.current.style.height = ghost.current.clientHeight + "px";
         }
     }, [ghost, props.value]);
 
@@ -139,7 +141,9 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
                 }}
                 {...textAreaProps}
             />
-            <Ghost lineHeight={lineHeight ?? 'var(--textarea-line-height)'} maxRows={maxRows ?? 5}>
+            <Ghost
+                lineHeight={lineHeight ?? "var(--textarea-line-height)"}
+                maxRows={maxRows ?? 5}>
                 <div ref={ghost} style={{ padding }}>
                     {props.value
                         ? props.value

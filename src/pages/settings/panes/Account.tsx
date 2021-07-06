@@ -14,10 +14,10 @@ import {
 } from "../../../context/revoltjs/RevoltClient";
 import { useForceUpdate, useSelf } from "../../../context/revoltjs/hooks";
 
+import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
-import Tooltip from "../../../components/common/Tooltip";
 import Tip from "../../../components/ui/Tip";
 
 export function Account() {
@@ -65,7 +65,10 @@ export function Account() {
                 <div className={styles.userDetail}>
                     <div className={styles.username}>@{user.username}</div>
                     <div className={styles.userid}>
-                        <Tooltip content={<Text id="app.settings.pages.account.unique_id" />}>
+                        <Tooltip
+                            content={
+                                <Text id="app.settings.pages.account.unique_id" />
+                            }>
                             <HelpCircle size={16} />
                         </Tooltip>
                         <Tooltip content={<Text id="app.special.copy" />}>
@@ -90,13 +93,25 @@ export function Account() {
                             <div className={styles.subtext}>
                                 <Text id={`login.${field}`} />
                             </div>
-                            <p>{
-                                field === 'email' ?
-                                    (revealEmail ? value :
-                                        <>***********@{value.split('@').pop()} <a onClick={() => setRevealEmail(true)}>
-                                        <Text id="app.special.modals.actions.reveal" /></a></>)
-                                    : value
-                            }</p>
+                            <p>
+                                {field === "email" ? (
+                                    revealEmail ? (
+                                        value
+                                    ) : (
+                                        <>
+                                            ***********@{value.split("@").pop()}{" "}
+                                            <a
+                                                onClick={() =>
+                                                    setRevealEmail(true)
+                                                }>
+                                                <Text id="app.special.modals.actions.reveal" />
+                                            </a>
+                                        </>
+                                    )
+                                ) : (
+                                    value
+                                )}
+                            </p>
                         </div>
                         <div>
                             <Button
@@ -113,18 +128,36 @@ export function Account() {
                     </div>
                 ))}
             </div>
-            <h3><Text id="app.settings.pages.account.account_management.title" /></h3>
-            <h5><Text id="app.settings.pages.account.account_management.description" /></h5>
+            <h3>
+                <Text id="app.settings.pages.account.account_management.title" />
+            </h3>
+            <h5>
+                <Text id="app.settings.pages.account.account_management.description" />
+            </h5>
 
-            <h3><Text id="app.settings.pages.account.2fa.title" /></h3>
-            <h5>Currently work in progress, see <a href="https://gitlab.insrt.uk/insert/rauth/-/issues/2" target="_blank">tracking issue here</a>.</h5>
+            <h3>
+                <Text id="app.settings.pages.account.2fa.title" />
+            </h3>
+            <h5>
+                Currently work in progress, see{" "}
+                <a
+                    href="https://gitlab.insrt.uk/insert/rauth/-/issues/2"
+                    target="_blank">
+                    tracking issue here
+                </a>
+                .
+            </h5>
             {/*<h5><Text id="app.settings.pages.account.two_factor_auth.description" /></h5>
             <Button accent compact>
                 <Text id="app.settings.pages.account.two_factor_auth.add_auth" />
             </Button>*/}
 
-            <h3><Text id="app.settings.pages.account.manage.title" /></h3>
-            <h5><Text id="app.settings.pages.account.manage.description" /></h5>
+            <h3>
+                <Text id="app.settings.pages.account.manage.title" />
+            </h3>
+            <h5>
+                <Text id="app.settings.pages.account.manage.description" />
+            </h5>
             <div className={styles.buttons}>
                 {/* <Button contrast>
                     <Text id="app.settings.pages.account.manage.disable" />

@@ -10,7 +10,7 @@ export default styled.select`
     border: none;
     outline: 2px solid transparent;
     transition: outline-color 0.2s ease-in-out;
-    transition: box-shadow .2s ease-in-out;
+    transition: box-shadow 0.2s ease-in-out;
     cursor: pointer;
     width: 100%;
 

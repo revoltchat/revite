@@ -95,10 +95,11 @@ export function MessageArea({ id }: Props) {
                 animateScroll.scrollTo(
                     Math.max(
                         101,
-                        ref.current ? (ref.current.scrollTop +
-                            (ref.current.scrollHeight -
-                                scrollState.current.previousHeight))
-                            : 101
+                        ref.current
+                            ? ref.current.scrollTop +
+                                  (ref.current.scrollHeight -
+                                      scrollState.current.previousHeight)
+                            : 101,
                     ),
                     {
                         container: ref.current,
@@ -128,7 +129,8 @@ export function MessageArea({ id }: Props) {
               ref.current?.clientHeight
             : true;
 
-    const atTop = (offset = 0) => ref.current ? ref.current.scrollTop <= offset : false;
+    const atTop = (offset = 0) =>
+        ref.current ? ref.current.scrollTop <= offset : false;
 
     // ? Handle events from renderer.
     useEffect(() => {
