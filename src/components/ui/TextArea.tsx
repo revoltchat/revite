@@ -17,8 +17,9 @@ export default styled.textarea<TextAreaProps>`
     display: block;
     color: var(--foreground);
     background: var(--secondary-background);
-    padding: ${(props) => (props.padding) ?? 'var(--textarea-padding)'};
-    line-height: ${(props) => (props.lineHeight) ?? 'var(--textarea-line-height)'};
+    padding: ${(props) => props.padding ?? "var(--textarea-padding)"};
+    line-height: ${(props) =>
+        props.lineHeight ?? "var(--textarea-line-height)"};
 
     ${(props) =>
         props.hideBorder &&

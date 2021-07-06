@@ -1,4 +1,5 @@
 import { Reply, File } from "@styled-icons/boxicons-regular";
+import { SYSTEM_USER_ID } from "revolt.js";
 import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
@@ -9,7 +10,6 @@ import { useUser } from "../../../../context/revoltjs/hooks";
 
 import Markdown from "../../../markdown/Markdown";
 import UserShort from "../../user/UserShort";
-import { SYSTEM_USER_ID } from "revolt.js";
 import { SystemMessage } from "../SystemMessage";
 
 interface Props {
@@ -86,13 +86,14 @@ export function MessageReply({ index, channel, id }: Props) {
             {message.attachments && message.attachments.length > 0 && (
                 <File size={16} />
             )}
-            { message.author === SYSTEM_USER_ID ?
-                <SystemMessage message={message} /> :
+            {message.author === SYSTEM_USER_ID ? (
+                <SystemMessage message={message} />
+            ) : (
                 <Markdown
                     disallowBigEmoji
                     content={(message.content as string).replace(/\n/g, " ")}
                 />
-            }
+            )}
         </ReplyBase>
     );
 }

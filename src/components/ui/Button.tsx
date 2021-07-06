@@ -8,7 +8,8 @@ interface Props {
     readonly error?: boolean;
 }
 
-export type ButtonProps = Props & Omit<JSX.HTMLAttributes<HTMLButtonElement>, 'as'>;
+export type ButtonProps = Props &
+    Omit<JSX.HTMLAttributes<HTMLButtonElement>, "as">;
 
 export default styled.button<Props>`
     z-index: 1;
@@ -18,7 +19,7 @@ export default styled.button<Props>`
     align-items: center;
     justify-content: center;
     padding: 2px 16px;
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-family: inherit;
     font-weight: 500;
 
@@ -69,7 +70,7 @@ export default styled.button<Props>`
 
             &:disabled {
                 cursor: not-allowed;
-                opacity: .5;
+                opacity: 0.5;
             }
 
             &:active {

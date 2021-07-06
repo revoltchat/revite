@@ -49,9 +49,11 @@ export default styled.div<Props>`
             }
         `}
 
-    ${(props) => props.rotate && css`
-        svg {
-            transform: rotateZ(${props.rotate});
-        }
-    ` }
+    ${(props) =>
+        props.rotate &&
+        css`
+            svg {
+                transform: rotateZ(${props.rotate});
+            }
+        `}
 `;

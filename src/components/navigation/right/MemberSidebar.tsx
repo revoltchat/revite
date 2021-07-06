@@ -233,18 +233,18 @@ export function ServerMemberSidebar({
         <GenericSidebarBase>
             <GenericSidebarList>
                 <ChannelDebugInfo id={channel._id} />
-                <div>
-                    {!members && <Preloader type="ring" />}
-                </div>
-                { members && <Category
-                    variant="uniform"
-                    text={
-                        <span>
-                            <Text id="app.main.categories.members" /> —{" "}
-                            {users.length}
-                        </span>
-                    }
-                /> }
+                <div>{!members && <Preloader type="ring" />}</div>
+                {members && (
+                    <Category
+                        variant="uniform"
+                        text={
+                            <span>
+                                <Text id="app.main.categories.members" /> —{" "}
+                                {users.length}
+                            </span>
+                        }
+                    />
+                )}
                 {members && users.length === 0 && <img src={placeholderSVG} />}
                 {users.map(
                     (user) =>

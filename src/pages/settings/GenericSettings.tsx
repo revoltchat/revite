@@ -85,7 +85,10 @@ export function GenericSettings({
                         <>
                             {showExitButton && (
                                 <IconButton onClick={exitSettings}>
-                                    <X size={27} style={{marginInlineEnd: "8px"}} />
+                                    <X
+                                        size={27}
+                                        style={{ marginInlineEnd: "8px" }}
+                                    />
                                 </IconButton>
                             )}
                             <Text id="app.settings.title" />
@@ -93,7 +96,10 @@ export function GenericSettings({
                     ) : (
                         <>
                             <IconButton onClick={() => switchPage()}>
-                                <ArrowBack size={24} style={{marginInlineEnd: "10px"}} />
+                                <ArrowBack
+                                    size={24}
+                                    style={{ marginInlineEnd: "10px" }}
+                                />
                             </IconButton>
                             <Text
                                 id={`app.settings.${category}.${page}.title`}
@@ -148,9 +154,9 @@ export function GenericSettings({
             )}
             {!isTouchscreenDevice && (
                 <div className={styles.action}>
-                        <div onClick={exitSettings} className={styles.closeButton}>
-                            <X size={28} />
-                        </div>
+                    <div onClick={exitSettings} className={styles.closeButton}>
+                        <X size={28} />
+                    </div>
                 </div>
             )}
         </div>

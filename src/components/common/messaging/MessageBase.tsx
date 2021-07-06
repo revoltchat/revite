@@ -3,11 +3,12 @@ import { decodeTime } from "ulid";
 
 import { Text } from "preact-i18n";
 
+import { useDictionary } from "../../../lib/i18n";
+
+import { dayjs } from "../../../context/Locale";
 import { MessageObject } from "../../../context/revoltjs/util";
 
 import Tooltip from "../Tooltip";
-import { useDictionary } from "../../../lib/i18n";
-import { dayjs } from "../../../context/Locale";
 
 export interface BaseMessageProps {
     head?: boolean;
@@ -179,7 +180,9 @@ export function MessageDetail({
                 <>
                     <time className="copyTime">
                         <i className="copyBracket">[</i>
-                        {dayjs(decodeTime(message._id)).format(dict.dayjs.timeFormat)}
+                        {dayjs(decodeTime(message._id)).format(
+                            dict.dayjs.timeFormat,
+                        )}
                         <i className="copyBracket">]</i>
                     </time>
                     <span className="edited">
@@ -194,7 +197,9 @@ export function MessageDetail({
                 <>
                     <time>
                         <i className="copyBracket">[</i>
-                        {dayjs(decodeTime(message._id)).format(dict.dayjs.timeFormat)}
+                        {dayjs(decodeTime(message._id)).format(
+                            dict.dayjs.timeFormat,
+                        )}
                         <i className="copyBracket">]</i>
                     </time>
                 </>

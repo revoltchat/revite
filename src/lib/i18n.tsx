@@ -15,11 +15,11 @@ interface Props {
 export interface Dictionary {
     dayjs: {
         defaults: {
-            twelvehour: 'yes' | 'no';
+            twelvehour: "yes" | "no";
             separator: string;
             date: "traditional" | "simplified" | "ISO8601";
-        },
-        timeFormat: string
+        };
+        timeFormat: string;
     };
     [key: string]: Object | string;
 }

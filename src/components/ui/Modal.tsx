@@ -99,10 +99,10 @@ const ModalActions = styled.div`
     background: var(--secondary-background);
 `;
 
-export type Action = Omit<ButtonProps, 'onClick'> & {
+export type Action = Omit<ButtonProps, "onClick"> & {
     confirmation?: boolean;
     onClick: () => void;
-}
+};
 
 interface Props {
     children?: Children;
@@ -177,9 +177,9 @@ export default function Modal(props: Props) {
                 {content}
                 {props.actions && (
                     <ModalActions>
-                        {props.actions.map((x) =>
+                        {props.actions.map((x) => (
                             <Button {...x} disabled={props.disabled} />
-                        )}
+                        ))}
                     </ModalActions>
                 )}
             </ModalContainer>
