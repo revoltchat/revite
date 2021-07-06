@@ -17,7 +17,7 @@ export function ClipboardModal({ onClose, text }: Props) {
                 {
                     onClick: onClose,
                     confirmation: true,
-                    text: <Text id="app.special.modals.actions.close" />,
+                    children: <Text id="app.special.modals.actions.close" />,
                 },
             ]}>
             {location.protocol !== "https:" && (

@@ -1,10 +1,9 @@
 import styled, { css, keyframes } from "styled-components";
 
-import classNames from "classnames";
 import { createPortal, useEffect } from "preact/compat";
 
 import { Children } from "../../types/Preact";
-import Button from "./Button";
+import Button, { ButtonProps } from "./Button";
 
 const open = keyframes`
     0% {opacity: 0;}
@@ -100,12 +99,9 @@ const ModalActions = styled.div`
     background: var(--secondary-background);
 `;
 
-export interface Action {
-    text: Children;
-    onClick: () => void;
+export type Action = Omit<ButtonProps, 'onClick'> & {
     confirmation?: boolean;
-    contrast?: boolean;
-    error?: boolean;
+    onClick: () => void;
 }
 
 interface Props {
@@ -181,15 +177,9 @@ export default function Modal(props: Props) {
                 {content}
                 {props.actions && (
                     <ModalActions>
-                        {props.actions.map((x) => (
-                            <Button
-                                contrast={x.contrast ?? true}
-                                error={x.error ?? false}
-                                onClick={x.onClick}
-                                disabled={props.disabled}>
-                                {x.text}
-                            </Button>
-                        ))}
+                        {props.actions.map((x) =>
+                            <Button {...x} disabled={props.disabled} />
+                        )}
                     </ModalActions>
                 )}
             </ModalContainer>

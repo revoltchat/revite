@@ -39,7 +39,7 @@ export function InputModal({
             actions={[
                 {
                     confirmation: true,
-                    text: <Text id="app.special.modals.actions.ok" />,
+                    children: <Text id="app.special.modals.actions.ok" />,
                     onClick: () => {
                         setProcessing(true);
                         callback(value)
@@ -51,7 +51,7 @@ export function InputModal({
                     },
                 },
                 {
-                    text: <Text id="app.special.modals.actions.cancel" />,
+                    children: <Text id="app.special.modals.actions.cancel" />,
                     onClick: onClose,
                 },
             ]}
@@ -155,7 +155,7 @@ export function SpecialInputModal(props: SpecialProps) {
                             status: {
                                 ...client.user?.status,
                                 text: text.trim().length > 0 ? text : undefined,
-                            },
+                            }
                         })
                     }
                 />

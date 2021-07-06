@@ -71,7 +71,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                 {
                     confirmation: true,
                     onClick: handleSubmit(onSubmit),
-                    text:
+                    children:
                         field === "email" ? (
                             <Text id="app.special.modals.actions.send_email" />
                         ) : (
@@ -80,7 +80,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                 },
                 {
                     onClick: onClose,
-                    text: <Text id="app.special.modals.actions.close" />,
+                    children: <Text id="app.special.modals.actions.close" />,
                 },
             ]}>
             {/* Preact / React typing incompatabilities */}

@@ -28,7 +28,7 @@ export function UserPicker(props: Props) {
             onClose={props.onClose}
             actions={[
                 {
-                    text: <Text id="app.special.modals.actions.ok" />,
+                    children: <Text id="app.special.modals.actions.ok" />,
                     onClick: () => props.callback(selected).then(props.onClose),
                 },
             ]}>

@@ -122,7 +122,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                             confirmation: true,
                             contrast: true,
                             error: true,
-                            text: (
+                            children: (
                                 <Text
                                     id={`app.special.modals.actions.${event[1]}`}
                                 />
@@ -165,7 +165,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                             },
                         },
                         {
-                            text: (
+                            children: (
                                 <Text id="app.special.modals.actions.cancel" />
                             ),
                             onClick: onClose,
@@ -192,7 +192,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                             confirmation: true,
                             contrast: true,
                             error: true,
-                            text: (
+                            children: (
                                 <Text id="app.special.modals.actions.delete" />
                             ),
                             onClick: async () => {
@@ -212,10 +212,11 @@ export function SpecialPromptModal(props: SpecialProps) {
                             },
                         },
                         {
-                            text: (
+                            children: (
                                 <Text id="app.special.modals.actions.cancel" />
                             ),
                             onClick: onClose,
+                            plain: true,
                         },
                     ]}
                     content={
@@ -255,12 +256,12 @@ export function SpecialPromptModal(props: SpecialProps) {
                     question={<Text id={`app.context_menu.create_invite`} />}
                     actions={[
                         {
-                            text: <Text id="app.special.modals.actions.ok" />,
+                            children: <Text id="app.special.modals.actions.ok" />,
                             confirmation: true,
                             onClick: onClose,
                         },
                         {
-                            text: <Text id="app.context_menu.copy_link" />,
+                            children: <Text id="app.context_menu.copy_link" />,
                             onClick: () =>
                                 writeClipboard(
                                     `${window.location.protocol}//${window.location.host}/invite/${code}`,
@@ -291,7 +292,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                     question={<Text id={`app.context_menu.kick_member`} />}
                     actions={[
                         {
-                            text: <Text id="app.special.modals.actions.kick" />,
+                            children: <Text id="app.special.modals.actions.kick" />,
                             contrast: true,
                             error: true,
                             confirmation: true,
@@ -311,7 +312,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                             },
                         },
                         {
-                            text: (
+                            children: (
                                 <Text id="app.special.modals.actions.cancel" />
                             ),
                             onClick: onClose,
@@ -341,7 +342,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                     question={<Text id={`app.context_menu.ban_member`} />}
                     actions={[
                         {
-                            text: <Text id="app.special.modals.actions.ban" />,
+                            children: <Text id="app.special.modals.actions.ban" />,
                             contrast: true,
                             error: true,
                             confirmation: true,
@@ -362,7 +363,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                             },
                         },
                         {
-                            text: (
+                            children: (
                                 <Text id="app.special.modals.actions.cancel" />
                             ),
                             onClick: onClose,
@@ -404,7 +405,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                         {
                             confirmation: true,
                             contrast: true,
-                            text: (
+                            children: (
                                 <Text id="app.special.modals.actions.create" />
                             ),
                             onClick: async () => {
@@ -432,7 +433,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                             },
                         },
                         {
-                            text: (
+                            children: (
                                 <Text id="app.special.modals.actions.cancel" />
                             ),
                             onClick: onClose,
