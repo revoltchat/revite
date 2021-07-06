@@ -195,11 +195,12 @@ function Locale({ children, locale }: Props) {
                     `../../node_modules/dayjs/esm/locale/${target}.js`
                 );
 
+                dayjs.locale(target, dayjs_locale.default);
+
                 if (defn.dayjs) {
                     dayjs.updateLocale(target, { calendar: defn.dayjs });
                 }
 
-                dayjs.locale(target, dayjs_locale.default);
                 setDefinition(defn);
             },
         );
