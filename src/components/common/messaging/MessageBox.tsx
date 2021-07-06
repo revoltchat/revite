@@ -20,8 +20,7 @@ import {
     SMOOTH_SCROLL_ON_RECEIVE,
 } from "../../../lib/renderer/Singleton";
 
-import { dispatch } from "../../../redux";
-import { connectState } from "../../../redux/connector";
+import { dispatch, getState } from "../../../redux";
 import { Reply } from "../../../redux/reducers/queue";
 
 import { SoundContext } from "../../../context/Settings";
@@ -44,7 +43,6 @@ import ReplyBar from "./bars/ReplyBar";
 
 type Props = {
     channel: Channel;
-    draft?: string;
 };
 
 export type UploadState =
@@ -94,9 +92,11 @@ const Action = styled.div`
 `;
 
 // ! FIXME: add to app config and load from app config
-export const CAN_UPLOAD_AT_ONCE = 5;
+export const CAN_UPLOAD_AT_ONCE = 4;
 
-function MessageBox({ channel, draft }: Props) {
+export default function MessageBox({ channel }: Props) {
+    const [draft, setDraft] = useState(getState().drafts[channel._id] ?? '');
+
     const [uploadState, setUploadState] = useState<UploadState>({
         type: "none",
     });
@@ -124,6 +124,8 @@ function MessageBox({ channel, draft }: Props) {
     }
 
     function setMessage(content?: string) {
+        setDraft(content ?? '');
+        
         if (content) {
             dispatch({
                 type: "SET_DRAFT",
@@ -486,13 +488,3 @@ function MessageBox({ channel, draft }: Props) {
         </>
     );
 }
-
-export default connectState<Omit<Props, "dispatch" | "draft">>(
-    MessageBox,
-    (state, { channel }) => {
-        return {
-            draft: state.drafts[channel._id],
-        };
-    },
-    true,
-);

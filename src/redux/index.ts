@@ -82,3 +82,7 @@ store.subscribe(() => {
 export function dispatch(action: Action) {
     store.dispatch(action);
 }
+
+export function getState(): State {
+    return store.getState();
+}
