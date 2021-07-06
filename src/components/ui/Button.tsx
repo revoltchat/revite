@@ -6,6 +6,8 @@ interface Props {
     readonly error?: boolean;
 }
 
+export type ButtonProps = Props & Omit<JSX.HTMLAttributes<HTMLButtonElement>, 'as'>;
+
 export default styled.button<Props>`
     z-index: 1;
     display: flex;

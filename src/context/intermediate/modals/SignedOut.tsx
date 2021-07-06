@@ -16,7 +16,7 @@ export function SignedOutModal({ onClose }: Props) {
                 {
                     onClick: onClose,
                     confirmation: true,
-                    text: <Text id="app.special.modals.actions.ok" />,
+                    children: <Text id="app.special.modals.actions.ok" />,
                 },
             ]}
         />

@@ -17,11 +17,11 @@ export function ErrorModal({ onClose, error }: Props) {
                 {
                     onClick: onClose,
                     confirmation: true,
-                    text: <Text id="app.special.modals.actions.ok" />,
+                    children: <Text id="app.special.modals.actions.ok" />,
                 },
                 {
                     onClick: () => location.reload(),
-                    text: <Text id="app.special.modals.actions.reload" />,
+                    children: <Text id="app.special.modals.actions.reload" />,
                 },
             ]}>
             <Text id={`error.${error}`}>{error}</Text>
