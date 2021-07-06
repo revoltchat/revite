@@ -30,6 +30,11 @@
             align-items: center;
             gap: 4px;
             color: var(--tertiary-foreground);
+
+            a {
+                color: inherit;
+                cursor: pointer;
+            }
         }
     }
 
@@ -61,6 +66,14 @@
                 font-weight: 600;
                 color: var(--foreground);
                 text-transform: uppercase;
+            }
+
+            a {
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
             }
         }
 
