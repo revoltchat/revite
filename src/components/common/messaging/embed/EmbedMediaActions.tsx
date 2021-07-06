@@ -14,13 +14,11 @@ export default function EmbedMediaActions({ embed }: Props) {
 
     return (
         <div className={styles.actions}>
-            <div className={styles.info}>
-                <span className={styles.filename}>{filename}</span>
-                <span className={styles.filesize}>
-                    {embed.width + "x" + embed.height}
-                </span>
-            </div>
-            <a href={embed.url} target="_blank">
+            <span className={styles.filename}>{filename}</span>
+            <span className={styles.filesize}>
+                {embed.width + "x" + embed.height}
+            </span>
+            <a href={embed.url} class={styles.openIcon} target="_blank">
                 <IconButton>
                     <LinkExternal size={24} />
                 </IconButton>
