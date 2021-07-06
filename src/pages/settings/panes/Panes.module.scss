@@ -19,7 +19,7 @@
         }
 
         .username {
-            font-size: 24px;
+            font-size: 1.5rem;
             font-weight: 600;
         }
 
@@ -65,14 +65,14 @@
 
             .subtext {
                 display: inline;
-                margin: 0.4em 0;
-                font-size: 14px;
+                font-size: .875rem;
                 font-weight: 600;
                 color: var(--foreground);
                 text-transform: uppercase;
             }
 
             a {
+                font-size: .875rem;
                 cursor: pointer;
 
                 &:hover {
@@ -159,29 +159,14 @@
     }
 
     details {
-        font-size: 14px;
-        font-weight: 700;
-        text-transform: uppercase;
-        color: var(--secondary-foreground);
 
         summary {
+            font-size: .8125rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--secondary-foreground);
             cursor: pointer;
-        }
-
-        /*summary {
-            display: flex;
-            flex-grow: 1;
-            &::after {
-                display: flex;
-                align-items: flex-end;
-                content: "gh";
-            }
-        }*/
-
-        /*summary::-webkit-details-marker,
-        summary::marker {
-            content: "";
-        }*/        
+        }      
     }
 
     .emojiPack {
@@ -283,7 +268,7 @@
             span {
                 flex: 1;
                 display: block;
-                font-size: 14px;
+                font-size: .875rem;
                 font-weight: 600;
                 margin-bottom: 4px;
                 text-transform: capitalize;
@@ -363,7 +348,7 @@
         .label {
             margin-bottom: 8px;
             color: var(--primary-text);
-            font-size: 12px;
+            font-size: .75rem;
             font-weight: 600;
         }
 
@@ -378,7 +363,7 @@
             }
 
             .time {
-                font-size: 12px;
+                font-size: .75rem;
                 color: var(--teriary-text);
             }
         }
@@ -401,7 +386,7 @@
 
             .flag {
                 display: flex;
-                font-size: 42px;
+                font-size: 2.625rem;
                 line-height: 48px;
 
                 > div {
