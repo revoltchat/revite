@@ -276,14 +276,9 @@ export function FileUploader(props: Props) {
                     if (uploading) return cancel();
                     if (attached) return remove();
                     onClick();
-                }}>
-                {uploading ? (
-                    <XCircle size={size} />
-                ) : attached ? (
-                    <X size={size} />
-                ) : (
-                    <Plus size={size} />
-                )}
+                }}
+                rotate={uploading || attached ? '45deg' : undefined}>
+                <Plus size={size} />
             </IconButton>
         );
     }
