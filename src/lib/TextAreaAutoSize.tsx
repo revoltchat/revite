@@ -131,7 +131,7 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
                 ref={ref}
                 value={value}
                 padding={padding}
-                style={{ height: minHeight }}
+                style={{ minHeight }}
                 hideBorder={hideBorder}
                 lineHeight={lineHeight}
                 onChange={(ev) => {

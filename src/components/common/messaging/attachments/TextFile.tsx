@@ -29,6 +29,12 @@ export default function TextFile({ attachment }: Props) {
     useEffect(() => {
         if (typeof content !== "undefined") return;
         if (loading) return;
+
+        if (attachment.size > 20_000) {
+            setContent('This file is > 20 KB, for your sake I did not load it.\nSee tracking issue here for previews: https://gitlab.insrt.uk/revolt/revite/-/issues/2');
+            return;
+        }
+
         setLoading(true);
 
         let cached = fileCache[attachment._id];
@@ -37,7 +43,7 @@ export default function TextFile({ attachment }: Props) {
             setLoading(false);
         } else {
             axios
-                .get(url)
+                .get(url, { transformResponse: [] })
                 .then((res) => {
                     setContent(res.data);
                     fileCache[attachment._id] = res.data;
