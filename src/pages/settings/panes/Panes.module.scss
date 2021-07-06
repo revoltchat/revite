@@ -306,6 +306,7 @@
 .sessions {
     .session {
         display: flex;
+        gap: 12px;
     }
 
     .entry {
@@ -333,7 +334,7 @@
         .icon {
             gap: 8px;
             display: flex;
-            padding-right: 12px;
+            /*padding-right: 12px;*/
             align-items: center;
 
             svg {
