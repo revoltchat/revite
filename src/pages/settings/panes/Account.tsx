@@ -21,7 +21,7 @@ import Tooltip from "../../../components/common/Tooltip";
 import Tip from "../../../components/ui/Tip";
 
 export function Account() {
-    const { openScreen } = useIntermediate();
+    const { openScreen, writeClipboard } = useIntermediate();
     const status = useContext(StatusContext);
 
     const ctx = useForceUpdate();
@@ -29,6 +29,7 @@ export function Account() {
     if (!user) return null;
 
     const [email, setEmail] = useState("...");
+    const [revealEmail, setRevealEmail] = useState(false);
     const [profile, setProfile] = useState<undefined | Users.Profile>(
         undefined,
     );
@@ -64,10 +65,14 @@ export function Account() {
                 <div className={styles.userDetail}>
                     <div className={styles.username}>@{user.username}</div>
                     <div className={styles.userid}>
-                        <Tooltip content={<Text id="app.settings.pages.account.tooltip_ulid" />}>
+                        <Tooltip content={<Text id="app.settings.pages.account.unique_id" />}>
                             <HelpCircle size={16} />
                         </Tooltip>
-                        {user._id}
+                        <Tooltip content={<Text id="app.special.copy" />}>
+                            <a onClick={() => writeClipboard(user._id)}>
+                                {user._id}
+                            </a>
+                        </Tooltip>
                     </div>
                 </div>
             </div>
@@ -85,7 +90,13 @@ export function Account() {
                             <div className={styles.subtext}>
                                 <Text id={`login.${field}`} />
                             </div>
-                            <p>{value}</p>
+                            <p>{
+                                field === 'email' ?
+                                    (revealEmail ? value :
+                                        <>***********@{value.split('@').pop()} <a onClick={() => setRevealEmail(true)}>
+                                        <Text id="app.special.modals.actions.reveal" /></a></>)
+                                    : value
+                            }</p>
                         </div>
                         <div>
                             <Button
@@ -102,21 +113,29 @@ export function Account() {
                     </div>
                 ))}
             </div>
-            {/*<h3><Text id="app.settings.pages.account.two_factor_auth.title" /></h3>
-            <h5><Text id="app.settings.pages.account.two_factor_auth.description" /></h5>
+            <h3><Text id="app.settings.pages.account.account_management.title" /></h3>
+            <h5><Text id="app.settings.pages.account.account_management.description" /></h5>
+
+            <h3><Text id="app.settings.pages.account.2fa.title" /></h3>
+            <h5>Currently work in progress, see <a href="https://gitlab.insrt.uk/insert/rauth/-/issues/2" target="_blank">tracking issue here</a>.</h5>
+            {/*<h5><Text id="app.settings.pages.account.two_factor_auth.description" /></h5>
             <Button accent compact>
                 <Text id="app.settings.pages.account.two_factor_auth.add_auth" />
             </Button>*/}
-            <h3><Text id="app.settings.pages.account.account_management.title" /></h3>
-            <h5><Text id="app.settings.pages.account.account_management.description" /></h5>
+
+            <h3><Text id="app.settings.pages.account.manage.title" /></h3>
+            <h5><Text id="app.settings.pages.account.manage.desciption" /></h5>
             <div className={styles.buttons}>
-                {/*<Button error compact>
-                    <Text id="app.settings.pages.account.account_management.disable_account" />
-                </Button>*/}
-                <Button error compact>
-                    <Text id="app.settings.pages.account.account_management.delete_account" />
-                </Button>
+                {/* <Button contrast>
+                    <Text id="app.settings.pages.account.manage.disable" />
+                </Button> */}
+                <a href="mailto:contact@revolt.chat?subject=Delete%20my%20account">
+                    <Button contrast>
+                        <Text id="app.settings.pages.account.manage.delete" />
+                    </Button>
+                </a>
             </div>
+
             <Tip>
                 <span>
                     <Text id="app.settings.tips.account.a" />
