@@ -95,3 +95,39 @@
         }
     }
 }
+
+// TODO: unified actions css (see attachment.module.scss for other actions css)
+.actions {
+    display: grid;
+    grid-template: 
+        "name open" auto
+        "size open" auto
+        / minmax(20px, 1fr) min-content;
+
+    align-items: center;
+    column-gap: 8px;
+    
+    width: 100%;
+    padding: 8px;
+    overflow: none;
+
+    color: var(--foreground);
+    background: var(--secondary-background);
+
+    span {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    
+    .filesize {
+        grid-area: size;
+
+        font-size: 10px;
+        color: var(--secondary-foreground);
+    }
+
+    .openIcon {
+        grid-area: open;
+    }
+}
