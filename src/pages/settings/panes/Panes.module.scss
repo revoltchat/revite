@@ -69,6 +69,10 @@
                 font-weight: 600;
                 color: var(--foreground);
                 text-transform: uppercase;
+
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
             }
 
             a {
@@ -329,6 +333,26 @@
 
         .name {
             font-weight: 600;
+            border-bottom: 2px solid transparent;
+        }
+
+        input {
+            background: transparent;
+            border: 0;
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 0;
+            outline: 0;
+            border-radius: 0;
+            color: inherit;
+
+            &:focus {
+                border-bottom: 2px solid var(--accent);
+            }
+
+            &[data-active="true"] {
+                border-bottom: 2px solid inherit;
+            }
         }
 
         .icon {
@@ -361,6 +385,7 @@
 
             .name {
                 text-transform: capitalize;
+                text-overflow: ellipsis;
             }
 
             .time {

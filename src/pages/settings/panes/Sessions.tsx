@@ -133,9 +133,7 @@ export function Sessions() {
                             <div>{getSystemIcon(session)}</div>
                         </div>
                         <div className={styles.info}>
-                            <span className={styles.name}>
-                                {session.friendly_name}
-                            </span>
+                            <input type="text" className={styles.name} value={session.friendly_name} autocomplete="off" />
                             <span className={styles.time}>
                                 <Text
                                     id="app.settings.pages.sessions.created"
