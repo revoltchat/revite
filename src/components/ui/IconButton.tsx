@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 interface Props {
+    rotate?: string;
     type?: "default" | "circle";
 }
 
@@ -20,6 +21,10 @@ export default styled.div<Props>`
 
     a {
         color: ${normal};
+    }
+
+    svg {
+        transition: 0.2s ease transform;
     }
 
     &:hover {
@@ -43,4 +48,10 @@ export default styled.div<Props>`
                 background-color: var(--primary-header);
             }
         `}
+
+    ${(props) => props.rotate && css`
+        svg {
+            transform: rotateZ(${props.rotate});
+        }
+    ` }
 `;
