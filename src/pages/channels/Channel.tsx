@@ -18,6 +18,7 @@ import MemberSidebar from "../../components/navigation/right/MemberSidebar";
 import ChannelHeader from "./ChannelHeader";
 import { MessageArea } from "./messaging/MessageArea";
 import VoiceHeader from "./voice/VoiceHeader";
+import { dispatch, getState } from "../../redux";
 
 const ChannelMain = styled.div`
     flex-grow: 1;
@@ -73,9 +74,8 @@ export function Channel({ id }: { id: string }) {
     }
 }
 
+const MEMBERS_SIDEBAR_KEY = 'sidebar_members';
 function TextChannel({ channel }: { channel: Channels.Channel }) {
-    const [showMembers, setMembers] = useState(true);
-
     if (
         (channel.channel_type === "TextChannel" ||
             channel.channel_type === "Group") &&
@@ -115,13 +115,29 @@ function TextChannel({ channel }: { channel: Channels.Channel }) {
         }
     }
 
+    const [showMembers, setMembers] = useState(getState().sectionToggle[MEMBERS_SIDEBAR_KEY] ?? true);
+
     let id = channel._id;
     return (
         <>
             <ChannelHeader
                 channel={channel}
-                toggleSidebar={() => setMembers(!showMembers)}
-            />
+                toggleSidebar={() => {
+                    setMembers(!showMembers);
+
+                    if (showMembers) {
+                        dispatch({
+                            type: 'SECTION_TOGGLE_SET',
+                            id: MEMBERS_SIDEBAR_KEY,
+                            state: false
+                        });
+                    } else {
+                        dispatch({
+                            type: 'SECTION_TOGGLE_UNSET',
+                            id: MEMBERS_SIDEBAR_KEY
+                        });
+                    }
+                }} />
             <ChannelMain>
                 <ChannelContent>
                     <VoiceHeader id={id} />
