@@ -60,6 +60,7 @@ function MessageRenderer({ id, state, queue }: Props) {
             for (let i = state.messages.length - 1; i >= 0; i--) {
                 if (state.messages[i].author === userId) {
                     setEditing(state.messages[i]._id);
+                    internalEmit('MessageArea', 'jump_to_bottom');
                     return;
                 }
             }

@@ -18,6 +18,7 @@ export function internalEmit(ns: string, event: string, ...args: any[]) {
 // Event structure: namespace/event
 
 /// Event List
+// - MessageArea/jump_to_bottom
 // - MessageRenderer/edit_last
 // - MessageRenderer/edit_message
 // - Intermediate/open_profile
