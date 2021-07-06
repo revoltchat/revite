@@ -111,16 +111,16 @@
 
 .actions.imageAction {
     grid-template: 
-        "name icon download" auto
-        "size icon download" auto
+        "name icon external download" auto
+        "size icon external download" auto
         / minmax(20px, 1fr) min-content min-content;
 }
 
 .actions {
     display: grid;
     grid-template: 
-        "icon name download" auto
-        "icon size download" auto
+        "icon name external download" auto
+        "icon size external download" auto
         / min-content minmax(20px, 1fr) min-content;
 
     align-items: center;
@@ -148,6 +148,10 @@
 
     .downloadIcon {
         grid-area: download;
+    }
+
+    .externalType {
+        grid-area: external;
     }
 
     .iconType {
