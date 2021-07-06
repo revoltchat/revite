@@ -5,8 +5,10 @@ import {
     Device,
     Producer,
     Transport,
-    UnsupportedError,
 } from "mediasoup-client/lib/types";
+
+import { types } from 'mediasoup-client';
+const UnsupportedError = types.UnsupportedError;
 
 import Signaling from "./Signaling";
 import {
