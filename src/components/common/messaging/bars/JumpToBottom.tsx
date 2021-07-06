@@ -1,4 +1,4 @@
-import { DownArrow } from "@styled-icons/boxicons-regular";
+import { DownArrowAlt } from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
@@ -14,13 +14,15 @@ const Bar = styled.div`
 
     > div {
         top: -26px;
+        height: 28px;
         width: 100%;
         position: absolute;
         border-radius: 4px 4px 0 0;
         display: flex;
+        align-items: center;
         cursor: pointer;
         font-size: 13px;
-        padding: 4px 8px;
+        padding: 0 8px;
         user-select: none;
         color: var(--secondary-foreground);
         background: var(--secondary-background);
@@ -40,6 +42,12 @@ const Bar = styled.div`
         &:active {
             transform: translateY(1px);
         }
+
+        @media (pointer: coarse) {
+            height: 34px;
+            top: -32px;
+            padding: 0 12px;
+        }
     }
 `;
 
@@ -56,7 +64,7 @@ export default function JumpToBottom({ id }: { id: string }) {
                 </div>
                 <div>
                     <Text id="app.main.channel.misc.jump_present" />{" "}
-                    <DownArrow size={18} />
+                    <DownArrowAlt size={20} />
                 </div>
             </div>
         </Bar>
