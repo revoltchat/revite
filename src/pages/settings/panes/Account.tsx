@@ -17,6 +17,7 @@ import { useForceUpdate, useSelf } from "../../../context/revoltjs/hooks";
 import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
+import Tooltip from "../../../components/common/Tooltip";
 import Tip from "../../../components/ui/Tip";
 
 export function Account() {
@@ -62,7 +63,12 @@ export function Account() {
                 />
                 <div className={styles.userDetail}>
                     <div className={styles.username}>@{user.username}</div>
-                    <div className={styles.userid}><HelpCircle size={16} />{user._id}</div>
+                    <div className={styles.userid}>
+                        <Tooltip content={"This is your unique user identificator"}>
+                            <HelpCircle size={16} />
+                        </Tooltip>
+                        {user._id}
+                    </div>
                 </div>
             </div>
             <div className={styles.details}>
