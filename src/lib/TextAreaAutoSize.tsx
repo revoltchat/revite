@@ -2,15 +2,11 @@ import styled from "styled-components";
 
 import { useEffect, useLayoutEffect, useRef } from "preact/hooks";
 
-import TextArea, {
-    DEFAULT_LINE_HEIGHT,
-    DEFAULT_TEXT_AREA_PADDING,
-    TextAreaProps,
-    TEXT_AREA_BORDER_WIDTH,
-} from "../components/ui/TextArea";
+import TextArea, { TextAreaProps } from "../components/ui/TextArea";
 
 import { internalSubscribe } from "./eventEmitter";
 import { isTouchscreenDevice } from "./isTouchscreenDevice";
+import { RefObject } from "preact";
 
 type TextAreaAutoSizeProps = Omit<
     JSX.HTMLAttributes<HTMLTextAreaElement>,
@@ -71,22 +67,25 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
         ...textAreaProps
     } = props;
 
-    const ref = useRef<HTMLTextAreaElement>();
-    const ghost = useRef<HTMLDivElement>();
+    const ref = useRef<HTMLTextAreaElement>() as RefObject<HTMLTextAreaElement>;
+    const ghost = useRef<HTMLDivElement>() as RefObject<HTMLDivElement>;
 
     useLayoutEffect(() => {
-        ref.current.style.height = ghost.current.clientHeight + 'px';
+        if (ref.current && ghost.current) {
+            ref.current.style.height = ghost.current.clientHeight + 'px';
+        }
     }, [ghost, props.value]);
 
     useEffect(() => {
         if (isTouchscreenDevice) return;
-        autoFocus && ref.current.focus();
+        autoFocus && ref.current && ref.current.focus();
     }, [value]);
 
     const inputSelected = () =>
         ["TEXTAREA", "INPUT"].includes(document.activeElement?.nodeName ?? "");
 
     useEffect(() => {
+        if (!ref.current) return;
         if (forceFocus) {
             ref.current.focus();
         }
@@ -107,7 +106,7 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
             if ((e.ctrlKey && e.key !== "v") || e.altKey || e.metaKey) return;
             if (e.key.length !== 1) return;
             if (ref && !inputSelected()) {
-                ref.current.focus();
+                ref.current!.focus();
             }
         }
 
@@ -116,9 +115,10 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
     }, [ref]);
 
     useEffect(() => {
+        if (!ref.current) return;
         function focus(id: string) {
             if (id === props.id) {
-                ref.current.focus();
+                ref.current!.focus();
             }
         }
 

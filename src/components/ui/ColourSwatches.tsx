@@ -3,6 +3,7 @@ import { Palette } from "@styled-icons/boxicons-solid";
 import styled, { css } from "styled-components";
 
 import { useRef } from "preact/hooks";
+import { RefObject } from "preact";
 
 interface Props {
     value: string;
@@ -91,14 +92,14 @@ const Rows = styled.div`
 `;
 
 export default function ColourSwatches({ value, onChange }: Props) {
-    const ref = useRef<HTMLInputElement>();
+    const ref = useRef<HTMLInputElement>() as RefObject<HTMLInputElement>;
 
     return (
         <SwatchesBase>
             <Swatch
                 colour={value}
                 type="large"
-                onClick={() => ref.current.click()}>
+                onClick={() => ref.current?.click()}>
                 <Palette size={32} />
             </Swatch>
             <input

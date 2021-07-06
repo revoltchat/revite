@@ -95,9 +95,10 @@ export function MessageArea({ id }: Props) {
                 animateScroll.scrollTo(
                     Math.max(
                         101,
-                        ref.current.scrollTop +
+                        ref.current ? (ref.current.scrollTop +
                             (ref.current.scrollHeight -
-                                scrollState.current.previousHeight),
+                                scrollState.current.previousHeight))
+                            : 101
                     ),
                     {
                         container: ref.current,
@@ -122,12 +123,12 @@ export function MessageArea({ id }: Props) {
     // By default, we assume we are at the bottom, i.e. when we first load.
     const atBottom = (offset = 0) =>
         ref.current
-            ? Math.floor(ref.current.scrollHeight - ref.current.scrollTop) -
+            ? Math.floor(ref.current?.scrollHeight - ref.current?.scrollTop) -
                   offset <=
-              ref.current.clientHeight
+              ref.current?.clientHeight
             : true;
 
-    const atTop = (offset = 0) => ref.current.scrollTop <= offset;
+    const atTop = (offset = 0) => ref.current ? ref.current.scrollTop <= offset : false;
 
     // ? Handle events from renderer.
     useEffect(() => {
@@ -181,24 +182,24 @@ export function MessageArea({ id }: Props) {
             }
         }
 
-        ref.current.addEventListener("scroll", onScroll);
-        return () => ref.current.removeEventListener("scroll", onScroll);
+        ref.current?.addEventListener("scroll", onScroll);
+        return () => ref.current?.removeEventListener("scroll", onScroll);
     }, [ref, scrollState]);
 
     // ? Top and bottom loaders.
     useEffect(() => {
         async function onScroll() {
             if (atTop(100)) {
-                SingletonMessageRenderer.loadTop(ref.current);
+                SingletonMessageRenderer.loadTop(ref.current!);
             }
 
             if (atBottom(100)) {
-                SingletonMessageRenderer.loadBottom(ref.current);
+                SingletonMessageRenderer.loadBottom(ref.current!);
             }
         }
 
-        ref.current.addEventListener("scroll", onScroll);
-        return () => ref.current.removeEventListener("scroll", onScroll);
+        ref.current?.addEventListener("scroll", onScroll);
+        return () => ref.current?.removeEventListener("scroll", onScroll);
     }, [ref]);
 
     // ? Scroll down whenever the message area resizes.
