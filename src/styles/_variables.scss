@@ -1,9 +1,16 @@
 :root {
     --ligatures: none;
+    --text-size: 14px;
     --font: "Open Sans";
     --app-height: 100vh;
     --codeblock-font: "Fira Code";
     --sidebar-active: var(--secondary-background);
+    
+    --input-border-width: 2px;
+
+    --textarea-padding: 16px;
+    --textarea-line-height: 20px;
+    --message-box-padding: 12px;
 
     --bottom-navigation-height: 50px;
 }

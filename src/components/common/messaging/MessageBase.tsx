@@ -151,7 +151,7 @@ export const MessageContent = styled.div`
     flex-grow: 1;
     display: flex;
     // overflow: hidden;
-    font-size: 0.875rem;
+    font-size: var(--text-size);
     flex-direction: column;
     justify-content: center;
 `;

@@ -2,8 +2,8 @@ import styled, { css } from "styled-components";
 
 export interface TextAreaProps {
     code?: boolean;
-    padding?: number;
-    lineHeight?: number;
+    padding?: string;
+    lineHeight?: string;
     hideBorder?: boolean;
 }
 
@@ -17,8 +17,8 @@ export default styled.textarea<TextAreaProps>`
     display: block;
     color: var(--foreground);
     background: var(--secondary-background);
-    padding: ${(props) => props.padding ?? DEFAULT_TEXT_AREA_PADDING}px;
-    line-height: ${(props) => props.lineHeight ?? DEFAULT_LINE_HEIGHT}px;
+    padding: ${(props) => (props.padding) ?? 'var(--textarea-padding)'};
+    line-height: ${(props) => (props.lineHeight) ?? 'var(--textarea-line-height)'};
 
     ${(props) =>
         props.hideBorder &&
@@ -31,7 +31,7 @@ export default styled.textarea<TextAreaProps>`
         css`
             border-radius: 4px;
             transition: border-color 0.2s ease-in-out;
-            border: ${TEXT_AREA_BORDER_WIDTH}px solid transparent;
+            border: var(--input-border-width) solid transparent;
         `}
 
     &:focus {
@@ -40,7 +40,7 @@ export default styled.textarea<TextAreaProps>`
         ${(props) =>
             !props.hideBorder &&
             css`
-                border: ${TEXT_AREA_BORDER_WIDTH}px solid var(--accent);
+                border: var(--input-border-width) solid var(--accent);
             `}
     }
 
