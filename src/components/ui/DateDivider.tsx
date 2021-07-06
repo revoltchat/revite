@@ -1,5 +1,6 @@
-import dayjs from "dayjs";
+
 import styled, { css } from "styled-components";
+import { dayjs } from "../../context/Locale";
 
 const Base = styled.div<{ unread?: boolean }>`
     height: 0;

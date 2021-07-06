@@ -10,7 +10,7 @@ import {
     Safari,
     Windows,
 } from "@styled-icons/simple-icons";
-import dayjs from "dayjs";
+
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useHistory } from "react-router-dom";
 import { decodeTime } from "ulid";
@@ -24,6 +24,7 @@ import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import Button from "../../../components/ui/Button";
 import Preloader from "../../../components/ui/Preloader";
 import Tip from "../../../components/ui/Tip";
+import { dayjs } from "../../../context/Locale";
 
 dayjs.extend(relativeTime);
 

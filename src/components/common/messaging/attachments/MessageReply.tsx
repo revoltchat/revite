@@ -9,6 +9,8 @@ import { useUser } from "../../../../context/revoltjs/hooks";
 
 import Markdown from "../../../markdown/Markdown";
 import UserShort from "../../user/UserShort";
+import { SYSTEM_USER_ID } from "revolt.js";
+import { SystemMessage } from "../SystemMessage";
 
 interface Props {
     channel: string;
@@ -84,10 +86,13 @@ export function MessageReply({ index, channel, id }: Props) {
             {message.attachments && message.attachments.length > 0 && (
                 <File size={16} />
             )}
-            <Markdown
-                disallowBigEmoji
-                content={(message.content as string).replace(/\n/g, " ")}
-            />
+            { message.author === SYSTEM_USER_ID ?
+                <SystemMessage message={message} /> :
+                <Markdown
+                    disallowBigEmoji
+                    content={(message.content as string).replace(/\n/g, " ")}
+                />
+            }
         </ReplyBase>
     );
 }

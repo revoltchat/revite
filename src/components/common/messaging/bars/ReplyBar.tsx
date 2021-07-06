@@ -21,6 +21,8 @@ import IconButton from "../../../ui/IconButton";
 import Markdown from "../../../markdown/Markdown";
 import UserShort from "../../user/UserShort";
 import { ReplyBase } from "../attachments/MessageReply";
+import { SystemMessage } from "../SystemMessage";
+import { SYSTEM_USER_ID } from "revolt.js";
 
 interface Props {
     channel: string;
@@ -100,13 +102,13 @@ export default function ReplyBar({ channel, replies, setReplies }: Props) {
                                 message.attachments.length > 0 && (
                                     <File size={16} />
                                 )}
-                            <Markdown
-                                disallowBigEmoji
-                                content={(message.content as string).replace(
-                                    /\n/g,
-                                    " ",
-                                )}
-                            />
+                            { message.author === SYSTEM_USER_ID ?
+                                <SystemMessage message={message} /> :
+                                <Markdown
+                                    disallowBigEmoji
+                                    content={(message.content as string).replace(/\n/g, " ")}
+                                />
+                            }
                         </ReplyBase>
                         <span class="actions">
                             <IconButton
