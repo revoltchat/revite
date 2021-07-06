@@ -1,4 +1,6 @@
-import dayjs from "dayjs";
+import dayJS from "dayjs";
+export const dayjs = dayJS;
+
 import calendar from "dayjs/plugin/calendar";
 import format from "dayjs/plugin/localizedFormat";
 import update from "dayjs/plugin/updateLocale";
@@ -143,12 +145,11 @@ function Locale({ children, locale }: Props) {
     // TODO: clean this up and use the built in Intl API
     function transformLanguage(source: { [key: string]: any }) {
         const obj = defaultsDeep(source, definition);
-
         const dayjs = obj.dayjs;
         const defaults = dayjs.defaults;
 
         const twelvehour = defaults?.twelvehour === "yes" || true;
-        const separator: "/" | "-" | "." = defaults?.date_separator ?? "/";
+        const separator: string = defaults?.date_separator ?? "/";
         const date: "traditional" | "simplified" | "ISO8601" =
             defaults?.date_format ?? "traditional";
 
@@ -159,19 +160,22 @@ function Locale({ children, locale }: Props) {
         };
 
         dayjs["sameElse"] = DATE_FORMATS[date];
+        dayjs["timeFormat"] = twelvehour ? "hh:mm A" : "HH:mm";
+
         Object.keys(dayjs)
             .filter((k) => typeof dayjs[k] === 'string')
             .forEach(
                 (k) =>
                     (dayjs[k] = dayjs[k].replace(
                         /{{time}}/g,
-                        twelvehour ? "LT" : "HH:mm",
+                        dayjs["timeFormat"],
                     )),
             );
 
         return obj;
     }
 
+    dayjs.updateLocale("en", { calendar: { ...definition.dayjs, sameDay: 'sussy baka' } });
     useEffect(() => {
         if (locale === "en") {
             const defn = transformLanguage(definition);
@@ -193,7 +197,7 @@ function Locale({ children, locale }: Props) {
                     dayjs.updateLocale(target, { calendar: defn.dayjs });
                 }
 
-                dayjs.locale(dayjs_locale.default);
+                dayjs.locale(target, dayjs_locale.default);
                 setDefinition(defn);
             },
         );

@@ -12,11 +12,21 @@ interface Props {
     fields: Fields;
 }
 
+export interface Dictionary {
+    dayjs: {
+        defaults: {
+            twelvehour: 'yes' | 'no';
+            separator: string;
+            date: "traditional" | "simplified" | "ISO8601";
+        },
+        timeFormat: string
+    };
+    [key: string]: Object | string;
+}
+
 export interface IntlType {
     intl: {
-        dictionary: {
-            [key: string]: Object | string;
-        };
+        dictionary: Dictionary;
     };
 }
 
@@ -59,4 +69,9 @@ export function useTranslation() {
     const { intl } = useContext(IntlContext) as unknown as IntlType;
     return (id: string, fields?: Object, plural?: number, fallback?: string) =>
         translate(id, "", intl.dictionary, fields, plural, fallback);
+}
+
+export function useDictionary() {
+    const { intl } = useContext(IntlContext) as unknown as IntlType;
+    return intl.dictionary;
 }

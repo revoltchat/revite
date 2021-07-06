@@ -67,7 +67,7 @@
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",
     "classnames": "^2.3.1",
-    "dayjs": "^1.10.5",
+    "dayjs": "^1.10.6",
     "detect-browser": "^5.2.0",
     "eslint": "^7.28.0",
     "eslint-config-preact": "^1.1.4",
