@@ -1,5 +1,5 @@
 import { At } from "@styled-icons/boxicons-regular";
-import { Envelope, Key } from "@styled-icons/boxicons-solid";
+import { Envelope, Key, HelpCircle } from "@styled-icons/boxicons-solid";
 import { Link, useHistory } from "react-router-dom";
 import { Users } from "revolt.js/dist/api/objects";
 
@@ -60,7 +60,10 @@ export function Account() {
                     size={72}
                     onClick={() => switchPage("profile")}
                 />
-                <div className={styles.username}>@{user.username}</div>
+                <div className={styles.userDetail}>
+                    <div className={styles.username}>@{user.username}</div>
+                    <div className={styles.userid}><HelpCircle size={16} />{user._id}</div>
+                </div>
             </div>
             <div className={styles.details}>
                 {(

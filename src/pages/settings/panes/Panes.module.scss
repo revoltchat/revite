@@ -21,6 +21,15 @@
             font-size: 24px;
             font-weight: 600;
         }
+
+        .userid {
+            font-size: .875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--tertiary-foreground);
+        }
     }
 
     .details {
