@@ -1,14 +1,8 @@
 import EventEmitter from "eventemitter3";
 import * as mediasoupClient from "mediasoup-client";
+import { types } from "mediasoup-client";
 
-import {
-    Device,
-    Producer,
-    Transport,
-} from "mediasoup-client/lib/types";
-
-import { types } from 'mediasoup-client';
-const UnsupportedError = types.UnsupportedError;
+import { Device, Producer, Transport } from "mediasoup-client/lib/types";
 
 import Signaling from "./Signaling";
 import {
@@ -19,6 +13,8 @@ import {
     ConsumerList,
     WSErrorCode,
 } from "./Types";
+
+const UnsupportedError = types.UnsupportedError;
 
 interface VoiceEvents {
     ready: () => void;

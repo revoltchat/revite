@@ -6,6 +6,8 @@ import { useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
+import { dispatch, getState } from "../../redux";
+
 import { useChannel, useForceUpdate } from "../../context/revoltjs/hooks";
 
 import MessageBox from "../../components/common/messaging/MessageBox";
@@ -18,7 +20,6 @@ import MemberSidebar from "../../components/navigation/right/MemberSidebar";
 import ChannelHeader from "./ChannelHeader";
 import { MessageArea } from "./messaging/MessageArea";
 import VoiceHeader from "./voice/VoiceHeader";
-import { dispatch, getState } from "../../redux";
 
 const ChannelMain = styled.div`
     flex-grow: 1;
@@ -74,7 +75,7 @@ export function Channel({ id }: { id: string }) {
     }
 }
 
-const MEMBERS_SIDEBAR_KEY = 'sidebar_members';
+const MEMBERS_SIDEBAR_KEY = "sidebar_members";
 function TextChannel({ channel }: { channel: Channels.Channel }) {
     if (
         (channel.channel_type === "TextChannel" ||
@@ -115,7 +116,9 @@ function TextChannel({ channel }: { channel: Channels.Channel }) {
         }
     }
 
-    const [showMembers, setMembers] = useState(getState().sectionToggle[MEMBERS_SIDEBAR_KEY] ?? true);
+    const [showMembers, setMembers] = useState(
+        getState().sectionToggle[MEMBERS_SIDEBAR_KEY] ?? true,
+    );
 
     let id = channel._id;
     return (
@@ -127,17 +130,18 @@ function TextChannel({ channel }: { channel: Channels.Channel }) {
 
                     if (showMembers) {
                         dispatch({
-                            type: 'SECTION_TOGGLE_SET',
+                            type: "SECTION_TOGGLE_SET",
                             id: MEMBERS_SIDEBAR_KEY,
-                            state: false
+                            state: false,
                         });
                     } else {
                         dispatch({
-                            type: 'SECTION_TOGGLE_UNSET',
-                            id: MEMBERS_SIDEBAR_KEY
+                            type: "SECTION_TOGGLE_UNSET",
+                            id: MEMBERS_SIDEBAR_KEY,
                         });
                     }
-                }} />
+                }}
+            />
             <ChannelMain>
                 <ChannelContent>
                     <VoiceHeader id={id} />
