@@ -12,7 +12,7 @@ import {
 } from "preact/hooks";
 
 import { defer } from "../../../lib/defer";
-import { internalEmit } from "../../../lib/eventEmitter";
+import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { SingletonMessageRenderer } from "../../../lib/renderer/Singleton";
 import { RenderState, ScrollState } from "../../../lib/renderer/types";
 
@@ -131,6 +131,12 @@ export function MessageArea({ id }: Props) {
 
     const atTop = (offset = 0) =>
         ref.current ? ref.current.scrollTop <= offset : false;
+
+    // ? Handle global jump to bottom, e.g. when editing last message in chat.
+    useEffect(() => {
+        return internalSubscribe('MessageArea', 'jump_to_bottom',
+            () => setScrollState({ type: 'ScrollToBottom' }));
+    }, []);
 
     // ? Handle events from renderer.
     useEffect(() => {
