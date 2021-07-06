@@ -30,6 +30,7 @@ export default styled.details<{ sticky?: boolean; large?: boolean }>`
         outline: none;
         cursor: pointer;
         list-style: none;
+        user-select: none;
         align-items: center;
         transition: 0.2s opacity;
 

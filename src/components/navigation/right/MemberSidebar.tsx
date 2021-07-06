@@ -19,6 +19,7 @@ import {
     useUsers,
 } from "../../../context/revoltjs/hooks";
 
+import CollapsibleSection from "../../common/CollapsibleSection";
 import Category from "../../ui/Category";
 import Preloader from "../../ui/Preloader";
 import placeholderSVG from "../items/placeholder.svg";
@@ -121,36 +122,39 @@ export function GroupMemberSidebar({
                         )}
                     </Fragment>
                 )*/}
-                {!((members.length === 0) /*&& voiceActive*/) && (
-                    <Category
-                        variant="uniform"
-                        text={
-                            <span>
-                                <Text id="app.main.categories.members" /> —{" "}
-                                {channel.recipients.length}
-                            </span>
-                        }
-                    />
-                )}
-                {members.length === 0 && (
-                    /*!voiceActive &&*/ <img src={placeholderSVG} />
-                )}
-                {members.map(
-                    (user) =>
-                        user && (
-                            <UserButton
-                                key={user._id}
-                                user={user}
-                                context={channel}
-                                onClick={() =>
-                                    openScreen({
-                                        id: "profile",
-                                        user_id: user._id,
-                                    })
-                                }
-                            />
-                        ),
-                )}
+                <CollapsibleSection
+                    sticky
+                    id="members"
+                    defaultValue
+                    summary={
+                        <Category
+                            variant="uniform"
+                            text={
+                                <span>
+                                    <Text id="app.main.categories.members" /> —{" "}
+                                    {channel.recipients.length}
+                                </span>
+                            }
+                        />
+                    }>
+                    {members.length === 0 && <img src={placeholderSVG} />}
+                    {members.map(
+                        (user) =>
+                            user && (
+                                <UserButton
+                                    key={user._id}
+                                    user={user}
+                                    context={channel}
+                                    onClick={() =>
+                                        openScreen({
+                                            id: "profile",
+                                            user_id: user._id,
+                                        })
+                                    }
+                                />
+                            ),
+                    )}
+                </CollapsibleSection>
             </GenericSidebarList>
         </GenericSidebarBase>
     );
@@ -235,32 +239,39 @@ export function ServerMemberSidebar({
                 <ChannelDebugInfo id={channel._id} />
                 <div>{!members && <Preloader type="ring" />}</div>
                 {members && (
-                    <Category
-                        variant="uniform"
-                        text={
-                            <span>
-                                <Text id="app.main.categories.members" /> —{" "}
-                                {users.length}
-                            </span>
-                        }
-                    />
-                )}
-                {members && users.length === 0 && <img src={placeholderSVG} />}
-                {users.map(
-                    (user) =>
-                        user && (
-                            <UserButton
-                                key={user._id}
-                                user={user}
-                                context={channel}
-                                onClick={() =>
-                                    openScreen({
-                                        id: "profile",
-                                        user_id: user._id,
-                                    })
+                    <CollapsibleSection
+                        sticky
+                        id="members"
+                        defaultValue
+                        summary={
+                            <Category
+                                variant="uniform"
+                                text={
+                                    <span>
+                                        <Text id="app.main.categories.members" />{" "}
+                                        — {users.length}
+                                    </span>
                                 }
                             />
-                        ),
+                        }>
+                        {users.length === 0 && <img src={placeholderSVG} />}
+                        {users.map(
+                            (user) =>
+                                user && (
+                                    <UserButton
+                                        key={user._id}
+                                        user={user}
+                                        context={channel}
+                                        onClick={() =>
+                                            openScreen({
+                                                id: "profile",
+                                                user_id: user._id,
+                                            })
+                                        }
+                                    />
+                                ),
+                        )}
+                    </CollapsibleSection>
                 )}
             </GenericSidebarList>
         </GenericSidebarBase>
