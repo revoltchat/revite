@@ -124,13 +124,13 @@ export function Account() {
             </Button>*/}
 
             <h3><Text id="app.settings.pages.account.manage.title" /></h3>
-            <h5><Text id="app.settings.pages.account.manage.desciption" /></h5>
+            <h5><Text id="app.settings.pages.account.manage.description" /></h5>
             <div className={styles.buttons}>
                 {/* <Button contrast>
                     <Text id="app.settings.pages.account.manage.disable" />
                 </Button> */}
                 <a href="mailto:contact@revolt.chat?subject=Delete%20my%20account">
-                    <Button contrast>
+                    <Button error compact>
                         <Text id="app.settings.pages.account.manage.delete" />
                     </Button>
                 </a>
