@@ -38,7 +38,7 @@ function getVersion() {
 }
 
 const branch = getGitBranch();
-const isNightly = branch !== 'production';
+const isNightly = false;//branch !== 'production';
 const iconPrefix = isNightly ? 'nightly-' : '';
 
 export default defineConfig({
