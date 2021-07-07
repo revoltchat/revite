@@ -1,9 +1,10 @@
 import styled, { css, keyframes } from "styled-components";
 
-import { createPortal, useEffect } from "preact/compat";
+import { createPortal, useEffect, useState } from "preact/compat";
 
 import { Children } from "../../types/Preact";
 import Button, { ButtonProps } from "./Button";
+import { internalSubscribe } from "../../lib/eventEmitter";
 
 const open = keyframes`
     0% {opacity: 0;}
@@ -11,10 +12,21 @@ const open = keyframes`
     100% {opacity: 1;}
 `;
 
+const close = keyframes`
+    0% {opacity: 1;}
+    70% {opacity: 0;}
+    100% {opacity: 0;}
+`;
+
 const zoomIn = keyframes`
     0% {transform: scale(0.5);}
     98% {transform: scale(1.01);}
     100% {transform: scale(1);}
+`;
+
+const zoomOut = keyframes`
+    0% {transform: scale(1);}
+    100% {transform: scale(0.5);}
 `;
 
 const ModalBase = styled.div`
@@ -36,6 +48,14 @@ const ModalBase = styled.div`
 
     color: var(--foreground);
     background: rgba(0, 0, 0, 0.8);
+
+    &.closing {
+        animation-name: ${close};
+    }
+    
+    &.closing > div {
+        animation-name: ${zoomOut};
+    }
 `;
 
 const ModalContainer = styled.div`
@@ -120,6 +140,8 @@ interface Props {
     visible: boolean;
 }
 
+export let isModalClosing = false;
+
 export default function Modal(props: Props) {
     if (!props.visible) return null;
 
@@ -138,12 +160,21 @@ export default function Modal(props: Props) {
         return content;
     }
 
+    const [animateClose, setAnimateClose] = useState(false);
+    isModalClosing = animateClose;
+    function onClose() {
+        setAnimateClose(true);
+        setTimeout(() => props.onClose(), 2e2);
+    }
+
+    useEffect(() => internalSubscribe('Modal', 'close', onClose), []);
+
     useEffect(() => {
         if (props.disallowClosing) return;
 
         function keyDown(e: KeyboardEvent) {
             if (e.key === "Escape") {
-                props.onClose();
+                onClose();
             }
         }
 
@@ -154,6 +185,7 @@ export default function Modal(props: Props) {
     let confirmationAction = props.actions?.find(
         (action) => action.confirmation,
     );
+
     useEffect(() => {
         if (!confirmationAction) return;
 
@@ -171,7 +203,7 @@ export default function Modal(props: Props) {
     }, [confirmationAction]);
 
     return createPortal(
-        <ModalBase
+        <ModalBase className={animateClose ? 'closing' : undefined}
             onClick={(!props.disallowClosing && props.onClose) || undefined}>
             <ModalContainer onClick={(e) => (e.cancelBubble = true)}>
                 {content}
