@@ -240,20 +240,16 @@ export function ServerMemberSidebar({
                 <div>{!members && <Preloader type="ring" />}</div>
                 {members && (
                     <CollapsibleSection
-                        sticky
+                        //sticky //will re-add later, need to fix css 
                         id="members"
                         defaultValue
-                        summary={
-                            <Category
-                                variant="uniform"
-                                text={
-                                    <span>
+                        summary={<span>
                                         <Text id="app.main.categories.members" />{" "}
                                         — {users.length}
                                     </span>
                                 }
-                            />
-                        }>
+
+                        >
                         {users.length === 0 && <img src={placeholderSVG} />}
                         {users.map(
                             (user) =>
