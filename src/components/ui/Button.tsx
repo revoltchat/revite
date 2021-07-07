@@ -51,6 +51,7 @@ export default styled.button<Props>`
         css`
             height: 32px !important;
             padding: 2px 12px !important;
+            font-size: 13px;
         `}
 
     ${(props) =>
@@ -102,6 +103,7 @@ export default styled.button<Props>`
         props.error &&
         css`
             color: white;
+            font-weight: 600;
             background: var(--error);
 
             &:hover {

@@ -310,6 +310,7 @@
 .sessions {
     .session {
         display: flex;
+        align-items: center;
         gap: 12px;
     }
 
@@ -345,6 +346,7 @@
             outline: 0;
             border-radius: 0;
             color: inherit;
+            width: 100%;
 
             &:focus {
                 border-bottom: 2px solid var(--accent);
@@ -383,6 +385,10 @@
             flex-direction: column;
             justify-content: center;
 
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+
             .name {
                 text-transform: capitalize;
                 text-overflow: ellipsis;
@@ -391,6 +397,8 @@
             .time {
                 font-size: .75rem;
                 color: var(--teriary-text);
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
         }
     }
