@@ -72,7 +72,7 @@ export default defineConfig({
                 "src": `/assets/icons/mono-48x48.png`,
                 "type": "image/png",
                 "sizes": "48x48",
-                "purpose": "mono"
+                "purpose": "monochrome"
             },
             {
                 "src": `/assets/icons/masking-512x512.png`,
