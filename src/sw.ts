@@ -137,7 +137,7 @@ self.addEventListener("push", (event) => {
                     : JSON.stringify(data.content),
             timestamp: decodeTime(data._id),
             tag: data.channel,
-            badge: "https://app.revolt.chat/assets/icons/android-chrome-512x512.png",
+            badge: "https://app.revolt.chat/assets/icons/mono-48x48.png",
             data:
                 channel?.channel_type === "TextChannel"
                     ? `/server/${channel.server}/channel/${channel._id}`
