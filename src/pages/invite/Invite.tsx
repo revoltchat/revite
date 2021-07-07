@@ -121,7 +121,7 @@ export default function Invite() {
                                 }
                             }}>
                             {status === ClientStatus.READY
-                                ? "Login to REVOLT"
+                                ? "Login to Revolt"
                                 : "Accept Invite"}
                         </Button>
                     </>
