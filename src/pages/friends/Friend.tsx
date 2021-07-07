@@ -127,7 +127,7 @@ export function Friend({ user }: Props) {
             onContextMenu={attachContextMenu("Menu", { user: user._id })}>
             <UserIcon target={user} size={36} status />
             <div className={styles.name}>
-                <span>@{user.username}</span>
+                <span>{user.username}</span>
                 {subtext && <span className={styles.subtext}>{subtext}</span>}
             </div>
             <div className={styles.actions}>{actions}</div>
