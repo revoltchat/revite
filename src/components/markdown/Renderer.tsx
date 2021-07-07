@@ -13,7 +13,7 @@ import "prismjs/themes/prism-tomorrow.css";
 import { RE_MENTIONS } from "revolt.js";
 
 import styles from "./Markdown.module.scss";
-import { useContext } from "preact/hooks";
+import { useCallback, useContext, useRef } from "preact/hooks";
 
 import { internalEmit } from "../../lib/eventEmitter";
 
@@ -83,64 +83,6 @@ declare global {
     }
 }
 
-// Handler for internal links, pushes events to React using magic.
-if (typeof window !== "undefined") {
-    window.internalHandleURL = function (element: HTMLAnchorElement) {
-        const url = new URL(element.href, location.href);
-        const pathname = url.pathname;
-
-        if (pathname.startsWith("/@")) {
-            internalEmit("Intermediate", "openProfile", pathname.substr(2));
-        } else {
-            internalEmit("Intermediate", "navigate", pathname);
-        }
-    };
-}
-
-md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
-    let internal;
-    const hIndex = tokens[idx].attrIndex("href");
-    if (hIndex >= 0) {
-        try {
-            // For internal links, we should use our own handler to use react-router history.
-            // @ts-ignore
-            const href = tokens[idx].attrs[hIndex][1];
-            const url = new URL(href, location.href);
-
-            if (url.hostname === location.hostname) {
-                internal = true;
-                // I'm sorry.
-                tokens[idx].attrPush([
-                    "onclick",
-                    "internalHandleURL(this); return false",
-                ]);
-
-                if (url.pathname.startsWith("/@")) {
-                    tokens[idx].attrPush(["data-type", "mention"]);
-                }
-            }
-        } catch (err) {
-            // Ignore the error, treat as normal link.
-        }
-    }
-
-    if (!internal) {
-        // Add target=_blank for external links.
-        const aIndex = tokens[idx].attrIndex("target");
-
-        if (aIndex < 0) {
-            tokens[idx].attrPush(["target", "_blank"]);
-        } else {
-            try {
-                // @ts-ignore
-                tokens[idx].attrs[aIndex][1] = "_blank";
-            } catch (_) {}
-        }
-    }
-
-    return defaultRender(tokens, idx, options, env, self);
-};
-
 md.renderer.rules.emoji = function (token, idx) {
     return generateEmoji(token[idx].content);
 };
@@ -172,21 +114,74 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
         ? false
         : content.replace(RE_TWEMOJI, "").trim().length === 0;
 
+    const toggle = useCallback((ev: MouseEvent) => {
+        if (ev.currentTarget) {
+            let element = ev.currentTarget as HTMLDivElement;
+            if (element.classList.contains("spoiler")) {
+                element.classList.add("shown");
+            }
+        }
+    }, []);
+
+    const handleLink = useCallback((ev: MouseEvent) => {
+        ev.preventDefault();
+        if (ev.currentTarget) {
+            const element = ev.currentTarget as HTMLAnchorElement;
+            const url = new URL(element.href, location.href);
+            const pathname = url.pathname;
+
+            if (pathname.startsWith("/@")) {
+                internalEmit("Intermediate", "openProfile", pathname.substr(2));
+            } else {
+                internalEmit("Intermediate", "navigate", pathname);
+            }
+        }
+    }, []);
+
     return (
         <span
+            ref={el => {
+                if (el) {
+                    (el.querySelectorAll<HTMLDivElement>('.spoiler'))
+                        .forEach(element => {
+                            element.removeEventListener('click', toggle);
+                            element.addEventListener('click', toggle);
+                        });
+
+                    (el.querySelectorAll<HTMLAnchorElement>('a'))
+                        .forEach(element => {
+                            element.removeEventListener('click', handleLink);
+                            element.removeAttribute('data-type');
+                            element.removeAttribute('target');
+
+                            let internal;
+                            const href = element.href;
+                            if (href) {
+                                try {
+                                    const url = new URL(href, location.href);
+
+                                    if (url.hostname === location.hostname) {
+                                        internal = true;
+                                        element.addEventListener('click', handleLink);
+
+                                        if (url.pathname.startsWith('/@')) {
+                                            element.setAttribute('data-type', 'mention');
+                                        }
+                                    }
+                                } catch (err) {}
+                            }
+
+                            if (!internal) {
+                                element.setAttribute('target', '_blank');
+                            }
+                        });
+                }
+            }}
             className={styles.markdown}
             dangerouslySetInnerHTML={{
                 __html: md.render(newContent),
             }}
             data-large-emojis={useLargeEmojis}
-            onClick={(ev) => {
-                if (ev.target) {
-                    let element = ev.currentTarget;
-                    if (element.classList.contains("spoiler")) {
-                        element.classList.add("shown");
-                    }
-                }
-            }}
         />
     );
 }
