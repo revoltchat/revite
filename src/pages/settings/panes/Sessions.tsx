@@ -128,29 +128,35 @@ export function Sessions() {
                         </span>
                     )}
                     <div className={styles.session}>
-                        <div className={styles.icon}>
-                            {getIcon(session)}
-                            <div>{getSystemIcon(session)}</div>
-                        </div>
-                        <div className={styles.info}>
-                            <input
-                                type="text"
-                                className={styles.name}
-                                value={session.friendly_name}
-                                autocomplete="off"
-                            />
-                            <span className={styles.time}>
-                                <Text
-                                    id="app.settings.pages.sessions.created"
-                                    fields={{
-                                        time_ago: dayjs(
-                                            session.timestamp,
-                                        ).fromNow(),
-                                    }}
+                        <div className={styles.flextest}>
+                            <div className={styles.icon}>
+                                {getIcon(session)}
+                                <div>{getSystemIcon(session)}</div>
+                            </div>
+                            <div className={styles.info}>
+                                <input
+                                    type="text"
+                                    className={styles.name}
+                                    value={session.friendly_name}
+                                    autocomplete="off"
                                 />
-                            </span>
+                                <span className={styles.time}>
+                                    <Text
+                                        id="app.settings.pages.sessions.created"
+                                        fields={{
+                                            time_ago: dayjs(
+                                                session.timestamp,
+                                            ).fromNow(),
+                                        }}
+                                    />
+                                </span>
+                        
+                        
+                            </div>
                         </div>
-                        {deviceId !== session.id && (
+                            
+
+                            {deviceId !== session.id && (
                             <Button
                                 onClick={async () => {
                                     setDelete([
@@ -173,6 +179,7 @@ export function Sessions() {
                                 <Text id="app.settings.pages.logOut" />
                             </Button>
                         )}
+                        
                     </div>
                 </div>
             ))}

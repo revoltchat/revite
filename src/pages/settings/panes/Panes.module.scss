@@ -312,6 +312,22 @@
         display: flex;
         align-items: center;
         gap: 12px;
+        flex-direction: row;
+
+        .flextest {
+            display: flex;
+            gap: 12px;
+            flex-grow: 1;
+        }
+
+        @media only screen and (max-width: 900px) {
+            align-items: unset;
+            flex-direction: column;
+
+            > button {
+                width: 100%;
+            }
+        }
     }
 
     .entry {
