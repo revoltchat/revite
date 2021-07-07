@@ -128,7 +128,7 @@ export function Sessions() {
                         </span>
                     )}
                     <div className={styles.session}>
-                        <div className={styles.flextest}>
+                        <div className={styles.detail}>
                             <div className={styles.icon}>
                                 {getIcon(session)}
                                 <div>{getSystemIcon(session)}</div>
