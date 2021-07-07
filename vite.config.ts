@@ -38,7 +38,7 @@ function getVersion() {
 }
 
 const branch = getGitBranch();
-const isNightly = branch !== 'production';
+const isNightly = false;//branch !== 'production';
 const iconPrefix = isNightly ? 'nightly-' : '';
 
 export default defineConfig({
@@ -54,8 +54,8 @@ export default defineConfig({
         description: isNightly ? "Early preview builds of Revolt." : "User-first, privacy-focused chat platform.",
         categories: ["messaging"],
         start_url: "/",
+        orientation: "any",
         display: "standalone",
-        orientation: "portrait",
         background_color: "#101823",
         icons: [
             {
@@ -67,6 +67,18 @@ export default defineConfig({
                 "src": `/assets/icons/${iconPrefix}android-chrome-512x512.png`,
                 "type": "image/png",
                 "sizes": "512x512"
+            },
+            {
+                "src": `/assets/icons/mono-48x48.png`,
+                "type": "image/png",
+                "sizes": "48x48",
+                "purpose": "monochrome"
+            },
+            {
+                "src": `/assets/icons/masking-512x512.png`,
+                "type": "image/png",
+                "sizes": "512x512",
+                "purpose": "maskable"
             }
         ]
       }
