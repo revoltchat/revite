@@ -150,12 +150,8 @@ export function Sessions() {
                                         }}
                                     />
                                 </span>
-                        
-                        
                             </div>
                         </div>
-                            
-
                             {deviceId !== session.id && (
                             <Button
                                 onClick={async () => {
@@ -179,10 +175,12 @@ export function Sessions() {
                                 <Text id="app.settings.pages.logOut" />
                             </Button>
                         )}
-                        
                     </div>
                 </div>
             ))}
+            <Button error>
+                <Text id="app.settings.pages.sessions.logout" />
+            </Button>
             <Tip>
                 <span>
                     <Text id="app.settings.tips.sessions.a" />

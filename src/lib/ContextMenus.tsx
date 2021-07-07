@@ -882,7 +882,7 @@ function ContextMenus(props: Props) {
                             </div>
                             <IconButton>
                                 <MenuItem data={{ action: "open_settings" }}>
-                                    <Cog size={18} />
+                                    <Cog size={22} />
                                 </MenuItem>
                             </IconButton>
                         </div>
