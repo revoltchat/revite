@@ -1,0 +1,10 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+        "namespace": "android_app",
+        "package_name": "chat.revolt.app.twa",
+        "sha256_cert_fingerprints": [
+            "6E:62:C1:BF:5A:2D:11:31:A3:22:91:8D:22:2B:2C:49:D3:70:F3:A1:45:DF:11:6A:97:DC:4C:A9:3B:C3:AA:FB"
+        ]
+    }
+}]
