@@ -49,9 +49,9 @@ export default defineConfig({
       filename: 'sw.ts',
       strategies: 'injectManifest',
       manifest: {
-        name: isNightly ? "REVOLT nightly" : "REVOLT",
-        short_name: "REVOLT",
-        description: isNightly ? "Early preview builds of REVOLT." : "User-first, privacy-focused chat platform.",
+        name: isNightly ? "Revolt Nightly" : "Revolt",
+        short_name: "Revolt",
+        description: isNightly ? "Early preview builds of Revolt." : "User-first, privacy-focused chat platform.",
         categories: ["messaging"],
         start_url: "/",
         display: "standalone",
