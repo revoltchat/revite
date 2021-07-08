@@ -38,10 +38,23 @@ const SwatchesBase = styled.div`
     display: flex;
 
     input {
+        width: 0;
+        height: 0;
+        top: 72px;
         opacity: 0;
-        margin-top: 44px;
-        position: absolute;
+        position: relative;
         pointer-events: none;
+    }
+
+    .overlay {
+        position: relative;
+        width: 0;
+
+        div {
+            width: 8px;
+            height: 68px;
+            background: linear-gradient(to right, var(--primary-background), transparent);
+        }
     }
 `;
 
@@ -84,20 +97,12 @@ const Rows = styled.div`
     display: flex;
     flex-direction: column;
     overflow: auto;
-    
 
     > div {
         gap: 8px;
         display: flex;
         flex-direction: row;
         padding-inline-start: 8px;
-    }
-
-    .overlay {
-        position: absolute;
-        height: 68px;
-        width: 8px;
-        background: linear-gradient(to right, var(--primary-background), transparent);
     }
 `;
 
@@ -106,23 +111,23 @@ export default function ColourSwatches({ value, onChange }: Props) {
 
     return (
         <SwatchesBase>
-            <Swatch
-                colour={value}
-                type="large"
-                onClick={() => ref.current?.click()}>
-                <Palette size={32} />
-            </Swatch>
             <input
                 type="color"
                 value={value}
                 ref={ref}
                 onChange={(ev) => onChange(ev.currentTarget.value)}
             />
+            <Swatch
+                colour={value}
+                type="large"
+                onClick={() => ref.current?.click()}>
+                <Palette size={32} />
+            </Swatch>
+
+            <div class="overlay"><div /></div>
             
             <Rows>
                 {presets.map((row, i) => (
-                    <>
-                    <div class="overlay" />
                     <div key={i}>
                         {row.map((swatch, i) => (
                             <Swatch
@@ -134,7 +139,6 @@ export default function ColourSwatches({ value, onChange }: Props) {
                             </Swatch>
                         ))}
                     </div>
-                    </>
                 ))}
             </Rows>
             
