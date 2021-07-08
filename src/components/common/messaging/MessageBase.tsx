@@ -21,7 +21,7 @@ export interface BaseMessageProps {
 
 export default styled.div<BaseMessageProps>`
     display: flex;
-    overflow-x: none;
+    overflow: none;
     padding: 0.125rem;
     flex-direction: row;
     padding-right: 16px;

@@ -66,15 +66,8 @@ export const md: MarkdownIt = MarkdownIt({
     .use(MarkdownKatex, {
         throwOnError: false,
         maxExpand: 0,
+        maxSize: 10
     });
-
-// ? Force links to open _blank.
-// From: https://github.com/markdown-it/markdown-it/blob/master/docs/architecture.md#renderer
-const defaultRender =
-    md.renderer.rules.link_open ||
-    function (tokens, idx, options, _env, self) {
-        return self.renderToken(tokens, idx, options);
-    };
 
 // TODO: global.d.ts file for defining globals
 declare global {
@@ -124,15 +117,19 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
     }, []);
 
     const handleLink = useCallback((ev: MouseEvent) => {
-        ev.preventDefault();
         if (ev.currentTarget) {
             const element = ev.currentTarget as HTMLAnchorElement;
             const url = new URL(element.href, location.href);
             const pathname = url.pathname;
 
             if (pathname.startsWith("/@")) {
-                internalEmit("Intermediate", "openProfile", pathname.substr(2));
+                let id = pathname.substr(2);
+                if (/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/.test(id)) {
+                    ev.preventDefault();
+                    internalEmit("Intermediate", "openProfile", id);
+                }
             } else {
+                ev.preventDefault();
                 internalEmit("Intermediate", "navigate", pathname);
             }
         }
