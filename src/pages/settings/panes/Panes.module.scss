@@ -252,17 +252,24 @@
     .actions {
         gap: 8px;
         display: flex;
-        flex-wrap: wrap;
         margin-bottom: 8px;
 
         .code {
-            display: flex;
+            cursor: pointer;
+
+            min-width: 0;
             flex-grow: 1;
-            border-radius: 4px;
             padding: 8px;
-            background: var(--secondary-background);
-            align-items: center;
+            border-radius: 4px;
             font-family: var(--codeblock-font);
+            background: var(--secondary-background);
+
+            > div {
+                width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
         }
     }
 
@@ -272,8 +279,9 @@
 
         .entry {
             gap: 8px;
-            padding: 2px;
+            padding: 12px;
             margin-top: 8px;
+            border-radius: 6px;
 
             .override {
                 display: flex;
