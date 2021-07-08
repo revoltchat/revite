@@ -38,6 +38,7 @@ import notoSVG from "../assets/noto_emoji.svg";
 import openmojiSVG from "../assets/openmoji_emoji.svg";
 import twemojiSVG from "../assets/twemoji_emoji.svg";
 import { Reset, Import } from "@styled-icons/boxicons-regular";
+import Tooltip from "../../../components/common/Tooltip";
 
 interface Props {
     settings: Settings;
@@ -246,28 +247,41 @@ export function Component(props: Props) {
                     <Text id="app.settings.pages.appearance.overrides" />
                 </h3>
                 <div className={styles.actions}>
-                    <Button contrast iconbutton onClick={() => setTheme({ custom: {} })}>
-                        <Reset size={22}/>
-                    </Button>
-                    <div className={styles.code}>Text</div>
-                    <Button
-                        contrast
-                        iconbutton
-                        onClick={async () => {
-                            openScreen({
-                                id: "_input",
-                                question: (
-                                    <Text id="app.settings.pages.appearance.import_theme" />
-                                ),
-                                field: (
-                                    <Text id="app.settings.pages.appearance.theme_data" />
-                                ),
-                                callback: async (string) =>
-                                    setOverride(JSON.parse(string)),
-                            });
-                        }}>
-                        <Import size={22}/>
-                    </Button>
+                    <Tooltip content={<Text id="app.settings.pages.appearance.reset_overrides" />}>
+                        <Button contrast iconbutton onClick={() => setTheme({ custom: {} })}>
+                            <Reset size={22}/>
+                        </Button>
+                    </Tooltip>
+                    <div className={styles.code} onClick={() => writeClipboard(JSON.stringify(theme))}>
+                        <Tooltip content={<Text id="app.special.copy" />}>
+                            {JSON.stringify(theme)}
+                        </Tooltip>
+                    </div>
+                    <Tooltip content={<Text id="app.settings.pages.appearance.import" />}>
+                        <Button
+                            contrast
+                            iconbutton
+                            onClick={async () => {
+                                try {
+                                    const text = await navigator.clipboard.readText();
+                                    setOverride(JSON.parse(text));
+                                } catch (err) {
+                                    openScreen({
+                                        id: "_input",
+                                        question: (
+                                            <Text id="app.settings.pages.appearance.import_theme" />
+                                        ),
+                                        field: (
+                                            <Text id="app.settings.pages.appearance.theme_data" />
+                                        ),
+                                        callback: async (string) =>
+                                            setOverride(JSON.parse(string)),
+                                    });
+                                }
+                            }}>
+                            <Import size={22}/>
+                        </Button>
+                    </Tooltip>
                 </div>
                 <div className={styles.overrides}>
                     {(
