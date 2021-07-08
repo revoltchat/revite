@@ -42,6 +42,8 @@ const SwatchesBase = styled.div`
         height: 0;
         top: 72px;
         opacity: 0;
+        padding: 0;
+        border: 0;
         position: relative;
         pointer-events: none;
     }
@@ -97,6 +99,7 @@ const Rows = styled.div`
     display: flex;
     flex-direction: column;
     overflow: auto;
+    padding-bottom: 4px;
 
     > div {
         gap: 8px;
