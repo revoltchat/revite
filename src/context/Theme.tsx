@@ -335,13 +335,7 @@ function Theme({ children, options }: Props) {
     return (
         <ThemeContext.Provider value={theme}>
             <Helmet>
-                <meta
-                    name="theme-color"
-                    content={
-                        isTouchscreenDevice
-                            ? theme["primary-header"]
-                            : theme["background"]
-                    }
+                <meta name="theme-color" content={theme["background"]}
                 />
             </Helmet>
             <GlobalTheme theme={theme} />

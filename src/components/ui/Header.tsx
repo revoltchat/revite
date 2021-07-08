@@ -25,6 +25,11 @@ export default styled.div<Props>`
         flex-shrink: 0;
     }
 
+    .menu {
+        margin-inline-end: 8px;
+        color: var(--secondary-foreground);
+    }
+
     /*@media only screen and (max-width: 768px) {
         padding: 0 12px;
     }*/

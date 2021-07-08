@@ -1,9 +1,9 @@
-import { Sidebar as SidebarIcon } from "@styled-icons/boxicons-regular";
 import {
     UserPlus,
     Cog,
     PhoneCall,
     PhoneOutgoing,
+    Group
 } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
 
@@ -65,11 +65,10 @@ export default function HeaderActions({
             <VoiceActions channel={channel} />
             {(channel.channel_type === "Group" ||
                 channel.channel_type === "TextChannel") &&
-                !isTouchscreenDevice && (
                     <IconButton onClick={toggleSidebar}>
-                        <SidebarIcon size={22} />
+                        <Group size={25} />
                     </IconButton>
-                )}
+                }
         </>
     );
 }
