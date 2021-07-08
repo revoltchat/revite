@@ -90,9 +90,14 @@ export default function App() {
                     />
 
                     <Route
-                        path="/channel/:channel/message/:message"
+                        path="/channel/:channel/:message"
                         component={Channel}
                     />
+                    <Route
+                        path="/server/:server/channel/:channel/:message"
+                        component={Channel}
+                    />
+
                     <Route
                         path="/server/:server/channel/:channel"
                         component={Channel}
