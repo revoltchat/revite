@@ -70,7 +70,7 @@ export default defineConfig({
                 "sizes": "512x512"
             },
             {
-                "src": `/assets/icons/mono-48x48.png`,
+                "src": `/assets/icons/monochrome.svg`,
                 "type": "image/png",
                 "sizes": "48x48",
                 "purpose": "monochrome"
