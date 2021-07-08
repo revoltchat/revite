@@ -359,6 +359,7 @@ const Base = styled.div<{ detached?: boolean }>`
         background: transparent;
         color: var(--foreground);
         width: calc(100% - 12px);
+        font-family: inherit;
 
         span {
             display: grid;

@@ -1,4 +1,5 @@
-import { Message, Group } from "@styled-icons/boxicons-solid";
+import { Message, Group, Inbox } from "@styled-icons/boxicons-solid";
+import { At } from "@styled-icons/boxicons-regular";
 import { useHistory, useLocation } from "react-router";
 import styled, { css } from "styled-components";
 
@@ -78,6 +79,13 @@ export function BottomNavigation({ lastOpened }: Props) {
                     </IconButton>
                 </ConditionalLink>
             </Button>
+            {/*<Button active={friendsActive}>
+                <ConditionalLink active={friendsActive} to="/friends">
+                    <IconButton>
+                        <Inbox size={25} />
+                    </IconButton>
+                </ConditionalLink>
+            </Button>*/}
             <Button active={settingsActive}>
                 <ConditionalLink active={settingsActive} to="/settings">
                     <IconButton>
