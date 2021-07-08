@@ -4,24 +4,42 @@ import { SMOOTH_SCROLL_ON_RECEIVE } from "../Singleton";
 import { RendererRoutines } from "../types";
 
 export const SimpleRenderer: RendererRoutines = {
-    init: async (renderer, id, smooth) => {
+    init: async (renderer, id, nearby, smooth) => {
         if (renderer.client!.websocket.connected) {
-            renderer
-                .client!.channels.fetchMessagesWithUsers(id, {}, true)
-                .then(({ messages: data }) => {
-                    data.reverse();
-                    let messages = data.map((x) => mapMessage(x));
-                    renderer.setState(
-                        id,
-                        {
-                            type: "RENDER",
-                            messages,
-                            atTop: data.length < 50,
-                            atBottom: true,
-                        },
-                        { type: "ScrollToBottom", smooth },
-                    );
-                });
+            if (nearby)
+                renderer
+                    .client!.channels.fetchMessagesWithUsers(id, { nearby, limit: 100 }, true)
+                    .then(({ messages: data }) => {
+                        data.sort((a, b) => a._id.localeCompare(b._id));
+                        let messages = data.map((x) => mapMessage(x));
+                        renderer.setState(
+                            id,
+                            {
+                                type: "RENDER",
+                                messages,
+                                atTop: false,
+                                atBottom: false,
+                            },
+                            { type: "ScrollToView", id: nearby },
+                        );
+                    });
+            else
+                renderer
+                    .client!.channels.fetchMessagesWithUsers(id, {}, true)
+                    .then(({ messages: data }) => {
+                        data.reverse();
+                        let messages = data.map((x) => mapMessage(x));
+                        renderer.setState(
+                            id,
+                            {
+                                type: "RENDER",
+                                messages,
+                                atTop: data.length < 50,
+                                atBottom: true,
+                            },
+                            { type: "ScrollToBottom", smooth },
+                        );
+                    });
         } else {
             renderer.setState(id, { type: "WAITING_FOR_NETWORK" });
         }

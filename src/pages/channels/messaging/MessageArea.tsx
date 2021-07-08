@@ -19,6 +19,7 @@ import { RenderState, ScrollState } from "../../../lib/renderer/types";
 import { IntermediateContext } from "../../../context/intermediate/Intermediate";
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
 import {
+    AppContext,
     ClientStatus,
     StatusContext,
 } from "../../../context/revoltjs/RevoltClient";
@@ -27,6 +28,7 @@ import Preloader from "../../../components/ui/Preloader";
 
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
+import { useHistory, useParams } from "react-router-dom";
 
 const Area = styled.div`
     height: 100%;
@@ -53,8 +55,12 @@ export const MessageAreaWidthContext = createContext(0);
 export const MESSAGE_AREA_PADDING = 82;
 
 export function MessageArea({ id }: Props) {
+    const history = useHistory();
+    const client = useContext(AppContext);
     const status = useContext(StatusContext);
     const { focusTaken } = useContext(IntermediateContext);
+
+    const { message } = useParams<{ message: string }>();
 
     // ? This is the scroll container.
     const ref = useRef<HTMLDivElement>(null);
@@ -91,6 +97,11 @@ export function MessageArea({ id }: Props) {
                     container: ref.current,
                     duration: scrollState.current.smooth ? 150 : 0,
                 });
+            } else if (scrollState.current.type === "ScrollToView") {
+                document.getElementById(scrollState.current.id)
+                    ?.scrollIntoView();
+                
+                setScrollState({ type: "Free" });
             } else if (scrollState.current.type === "OffsetTop") {
                 animateScroll.scrollTo(
                     Math.max(
@@ -152,8 +163,23 @@ export function MessageArea({ id }: Props) {
 
     // ? Load channel initially.
     useEffect(() => {
+        if (message) return;
         SingletonMessageRenderer.init(id);
     }, [id]);
+
+    // ? If message present or changes, load it as well.
+    useEffect(() => {
+        if (message) {
+            SingletonMessageRenderer.init(id, message);
+
+            let channel = client.channels.get(id);
+            if (channel?.channel_type === 'TextChannel') {
+                history.push(`/server/${channel.server}/channel/${id}`);
+            } else {
+                history.push(`/channel/${id}`);
+            }
+        }
+    }, [message]);
 
     // ? If we are waiting for network, try again.
     useEffect(() => {

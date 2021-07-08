@@ -8,6 +8,7 @@ export type ScrollState =
     | { type: "Free" }
     | { type: "Bottom"; scrollingUntil?: number }
     | { type: "ScrollToBottom" | "StayAtBottom"; smooth?: boolean }
+    | { type: "ScrollToView", id: string }
     | { type: "OffsetTop"; previousHeight: number }
     | { type: "ScrollTop"; y: number };
 
@@ -26,6 +27,7 @@ export interface RendererRoutines {
     init: (
         renderer: SingletonRenderer,
         id: string,
+        message?: string,
         smooth?: boolean,
     ) => Promise<void>;
 

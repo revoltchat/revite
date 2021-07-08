@@ -72,11 +72,11 @@ export class SingletonRenderer extends EventEmitter3 {
         this.stale = true;
     }
 
-    async init(id: string) {
+    async init(id: string, message_id?: string) {
         this.channel = id;
         this.stale = false;
         this.setStateUnguarded({ type: "LOADING" });
-        await this.currentRenderer.init(this, id);
+        await this.currentRenderer.init(this, id, message_id);
     }
 
     async reloadStale(id: string) {
@@ -180,7 +180,7 @@ export class SingletonRenderer extends EventEmitter3 {
         if (this.state.type === "RENDER" && this.state.atBottom) {
             this.emit("scroll", { type: "ScrollToBottom", smooth });
         } else {
-            await this.currentRenderer.init(this, id, true);
+            await this.currentRenderer.init(this, id, undefined, true);
         }
     }
 }
