@@ -13,8 +13,7 @@ import { useChannel, useForceUpdate } from "../../context/revoltjs/hooks";
 import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
-import Button from "../../components/ui/Button";
-import Checkbox from "../../components/ui/Checkbox";
+import AgeGate from "../../components/common/AgeGate";
 
 import MemberSidebar from "../../components/navigation/right/MemberSidebar";
 import ChannelHeader from "./ChannelHeader";
@@ -36,32 +35,6 @@ const ChannelContent = styled.div`
     flex-direction: column;
 `;
 
-const AgeGate = styled.div`
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    padding: 12px;
-
-    img {
-        height: 150px;
-    }
-
-    .subtext {
-        color: var(--secondary-foreground);
-        margin-bottom: 12px;
-        font-size: 14px;
-    }
-
-    .actions {
-        margin-top: 20px;
-        display: flex;
-        gap: 12px;
-    }
-`;
-
 export function Channel({ id }: { id: string }) {
     const ctx = useForceUpdate();
     const channel = useChannel(id, ctx);
@@ -77,52 +50,18 @@ export function Channel({ id }: { id: string }) {
 
 const MEMBERS_SIDEBAR_KEY = "sidebar_members";
 function TextChannel({ channel }: { channel: Channels.Channel }) {
-    if (
-        (channel.channel_type === "TextChannel" ||
-            channel.channel_type === "Group") &&
-        channel.name.includes("nsfw")
-    ) {
-        const goBack = useHistory();
-        const [consent, setConsent] = useState(false);
-        const [ageGate, setAgeGate] = useState(false);
-        if (!ageGate) {
-            return (
-                <AgeGate>
-                    <img
-                        src={"https://static.revolt.chat/emoji/mutant/26a0.svg"}
-                        draggable={false}
-                    />
-                    <h2>{channel.name}</h2>
-                    <span className="subtext">
-                        This channel is marked as NSFW.{" "}
-                        <a href="#">Learn more</a>
-                    </span>
-
-                    <Checkbox checked={consent} onChange={(v) => setConsent(v)}>
-                        I confirm that I am at least 18 years old.
-                    </Checkbox>
-                    <div className="actions">
-                        <Button contrast onClick={() => goBack}>
-                            Go back
-                        </Button>
-                        <Button
-                            contrast
-                            onClick={() => consent && setAgeGate(true)}>
-                            Enter Channel
-                        </Button>
-                    </div>
-                </AgeGate>
-            );
-        }
-    }
-
     const [showMembers, setMembers] = useState(
         getState().sectionToggle[MEMBERS_SIDEBAR_KEY] ?? true,
     );
 
     let id = channel._id;
     return (
-        <>
+        <AgeGate
+            type="channel"
+            channel={channel}
+            gated={(channel.channel_type === "TextChannel" ||
+                channel.channel_type === "Group") &&
+                channel.name.includes("nsfw")}>
             <ChannelHeader
                 channel={channel}
                 toggleSidebar={() => {
@@ -154,7 +93,7 @@ function TextChannel({ channel }: { channel: Channels.Channel }) {
                     <MemberSidebar channel={channel} />
                 )}
             </ChannelMain>
-        </>
+        </AgeGate>
     );
 }
 
