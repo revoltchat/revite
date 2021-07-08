@@ -37,7 +37,7 @@ import mutantSVG from "../assets/mutant_emoji.svg";
 import notoSVG from "../assets/noto_emoji.svg";
 import openmojiSVG from "../assets/openmoji_emoji.svg";
 import twemojiSVG from "../assets/twemoji_emoji.svg";
-import { Reset, Import } from "@styled-icons/boxicons-regular";
+import { Reset, Import, Pencil } from "@styled-icons/boxicons-regular";
 import Tooltip from "../../../components/common/Tooltip";
 
 interface Props {
@@ -240,12 +240,9 @@ export function Component(props: Props) {
             </div>
 
             <CollapsibleSection
-                id="settings_advanced_appearance"
                 defaultValue={false}
-                summary={<Text id="app.settings.pages.appearance.advanced" />}>
-                <h3>
-                    <Text id="app.settings.pages.appearance.overrides" />
-                </h3>
+                id="settings_overrides"
+                summary={<Text id="app.settings.pages.appearance.overrides" />}>
                 <div className={styles.actions}>
                     <Tooltip content={<Text id="app.settings.pages.appearance.reset_overrides" />}>
                         <Button contrast iconbutton onClick={() => setTheme({ custom: {} })}>
@@ -312,23 +309,27 @@ export function Component(props: Props) {
                             "hover",
                         ] as const
                     ).map((x) => (
-                        <div className={styles.entry} key={x}>
+                        <div className={styles.entry} key={x}
+                            style={{ backgroundColor: theme[x] }}>
+                            <div className={styles.input}>
+                                <input
+                                    type="color"
+                                    value={theme[x]}
+                                    onChange={(v) =>
+                                        setOverride({
+                                            [x]: v.currentTarget.value,
+                                        })
+                                    }
+                                />
+                            </div>
                             <span>{x}</span>
                             <div className={styles.override}>
-                                <div
-                                    className={styles.picker}
-                                    style={{ backgroundColor: theme[x] }}>
-                                    <input
-                                        type="color"
-                                        value={theme[x]}
-                                        onChange={(v) =>
-                                            setOverride({
-                                                [x]: v.currentTarget.value,
-                                            })
-                                        }
-                                    />
+                                <div className={styles.picker}
+                                    onClick={e => e.currentTarget.parentElement?.parentElement?.querySelector('input')?.click()}>
+                                    <Pencil size={24} />
                                 </div>
                                 <InputBox
+                                    type="text"
                                     className={styles.text}
                                     value={theme[x]}
                                     onChange={(y) =>
@@ -341,7 +342,12 @@ export function Component(props: Props) {
                         </div>
                     ))}
                 </div>
+            </CollapsibleSection>
 
+            <CollapsibleSection
+                id="settings_advanced_appearance"
+                defaultValue={false}
+                summary={<Text id="app.settings.pages.appearance.advanced" />}>
                 <h3>
                     <Text id="app.settings.pages.appearance.mono_font" />
                 </h3>
