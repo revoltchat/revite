@@ -71,7 +71,7 @@ export default defineConfig({
             },
             {
                 "src": `/assets/icons/monochrome.svg`,
-                "type": "image/png",
+                "type": "image/svg",
                 "sizes": "48x48",
                 "purpose": "monochrome"
             },
