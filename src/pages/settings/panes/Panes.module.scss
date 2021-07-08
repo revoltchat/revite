@@ -373,21 +373,6 @@
             }
         }
 
-        .icon {
-            gap: 8px;
-            display: flex;
-            /*padding-right: 12px;*/
-            align-items: center;
-
-            svg {
-                height: 42px;
-            }
-
-            div svg {
-                height: 24px;
-            }
-        }
-
         .label {
             margin-bottom: 8px;
             color: var(--primary-text);

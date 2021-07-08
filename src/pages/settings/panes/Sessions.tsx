@@ -1,21 +1,12 @@
 import { HelpCircle } from "@styled-icons/boxicons-regular";
-import {
-    Android,
-    Firefoxbrowser,
-    Googlechrome,
-    Ios,
-    Linux,
-    Macos,
-    Microsoftedge,
-    Safari,
-    Windows,
-} from "@styled-icons/simple-icons";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useHistory } from "react-router-dom";
 import { decodeTime } from "ulid";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
+import { Safari, Firefoxbrowser, Microsoftedge, Linux, Macos } from "@styled-icons/simple-icons";
+import { Chrome, Android, Apple, Windows } from "@styled-icons/boxicons-logos";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { dayjs } from "../../../context/Locale";
@@ -68,7 +59,7 @@ export function Sessions() {
             case /firefox/i.test(name):
                 return <Firefoxbrowser size={32} />;
             case /chrome/i.test(name):
-                return <Googlechrome size={32} />;
+                return <Chrome size={32} />;
             case /safari/i.test(name):
                 return <Safari size={32} />;
             case /edge/i.test(name):
@@ -88,7 +79,7 @@ export function Sessions() {
             case /mac.*os/i.test(name):
                 return <Macos size={14} />;
             case /ios/i.test(name):
-                return <Ios size={14} />;
+                return <Apple size={14} />;
             case /windows/i.test(name):
                 return <Windows size={14} />;
             default:
