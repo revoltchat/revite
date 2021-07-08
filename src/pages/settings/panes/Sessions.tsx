@@ -66,15 +66,15 @@ export function Sessions() {
         const name = session.friendly_name;
         switch (true) {
             case /firefox/i.test(name):
-                return <Firefoxbrowser />;
+                return <Firefoxbrowser size={32} />;
             case /chrome/i.test(name):
-                return <Googlechrome />;
+                return <Googlechrome size={32} />;
             case /safari/i.test(name):
-                return <Safari />;
+                return <Safari size={32} />;
             case /edge/i.test(name):
-                return <Microsoftedge />;
+                return <Microsoftedge size={32} />;
             default:
-                return <HelpCircle />;
+                return <HelpCircle size={32} />;
         }
     }
 
@@ -82,15 +82,15 @@ export function Sessions() {
         const name = session.friendly_name;
         switch (true) {
             case /linux/i.test(name):
-                return <Linux />;
+                return <Linux size={14} />;
             case /android/i.test(name):
-                return <Android />;
+                return <Android size={14} />;
             case /mac.*os/i.test(name):
-                return <Macos />;
+                return <Macos size={14} />;
             case /ios/i.test(name):
-                return <Ios />;
+                return <Ios size={14} />;
             case /windows/i.test(name):
-                return <Windows />;
+                return <Windows size={14} />;
             default:
                 return null;
         }
@@ -117,67 +117,80 @@ export function Sessions() {
             <h3>
                 <Text id="app.settings.pages.sessions.active_sessions" />
             </h3>
-            {render.map((session) => (
-                <div
-                    className={styles.entry}
-                    data-active={session.id === deviceId}
-                    data-deleting={attemptingDelete.indexOf(session.id) > -1}>
-                    {deviceId === session.id && (
-                        <span className={styles.label}>
-                            <Text id="app.settings.pages.sessions.this_device" />{" "}
-                        </span>
-                    )}
-                    <div className={styles.session}>
-                        <div className={styles.detail}>
-                            <div className={styles.icon}>
-                                {getIcon(session)}
-                                <div>{getSystemIcon(session)}</div>
-                            </div>
-                            <div className={styles.info}>
-                                <input
-                                    type="text"
-                                    className={styles.name}
-                                    value={session.friendly_name}
-                                    autocomplete="off"
-                                />
-                                <span className={styles.time}>
-                                    <Text
-                                        id="app.settings.pages.sessions.created"
-                                        fields={{
-                                            time_ago: dayjs(
-                                                session.timestamp,
-                                            ).fromNow(),
-                                        }}
-                                    />
-                                </span>
-                            </div>
-                        </div>
-                            {deviceId !== session.id && (
-                            <Button
-                                onClick={async () => {
-                                    setDelete([
-                                        ...attemptingDelete,
-                                        session.id,
-                                    ]);
-                                    await client.req(
-                                        "DELETE",
-                                        `/auth/sessions/${session.id}` as "/auth/sessions",
-                                    );
-                                    setSessions(
-                                        sessions?.filter(
-                                            (x) => x.id !== session.id,
-                                        ),
-                                    );
-                                }}
-                                disabled={
-                                    attemptingDelete.indexOf(session.id) > -1
-                                }>
-                                <Text id="app.settings.pages.logOut" />
-                            </Button>
+            {render.map((session) => {
+                const systemIcon = getSystemIcon(session);
+                return (
+                    <div
+                        className={styles.entry}
+                        data-active={session.id === deviceId}
+                        data-deleting={attemptingDelete.indexOf(session.id) > -1}>
+                        {deviceId === session.id && (
+                            <span className={styles.label}>
+                                <Text id="app.settings.pages.sessions.this_device" />{" "}
+                            </span>
                         )}
+                        <div className={styles.session}>
+                            <div className={styles.detail}>
+                                <svg width={42} height={42}
+                                    viewBox="0 0 32 32">
+                                    <foreignObject
+                                        x="0"
+                                        y="0"
+                                        width="32"
+                                        height="32"
+                                        mask={systemIcon ? "url(#session)": undefined}>
+                                        {getIcon(session)}
+                                    </foreignObject>
+                                    <foreignObject x="18" y="18" width="14" height="14">
+                                        { systemIcon }
+                                    </foreignObject>
+                                </svg>
+                                <div className={styles.info}>
+                                    <input
+                                        type="text"
+                                        className={styles.name}
+                                        value={session.friendly_name}
+                                        autocomplete="off"
+                                        style={{ pointerEvents: 'none' }} />
+                                    <span className={styles.time}>
+                                        <Text
+                                            id="app.settings.pages.sessions.created"
+                                            fields={{
+                                                time_ago: dayjs(
+                                                    session.timestamp,
+                                                ).fromNow(),
+                                            }}
+                                        />
+                                    </span>
+                                </div>
+                            </div>
+                                {deviceId !== session.id && (
+                                <Button
+                                    onClick={async () => {
+                                        setDelete([
+                                            ...attemptingDelete,
+                                            session.id,
+                                        ]);
+                                        await client.req(
+                                            "DELETE",
+                                            `/auth/sessions/${session.id}` as "/auth/sessions",
+                                        );
+                                        setSessions(
+                                            sessions?.filter(
+                                                (x) => x.id !== session.id,
+                                            ),
+                                        );
+                                    }}
+                                    disabled={
+                                        attemptingDelete.indexOf(session.id) > -1
+                                    }>
+                                    <Text id="app.settings.pages.logOut" />
+                                </Button>
+                            )}
+                        </div>
                     </div>
-                </div>
-            ))}
+                )
+            })}
             <Button error>
                 <Text id="app.settings.pages.sessions.logout" />
             </Button>
