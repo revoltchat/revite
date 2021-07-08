@@ -14,7 +14,7 @@ export default function Masks() {
                 </mask>
                 <mask id="session">
                     <rect x="0" y="0" width="32" height="32" fill="white" />
-                    <circle cx="26" cy="30" r="12" fill={"black"} />
+                    <circle cx="26" cy="28" r="10" fill={"black"} />
                 </mask>
                 <mask id="overlap">
                     <rect x="0" y="0" width="32" height="32" fill="white" />
