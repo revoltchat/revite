@@ -320,15 +320,7 @@
             flex-grow: 1;
         }
 
-        @media only screen and (max-width: 900px) {
-            align-items: unset;
-            flex-direction: column;
-            gap: 20px;
-
-            > button {
-                width: 100%;
-            }
-        }
+        
     }
 
     .entry {
@@ -343,6 +335,13 @@
             color: var(--primary-background);
             background: var(--accent);
             margin-bottom: 20px;
+
+            .session .detail .info > input {
+                &:focus {
+                    border-bottom: 2px solid var(--primary-background);
+                }
+            }
+
         }
 
         &[data-deleting="true"] {
@@ -422,6 +421,22 @@
 
     > button {
         margin-top: 20px;
+    }
+
+    @media only screen and (max-width: 900px) {
+        .session {
+            align-items: unset;
+            flex-direction: column;
+            gap: 20px;
+    
+            > button {
+                width: 100%;
+            }
+        }
+
+        > button {
+            width: 100%;
+        }
     }
 }
 
