@@ -24,7 +24,6 @@ export default function Attachment({ attachment, hasContent }: Props) {
     const { openScreen } = useIntermediate();
     const { filename, metadata } = attachment;
     const [spoiler, setSpoiler] = useState(filename.startsWith("SPOILER_"));
-    const [loaded, setLoaded] = useState(false);
 
     const url = client.generateFileURL(
         attachment,
@@ -50,20 +49,28 @@ export default function Attachment({ attachment, hasContent }: Props) {
                         alt={filename}
                         width={metadata.width}
                         height={metadata.height}
+                        loading="lazy"
                         data-spoiler={spoiler}
                         data-has-content={hasContent}
                         className={classNames(
                             styles.attachment,
                             styles.image,
-                            loaded && styles.loaded,
+                            metadata.width > metadata.height
+                                ? styles.long
+                                : styles.tall,
                         )}
+                        style={{
+                            "--width": metadata.width,
+                            "--height": metadata.height,
+                            "--width-px": metadata.width + "px",
+                            "--height-px": metadata.height + "px",
+                        }}
                         onClick={() =>
                             openScreen({ id: "image_viewer", attachment })
                         }
                         onMouseDown={(ev) =>
                             ev.button === 1 && window.open(url, "_blank")
                         }
-                        onLoad={() => setLoaded(true)}
                     />
                 </div>
             );
@@ -99,12 +106,22 @@ export default function Attachment({ attachment, hasContent }: Props) {
                             src={url}
                             width={metadata.width}
                             height={metadata.height}
-                            className={classNames(loaded && styles.loaded)}
+                            loading="lazy"
+                            className={classNames(
+                                metadata.width > metadata.height
+                                    ? styles.long
+                                    : styles.tall,
+                            )}
+                            style={{
+                                "--width": metadata.width,
+                                "--height": metadata.height,
+                                "--width-px": metadata.width + "px",
+                                "--height-px": metadata.height + "px",
+                            }}
                             controls
                             onMouseDown={(ev) =>
                                 ev.button === 1 && window.open(url, "_blank")
                             }
-                            onLoadedMetadata={() => setLoaded(true)}
                         />
                     </div>
                 </div>

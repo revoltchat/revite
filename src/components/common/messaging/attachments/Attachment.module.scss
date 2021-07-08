@@ -17,17 +17,25 @@
         margin-top: 4px;
     }
 
-    &.image {
-        cursor: pointer;
+    &.image, &.video > video {
+        cursor: pointer;   
         
-        max-height: 640px;
-        max-width: min(480px, 100%);
+        aspect-ratio: var(--width) / var(--height);
+        max-height: min(640px, var(--height-px));
+        max-width: min(480px, 100%, var(--width-px));
         
         object-fit: contain;
+    }
 
-        &.loaded {
-            width: auto;
+    &.image {
+        &.long {
+            width: min(100%, var(--width-px));
             height: auto;
+        }
+
+        &.tall {
+            height: min(100%, var(--height-px));
+            width: auto;
         }
     }
 
@@ -39,14 +47,14 @@
 
         video {
             border-radius: 0 0 6px 6px;
-            
-            max-height: 640px;
-            max-width: min(480px, 100%);
-        }
 
-        video.loaded {
-            width: auto;
-            height: auto;
+            &.long {
+                height: auto;
+            }
+    
+            &.tall {
+                width: auto;
+            }
         }
     }
 
