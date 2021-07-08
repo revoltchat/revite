@@ -254,6 +254,16 @@
         display: flex;
         flex-wrap: wrap;
         margin-bottom: 8px;
+
+        .code {
+            display: flex;
+            flex-grow: 1;
+            border-radius: 4px;
+            padding: 8px;
+            background: var(--secondary-background);
+            align-items: center;
+            font-family: var(--codeblock-font);
+        }
     }
 
     .overrides {
@@ -408,7 +418,7 @@
         margin-top: 20px;
     }
 
-    @media only screen and (max-width: 900px) {
+    @media only screen and (max-width: 800px) {
         .session {
             align-items: unset;
             flex-direction: column;
