@@ -250,7 +250,7 @@ export function Component(props: Props) {
                         </Button>
                     </Tooltip>
                     <div className={styles.code} onClick={() => writeClipboard(JSON.stringify(theme))}>
-                        <Tooltip content={<Text id="app.special.copy" />}>
+                        <Tooltip content={<Text id="app.special.copy" />}> {/*TOFIX: Try to put the tooltip above the .code div without messing up the css challenge */}
                             {JSON.stringify(theme)}
                         </Tooltip>
                     </div>
