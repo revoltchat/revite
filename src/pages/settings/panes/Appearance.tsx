@@ -37,6 +37,7 @@ import mutantSVG from "../assets/mutant_emoji.svg";
 import notoSVG from "../assets/noto_emoji.svg";
 import openmojiSVG from "../assets/openmoji_emoji.svg";
 import twemojiSVG from "../assets/twemoji_emoji.svg";
+import { Reset, Import } from "@styled-icons/boxicons-regular";
 
 interface Props {
     settings: Settings;
@@ -245,24 +246,13 @@ export function Component(props: Props) {
                     <Text id="app.settings.pages.appearance.overrides" />
                 </h3>
                 <div className={styles.actions}>
-                    <Button contrast onClick={() => setTheme({ custom: {} })}>
-                        <Text id="app.settings.pages.appearance.reset_overrides" />
+                    <Button contrast iconbutton onClick={() => setTheme({ custom: {} })}>
+                        <Reset size={22}/>
                     </Button>
+                    <div className={styles.code}>Text</div>
                     <Button
                         contrast
-                        onClick={() => writeClipboard(JSON.stringify(theme))}>
-                        <Text id="app.settings.pages.appearance.export_clipboard" />
-                    </Button>
-                    <Button
-                        contrast
-                        onClick={async () => {
-                            const text = await navigator.clipboard.readText();
-                            setOverride(JSON.parse(text));
-                        }}>
-                        <Text id="app.settings.pages.appearance.import_clipboard" />
-                    </Button>
-                    <Button
-                        contrast
+                        iconbutton
                         onClick={async () => {
                             openScreen({
                                 id: "_input",
@@ -276,7 +266,7 @@ export function Component(props: Props) {
                                     setOverride(JSON.parse(string)),
                             });
                         }}>
-                        <Text id="app.settings.pages.appearance.import_manual" />
+                        <Import size={22}/>
                     </Button>
                 </div>
                 <div className={styles.overrides}>

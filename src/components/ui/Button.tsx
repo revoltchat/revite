@@ -6,6 +6,7 @@ interface Props {
     readonly contrast?: boolean;
     readonly plain?: boolean;
     readonly error?: boolean;
+    readonly iconbutton?: boolean;
 }
 
 export type ButtonProps = Props &
@@ -52,6 +53,14 @@ export default styled.button<Props>`
             height: 32px !important;
             padding: 2px 12px !important;
             font-size: 13px;
+        `}
+
+    ${(props) =>
+        props.iconbutton &&
+        css`
+            height: 38px !important;
+            width: 38px !important;
+            min-width: unset !important;
         `}
 
     ${(props) =>
