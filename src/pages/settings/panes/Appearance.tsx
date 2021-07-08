@@ -37,7 +37,8 @@ import mutantSVG from "../assets/mutant_emoji.svg";
 import notoSVG from "../assets/noto_emoji.svg";
 import openmojiSVG from "../assets/openmoji_emoji.svg";
 import twemojiSVG from "../assets/twemoji_emoji.svg";
-import { Reset, Import, Pencil } from "@styled-icons/boxicons-regular";
+import { Reset, Import } from "@styled-icons/boxicons-regular";
+import { Pencil } from "@styled-icons/boxicons-solid";
 import Tooltip from "../../../components/common/Tooltip";
 
 interface Props {
