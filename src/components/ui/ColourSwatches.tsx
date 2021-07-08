@@ -34,7 +34,7 @@ const presets = [
 ];
 
 const SwatchesBase = styled.div`
-    gap: 8px;
+    /*gap: 8px;*/
     display: flex;
 
     input {
@@ -83,11 +83,21 @@ const Rows = styled.div`
     gap: 8px;
     display: flex;
     flex-direction: column;
+    overflow: auto;
+    
 
     > div {
         gap: 8px;
         display: flex;
         flex-direction: row;
+        padding-inline-start: 8px;
+    }
+
+    .overlay {
+        position: absolute;
+        height: 68px;
+        width: 8px;
+        background: linear-gradient(to right, var(--primary-background), transparent);
     }
 `;
 
@@ -108,8 +118,11 @@ export default function ColourSwatches({ value, onChange }: Props) {
                 ref={ref}
                 onChange={(ev) => onChange(ev.currentTarget.value)}
             />
+            
             <Rows>
                 {presets.map((row, i) => (
+                    <>
+                    <div class="overlay" />
                     <div key={i}>
                         {row.map((swatch, i) => (
                             <Swatch
@@ -121,8 +134,11 @@ export default function ColourSwatches({ value, onChange }: Props) {
                             </Swatch>
                         ))}
                     </div>
+                    </>
                 ))}
             </Rows>
+            
+            
         </SwatchesBase>
     );
 }
