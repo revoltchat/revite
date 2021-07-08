@@ -12,9 +12,10 @@ const Base = styled.div<{ unread?: boolean }>`
 
     time {
         margin-top: -2px;
-        font-size: 0.6875rem;
-        line-height: 0.6875rem;
-        padding: 2px 5px 2px 0;
+        font-size: .6875rem;
+        line-height: .6875rem;
+        padding: 2px 0 2px 0;
+        padding-inline-end: 5px;
         color: var(--tertiary-foreground);
         background: var(--primary-background);
     }

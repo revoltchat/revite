@@ -10,7 +10,7 @@ import {
     LeftArrowAlt,
     Trash,
 } from "@styled-icons/boxicons-regular";
-import { Cog } from "@styled-icons/boxicons-solid";
+import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
 import {
     Attachment,
@@ -924,24 +924,23 @@ function ContextMenus(props: Props) {
                             <Text id={`app.status.invisible`} />
                         </MenuItem>
                         <LineDivider />
-                        <div className="header">
-                            <div className="main">
                                 <MenuItem
                                     data={{ action: "set_status" }}
                                     disabled={!isOnline}>
+                                    <UserVoice size={18} />
                                     <Text
                                         id={`app.context_menu.custom_status`}
                                     />
-                                </MenuItem>
-                            </div>
-                            {client.user!.status?.text && (
+                                    {client.user!.status?.text && (
                                 <IconButton>
                                     <MenuItem data={{ action: "clear_status" }}>
                                         <Trash size={18} />
                                     </MenuItem>
                                 </IconButton>
                             )}
-                        </div>
+                                </MenuItem>
+                                
+                            
                     </>
                 )}
             </ContextMenuWithData>
