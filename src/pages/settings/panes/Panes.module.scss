@@ -252,7 +252,7 @@
     .actions {
         gap: 8px;
         display: flex;
-        margin-bottom: 8px;
+        margin: 8px 0;
 
         .code {
             cursor: pointer;
@@ -274,27 +274,73 @@
     }
 
     .overrides {
+        row-gap: 8px;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        column-gap: 16px;
+        grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
 
         .entry {
-            gap: 8px;
             padding: 12px;
             margin-top: 8px;
             border-radius: 6px;
-
-            .override {
-                display: flex;
-            }
+            border: 1px solid black;
 
             span {
                 flex: 1;
                 display: block;
-                font-size: .875rem;
                 font-weight: 600;
-                margin-bottom: 4px;
+                font-size: .875rem;
+                margin-bottom: 8px;
                 text-transform: capitalize;
+
+                color: transparent;
+                background: inherit;
+                background-clip: text;
+                -webkit-background-clip: text;
+                filter: sepia(1) invert(1) contrast(9) grayscale(1);
             }
+
+            .override {
+                gap: 16px;
+                display: flex;
+
+                .picker {
+                    width: 38px;
+                    height: 38px;
+                    display: grid;
+                    cursor: pointer;
+                    border-radius: 6px;
+                    place-items: center;
+                    background: var(--primary-background);
+                }
+
+                input[type="text"] {
+                    width: 0;
+                    min-width: 0;
+                    flex-grow: 1;
+                }
+            }
+
+            .input {
+                width: 0;
+                height: 0;
+                position: relative;
+
+                input {
+                    opacity: 0;
+                    border: none;
+                    display: block;
+                    cursor: pointer;
+                    position: relative;
+
+                    top: 48px;
+                }
+            }
+
+            /*.override {
+                display: flex;
+            }
+
 
             .picker {
                 width: 30px;
@@ -307,20 +353,12 @@
                 //TOFIX - Looks wonky on Chromium
                 border: 1px solid black;
 
-                input {
-                    opacity: 0;
-                    width: 30px;
-                    height: 30px;
-                    border: none;
-                    display: block;
-                    cursor: pointer;
-                }
             }
 
             .text {
                 border-radius: 4px;
                 padding: 0 4px 0;
-            }
+            }*/
         }
     }
 }
