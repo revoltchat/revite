@@ -1,4 +1,4 @@
-import { At, Hash } from "@styled-icons/boxicons-regular";
+import { At, Hash, Menu } from "@styled-icons/boxicons-regular";
 import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { Channel, User } from "revolt.js";
 import styled from "styled-components";
@@ -89,6 +89,11 @@ export default function ChannelHeader({
 
     return (
         <Header placement="primary">
+            {isTouchscreenDevice &&
+                <div className="menu">
+                    <Menu size={27} />
+                </div>
+            }
             {icon}
             <Info>
                 <span className="name">{name}</span>
