@@ -182,7 +182,27 @@ export function Sessions() {
                     </div>
                 )
             })}
-            <Button error>
+            <Button error
+                onClick={async () => {
+                    // ! FIXME: add to rAuth
+                    let del: string[] = [];
+                    render.forEach((session) => {
+                        if (deviceId !== session.id) {
+                            del.push(session.id);
+                        }
+                    })
+
+                    setDelete(del);
+
+                    for (let id of del) {
+                        await client.req(
+                            "DELETE",
+                            `/auth/sessions/${id}` as "/auth/sessions",
+                        );
+                    }
+
+                    setSessions(sessions.filter(x => x.id === deviceId));
+                }}>
                 <Text id="app.settings.pages.sessions.logout" />
             </Button>
             <Tip>
