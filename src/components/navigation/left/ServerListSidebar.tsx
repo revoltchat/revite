@@ -29,6 +29,7 @@ import LineDivider from "../../ui/LineDivider";
 import { mapChannelWithUnread } from "./common";
 
 import { Children } from "../../../types/Preact";
+import UserHover from "../../common/user/UserHover";
 
 function Icon({
     children,
@@ -241,9 +242,11 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                             onClick={() =>
                                 homeActive && openContextMenu("Status")
                             }>
-                            <Icon size={42} unread={homeUnread}>
-                                <UserIcon target={self} size={32} status />
-                            </Icon>
+                            <UserHover user={self}>
+                                <Icon size={42} unread={homeUnread}>
+                                    <UserIcon target={self} size={32} status />
+                                </Icon>
+                            </UserHover>
                         </div>
                         <span />
                     </ServerEntry>

@@ -5,12 +5,12 @@ import { Text } from "preact-i18n";
 import Tooltip from "../Tooltip";
 
 interface Props {
-    user: User;
+    user?: User;
     tooltip?: boolean;
 }
 
 export default function UserStatus({ user, tooltip }: Props) {
-    if (user.online) {
+    if (user?.online) {
         if (user.status?.text) {
             if (tooltip) {
                 return (

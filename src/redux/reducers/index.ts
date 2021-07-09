@@ -46,15 +46,3 @@ export type Action =
     | NotificationsAction
     | SectionToggleAction
     | { type: "__INIT"; state: State };
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function filter(obj: any, keys: string[]) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const newObj: any = {};
-    for (const key of keys) {
-        const v = obj[key];
-        if (v) newObj[key] = v;
-    }
-
-    return newObj;
-}

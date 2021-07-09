@@ -2,7 +2,6 @@ import type { Theme, ThemeOptions } from "../../context/Theme";
 
 import { setEmojiPack } from "../../components/common/Emoji";
 
-import { filter } from ".";
 import type { Sounds } from "../../assets/sounds/Audio";
 import type { SyncUpdateAction } from "./sync";
 
@@ -67,7 +66,7 @@ export function settings(
             return {
                 ...state,
                 theme: {
-                    ...filter(state.theme, ["custom", "preset", "ligatures"]),
+                    ...state.theme,
                     ...action.theme,
                 },
             };
@@ -94,7 +93,7 @@ export function settings(
             return {
                 ...state,
                 appearance: {
-                    ...filter(state.appearance, ["emojiPack"]),
+                    ...state.appearance,
                     ...action.options,
                 },
             };
