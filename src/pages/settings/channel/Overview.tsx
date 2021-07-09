@@ -1,6 +1,5 @@
 import { Channels } from "revolt.js/dist/api/objects";
 
-import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
