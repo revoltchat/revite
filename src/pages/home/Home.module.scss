@@ -11,15 +11,13 @@
         }
     }
 
-    ul {
+    .actions {
+        gap: 8px;
         margin: auto;
-        display: block;
-        font-size: 18px;
-        text-align: center;
-
-        li {
-            list-style: lower-greek;
-        }
+        display: flex;
+        width: fit-content;
+        align-items: center;
+        flex-direction: column;
     }
 }
 

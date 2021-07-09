@@ -1,4 +1,5 @@
 import { Home as HomeIcon } from "@styled-icons/boxicons-solid";
+import Button from "../../components/ui/Button";
 import { Link } from "react-router-dom";
 
 import styles from "./Home.module.scss";
@@ -18,24 +19,23 @@ export default function Home() {
                 <Text id="app.special.modals.onboarding.welcome" />{" "}
                 <img src={wideSVG} />
             </h3>
-            <ul>
-                <li>
-                    Go to your <Link to="/friends">friends list</Link>.
-                </li>
-                <li>
-                    Give <Link to="/settings/feedback">feedback</Link>.
-                </li>
-                <li>
-                    Join <Link to="/invite/Testers">testers server</Link>.
-                </li>
-                <li>
-                    View{" "}
-                    <a href="https://gitlab.insrt.uk/revolt" target="_blank">
-                        source code
-                    </a>
-                    .
-                </li>
-            </ul>
+            <div className={styles.actions}>
+                <Link to="/invite/Testers">
+                    <Button contrast error>
+                        Join testers server
+                    </Button>
+                </Link>
+                <Link to="/settings/feedback">
+                    <Button contrast>
+                        Give feedback
+                    </Button>
+                </Link>
+                <a href="https://gitlab.insrt.uk/revolt" target="_blank">
+                    <Button contrast>
+                        Source code
+                    </Button>
+                </a>
+            </div>
         </div>
     );
 }
