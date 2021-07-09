@@ -45,10 +45,13 @@ export const ReplyBase = styled.div<{
     .content {
         gap: 4px;
         display: flex;
+        cursor: pointer;
         align-items: center;
         flex-direction: row;
 
-        cursor: pointer;
+        > * {
+            pointer-events: none;
+        }
     }
 
     > svg:first-child {
