@@ -55,7 +55,7 @@ export default function Overview({ channel }: Props) {
     }
 
     return (
-        <div className={styles.overview}>
+        <div className="overview">
             <Row>
                 <FileUploader
                     width={80}
@@ -81,7 +81,7 @@ export default function Overview({ channel }: Props) {
                             : undefined
                     }
                 />
-                <div className={styles.name}>
+                <div className="name">
                     <h3>
                         {channel.channel_type === "Group" ? (
                             <Text id="app.main.groups.name" />
