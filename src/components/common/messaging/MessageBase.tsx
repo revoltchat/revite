@@ -161,6 +161,10 @@ export const MessageInfo = styled.div`
             color: var(--tertiary-foreground);
         }
     }
+
+    .header {
+        cursor: pointer;
+    }
 `;
 
 export const MessageContent = styled.div`
@@ -178,6 +182,14 @@ export const DetailBase = styled.div`
     font-size: 10px;
     display: inline-flex;
     color: var(--tertiary-foreground);
+
+    .edited {
+        cursor: default;
+        &::selection {
+            background-color: transparent;
+            color: var(--tertiary-foreground);
+        }
+    }
 `;
 
 export function MessageDetail({
@@ -227,7 +239,7 @@ export function MessageDetail({
             <time>{dayjs(decodeTime(message._id)).calendar()}</time>
             {message.edited && (
                 <Tooltip content={dayjs(message.edited).format("LLLL")}>
-                    <Text id="app.main.channel.edited" />
+                    <span className="edited"><Text id="app.main.channel.edited" /></span>
                 </Tooltip>
             )}
         </DetailBase>
