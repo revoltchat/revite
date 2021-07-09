@@ -1,5 +1,5 @@
-export type Experiments = never;
-export const AVAILABLE_EXPERIMENTS: Experiments[] = [];
+export type Experiments = 'search';
+export const AVAILABLE_EXPERIMENTS: Experiments[] = [ 'search' ];
 
 export interface ExperimentOptions {
     enabled?: Experiments[];

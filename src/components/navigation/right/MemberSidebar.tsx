@@ -1,8 +1,9 @@
 import { useParams } from "react-router";
 import { User } from "revolt.js";
-import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
+import { Channels, Message, Servers, Users } from "revolt.js/dist/api/objects";
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 
+import { Link } from "react-router-dom";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
@@ -27,6 +28,8 @@ import placeholderSVG from "../items/placeholder.svg";
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 import { UserButton } from "../items/ButtonItem";
 import { ChannelDebugInfo } from "./ChannelDebugInfo";
+import InputBox from "../../ui/InputBox";
+import { getState } from "../../../redux";
 
 interface Props {
     ctx: HookContext;
@@ -97,6 +100,8 @@ export function GroupMemberSidebar({
         <GenericSidebarBase>
             <GenericSidebarList>
                 <ChannelDebugInfo id={channel._id} />
+                <Search channel={channel._id} />
+
                 {/*voiceActive && voiceParticipants.length !== 0 && (
                     <Fragment>
                         <Category
@@ -237,6 +242,7 @@ export function ServerMemberSidebar({
         <GenericSidebarBase>
             <GenericSidebarList>
                 <ChannelDebugInfo id={channel._id} />
+                <Search channel={channel._id} />
                 <div>{!members && <Preloader type="ring" />}</div>
                 {members && (
                     <CollapsibleSection
@@ -272,4 +278,47 @@ export function ServerMemberSidebar({
             </GenericSidebarList>
         </GenericSidebarBase>
     );
+}
+
+function Search({ channel }: { channel: string }) {
+    if (!getState().experiments.enabled?.includes('search')) return null;
+
+    const client = useContext(AppContext);
+    const [query,setV] = useState('');
+    const [results,setResults] = useState<Message[]>([]);
+
+    async function search() {
+        let data = await client.channels.searchWithUsers(channel, { query, sort: 'Relevance' }, true);
+        setResults(data.messages);
+    }
+
+    return (
+        <CollapsibleSection
+            sticky
+            id="search"
+            defaultValue={false}
+            summary={"Search (BETA)"}>
+            <InputBox style={{ width: '100%' }}
+                onKeyDown={e => e.key === 'Enter' && search()}
+                value={query} onChange={e => setV(e.currentTarget.value)} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '8px' }}>
+            {
+                results.map(message => {
+                    let href = '';
+                    let channel = client.channels.get(message.channel);
+                    if (channel?.channel_type === 'TextChannel') {
+                        href += `/server/${channel.server}`;
+                    }
+
+                    href += `/channel/${message.channel}/${message._id}`;
+
+                    return <Link to={href}><div style={{ margin: '2px', padding: '6px', background: 'var(--primary-background)' }}>
+                        <b>@{ client.users.get(message.author)?.username }</b><br/>
+                        { message.content }
+                    </div></Link>
+                })
+            }
+            </div>
+        </CollapsibleSection>
+    )
 }
