@@ -73,6 +73,16 @@ export class SingletonRenderer extends EventEmitter3 {
     }
 
     async init(id: string, message_id?: string) {
+        if (message_id) {
+            if (this.state.type === 'RENDER') {
+                let message = this.state.messages.find(x => x._id === message_id);
+                if (message) {
+                    this.emit("scroll", { type: "ScrollToView", id: message_id });
+                    return;
+                }
+            }
+        }
+
         this.channel = id;
         this.stale = false;
         this.setStateUnguarded({ type: "LOADING" });

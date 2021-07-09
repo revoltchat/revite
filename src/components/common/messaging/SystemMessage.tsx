@@ -35,9 +35,11 @@ type SystemMessageParsed =
 interface Props {
     attachContext?: boolean;
     message: MessageObject;
+    highlight?: boolean;
+    hideInfo?: boolean;
 }
 
-export function SystemMessage({ attachContext, message }: Props) {
+export function SystemMessage({ attachContext, message, highlight, hideInfo }: Props) {
     const ctx = useForceUpdate();
 
     let data: SystemMessageParsed;
@@ -143,6 +145,7 @@ export function SystemMessage({ attachContext, message }: Props) {
 
     return (
         <MessageBase
+            highlight={highlight}
             onContextMenu={
                 attachContext
                     ? attachContextMenu("Menu", {
@@ -151,9 +154,9 @@ export function SystemMessage({ attachContext, message }: Props) {
                       })
                     : undefined
             }>
-            <MessageInfo>
+            { !hideInfo && <MessageInfo>
                 <MessageDetail message={message} position="left" />
-            </MessageInfo>
+            </MessageInfo> }
             <SystemContent>{children}</SystemContent>
         </MessageBase>
     );
