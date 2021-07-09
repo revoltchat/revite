@@ -8,7 +8,7 @@ import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-
+import styled, { css } from "styled-components";
 import Button from "../../../components/ui/Button";
 import InputBox from "../../../components/ui/InputBox";
 
@@ -18,6 +18,19 @@ interface Props {
         | Channels.TextChannel
         | Channels.VoiceChannel;
 }
+
+const Row = styled.div`
+    gap: 20px;
+    display: flex;
+
+    .name {
+        flex-grow: 1;
+
+        input {
+            width: 100%;
+        }
+    }
+`;
 
 export default function Overview({ channel }: Props) {
     const client = useContext(AppContext);
@@ -44,7 +57,7 @@ export default function Overview({ channel }: Props) {
 
     return (
         <div className={styles.overview}>
-            <div className={styles.row}>
+            <Row>
                 <FileUploader
                     width={80}
                     height={80}
@@ -87,7 +100,7 @@ export default function Overview({ channel }: Props) {
                         }}
                     />
                 </div>
-            </div>
+            </Row>
 
             <h3>
                 {channel.channel_type === "Group" ? (
