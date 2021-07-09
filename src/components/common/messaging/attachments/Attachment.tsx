@@ -24,6 +24,7 @@ export default function Attachment({ attachment, hasContent }: Props) {
     const { openScreen } = useIntermediate();
     const { filename, metadata } = attachment;
     const [spoiler, setSpoiler] = useState(filename.startsWith("SPOILER_"));
+    const [loaded, setLoaded] = useState(false);
 
     const url = client.generateFileURL(
         attachment,
@@ -55,6 +56,7 @@ export default function Attachment({ attachment, hasContent }: Props) {
                         className={classNames(
                             styles.attachment,
                             styles.image,
+                            loaded && styles.loaded,
                             metadata.width > metadata.height
                                 ? styles.long
                                 : styles.tall,
@@ -68,6 +70,7 @@ export default function Attachment({ attachment, hasContent }: Props) {
                         onClick={() =>
                             openScreen({ id: "image_viewer", attachment })
                         }
+                        onLoad={() => setLoaded(true)}
                         onMouseDown={(ev) =>
                             ev.button === 1 && window.open(url, "_blank")
                         }
