@@ -36,9 +36,10 @@ interface Props {
     attachContext?: boolean;
     message: MessageObject;
     highlight?: boolean;
+    hideInfo?: boolean;
 }
 
-export function SystemMessage({ attachContext, message, highlight }: Props) {
+export function SystemMessage({ attachContext, message, highlight, hideInfo }: Props) {
     const ctx = useForceUpdate();
 
     let data: SystemMessageParsed;
@@ -153,9 +154,9 @@ export function SystemMessage({ attachContext, message, highlight }: Props) {
                       })
                     : undefined
             }>
-            <MessageInfo>
+            { !hideInfo && <MessageInfo>
                 <MessageDetail message={message} position="left" />
-            </MessageInfo>
+            </MessageInfo> }
             <SystemContent>{children}</SystemContent>
         </MessageBase>
     );
