@@ -29,10 +29,11 @@ export const ReplyBase = styled.div<{
 }>`
     gap: 4px;
     display: flex;
-    margin: 0 30px;
+    margin-inline-start: 30px;
+    margin-inline-end: 12px;
+    margin-bottom: 4px;
     font-size: 0.8em;
     user-select: none;
-    margin-bottom: 4px;
     align-items: center;
     color: var(--secondary-foreground);
 
@@ -40,6 +41,21 @@ export const ReplyBase = styled.div<{
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+    }
+
+    .user {
+        display: flex;
+        gap: 4px;
+        flex-shrink: 0;
+        font-weight: 600;
+        align-items: center;
+
+        /*&::before {
+            position:relative;
+            width: 50px;
+            height: 2px;
+            background: red;
+        }*/
     }
 
     .content {
@@ -120,7 +136,7 @@ export function MessageReply({ index, channel, id }: Props) {
                     {message.author === SYSTEM_USER_ID ? (
                         <SystemMessage message={message} hideInfo />
                     ) : <>
-                        <UserShort user={user} size={16} />
+                        <div className="user"><UserShort user={user} size={16} /></div>
                         <div className="content" onClick={() => {
                             let obj = ctx.client.channels.get(channel);
                             if (obj?.channel_type === 'TextChannel') {
