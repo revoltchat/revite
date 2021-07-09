@@ -58,6 +58,10 @@ const Info = styled.div`
         font-size: 0.8em;
         font-weight: 400;
         color: var(--secondary-foreground);
+        
+        > * {
+            pointer-events: none;
+        }
     }
 `;
 
