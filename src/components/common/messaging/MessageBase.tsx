@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { decodeTime } from "ulid";
 
 import { Text } from "preact-i18n";
@@ -17,7 +17,14 @@ export interface BaseMessageProps {
     blocked?: boolean;
     sending?: boolean;
     contrast?: boolean;
+    highlight?: boolean;
 }
+
+const highlight = keyframes`
+    0% { background: var(--mention); }
+    66% { background: var(--mention); }
+    100% { background: transparent; }
+`;
 
 export default styled.div<BaseMessageProps>`
     display: flex;
@@ -68,6 +75,14 @@ export default styled.div<BaseMessageProps>`
         props.failed &&
         css`
             color: var(--error);
+        `}
+
+    ${(props) =>
+        props.highlight &&
+        css`
+            animation-name: ${highlight};
+            animation-timing-function: ease;
+            animation-duration: 3s;
         `}
 
     .detail {
