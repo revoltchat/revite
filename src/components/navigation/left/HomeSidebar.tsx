@@ -27,7 +27,6 @@ import {
     useUsers,
 } from "../../../context/revoltjs/hooks";
 
-import UserHeader from "../../common/user/UserHeader";
 import Category from "../../ui/Category";
 import placeholderSVG from "../items/placeholder.svg";
 import { mapChannelWithUnread, useUnreads } from "./common";
@@ -81,7 +80,6 @@ function HomeSidebar(props: Props) {
 
     return (
         <GenericSidebarBase padding>
-            <UserHeader user={client.user!} />
             <ConnectionStatus />
             <GenericSidebarList>
                 {!isTouchscreenDevice && (

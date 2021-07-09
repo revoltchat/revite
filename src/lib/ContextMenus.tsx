@@ -10,6 +10,7 @@ import {
     LeftArrowAlt,
     Trash,
 } from "@styled-icons/boxicons-regular";
+import Tooltip from "../components/common/Tooltip";
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
 import {
@@ -875,8 +876,14 @@ function ContextMenus(props: Props) {
                     <>
                         <div className="header">
                             <div className="main">
-                                <div>@{client.user!.username}</div>
-                                <div className="status">
+                                <div className="username"
+                                    onClick={() => writeClipboard(client.user!.username)}>
+                                    <Tooltip content={<Text id="app.special.copy_username" />}>
+                                        @{client.user!.username}
+                                    </Tooltip>
+                                </div>
+                                <div className="status"
+                                    onClick={() => contextClick({ action: 'set_status' })}>
                                     <UserStatus user={client.user!} />
                                 </div>
                             </div>
@@ -924,23 +931,21 @@ function ContextMenus(props: Props) {
                             <Text id={`app.status.invisible`} />
                         </MenuItem>
                         <LineDivider />
-                                <MenuItem
-                                    data={{ action: "set_status" }}
-                                    disabled={!isOnline}>
-                                    <UserVoice size={18} />
-                                    <Text
-                                        id={`app.context_menu.custom_status`}
-                                    />
-                                    {client.user!.status?.text && (
+                        <MenuItem
+                            data={{ action: "set_status" }}
+                            disabled={!isOnline}>
+                            <UserVoice size={18} />
+                            <Text
+                                id={`app.context_menu.custom_status`}
+                            />
+                            {client.user!.status?.text && (
                                 <IconButton>
                                     <MenuItem data={{ action: "clear_status" }}>
                                         <Trash size={18} />
                                     </MenuItem>
                                 </IconButton>
                             )}
-                                </MenuItem>
-                                
-                            
+                        </MenuItem>
                     </>
                 )}
             </ContextMenuWithData>
