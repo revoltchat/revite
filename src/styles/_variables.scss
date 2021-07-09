@@ -5,6 +5,9 @@
     --app-height: 100vh;
     --codeblock-font: "Fira Code";
     --sidebar-active: var(--secondary-background);
+
+    --background-rgb: (25,25,25); //THIS IS SO THAT WE CAN HAVE CUSTOM BACKGROUNDS FOR THE CLIENT, CONVERTS THE HEX TO AN RGB VALUE FROM --background
+    --background-rgba: rgba(var(--background-rgb), .8); //make the opacity also customizable
     
     --input-border-width: 2px;
 
