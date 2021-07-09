@@ -29,10 +29,11 @@ export const ReplyBase = styled.div<{
 }>`
     gap: 4px;
     display: flex;
-    margin: 0 30px;
+    margin-inline-start: 30px;
+    margin-inline-end: 12px;
+    margin-bottom: 4px;
     font-size: 0.8em;
     user-select: none;
-    margin-bottom: 4px;
     align-items: center;
     color: var(--secondary-foreground);
 
@@ -42,12 +43,45 @@ export const ReplyBase = styled.div<{
         text-overflow: ellipsis;
     }
 
+    .user {
+        display: flex;
+        gap: 4px;
+        flex-shrink: 0;
+        font-weight: 600;
+        align-items: center;
+
+        span {
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        /*&::before {
+            position:relative;
+            width: 50px;
+            height: 2px;
+            background: red;
+        }*/
+    }
+
     .content {
         gap: 4px;
         display: flex;
         cursor: pointer;
         align-items: center;
         flex-direction: row;
+        transition: filter 1s ease-in-out;
+        transition: transform ease-in-out .1s;
+        filter: brightness(1);
+
+        &:hover {
+            filter: brightness(2);
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
 
         > * {
             pointer-events: none;
@@ -120,7 +154,7 @@ export function MessageReply({ index, channel, id }: Props) {
                     {message.author === SYSTEM_USER_ID ? (
                         <SystemMessage message={message} hideInfo />
                     ) : <>
-                        <UserShort user={user} size={16} />
+                        <div className="user"><UserShort user={user} size={16} /></div>
                         <div className="content" onClick={() => {
                             let obj = ctx.client.channels.get(channel);
                             if (obj?.channel_type === 'TextChannel') {

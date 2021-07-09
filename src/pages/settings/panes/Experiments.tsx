@@ -31,9 +31,9 @@ export function Component(props: Props) {
                                 : "EXPERIMENTS_DISABLE",
                             key,
                         })
-                    }>
+                    }
+                    description={ EXPERIMENTS[key].description }>
                     { EXPERIMENTS[key].title }
-                    <p>{ EXPERIMENTS[key].description }</p>
                 </Checkbox>
             ))}
             {AVAILABLE_EXPERIMENTS.length === 0 && (
