@@ -1,4 +1,5 @@
-import { Reply, File } from "@styled-icons/boxicons-regular";
+import { Reply } from "@styled-icons/boxicons-regular";
+import { File } from "@styled-icons/boxicons-solid";
 import { SYSTEM_USER_ID } from "revolt.js";
 import styled, { css } from "styled-components";
 
@@ -85,6 +86,10 @@ export const ReplyBase = styled.div<{
 
         > * {
             pointer-events: none;
+        }
+
+        > span {
+            display: flex;
         }
     }
 
