@@ -1,5 +1,11 @@
 export type Experiments = 'search';
 export const AVAILABLE_EXPERIMENTS: Experiments[] = [ 'search' ];
+export const EXPERIMENTS: { [key in Experiments]: { title: string, description: string } } = {
+    'search': {
+        title: 'Search',
+        description: 'Allows you to search for messages in channels.'
+    }
+};
 
 export interface ExperimentOptions {
     enabled?: Experiments[];
