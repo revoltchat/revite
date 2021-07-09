@@ -50,6 +50,13 @@ export const ReplyBase = styled.div<{
         font-weight: 600;
         align-items: center;
 
+        span {
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
         /*&::before {
             position:relative;
             width: 50px;
@@ -64,6 +71,17 @@ export const ReplyBase = styled.div<{
         cursor: pointer;
         align-items: center;
         flex-direction: row;
+        transition: filter 1s ease-in-out;
+        transition: transform ease-in-out .1s;
+        filter: brightness(1);
+
+        &:hover {
+            filter: brightness(2);
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
 
         > * {
             pointer-events: none;
