@@ -111,6 +111,7 @@ export function Component(props: Props) {
                 <div className={styles.theme}>
                     <img
                         src={darkSVG}
+                        draggable={false}
                         data-active={selected === "dark"}
                         onClick={() =>
                             selected !== "dark" && setTheme({ preset: "dark" })
@@ -172,6 +173,7 @@ export function Component(props: Props) {
                     </option>
                 ))}
             </ComboBox>
+            {/* TOFIX: Only show when a font with ligature support is selected, i.e.: Inter.
             <p>
                 <Checkbox
                     checked={props.settings.theme?.ligatures === true}
@@ -185,7 +187,7 @@ export function Component(props: Props) {
                     }>
                     <Text id="app.settings.pages.appearance.ligatures" />
                 </Checkbox>
-            </p>
+                </p>*/}
 
             <h3>
                 <Text id="app.settings.pages.appearance.emoji_pack" />
@@ -281,6 +283,9 @@ export function Component(props: Props) {
                         </Button>
                     </Tooltip>
                 </div>
+                <h3>
+                    App
+                </h3>
                 <div className={styles.overrides}>
                     {(
                         [
