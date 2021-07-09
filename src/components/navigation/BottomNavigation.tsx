@@ -1,5 +1,5 @@
 import { Message, Group, Inbox } from "@styled-icons/boxicons-solid";
-import { At } from "@styled-icons/boxicons-regular";
+import { Search } from "@styled-icons/boxicons-regular";
 import { useHistory, useLocation } from "react-router";
 import styled, { css } from "styled-components";
 
@@ -13,11 +13,16 @@ import { useSelf } from "../../context/revoltjs/hooks";
 import UserIcon from "../common/user/UserIcon";
 import IconButton from "../ui/IconButton";
 
-const NavigationBase = styled.div`
+const Base = styled.div`
+    background: var(--secondary-background);
+`;
+
+const Navbar = styled.div`
     z-index: 100;
+    max-width: 500px;
+    margin: 0 auto;
     display: flex;
     height: var(--bottom-navigation-height);
-    background: var(--secondary-background);
 `;
 
 const Button = styled.a<{ active: boolean }>`
@@ -28,6 +33,11 @@ const Button = styled.a<{ active: boolean }>`
     > a > div {
         width: 100%;
         height: 100%;
+    }
+
+    > div,
+    > a > div {
+        padding: 0 20px;
     }
 
     ${(props) =>
@@ -53,47 +63,57 @@ export function BottomNavigation({ lastOpened }: Props) {
     const homeActive = !(friendsActive || settingsActive);
 
     return (
-        <NavigationBase>
-            <Button active={homeActive}>
-                <IconButton
-                    onClick={() => {
-                        if (settingsActive) {
-                            if (history.length > 0) {
-                                history.goBack();
+        <Base>
+            <Navbar>
+                <Button active={homeActive}>
+                    <IconButton
+                        onClick={() => {
+                            if (settingsActive) {
+                                if (history.length > 0) {
+                                    history.goBack();
+                                }
                             }
-                        }
 
-                        if (channel_id) {
-                            history.push(`/channel/${channel_id}`);
-                        } else {
-                            history.push("/");
-                        }
-                    }}>
-                    <Message size={24} />
-                </IconButton>
-            </Button>
-            <Button active={friendsActive}>
-                <ConditionalLink active={friendsActive} to="/friends">
-                    <IconButton>
-                        <Group size={25} />
+                            if (channel_id) {
+                                history.push(`/channel/${channel_id}`);
+                            } else {
+                                history.push("/");
+                            }
+                        }}>
+                        <Message size={24} />
                     </IconButton>
-                </ConditionalLink>
-            </Button>
-            {/*<Button active={friendsActive}>
-                <ConditionalLink active={friendsActive} to="/friends">
-                    <IconButton>
-                        <Inbox size={25} />
-                    </IconButton>
-                </ConditionalLink>
-            </Button>*/}
-            <Button active={settingsActive}>
-                <ConditionalLink active={settingsActive} to="/settings">
-                    <IconButton>
-                        <UserIcon target={user} size={26} status={true} />
-                    </IconButton>
-                </ConditionalLink>
-            </Button>
-        </NavigationBase>
+                </Button>
+                <Button active={friendsActive}>
+                    <ConditionalLink active={friendsActive} to="/friends">
+                        <IconButton>
+                            <Group size={25} />
+                        </IconButton>
+                    </ConditionalLink>
+                </Button>
+                {/*<Button active={searchActive}>
+                    <ConditionalLink active={searchActive} to="/search">
+                        <IconButton>
+                            <Search size={25} />
+                        </IconButton>
+                    </ConditionalLink>
+                </Button>
+                <Button active={inboxActive}>
+                    <ConditionalLink active={inboxActive} to="/inbox">
+                        <IconButton>
+                            <Inbox size={25} />
+                        </IconButton>
+                    </ConditionalLink>
+                </Button>*/}
+                <Button active={settingsActive}>
+                    <ConditionalLink active={settingsActive} to="/settings">
+                        <IconButton>
+                            <UserIcon target={user} size={26} status={true} />
+                        </IconButton>
+                    </ConditionalLink>
+                </Button>
+            </Navbar>
+        </Base>
+        
     );
 }
 

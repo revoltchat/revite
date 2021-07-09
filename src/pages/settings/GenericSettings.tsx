@@ -74,7 +74,7 @@ export function GenericSettings({
                     name="theme-color"
                     content={
                         isTouchscreenDevice
-                            ? theme["primary-header"]
+                            ? theme["background"]
                             : theme["background"]
                     }
                 />
