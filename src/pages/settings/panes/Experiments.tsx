@@ -6,6 +6,7 @@ import { connectState } from "../../../redux/connector";
 import {
     AVAILABLE_EXPERIMENTS,
     ExperimentOptions,
+    EXPERIMENTS,
 } from "../../../redux/reducers/experiments";
 
 import Checkbox from "../../../components/ui/Checkbox";
@@ -31,12 +32,8 @@ export function Component(props: Props) {
                             key,
                         })
                     }>
-                    <Text id={`app.settings.pages.experiments.titles.${key}`} />
-                    <p>
-                        <Text
-                            id={`app.settings.pages.experiments.descriptions.${key}`}
-                        />
-                    </p>
+                    { EXPERIMENTS[key].title }
+                    <p>{ EXPERIMENTS[key].description }</p>
                 </Checkbox>
             ))}
             {AVAILABLE_EXPERIMENTS.length === 0 && (
