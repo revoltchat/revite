@@ -28,6 +28,7 @@ import MessageEditor from "./MessageEditor";
 interface Props {
     id: string;
     state: RenderState;
+    highlight?: string;
     queue: QueuedMessage[];
 }
 
@@ -42,7 +43,7 @@ const BlockedMessage = styled.div`
     }
 `;
 
-function MessageRenderer({ id, state, queue }: Props) {
+function MessageRenderer({ id, state, queue, highlight }: Props) {
     if (state.type !== "RENDER") return null;
 
     const client = useContext(AppContext);
@@ -132,6 +133,7 @@ function MessageRenderer({ id, state, queue }: Props) {
                     key={message._id}
                     message={message}
                     attachContext
+                    highlight={highlight === message._id}
                 />,
             );
         } else {
@@ -158,6 +160,7 @@ function MessageRenderer({ id, state, queue }: Props) {
                             ) : undefined
                         }
                         attachContext
+                        highlight={highlight === message._id}
                     />,
                 );
             }

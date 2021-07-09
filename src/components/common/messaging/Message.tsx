@@ -28,12 +28,14 @@ interface Props {
     attachContext?: boolean;
     queued?: QueuedMessage;
     message: MessageObject;
+    highlight?: boolean;
     contrast?: boolean;
     content?: Children;
     head?: boolean;
 }
 
 function Message({
+    highlight,
     attachContext,
     message,
     contrast,
@@ -72,6 +74,7 @@ function Message({
                 />
             ))}
             <MessageBase
+                highlight={highlight}
                 head={head && !(message.replies && message.replies.length > 0)}
                 contrast={contrast}
                 sending={typeof queued !== "undefined"}

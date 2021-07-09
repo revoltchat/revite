@@ -60,7 +60,9 @@ export function MessageArea({ id }: Props) {
     const status = useContext(StatusContext);
     const { focusTaken } = useContext(IntermediateContext);
 
+    // ? Required data for message links.
     const { message } = useParams<{ message: string }>();
+    const [highlight, setHighlight] = useState<string | undefined>(undefined);
 
     // ? This is the scroll container.
     const ref = useRef<HTMLDivElement>(null);
@@ -99,7 +101,7 @@ export function MessageArea({ id }: Props) {
                 });
             } else if (scrollState.current.type === "ScrollToView") {
                 document.getElementById(scrollState.current.id)
-                    ?.scrollIntoView();
+                    ?.scrollIntoView({ block: 'center' });
                 
                 setScrollState({ type: "Free" });
             } else if (scrollState.current.type === "OffsetTop") {
@@ -170,6 +172,7 @@ export function MessageArea({ id }: Props) {
     // ? If message present or changes, load it as well.
     useEffect(() => {
         if (message) {
+            setHighlight(message);
             SingletonMessageRenderer.init(id, message);
 
             let channel = client.channels.get(id);
@@ -284,7 +287,7 @@ export function MessageArea({ id }: Props) {
                         </RequiresOnline>
                     )}
                     {state.type === "RENDER" && (
-                        <MessageRenderer id={id} state={state} />
+                        <MessageRenderer id={id} state={state} highlight={highlight} />
                     )}
                     {state.type === "EMPTY" && <ConversationStart id={id} />}
                 </div>
