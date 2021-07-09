@@ -1,5 +1,5 @@
 import { X, Plus } from "@styled-icons/boxicons-regular";
-import { PhoneCall, Envelope } from "@styled-icons/boxicons-solid";
+import { PhoneCall, Envelope, UserX } from "@styled-icons/boxicons-solid";
 import { User, Users } from "revolt.js/dist/api/objects";
 
 import styles from "./Friend.module.scss";
@@ -44,7 +44,6 @@ export function Friend({ user }: Props) {
                     type="circle"
                     className={classNames(
                         styles.button,
-                        styles.call,
                         styles.success,
                     )}
                     onClick={(ev) =>
@@ -89,7 +88,7 @@ export function Friend({ user }: Props) {
         actions.push(
             <IconButton
                 type="circle"
-                className={classNames(styles.button, styles.error)}
+                className={classNames(styles.button, styles.remove, styles.error)}
                 onClick={(ev) =>
                     stopPropagation(
                         ev,
@@ -115,7 +114,7 @@ export function Friend({ user }: Props) {
                 onClick={(ev) =>
                     stopPropagation(ev, client.users.unblockUser(user._id))
                 }>
-                <X size={24} />
+                <UserX size={24} />
             </IconButton>,
         );
     }
