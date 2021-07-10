@@ -233,30 +233,21 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                     to={lastOpened.home ? `/channel/${lastOpened.home}` : "/"}>
                     <ServerEntry home active={homeActive}>
                         <Swoosh />
-                        {isTouchscreenDevice ? (
-                            <Icon size={42} unread={homeUnread}>
-                                <img
-                                    style={{ width: 32, height: 32 }}
-                                    src={logoSVG}
-                                />
-                            </Icon>
-                        ) : (
-                            <div
-                                onContextMenu={attachContextMenu("Status")}
-                                onClick={() =>
-                                    homeActive && openContextMenu("Status")
-                                }>
-                                <UserHover user={self}>
-                                    <Icon size={42} unread={homeUnread}>
-                                        <UserIcon
-                                            target={self}
-                                            size={32}
-                                            status
-                                        />
-                                    </Icon>
-                                </UserHover>
-                            </div>
-                        )}
+                        <div
+                            onContextMenu={attachContextMenu("Status")}
+                            onClick={() =>
+                                homeActive && openContextMenu("Status")
+                            }>
+                            <UserHover user={self}>
+                                <Icon size={42} unread={homeUnread}>
+                                    <UserIcon
+                                        target={self}
+                                        size={32}
+                                        status
+                                    />
+                                </Icon>
+                            </UserHover>
+                        </div>
                     </ServerEntry>
                 </ConditionalLink>
                 <LineDivider />

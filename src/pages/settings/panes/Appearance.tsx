@@ -1,6 +1,6 @@
-// @ts-ignore
 import { Reset, Import } from "@styled-icons/boxicons-regular";
 import { Pencil } from "@styled-icons/boxicons-solid";
+// @ts-ignore
 import pSBC from "shade-blend-color";
 
 import styles from "./Panes.module.scss";
@@ -103,6 +103,7 @@ export function Component(props: Props) {
                             selected !== "light" &&
                             setTheme({ preset: "light" })
                         }
+                        onContextMenu={e => e.preventDefault()}
                     />
                     <h4>
                         <Text id="app.settings.pages.appearance.color.light" />
@@ -116,6 +117,7 @@ export function Component(props: Props) {
                         onClick={() =>
                             selected !== "dark" && setTheme({ preset: "dark" })
                         }
+                        onContextMenu={e => e.preventDefault()}
                     />
                     <h4>
                         <Text id="app.settings.pages.appearance.color.dark" />
@@ -199,7 +201,7 @@ export function Component(props: Props) {
                             className={styles.button}
                             onClick={() => setEmojiPack("mutant")}
                             data-active={emojiPack === "mutant"}>
-                            <img src={mutantSVG} draggable={false} />
+                            <img src={mutantSVG} draggable={false} onContextMenu={e => e.preventDefault()} />
                         </div>
                         <h4>
                             Mutant Remix{" "}
@@ -216,7 +218,7 @@ export function Component(props: Props) {
                             className={styles.button}
                             onClick={() => setEmojiPack("twemoji")}
                             data-active={emojiPack === "twemoji"}>
-                            <img src={twemojiSVG} draggable={false} />
+                            <img src={twemojiSVG} draggable={false} onContextMenu={e => e.preventDefault()} />
                         </div>
                         <h4>Twemoji</h4>
                     </div>
@@ -227,7 +229,7 @@ export function Component(props: Props) {
                             className={styles.button}
                             onClick={() => setEmojiPack("openmoji")}
                             data-active={emojiPack === "openmoji"}>
-                            <img src={openmojiSVG} draggable={false} />
+                            <img src={openmojiSVG} draggable={false} onContextMenu={e => e.preventDefault()} />
                         </div>
                         <h4>Openmoji</h4>
                     </div>
@@ -236,7 +238,7 @@ export function Component(props: Props) {
                             className={styles.button}
                             onClick={() => setEmojiPack("noto")}
                             data-active={emojiPack === "noto"}>
-                            <img src={notoSVG} draggable={false} />
+                            <img src={notoSVG} draggable={false} onContextMenu={e => e.preventDefault()} />
                         </div>
                         <h4>Noto Emoji</h4>
                     </div>
