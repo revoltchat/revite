@@ -132,7 +132,8 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
             ` }
 
         svg {
-            width: 56.5px;
+            width: 57px;
+            height: 117px;
             margin-top: 4px;
             display: relative;
 
@@ -151,10 +152,10 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
 function Swoosh() {
     return (
         <span>
-            <svg width="56" height="118" viewBox="0 0 56 118" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M55.9957 0C55.6241 18.5052 31.292 28.1152 19.2904 32.1029L56 68.8124L55.9957 0Z" fill="var(--sidebar-active)"/>
-                <path d="M55.9963 117.633C55.8689 98.6899 31.3298 87.9423 19.2144 84.8847L55.9968 47.5654L55.9963 117.633Z" fill="var(--sidebar-active)"/>
-                <path d="M55.5682 58.4474C55.5682 73.7921 43.1288 86.2315 27.7841 86.2315C12.4394 86.2315 0 73.7921 0 58.4474C0 43.1026 12.4394 30.6633 27.7841 30.6633C43.1288 30.6633 55.5682 43.1026 55.5682 58.4474Z" fill="var(--sidebar-active)"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="57" height="117" fill="var(--sidebar-active)">
+                <path d="M27.746 86.465c14 0 28 11.407 28 28s.256-56 .256-56-42.256 28-28.256 28z"/>
+                <path d="M56 58.465c0 15.464-12.536 28-28 28s-28-12.536-28-28 12.536-28 28-28 28 12.536 28 28z"/>
+                <path d="M28.002 30.465c14 0 28-11.407 28-28s0 56 0 56-42-28-28-28z"/>
             </svg>
         </span>
     )

@@ -1,0 +1,49 @@
+.actions.imageAction {
+    grid-template: 
+        "name icon external download" auto
+        "size icon external download" auto
+        / minmax(20px, 1fr) min-content min-content;
+}
+
+.actions {
+    display: grid;
+    grid-template: 
+        "icon name external download" auto
+        "icon size external download" auto
+        / min-content minmax(20px, 1fr) min-content;
+
+    align-items: center;
+    column-gap: 12px;
+    
+    width: 100%;
+    padding: 8px;
+    overflow: none;
+
+    color: var(--foreground);
+    background: var(--secondary-background);
+
+    span {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    
+    .filesize {
+        grid-area: size;
+
+        font-size: 10px;
+        color: var(--secondary-foreground);
+    }
+
+    .downloadIcon {
+        grid-area: download;
+    }
+
+    .externalType {
+        grid-area: external;
+    }
+
+    .iconType {
+        grid-area: icon;
+    }
+}

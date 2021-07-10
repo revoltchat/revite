@@ -57,6 +57,7 @@ export default function ChannelIcon(
             {...imgProps}
             width={size}
             height={size}
+            loading="lazy"
             aria-hidden="true"
             square={isServerChannel}
             src={iconURL ?? fallback}

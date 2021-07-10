@@ -87,7 +87,7 @@ export default function UserIcon(
                 width="32"
                 height="32"
                 mask={mask ?? (status ? "url(#user)" : undefined)}>
-                {<img src={iconURL} draggable={false} />}
+                {<img src={iconURL} draggable={false} loading="lazy" />}
             </foreignObject>
             {props.status && (
                 <circle cx="27" cy="27" r="5" fill={useStatusColour(target)} />

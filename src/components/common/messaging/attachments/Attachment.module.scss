@@ -3,65 +3,13 @@
     grid-auto-columns: min(100%, 480px);
     grid-auto-flow: row dense;
     
+    margin: .125rem 0 .125rem;
     width: max-content;
     max-width: 100%;
-
-    border-radius: 6px;
-    margin: .125rem 0 .125rem;
     
     &[data-spoiler="true"] {
         filter: blur(30px);
         pointer-events: none;
-    }
-
-    &[data-has-content="true"] {
-        margin-top: 4px;
-    }
-
-    &.image, &.video > video {
-        cursor: pointer;   
-        
-        aspect-ratio: var(--width) / var(--height);
-        max-height: min(640px, var(--height-px));
-        max-width: min(480px, 100%, var(--width-px));
-        
-        object-fit: contain;
-        object-position: top left;
-    }
-
-    &.image {
-        &.long {
-            width: min(100%, var(--width-px));
-            height: auto;
-        }
-
-        &.tall {
-            height: min(100%, var(--height-px));
-            width: 100%;
-
-            &.loaded {
-                width: auto;
-            }
-        }
-    }
-
-    &.video {
-        .actions {
-            padding: 10px 12px;
-            border-radius: 6px 6px 0 0;
-        }
-
-        video {
-            border-radius: 0 0 6px 6px;
-
-            &.long {
-                height: auto;
-            }
-    
-            &.tall {
-                width: auto;
-            }
-        }
     }
 
     &.audio {
@@ -125,52 +73,20 @@
     }
 }
 
-.actions.imageAction {
-    grid-template: 
-        "name icon external download" auto
-        "size icon external download" auto
-        / minmax(20px, 1fr) min-content min-content;
+.margin {
+    margin-top: 4px;
 }
 
-.actions {
-    display: grid;
-    grid-template: 
-        "icon name external download" auto
-        "icon size external download" auto
-        / min-content minmax(20px, 1fr) min-content;
+.container {
+    max-width: 100%;
+    overflow: hidden;
+    width: fit-content;
 
-    align-items: center;
-    column-gap: 12px;
-    
-    width: 100%;
-    padding: 8px;
-    overflow: none;
-
-    color: var(--foreground);
-    background: var(--secondary-background);
-
-    span {
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+    > :first-child {
+        width: min(480px, 100%, var(--width));
     }
-    
-    .filesize {
-        grid-area: size;
+}
 
-        font-size: 10px;
-        color: var(--secondary-foreground);
-    }
-
-    .downloadIcon {
-        grid-area: download;
-    }
-
-    .externalType {
-        grid-area: external;
-    }
-
-    .iconType {
-        grid-area: icon;
-    }
+.container, .attachment, .image {
+    border-radius: 6px;
 }

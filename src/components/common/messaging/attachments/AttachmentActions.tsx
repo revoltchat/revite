@@ -7,7 +7,7 @@ import {
 } from "@styled-icons/boxicons-regular";
 import { Attachment } from "revolt.js/dist/api/objects";
 
-import styles from "./Attachment.module.scss";
+import styles from "./AttachmentActions.module.scss";
 import classNames from "classnames";
 import { useContext } from "preact/hooks";
 
