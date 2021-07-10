@@ -98,6 +98,7 @@ export function Component(props: Props) {
                 <div className={styles.theme}>
                     <img
                         src={lightSVG}
+                        draggable={false}
                         data-active={selected === "light"}
                         onClick={() =>
                             selected !== "light" &&
