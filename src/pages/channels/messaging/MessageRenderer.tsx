@@ -3,6 +3,7 @@ import { Users } from "revolt.js/dist/api/objects";
 import styled from "styled-components";
 import { decodeTime } from "ulid";
 
+import { Text } from "preact-i18n";
 import { memo } from "preact/compat";
 import { useContext, useEffect, useState } from "preact/hooks";
 
@@ -116,7 +117,11 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
     function pushBlocked() {
         render.push(
             <BlockedMessage>
-                <X size={16} /> {blocked} blocked messages
+                <X size={16} />{" "}
+                <Text
+                    id="app.main.channel.misc.blocked_messages"
+                    fields={{ count: blocked }}
+                />
             </BlockedMessage>,
         );
         blocked = 0;
