@@ -3,8 +3,8 @@ import { Children } from "../../../../types/Preact";
 
 const Grid = styled.div`
     display: grid;
-    max-width: min(480px, 100%, var(--width));
-    max-height: min(640px, var(--height));
+    max-width: min(var(--attachment-max-width), 100%, var(--width));
+    max-height: min(var(--attachment-max-height), var(--height));
     aspect-ratio: var(--aspect-ratio);
 
     img, video {

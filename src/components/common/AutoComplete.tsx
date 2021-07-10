@@ -353,13 +353,13 @@ const Base = styled.div<{ detached?: boolean }>`
         display: flex;
         font-size: 1em;
         cursor: pointer;
-        border-radius: 6px;
         align-items: center;
         flex-direction: row;
+        font-family: inherit;
         background: transparent;
         color: var(--foreground);
         width: calc(100% - 12px);
-        font-family: inherit;
+        border-radius: var(--border-radius);
 
         span {
             display: grid;
@@ -377,7 +377,7 @@ const Base = styled.div<{ detached?: boolean }>`
             bottom: 8px;
 
             > div {
-                border-radius: 4px;
+                border-radius: var(--border-radius);
             }
         `}
 `;

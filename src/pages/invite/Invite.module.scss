@@ -34,10 +34,10 @@
 
     .details {
         text-align: center;
-        border-radius: 3px;
         align-self: center;
         padding: 32px 16px 16px 16px;
         background: rgba(0, 0, 0, 0.6);
+        border-radius: var(--border-radius);
         
         h1 {
             margin: 0;

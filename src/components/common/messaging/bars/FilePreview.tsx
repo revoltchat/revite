@@ -68,7 +68,7 @@ const Divider = styled.div`
     width: 4px;
     height: 130px;
     flex-shrink: 0;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     background: var(--tertiary-background);
 `;
 
@@ -78,8 +78,8 @@ const EmptyEntry = styled.div`
     display: grid;
     flex-shrink: 0;
     cursor: pointer;
-    border-radius: 4px;
     place-items: center;
+    border-radius: var(--border-radius);
     background: var(--primary-background);
     transition: 0.1s ease background-color;
 
@@ -93,12 +93,10 @@ const PreviewBox = styled.div`
     grid-template: "main" 100px / minmax(100px, 1fr);
     justify-items: center;
 
-    background: var(--primary-background);
-
-    overflow: hidden;
-
     cursor: pointer;
-    border-radius: 4px;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    background: var(--primary-background);
 
     .icon,
     .overlay {

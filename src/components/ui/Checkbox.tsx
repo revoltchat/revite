@@ -4,12 +4,12 @@ import styled, { css } from "styled-components";
 import { Children } from "../../types/Preact";
 
 const CheckboxBase = styled.label`
-    margin-top: 20px;
     gap: 4px;
     z-index: 1;
     display: flex;
-    border-radius: 4px;
+    margin-top: 20px;
     align-items: center;
+    border-radius: var(--border-radius);
 
     cursor: pointer;
     font-size: 18px;
@@ -57,9 +57,9 @@ const Checkmark = styled.div<{ checked: boolean }>`
     height: 24px;
     display: grid;
     flex-shrink: 0;
-    border-radius: 4px;
     place-items: center;
     transition: 0.2s ease all;
+    border-radius: var(--border-radius);
     background: var(--secondary-background);
 
     svg {

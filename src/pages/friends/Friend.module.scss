@@ -18,7 +18,7 @@
     &[data-empty="true"] {
         img {
             height: 120px;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
         }
 
         gap: 16px;
@@ -35,12 +35,12 @@
 }
 
 .friend {
-    padding: 0 10px;
     height: 60px;
     display: flex;
-    border-radius: 5px;
-    align-items: center;
+    padding: 0 10px;
     cursor: pointer;
+    align-items: center;
+    border-radius: var(--border-radius);
 
     &:hover {
         background: var(--secondary-background);
@@ -110,9 +110,9 @@
     display: flex;
     cursor: pointer;
     margin-top: 1em;
-    border-radius: 7px;
     align-items: center;
     flex-direction: row;
+    border-radius: var(--border-radius);
     background: var(--secondary-background);
 
     svg {

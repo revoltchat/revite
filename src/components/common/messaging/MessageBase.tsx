@@ -37,8 +37,8 @@ export default styled.div<BaseMessageProps>`
         props.contrast &&
         css`
             padding: 0.3rem;
-            border-radius: 4px;
             background: var(--hover);
+            border-radius: var(--border-radius);
         `}
 
     ${(props) =>

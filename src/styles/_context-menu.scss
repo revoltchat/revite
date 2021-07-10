@@ -3,9 +3,9 @@
     min-width: 190px;
     padding: 6px 8px;
     user-select: none;
-    border-radius: 4px;
     font-size: .875rem;
     color: var(--secondary-foreground);
+    border-radius: var(--border-radius);
     background: var(--primary-background) !important;
     box-shadow: 0px 0px 8px 8px rgba(0, 0, 0, 0.05);
 

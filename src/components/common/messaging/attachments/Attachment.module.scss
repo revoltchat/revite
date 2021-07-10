@@ -1,7 +1,7 @@
 .attachment {
     display: grid;
-    grid-auto-columns: min(100%, 480px);
     grid-auto-flow: row dense;
+    grid-auto-columns: min(100%, var(--attachment-max-width));
     
     margin: .125rem 0 .125rem;
     width: max-content;
@@ -16,11 +16,10 @@
         gap: 4px;
         padding: 6px;
         display: flex;
-        border-radius: 6px;
-        flex-direction: column;
-        background: var(--secondary-background);
-        width: 400px;
         max-width: 100%;
+        flex-direction: column;
+        width: var(--attachment-default-width);
+        background: var(--secondary-background);
 
         > audio {
             width: 100%;
@@ -29,22 +28,20 @@
 
     &.file {
         > div {
-            width: 400px;
-            max-width: 100%;
             padding: 12px;
+            max-width: 100%;
             user-select: none;
             width: fit-content;
-            border-radius: 6px;
+            border-radius: var(--border-radius);
+            width: var(--attachment-default-width);
         }
     }
 
     &.text {
         width: 100%;
-        max-width: 800px;
         overflow: hidden;
         grid-auto-columns: unset;
-
-        border-radius: 6px;
+        max-width: var(--attachment-max-text-width);
 
         .textContent {
             height: 140px;
@@ -83,10 +80,10 @@
     width: fit-content;
 
     > :first-child {
-        width: min(480px, 100%, var(--width));
+        width: min(var(--attachment-max-width), 100%, var(--width));
     }
 }
 
 .container, .attachment, .image {
-    border-radius: 6px;
+    border-radius: var(--border-radius);
 }
