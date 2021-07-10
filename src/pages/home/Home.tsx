@@ -1,11 +1,11 @@
 import { Home as HomeIcon } from "@styled-icons/boxicons-solid";
-import Button from "../../components/ui/Button";
 import { Link } from "react-router-dom";
 
 import styles from "./Home.module.scss";
 import { Text } from "preact-i18n";
 
 import wideSVG from "../../assets/wide.svg";
+import Button from "../../components/ui/Button";
 import Header from "../../components/ui/Header";
 
 export default function Home() {
@@ -26,14 +26,13 @@ export default function Home() {
                     </Button>
                 </Link>
                 <Link to="/settings/feedback">
-                    <Button contrast>
-                        Give feedback
-                    </Button>
+                    <Button contrast>Give feedback</Button>
                 </Link>
-                <a href="https://gitlab.insrt.uk/revolt" target="_blank">
-                    <Button contrast>
-                        Source code
-                    </Button>
+                <a
+                    href="https://gitlab.insrt.uk/revolt"
+                    target="_blank"
+                    rel="noreferrer">
+                    <Button contrast>Source code</Button>
                 </a>
             </div>
         </div>

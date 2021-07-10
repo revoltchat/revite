@@ -1,21 +1,21 @@
 import { Reply } from "@styled-icons/boxicons-regular";
 import { File } from "@styled-icons/boxicons-solid";
+import { useHistory } from "react-router-dom";
 import { SYSTEM_USER_ID } from "revolt.js";
+import { Users } from "revolt.js/dist/api/objects";
 import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
+import { useEffect, useLayoutEffect, useState } from "preact/hooks";
 
 import { useRenderState } from "../../../../lib/renderer/Singleton";
 
 import { useForceUpdate, useUser } from "../../../../context/revoltjs/hooks";
+import { mapMessage, MessageObject } from "../../../../context/revoltjs/util";
 
 import Markdown from "../../../markdown/Markdown";
 import UserShort from "../../user/UserShort";
 import { SystemMessage } from "../SystemMessage";
-import { Users } from "revolt.js/dist/api/objects";
-import { useHistory } from "react-router-dom";
-import { useEffect, useLayoutEffect, useState } from "preact/hooks";
-import { mapMessage, MessageObject } from "../../../../context/revoltjs/util";
 
 interface Props {
     channel: string;
@@ -73,7 +73,7 @@ export const ReplyBase = styled.div<{
         align-items: center;
         flex-direction: row;
         transition: filter 1s ease-in-out;
-        transition: transform ease-in-out .1s;
+        transition: transform ease-in-out 0.1s;
         filter: brightness(1);
 
         &:hover {
@@ -123,7 +123,9 @@ export function MessageReply({ index, channel, id }: Props) {
     const view = useRenderState(channel);
     if (view?.type !== "RENDER") return null;
 
-    const [ message, setMessage ] = useState<MessageObject | undefined>(undefined);
+    const [message, setMessage] = useState<MessageObject | undefined>(
+        undefined,
+    );
     useLayoutEffect(() => {
         // ! FIXME: We should do this through the message renderer, so it can fetch it from cache if applicable.
         const m = view.messages.find((x) => x._id === id);
@@ -131,10 +133,11 @@ export function MessageReply({ index, channel, id }: Props) {
         if (m) {
             setMessage(m);
         } else {
-            ctx.client.channels.fetchMessage(channel, id)
-                .then(m => setMessage(mapMessage(m)));
+            ctx.client.channels
+                .fetchMessage(channel, id)
+                .then((m) => setMessage(mapMessage(m)));
         }
-    }, [ view.messages ]);
+    }, [view.messages]);
 
     if (!message) {
         return (
@@ -153,32 +156,47 @@ export function MessageReply({ index, channel, id }: Props) {
     return (
         <ReplyBase head={index === 0}>
             <Reply size={16} />
-            { user?.relationship === Users.Relationship.Blocked ?
-                <>Blocked User</> :
+            {user?.relationship === Users.Relationship.Blocked ? (
+                <>Blocked User</>
+            ) : (
                 <>
                     {message.author === SYSTEM_USER_ID ? (
                         <SystemMessage message={message} hideInfo />
-                    ) : <>
-                        <div className="user"><UserShort user={user} size={16} /></div>
-                        <div className="content" onClick={() => {
-                            let obj = ctx.client.channels.get(channel);
-                            if (obj?.channel_type === 'TextChannel') {
-                                history.push(`/server/${obj.server}/channel/${obj._id}/${message._id}`);
-                            } else {
-                                history.push(`/channel/${channel}/${message._id}`);
-                            }
-                        }}>
-                            {message.attachments && message.attachments.length > 0 && (
-                                <File size={16} />
-                            )}
-                            <Markdown
-                                disallowBigEmoji
-                                content={(message.content as string).replace(/\n/g, " ")}
-                            />
-                        </div>
-                    </>}
+                    ) : (
+                        <>
+                            <div className="user">
+                                <UserShort user={user} size={16} />
+                            </div>
+                            <div
+                                className="content"
+                                onClick={() => {
+                                    const obj =
+                                        ctx.client.channels.get(channel);
+                                    if (obj?.channel_type === "TextChannel") {
+                                        history.push(
+                                            `/server/${obj.server}/channel/${obj._id}/${message._id}`,
+                                        );
+                                    } else {
+                                        history.push(
+                                            `/channel/${channel}/${message._id}`,
+                                        );
+                                    }
+                                }}>
+                                {message.attachments &&
+                                    message.attachments.length > 0 && (
+                                        <File size={16} />
+                                    )}
+                                <Markdown
+                                    disallowBigEmoji
+                                    content={(
+                                        message.content as string
+                                    ).replace(/\n/g, " ")}
+                                />
+                            </div>
+                        </>
+                    )}
                 </>
-            }
+            )}
         </ReplyBase>
     );
 }

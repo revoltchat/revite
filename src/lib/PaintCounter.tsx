@@ -11,7 +11,7 @@ export default function PaintCounter({
 }) {
     if (import.meta.env.PROD && !always) return null;
 
-    const [uniqueId] = useState("" + Math.random());
+    const [uniqueId] = useState(`${Math.random()}`);
     const count = counts[uniqueId] ?? 0;
     counts[uniqueId] = count + 1;
     return (

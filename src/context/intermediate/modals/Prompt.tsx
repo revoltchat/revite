@@ -92,7 +92,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                 block_user: ["block_user", "block"],
             };
 
-            let event = EVENTS[props.type];
+            const event = EVENTS[props.type];
             let name;
             switch (props.type) {
                 case "unfriend_user":

@@ -46,10 +46,9 @@ function recursiveReplaceFields(input: string, fields: Fields) {
         }
 
         return values.flat();
-    } else {
-        // base case
-        return [input];
     }
+    // base case
+    return [input];
 }
 
 export function TextReact({ id, fields }: Props) {
@@ -57,7 +56,7 @@ export function TextReact({ id, fields }: Props) {
 
     const path = id.split(".");
     let entry = intl.dictionary[path.shift()!];
-    for (let key of path) {
+    for (const key of path) {
         // @ts-expect-error
         entry = entry[key];
     }

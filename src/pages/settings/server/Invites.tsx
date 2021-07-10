@@ -46,8 +46,8 @@ export function Invites({ server }: Props) {
             </div>
             {typeof invites === "undefined" && <Preloader type="ring" />}
             {invites?.map((invite) => {
-                let creator = users.find((x) => x?._id === invite.creator);
-                let channel = channels.find((x) => x?._id === invite.channel);
+                const creator = users.find((x) => x?._id === invite.creator);
+                const channel = channels.find((x) => x?._id === invite.channel);
 
                 return (
                     <div

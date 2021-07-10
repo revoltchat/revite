@@ -10,7 +10,6 @@ import {
     LeftArrowAlt,
     Trash,
 } from "@styled-icons/boxicons-regular";
-import Tooltip from "../components/common/Tooltip";
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
 import {
@@ -61,6 +60,7 @@ import {
 } from "../context/revoltjs/hooks";
 import { takeError } from "../context/revoltjs/util";
 
+import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
 import IconButton from "../components/ui/IconButton";
 import LineDivider from "../components/ui/LineDivider";
@@ -168,7 +168,7 @@ function ContextMenus(props: Props) {
                         )
                             return;
 
-                        let message =
+                        const message =
                             data.channel.channel_type === "TextChannel"
                                 ? data.channel.last_message
                                 : data.channel.last_message._id;
@@ -292,8 +292,9 @@ function ContextMenus(props: Props) {
                         const { filename } = data.attachment;
                         writeClipboard(
                             // ! FIXME: do from r.js
-                            client.generateFileURL(data.attachment) +
-                                `/${encodeURI(filename)}`,
+                            `${client.generateFileURL(
+                                data.attachment,
+                            )}/${encodeURI(filename)}`,
                         );
                     }
                     break;
@@ -376,7 +377,7 @@ function ContextMenus(props: Props) {
 
                 case "clear_status":
                     {
-                        let { text, ...status } = client.user?.status ?? {};
+                        const { text, ...status } = client.user?.status ?? {};
                         await client.users.editUser({ status });
                     }
                     break;
@@ -459,7 +460,7 @@ function ContextMenus(props: Props) {
                 }: ContextMenuData) => {
                     const forceUpdate = useForceUpdate();
                     const elements: Children[] = [];
-                    var lastDivider = false;
+                    let lastDivider = false;
 
                     function generateAction(
                         action: Action,
@@ -487,8 +488,8 @@ function ContextMenus(props: Props) {
                     }
 
                     if (server_list) {
-                        let server = useServer(server_list, forceUpdate);
-                        let permissions = useServerPermission(
+                        const server = useServer(server_list, forceUpdate);
+                        const permissions = useServerPermission(
                             server_list,
                             forceUpdate,
                         );
@@ -742,7 +743,7 @@ function ContextMenus(props: Props) {
                         }
 
                         if (document.activeElement?.tagName === "A") {
-                            let link =
+                            const link =
                                 document.activeElement.getAttribute("href");
                             if (link) {
                                 pushDivider();
@@ -752,7 +753,7 @@ function ContextMenus(props: Props) {
                         }
                     }
 
-                    let id = sid ?? cid ?? uid ?? message?._id;
+                    const id = sid ?? cid ?? uid ?? message?._id;
                     if (id) {
                         pushDivider();
 
@@ -876,14 +877,23 @@ function ContextMenus(props: Props) {
                     <>
                         <div className="header">
                             <div className="main">
-                                <div className="username"
-                                    onClick={() => writeClipboard(client.user!.username)}>
-                                    <Tooltip content={<Text id="app.special.copy_username" />}>
+                                <div
+                                    className="username"
+                                    onClick={() =>
+                                        writeClipboard(client.user!.username)
+                                    }>
+                                    <Tooltip
+                                        content={
+                                            <Text id="app.special.copy_username" />
+                                        }>
                                         @{client.user!.username}
                                     </Tooltip>
                                 </div>
-                                <div className="status"
-                                    onClick={() => contextClick({ action: 'set_status' })}>
+                                <div
+                                    className="status"
+                                    onClick={() =>
+                                        contextClick({ action: "set_status" })
+                                    }>
                                     <UserStatus user={client.user!} />
                                 </div>
                             </div>
@@ -935,9 +945,7 @@ function ContextMenus(props: Props) {
                             data={{ action: "set_status" }}
                             disabled={!isOnline}>
                             <UserVoice size={18} />
-                            <Text
-                                id={`app.context_menu.custom_status`}
-                            />
+                            <Text id={`app.context_menu.custom_status`} />
                             {client.user!.status?.text && (
                                 <IconButton>
                                     <MenuItem data={{ action: "clear_status" }}>
@@ -959,7 +967,7 @@ function ContextMenus(props: Props) {
                         channel,
                     );
 
-                    let elements: Children[] = [
+                    const elements: Children[] = [
                         <MenuItem
                             data={{
                                 action: "set_notification_state",

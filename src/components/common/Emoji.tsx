@@ -1,6 +1,6 @@
 import { EmojiPacks } from "../../redux/reducers/settings";
 
-var EMOJI_PACK = "mutant";
+let EMOJI_PACK = "mutant";
 const REVISION = 3;
 
 export function setEmojiPack(pack: EmojiPacks) {
@@ -41,7 +41,7 @@ function toCodePoint(rune: string) {
 }
 
 function parseEmoji(emoji: string) {
-    let codepoint = toCodePoint(emoji);
+    const codepoint = toCodePoint(emoji);
     return `https://static.revolt.chat/emoji/${EMOJI_PACK}/${codepoint}.svg?rev=${REVISION}`;
 }
 

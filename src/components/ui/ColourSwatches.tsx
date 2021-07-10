@@ -55,7 +55,11 @@ const SwatchesBase = styled.div`
         div {
             width: 8px;
             height: 68px;
-            background: linear-gradient(to right, var(--primary-background), transparent);
+            background: linear-gradient(
+                to right,
+                var(--primary-background),
+                transparent
+            );
         }
     }
 `;
@@ -127,8 +131,10 @@ export default function ColourSwatches({ value, onChange }: Props) {
                 <Palette size={32} />
             </Swatch>
 
-            <div class="overlay"><div /></div>
-            
+            <div class="overlay">
+                <div />
+            </div>
+
             <Rows>
                 {presets.map((row, i) => (
                     <div key={i}>
@@ -144,8 +150,6 @@ export default function ColourSwatches({ value, onChange }: Props) {
                     </div>
                 ))}
             </Rows>
-            
-            
         </SwatchesBase>
     );
 }

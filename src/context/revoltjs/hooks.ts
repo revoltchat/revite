@@ -16,9 +16,9 @@ export function useForceUpdate(context?: HookContext): HookContext {
     if (context) return context;
 
     const H = useState(0);
-    var updateState: (_: number) => void;
+    let updateState: (_: number) => void;
     if (Array.isArray(H)) {
-        let [, u] = H;
+        const [, u] = H;
         updateState = u;
     } else {
         console.warn("Failed to construct using useState.");
@@ -124,7 +124,7 @@ export function useDMs(context?: HookContext) {
     const ctx = useForceUpdate(context);
 
     function mutation(target: string) {
-        let channel = ctx.client.channels.get(target);
+        const channel = ctx.client.channels.get(target);
         if (channel) {
             if (
                 channel.channel_type === "DirectMessage" ||
@@ -164,7 +164,7 @@ export function useUserPermission(id: string, context?: HookContext) {
         return () => ctx.client.users.removeListener("update", mutation);
     }, [id]);
 
-    let calculator = new PermissionCalculator(ctx.client);
+    const calculator = new PermissionCalculator(ctx.client);
     return calculator.forUser(id);
 }
 
@@ -206,7 +206,7 @@ export function useChannelPermission(id: string, context?: HookContext) {
         };
     }, [id]);
 
-    let calculator = new PermissionCalculator(ctx.client);
+    const calculator = new PermissionCalculator(ctx.client);
     return calculator.forChannel(id);
 }
 
@@ -227,6 +227,6 @@ export function useServerPermission(id: string, context?: HookContext) {
         };
     }, [id]);
 
-    let calculator = new PermissionCalculator(ctx.client);
+    const calculator = new PermissionCalculator(ctx.client);
     return calculator.forServer(id);
 }

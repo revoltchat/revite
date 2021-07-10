@@ -10,7 +10,6 @@ export default function ConditionalLink(props: Props) {
 
     if (active) {
         return <a>{props.children}</a>;
-    } else {
-        return <Link {...linkProps} />;
     }
+    return <Link {...linkProps} />;
 }

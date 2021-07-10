@@ -22,7 +22,7 @@ export default function Embed({ embed }: Props) {
     // ! FIXME: temp code
     // ! add proxy function to client
     function proxyImage(url: string) {
-        return "https://jan.revolt.chat/proxy?url=" + encodeURIComponent(url);
+        return `https://jan.revolt.chat/proxy?url=${encodeURIComponent(url)}`;
     }
 
     const { openScreen } = useIntermediate();
@@ -35,14 +35,14 @@ export default function Embed({ embed }: Props) {
         w: number,
         h: number,
     ): { width: number; height: number } {
-        let limitingWidth = Math.min(maxWidth, w);
+        const limitingWidth = Math.min(maxWidth, w);
 
-        let limitingHeight = Math.min(MAX_EMBED_HEIGHT, h);
+        const limitingHeight = Math.min(MAX_EMBED_HEIGHT, h);
 
         // Calculate smallest possible WxH.
-        let width = Math.min(limitingWidth, limitingHeight * (w / h));
+        const width = Math.min(limitingWidth, limitingHeight * (w / h));
 
-        let height = Math.min(limitingHeight, limitingWidth * (h / w));
+        const height = Math.min(limitingHeight, limitingWidth * (h / w));
 
         return { width, height };
     }
@@ -51,7 +51,7 @@ export default function Embed({ embed }: Props) {
         case "Website": {
             // Determine special embed size.
             let mw, mh;
-            let largeMedia =
+            const largeMedia =
                 (embed.special && embed.special.type !== "None") ||
                 embed.image?.size === "Large";
             switch (embed.special?.type) {
@@ -80,7 +80,7 @@ export default function Embed({ embed }: Props) {
                 }
             }
 
-            let { width, height } = calculateSize(mw, mh);
+            const { width, height } = calculateSize(mw, mh);
             return (
                 <div
                     className={classNames(styles.embed, styles.website)}
@@ -115,7 +115,8 @@ export default function Embed({ embed }: Props) {
                                 <a
                                     href={embed.url}
                                     target={"_blank"}
-                                    className={styles.title}>
+                                    className={styles.title}
+                                    rel="noreferrer">
                                     {embed.title}
                                 </a>
                             </span>

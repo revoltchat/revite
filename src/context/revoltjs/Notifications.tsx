@@ -32,7 +32,7 @@ async function createNotification(
     try {
         return new Notification(title, options);
     } catch (err) {
-        let sw = await navigator.serviceWorker.getRegistration();
+        const sw = await navigator.serviceWorker.getRegistration();
         sw?.showNotification(title, options);
     }
 }
@@ -90,7 +90,7 @@ function Notifier({ options, notifs }: Props) {
 
         let image;
         if (msg.attachments) {
-            let imageAttachment = msg.attachments.find(
+            const imageAttachment = msg.attachments.find(
                 (x) => x.metadata.type === "Image",
             );
             if (imageAttachment) {
@@ -105,7 +105,7 @@ function Notifier({ options, notifs }: Props) {
             body = client.markdownToText(msg.content);
             icon = client.users.getAvatarURL(msg.author, { max_side: 256 });
         } else {
-            let users = client.users;
+            const users = client.users;
             switch (msg.content.type) {
                 case "user_added":
                 case "user_remove":
@@ -161,7 +161,7 @@ function Notifier({ options, notifs }: Props) {
             }
         }
 
-        let notif = await createNotification(title, {
+        const notif = await createNotification(title, {
             icon,
             image,
             body,
@@ -176,7 +176,7 @@ function Notifier({ options, notifs }: Props) {
                 window.focus();
                 const id = msg.channel;
                 if (id !== channel_id) {
-                    let channel = client.channels.get(id);
+                    const channel = client.channels.get(id);
                     if (channel) {
                         if (channel.channel_type === "TextChannel") {
                             history.push(
@@ -218,7 +218,7 @@ function Notifier({ options, notifs }: Props) {
                 return;
         }
 
-        let notif = await createNotification(event, {
+        const notif = await createNotification(event, {
             icon: client.users.getAvatarURL(user._id, { max_side: 256 }),
             badge: "/assets/icons/android-chrome-512x512.png",
             timestamp: +new Date(),

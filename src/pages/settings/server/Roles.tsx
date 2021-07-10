@@ -88,15 +88,14 @@ export function Roles({ server }: Props) {
                                 <Text id="app.settings.permissions.default_role" />
                             </ButtonItem>
                         );
-                    } else {
-                        return (
-                            <ButtonItem
-                                active={role === id}
-                                onClick={() => setRole(id)}>
-                                {roles[id].name}
-                            </ButtonItem>
-                        );
                     }
+                    return (
+                        <ButtonItem
+                            active={role === id}
+                            onClick={() => setRole(id)}>
+                            {roles[id].name}
+                        </ButtonItem>
+                    );
                 })}
             </div>
             <div className={styles.permissions}>
@@ -118,7 +117,7 @@ export function Roles({ server }: Props) {
                     </Overline>
                     {Object.keys(ServerPermission).map((key) => {
                         if (key === "View") return;
-                        let value =
+                        const value =
                             ServerPermission[
                                 key as keyof typeof ServerPermission
                             ];
@@ -143,7 +142,7 @@ export function Roles({ server }: Props) {
                     </Overline>
                     {Object.keys(ChannelPermission).map((key) => {
                         if (key === "ManageChannel") return;
-                        let value =
+                        const value =
                             ChannelPermission[
                                 key as keyof typeof ChannelPermission
                             ];

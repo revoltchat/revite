@@ -10,7 +10,7 @@ import IconButton from "../ui/IconButton";
 
 import { updateSW } from "../../main";
 
-var pendingUpdate = false;
+let pendingUpdate = false;
 internalSubscribe("PWA", "update", () => (pendingUpdate = true));
 
 export default function UpdateIndicator() {

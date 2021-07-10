@@ -45,9 +45,8 @@ export default function ChannelIcon(
         if (isServerChannel) {
             if (target?.channel_type === "VoiceChannel") {
                 return <VolumeFull size={size} />;
-            } else {
-                return <Hash size={size} />;
             }
+            return <Hash size={size} />;
         }
     }
 

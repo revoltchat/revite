@@ -1,5 +1,6 @@
+import styled from "styled-components";
+
 import { Text } from "preact-i18n";
-import styled from "styled-components"
 
 const Base = styled.div`
     display: grid;
@@ -21,13 +22,15 @@ const Base = styled.div`
 `;
 
 interface Props {
-    set: (v: boolean) => void
+    set: (v: boolean) => void;
 }
 
 export default function Spoiler({ set }: Props) {
     return (
         <Base onClick={() => set(false)}>
-            <span><Text id="app.main.channel.misc.spoiler_attachment" /></span>
+            <span>
+                <Text id="app.main.channel.misc.spoiler_attachment" />
+            </span>
         </Base>
-    )
+    );
 }

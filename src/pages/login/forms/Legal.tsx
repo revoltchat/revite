@@ -4,15 +4,24 @@ import { Text } from "preact-i18n";
 export function Legal() {
     return (
         <span className={styles.footer}>
-            <a href="https://revolt.chat/about" target="_blank">
+            <a
+                href="https://revolt.chat/about"
+                target="_blank"
+                rel="noreferrer">
                 <Text id="general.about" />
             </a>
             &middot;
-            <a href="https://revolt.chat/terms" target="_blank">
+            <a
+                href="https://revolt.chat/terms"
+                target="_blank"
+                rel="noreferrer">
                 <Text id="general.tos" />
             </a>
             &middot;
-            <a href="https://revolt.chat/privacy" target="_blank">
+            <a
+                href="https://revolt.chat/privacy"
+                target="_blank"
+                rel="noreferrer">
                 <Text id="general.privacy" />
             </a>
         </span>

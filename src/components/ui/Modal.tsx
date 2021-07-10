@@ -2,9 +2,10 @@ import styled, { css, keyframes } from "styled-components";
 
 import { createPortal, useEffect, useState } from "preact/compat";
 
+import { internalSubscribe } from "../../lib/eventEmitter";
+
 import { Children } from "../../types/Preact";
 import Button, { ButtonProps } from "./Button";
-import { internalSubscribe } from "../../lib/eventEmitter";
 
 const open = keyframes`
     0% {opacity: 0;}
@@ -52,7 +53,7 @@ const ModalBase = styled.div`
     &.closing {
         animation-name: ${close};
     }
-    
+
     &.closing > div {
         animation-name: ${zoomOut};
     }
@@ -145,7 +146,7 @@ export let isModalClosing = false;
 export default function Modal(props: Props) {
     if (!props.visible) return null;
 
-    let content = (
+    const content = (
         <ModalContent
             attachment={!!props.actions}
             noBackground={props.noBackground}
@@ -167,7 +168,7 @@ export default function Modal(props: Props) {
         setTimeout(() => props.onClose(), 2e2);
     }
 
-    useEffect(() => internalSubscribe('Modal', 'close', onClose), []);
+    useEffect(() => internalSubscribe("Modal", "close", onClose), []);
 
     useEffect(() => {
         if (props.disallowClosing) return;
@@ -182,7 +183,7 @@ export default function Modal(props: Props) {
         return () => document.body.removeEventListener("keydown", keyDown);
     }, [props.disallowClosing, props.onClose]);
 
-    let confirmationAction = props.actions?.find(
+    const confirmationAction = props.actions?.find(
         (action) => action.confirmation,
     );
 
@@ -203,7 +204,8 @@ export default function Modal(props: Props) {
     }, [confirmationAction]);
 
     return createPortal(
-        <ModalBase className={animateClose ? 'closing' : undefined}
+        <ModalBase
+            className={animateClose ? "closing" : undefined}
             onClick={(!props.disallowClosing && props.onClose) || undefined}>
             <ModalContainer onClick={(e) => (e.cancelBubble = true)}>
                 {content}

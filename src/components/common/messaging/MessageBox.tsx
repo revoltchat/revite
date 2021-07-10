@@ -232,7 +232,7 @@ export default function MessageBox({ channel }: Props) {
 
     async function sendFile(content: string) {
         if (uploadState.type !== "attached") return;
-        let attachments: string[] = [];
+        const attachments: string[] = [];
 
         const cancel = Axios.CancelToken.source();
         const files = uploadState.files;
@@ -502,8 +502,9 @@ export default function MessageBox({ channel }: Props) {
                         <HappyAlt size={20} />
                 </IconButton>*/}
                     <IconButton
-                        className="mobile" onClick={send}
-                        onMouseDown={e => e.preventDefault()}>
+                        className="mobile"
+                        onClick={send}
+                        onMouseDown={(e) => e.preventDefault()}>
                         <Send size={20} />
                     </IconButton>
                 </Action>

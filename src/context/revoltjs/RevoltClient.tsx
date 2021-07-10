@@ -66,7 +66,7 @@ function Context({ auth, children }: Props) {
                 // Match sw.ts#L23
                 db = await openDB("state", 3, {
                     upgrade(db) {
-                        for (let store of [
+                        for (const store of [
                             "channels",
                             "servers",
                             "users",
@@ -150,7 +150,7 @@ function Context({ auth, children }: Props) {
             ready: () =>
                 operations.loggedIn() && typeof client.user !== "undefined",
             openDM: async (user_id: string) => {
-                let channel = await client.users.openDM(user_id);
+                const channel = await client.users.openDM(user_id);
                 history.push(`/channel/${channel!._id}`);
                 return channel!._id;
             },

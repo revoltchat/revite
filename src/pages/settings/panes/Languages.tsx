@@ -76,7 +76,8 @@ export function Component(props: Props) {
                 </span>{" "}
                 <a
                     href="https://weblate.insrt.uk/engage/revolt/?utm_source=widget"
-                    target="_blank">
+                    target="_blank"
+                    rel="noreferrer">
                     <Text id="app.settings.tips.languages.b" />
                 </a>
             </Tip>

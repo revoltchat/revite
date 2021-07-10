@@ -8,7 +8,7 @@ export type ScrollState =
     | { type: "Free" }
     | { type: "Bottom"; scrollingUntil?: number }
     | { type: "ScrollToBottom" | "StayAtBottom"; smooth?: boolean }
-    | { type: "ScrollToView", id: string }
+    | { type: "ScrollToView"; id: string }
     | { type: "OffsetTop"; previousHeight: number }
     | { type: "ScrollTop"; y: number };
 

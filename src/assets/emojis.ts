@@ -1,6 +1,6 @@
 export const emojiDictionary = {
-    "100": "💯",
-    "1234": "🔢",
+    100: "💯",
+    1234: "🔢",
     grinning: "😀",
     smiley: "😃",
     smile: "😄",

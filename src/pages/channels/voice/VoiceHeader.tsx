@@ -31,7 +31,7 @@ const VoiceBase = styled.div`
         display: flex;
         position: absolute;
         align-items: center;
-        
+
         padding: 10px;
         font-size: 14px;
         font-weight: 600;

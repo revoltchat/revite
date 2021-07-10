@@ -21,16 +21,16 @@ import {
     useServers,
 } from "../../../context/revoltjs/hooks";
 
+import logoSVG from "../../../assets/logo.svg";
 import ServerIcon from "../../common/ServerIcon";
 import Tooltip from "../../common/Tooltip";
+import UserHover from "../../common/user/UserHover";
 import UserIcon from "../../common/user/UserIcon";
 import IconButton from "../../ui/IconButton";
 import LineDivider from "../../ui/LineDivider";
 import { mapChannelWithUnread } from "./common";
 
-import logoSVG from '../../../assets/logo.svg';
 import { Children } from "../../../types/Preact";
-import UserHover from "../../common/user/UserHover";
 
 function Icon({
     children,
@@ -129,7 +129,7 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
             !props.active &&
             css`
                 display: none;
-            ` }
+            `}
 
         svg {
             width: 57px;
@@ -152,13 +152,17 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
 function Swoosh() {
     return (
         <span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="57" height="117" fill="var(--sidebar-active)">
-                <path d="M27.746 86.465c14 0 28 11.407 28 28s.256-56 .256-56-42.256 28-28.256 28z"/>
-                <path d="M56 58.465c0 15.464-12.536 28-28 28s-28-12.536-28-28 12.536-28 28-28 28 12.536 28 28z"/>
-                <path d="M28.002 30.465c14 0 28-11.407 28-28s0 56 0 56-42-28-28-28z"/>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="57"
+                height="117"
+                fill="var(--sidebar-active)">
+                <path d="M27.746 86.465c14 0 28 11.407 28 28s.256-56 .256-56-42.256 28-28.256 28z" />
+                <path d="M56 58.465c0 15.464-12.536 28-28 28s-28-12.536-28-28 12.536-28 28-28 28 12.536 28 28z" />
+                <path d="M28.002 30.465c14 0 28-11.407 28-28s0 56 0 56-42-28-28-28z" />
             </svg>
         </span>
-    )
+    );
 }
 
 interface Props {
@@ -178,8 +182,8 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
 
     const servers = activeServers.map((server) => {
         let alertCount = 0;
-        for (let id of server.channels) {
-            let channel = channels.find((x) => x._id === id);
+        for (const id of server.channels) {
+            const channel = channels.find((x) => x._id === id);
             if (channel?.alertCount) {
                 alertCount += channel.alertCount;
             }
@@ -206,7 +210,7 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
 
     let homeUnread: "mention" | "unread" | undefined;
     let alertCount = 0;
-    for (let x of channels) {
+    for (const x of channels) {
         if (
             ((x.channel_type === "DirectMessage" && x.active) ||
                 x.channel_type === "Group") &&
@@ -229,10 +233,14 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                     to={lastOpened.home ? `/channel/${lastOpened.home}` : "/"}>
                     <ServerEntry home active={homeActive}>
                         <Swoosh />
-                        { isTouchscreenDevice ?
+                        {isTouchscreenDevice ? (
                             <Icon size={42} unread={homeUnread}>
-                                <img style={{ width: 32, height: 32 }} src={logoSVG} />
-                            </Icon> :
+                                <img
+                                    style={{ width: 32, height: 32 }}
+                                    src={logoSVG}
+                                />
+                            </Icon>
+                        ) : (
                             <div
                                 onContextMenu={attachContextMenu("Status")}
                                 onClick={() =>
@@ -240,11 +248,15 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                                 }>
                                 <UserHover user={self}>
                                     <Icon size={42} unread={homeUnread}>
-                                        <UserIcon target={self} size={32} status />
+                                        <UserIcon
+                                            target={self}
+                                            size={32}
+                                            status
+                                        />
                                     </Icon>
                                 </UserHover>
                             </div>
-                        }
+                        )}
                     </ServerEntry>
                 </ConditionalLink>
                 <LineDivider />
@@ -255,10 +267,9 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                     return (
                         <ConditionalLink
                             active={active}
-                            to={
-                                `/server/${entry!._id}` +
-                                (id ? `/channel/${id}` : "")
-                            }>
+                            to={`/server/${entry!._id}${
+                                id ? `/channel/${id}` : ""
+                            }`}>
                             <ServerEntry
                                 active={active}
                                 onContextMenu={attachContextMenu("Menu", {

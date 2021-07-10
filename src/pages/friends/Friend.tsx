@@ -42,10 +42,7 @@ export function Friend({ user }: Props) {
             <>
                 <IconButton
                     type="circle"
-                    className={classNames(
-                        styles.button,
-                        styles.success,
-                    )}
+                    className={classNames(styles.button, styles.success)}
                     onClick={(ev) =>
                         stopPropagation(ev, openDM(user._id).then(connect))
                     }>
@@ -88,7 +85,11 @@ export function Friend({ user }: Props) {
         actions.push(
             <IconButton
                 type="circle"
-                className={classNames(styles.button, styles.remove, styles.error)}
+                className={classNames(
+                    styles.button,
+                    styles.remove,
+                    styles.error,
+                )}
                 onClick={(ev) =>
                     stopPropagation(
                         ev,

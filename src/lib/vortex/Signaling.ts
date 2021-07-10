@@ -117,10 +117,10 @@ export default class Signaling extends EventEmitter<SignalingEvents> {
             this.once("close", onClose);
             const json = {
                 id: this.index,
-                type: type,
+                type,
                 data,
             };
-            ws.send(JSON.stringify(json) + "\n");
+            ws.send(`${JSON.stringify(json)}\n`);
             this.index++;
         });
     }
@@ -161,7 +161,7 @@ export default class Signaling extends EventEmitter<SignalingEvents> {
         type: ProduceType,
         rtpParameters: RtpParameters,
     ): Promise<string> {
-        let result = await this.sendRequest(WSCommandType.StartProduce, {
+        const result = await this.sendRequest(WSCommandType.StartProduce, {
             type,
             rtpParameters,
         });

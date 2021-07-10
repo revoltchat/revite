@@ -74,7 +74,7 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
 
     useLayoutEffect(() => {
         if (ref.current && ghost.current) {
-            ref.current.style.height = ghost.current.clientHeight + "px";
+            ref.current.style.height = `${ghost.current.clientHeight}px`;
         }
     }, [ghost, props.value]);
 

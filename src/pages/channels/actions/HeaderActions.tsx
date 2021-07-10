@@ -3,7 +3,7 @@ import {
     Cog,
     PhoneCall,
     PhoneOutgoing,
-    Group
+    Group,
 } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
 
@@ -64,11 +64,11 @@ export default function HeaderActions({
             )}
             <VoiceActions channel={channel} />
             {(channel.channel_type === "Group" ||
-                channel.channel_type === "TextChannel") &&
-                    <IconButton onClick={toggleSidebar}>
-                        <Group size={25} />
-                    </IconButton>
-                }
+                channel.channel_type === "TextChannel") && (
+                <IconButton onClick={toggleSidebar}>
+                    <Group size={25} />
+                </IconButton>
+            )}
         </>
     );
 }
@@ -90,22 +90,20 @@ function VoiceActions({ channel }: Pick<ChannelHeaderProps, "channel">) {
                     <PhoneOutgoing size={22} />
                 </IconButton>
             );
-        } else {
-            return (
-                <IconButton
-                    onClick={() => {
-                        disconnect();
-                        connect(channel._id);
-                    }}>
-                    <PhoneCall size={24} />
-                </IconButton>
-            );
         }
-    } else {
         return (
-            <IconButton>
-                <PhoneCall size={24} /** ! FIXME: TEMP */ color="red" />
+            <IconButton
+                onClick={() => {
+                    disconnect();
+                    connect(channel._id);
+                }}>
+                <PhoneCall size={24} />
             </IconButton>
         );
     }
+    return (
+        <IconButton>
+            <PhoneCall size={24} /** ! FIXME: TEMP */ color="red" />
+        </IconButton>
+    );
 }

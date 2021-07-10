@@ -219,19 +219,18 @@ export function MessageDetail({
                     </span>
                 </>
             );
-        } else {
-            return (
-                <>
-                    <time>
-                        <i className="copyBracket">[</i>
-                        {dayjs(decodeTime(message._id)).format(
-                            dict.dayjs.timeFormat,
-                        )}
-                        <i className="copyBracket">]</i>
-                    </time>
-                </>
-            );
         }
+        return (
+            <>
+                <time>
+                    <i className="copyBracket">[</i>
+                    {dayjs(decodeTime(message._id)).format(
+                        dict.dayjs.timeFormat,
+                    )}
+                    <i className="copyBracket">]</i>
+                </time>
+            </>
+        );
     }
 
     return (
@@ -239,7 +238,9 @@ export function MessageDetail({
             <time>{dayjs(decodeTime(message._id)).calendar()}</time>
             {message.edited && (
                 <Tooltip content={dayjs(message.edited).format("LLLL")}>
-                    <span className="edited"><Text id="app.main.channel.edited" /></span>
+                    <span className="edited">
+                        <Text id="app.main.channel.edited" />
+                    </span>
                 </Tooltip>
             )}
         </DetailBase>

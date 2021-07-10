@@ -7,7 +7,7 @@ import { Children } from "../../types/Preact";
 
 export function takeError(error: any): string {
     const type = error?.response?.data?.type;
-    let id = type;
+    const id = type;
     if (!type) {
         if (error?.response?.status === 403) {
             return "Unauthorized";
@@ -31,7 +31,7 @@ export function getChannelName(
         return <Text id="app.navigation.tabs.saved" />;
 
     if (channel.channel_type === "DirectMessage") {
-        let uid = client.channels.getRecipient(channel._id);
+        const uid = client.channels.getRecipient(channel._id);
         return (
             <>
                 {prefixType && "@"}

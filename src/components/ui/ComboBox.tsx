@@ -5,7 +5,7 @@ export default styled.select`
     padding: 10px;
     cursor: pointer;
     border-radius: var(--border-radius);
-    
+
     font-family: inherit;
     font-size: var(--text-size);
     color: var(--secondary-foreground);

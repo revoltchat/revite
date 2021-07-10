@@ -58,10 +58,10 @@ export function useAutoComplete(
         el: HTMLTextAreaElement,
     ): ["emoji" | "user" | "channel", string, number] | undefined {
         if (el.selectionStart === el.selectionEnd) {
-            let cursor = el.selectionStart;
-            let content = el.value.slice(0, cursor);
+            const cursor = el.selectionStart;
+            const content = el.value.slice(0, cursor);
 
-            let valid = /\w/;
+            const valid = /\w/;
 
             let j = content.length - 1;
             if (content[j] === "@") {
@@ -75,10 +75,10 @@ export function useAutoComplete(
             }
 
             if (j === -1) return;
-            let current = content[j];
+            const current = content[j];
 
             if (current === ":" || current === "@" || current === "#") {
-                let search = content.slice(j + 1, content.length);
+                const search = content.slice(j + 1, content.length);
                 if (search.length > 0) {
                     return [
                         current === "#"
@@ -97,19 +97,19 @@ export function useAutoComplete(
     function onChange(ev: JSX.TargetedEvent<HTMLTextAreaElement, Event>) {
         const el = ev.currentTarget;
 
-        let result = findSearchString(el);
+        const result = findSearchString(el);
         if (result) {
-            let [type, search] = result;
+            const [type, search] = result;
             const regex = new RegExp(search, "i");
 
             if (type === "emoji") {
                 // ! FIXME: we should convert it to a Binary Search Tree and use that
-                let matches = Object.keys(emojiDictionary)
+                const matches = Object.keys(emojiDictionary)
                     .filter((emoji: string) => emoji.match(regex))
                     .splice(0, 5);
 
                 if (matches.length > 0) {
-                    let currentPosition =
+                    const currentPosition =
                         state.type !== "none" ? state.selected : 0;
 
                     setState({
@@ -130,7 +130,9 @@ export function useAutoComplete(
                         users = client.users.toArray();
                         break;
                     case "channel": {
-                        let channel = client.channels.get(searchClues.users.id);
+                        const channel = client.channels.get(
+                            searchClues.users.id,
+                        );
                         switch (channel?.channel_type) {
                             case "Group":
                             case "DirectMessage":
@@ -162,7 +164,7 @@ export function useAutoComplete(
 
                 users = users.filter((x) => x._id !== SYSTEM_USER_ID);
 
-                let matches = (
+                const matches = (
                     search.length > 0
                         ? users.filter((user) =>
                               user.username.toLowerCase().match(regex),
@@ -173,7 +175,7 @@ export function useAutoComplete(
                     .filter((x) => typeof x !== "undefined");
 
                 if (matches.length > 0) {
-                    let currentPosition =
+                    const currentPosition =
                         state.type !== "none" ? state.selected : 0;
 
                     setState({
@@ -188,14 +190,14 @@ export function useAutoComplete(
             }
 
             if (type === "channel" && searchClues?.channels) {
-                let channels = client.servers
+                const channels = client.servers
                     .get(searchClues.channels.server)
                     ?.channels.map((x) => client.channels.get(x))
                     .filter(
                         (x) => typeof x !== "undefined",
                     ) as Channels.TextChannel[];
 
-                let matches = (
+                const matches = (
                     search.length > 0
                         ? channels.filter((channel) =>
                               channel.name.toLowerCase().match(regex),
@@ -206,7 +208,7 @@ export function useAutoComplete(
                     .filter((x) => typeof x !== "undefined");
 
                 if (matches.length > 0) {
-                    let currentPosition =
+                    const currentPosition =
                         state.type !== "none" ? state.selected : 0;
 
                     setState({
@@ -228,11 +230,11 @@ export function useAutoComplete(
 
     function selectCurrent(el: HTMLTextAreaElement) {
         if (state.type !== "none") {
-            let result = findSearchString(el);
+            const result = findSearchString(el);
             if (result) {
-                let [_type, search, index] = result;
+                const [_type, search, index] = result;
 
-                let content = el.value.split("");
+                const content = el.value.split("");
                 if (state.type === "emoji") {
                     content.splice(
                         index,

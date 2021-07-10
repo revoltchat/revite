@@ -37,12 +37,13 @@ export default function AttachmentActions({ attachment }: Props) {
                 <div className={classNames(styles.actions, styles.imageAction)}>
                     <span className={styles.filename}>{filename}</span>
                     <span className={styles.filesize}>
-                        {metadata.width + "x" + metadata.height} ({filesize})
+                        {`${metadata.width}x${metadata.height}`} ({filesize})
                     </span>
                     <a
                         href={open_url}
                         target="_blank"
-                        className={styles.iconType}>
+                        className={styles.iconType}
+                        rel="noreferrer">
                         <IconButton>
                             <LinkExternal size={24} />
                         </IconButton>
@@ -51,7 +52,8 @@ export default function AttachmentActions({ attachment }: Props) {
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target="_blank">
+                        target="_blank"
+                        rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
@@ -68,7 +70,8 @@ export default function AttachmentActions({ attachment }: Props) {
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target="_blank">
+                        target="_blank"
+                        rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
@@ -81,13 +84,14 @@ export default function AttachmentActions({ attachment }: Props) {
                     <Video size={24} className={styles.iconType} />
                     <span className={styles.filename}>{filename}</span>
                     <span className={styles.filesize}>
-                        {metadata.width + "x" + metadata.height} ({filesize})
+                        {`${metadata.width}x${metadata.height}`} ({filesize})
                     </span>
                     <a
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target="_blank">
+                        target="_blank"
+                        rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
@@ -104,7 +108,8 @@ export default function AttachmentActions({ attachment }: Props) {
                         <a
                             href={open_url}
                             target="_blank"
-                            className={styles.externalType}>
+                            className={styles.externalType}
+                            rel="noreferrer">
                             <IconButton>
                                 <LinkExternal size={24} />
                             </IconButton>
@@ -114,7 +119,8 @@ export default function AttachmentActions({ attachment }: Props) {
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target="_blank">
+                        target="_blank"
+                        rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
