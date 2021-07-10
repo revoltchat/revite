@@ -3,6 +3,8 @@ import { Children } from "../../../../types/Preact";
 
 const Grid = styled.div`
     display: grid;
+    overflow: hidden;
+
     max-width: min(var(--attachment-max-width), 100%, var(--width));
     max-height: min(var(--attachment-max-height), var(--height));
     aspect-ratio: var(--aspect-ratio);
@@ -18,6 +20,14 @@ const Grid = styled.div`
         max-height: 100%;
 
         grid-area: 1 / 1;
+    }
+
+    &.spoiler {
+        img, video {
+            filter: blur(44px);
+        }
+        
+        border-radius: var(--border-radius);
     }
 `;
 
