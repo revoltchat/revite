@@ -28,6 +28,7 @@ import IconButton from "../../ui/IconButton";
 import LineDivider from "../../ui/LineDivider";
 import { mapChannelWithUnread } from "./common";
 
+import logoSVG from '../../../assets/logo.svg';
 import { Children } from "../../../types/Preact";
 import UserHover from "../../common/user/UserHover";
 
@@ -237,17 +238,22 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                     active={homeActive}
                     to={lastOpened.home ? `/channel/${lastOpened.home}` : "/"}>
                     <ServerEntry home active={homeActive}>
-                        <div
-                            onContextMenu={attachContextMenu("Status")}
-                            onClick={() =>
-                                homeActive && openContextMenu("Status")
-                            }>
-                            <UserHover user={self}>
-                                <Icon size={42} unread={homeUnread}>
-                                    <UserIcon target={self} size={32} status />
-                                </Icon>
-                            </UserHover>
-                        </div>
+                        { isTouchscreenDevice ?
+                            <Icon size={42} unread={homeUnread}>
+                                <img style={{ width: 32, height: 32 }} src={logoSVG} />
+                            </Icon> :
+                            <div
+                                onContextMenu={attachContextMenu("Status")}
+                                onClick={() =>
+                                    homeActive && openContextMenu("Status")
+                                }>
+                                <UserHover user={self}>
+                                    <Icon size={42} unread={homeUnread}>
+                                        <UserIcon target={self} size={32} status />
+                                    </Icon>
+                                </UserHover>
+                            </div>
+                        }
                         <span />
                     </ServerEntry>
                 </ConditionalLink>
