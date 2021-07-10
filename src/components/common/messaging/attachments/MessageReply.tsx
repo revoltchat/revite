@@ -6,7 +6,7 @@ import { Users } from "revolt.js/dist/api/objects";
 import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
-import { useEffect, useLayoutEffect, useState } from "preact/hooks";
+import { useLayoutEffect, useState } from "preact/hooks";
 
 import { useRenderState } from "../../../../lib/renderer/Singleton";
 
@@ -157,7 +157,9 @@ export function MessageReply({ index, channel, id }: Props) {
         <ReplyBase head={index === 0}>
             <Reply size={16} />
             {user?.relationship === Users.Relationship.Blocked ? (
-                <>Blocked User</>
+                <>
+                    <Text id="app.main.channel.misc.blocked_user" />
+                </>
             ) : (
                 <>
                     {message.author === SYSTEM_USER_ID ? (

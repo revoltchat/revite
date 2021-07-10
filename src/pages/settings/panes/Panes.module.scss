@@ -354,9 +354,11 @@
             display: flex;
             gap: 12px;
             flex-grow: 1;
+            
+            svg {
+                vertical-align: auto;
+            }
         }
-
-        
     }
 
     .entry {
