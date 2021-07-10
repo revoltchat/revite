@@ -61,8 +61,9 @@ export default function ServerIcon(
             {...imgProps}
             width={size}
             height={size}
-            aria-hidden="true"
             src={iconURL}
+            loading="lazy"
+            aria-hidden="true"
         />
     );
 }
