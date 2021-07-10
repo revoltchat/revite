@@ -6,7 +6,7 @@ interface Props {
 
 export function ChannelDebugInfo({ id }: Props) {
     if (process.env.NODE_ENV !== "development") return null;
-    let view = useRenderState(id);
+    const view = useRenderState(id);
     if (!view) return null;
 
     return (

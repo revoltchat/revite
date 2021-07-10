@@ -1,11 +1,13 @@
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { User } from "revolt.js";
 import { Channels, Message, Servers, Users } from "revolt.js/dist/api/objects";
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 
-import { Link } from "react-router-dom";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
+
+import { getState } from "../../../redux";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
@@ -22,14 +24,13 @@ import {
 
 import CollapsibleSection from "../../common/CollapsibleSection";
 import Category from "../../ui/Category";
+import InputBox from "../../ui/InputBox";
 import Preloader from "../../ui/Preloader";
 import placeholderSVG from "../items/placeholder.svg";
 
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 import { UserButton } from "../items/ButtonItem";
 import { ChannelDebugInfo } from "./ChannelDebugInfo";
-import InputBox from "../../ui/InputBox";
-import { getState } from "../../../redux";
 
 interface Props {
     ctx: HookContext;
@@ -56,7 +57,7 @@ export function GroupMemberSidebar({
 }: Props & { channel: Channels.GroupChannel }) {
     const { openScreen } = useIntermediate();
     const users = useUsers(undefined, ctx);
-    let members = channel.recipients
+    const members = channel.recipients
         .map((x) => users.find((y) => y?._id === x))
         .filter((x) => typeof x !== "undefined") as User[];
 
@@ -77,18 +78,18 @@ export function GroupMemberSidebar({
 
     members.sort((a, b) => {
         // ! FIXME: should probably rewrite all this code
-        let l =
+        const l =
             +(
                 (a.online && a.status?.presence !== Users.Presence.Invisible) ??
                 false
             ) | 0;
-        let r =
+        const r =
             +(
                 (b.online && b.status?.presence !== Users.Presence.Invisible) ??
                 false
             ) | 0;
 
-        let n = r - l;
+        const n = r - l;
         if (n !== 0) {
             return n;
         }
@@ -219,18 +220,18 @@ export function ServerMemberSidebar({
     // copy paste from above
     users.sort((a, b) => {
         // ! FIXME: should probably rewrite all this code
-        let l =
+        const l =
             +(
                 (a.online && a.status?.presence !== Users.Presence.Invisible) ??
                 false
             ) | 0;
-        let r =
+        const r =
             +(
                 (b.online && b.status?.presence !== Users.Presence.Invisible) ??
                 false
             ) | 0;
 
-        let n = r - l;
+        const n = r - l;
         if (n !== 0) {
             return n;
         }
@@ -246,16 +247,15 @@ export function ServerMemberSidebar({
                 <div>{!members && <Preloader type="ring" />}</div>
                 {members && (
                     <CollapsibleSection
-                        //sticky //will re-add later, need to fix css 
+                        //sticky //will re-add later, need to fix css
                         id="members"
                         defaultValue
-                        summary={<span>
-                                        <Text id="app.main.categories.members" />{" "}
-                                        — {users.length}
-                                    </span>
-                                }
-
-                        >
+                        summary={
+                            <span>
+                                <Text id="app.main.categories.members" /> —{" "}
+                                {users.length}
+                            </span>
+                        }>
                         {users.length === 0 && <img src={placeholderSVG} />}
                         {users.map(
                             (user) =>
@@ -281,14 +281,18 @@ export function ServerMemberSidebar({
 }
 
 function Search({ channel }: { channel: string }) {
-    if (!getState().experiments.enabled?.includes('search')) return null;
+    if (!getState().experiments.enabled?.includes("search")) return null;
 
     const client = useContext(AppContext);
-    const [query,setV] = useState('');
-    const [results,setResults] = useState<Message[]>([]);
+    const [query, setV] = useState("");
+    const [results, setResults] = useState<Message[]>([]);
 
     async function search() {
-        let data = await client.channels.searchWithUsers(channel, { query, sort: 'Relevance' }, true);
+        const data = await client.channels.searchWithUsers(
+            channel,
+            { query, sort: "Relevance" },
+            true,
+        );
         setResults(data.messages);
     }
 
@@ -298,27 +302,47 @@ function Search({ channel }: { channel: string }) {
             id="search"
             defaultValue={false}
             summary={"Search (BETA)"}>
-            <InputBox style={{ width: '100%' }}
-                onKeyDown={e => e.key === 'Enter' && search()}
-                value={query} onChange={e => setV(e.currentTarget.value)} />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '8px' }}>
-            {
-                results.map(message => {
-                    let href = '';
-                    let channel = client.channels.get(message.channel);
-                    if (channel?.channel_type === 'TextChannel') {
+            <InputBox
+                style={{ width: "100%" }}
+                onKeyDown={(e) => e.key === "Enter" && search()}
+                value={query}
+                onChange={(e) => setV(e.currentTarget.value)}
+            />
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "4px",
+                    marginTop: "8px",
+                }}>
+                {results.map((message) => {
+                    let href = "";
+                    const channel = client.channels.get(message.channel);
+                    if (channel?.channel_type === "TextChannel") {
                         href += `/server/${channel.server}`;
                     }
 
                     href += `/channel/${message.channel}/${message._id}`;
 
-                    return <Link to={href}><div style={{ margin: '2px', padding: '6px', background: 'var(--primary-background)' }}>
-                        <b>@{ client.users.get(message.author)?.username }</b><br/>
-                        { message.content }
-                    </div></Link>
-                })
-            }
+                    return (
+                        <Link to={href}>
+                            <div
+                                style={{
+                                    margin: "2px",
+                                    padding: "6px",
+                                    background: "var(--primary-background)",
+                                }}>
+                                <b>
+                                    @
+                                    {client.users.get(message.author)?.username}
+                                </b>
+                                <br />
+                                {message.content}
+                            </div>
+                        </Link>
+                    );
+                })}
             </div>
         </CollapsibleSection>
-    )
+    );
 }

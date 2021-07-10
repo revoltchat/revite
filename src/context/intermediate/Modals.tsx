@@ -1,5 +1,7 @@
-import { isModalClosing } from "../../components/ui/Modal";
 import { internalEmit } from "../../lib/eventEmitter";
+
+import { isModalClosing } from "../../components/ui/Modal";
+
 import { Screen } from "./Intermediate";
 import { ClipboardModal } from "./modals/Clipboard";
 import { ErrorModal } from "./modals/Error";
@@ -14,7 +16,10 @@ export interface Props {
 }
 
 export default function Modals({ screen, openScreen }: Props) {
-    const onClose = () => isModalClosing ? openScreen({ id: "none" }) : internalEmit('Modal', 'close');
+    const onClose = () =>
+        isModalClosing
+            ? openScreen({ id: "none" })
+            : internalEmit("Modal", "close");
 
     switch (screen.id) {
         case "_prompt":

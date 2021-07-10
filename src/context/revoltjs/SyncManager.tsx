@@ -28,15 +28,15 @@ type Props = {
     notifications: Notifications;
 };
 
-var lastValues: { [key in SyncKeys]?: any } = {};
+const lastValues: { [key in SyncKeys]?: any } = {};
 
 export function mapSync(
     packet: Sync.UserSettings,
     revision?: Record<string, number>,
 ) {
-    let update: { [key in SyncKeys]?: [number, SyncData[key]] } = {};
-    for (let key of Object.keys(packet)) {
-        let [timestamp, obj] = packet[key];
+    const update: { [key in SyncKeys]?: [number, SyncData[key]] } = {};
+    for (const key of Object.keys(packet)) {
+        const [timestamp, obj] = packet[key];
         if (timestamp < (revision ?? {})[key] ?? 0) {
             continue;
         }
@@ -81,7 +81,7 @@ function SyncManager(props: Props) {
     }, [status]);
 
     function syncChange(key: SyncKeys, data: any) {
-        let timestamp = +new Date();
+        const timestamp = +new Date();
         dispatch({
             type: "SYNC_SET_REVISION",
             key,
@@ -96,8 +96,8 @@ function SyncManager(props: Props) {
         );
     }
 
-    let disabled = props.sync.disabled ?? [];
-    for (let [key, object] of [
+    const disabled = props.sync.disabled ?? [];
+    for (const [key, object] of [
         ["appearance", props.settings.appearance],
         ["theme", props.settings.theme],
         ["locale", props.locale],
@@ -119,7 +119,7 @@ function SyncManager(props: Props) {
     useEffect(() => {
         function onPacket(packet: ClientboundNotification) {
             if (packet.type === "UserSettingsUpdate") {
-                let update: { [key in SyncKeys]?: [number, SyncData[key]] } =
+                const update: { [key in SyncKeys]?: [number, SyncData[key]] } =
                     mapSync(packet.update, props.sync.revision);
 
                 dispatch({

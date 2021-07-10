@@ -8,10 +8,14 @@ export const SimpleRenderer: RendererRoutines = {
         if (renderer.client!.websocket.connected) {
             if (nearby)
                 renderer
-                    .client!.channels.fetchMessagesWithUsers(id, { nearby, limit: 100 }, true)
+                    .client!.channels.fetchMessagesWithUsers(
+                        id,
+                        { nearby, limit: 100 },
+                        true,
+                    )
                     .then(({ messages: data }) => {
                         data.sort((a, b) => a._id.localeCompare(b._id));
-                        let messages = data.map((x) => mapMessage(x));
+                        const messages = data.map((x) => mapMessage(x));
                         renderer.setState(
                             id,
                             {
@@ -28,7 +32,7 @@ export const SimpleRenderer: RendererRoutines = {
                     .client!.channels.fetchMessagesWithUsers(id, {}, true)
                     .then(({ messages: data }) => {
                         data.reverse();
-                        let messages = data.map((x) => mapMessage(x));
+                        const messages = data.map((x) => mapMessage(x));
                         renderer.setState(
                             id,
                             {
@@ -72,11 +76,11 @@ export const SimpleRenderer: RendererRoutines = {
         if (!channel) return;
         if (renderer.state.type !== "RENDER") return;
 
-        let messages = [...renderer.state.messages];
-        let index = messages.findIndex((x) => x._id === id);
+        const messages = [...renderer.state.messages];
+        const index = messages.findIndex((x) => x._id === id);
 
         if (index > -1) {
-            let message = { ...messages[index], ...mapMessage(patch) };
+            const message = { ...messages[index], ...mapMessage(patch) };
             messages.splice(index, 1, message);
 
             renderer.setState(
@@ -94,8 +98,8 @@ export const SimpleRenderer: RendererRoutines = {
         if (!channel) return;
         if (renderer.state.type !== "RENDER") return;
 
-        let messages = [...renderer.state.messages];
-        let index = messages.findIndex((x) => x._id === id);
+        const messages = [...renderer.state.messages];
+        const index = messages.findIndex((x) => x._id === id);
 
         if (index > -1) {
             messages.splice(index, 1);

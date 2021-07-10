@@ -35,7 +35,7 @@ declare global {
 if (typeof window !== "undefined") {
     window.copycode = function (element: HTMLDivElement) {
         try {
-            let code = element.parentElement?.parentElement?.children[1];
+            const code = element.parentElement?.parentElement?.children[1];
             if (code) {
                 navigator.clipboard.writeText(code.textContent?.trim() ?? "");
             }
@@ -47,9 +47,9 @@ export const md: MarkdownIt = MarkdownIt({
     breaks: true,
     linkify: true,
     highlight: (str, lang) => {
-        let v = Prism.languages[lang];
+        const v = Prism.languages[lang];
         if (v) {
-            let out = Prism.highlight(str, v, lang);
+            const out = Prism.highlight(str, v, lang);
             return `<pre class="code"><div class="lang"><div onclick="copycode(this)">${lang}</div></div><code class="language-${lang}">${out}</code></pre>`;
         }
 
@@ -66,7 +66,7 @@ export const md: MarkdownIt = MarkdownIt({
     .use(MarkdownKatex, {
         throwOnError: false,
         maxExpand: 0,
-        maxSize: 10
+        maxSize: 10,
     });
 
 // TODO: global.d.ts file for defining globals
@@ -89,7 +89,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
 
     // We replace the message with the mention at the time of render.
     // We don't care if the mention changes.
-    let newContent = content.replace(
+    const newContent = content.replace(
         RE_MENTIONS,
         (sub: string, ...args: any[]) => {
             const id = args[0],
@@ -109,7 +109,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
 
     const toggle = useCallback((ev: MouseEvent) => {
         if (ev.currentTarget) {
-            let element = ev.currentTarget as HTMLDivElement;
+            const element = ev.currentTarget as HTMLDivElement;
             if (element.classList.contains("spoiler")) {
                 element.classList.add("shown");
             }
@@ -123,7 +123,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
             const pathname = url.pathname;
 
             if (pathname.startsWith("/@")) {
-                let id = pathname.substr(2);
+                const id = pathname.substr(2);
                 if (/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/.test(id)) {
                     ev.preventDefault();
                     internalEmit("Intermediate", "openProfile", id);
@@ -137,19 +137,20 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
 
     return (
         <span
-            ref={el => {
+            ref={(el) => {
                 if (el) {
-                    (el.querySelectorAll<HTMLDivElement>('.spoiler'))
-                        .forEach(element => {
-                            element.removeEventListener('click', toggle);
-                            element.addEventListener('click', toggle);
-                        });
+                    el.querySelectorAll<HTMLDivElement>(".spoiler").forEach(
+                        (element) => {
+                            element.removeEventListener("click", toggle);
+                            element.addEventListener("click", toggle);
+                        },
+                    );
 
-                    (el.querySelectorAll<HTMLAnchorElement>('a'))
-                        .forEach(element => {
-                            element.removeEventListener('click', handleLink);
-                            element.removeAttribute('data-type');
-                            element.removeAttribute('target');
+                    el.querySelectorAll<HTMLAnchorElement>("a").forEach(
+                        (element) => {
+                            element.removeEventListener("click", handleLink);
+                            element.removeAttribute("data-type");
+                            element.removeAttribute("target");
 
                             let internal;
                             const href = element.href;
@@ -159,19 +160,26 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
 
                                     if (url.hostname === location.hostname) {
                                         internal = true;
-                                        element.addEventListener('click', handleLink);
+                                        element.addEventListener(
+                                            "click",
+                                            handleLink,
+                                        );
 
-                                        if (url.pathname.startsWith('/@')) {
-                                            element.setAttribute('data-type', 'mention');
+                                        if (url.pathname.startsWith("/@")) {
+                                            element.setAttribute(
+                                                "data-type",
+                                                "mention",
+                                            );
                                         }
                                     }
                                 } catch (err) {}
                             }
 
                             if (!internal) {
-                                element.setAttribute('target', '_blank');
+                                element.setAttribute("target", "_blank");
                             }
-                        });
+                        },
+                    );
                 }
             }}
             className={styles.markdown}

@@ -40,7 +40,7 @@ export function Overview({ server }: Props) {
 
     const [changed, setChanged] = useState(false);
     function save() {
-        let changes: Partial<
+        const changes: Partial<
             Pick<Servers.Server, "name" | "description" | "system_messages">
         > = {};
         if (name !== server.name) changes.name = name;

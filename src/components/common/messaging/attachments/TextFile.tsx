@@ -39,7 +39,7 @@ export default function TextFile({ attachment }: Props) {
 
         setLoading(true);
 
-        let cached = fileCache[attachment._id];
+        const cached = fileCache[attachment._id];
         if (cached) {
             setContent(cached);
             setLoading(false);

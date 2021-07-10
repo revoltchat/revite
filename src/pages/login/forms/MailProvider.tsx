@@ -43,7 +43,7 @@ export function MailProvider({ email }: Props) {
 
     return (
         <div className={styles.mailProvider}>
-            <a href={provider[1]} target="_blank">
+            <a href={provider[1]} target="_blank" rel="noreferrer">
                 <Button>
                     <Text
                         id="login.open_mail_provider"

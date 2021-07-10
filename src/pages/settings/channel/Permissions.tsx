@@ -33,11 +33,11 @@ export default function Permissions({ channel }: Props) {
     const client = useContext(AppContext);
 
     type R = { name: string; permissions: number };
-    let roles: { [key: string]: R } = {};
+    const roles: { [key: string]: R } = {};
     if (channel.channel_type !== "Group") {
         const server = useServer(channel.server);
         const a = server?.roles ?? {};
-        for (let b of Object.keys(a)) {
+        for (const b of Object.keys(a)) {
             roles[b] = {
                 name: a[b].name,
                 permissions: a[b].permissions[1],
@@ -73,7 +73,7 @@ export default function Permissions({ channel }: Props) {
             <h2>select role</h2>
             {selected}
             {keys.map((id) => {
-                let role: R = id === "default" ? defaultRole : roles[id];
+                const role: R = id === "default" ? defaultRole : roles[id];
 
                 return (
                     <Checkbox
@@ -85,7 +85,7 @@ export default function Permissions({ channel }: Props) {
             })}
             <h2>channel per??issions</h2>
             {Object.keys(ChannelPermission).map((perm) => {
-                let value =
+                const value =
                     ChannelPermission[perm as keyof typeof ChannelPermission];
                 if (value & DEFAULT_PERMISSION_DM) {
                     return (

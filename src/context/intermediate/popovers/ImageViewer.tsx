@@ -25,7 +25,7 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
     // ! FIXME: temp code
     // ! add proxy function to client
     function proxyImage(url: string) {
-        return "https://jan.revolt.chat/proxy?url=" + encodeURIComponent(url);
+        return `https://jan.revolt.chat/proxy?url=${encodeURIComponent(url)}`;
     }
 
     if (attachment && attachment.metadata.type !== "Image") {

@@ -55,7 +55,7 @@ export async function uploadFile(
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await Axios.post(autumnURL + "/" + tag, formData, {
+    const res = await Axios.post(`${autumnURL}/${tag}`, formData, {
         headers: {
             "Content-Type": "multipart/form-data",
         },
@@ -78,7 +78,7 @@ export function grabFiles(
     input.onchange = async (e) => {
         const files = (e.currentTarget as HTMLInputElement)?.files;
         if (!files) return;
-        for (let file of files) {
+        for (const file of files) {
             if (file.size > maxFileSize) {
                 return tooLarge();
             }
@@ -139,12 +139,10 @@ export function FileUploader(props: Props) {
             } else {
                 onClick();
             }
+        } else if (props.previewURL) {
+            props.remove();
         } else {
-            if (props.previewURL) {
-                props.remove();
-            } else {
-                onClick();
-            }
+            onClick();
         }
     }
 
@@ -156,7 +154,7 @@ export function FileUploader(props: Props) {
                 if (typeof items === "undefined") return;
                 if (props.behaviour !== "multi" || !props.append) return;
 
-                let files = [];
+                const files = [];
                 for (const item of items) {
                     if (!item.type.startsWith("text/")) {
                         const blob = item.getAsFile();
@@ -190,7 +188,7 @@ export function FileUploader(props: Props) {
 
                 const dropped = e.dataTransfer?.files;
                 if (dropped) {
-                    let files = [];
+                    const files = [];
                     for (const item of dropped) {
                         if (item.size > props.maxFileSize) {
                             openScreen({ id: "error", error: "FileTooLarge" });

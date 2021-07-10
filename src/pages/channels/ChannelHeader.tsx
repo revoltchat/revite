@@ -58,7 +58,7 @@ const Info = styled.div`
         font-size: 0.8em;
         font-weight: 400;
         color: var(--secondary-foreground);
-        
+
         > * {
             pointer-events: none;
         }
@@ -93,11 +93,11 @@ export default function ChannelHeader({
 
     return (
         <Header placement="primary">
-            {isTouchscreenDevice &&
+            {isTouchscreenDevice && (
                 <div className="menu">
                     <Menu size={27} />
                 </div>
-            }
+            )}
             {icon}
             <Info>
                 <span className="name">{name}</span>

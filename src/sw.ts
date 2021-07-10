@@ -26,13 +26,13 @@ const ENCODING_LEN = ENCODING.length;
 const TIME_LEN = 10;
 
 function decodeTime(id: string) {
-    var time = id
+    const time = id
         .substr(0, TIME_LEN)
         .split("")
         .reverse()
-        .reduce(function (carry, char, index) {
-            var encodingIndex = ENCODING.indexOf(char);
-            if (encodingIndex === -1) throw "invalid character found: " + char;
+        .reduce((carry, char, index) => {
+            const encodingIndex = ENCODING.indexOf(char);
+            if (encodingIndex === -1) throw `invalid character found: ${char}`;
 
             return (carry += encodingIndex * Math.pow(ENCODING_LEN, index));
         }, 0);
@@ -43,9 +43,9 @@ function decodeTime(id: string) {
 self.addEventListener("push", (event) => {
     async function process() {
         if (event.data === null) return;
-        let data: Message = event.data.json();
+        const data: Message = event.data.json();
 
-        let item = await localStorage.getItem("state");
+        const item = await localStorage.getItem("state");
         if (!item) return;
 
         const state: State = JSON.parse(item);
@@ -57,7 +57,7 @@ self.addEventListener("push", (event) => {
             // Match RevoltClient.tsx#L55
             db = await openDB("state", 3, {
                 upgrade(db) {
-                    for (let store of [
+                    for (const store of [
                         "channels",
                         "servers",
                         "users",
@@ -87,8 +87,8 @@ self.addEventListener("push", (event) => {
             }
         }
 
-        let channel = await get<Channel>("channels", data.channel);
-        let user = await get<User>("users", data.author);
+        const channel = await get<Channel>("channels", data.channel);
+        const user = await get<User>("users", data.author);
 
         if (channel) {
             const notifs = getNotificationState(state.notifications, channel);
@@ -96,10 +96,10 @@ self.addEventListener("push", (event) => {
         }
 
         let title = `@${data.author}`;
-        let username = user?.username ?? data.author;
+        const username = user?.username ?? data.author;
         let image;
         if (data.attachments) {
-            let attachment = data.attachments[0];
+            const attachment = data.attachments[0];
             if (attachment.metadata.type === "Image") {
                 image = `${autumn_url}/${attachment.tag}/${attachment._id}`;
             }
@@ -120,7 +120,7 @@ self.addEventListener("push", (event) => {
                 break;
             case "TextChannel":
                 {
-                    let server = await get<Server>("servers", channel.server);
+                    const server = await get<Server>("servers", channel.server);
                     title = `@${user?.username} (#${channel.name}, ${server?.name})`;
                 }
                 break;
@@ -150,16 +150,16 @@ self.addEventListener("push", (event) => {
 
 // ? Open the app on notification click.
 // https://stackoverflow.com/a/39457287
-self.addEventListener("notificationclick", function (event) {
-    let url = event.notification.data;
+self.addEventListener("notificationclick", (event) => {
+    const url = event.notification.data;
     event.notification.close();
     event.waitUntil(
         self.clients
             .matchAll({ includeUncontrolled: true, type: "window" })
             .then((windowClients) => {
                 // Check if there is already a window/tab open with the target URL
-                for (var i = 0; i < windowClients.length; i++) {
-                    var client = windowClients[i];
+                for (let i = 0; i < windowClients.length; i++) {
+                    const client = windowClients[i];
                     // If so, just focus it.
                     if (client.url === url && "focus" in client) {
                         return client.focus();

@@ -147,13 +147,19 @@ export default function Settings() {
             switchPage={switchPage}
             category="pages"
             custom={[
-                <a href="https://gitlab.insrt.uk/revolt" target="_blank">
+                <a
+                    href="https://gitlab.insrt.uk/revolt"
+                    target="_blank"
+                    rel="noreferrer">
                     <ButtonItem compact>
                         <Gitlab size={20} />
                         <Text id="app.settings.pages.source_code" />
                     </ButtonItem>
                 </a>,
-                <a href="https://ko-fi.com/insertish" target="_blank">
+                <a
+                    href="https://ko-fi.com/insertish"
+                    target="_blank"
+                    rel="noreferrer">
                     <ButtonItem className={styles.donate} compact>
                         <Coffee size={20} />
                         <Text id="app.settings.pages.donate.title" />
@@ -172,7 +178,8 @@ export default function Settings() {
                         <span className={styles.revision}>
                             <a
                                 href={`${REPO_URL}/${GIT_REVISION}`}
-                                target="_blank">
+                                target="_blank"
+                                rel="noreferrer">
                                 {GIT_REVISION.substr(0, 7)}
                             </a>
                             {` `}
@@ -182,7 +189,8 @@ export default function Settings() {
                                         ? `https://gitlab.insrt.uk/revolt/client/-/tree/${GIT_BRANCH}`
                                         : undefined
                                 }
-                                target="_blank">
+                                target="_blank"
+                                rel="noreferrer">
                                 ({GIT_BRANCH})
                             </a>
                         </span>

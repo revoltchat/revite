@@ -1,5 +1,5 @@
-import { Message, Group, Inbox } from "@styled-icons/boxicons-solid";
 import { Search } from "@styled-icons/boxicons-regular";
+import { Message, Group, Inbox } from "@styled-icons/boxicons-solid";
 import { useHistory, useLocation } from "react-router";
 import styled, { css } from "styled-components";
 
@@ -113,7 +113,6 @@ export function BottomNavigation({ lastOpened }: Props) {
                 </Button>
             </Navbar>
         </Base>
-        
     );
 }
 

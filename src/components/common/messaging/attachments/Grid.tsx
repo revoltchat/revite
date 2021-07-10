@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import { Children } from "../../../../types/Preact";
 
 const Grid = styled.div`
@@ -9,7 +10,8 @@ const Grid = styled.div`
     max-height: min(var(--attachment-max-height), var(--height));
     aspect-ratio: var(--aspect-ratio);
 
-    img, video {
+    img,
+    video {
         min-width: 100%;
         min-height: 100%;
 
@@ -23,35 +25,40 @@ const Grid = styled.div`
     }
 
     &.spoiler {
-        img, video {
+        img,
+        video {
             filter: blur(44px);
         }
-        
+
         border-radius: var(--border-radius);
     }
 `;
 
 export default Grid;
 
-type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'as' | 'style'> & {
-    style?: JSX.CSSProperties,
-    children?: Children,
-    width: number,
-    height: number,
+type Props = Omit<
+    JSX.HTMLAttributes<HTMLDivElement>,
+    "children" | "as" | "style"
+> & {
+    style?: JSX.CSSProperties;
+    children?: Children;
+    width: number;
+    height: number;
 };
 
 export function SizedGrid(props: Props) {
     const { width, height, children, style, ...divProps } = props;
 
     return (
-        <Grid {...divProps}
+        <Grid
+            {...divProps}
             style={{
                 ...style,
-                "--width": width + 'px',
-                "--height": height + 'px',
+                "--width": `${width}px`,
+                "--height": `${height}px`,
                 "--aspect-ratio": width / height,
             }}>
-            { children }
+            {children}
         </Grid>
-    )
+    );
 }

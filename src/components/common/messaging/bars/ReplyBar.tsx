@@ -78,7 +78,7 @@ export default function ReplyBar({ channel, replies, setReplies }: Props) {
     return (
         <div>
             {replies.map((reply, index) => {
-                let message = messages.find((x) => reply.id === x._id);
+                const message = messages.find((x) => reply.id === x._id);
                 // ! FIXME: better solution would be to
                 // ! have a hook for resolving messages from
                 // ! render state along with relevant users
@@ -90,7 +90,7 @@ export default function ReplyBar({ channel, replies, setReplies }: Props) {
                         </span>
                     );
 
-                let user = users.find((x) => message!.author === x?._id);
+                const user = users.find((x) => message!.author === x?._id);
                 if (!user) return;
 
                 return (

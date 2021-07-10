@@ -1,4 +1,6 @@
 // @ts-ignore
+import { Reset, Import } from "@styled-icons/boxicons-regular";
+import { Pencil } from "@styled-icons/boxicons-solid";
 import pSBC from "shade-blend-color";
 
 import styles from "./Panes.module.scss";
@@ -26,6 +28,7 @@ import {
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
+import Tooltip from "../../../components/common/Tooltip";
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
@@ -37,9 +40,6 @@ import mutantSVG from "../assets/mutant_emoji.svg";
 import notoSVG from "../assets/noto_emoji.svg";
 import openmojiSVG from "../assets/openmoji_emoji.svg";
 import twemojiSVG from "../assets/twemoji_emoji.svg";
-import { Reset, Import } from "@styled-icons/boxicons-regular";
-import { Pencil } from "@styled-icons/boxicons-solid";
-import Tooltip from "../../../components/common/Tooltip";
 
 interface Props {
     settings: Settings;
@@ -205,7 +205,8 @@ export function Component(props: Props) {
                             Mutant Remix{" "}
                             <a
                                 href="https://mutant.revolt.chat"
-                                target="_blank">
+                                target="_blank"
+                                rel="noreferrer">
                                 (by Revolt)
                             </a>
                         </h4>
@@ -247,23 +248,37 @@ export function Component(props: Props) {
                 id="settings_overrides"
                 summary={<Text id="app.settings.pages.appearance.overrides" />}>
                 <div className={styles.actions}>
-                    <Tooltip content={<Text id="app.settings.pages.appearance.reset_overrides" />}>
-                        <Button contrast iconbutton onClick={() => setTheme({ custom: {} })}>
-                            <Reset size={22}/>
+                    <Tooltip
+                        content={
+                            <Text id="app.settings.pages.appearance.reset_overrides" />
+                        }>
+                        <Button
+                            contrast
+                            iconbutton
+                            onClick={() => setTheme({ custom: {} })}>
+                            <Reset size={22} />
                         </Button>
                     </Tooltip>
-                    <div className={styles.code} onClick={() => writeClipboard(JSON.stringify(theme))}>
-                        <Tooltip content={<Text id="app.special.copy" />}> {/*TOFIX: Try to put the tooltip above the .code div without messing up the css challenge */}
+                    <div
+                        className={styles.code}
+                        onClick={() => writeClipboard(JSON.stringify(theme))}>
+                        <Tooltip content={<Text id="app.special.copy" />}>
+                            {" "}
+                            {/*TOFIX: Try to put the tooltip above the .code div without messing up the css challenge */}
                             {JSON.stringify(theme)}
                         </Tooltip>
                     </div>
-                    <Tooltip content={<Text id="app.settings.pages.appearance.import" />}>
+                    <Tooltip
+                        content={
+                            <Text id="app.settings.pages.appearance.import" />
+                        }>
                         <Button
                             contrast
                             iconbutton
                             onClick={async () => {
                                 try {
-                                    const text = await navigator.clipboard.readText();
+                                    const text =
+                                        await navigator.clipboard.readText();
                                     setOverride(JSON.parse(text));
                                 } catch (err) {
                                     openScreen({
@@ -279,13 +294,11 @@ export function Component(props: Props) {
                                     });
                                 }
                             }}>
-                            <Import size={22}/>
+                            <Import size={22} />
                         </Button>
                     </Tooltip>
                 </div>
-                <h3>
-                    App
-                </h3>
+                <h3>App</h3>
                 <div className={styles.overrides}>
                     {(
                         [
@@ -315,7 +328,9 @@ export function Component(props: Props) {
                             "hover",
                         ] as const
                     ).map((x) => (
-                        <div className={styles.entry} key={x}
+                        <div
+                            className={styles.entry}
+                            key={x}
                             style={{ backgroundColor: theme[x] }}>
                             <div className={styles.input}>
                                 <input
@@ -330,8 +345,13 @@ export function Component(props: Props) {
                             </div>
                             <span>{x}</span>
                             <div className={styles.override}>
-                                <div className={styles.picker}
-                                    onClick={e => e.currentTarget.parentElement?.parentElement?.querySelector('input')?.click()}>
+                                <div
+                                    className={styles.picker}
+                                    onClick={(e) =>
+                                        e.currentTarget.parentElement?.parentElement
+                                            ?.querySelector("input")
+                                            ?.click()
+                                    }>
                                     <Pencil size={24} />
                                 </div>
                                 <InputBox

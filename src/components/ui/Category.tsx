@@ -44,7 +44,7 @@ type Props = Omit<
 };
 
 export default function Category(props: Props) {
-    let { text, action, ...otherProps } = props;
+    const { text, action, ...otherProps } = props;
 
     return (
         <CategoryBase {...otherProps}>

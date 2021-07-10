@@ -8,9 +8,9 @@ import { useIntermediate } from "../../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../../context/revoltjs/RevoltClient";
 
 import AttachmentActions from "./AttachmentActions";
-import TextFile from "./TextFile";
 import { SizedGrid } from "./Grid";
 import Spoiler from "./Spoiler";
+import TextFile from "./TextFile";
 
 interface Props {
     attachment: AttachmentRJS;
@@ -34,9 +34,16 @@ export default function Attachment({ attachment, hasContent }: Props) {
     switch (metadata.type) {
         case "Image": {
             return (
-                <SizedGrid width={metadata.width} height={metadata.height}
-                    className={classNames({ [styles.margin]: hasContent, spoiler })}>
-                    <img src={url} alt={filename}
+                <SizedGrid
+                    width={metadata.width}
+                    height={metadata.height}
+                    className={classNames({
+                        [styles.margin]: hasContent,
+                        spoiler,
+                    })}>
+                    <img
+                        src={url}
+                        alt={filename}
                         className={styles.image}
                         loading="lazy"
                         onClick={() =>
@@ -44,20 +51,28 @@ export default function Attachment({ attachment, hasContent }: Props) {
                         }
                         onMouseDown={(ev) =>
                             ev.button === 1 && window.open(url, "_blank")
-                        } />
-                    { spoiler && <Spoiler set={setSpoiler} /> }
+                        }
+                    />
+                    {spoiler && <Spoiler set={setSpoiler} />}
                 </SizedGrid>
-            )
+            );
         }
 
         case "Video": {
             return (
-                <div className={classNames(styles.container, { [styles.margin]: hasContent })}
-                    style={{ '--width': metadata.width + 'px' }}>
+                <div
+                    className={classNames(styles.container, {
+                        [styles.margin]: hasContent,
+                    })}
+                    style={{ "--width": `${metadata.width}px` }}>
                     <AttachmentActions attachment={attachment} />
-                    <SizedGrid width={metadata.width} height={metadata.height}
+                    <SizedGrid
+                        width={metadata.width}
+                        height={metadata.height}
                         className={classNames({ spoiler })}>
-                        <video src={url} alt={filename}
+                        <video
+                            src={url}
+                            alt={filename}
                             controls
                             loading="lazy"
                             width={metadata.width}
@@ -66,10 +81,10 @@ export default function Attachment({ attachment, hasContent }: Props) {
                                 ev.button === 1 && window.open(url, "_blank")
                             }
                         />
-                        { spoiler && <Spoiler set={setSpoiler} /> }
+                        {spoiler && <Spoiler set={setSpoiler} />}
                     </SizedGrid>
                 </div>
-            )
+            );
         }
 
         case "Audio": {
@@ -82,7 +97,7 @@ export default function Attachment({ attachment, hasContent }: Props) {
                 </div>
             );
         }
-        
+
         case "Text": {
             return (
                 <div

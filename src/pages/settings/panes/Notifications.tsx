@@ -59,7 +59,8 @@ export function Component({ options }: Props) {
                 }
                 onChange={async (desktopEnabled) => {
                     if (desktopEnabled) {
-                        let permission = await Notification.requestPermission();
+                        const permission =
+                            await Notification.requestPermission();
                         if (permission !== "granted") {
                             return openScreen({
                                 id: "error",
@@ -126,7 +127,7 @@ export function Component({ options }: Props) {
             </h3>
             {SOUNDS_ARRAY.map((key) => (
                 <Checkbox
-                    checked={enabledSounds[key] ? true : false}
+                    checked={!!enabledSounds[key]}
                     onChange={(enabled) =>
                         dispatch({
                             type: "SETTINGS_SET_NOTIFICATION_OPTIONS",

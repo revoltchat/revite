@@ -10,10 +10,10 @@ import { dispatch, getState } from "../../redux";
 
 import { useChannel, useForceUpdate } from "../../context/revoltjs/hooks";
 
+import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
-import AgeGate from "../../components/common/AgeGate";
 
 import MemberSidebar from "../../components/navigation/right/MemberSidebar";
 import ChannelHeader from "./ChannelHeader";
@@ -43,9 +43,8 @@ export function Channel({ id }: { id: string }) {
 
     if (channel.channel_type === "VoiceChannel") {
         return <VoiceChannel channel={channel} />;
-    } else {
-        return <TextChannel channel={channel} />;
     }
+    return <TextChannel channel={channel} />;
 }
 
 const MEMBERS_SIDEBAR_KEY = "sidebar_members";
@@ -54,14 +53,16 @@ function TextChannel({ channel }: { channel: Channels.Channel }) {
         getState().sectionToggle[MEMBERS_SIDEBAR_KEY] ?? true,
     );
 
-    let id = channel._id;
+    const id = channel._id;
     return (
         <AgeGate
             type="channel"
             channel={channel}
-            gated={(channel.channel_type === "TextChannel" ||
-                channel.channel_type === "Group") &&
-                channel.name.includes("nsfw")}>
+            gated={
+                (channel.channel_type === "TextChannel" ||
+                    channel.channel_type === "Group") &&
+                channel.name.includes("nsfw")
+            }>
             <ChannelHeader
                 channel={channel}
                 toggleSidebar={() => {

@@ -149,7 +149,7 @@ function HomeSidebar(props: Props) {
                     if (x.channel_type === "DirectMessage") {
                         if (!x.active) return null;
 
-                        let recipient = client.channels.getRecipient(x._id);
+                        const recipient = client.channels.getRecipient(x._id);
                         user = users.find((x) => x?._id === recipient);
 
                         if (!user) {

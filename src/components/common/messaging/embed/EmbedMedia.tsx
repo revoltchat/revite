@@ -14,7 +14,7 @@ export default function EmbedMedia({ embed, width, height }: Props) {
     // ! FIXME: temp code
     // ! add proxy function to client
     function proxyImage(url: string) {
-        return "https://jan.revolt.chat/proxy?url=" + encodeURIComponent(url);
+        return `https://jan.revolt.chat/proxy?url=${encodeURIComponent(url)}`;
     }
 
     if (embed.type !== "Website") return null;
@@ -75,7 +75,7 @@ export default function EmbedMedia({ embed, width, height }: Props) {
         }
         default: {
             if (embed.image) {
-                let url = embed.image.url;
+                const url = embed.image.url;
                 return (
                     <img
                         className={styles.image}

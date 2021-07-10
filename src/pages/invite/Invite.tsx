@@ -106,14 +106,22 @@ export default function Invite() {
                                     setProcessing(true);
 
                                     if (invite.type === "Server") {
-                                        if (client.servers.get(invite.server_id)) {
-                                            history.push(`/server/${invite.server_id}/channel/${invite.channel_id}`);
+                                        if (
+                                            client.servers.get(invite.server_id)
+                                        ) {
+                                            history.push(
+                                                `/server/${invite.server_id}/channel/${invite.channel_id}`,
+                                            );
                                         }
                                     }
 
-                                    let result = await client.joinInvite(code);
+                                    const result = await client.joinInvite(
+                                        code,
+                                    );
                                     if (result.type === "Server") {
-                                        history.push(`/server/${result.server._id}/channel/${result.channel._id}`);
+                                        history.push(
+                                            `/server/${result.server._id}/channel/${result.channel._id}`,
+                                        );
                                     }
                                 } catch (err) {
                                     setError(takeError(err));

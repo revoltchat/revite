@@ -74,10 +74,15 @@ export class SingletonRenderer extends EventEmitter3 {
 
     async init(id: string, message_id?: string) {
         if (message_id) {
-            if (this.state.type === 'RENDER') {
-                let message = this.state.messages.find(x => x._id === message_id);
+            if (this.state.type === "RENDER") {
+                const message = this.state.messages.find(
+                    (x) => x._id === message_id,
+                );
                 if (message) {
-                    this.emit("scroll", { type: "ScrollToView", id: message_id });
+                    this.emit("scroll", {
+                        type: "ScrollToView",
+                        id: message_id,
+                    });
                     return;
                 }
             }
@@ -103,9 +108,9 @@ export class SingletonRenderer extends EventEmitter3 {
         function generateScroll(end: string): ScrollState {
             if (ref) {
                 let heightRemoved = 0;
-                let messageContainer = ref.children[0];
+                const messageContainer = ref.children[0];
                 if (messageContainer) {
-                    for (let child of Array.from(messageContainer.children)) {
+                    for (const child of Array.from(messageContainer.children)) {
                         // If this child has a ulid.
                         if (child.id?.length === 26) {
                             // Check whether it was removed.
@@ -127,12 +132,11 @@ export class SingletonRenderer extends EventEmitter3 {
                     type: "OffsetTop",
                     previousHeight: ref.scrollHeight - heightRemoved,
                 };
-            } else {
-                return {
-                    type: "OffsetTop",
-                    previousHeight: 0,
-                };
             }
+            return {
+                type: "OffsetTop",
+                previousHeight: 0,
+            };
         }
 
         await this.currentRenderer.loadTop(this, generateScroll);
@@ -148,9 +152,9 @@ export class SingletonRenderer extends EventEmitter3 {
         function generateScroll(start: string): ScrollState {
             if (ref) {
                 let heightRemoved = 0;
-                let messageContainer = ref.children[0];
+                const messageContainer = ref.children[0];
                 if (messageContainer) {
-                    for (let child of Array.from(messageContainer.children)) {
+                    for (const child of Array.from(messageContainer.children)) {
                         // If this child has a ulid.
                         if (child.id?.length === 26) {
                             // Check whether it was removed.
@@ -172,11 +176,10 @@ export class SingletonRenderer extends EventEmitter3 {
                     type: "ScrollTop",
                     y: ref.scrollTop - heightRemoved,
                 };
-            } else {
-                return {
-                    type: "ScrollToBottom",
-                };
             }
+            return {
+                type: "ScrollToBottom",
+            };
         }
 
         await this.currentRenderer.loadBottom(this, generateScroll);

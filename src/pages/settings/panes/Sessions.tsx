@@ -1,12 +1,18 @@
+import { Chrome, Android, Apple, Windows } from "@styled-icons/boxicons-logos";
 import { HelpCircle } from "@styled-icons/boxicons-regular";
+import {
+    Safari,
+    Firefoxbrowser,
+    Microsoftedge,
+    Linux,
+    Macos,
+} from "@styled-icons/simple-icons";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useHistory } from "react-router-dom";
 import { decodeTime } from "ulid";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { Safari, Firefoxbrowser, Microsoftedge, Linux, Macos } from "@styled-icons/simple-icons";
-import { Chrome, Android, Apple, Windows } from "@styled-icons/boxicons-logos";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { dayjs } from "../../../context/Locale";
@@ -95,7 +101,7 @@ export function Sessions() {
     });
 
     mapped.sort((a, b) => b.timestamp - a.timestamp);
-    let id = mapped.findIndex((x) => x.id === deviceId);
+    const id = mapped.findIndex((x) => x.id === deviceId);
 
     const render = [
         mapped[id],
@@ -114,7 +120,9 @@ export function Sessions() {
                     <div
                         className={styles.entry}
                         data-active={session.id === deviceId}
-                        data-deleting={attemptingDelete.indexOf(session.id) > -1}>
+                        data-deleting={
+                            attemptingDelete.indexOf(session.id) > -1
+                        }>
                         {deviceId === session.id && (
                             <span className={styles.label}>
                                 <Text id="app.settings.pages.sessions.this_device" />{" "}
@@ -122,18 +130,25 @@ export function Sessions() {
                         )}
                         <div className={styles.session}>
                             <div className={styles.detail}>
-                                <svg width={42} height={42}
-                                    viewBox="0 0 32 32">
+                                <svg width={42} height={42} viewBox="0 0 32 32">
                                     <foreignObject
                                         x="0"
                                         y="0"
                                         width="32"
                                         height="32"
-                                        mask={systemIcon ? "url(#session)": undefined}>
+                                        mask={
+                                            systemIcon
+                                                ? "url(#session)"
+                                                : undefined
+                                        }>
                                         {getIcon(session)}
                                     </foreignObject>
-                                    <foreignObject x="18" y="18" width="14" height="14">
-                                        { systemIcon }
+                                    <foreignObject
+                                        x="18"
+                                        y="18"
+                                        width="14"
+                                        height="14">
+                                        {systemIcon}
                                     </foreignObject>
                                 </svg>
                                 <div className={styles.info}>
@@ -142,7 +157,8 @@ export function Sessions() {
                                         className={styles.name}
                                         value={session.friendly_name}
                                         autocomplete="off"
-                                        style={{ pointerEvents: 'none' }} />
+                                        style={{ pointerEvents: "none" }}
+                                    />
                                     <span className={styles.time}>
                                         <Text
                                             id="app.settings.pages.sessions.created"
@@ -155,7 +171,7 @@ export function Sessions() {
                                     </span>
                                 </div>
                             </div>
-                                {deviceId !== session.id && (
+                            {deviceId !== session.id && (
                                 <Button
                                     onClick={async () => {
                                         setDelete([
@@ -173,35 +189,37 @@ export function Sessions() {
                                         );
                                     }}
                                     disabled={
-                                        attemptingDelete.indexOf(session.id) > -1
+                                        attemptingDelete.indexOf(session.id) >
+                                        -1
                                     }>
                                     <Text id="app.settings.pages.logOut" />
                                 </Button>
                             )}
                         </div>
                     </div>
-                )
+                );
             })}
-            <Button error
+            <Button
+                error
                 onClick={async () => {
                     // ! FIXME: add to rAuth
-                    let del: string[] = [];
+                    const del: string[] = [];
                     render.forEach((session) => {
                         if (deviceId !== session.id) {
                             del.push(session.id);
                         }
-                    })
+                    });
 
                     setDelete(del);
 
-                    for (let id of del) {
+                    for (const id of del) {
                         await client.req(
                             "DELETE",
                             `/auth/sessions/${id}` as "/auth/sessions",
                         );
                     }
 
-                    setSessions(sessions.filter(x => x.id === deviceId));
+                    setSessions(sessions.filter((x) => x.id === deviceId));
                 }}>
                 <Text id="app.settings.pages.sessions.logout" />
             </Button>

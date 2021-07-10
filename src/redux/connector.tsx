@@ -11,6 +11,6 @@ export function connectState<T>(
     mapKeys: (state: State, props: T) => any,
     memoize?: boolean,
 ): ConnectedComponent<(props: any) => h.JSX.Element | null, T> {
-    let c = connect(mapKeys)(component);
+    const c = connect(mapKeys)(component);
     return memoize ? memo(c) : c;
 }

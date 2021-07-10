@@ -44,10 +44,10 @@ function StateMonitor(props: Props) {
     useEffect(() => {
         function removeOld() {
             if (!props.typing) return;
-            for (let channel of Object.keys(props.typing)) {
-                let users = props.typing[channel];
+            for (const channel of Object.keys(props.typing)) {
+                const users = props.typing[channel];
 
-                for (let user of users) {
+                for (const user of users) {
                     if (+new Date() > user.started + 5000) {
                         dispatch({
                             type: "TYPING_STOP",
@@ -61,7 +61,7 @@ function StateMonitor(props: Props) {
 
         removeOld();
 
-        let interval = setInterval(removeOld, 1000);
+        const interval = setInterval(removeOld, 1000);
         return () => clearInterval(interval);
     }, [props.typing]);
 

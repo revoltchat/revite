@@ -81,8 +81,8 @@ function ServerSidebar(props: Props) {
         });
     }, [channel_id]);
 
-    let uncategorised = new Set(server.channels);
-    let elements = [];
+    const uncategorised = new Set(server.channels);
+    const elements = [];
 
     function addChannel(id: string) {
         const entry = channels.find((x) => x._id === id);
@@ -106,9 +106,9 @@ function ServerSidebar(props: Props) {
     }
 
     if (server.categories) {
-        for (let category of server.categories) {
-            let channels = [];
-            for (let id of category.channels) {
+        for (const category of server.categories) {
+            const channels = [];
+            for (const id of category.channels) {
                 uncategorised.delete(id);
                 channels.push(addChannel(id));
             }
@@ -124,7 +124,7 @@ function ServerSidebar(props: Props) {
         }
     }
 
-    for (let id of Array.from(uncategorised).reverse()) {
+    for (const id of Array.from(uncategorised).reverse()) {
         elements.unshift(addChannel(id));
     }
 

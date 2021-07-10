@@ -118,7 +118,7 @@ export function Account() {
                                 onClick={() =>
                                     openScreen({
                                         id: "modify_account",
-                                        field: field,
+                                        field,
                                     })
                                 }
                                 contrast>
@@ -142,7 +142,8 @@ export function Account() {
                 Currently work in progress, see{" "}
                 <a
                     href="https://gitlab.insrt.uk/insert/rauth/-/issues/2"
-                    target="_blank">
+                    target="_blank"
+                    rel="noreferrer">
                     tracking issue here
                 </a>
                 .

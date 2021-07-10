@@ -1,4 +1,5 @@
 import { Channels } from "revolt.js/dist/api/objects";
+import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
@@ -7,7 +8,7 @@ import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import styled, { css } from "styled-components";
+
 import Button from "../../../components/ui/Button";
 import InputBox from "../../../components/ui/InputBox";
 
@@ -45,7 +46,7 @@ export default function Overview({ channel }: Props) {
 
     const [changed, setChanged] = useState(false);
     function save() {
-        let changes: any = {};
+        const changes: any = {};
         if (name !== channel.name) changes.name = name;
         if (description !== channel.description)
             changes.description = description;

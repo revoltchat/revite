@@ -39,11 +39,16 @@ interface Props {
     hideInfo?: boolean;
 }
 
-export function SystemMessage({ attachContext, message, highlight, hideInfo }: Props) {
+export function SystemMessage({
+    attachContext,
+    message,
+    highlight,
+    hideInfo,
+}: Props) {
     const ctx = useForceUpdate();
 
     let data: SystemMessageParsed;
-    let content = message.content;
+    const content = message.content;
     if (typeof content === "object") {
         switch (content.type) {
             case "text":
@@ -154,9 +159,11 @@ export function SystemMessage({ attachContext, message, highlight, hideInfo }: P
                       })
                     : undefined
             }>
-            { !hideInfo && <MessageInfo>
-                <MessageDetail message={message} position="left" />
-            </MessageInfo> }
+            {!hideInfo && (
+                <MessageInfo>
+                    <MessageDetail message={message} position="left" />
+                </MessageInfo>
+            )}
             <SystemContent>{children}</SystemContent>
         </MessageBase>
     );

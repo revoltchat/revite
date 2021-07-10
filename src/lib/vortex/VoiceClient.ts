@@ -172,7 +172,7 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
         if (this.device === undefined || this.roomId === undefined)
             throw new ReferenceError("Voice Client is in an invalid state");
         const result = await this.signaling.authenticate(token, this.roomId);
-        let [room] = await Promise.all([
+        const [room] = await Promise.all([
             this.signaling.roomInfo(),
             this.device.load({ routerRtpCapabilities: result.rtpCapabilities }),
         ]);
@@ -229,7 +229,7 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
         });
 
         this.emit("ready");
-        for (let user of this.participants) {
+        for (const user of this.participants) {
             if (user[1].audio && user[0] !== this.userId)
                 this.startConsume(user[0], "audio");
         }
@@ -323,7 +323,7 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
             await this.signaling.stopProduce(type);
         } catch (error) {
             if (error.error === WSErrorCode.ProducerNotFound) return;
-            else throw error;
+            throw error;
         }
     }
 }

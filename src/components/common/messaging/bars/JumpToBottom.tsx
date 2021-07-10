@@ -28,7 +28,7 @@ const Bar = styled.div`
         transition: color ease-in-out 0.08s;
         background: var(--secondary-background);
         border-radius: var(--border-radius) var(--border-radius) 0 0;
-        
+
         > div {
             display: flex;
             align-items: center;

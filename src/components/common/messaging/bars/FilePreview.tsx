@@ -160,7 +160,7 @@ function FileEntry({
     const [url, setURL] = useState("");
 
     useEffect(() => {
-        let url: string = URL.createObjectURL(file);
+        const url: string = URL.createObjectURL(file);
         setURL(url);
         return () => URL.revokeObjectURL(url);
     }, [file]);

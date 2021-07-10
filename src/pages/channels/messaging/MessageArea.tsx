@@ -1,3 +1,4 @@
+import { useHistory, useParams } from "react-router-dom";
 import { animateScroll } from "react-scroll";
 import styled from "styled-components";
 import useResizeObserver from "use-resize-observer";
@@ -28,7 +29,6 @@ import Preloader from "../../../components/ui/Preloader";
 
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
-import { useHistory, useParams } from "react-router-dom";
 
 const Area = styled.div`
     height: 100%;
@@ -100,9 +100,10 @@ export function MessageArea({ id }: Props) {
                     duration: scrollState.current.smooth ? 150 : 0,
                 });
             } else if (scrollState.current.type === "ScrollToView") {
-                document.getElementById(scrollState.current.id)
-                    ?.scrollIntoView({ block: 'center' });
-                
+                document
+                    .getElementById(scrollState.current.id)
+                    ?.scrollIntoView({ block: "center" });
+
                 setScrollState({ type: "Free" });
             } else if (scrollState.current.type === "OffsetTop") {
                 animateScroll.scrollTo(
@@ -147,8 +148,9 @@ export function MessageArea({ id }: Props) {
 
     // ? Handle global jump to bottom, e.g. when editing last message in chat.
     useEffect(() => {
-        return internalSubscribe('MessageArea', 'jump_to_bottom',
-            () => setScrollState({ type: 'ScrollToBottom' }));
+        return internalSubscribe("MessageArea", "jump_to_bottom", () =>
+            setScrollState({ type: "ScrollToBottom" }),
+        );
     }, []);
 
     // ? Handle events from renderer.
@@ -175,8 +177,8 @@ export function MessageArea({ id }: Props) {
             setHighlight(message);
             SingletonMessageRenderer.init(id, message);
 
-            let channel = client.channels.get(id);
-            if (channel?.channel_type === 'TextChannel') {
+            const channel = client.channels.get(id);
+            if (channel?.channel_type === "TextChannel") {
                 history.push(`/server/${channel.server}/channel/${id}`);
             } else {
                 history.push(`/channel/${id}`);
@@ -287,7 +289,11 @@ export function MessageArea({ id }: Props) {
                         </RequiresOnline>
                     )}
                     {state.type === "RENDER" && (
-                        <MessageRenderer id={id} state={state} highlight={highlight} />
+                        <MessageRenderer
+                            id={id}
+                            state={state}
+                            highlight={highlight}
+                        />
                     )}
                     {state.type === "EMPTY" && <ConversationStart id={id} />}
                 </div>

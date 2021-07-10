@@ -19,8 +19,8 @@ export const SOUNDS_ARRAY: Sounds[] = [
 ];
 
 export function playSound(sound: Sounds) {
-    let file = SoundMap[sound];
-    let el = new Audio(file);
+    const file = SoundMap[sound];
+    const el = new Audio(file);
     try {
         el.play();
     } catch (err) {
