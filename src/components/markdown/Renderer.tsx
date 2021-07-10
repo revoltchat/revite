@@ -82,6 +82,9 @@ md.renderer.rules.emoji = function (token, idx) {
 
 const RE_TWEMOJI = /:(\w+):/g;
 
+// ! FIXME: Move to library
+const RE_CHANNELS = /<#([A-z0-9]{26})>/g;
+
 export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
     const client = useContext(AppContext);
     if (typeof content === "undefined") return null;
@@ -97,6 +100,18 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
 
             if (user) {
                 return `[@${user.username}](/@${id})`;
+            }
+
+            return sub;
+        },
+    ).replace(
+        RE_CHANNELS,
+        (sub: string, ...args: any[]) => {
+            const id = args[0],
+                channel = client.channels.get(id);
+
+            if (channel?.channel_type === 'TextChannel') {
+                return `[#${channel.name}](/server/${channel.server}/channel/${id})`;
             }
 
             return sub;
