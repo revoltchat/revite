@@ -35,12 +35,11 @@ export default function App() {
     const path = useLocation().pathname;
     const fixedBottomNav =
         path === "/" || path === "/settings" || path.startsWith("/friends");
-    const inSettings = path.includes("/settings");
     const inChannel = path.includes("/channel");
     const inSpecial =
         (path.startsWith("/friends") && isTouchscreenDevice) ||
         path.startsWith("/invite") ||
-        path.startsWith("/settings");
+        path.includes("/settings");
 
     return (
         <OverlappingPanels
@@ -52,7 +51,7 @@ export default function App() {
                     : { width: 292, component: <LeftSidebar /> }
             }
             rightPanel={
-                !inSettings && inChannel
+                !inSpecial && inChannel
                     ? { width: 240, component: <RightSidebar /> }
                     : undefined
             }
