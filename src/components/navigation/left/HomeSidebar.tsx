@@ -82,16 +82,16 @@ function HomeSidebar(props: Props) {
         <GenericSidebarBase padding>
             <ConnectionStatus />
             <GenericSidebarList>
+                <ConditionalLink active={pathname === "/"} to="/">
+                    <ButtonItem active={pathname === "/"}>
+                        <Home size={20} />
+                        <span>
+                            <Text id="app.navigation.tabs.home" />
+                        </span>
+                    </ButtonItem>
+                </ConditionalLink>
                 {!isTouchscreenDevice && (
                     <>
-                        <ConditionalLink active={pathname === "/"} to="/">
-                            <ButtonItem active={pathname === "/"}>
-                                <Home size={20} />
-                                <span>
-                                    <Text id="app.navigation.tabs.home" />
-                                </span>
-                            </ButtonItem>
-                        </ConditionalLink>
                         <ConditionalLink
                             active={pathname === "/friends"}
                             to="/friends">

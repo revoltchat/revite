@@ -501,7 +501,9 @@ export default function MessageBox({ channel }: Props) {
                     {/*<IconButton onClick={emojiPicker}>
                         <HappyAlt size={20} />
                 </IconButton>*/}
-                    <IconButton className="mobile" onClick={send}>
+                    <IconButton
+                        className="mobile" onClick={send}
+                        onMouseDown={e => e.preventDefault()}>
                         <Send size={20} />
                     </IconButton>
                 </Action>
