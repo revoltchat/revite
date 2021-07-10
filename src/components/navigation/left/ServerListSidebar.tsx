@@ -80,7 +80,6 @@ const ServerList = styled.div`
     overflow-y: scroll;
     padding-bottom: 48px;
     flex-direction: column;
-    // border-right: 2px solid var(--accent);
 
     scrollbar-width: none;
 
@@ -97,15 +96,12 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
     height: 58px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-
-    > * {
-        // outline: 1px solid red;
-    }
 
     > div {
-        width: 46px;
-        height: 46px;
+        height: 42px;
+        padding-left: 4px;
+        padding-right: 6px;
+
         display: grid;
         place-items: center;
 
@@ -119,49 +115,30 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
         ${(props) =>
             props.active &&
             css`
-                background: var(--sidebar-active);
                 &:active {
                     transform: none;
                 }
             `}
     }
 
-    span {
-        width: 6px;
-        height: 46px;
+    > span {
+        width: 0;
+        display: relative;
 
         ${(props) =>
-            props.active &&
+            !props.active &&
             css`
-                background-color: var(--sidebar-active);
+                display: none;
+            ` }
 
-                &::before,
-                &::after {
-                    // outline: 1px solid blue;
-                }
+        svg {
+            width: 56.5px;
+            margin-top: 4px;
+            display: relative;
 
-                &::before,
-                &::after {
-                    content: "";
-                    display: block;
-                    position: relative;
-
-                    width: 31px;
-                    height: 72px;
-                    margin-top: -72px;
-                    margin-left: -25px;
-                    z-index: -1;
-
-                    background-color: var(--background);
-                    border-bottom-right-radius: 32px;
-
-                    box-shadow: 0 32px 0 0 var(--sidebar-active);
-                }
-
-                &::after {
-                    transform: scaleY(-1) translateY(-118px);
-                }
-            `}
+            pointer-events: none;
+            // outline: 1px solid red;
+        }
     }
 
     ${(props) =>
@@ -170,6 +147,18 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
             cursor: pointer;
         `}
 `;
+
+function Swoosh() {
+    return (
+        <span>
+            <svg width="56" height="118" viewBox="0 0 56 118" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M55.9957 0C55.6241 18.5052 31.292 28.1152 19.2904 32.1029L56 68.8124L55.9957 0Z" fill="var(--sidebar-active)"/>
+                <path d="M55.9963 117.633C55.8689 98.6899 31.3298 87.9423 19.2144 84.8847L55.9968 47.5654L55.9963 117.633Z" fill="var(--sidebar-active)"/>
+                <path d="M55.5682 58.4474C55.5682 73.7921 43.1288 86.2315 27.7841 86.2315C12.4394 86.2315 0 73.7921 0 58.4474C0 43.1026 12.4394 30.6633 27.7841 30.6633C43.1288 30.6633 55.5682 43.1026 55.5682 58.4474Z" fill="var(--sidebar-active)"/>
+            </svg>
+        </span>
+    )
+}
 
 interface Props {
     unreads: Unreads;
@@ -238,6 +227,7 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                     active={homeActive}
                     to={lastOpened.home ? `/channel/${lastOpened.home}` : "/"}>
                     <ServerEntry home active={homeActive}>
+                        <Swoosh />
                         { isTouchscreenDevice ?
                             <Icon size={42} unread={homeUnread}>
                                 <img style={{ width: 32, height: 32 }} src={logoSVG} />
@@ -254,7 +244,6 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                                 </UserHover>
                             </div>
                         }
-                        <span />
                     </ServerEntry>
                 </ConditionalLink>
                 <LineDivider />
@@ -274,12 +263,12 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                                 onContextMenu={attachContextMenu("Menu", {
                                     server: entry!._id,
                                 })}>
+                                <Swoosh />
                                 <Tooltip content={entry.name} placement="right">
                                     <Icon size={42} unread={entry.unread}>
                                         <ServerIcon size={32} target={entry} />
                                     </Icon>
                                 </Tooltip>
-                                <span />
                             </ServerEntry>
                         </ConditionalLink>
                     );
