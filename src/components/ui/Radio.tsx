@@ -27,8 +27,8 @@ const RadioBase = styled.label<BaseProps>`
     font-size: 1rem;
     font-weight: 600;
     user-select: none;
-    border-radius: 4px;
     transition: 0.2s ease all;
+    border-radius: var(--border-radius);
 
     &:hover {
         background: var(--hover);

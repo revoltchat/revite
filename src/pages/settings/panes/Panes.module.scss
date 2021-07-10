@@ -4,10 +4,10 @@
         width: 100%;
         padding: 1em;
         display: flex;
-        border-radius: 6px;
+        overflow: hidden;
         align-items: center;
         background: var(--secondary-header);
-        overflow: hidden;
+        border-radius: var(--border-radius);
 
         .avatar {
             cursor: pointer;
@@ -144,7 +144,7 @@
 
         img {
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             transition: border 0.3s;
             border: 3px solid transparent;
 
@@ -195,10 +195,10 @@
             place-items: center;
 
             cursor: pointer;
-            border-radius: 8px;
             transition: border 0.3s;
             background: var(--hover);
             border: 3px solid transparent;
+            border-radius: var(--border-radius);
 
             img {
                 max-width: 100%;
@@ -262,8 +262,8 @@
             min-width: 0;
             flex-grow: 1;
             padding: 8px;
-            border-radius: 4px;
             font-family: var(--codeblock-font);
+            border-radius: var(--border-radius);
             background: var(--secondary-background);
 
             > div {
@@ -285,8 +285,8 @@
         .entry {
             padding: 12px;
             margin-top: 8px;
-            border-radius: 6px;
             border: 1px solid black;
+            border-radius: var(--border-radius);
 
             span {
                 flex: 1;
@@ -312,8 +312,8 @@
                     height: 38px;
                     display: grid;
                     cursor: pointer;
-                    border-radius: 6px;
                     place-items: center;
+                    border-radius: var(--border-radius);
                     background: var(--primary-background);
                 }
 
@@ -339,29 +339,6 @@
                     top: 48px;
                 }
             }
-
-            /*.override {
-                display: flex;
-            }
-
-
-            .picker {
-                width: 30px;
-                height: 30px;
-                flex-shrink: 0;
-                border-radius: 4px;
-                overflow: hidden;
-                margin-inline-end: 4px;
-
-                //TOFIX - Looks wonky on Chromium
-                border: 1px solid black;
-
-            }
-
-            .text {
-                border-radius: 4px;
-                padding: 0 4px 0;
-            }*/
         }
     }
 }
@@ -383,11 +360,11 @@
     }
 
     .entry {
-        margin: 10px 0;
         padding: 16px;
         display: flex;
-        border-radius: 6px;
+        margin: 10px 0;
         flex-direction: column;
+        border-radius: var(--border-radius);
         background: var(--secondary-header);
 
         &[data-active="true"] {

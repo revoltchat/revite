@@ -3,7 +3,7 @@
 
     iframe {
         border: none;
-        border-radius: 4px;
+        border-radius: var(--border-radius);
     }
 
     &.image {
@@ -27,8 +27,8 @@
 
         padding: 12px;
         width: fit-content;
-        border-radius: 4px;
         background: var(--primary-header);
+        border-radius: var(--border-radius);
 
         .siteinfo {
             display: flex;
@@ -91,7 +91,7 @@
         img.image {
             cursor: pointer;
             object-fit: contain;
-            border-radius: 3px;
+            border-radius: var(--border-radius);
         }
     }
 }

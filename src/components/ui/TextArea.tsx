@@ -30,7 +30,7 @@ export default styled.textarea<TextAreaProps>`
     ${(props) =>
         !props.hideBorder &&
         css`
-            border-radius: 4px;
+            border-radius: var(--border-radius);
             transition: border-color 0.2s ease-in-out;
             border: var(--input-border-width) solid transparent;
         `}

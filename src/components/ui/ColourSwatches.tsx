@@ -63,7 +63,7 @@ const SwatchesBase = styled.div`
 const Swatch = styled.div<{ type: "small" | "large"; colour: string }>`
     flex-shrink: 0;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     background-color: ${(props) => props.colour};
 
     display: grid;

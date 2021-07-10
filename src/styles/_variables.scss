@@ -1,19 +1,34 @@
 :root {
+    /**
+     * Appearance
+     */
     --ligatures: none;
     --text-size: 14px;
     --font: "Open Sans";
-    --app-height: 100vh;
     --codeblock-font: "Fira Code";
     --sidebar-active: var(--secondary-background);
-
-    --background-rgb: (25,25,25); //THIS IS SO THAT WE CAN HAVE CUSTOM BACKGROUNDS FOR THE CLIENT, CONVERTS THE HEX TO AN RGB VALUE FROM --background
-    --background-rgba: rgba(var(--background-rgb), .8); //make the opacity also customizable
+    
+    /**
+     * Layout
+     */
+    --app-height: 100vh;
+    --border-radius: 6px;
     
     --input-border-width: 2px;
-
     --textarea-padding: 16px;
     --textarea-line-height: 20px;
     --message-box-padding: 14px 14px 14px 0;
 
+    --attachment-max-width: 480px;
+    --attachment-max-height: 640px;
+    --attachment-default-width: 400px;
+    --attachment-max-text-width: 800px;
+
     --bottom-navigation-height: 50px;
+
+    /**
+     * Experimental
+     */
+    --background-rgb: (25,25,25); //THIS IS SO THAT WE CAN HAVE CUSTOM BACKGROUNDS FOR THE CLIENT, CONVERTS THE HEX TO AN RGB VALUE FROM --background
+    --background-rgba: rgba(var(--background-rgb), .8); //make the opacity also customizable
 }

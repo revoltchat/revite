@@ -27,17 +27,19 @@ const VoiceBase = styled.div`
     background: var(--secondary-background);
 
     .status {
-        position: absolute;
-        color: var(--success);
-        background: var(--primary-background);
+        flex: 1 0;
         display: flex;
+        position: absolute;
         align-items: center;
+        
         padding: 10px;
         font-size: 14px;
         font-weight: 600;
-        border-radius: 7px;
-        flex: 1 0;
         user-select: none;
+
+        color: var(--success);
+        border-radius: var(--border-radius);
+        background: var(--primary-background);
 
         svg {
             margin-inline-end: 4px;

@@ -30,7 +30,7 @@ export default styled.button<Props>`
     background: var(--primary-background);
     color: var(--foreground);
 
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     border: none;
 

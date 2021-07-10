@@ -6,9 +6,9 @@ interface Props {
 
 export default styled.input<Props>`
     z-index: 1;
-    padding: 8px 16px;
-    border-radius: 6px;
     font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
 
     font-family: inherit;
     color: var(--foreground);

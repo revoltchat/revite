@@ -17,18 +17,18 @@ const Bar = styled.div`
         height: 28px;
         width: 100%;
         position: absolute;
-        border-radius: 4px 4px 0 0;
         display: flex;
         align-items: center;
         cursor: pointer;
         font-size: 13px;
         padding: 0 8px;
         user-select: none;
-        color: var(--secondary-foreground);
-        background: var(--secondary-background);
         justify-content: space-between;
+        color: var(--secondary-foreground);
         transition: color ease-in-out 0.08s;
-
+        background: var(--secondary-background);
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+        
         > div {
             display: flex;
             align-items: center;

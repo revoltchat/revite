@@ -23,9 +23,9 @@ const EditorBase = styled.div`
     textarea {
         resize: none;
         padding: 12px;
-        border-radius: 3px;
         white-space: pre-wrap;
         font-size: var(--text-size);
+        border-radius: var(--border-radius);
         background: var(--secondary-header);
     }
 

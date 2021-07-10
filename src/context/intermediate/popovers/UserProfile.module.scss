@@ -7,7 +7,7 @@
 
 .header {
     background-size: cover;
-    border-radius: 8px 8px 0 0;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
     background-position: center;
     background-color: var(--secondary-background);
 
@@ -140,11 +140,11 @@
         padding: 12px;
         display: flex;
         cursor: pointer;
-        border-radius: 4px;
         align-items: center;
-        color: var(--secondary-foreground);
-        background-color: var(--secondary-background);
         transition: background-color .1s;
+        color: var(--secondary-foreground);
+        border-radius: var(--border-radius);
+        background-color: var(--secondary-background);
 
         &:hover {
             background-color: var(--primary-background);

@@ -22,8 +22,8 @@ export const TipBase = styled.div<Props>`
     align-items: center;
 
     font-size: 14px;
-    border-radius: 7px;
     background: var(--primary-header);
+    border-radius: var(--border-radius);
     border: 2px solid var(--secondary-header);
 
     a {

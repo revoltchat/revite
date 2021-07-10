@@ -60,8 +60,8 @@ const ModalBase = styled.div`
 
 const ModalContainer = styled.div`
     overflow: hidden;
-    border-radius: 8px;
     max-width: calc(100vw - 20px);
+    border-radius: var(--border-radius);
 
     animation-name: ${zoomIn};
     animation-duration: 0.25s;
@@ -71,8 +71,8 @@ const ModalContainer = styled.div`
 const ModalContent = styled.div<
     { [key in "attachment" | "noBackground" | "border" | "padding"]?: boolean }
 >`
-    border-radius: 8px;
     text-overflow: ellipsis;
+    border-radius: var(--border-radius);
 
     h3 {
         margin-top: 0;
@@ -98,13 +98,13 @@ const ModalContent = styled.div<
     ${(props) =>
         props.attachment &&
         css`
-            border-radius: 8px 8px 0 0;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
         `}
 
     ${(props) =>
         props.border &&
         css`
-            border-radius: 10px;
+            border-radius: var(--border-radius);
             border: 2px solid var(--secondary-background);
         `}
 `;

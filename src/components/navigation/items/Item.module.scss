@@ -3,8 +3,8 @@
     display: flex;
     padding: 0 8px;
     user-select: none;
-    border-radius: 6px;
     margin-bottom: 2px;
+    border-radius: var(--border-radius);
 
     gap: 8px;
     align-items: center;
