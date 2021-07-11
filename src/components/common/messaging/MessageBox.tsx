@@ -36,6 +36,7 @@ import { takeError } from "../../../context/revoltjs/util";
 
 import IconButton from "../../ui/IconButton";
 
+import { PluginSingleton } from "../../../plugins";
 import AutoComplete, { useAutoComplete } from "../AutoComplete";
 import { PermissionTooltip } from "../Tooltip";
 import FilePreview from "./bars/FilePreview";
@@ -185,8 +186,11 @@ export default function MessageBox({ channel }: Props) {
             return;
 
         const content = draft?.trim() ?? "";
-        if (uploadState.type === "attached") return sendFile(content);
-        if (content.length === 0) return;
+        const target = { content };
+        if (PluginSingleton.emit("Message:Send", target)) return;
+
+        if (uploadState.type === "attached") return sendFile(target.content);
+        if (target.content.length === 0) return;
 
         stopTyping();
         setMessage();
@@ -203,7 +207,7 @@ export default function MessageBox({ channel }: Props) {
                 channel: channel._id,
                 author: client.user!._id,
 
-                content,
+                content: target.content,
                 replies,
             },
         });
@@ -217,7 +221,7 @@ export default function MessageBox({ channel }: Props) {
 
         try {
             await client.channels.sendMessage(channel._id, {
-                content,
+                content: target.content,
                 nonce,
                 replies,
             });

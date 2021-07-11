@@ -6,6 +6,7 @@ import { render } from "preact";
 import { internalEmit } from "./lib/eventEmitter";
 
 import { App } from "./pages/app";
+import "./plugins";
 
 export const updateSW = registerSW({
     onNeedRefresh() {
