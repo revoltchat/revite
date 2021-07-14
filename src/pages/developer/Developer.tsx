@@ -1,4 +1,5 @@
 import { Wrench } from "@styled-icons/boxicons-solid";
+import { Channels } from "revolt.js/dist/api/objects";
 
 import { useContext } from "preact/hooks";
 
@@ -6,7 +7,7 @@ import PaintCounter from "../../lib/PaintCounter";
 import { TextReact } from "../../lib/i18n";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
-import { useUserPermission } from "../../context/revoltjs/hooks";
+import { useData, useUserPermission } from "../../context/revoltjs/hooks";
 
 import Header from "../../components/ui/Header";
 
@@ -34,6 +35,7 @@ export default function Developer() {
                     fields={{ provider: <b>GAMING!</b> }}
                 />
             </div>
+            <DataTest />
             <div style={{ padding: "16px" }}>
                 {/*<span>
                     <b>Voice Status:</b> {VoiceStatus[voice.status]}
@@ -48,6 +50,33 @@ export default function Developer() {
                     {Array.from(voice.participants.keys()).join(", ")}]
                 </span>
                 <br />*/}
+            </div>
+        </div>
+    );
+}
+
+function DataTest() {
+    const channel_id = (
+        useContext(AppContext)
+            .channels.toArray()
+            .find((x) => x.channel_type === "Group") as Channels.GroupChannel
+    )._id;
+
+    const data = useData(
+        (client) => {
+            return {
+                name: (client.channels.get(channel_id) as Channels.GroupChannel)
+                    .name,
+            };
+        },
+        [{ key: "channels", id: channel_id }],
+    );
+
+    return (
+        <div style={{ padding: "16px" }}>
+            Channel name: {data.name}
+            <div style={{ width: "24px" }}>
+                <PaintCounter small />
             </div>
         </div>
     );

@@ -1,9 +1,12 @@
+import isEqual from "lodash.isequal";
 import { Client, PermissionCalculator } from "revolt.js";
 import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
 import Collection from "revolt.js/dist/maps/Collection";
 
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
+//#region Hooks v1
+// ! Hooks v1 will be deprecated soon.
 import { AppContext } from "./RevoltClient";
 
 export interface HookContext {
@@ -230,3 +233,44 @@ export function useServerPermission(id: string, context?: HookContext) {
     const calculator = new PermissionCalculator(ctx.client);
     return calculator.forServer(id);
 }
+//#endregion
+
+//#region Hooks v2
+type CollectionKeys = Exclude<
+    keyof PickProperties<Client, Collection<any>>,
+    undefined
+>;
+
+interface Depedency {
+    key: CollectionKeys;
+    id?: string;
+}
+
+export function useData<T>(
+    cb: (client: Client) => T,
+    dependencies: Depedency[],
+): T {
+    // ! FIXME: not sure if this may cost a lot
+    const client = useContext(AppContext);
+    const [data, setData] = useState(cb(client));
+
+    useEffect(() => {
+        let fns = dependencies.map((dependency) => {
+            function update() {
+                let generated = cb(client);
+                if (!isEqual(data, generated)) {
+                    setData(generated);
+                }
+            }
+
+            client[dependency.key].addListener("update", update);
+            return () =>
+                client[dependency.key].removeListener("update", update);
+        });
+
+        return () => fns.forEach((x) => x());
+    }, [data]);
+
+    return data;
+}
+//#endregion
