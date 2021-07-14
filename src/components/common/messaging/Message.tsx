@@ -1,6 +1,6 @@
 import { attachContextMenu } from "preact-context-menu";
 import { memo } from "preact/compat";
-import { useContext } from "preact/hooks";
+import { useContext, useState } from "preact/hooks";
 
 import { QueuedMessage } from "../../../redux/reducers/queue";
 
@@ -64,6 +64,9 @@ function Message({
     const openProfile = () =>
         openScreen({ id: "profile", user_id: message.author });
 
+    // ! FIXME: animate on hover
+    const [animate, setAnimate] = useState(false);
+
     return (
         <div id={message._id}>
             {message.replies?.map((message_id, index) => (
@@ -88,7 +91,9 @@ function Message({
                               queued,
                           })
                         : undefined
-                }>
+                }
+                onMouseEnter={() => setAnimate(true)}
+                onMouseLeave={() => setAnimate(false)}>
                 <MessageInfo>
                     {head ? (
                         <UserIcon
@@ -96,6 +101,7 @@ function Message({
                             size={36}
                             onContextMenu={userContext}
                             onClick={openProfile}
+                            animate={animate}
                         />
                     ) : (
                         <MessageDetail message={message} position="left" />

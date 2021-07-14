@@ -1,24 +1,41 @@
 @keyframes open {
-    0% {transform: scale(1.2);};
-    100% {transform: scale(1);};
+    0% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes close {
-    0% {transform: scale(1); opacity: 1;};
-    100% {transform: scale(1.2); opacity: 0;};
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
 }
 
 @keyframes opacity {
-    0% {opacity: 0;};
-    20% {opacity: .5;}
-    50% {opacity: 1;}
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 .settings[data-mobile="true"] {
     flex-direction: column;
     background: var(--primary-header);
 
-    .sidebar, .content {
+    .sidebar,
+    .content {
         background: var(--primary-background);
     }
 
@@ -36,7 +53,6 @@
 
         .version {
             place-items: center;
-
         }
     }
 
@@ -52,8 +68,7 @@
     width: 100%;
     height: 100%;
     position: fixed;
-    animation: open .18s ease-out,
-               opacity .18s;
+    animation: open 0.18s ease-out, opacity 0.18s;
 }
 
 .settings {
@@ -166,7 +181,7 @@
         flex-shrink: 0;
         padding: 60px 8px;
         color: var(--tertiary-background);
-        
+
         &:after {
             content: "ESC";
             margin-top: 4px;
@@ -177,8 +192,8 @@
             position: relative;
             color: var(--foreground);
             width: 40px;
-            opacity: .5;
-            font-size: .75em;
+            opacity: 0.5;
+            font-size: 0.75em;
         }
 
         .closeButton {
@@ -190,7 +205,7 @@
             width: 40px;
             border: 3px solid var(--tertiary-background);
             cursor: pointer;
-            
+
             svg {
                 color: var(--secondary-foreground);
             }
@@ -207,6 +222,10 @@
         > div {
             display: inline;
         }
+    }
+
+    section {
+        margin-bottom: 1em;
     }
 }
 
