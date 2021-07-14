@@ -15,6 +15,7 @@ import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
+import ColourSwatches from "../../../components/ui/ColourSwatches";
 import IconButton from "../../../components/ui/IconButton";
 import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
@@ -40,21 +41,46 @@ export function Roles({ server }: Props) {
         return null;
     }
 
-    const v = (id: string) =>
-        I32ToU32(
+    function getPermissions(id: string) {
+        return I32ToU32(
             id === "default"
                 ? server.default_permissions
                 : roles[id].permissions,
         );
-    const [perm, setPerm] = useState(v(role));
-    useEffect(() => setPerm(v(role)), [role, roles[role]?.permissions]);
+    }
 
-    const modified = !isEqual(perm, v(role));
-    const save = () =>
-        client.servers.setPermissions(server._id, role, {
-            server: perm[0],
-            channel: perm[1],
-        });
+    const { name: roleName, colour: roleColour } = roles[role] ?? {};
+
+    const [perm, setPerm] = useState(getPermissions(role));
+    const [name, setName] = useState(roleName);
+    const [colour, setColour] = useState(roleColour);
+
+    useEffect(
+        () => setPerm(getPermissions(role)),
+        [role, roles[role]?.permissions],
+    );
+
+    useEffect(() => setName(roleName), [role, roleName]);
+    useEffect(() => setColour(roleColour), [role, roleColour]);
+
+    const modified =
+        !isEqual(perm, getPermissions(role)) ||
+        !isEqual(name, roleName) ||
+        !isEqual(colour, roleColour);
+
+    const save = () => {
+        if (!isEqual(perm, getPermissions(role))) {
+            client.servers.setPermissions(server._id, role, {
+                server: perm[0],
+                channel: perm[1],
+            });
+        }
+
+        if (!isEqual(name, roleName) || !isEqual(colour, roleColour)) {
+            client.servers.editRole(server._id, role, { name, colour });
+        }
+    };
+
     const deleteRole = () => {
         setRole("default");
         client.servers.deleteRole(server._id, role);
@@ -92,7 +118,8 @@ export function Roles({ server }: Props) {
                     return (
                         <ButtonItem
                             active={role === id}
-                            onClick={() => setRole(id)}>
+                            onClick={() => setRole(id)}
+                            style={{ color: roles[id].colour }}>
                             {roles[id].name}
                         </ButtonItem>
                     );
@@ -111,6 +138,31 @@ export function Roles({ server }: Props) {
                         Save
                     </Button>
                 </div>
+                {role !== "default" && (
+                    <>
+                        <section>
+                            <Overline type="subtle">Role Name</Overline>
+                            <p>
+                                <InputBox
+                                    value={name}
+                                    onChange={(e) =>
+                                        setName(e.currentTarget.value)
+                                    }
+                                    contrast
+                                />
+                            </p>
+                        </section>
+                        <section>
+                            <Overline type="subtle">Role Colour</Overline>
+                            <p>
+                                <ColourSwatches
+                                    value={colour ?? "gray"}
+                                    onChange={(value) => setColour(value)}
+                                />
+                            </p>
+                        </section>
+                    </>
+                )}
                 <section>
                     <Overline type="subtle">
                         <Text id="app.settings.permissions.server" />

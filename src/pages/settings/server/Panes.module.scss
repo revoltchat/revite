@@ -39,7 +39,8 @@
         flex-direction: row;
         background: var(--secondary-background);
 
-        code, span {
+        code,
+        span {
             flex: 1;
         }
 
@@ -69,7 +70,7 @@
         color: var(--secondary-foreground);
         font-weight: 700;
     }
-    
+
     .member {
         gap: 8px;
         padding: 10px;
@@ -95,10 +96,6 @@
         flex-grow: 1;
         padding: 0 8px;
         overflow-y: scroll;
-        
-        section {
-            margin-bottom: 1em;
-        }
     }
 
     .title {
@@ -107,7 +104,8 @@
         margin-bottom: 1em;
         align-items: center;
 
-        h1, h2 {
+        h1,
+        h2 {
             margin: 0;
             min-width: 0;
             flex-grow: 1;

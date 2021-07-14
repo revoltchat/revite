@@ -150,7 +150,10 @@ function Locale({ children, locale }: Props) {
         const dayjs = obj.dayjs;
         const defaults = dayjs.defaults;
 
-        const twelvehour = defaults?.twelvehour === "yes" || true;
+        const twelvehour = defaults?.twelvehour
+            ? defaults.twelvehour === "yes"
+            : false;
+
         const separator: string = defaults?.date_separator ?? "/";
         const date: "traditional" | "simplified" | "ISO8601" =
             defaults?.date_format ?? "traditional";
