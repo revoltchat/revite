@@ -23,6 +23,7 @@ import {
 } from "../../../context/revoltjs/hooks";
 
 import CollapsibleSection from "../../common/CollapsibleSection";
+import Button from "../../ui/Button";
 import Category from "../../ui/Category";
 import InputBox from "../../ui/InputBox";
 import Preloader from "../../ui/Preloader";
@@ -284,13 +285,16 @@ function Search({ channel }: { channel: string }) {
     if (!getState().experiments.enabled?.includes("search")) return null;
 
     const client = useContext(AppContext);
+    type Sort = "Relevance" | "Latest" | "Oldest";
+    const [sort, setSort] = useState<Sort>("Relevance");
+
     const [query, setV] = useState("");
     const [results, setResults] = useState<Message[]>([]);
 
     async function search() {
         const data = await client.channels.searchWithUsers(
             channel,
-            { query, sort: "Relevance" },
+            { query, sort },
             true,
         );
         setResults(data.messages);
@@ -301,7 +305,24 @@ function Search({ channel }: { channel: string }) {
             sticky
             id="search"
             defaultValue={false}
-            summary={"Search (BETA)"}>
+            summary={
+                <>
+                    <Text id="app.main.channel.search.title" /> (BETA)
+                </>
+            }>
+            <div style={{ display: "flex" }}>
+                {["Relevance", "Latest", "Oldest"].map((key) => (
+                    <Button
+                        style={{ flex: 1, minWidth: 0 }}
+                        compact
+                        error={sort === key}
+                        onClick={() => setSort(key as Sort)}>
+                        <Text
+                            id={`app.main.channel.search.sort.${key.toLowerCase()}`}
+                        />
+                    </Button>
+                ))}
+            </div>
             <InputBox
                 style={{ width: "100%" }}
                 onKeyDown={(e) => e.key === "Enter" && search()}
