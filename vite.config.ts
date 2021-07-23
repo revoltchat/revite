@@ -54,7 +54,7 @@ export default defineConfig({
         description: isNightly ? "Early preview builds of Revolt." : "User-first, privacy-focused chat platform.",
         categories: ["messaging"],
         start_url: "/",
-        orientation: "any",
+        orientation: "portrait",
         display: "standalone",
         background_color: "#101823",
         theme_color: "#101823",
