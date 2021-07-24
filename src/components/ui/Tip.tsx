@@ -55,11 +55,13 @@ export const TipBase = styled.div<Props>`
         `}
 `;
 
-export default function Tip(props: Props & { children: Children }) {
-    const { children, ...tipProps } = props;
+export default function Tip(
+    props: Props & { children: Children; hideSeparator?: boolean },
+) {
+    const { children, hideSeparator, ...tipProps } = props;
     return (
         <>
-            <Separator />
+            {!hideSeparator && <Separator />}
             <TipBase {...tipProps}>
                 <InfoCircle size={20} />
                 <span>{props.children}</span>

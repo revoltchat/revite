@@ -172,9 +172,9 @@ export const MessageContent = styled.div`
     flex-grow: 1;
     display: flex;
     // overflow: hidden;
-    font-size: var(--text-size);
     flex-direction: column;
     justify-content: center;
+    font-size: var(--text-size);
 `;
 
 export const DetailBase = styled.div`
