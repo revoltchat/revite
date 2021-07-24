@@ -1,10 +1,15 @@
-import { Servers } from "revolt.js/dist/api/objects";
+import { XCircle } from "@styled-icons/boxicons-regular";
+import { Servers, Users } from "revolt.js/dist/api/objects";
 
+import styles from "./Panes.module.scss";
+import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
-import Tip from "../../../components/ui/Tip";
+import UserIcon from "../../../components/common/user/UserIcon";
+import IconButton from "../../../components/ui/IconButton";
+import Preloader from "../../../components/ui/Preloader";
 
 interface Props {
     server: Servers.Server;
@@ -12,26 +17,71 @@ interface Props {
 
 export function Bans({ server }: Props) {
     const client = useContext(AppContext);
-    const [bans, setBans] = useState<Servers.Ban[] | undefined>(undefined);
+    const [deleting, setDelete] = useState<string[]>([]);
+    const [data, setData] = useState<
+        | {
+              users: Pick<Users.User, "_id" | "username" | "avatar">[];
+              bans: Servers.Ban[];
+          }
+        | undefined
+    >(undefined);
 
     useEffect(() => {
-        client.servers.fetchBans(server._id).then((bans) => setBans(bans));
+        client.servers.fetchBans(server._id).then(setData as any);
     }, []);
 
     return (
-        <div>
-            <Tip warning>This section is under construction.</Tip>
-            {bans?.map((x) => (
-                <div>
-                    {x._id.user}: {x.reason ?? "no reason"}{" "}
-                    <button
-                        onClick={() =>
-                            client.servers.unbanUser(server._id, x._id.user)
-                        }>
-                        unban
-                    </button>
-                </div>
-            ))}
+        <div className={styles.userList}>
+            <div className={styles.subtitle}>
+                <span>
+                    <Text id="app.settings.server_pages.bans.user" />
+                </span>
+                <span class={styles.reason}>
+                    <Text id="app.settings.server_pages.bans.reason" />
+                </span>
+                <span>
+                    <Text id="app.settings.server_pages.bans.revoke" />
+                </span>
+            </div>
+            {typeof data === "undefined" && <Preloader type="ring" />}
+            {data?.bans.map((x) => {
+                let user = data.users.find((y) => y._id === x._id.user);
+
+                return (
+                    <div
+                        className={styles.ban}
+                        data-deleting={deleting.indexOf(x._id.user) > -1}>
+                        <span>
+                            <UserIcon attachment={user?.avatar} size={24} />
+                            {user?.username}
+                        </span>
+                        <div className={styles.reason}>
+                            {x.reason ?? (
+                                <Text id="app.settings.server_pages.bans.no_reason" />
+                            )}
+                        </div>
+                        <IconButton
+                            onClick={async () => {
+                                setDelete([...deleting, x._id.user]);
+
+                                await client.servers.unbanUser(
+                                    server._id,
+                                    x._id.user,
+                                );
+
+                                setData({
+                                    ...data,
+                                    bans: data.bans.filter(
+                                        (y) => y._id.user !== x._id.user,
+                                    ),
+                                });
+                            }}
+                            disabled={deleting.indexOf(x._id.user) > -1}>
+                            <XCircle size={24} />
+                        </IconButton>
+                    </div>
+                );
+            })}
         </div>
     );
 }

@@ -144,7 +144,9 @@ export function GroupMemberSidebar({
                             }
                         />
                     }>
-                    {members.length === 0 && <img src={placeholderSVG} />}
+                    {members.length === 0 && (
+                        <img src={placeholderSVG} loading="eager" />
+                    )}
                     {members.map(
                         (user) =>
                             user && (
@@ -257,7 +259,9 @@ export function ServerMemberSidebar({
                                 {users.length}
                             </span>
                         }>
-                        {users.length === 0 && <img src={placeholderSVG} />}
+                        {users.length === 0 && (
+                            <img src={placeholderSVG} loading="eager" />
+                        )}
                         {users.map(
                             (user) =>
                                 user && (

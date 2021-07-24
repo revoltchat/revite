@@ -3,10 +3,9 @@ import { Client, PermissionCalculator } from "revolt.js";
 import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
 import Collection from "revolt.js/dist/maps/Collection";
 
-import { useCallback, useContext, useEffect, useState } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 
 //#region Hooks v1
-// ! Hooks v1 will be deprecated soon.
 import { AppContext } from "./RevoltClient";
 
 export interface HookContext {

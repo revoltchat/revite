@@ -37,12 +37,20 @@ export function Invites({ server }: Props) {
     }, []);
 
     return (
-        <div className={styles.invites}>
+        <div className={styles.userList}>
             <div className={styles.subtitle}>
-                <span>Invite Code</span>
-                <span>Invitor</span>
-                <span>Channel</span>
-                <span>Revoke</span>
+                <span>
+                    <Text id="app.settings.server_pages.invites.code" />
+                </span>
+                <span>
+                    <Text id="app.settings.server_pages.invites.invitor" />
+                </span>
+                <span>
+                    <Text id="app.settings.server_pages.invites.channel" />
+                </span>
+                <span>
+                    <Text id="app.settings.server_pages.invites.revoke" />
+                </span>
             </div>
             {typeof invites === "undefined" && <Preloader type="ring" />}
             {invites?.map((invite) => {

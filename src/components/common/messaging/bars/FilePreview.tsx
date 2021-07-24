@@ -168,7 +168,7 @@ function FileEntry({
     return (
         <Entry className={index >= CAN_UPLOAD_AT_ONCE ? "fade" : ""}>
             <PreviewBox onClick={remove}>
-                <img class="icon" src={url} alt={file.name} />
+                <img class="icon" src={url} alt={file.name} loading="eager" />
                 <div class="overlay">
                     <XCircle size={36} />
                 </div>

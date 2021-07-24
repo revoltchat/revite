@@ -37,6 +37,7 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
                 {attachment && (
                     <>
                         <img
+                            loading="eager"
                             src={client.generateFileURL(attachment)}
                             width={(attachment.metadata as ImageMetadata).width}
                             height={
@@ -49,6 +50,7 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
                 {embed && (
                     <>
                         <img
+                            loading="eager"
                             src={client.proxyFile(embed.url)}
                             width={embed.width}
                             height={embed.height}
