@@ -2,9 +2,9 @@ import { SYSTEM_USER_ID, User } from "revolt.js";
 import { Channels } from "revolt.js/dist/api/objects";
 import styled, { css } from "styled-components";
 
-import { StateUpdater, useContext, useState } from "preact/hooks";
+import { StateUpdater, useState } from "preact/hooks";
 
-import { AppContext } from "../../context/revoltjs/RevoltClient";
+import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import { emojiDictionary } from "../../assets/emojis";
 import ChannelIcon from "./ChannelIcon";
@@ -52,7 +52,7 @@ export function useAutoComplete(
 ): AutoCompleteProps {
     const [state, setState] = useState<AutoCompleteState>({ type: "none" });
     const [focused, setFocused] = useState(false);
-    const client = useContext(AppContext);
+    const client = useClient();
 
     function findSearchString(
         el: HTMLTextAreaElement,

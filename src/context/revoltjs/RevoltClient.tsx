@@ -4,7 +4,7 @@ import { Client } from "revolt.js";
 import { Route } from "revolt.js/dist/api/routes";
 
 import { createContext } from "preact";
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
 import { SingletonMessageRenderer } from "../../lib/renderer/Singleton";
 
@@ -239,3 +239,5 @@ export default connectState<{ children: Children }>(Context, (state) => {
         sync: state.sync,
     };
 });
+
+export const useClient = () => useContext(AppContext);

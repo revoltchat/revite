@@ -11,7 +11,7 @@ import AttachmentActions from "../../../components/common/messaging/attachments/
 import EmbedMediaActions from "../../../components/common/messaging/embed/EmbedMediaActions";
 import Modal from "../../../components/ui/Modal";
 
-import { AppContext } from "../../revoltjs/RevoltClient";
+import { useClient } from "../../revoltjs/RevoltClient";
 
 interface Props {
     onClose: () => void;
@@ -22,12 +22,6 @@ interface Props {
 type ImageMetadata = AttachmentMetadata & { type: "Image" };
 
 export function ImageViewer({ attachment, embed, onClose }: Props) {
-    // ! FIXME: temp code
-    // ! add proxy function to client
-    function proxyImage(url: string) {
-        return `https://jan.revolt.chat/proxy?url=${encodeURIComponent(url)}`;
-    }
-
     if (attachment && attachment.metadata.type !== "Image") {
         console.warn(
             `Attempted to use a non valid attatchment type in the image viewer: ${attachment.metadata.type}`,
@@ -35,7 +29,7 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
         return null;
     }
 
-    const client = useContext(AppContext);
+    const client = useClient();
 
     return (
         <Modal visible={true} onClose={onClose} noBackground>
@@ -55,7 +49,7 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
                 {embed && (
                     <>
                         <img
-                            src={proxyImage(embed.url)}
+                            src={client.proxyFile(embed.url)}
                             width={embed.width}
                             height={embed.height}
                         />
