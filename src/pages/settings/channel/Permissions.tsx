@@ -83,8 +83,10 @@ export default function Permissions({ channel }: Props) {
                     </Checkbox>
                 );
             })}
-            <h2>channel per??issions</h2>
+            <h2>channel permissions</h2>
             {Object.keys(ChannelPermission).map((perm) => {
+                if (perm === "View") return null;
+
                 const value =
                     ChannelPermission[perm as keyof typeof ChannelPermission];
                 if (value & DEFAULT_PERMISSION_DM) {

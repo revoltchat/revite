@@ -1,4 +1,4 @@
-import { ListUl, ListCheck } from "@styled-icons/boxicons-regular";
+import { ListUl, ListCheck, ListMinus } from "@styled-icons/boxicons-regular";
 import { XSquare, Share, Group } from "@styled-icons/boxicons-solid";
 import { Route, useHistory, useParams } from "react-router-dom";
 
@@ -11,6 +11,7 @@ import Category from "../../components/ui/Category";
 
 import { GenericSettings } from "./GenericSettings";
 import { Bans } from "./server/Bans";
+import { Categories } from "./server/Categories";
 import { Invites } from "./server/Invites";
 import { Members } from "./server/Members";
 import { Overview } from "./server/Overview";
@@ -42,6 +43,13 @@ export default function ServerSettings() {
                     ),
                 },
                 {
+                    id: "categories",
+                    icon: <ListMinus size={20} />,
+                    title: (
+                        <Text id="app.settings.server_pages.categories.title" />
+                    ),
+                },
+                {
                     id: "members",
                     icon: <Group size={20} />,
                     title: (
@@ -68,6 +76,9 @@ export default function ServerSettings() {
                 },
             ]}
             children={[
+                <Route path="/server/:server/settings/categories">
+                    <Categories server={server} />
+                </Route>,
                 <Route path="/server/:server/settings/members">
                     <RequiresOnline>
                         <Members server={server} />
