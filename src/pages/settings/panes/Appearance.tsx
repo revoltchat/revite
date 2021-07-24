@@ -97,6 +97,7 @@ export function Component(props: Props) {
             <div className={styles.themes}>
                 <div className={styles.theme}>
                     <img
+                        loading="eager"
                         src={lightSVG}
                         draggable={false}
                         data-active={selected === "light"}
@@ -104,7 +105,7 @@ export function Component(props: Props) {
                             selected !== "light" &&
                             setTheme({ preset: "light" })
                         }
-                        onContextMenu={e => e.preventDefault()}
+                        onContextMenu={(e) => e.preventDefault()}
                     />
                     <h4>
                         <Text id="app.settings.pages.appearance.color.light" />
@@ -112,13 +113,14 @@ export function Component(props: Props) {
                 </div>
                 <div className={styles.theme}>
                     <img
+                        loading="eager"
                         src={darkSVG}
                         draggable={false}
                         data-active={selected === "dark"}
                         onClick={() =>
                             selected !== "dark" && setTheme({ preset: "dark" })
                         }
-                        onContextMenu={e => e.preventDefault()}
+                        onContextMenu={(e) => e.preventDefault()}
                     />
                     <h4>
                         <Text id="app.settings.pages.appearance.color.dark" />
@@ -202,7 +204,12 @@ export function Component(props: Props) {
                             className={styles.button}
                             onClick={() => setEmojiPack("mutant")}
                             data-active={emojiPack === "mutant"}>
-                            <img src={mutantSVG} draggable={false} onContextMenu={e => e.preventDefault()} />
+                            <img
+                                loading="eager"
+                                src={mutantSVG}
+                                draggable={false}
+                                onContextMenu={(e) => e.preventDefault()}
+                            />
                         </div>
                         <h4>
                             Mutant Remix{" "}
@@ -219,7 +226,12 @@ export function Component(props: Props) {
                             className={styles.button}
                             onClick={() => setEmojiPack("twemoji")}
                             data-active={emojiPack === "twemoji"}>
-                            <img src={twemojiSVG} draggable={false} onContextMenu={e => e.preventDefault()} />
+                            <img
+                                loading="eager"
+                                src={twemojiSVG}
+                                draggable={false}
+                                onContextMenu={(e) => e.preventDefault()}
+                            />
                         </div>
                         <h4>Twemoji</h4>
                     </div>
@@ -230,7 +242,12 @@ export function Component(props: Props) {
                             className={styles.button}
                             onClick={() => setEmojiPack("openmoji")}
                             data-active={emojiPack === "openmoji"}>
-                            <img src={openmojiSVG} draggable={false} onContextMenu={e => e.preventDefault()} />
+                            <img
+                                loading="eager"
+                                src={openmojiSVG}
+                                draggable={false}
+                                onContextMenu={(e) => e.preventDefault()}
+                            />
                         </div>
                         <h4>Openmoji</h4>
                     </div>
@@ -239,7 +256,12 @@ export function Component(props: Props) {
                             className={styles.button}
                             onClick={() => setEmojiPack("noto")}
                             data-active={emojiPack === "noto"}>
-                            <img src={notoSVG} draggable={false} onContextMenu={e => e.preventDefault()} />
+                            <img
+                                loading="eager"
+                                src={notoSVG}
+                                draggable={false}
+                                onContextMenu={(e) => e.preventDefault()}
+                            />
                         </div>
                         <h4>Noto Emoji</h4>
                     </div>

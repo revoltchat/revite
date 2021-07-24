@@ -143,7 +143,9 @@ function HomeSidebar(props: Props) {
                         })
                     }
                 />
-                {channelsArr.length === 0 && <img src={placeholderSVG} />}
+                {channelsArr.length === 0 && (
+                    <img src={placeholderSVG} loading="eager" />
+                )}
                 {channelsArr.map((x) => {
                     let user;
                     if (x.channel_type === "DirectMessage") {

@@ -97,6 +97,7 @@ export function TypingIndicator({ typing }: Props) {
                     <div className="avatars">
                         {users.map((user) => (
                             <img
+                                loading="eager"
                                 src={client.users.getAvatarURL(
                                     user._id,
                                     { max_side: 256 },

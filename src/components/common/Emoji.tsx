@@ -55,6 +55,7 @@ export default function Emoji({
     return (
         <img
             alt={emoji}
+            loading="lazy"
             className="emoji"
             draggable={false}
             src={parseEmoji(emoji)}
@@ -66,7 +67,7 @@ export default function Emoji({
 }
 
 export function generateEmoji(emoji: string) {
-    return `<img class="emoji" draggable="false" alt="${emoji}" src="${parseEmoji(
+    return `<img loading="lazy" class="emoji" draggable="false" alt="${emoji}" src="${parseEmoji(
         emoji,
     )}" />`;
 }

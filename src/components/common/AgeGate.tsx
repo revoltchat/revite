@@ -67,6 +67,7 @@ export default function AgeGate(props: Props) {
     return (
         <Base>
             <img
+                loading="eager"
                 src={"https://static.revolt.chat/emoji/mutant/26a0.svg"}
                 draggable={false}
             />

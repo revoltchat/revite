@@ -91,6 +91,7 @@ export default function Embed({ embed }: Props) {
                             <div className={styles.siteinfo}>
                                 {embed.icon_url && (
                                     <img
+                                        loading="lazy"
                                         className={styles.favicon}
                                         src={client.proxyFile(embed.icon_url)}
                                         draggable={false}

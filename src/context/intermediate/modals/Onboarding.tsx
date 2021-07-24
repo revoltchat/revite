@@ -40,7 +40,7 @@ export function OnboardingModal({ onClose, callback }: Props) {
             <div className={styles.header}>
                 <h1>
                     <Text id="app.special.modals.onboarding.welcome" />
-                    <img src={wideSVG} />
+                    <img src={wideSVG} loading="eager" />
                 </h1>
             </div>
             <div className={styles.form}>

@@ -17,21 +17,31 @@
     }
 }
 
-.invites {
+.userList {
     gap: 8px;
     display: flex;
     flex-direction: column;
 
     .subtitle {
+        gap: 8px;
         display: flex;
         justify-content: space-between;
         font-size: 13px;
         text-transform: uppercase;
         color: var(--secondary-foreground);
         font-weight: 700;
+
+        .reason {
+            text-align: center;
+        }
     }
 
-    .invite {
+    .reason {
+        flex: 2;
+    }
+
+    .invite,
+    .ban {
         gap: 8px;
         padding: 10px;
         display: flex;
@@ -39,8 +49,8 @@
         flex-direction: row;
         background: var(--secondary-background);
 
-        code,
-        span {
+        span,
+        code {
             flex: 1;
         }
 
