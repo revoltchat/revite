@@ -1,5 +1,6 @@
 import { XCircle } from "@styled-icons/boxicons-regular";
 import { Servers, Users } from "revolt.js/dist/api/objects";
+import { Route } from "revolt.js/dist/api/routes";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
@@ -19,11 +20,7 @@ export function Bans({ server }: Props) {
     const client = useContext(AppContext);
     const [deleting, setDelete] = useState<string[]>([]);
     const [data, setData] = useState<
-        | {
-              users: Pick<Users.User, "_id" | "username" | "avatar">[];
-              bans: Servers.Ban[];
-          }
-        | undefined
+        Route<"GET", "/servers/id/bans">["response"] | undefined
     >(undefined);
 
     useEffect(() => {

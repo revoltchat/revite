@@ -64,12 +64,14 @@ export function Invites({ server }: Props) {
                         <code>{invite._id}</code>
                         <span>
                             <UserIcon target={creator} size={24} />{" "}
-                            {creator?.username ?? "unknown"}
+                            {creator?.username ?? (
+                                <Text id="app.main.channel.unknown_user" />
+                            )}
                         </span>
                         <span>
                             {channel && creator
                                 ? getChannelName(ctx.client, channel, true)
-                                : "#unknown"}
+                                : "#??"}
                         </span>
                         <IconButton
                             onClick={async () => {

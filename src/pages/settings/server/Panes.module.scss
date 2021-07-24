@@ -41,7 +41,8 @@
     }
 
     .invite,
-    .ban {
+    .ban,
+    .member {
         gap: 8px;
         padding: 10px;
         display: flex;
@@ -69,25 +70,23 @@
             opacity: 0.5;
         }
     }
-}
-
-.members {
-    .subtitle {
-        display: flex;
-        justify-content: space-between;
-        font-size: 13px;
-        text-transform: uppercase;
-        color: var(--secondary-foreground);
-        font-weight: 700;
-    }
 
     .member {
-        gap: 8px;
+        cursor: pointer;
+
+        .chevron {
+            transition: 0.2s ease all;
+        }
+
+        &:not([data-open="true"]) .chevron {
+            transform: rotateZ(90deg);
+        }
+    }
+
+    .memberView {
         padding: 10px;
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        background: var(--secondary-background);
+        margin: 0 10px;
+        background: var(--background);
     }
 }
 
