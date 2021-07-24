@@ -3,6 +3,7 @@ import { Embed } from "revolt.js/dist/api/objects";
 import styles from "./Embed.module.scss";
 
 import { useIntermediate } from "../../../../context/intermediate/Intermediate";
+import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 interface Props {
     embed: Embed;
@@ -11,19 +12,15 @@ interface Props {
 }
 
 export default function EmbedMedia({ embed, width, height }: Props) {
-    // ! FIXME: temp code
-    // ! add proxy function to client
-    function proxyImage(url: string) {
-        return `https://jan.revolt.chat/proxy?url=${encodeURIComponent(url)}`;
-    }
-
     if (embed.type !== "Website") return null;
     const { openScreen } = useIntermediate();
+    const client = useClient();
 
     switch (embed.special?.type) {
         case "YouTube":
             return (
                 <iframe
+                    loading="lazy"
                     src={`https://www.youtube-nocookie.com/embed/${embed.special.id}?modestbranding=1`}
                     allowFullScreen
                     style={{ height }}
@@ -38,6 +35,7 @@ export default function EmbedMedia({ embed, width, height }: Props) {
                     frameBorder="0"
                     allowFullScreen
                     scrolling="no"
+                    loading="lazy"
                     style={{ height }}
                 />
             );
@@ -45,6 +43,7 @@ export default function EmbedMedia({ embed, width, height }: Props) {
             return (
                 <iframe
                     src={`https://open.spotify.com/embed/${embed.special.content_type}/${embed.special.id}`}
+                    loading="lazy"
                     frameBorder="0"
                     allowFullScreen
                     allowTransparency
@@ -59,6 +58,7 @@ export default function EmbedMedia({ embed, width, height }: Props) {
                     )}&color=%23FF7F50&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`}
                     frameBorder="0"
                     scrolling="no"
+                    loading="lazy"
                     style={{ height }}
                 />
             );
@@ -69,6 +69,7 @@ export default function EmbedMedia({ embed, width, height }: Props) {
                         embed.special.id
                     }/size=large/bgcol=181a1b/linkcol=056cc4/tracklist=false/transparent=true/`}
                     seamless
+                    loading="lazy"
                     style={{ height }}
                 />
             );
@@ -79,7 +80,8 @@ export default function EmbedMedia({ embed, width, height }: Props) {
                 return (
                     <img
                         className={styles.image}
-                        src={proxyImage(url)}
+                        src={client.proxyFile(url)}
+                        loading="lazy"
                         style={{ width, height }}
                         onClick={() =>
                             openScreen({

@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { useContext } from "preact/hooks";
 
 import { useIntermediate } from "../../../../context/intermediate/Intermediate";
+import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 import { MessageAreaWidthContext } from "../../../../pages/channels/messaging/MessageArea";
 import EmbedMedia from "./EmbedMedia";
@@ -19,11 +20,7 @@ const CONTAINER_PADDING = 24;
 const MAX_PREVIEW_SIZE = 150;
 
 export default function Embed({ embed }: Props) {
-    // ! FIXME: temp code
-    // ! add proxy function to client
-    function proxyImage(url: string) {
-        return `https://jan.revolt.chat/proxy?url=${encodeURIComponent(url)}`;
-    }
+    const client = useClient();
 
     const { openScreen } = useIntermediate();
     const maxWidth = Math.min(
@@ -95,7 +92,7 @@ export default function Embed({ embed }: Props) {
                                 {embed.icon_url && (
                                     <img
                                         className={styles.favicon}
-                                        src={proxyImage(embed.icon_url)}
+                                        src={client.proxyFile(embed.icon_url)}
                                         draggable={false}
                                         onError={(e) =>
                                             (e.currentTarget.style.display =
@@ -152,9 +149,10 @@ export default function Embed({ embed }: Props) {
                 <img
                     className={classNames(styles.embed, styles.image)}
                     style={calculateSize(embed.width, embed.height)}
-                    src={proxyImage(embed.url)}
+                    src={client.proxyFile(embed.url)}
                     type="text/html"
                     frameBorder="0"
+                    loading="lazy"
                     onClick={() => openScreen({ id: "image_viewer", embed })}
                     onMouseDown={(ev) =>
                         ev.button === 1 && window.open(embed.url, "_blank")
