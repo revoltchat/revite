@@ -28,7 +28,7 @@ export function OnboardingModal({ onClose, callback }: Props) {
     const onSubmit: SubmitHandler<FormInputs> = ({ username }) => {
         setLoading(true);
         callback(username, true)
-            .then(onClose)
+            .then(() => onClose())
             .catch((err: any) => {
                 setError(takeError(err));
                 setLoading(false);

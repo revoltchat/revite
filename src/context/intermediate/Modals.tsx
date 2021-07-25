@@ -17,7 +17,7 @@ export interface Props {
 
 export default function Modals({ screen, openScreen }: Props) {
     const onClose = () =>
-        isModalClosing
+        isModalClosing || screen.id === "onboarding"
             ? openScreen({ id: "none" })
             : internalEmit("Modal", "close");
 

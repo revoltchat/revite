@@ -116,7 +116,7 @@ function Context({ auth, children }: Props) {
                     if (onboarding) {
                         openScreen({
                             id: "onboarding",
-                            callback: (username: string) =>
+                            callback: async (username: string) =>
                                 onboarding(username, true).then(login),
                         });
                     } else {
