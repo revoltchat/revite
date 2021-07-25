@@ -1,6 +1,6 @@
 import { Plus } from "@styled-icons/boxicons-regular";
 import { useLocation, useParams } from "react-router-dom";
-import { Channel, Servers } from "revolt.js/dist/api/objects";
+import { Channel, Servers, Users } from "revolt.js/dist/api/objects";
 import styled, { css } from "styled-components";
 
 import { attachContextMenu, openContextMenu } from "preact-context-menu";
@@ -19,6 +19,7 @@ import {
     useForceUpdate,
     useSelf,
     useServers,
+    useUsers,
 } from "../../../context/revoltjs/hooks";
 
 import logoSVG from "../../../assets/logo.svg";
@@ -56,7 +57,7 @@ function Icon({
                 <circle cx="27" cy="5" r="5" fill={"white"} />
             )}
             {unread === "mention" && (
-                <circle cx="27" cy="5" r="5" fill={"red"} />
+                <circle cx="27" cy="5" r="5" fill={"var(--error)"} />
             )}
         </svg>
     );
@@ -184,6 +185,7 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
     const channels = (useChannels(undefined, ctx) as Channel[]).map((x) =>
         mapChannelWithUnread(x, unreads),
     );
+    const users = useUsers(undefined, ctx);
 
     const unreadChannels = channels.filter((x) => x.unread).map((x) => x._id);
 
@@ -226,6 +228,10 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
             homeUnread = "unread";
             alertCount += x.alertCount ?? 0;
         }
+    }
+
+    if (users.find((x) => x?.relationship === Users.Relationship.Incoming)) {
+        alertCount++;
     }
 
     if (alertCount > 0) homeUnread = "mention";
