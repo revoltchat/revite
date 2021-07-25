@@ -66,16 +66,7 @@ function HomeSidebar(props: Props) {
         .filter((x) => x.channel_type !== "SavedMessages")
         .map((x) => mapChannelWithUnread(x, props.unreads));
 
-    const users = useUsers(
-        (
-            channelsArr as (
-                | Channels.DirectMessageChannel
-                | Channels.GroupChannel
-            )[]
-        ).reduce((prev: any, cur) => [...prev, ...cur.recipients], []),
-        ctx,
-    );
-
+    const users = useUsers(undefined, ctx);
     channelsArr.sort((b, a) => a.timestamp.localeCompare(b.timestamp));
 
     return (
