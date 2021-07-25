@@ -6,6 +6,7 @@ import {
     Microsoftedge,
     Linux,
     Macos,
+    Opera,
 } from "@styled-icons/simple-icons";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useHistory } from "react-router-dom";
@@ -70,6 +71,8 @@ export function Sessions() {
                 return <Safari size={32} />;
             case /edge/i.test(name):
                 return <Microsoftedge size={32} />;
+            case /opera/i.test(name):
+                return <Opera size={32} />;
             default:
                 return <HelpCircle size={32} />;
         }
