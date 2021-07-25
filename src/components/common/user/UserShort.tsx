@@ -1,6 +1,13 @@
+import { useParams } from "react-router-dom";
 import { User } from "revolt.js";
 
 import { Text } from "preact-i18n";
+
+import {
+    useForceUpdate,
+    useMember,
+    useServer,
+} from "../../../context/revoltjs/hooks";
 
 import UserIcon from "./UserIcon";
 
@@ -8,9 +15,37 @@ export function Username({
     user,
     ...otherProps
 }: { user?: User } & JSX.HTMLAttributes<HTMLElement>) {
+    let username = user?.username;
+    let color;
+
+    // ! this must be really bad for perf.
+    if (user) {
+        let { server } = useParams<{ server?: string }>();
+        if (server) {
+            let ctx = useForceUpdate();
+            let member = useMember(`${server}${user._id}`, ctx);
+            if (member) {
+                if (member.nickname) {
+                    username = member.nickname;
+                }
+
+                if (member.roles && member.roles.length > 0) {
+                    let s = useServer(server, ctx);
+                    for (let role of member.roles) {
+                        let c = s?.roles?.[role].colour;
+                        if (c) {
+                            color = c;
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     return (
-        <span {...otherProps}>
-            {user?.username ?? <Text id="app.main.channel.unknown_user" />}
+        <span {...otherProps} style={{ color }}>
+            {username ?? <Text id="app.main.channel.unknown_user" />}
         </span>
     );
 }

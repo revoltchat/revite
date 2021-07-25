@@ -14,6 +14,7 @@ import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import ChannelIcon from "../../common/ChannelIcon";
 import Tooltip from "../../common/Tooltip";
 import UserIcon from "../../common/user/UserIcon";
+import { Username } from "../../common/user/UserShort";
 import UserStatus from "../../common/user/UserStatus";
 import IconButton from "../../ui/IconButton";
 
@@ -63,7 +64,9 @@ export function UserButton(props: UserProps) {
                 status
             />
             <div className={styles.name}>
-                <div>{user.username}</div>
+                <div>
+                    <Username user={user} />
+                </div>
                 {
                     <div className={styles.subText}>
                         {channel?.last_message && alert ? (

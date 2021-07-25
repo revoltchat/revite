@@ -122,6 +122,13 @@ export function useServers(ids?: string[], context?: HookContext) {
     )[];
 }
 
+export function useMember(id?: string, context?: HookContext) {
+    if (typeof id === "undefined") return;
+    return useObject("members", id, context) as
+        | Readonly<Servers.Member>
+        | undefined;
+}
+
 export function useDMs(context?: HookContext) {
     const ctx = useForceUpdate(context);
 
@@ -192,7 +199,7 @@ export function useChannelPermission(id: string, context?: HookContext) {
 
         if (server) {
             ctx.client.servers.addListener("update", mutationServer);
-            ctx.client.servers.members.addListener("update", mutationMember);
+            ctx.client.members.addListener("update", mutationMember);
         }
 
         return () => {
@@ -200,10 +207,7 @@ export function useChannelPermission(id: string, context?: HookContext) {
 
             if (server) {
                 ctx.client.servers.removeListener("update", mutationServer);
-                ctx.client.servers.members.removeListener(
-                    "update",
-                    mutationMember,
-                );
+                ctx.client.members.removeListener("update", mutationMember);
             }
         };
     }, [id]);
@@ -221,11 +225,11 @@ export function useServerPermission(id: string, context?: HookContext) {
 
     useEffect(() => {
         ctx.client.servers.addListener("update", mutation);
-        ctx.client.servers.members.addListener("update", mutationMember);
+        ctx.client.members.addListener("update", mutationMember);
 
         return () => {
             ctx.client.servers.removeListener("update", mutation);
-            ctx.client.servers.members.removeListener("update", mutationMember);
+            ctx.client.members.removeListener("update", mutationMember);
         };
     }, [id]);
 

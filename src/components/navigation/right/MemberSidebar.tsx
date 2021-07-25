@@ -186,7 +186,7 @@ export function ServerMemberSidebar({
 
     useEffect(() => {
         if (status === ClientStatus.ONLINE && typeof members === "undefined") {
-            client.servers.members
+            client.members
                 .fetchMembers(channel.server)
                 .then((members) => setMembers(members));
         }

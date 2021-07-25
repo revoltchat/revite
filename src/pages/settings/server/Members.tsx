@@ -28,7 +28,7 @@ export function Members({ server }: Props) {
     const users = useUsers(members?.map((x) => x._id.user) ?? [], ctx);
 
     useEffect(() => {
-        ctx.client.servers.members
+        ctx.client.members
             .fetchMembers(server._id)
             .then((members) => setMembers(members));
     }, []);
@@ -126,7 +126,7 @@ export function Members({ server }: Props) {
                                             roles,
                                         )}
                                         onClick={async () => {
-                                            await ctx.client.servers.members.editMember(
+                                            await ctx.client.members.editMember(
                                                 server._id,
                                                 member._id.user,
                                                 {
