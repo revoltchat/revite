@@ -19,8 +19,8 @@ import {
     DEFAULT_MONO_FONT,
     FONTS,
     FONT_KEYS,
-    MONOSCAPE_FONTS,
-    MONOSCAPE_FONT_KEYS,
+    MONOSPACE_FONTS,
+    MONOSPACE_FONT_KEYS,
     Theme,
     ThemeContext,
     ThemeOptions,
@@ -403,17 +403,17 @@ export function Component(props: Props) {
                     <Text id="app.settings.pages.appearance.mono_font" />
                 </h3>
                 <ComboBox
-                    value={theme.monoscapeFont ?? DEFAULT_MONO_FONT}
+                    value={theme.monospaceFont ?? DEFAULT_MONO_FONT}
                     onChange={(e) =>
                         pushOverride({
-                            monoscapeFont: e.currentTarget.value as any,
+                            monospaceFont: e.currentTarget.value as any,
                         })
                     }>
-                    {MONOSCAPE_FONT_KEYS.map((key) => (
+                    {MONOSPACE_FONT_KEYS.map((key) => (
                         <option value={key}>
                             {
-                                MONOSCAPE_FONTS[
-                                    key as keyof typeof MONOSCAPE_FONTS
+                                MONOSPACE_FONTS[
+                                    key as keyof typeof MONOSPACE_FONTS
                                 ].name
                             }
                         </option>

@@ -57,7 +57,7 @@ export type Fonts =
     | "Raleway"
     | "Ubuntu"
     | "Comic Neue";
-export type MonoscapeFonts =
+export type MonospaceFonts =
     | "Fira Code"
     | "Roboto Mono"
     | "Source Code Pro"
@@ -70,7 +70,7 @@ export type Theme = {
     light?: boolean;
     font?: Fonts;
     css?: string;
-    monoscapeFont?: MonoscapeFonts;
+    monospaceFont?: MonospaceFonts;
 };
 
 export interface ThemeOptions {
@@ -190,8 +190,8 @@ export const FONTS: Record<Fonts, { name: string; load: () => void }> = {
     },
 };
 
-export const MONOSCAPE_FONTS: Record<
-    MonoscapeFonts,
+export const MONOSPACE_FONTS: Record<
+    MonospaceFonts,
     { name: string; load: () => void }
 > = {
     "Fira Code": {
@@ -217,7 +217,7 @@ export const MONOSCAPE_FONTS: Record<
 };
 
 export const FONT_KEYS = Object.keys(FONTS).sort();
-export const MONOSCAPE_FONT_KEYS = Object.keys(MONOSCAPE_FONTS).sort();
+export const MONOSPACE_FONT_KEYS = Object.keys(MONOSPACE_FONTS).sort();
 
 export const DEFAULT_FONT = "Open Sans";
 export const DEFAULT_MONO_FONT = "Fira Code";
@@ -314,10 +314,10 @@ function Theme({ children, options }: Props) {
     }, [theme.font]);
 
     useEffect(() => {
-        const font = theme.monoscapeFont ?? DEFAULT_MONO_FONT;
-        root.setProperty("--monoscape-font", `"${font}"`);
-        MONOSCAPE_FONTS[font].load();
-    }, [theme.monoscapeFont]);
+        const font = theme.monospaceFont ?? DEFAULT_MONO_FONT;
+        root.setProperty("--monospace-font", `"${font}"`);
+        MONOSPACE_FONTS[font].load();
+    }, [theme.monospaceFont]);
 
     useEffect(() => {
         root.setProperty("--ligatures", options?.ligatures ? "normal" : "none");
