@@ -29,6 +29,7 @@ export const ReplyBase = styled.div<{
     preview?: boolean;
 }>`
     gap: 4px;
+    min-width: 0;
     display: flex;
     margin-inline-start: 30px;
     margin-inline-end: 12px;
@@ -45,10 +46,11 @@ export const ReplyBase = styled.div<{
     }
 
     .user {
-        display: flex;
         gap: 4px;
+        display: flex;
         flex-shrink: 0;
         font-weight: 600;
+        overflow: visible;
         align-items: center;
 
         span {
