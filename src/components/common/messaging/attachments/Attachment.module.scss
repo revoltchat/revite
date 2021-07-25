@@ -2,11 +2,11 @@
     display: grid;
     grid-auto-flow: row dense;
     grid-auto-columns: min(100%, var(--attachment-max-width));
-    
-    margin: .125rem 0 .125rem;
+
+    margin: 0.125rem 0 0.125rem;
     width: max-content;
     max-width: 100%;
-    
+
     &[data-spoiler="true"] {
         filter: blur(30px);
         pointer-events: none;
@@ -50,18 +50,18 @@
             overflow-y: auto;
             border-radius: 0 !important;
             background: var(--secondary-header);
-    
+
             pre {
                 margin: 0;
             }
-    
+
             pre code {
-                font-family: var(--monoscape-font), sans-serif;
+                font-family: var(--monospace-font), sans-serif;
             }
 
             &[data-loading="true"] {
                 display: flex;
-                
+
                 > * {
                     flex-grow: 1;
                 }
@@ -84,6 +84,8 @@
     }
 }
 
-.container, .attachment, .image {
+.container,
+.attachment,
+.image {
     border-radius: var(--border-radius);
 }

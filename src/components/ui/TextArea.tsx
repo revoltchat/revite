@@ -48,7 +48,7 @@ export default styled.textarea<TextAreaProps>`
     ${(props) =>
         props.code
             ? css`
-                  font-family: var(--monoscape-font), monospace;
+                  font-family: var(--monospace-font), monospace;
               `
             : css`
                   font-family: inherit;

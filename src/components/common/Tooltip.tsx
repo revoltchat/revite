@@ -35,7 +35,7 @@ const PermissionTooltipBase = styled.div`
     }
 
     code {
-        font-family: var(--monoscape-font);
+        font-family: var(--monospace-font);
     }
 `;
 
