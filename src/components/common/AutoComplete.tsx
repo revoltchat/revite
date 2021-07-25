@@ -144,7 +144,7 @@ export function useAutoComplete(
                                 break;
                             case "TextChannel":
                                 const server = channel.server;
-                                users = client.servers.members
+                                users = client.members
                                     .toArray()
                                     .filter(
                                         (x) => x._id.substr(0, 26) === server,

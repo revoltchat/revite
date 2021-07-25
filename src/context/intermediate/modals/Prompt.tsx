@@ -304,7 +304,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                                 setProcessing(true);
 
                                 try {
-                                    await client.servers.members.kickMember(
+                                    await client.members.kickMember(
                                         props.target._id,
                                         props.user,
                                     );
