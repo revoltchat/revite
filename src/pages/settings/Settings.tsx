@@ -157,7 +157,7 @@ export default function Settings() {
                     </ButtonItem>
                 </a>,
                 <a
-                    href="https://ko-fi.com/insertish"
+                    href="https://insrt.uk/donate"
                     target="_blank"
                     rel="noreferrer">
                     <ButtonItem className={styles.donate} compact>
