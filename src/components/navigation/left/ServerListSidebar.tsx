@@ -99,8 +99,7 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
 
     > div {
         height: 42px;
-        padding-left: 4px;
-        padding-right: 6px;
+        padding-left: 10px;
 
         display: grid;
         place-items: center;
@@ -132,9 +131,7 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
             `}
 
         svg {
-            width: 57px;
-            height: 117px;
-            margin-top: 4px;
+            margin-top: 5px;
             display: relative;
 
             pointer-events: none;
@@ -153,13 +150,23 @@ function Swoosh() {
     return (
         <span>
             <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="57"
-                height="117"
-                fill="var(--sidebar-active)">
-                <path d="M27.746 86.465c14 0 28 11.407 28 28s.256-56 .256-56-42.256 28-28.256 28z" />
-                <path d="M56 58.465c0 15.464-12.536 28-28 28s-28-12.536-28-28 12.536-28 28-28 28 12.536 28 28z" />
-                <path d="M28.002 30.465c14 0 28-11.407 28-28s0 56 0 56-42-28-28-28z" />
+                width="56"
+                height="103"
+                viewBox="0 0 56 103"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M55.0368 51.5947C55.0368 64.8596 44.2834 75.613 31.0184 75.613C17.7534 75.613 7 64.8596 7 51.5947C7 38.3297 17.7534 27.5763 31.0184 27.5763C44.2834 27.5763 55.0368 38.3297 55.0368 51.5947Z"
+                    fill="var(--sidebar-active)"
+                />
+                <path
+                    d="M55.8809 1C55.5597 16.9971 34.4597 25.2244 24.0847 28.6715L55.8846 60.4859L55.8809 1Z"
+                    fill="var(--sidebar-active)"
+                />
+                <path
+                    d="M55.8809 102.249C55.5597 86.2516 34.4597 78.0243 24.0847 74.5771L55.8846 42.7627L55.8809 102.249Z"
+                    fill="var(--sidebar-active)"
+                />
             </svg>
         </span>
     );
@@ -240,11 +247,7 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
                             }>
                             <UserHover user={self}>
                                 <Icon size={42} unread={homeUnread}>
-                                    <UserIcon
-                                        target={self}
-                                        size={32}
-                                        status
-                                    />
+                                    <UserIcon target={self} size={32} status />
                                 </Icon>
                             </UserHover>
                         </div>
