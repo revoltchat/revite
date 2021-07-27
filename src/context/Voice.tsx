@@ -7,7 +7,6 @@ import type VoiceClient from "../lib/vortex/VoiceClient";
 import { Children } from "../types/Preact";
 import { SoundContext } from "./Settings";
 import { AppContext } from "./revoltjs/RevoltClient";
-import { useForceUpdate } from "./revoltjs/hooks";
 
 export enum VoiceStatus {
     LOADING = 0,
@@ -160,7 +159,6 @@ export default function Voice({ children }: Props) {
         };
     }, [client]);
 
-    const { forceUpdate } = useForceUpdate();
     const playSound = useContext(SoundContext);
 
     useEffect(() => {
@@ -170,30 +168,36 @@ export default function Voice({ children }: Props) {
         // ! get rid of these force updates
         // ! handle it through state or smth
 
-        client.on("startProduce", forceUpdate);
-        client.on("stopProduce", forceUpdate);
+        function stateUpdate() {
+            setStatus(state.status);
+        }
+
+        client.on("startProduce", stateUpdate);
+        client.on("stopProduce", stateUpdate);
 
         client.on("userJoined", () => {
             playSound("call_join");
-            forceUpdate();
+            stateUpdate();
         });
         client.on("userLeft", () => {
             playSound("call_leave");
-            forceUpdate();
+            stateUpdate();
         });
-        client.on("userStartProduce", forceUpdate);
-        client.on("userStopProduce", forceUpdate);
-        client.on("close", forceUpdate);
+
+        client.on("userStartProduce", stateUpdate);
+        client.on("userStopProduce", stateUpdate);
+
+        client.on("close", stateUpdate);
 
         return () => {
-            client.removeListener("startProduce", forceUpdate);
-            client.removeListener("stopProduce", forceUpdate);
+            client.removeListener("startProduce", stateUpdate);
+            client.removeListener("stopProduce", stateUpdate);
 
-            client.removeListener("userJoined", forceUpdate);
-            client.removeListener("userLeft", forceUpdate);
-            client.removeListener("userStartProduce", forceUpdate);
-            client.removeListener("userStopProduce", forceUpdate);
-            client.removeListener("close", forceUpdate);
+            client.removeListener("userJoined", stateUpdate);
+            client.removeListener("userLeft", stateUpdate);
+            client.removeListener("userStartProduce", stateUpdate);
+            client.removeListener("userStopProduce", stateUpdate);
+            client.removeListener("close", stateUpdate);
         };
     }, [client, state]);
 
