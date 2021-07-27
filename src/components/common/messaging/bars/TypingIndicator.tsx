@@ -4,11 +4,15 @@ import styled from "styled-components";
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
+import { TextReact } from "../../../../lib/i18n";
+
 import { connectState } from "../../../../redux/connector";
 import { TypingUser } from "../../../../redux/reducers/typing";
 
 import { AppContext } from "../../../../context/revoltjs/RevoltClient";
 import { useUsers } from "../../../../context/revoltjs/hooks";
+
+import { Username } from "../../user/UserShort";
 
 interface Props {
     typing?: TypingUser[];
@@ -74,19 +78,21 @@ export function TypingIndicator({ typing }: Props) {
         } else if (users.length > 1) {
             const usersCopy = [...users];
             text = (
-                <Text
+                <TextReact
                     id="app.main.channel.typing.multiple"
                     fields={{
-                        user: usersCopy.pop()?.username,
-                        userlist: usersCopy.map((x) => x.username).join(", "),
+                        user: <Username user={usersCopy.pop()} />,
+                        userlist: usersCopy
+                            .map((x) => <Username user={x} />)
+                            .join(", "),
                     }}
                 />
             );
         } else {
             text = (
-                <Text
+                <TextReact
                     id="app.main.channel.typing.single"
-                    fields={{ user: users[0].username }}
+                    fields={{ user: <Username user={users[0]} /> }}
                 />
             );
         }

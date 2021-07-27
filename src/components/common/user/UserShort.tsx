@@ -18,7 +18,7 @@ export function Username({
     let username = user?.username;
     let color;
 
-    // ! this must be really bad for perf.
+    // ! FIXME: this must be really bad for perf.
     if (user) {
         let { server } = useParams<{ server?: string }>();
         if (server) {
