@@ -76,15 +76,19 @@ export function TypingIndicator({ typing }: Props) {
         if (users.length >= 5) {
             text = <Text id="app.main.channel.typing.several" />;
         } else if (users.length > 1) {
-            const usersCopy = [...users];
+            const userlist = [...users].map((x) => <Username user={x} />);
+            const user = userlist.pop();
+
+            for (let i = 0; i < userlist.length - 1; i++) {
+                userlist.splice(i * 2 + 1, 0, <>, </>);
+            }
+
             text = (
                 <TextReact
                     id="app.main.channel.typing.multiple"
                     fields={{
-                        user: <Username user={usersCopy.pop()} />,
-                        userlist: usersCopy
-                            .map((x) => <Username user={x} />)
-                            .join(", "),
+                        user,
+                        userlist,
                     }}
                 />
             );
