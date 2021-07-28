@@ -5,6 +5,8 @@ import { Invites } from "revolt.js/dist/api/objects";
 import styles from "./Invite.module.scss";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { defer } from "../../lib/defer";
+
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import {
     AppContext,
@@ -118,10 +120,13 @@ export default function Invite() {
                                     const result = await client.joinInvite(
                                         code,
                                     );
+
                                     if (result.type === "Server") {
-                                        history.push(
-                                            `/server/${result.server._id}/channel/${result.channel._id}`,
-                                        );
+                                        defer(() => {
+                                            history.push(
+                                                `/server/${result.server._id}/channel/${result.channel._id}`,
+                                            );
+                                        });
                                     }
                                 } catch (err) {
                                     setError(takeError(err));
