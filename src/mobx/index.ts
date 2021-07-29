@@ -9,6 +9,7 @@ import {
     action,
     extendObservable,
 } from "mobx";
+import { Client } from "revolt.js";
 import {
     Attachment,
     Channels,
@@ -307,13 +308,16 @@ export class Member {
 }
 
 export class DataStore {
+    client: Client;
+
     @observable users = new Map<string, User>();
     @observable channels = new Map<string, Channel>();
     @observable servers = new Map<string, Server>();
     @observable members = new Map<Servers.MemberCompositeKey, Member>();
 
-    constructor() {
-        makeAutoObservable(this);
+    constructor(client: Client) {
+        makeAutoObservable(this, undefined, { proxy: false });
+        this.client = client;
     }
 
     @action
@@ -388,5 +392,17 @@ export class DataStore {
                 break;
             }
         }
+    }
+
+    async fetchMembers(server: string) {
+        let res = await this.client.members.fetchMembers(server);
+
+        for (let user of res.users) {
+            if (!this.users.has(user._id)) {
+                this.users.set(user._id, new User(user));
+            }
+        }
+
+        return res.members;
     }
 }
