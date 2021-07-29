@@ -82,11 +82,6 @@ export function useUser(id?: string, context?: HookContext) {
     return useObject("users", id, context) as Readonly<Users.User> | undefined;
 }
 
-export function useSelf(context?: HookContext) {
-    const ctx = useForceUpdate(context);
-    return useUser(ctx.client.user!._id, ctx);
-}
-
 export function useUsers(ids?: string[], context?: HookContext) {
     return useObject("users", ids, context) as (
         | Readonly<Users.User>

@@ -1,4 +1,5 @@
 import { X, Crown } from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
 import { Channels, Users } from "revolt.js/dist/api/objects";
 
 import styles from "./Item.module.scss";
@@ -8,6 +9,8 @@ import { Localizer, Text } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { stopPropagation } from "../../../lib/stopPropagation";
+
+import { User } from "../../../mobx";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
@@ -30,12 +33,12 @@ type CommonProps = Omit<
 };
 
 type UserProps = CommonProps & {
-    user: Users.User;
+    user: User;
     context?: Channels.Channel;
     channel?: Channels.DirectMessageChannel;
 };
 
-export function UserButton(props: UserProps) {
+export const UserButton = observer((props: UserProps) => {
     const { active, alert, alertCount, user, context, channel, ...divProps } =
         props;
     const { openScreen } = useIntermediate();
@@ -109,11 +112,11 @@ export function UserButton(props: UserProps) {
             </div>
         </div>
     );
-}
+});
 
 type ChannelProps = CommonProps & {
     channel: Channels.Channel & { unread?: string };
-    user?: Users.User;
+    user?: User;
     compact?: boolean;
 };
 

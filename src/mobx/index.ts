@@ -18,7 +18,7 @@ function toNullable<T>(data?: T) {
     return typeof data === "undefined" ? null : data;
 }
 
-class User {
+export class User {
     _id: string;
     username: string;
 

@@ -1,8 +1,9 @@
-import { User } from "revolt.js";
+import { observer } from "mobx-react-lite";
 import { Users } from "revolt.js/dist/api/objects";
 
 import { Text } from "preact-i18n";
 
+import { User } from "../../../mobx";
 import Tooltip from "../Tooltip";
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
     tooltip?: boolean;
 }
 
-export default function UserStatus({ user, tooltip }: Props) {
+export default observer(({ user, tooltip }: Props) => {
     if (user?.online) {
         if (user.status?.text) {
             if (tooltip) {
@@ -40,4 +41,4 @@ export default function UserStatus({ user, tooltip }: Props) {
     }
 
     return <Text id="app.status.offline" />;
-}
+});

@@ -10,6 +10,8 @@ import styles from "./UserProfile.module.scss";
 import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 
+import { useData } from "../../../mobx/State";
+
 import ChannelIcon from "../../../components/common/ChannelIcon";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
@@ -23,6 +25,7 @@ import {
     AppContext,
     ClientStatus,
     StatusContext,
+    useClient,
 } from "../../revoltjs/RevoltClient";
 import {
     useChannels,
@@ -58,25 +61,22 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
     >(undefined);
 
     const history = useHistory();
-    const client = useContext(AppContext);
+    const client = useClient();
     const status = useContext(StatusContext);
     const [tab, setTab] = useState("profile");
 
     const ctx = useForceUpdate();
-    const all_users = useUsers(undefined, ctx);
     const channels = useChannels(undefined, ctx);
+    const permissions = useUserPermission(client.user!._id, ctx);
 
-    const user = all_users.find((x) => x!._id === user_id);
-    const users = mutual?.users
-        ? all_users.filter((x) => mutual.users.includes(x!._id))
-        : undefined;
-
-    if (!user) {
+    const store = useData();
+    if (!store.users.has(user_id)) {
         useEffect(onClose, []);
         return null;
     }
 
-    const permissions = useUserPermission(user!._id, ctx);
+    const user = store.users.get(user_id)!;
+    const users = mutual?.users.map((id) => store.users.get(id));
 
     useLayoutEffect(() => {
         if (!user_id) return;

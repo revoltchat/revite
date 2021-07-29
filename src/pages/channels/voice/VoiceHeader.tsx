@@ -1,19 +1,18 @@
 import { BarChart } from "@styled-icons/boxicons-regular";
+import { observable } from "mobx";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
+
+import { useData } from "../../../mobx/State";
 
 import {
     VoiceContext,
     VoiceOperationsContext,
     VoiceStatus,
 } from "../../../context/Voice";
-import {
-    useForceUpdate,
-    useSelf,
-    useUsers,
-} from "../../../context/revoltjs/hooks";
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";
@@ -70,17 +69,21 @@ const VoiceBase = styled.div`
     }
 `;
 
-export default function VoiceHeader({ id }: Props) {
+export default observable(({ id }: Props) => {
     const { status, participants, roomId } = useContext(VoiceContext);
     if (roomId !== id) return null;
 
     const { isProducing, startProducing, stopProducing, disconnect } =
         useContext(VoiceOperationsContext);
 
-    const ctx = useForceUpdate();
-    const self = useSelf(ctx);
+    const store = useData();
+    const client = useClient();
+    const self = store.users.get(client.user!._id);
+
+    //const ctx = useForceUpdate();
+    //const self = useSelf(ctx);
     const keys = participants ? Array.from(participants.keys()) : undefined;
-    const users = keys ? useUsers(keys, ctx) : undefined;
+    const users = keys?.map((key) => store.users.get(key));
 
     return (
         <VoiceBase>
@@ -135,7 +138,7 @@ export default function VoiceHeader({ id }: Props) {
             </div>
         </VoiceBase>
     );
-}
+});
 
 /**{voice.roomId === id && (
                         <div className={styles.rtc}>

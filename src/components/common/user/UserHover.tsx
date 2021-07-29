@@ -1,6 +1,6 @@
-import { InfoCircle } from "@styled-icons/boxicons-regular";
-import { User } from "revolt.js";
 import styled from "styled-components";
+
+import { User } from "../../../mobx";
 
 import { Children } from "../../../types/Preact";
 import Tooltip from "../Tooltip";

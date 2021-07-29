@@ -1,5 +1,6 @@
 import { At } from "@styled-icons/boxicons-regular";
 import { Envelope, Key, HelpCircle } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
 import { Users } from "revolt.js/dist/api/objects";
 
@@ -7,26 +8,28 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { useData } from "../../../mobx/State";
+
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
     ClientStatus,
     StatusContext,
+    useClient,
 } from "../../../context/revoltjs/RevoltClient";
-import { useForceUpdate, useSelf } from "../../../context/revoltjs/hooks";
+import { useForceUpdate } from "../../../context/revoltjs/hooks";
 
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";
-import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
 
-export function Account() {
+export const Account = observer(() => {
     const { openScreen, writeClipboard } = useIntermediate();
     const status = useContext(StatusContext);
 
-    const ctx = useForceUpdate();
-    const user = useSelf(ctx);
-    if (!user) return null;
+    const client = useClient();
+    const store = useData();
+    const user = store.users.get(client.user!._id)!;
 
     const [email, setEmail] = useState("...");
     const [revealEmail, setRevealEmail] = useState(false);
@@ -41,13 +44,13 @@ export function Account() {
 
     useEffect(() => {
         if (email === "..." && status === ClientStatus.ONLINE) {
-            ctx.client
+            client
                 .req("GET", "/auth/user")
                 .then((account) => setEmail(account.email));
         }
 
         if (profile === undefined && status === ClientStatus.ONLINE) {
-            ctx.client.users
+            client.users
                 .fetchProfile(user._id)
                 .then((profile) => setProfile(profile ?? {}));
         }
@@ -180,4 +183,4 @@ export function Account() {
             </Tip>
         </div>
     );
-}
+});

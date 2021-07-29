@@ -1,7 +1,9 @@
+import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
-import { User } from "revolt.js";
 
 import { Text } from "preact-i18n";
+
+import { User } from "../../../mobx";
 
 import {
     useForceUpdate,
@@ -11,44 +13,46 @@ import {
 
 import UserIcon from "./UserIcon";
 
-export function Username({
-    user,
-    ...otherProps
-}: { user?: User } & JSX.HTMLAttributes<HTMLElement>) {
-    let username = user?.username;
-    let color;
+export const Username = observer(
+    ({
+        user,
+        ...otherProps
+    }: { user?: User } & JSX.HTMLAttributes<HTMLElement>) => {
+        let username = user?.username;
+        let color;
 
-    // ! FIXME: this must be really bad for perf.
-    if (user) {
-        let { server } = useParams<{ server?: string }>();
-        if (server) {
-            let ctx = useForceUpdate();
-            let member = useMember(`${server}${user._id}`, ctx);
-            if (member) {
-                if (member.nickname) {
-                    username = member.nickname;
-                }
+        // ! FIXME: this must be really bad for perf.
+        if (user) {
+            let { server } = useParams<{ server?: string }>();
+            if (server) {
+                let ctx = useForceUpdate();
+                let member = useMember(`${server}${user._id}`, ctx);
+                if (member) {
+                    if (member.nickname) {
+                        username = member.nickname;
+                    }
 
-                if (member.roles && member.roles.length > 0) {
-                    let s = useServer(server, ctx);
-                    for (let role of member.roles) {
-                        let c = s?.roles?.[role].colour;
-                        if (c) {
-                            color = c;
-                            continue;
+                    if (member.roles && member.roles.length > 0) {
+                        let s = useServer(server, ctx);
+                        for (let role of member.roles) {
+                            let c = s?.roles?.[role].colour;
+                            if (c) {
+                                color = c;
+                                continue;
+                            }
                         }
                     }
                 }
             }
         }
-    }
 
-    return (
-        <span {...otherProps} style={{ color }}>
-            {username ?? <Text id="app.main.channel.unknown_user" />}
-        </span>
-    );
-}
+        return (
+            <span {...otherProps} style={{ color }}>
+                {username ?? <Text id="app.main.channel.unknown_user" />}
+            </span>
+        );
+    },
+);
 
 export default function UserShort({
     user,
