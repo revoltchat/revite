@@ -79,6 +79,10 @@ export class User {
         apply("relationship");
         apply("online");
     }
+
+    @action setRelationship(relationship: Users.Relationship) {
+        this.relationship = relationship;
+    }
 }
 
 export class Channel {
@@ -179,6 +183,16 @@ export class Channel {
         apply("description");
         apply("recipients");
         apply("last_message");
+    }
+
+    @action groupJoin(user: string) {
+        this.recipients?.push(user);
+    }
+
+    @action groupLeave(user: string) {
+        this.recipients = toNullable(
+            this.recipients?.filter((x) => x !== user),
+        );
     }
 }
 
@@ -320,8 +334,57 @@ export class DataStore {
 
                 break;
             }
+            case "ChannelCreate": {
+                this.channels.set(packet._id, new Channel(packet));
+                break;
+            }
+            case "ChannelUpdate": {
+                this.channels.get(packet.id)?.update(packet.data, packet.clear);
+                break;
+            }
+            case "ChannelDelete": {
+                this.channels.delete(packet.id);
+                break;
+            }
+            case "ChannelGroupJoin": {
+                this.channels.get(packet.id)?.groupJoin(packet.user);
+                break;
+            }
+            case "ChannelGroupLeave": {
+                this.channels.get(packet.id)?.groupJoin(packet.user);
+                break;
+            }
             case "UserUpdate": {
                 this.users.get(packet.id)?.update(packet.data, packet.clear);
+                break;
+            }
+            case "UserRelationship": {
+                if (!this.users.has(packet.user._id)) {
+                    this.users.set(packet.user._id, new User(packet.user));
+                }
+
+                this.users.get(packet.user._id)?.setRelationship(packet.status);
+                break;
+            }
+            case "ServerUpdate": {
+                this.servers.get(packet.id)?.update(packet.data, packet.clear);
+                break;
+            }
+            case "ServerDelete": {
+                this.servers.delete(packet.id);
+                break;
+            }
+            case "ServerMemberUpdate": {
+                this.members.get(packet.id)?.update(packet.data, packet.clear);
+                break;
+            }
+            case "ServerMemberJoin": {
+                const _id = { server: packet.id, user: packet.user };
+                this.members.set(_id, new Member({ _id }));
+                break;
+            }
+            case "ServerMemberLeave": {
+                this.members.delete({ server: packet.id, user: packet.user });
                 break;
             }
         }
