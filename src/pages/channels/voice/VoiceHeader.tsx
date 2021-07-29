@@ -1,5 +1,6 @@
 import { BarChart } from "@styled-icons/boxicons-regular";
 import { observable } from "mobx";
+import { observer } from "mobx-react-lite";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
@@ -69,7 +70,7 @@ const VoiceBase = styled.div`
     }
 `;
 
-export default observable(({ id }: Props) => {
+export default observer(({ id }: Props) => {
     const { status, participants, roomId } = useContext(VoiceContext);
     if (roomId !== id) return null;
 

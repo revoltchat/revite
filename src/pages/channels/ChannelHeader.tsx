@@ -1,6 +1,7 @@
 import { At, Hash, Menu } from "@styled-icons/boxicons-regular";
 import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { observable } from "mobx";
+import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js";
 import styled from "styled-components";
 
@@ -69,7 +70,7 @@ const Info = styled.div`
     }
 `;
 
-export default observable(({ channel, toggleSidebar }: ChannelHeaderProps) => {
+export default observer(({ channel, toggleSidebar }: ChannelHeaderProps) => {
     const { openScreen } = useIntermediate();
     const client = useClient();
     const state = useData();
