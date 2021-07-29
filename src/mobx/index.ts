@@ -9,8 +9,17 @@ import {
     action,
     extendObservable,
 } from "mobx";
-import { Attachment, Channels, Users } from "revolt.js/dist/api/objects";
-import { RemoveChannelField, RemoveUserField } from "revolt.js/dist/api/routes";
+import {
+    Attachment,
+    Channels,
+    Servers,
+    Users,
+} from "revolt.js/dist/api/objects";
+import {
+    RemoveChannelField,
+    RemoveServerField,
+    RemoveUserField,
+} from "revolt.js/dist/api/routes";
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 
 type Nullable<T> = T | null;
@@ -172,9 +181,80 @@ export class Channel {
     }
 }
 
+export class Server {
+    _id: string;
+    owner: string;
+    name: string;
+    description: Nullable<string> = null;
+
+    channels: string[] = [];
+    categories: Nullable<Servers.Category[]> = null;
+    system_messages: Nullable<Servers.SystemMessageChannels> = null;
+
+    roles: Nullable<{ [key: string]: Servers.Role }> = null;
+    default_permissions: Servers.PermissionTuple;
+
+    icon: Nullable<Attachment> = null;
+    banner: Nullable<Attachment> = null;
+
+    constructor(data: Servers.Server) {
+        this._id = data._id;
+        this.owner = data.owner;
+        this.name = data.name;
+        this.description = toNullable(data.description);
+
+        this.channels = data.channels;
+        this.categories = toNullable(data.categories);
+        this.system_messages = toNullable(data.system_messages);
+
+        this.roles = toNullable(data.roles);
+        this.default_permissions = data.default_permissions;
+
+        this.icon = toNullable(data.icon);
+        this.banner = toNullable(data.banner);
+
+        makeAutoObservable(this);
+    }
+
+    @action update(data: Partial<Servers.Server>, clear?: RemoveServerField) {
+        const apply = (key: string) => {
+            // This code has been tested.
+            // @ts-expect-error
+            if (data[key] && !isEqual(this[key], data[key])) {
+                // @ts-expect-error
+                this[key] = data[key];
+            }
+        };
+
+        switch (clear) {
+            case "Banner":
+                this.banner = null;
+                break;
+            case "Description":
+                this.description = null;
+                break;
+            case "Icon":
+                this.icon = null;
+                break;
+        }
+
+        apply("owner");
+        apply("name");
+        apply("description");
+        apply("channels");
+        apply("categories");
+        apply("system_messages");
+        apply("roles");
+        apply("default_permissions");
+        apply("icon");
+        apply("banner");
+    }
+}
+
 export class DataStore {
     @observable users = new Map<string, User>();
     @observable channels = new Map<string, Channel>();
+    @observable servers = new Map<string, Server>();
 
     constructor() {
         makeAutoObservable(this);
@@ -190,6 +270,10 @@ export class DataStore {
 
                 for (let channel of packet.channels) {
                     this.channels.set(channel._id, new Channel(channel));
+                }
+
+                for (let server of packet.servers) {
+                    this.servers.set(server._id, new Server(server));
                 }
 
                 break;
