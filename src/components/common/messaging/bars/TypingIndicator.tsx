@@ -84,16 +84,16 @@ export const TypingIndicator = observer(({ typing }: Props) => {
             const userlist = [...users].map((x) => x.username);
             const user = userlist.pop();
 
-            for (let i = 0; i < userlist.length - 1; i++) {
+            /*for (let i = 0; i < userlist.length - 1; i++) {
                 userlist.splice(i * 2 + 1, 0, ", ");
-            }
+            }*/
 
             text = (
                 <Text
                     id="app.main.channel.typing.multiple"
                     fields={{
                         user,
-                        userlist,
+                        userlist: userlist.join(", "),
                     }}
                 />
             );
@@ -101,7 +101,7 @@ export const TypingIndicator = observer(({ typing }: Props) => {
             text = (
                 <Text
                     id="app.main.channel.typing.single"
-                    fields={{ user: <Username user={users[0]} /> }}
+                    fields={{ user: users[0].username }}
                 />
             );
         }
