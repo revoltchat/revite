@@ -17,11 +17,7 @@ import { Unreads } from "../../../redux/reducers/unreads";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
-import {
-    useChannels,
-    useForceUpdate,
-    useServers,
-} from "../../../context/revoltjs/hooks";
+import { useForceUpdate, useServers } from "../../../context/revoltjs/hooks";
 
 import logoSVG from "../../../assets/logo.svg";
 import ServerIcon from "../../common/ServerIcon";

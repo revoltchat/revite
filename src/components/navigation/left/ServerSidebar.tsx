@@ -14,11 +14,7 @@ import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import { Unreads } from "../../../redux/reducers/unreads";
 
-import {
-    useChannels,
-    useForceUpdate,
-    useServer,
-} from "../../../context/revoltjs/hooks";
+import { useForceUpdate, useServer } from "../../../context/revoltjs/hooks";
 
 import CollapsibleSection from "../../common/CollapsibleSection";
 import ServerHeader from "../../common/ServerHeader";
