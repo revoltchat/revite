@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { Channels } from "revolt.js/dist/api/objects";
 import styled, { css } from "styled-components";
 
@@ -6,6 +7,8 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
+import { Channel } from "../../../mobx";
+
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
@@ -13,10 +16,7 @@ import Button from "../../../components/ui/Button";
 import InputBox from "../../../components/ui/InputBox";
 
 interface Props {
-    channel:
-        | Channels.GroupChannel
-        | Channels.TextChannel
-        | Channels.VoiceChannel;
+    channel: Channel;
 }
 
 const Row = styled.div`
@@ -32,13 +32,13 @@ const Row = styled.div`
     }
 `;
 
-export default function Overview({ channel }: Props) {
+export default observer(({ channel }: Props) => {
     const client = useContext(AppContext);
 
-    const [name, setName] = useState(channel.name);
+    const [name, setName] = useState(channel.name ?? undefined);
     const [description, setDescription] = useState(channel.description ?? "");
 
-    useEffect(() => setName(channel.name), [channel.name]);
+    useEffect(() => setName(channel.name ?? undefined), [channel.name]);
     useEffect(
         () => setDescription(channel.description ?? ""),
         [channel.description],
@@ -127,4 +127,4 @@ export default function Overview({ channel }: Props) {
             </p>
         </div>
     );
-}
+});

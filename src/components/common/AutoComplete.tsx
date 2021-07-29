@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 
 import { StateUpdater, useState } from "preact/hooks";
 
-import { User } from "../../mobx";
+import { Channel, User } from "../../mobx";
 import { useData } from "../../mobx/State";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
@@ -28,7 +28,7 @@ export type AutoCompleteState =
             }
           | {
                 type: "channel";
-                matches: Channels.TextChannel[];
+                matches: Channel[];
             }
       ));
 
@@ -197,15 +197,13 @@ export function useAutoComplete(
             if (type === "channel" && searchClues?.channels) {
                 const channels = client.servers
                     .get(searchClues.channels.server)
-                    ?.channels.map((x) => client.channels.get(x))
-                    .filter(
-                        (x) => typeof x !== "undefined",
-                    ) as Channels.TextChannel[];
+                    ?.channels.map((x) => store.channels.get(x))
+                    .filter((x) => typeof x !== "undefined") as Channel[];
 
                 const matches = (
                     search.length > 0
                         ? channels.filter((channel) =>
-                              channel.name.toLowerCase().match(regex),
+                              channel.name!.toLowerCase().match(regex),
                           )
                         : channels
                 )

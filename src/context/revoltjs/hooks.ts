@@ -77,13 +77,6 @@ function useObject(
         : map.toArray();
 }
 
-export function useChannel(id?: string, context?: HookContext) {
-    if (typeof id === "undefined") return;
-    return useObject("channels", id, context) as
-        | Readonly<Channels.Channel>
-        | undefined;
-}
-
 export function useChannels(ids?: string[], context?: HookContext) {
     return useObject("channels", ids, context) as (
         | Readonly<Channels.Channel>

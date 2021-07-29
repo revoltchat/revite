@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router";
 import { Channels } from "revolt.js/dist/api/objects";
 import styled from "styled-components";
@@ -8,6 +9,7 @@ import { useEffect } from "preact/hooks";
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 
+import { useData } from "../../../mobx/State";
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import { Unreads } from "../../../redux/reducers/unreads";
@@ -53,7 +55,7 @@ const ServerList = styled.div`
     }
 `;
 
-function ServerSidebar(props: Props) {
+const ServerSidebar = observer((props: Props) => {
     const { server: server_id, channel: channel_id } =
         useParams<{ server?: string; channel?: string }>();
     const ctx = useForceUpdate();
@@ -61,13 +63,9 @@ function ServerSidebar(props: Props) {
     const server = useServer(server_id, ctx);
     if (!server) return <Redirect to="/" />;
 
-    const channels = (
-        useChannels(server.channels, ctx).filter(
-            (entry) => typeof entry !== "undefined",
-        ) as Readonly<Channels.TextChannel | Channels.VoiceChannel>[]
-    ).map((x) => mapChannelWithUnread(x, props.unreads));
+    const store = useData();
 
-    const channel = channels.find((x) => x?._id === channel_id);
+    const channel = channel_id ? store.channels.get(channel_id) : undefined;
     if (channel_id && !channel) return <Redirect to={`/server/${server_id}`} />;
     if (channel) useUnreads({ ...props, channel }, ctx);
 
@@ -85,7 +83,7 @@ function ServerSidebar(props: Props) {
     const elements = [];
 
     function addChannel(id: string) {
-        const entry = channels.find((x) => x._id === id);
+        const entry = store.channels.get(id);
         if (!entry) return;
 
         const active = channel?._id === entry._id;
@@ -98,7 +96,8 @@ function ServerSidebar(props: Props) {
                 <ChannelButton
                     channel={entry}
                     active={active}
-                    alert={entry.unread}
+                    // ! FIXME: pull it out directly
+                    alert={mapChannelWithUnread(entry, props.unreads).unread}
                     compact
                 />
             </ConditionalLink>
@@ -141,7 +140,7 @@ function ServerSidebar(props: Props) {
             <PaintCounter small />
         </ServerBase>
     );
-}
+});
 
 export default connectState(ServerSidebar, (state) => {
     return {

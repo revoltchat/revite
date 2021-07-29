@@ -3,7 +3,9 @@ import { Route, useHistory, useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";
 
-import { useChannel, useForceUpdate } from "../../context/revoltjs/hooks";
+import { useData } from "../../mobx/State";
+
+import { useClient } from "../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../context/revoltjs/util";
 
 import Category from "../../components/ui/Category";
@@ -14,8 +16,10 @@ import Permissions from "./channel/Permissions";
 
 export default function ChannelSettings() {
     const { channel: cid } = useParams<{ channel: string }>();
-    const ctx = useForceUpdate();
-    const channel = useChannel(cid, ctx);
+
+    const store = useData();
+    const client = useClient();
+    const channel = store.channels.get(cid);
     if (!channel) return null;
     if (
         channel.channel_type === "SavedMessages" ||
@@ -49,7 +53,7 @@ export default function ChannelSettings() {
                     category: (
                         <Category
                             variant="uniform"
-                            text={getChannelName(ctx.client, channel, true)}
+                            text={getChannelName(client, channel, true)}
                         />
                     ),
                     id: "overview",

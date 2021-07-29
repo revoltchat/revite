@@ -1,4 +1,5 @@
 import isEqual from "lodash.isequal";
+import { observer } from "mobx-react-lite";
 import { Servers, Server } from "revolt.js/dist/api/objects";
 
 import styles from "./Panes.module.scss";
@@ -6,6 +7,8 @@ import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
+
+import { useData } from "../../../mobx/State";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
@@ -19,8 +22,9 @@ interface Props {
     server: Servers.Server;
 }
 
-export function Overview({ server }: Props) {
+export const Overview = observer(({ server }: Props) => {
     const client = useContext(AppContext);
+    const store = useData();
 
     const [name, setName] = useState(server.name);
     const [description, setDescription] = useState(server.description ?? "");
@@ -170,15 +174,14 @@ export function Overview({ server }: Props) {
                         <option value="disabled">
                             <Text id="general.disabled" />
                         </option>
-                        {server.channels.map((id) => {
-                            const channel = client.channels.get(id);
-                            if (!channel) return null;
-                            return (
-                                <option value={id}>
+                        {server.channels
+                            .map((id) => store.channels.get(id)!)
+                            .filter((x) => typeof x !== "undefined")
+                            .map((channel) => (
+                                <option value={channel._id}>
                                     {getChannelName(client, channel, true)}
                                 </option>
-                            );
-                        })}
+                            ))}
                     </ComboBox>
                 </p>
             ))}
@@ -190,4 +193,4 @@ export function Overview({ server }: Props) {
             </p>
         </div>
     );
-}
+});

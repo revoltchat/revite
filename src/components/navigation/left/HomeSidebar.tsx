@@ -43,10 +43,16 @@ const HomeSidebar = observer((props: Props) => {
     const { channel } = useParams<{ channel: string }>();
     const { openScreen } = useIntermediate();
 
-    const ctx = useForceUpdate();
-    const channels = useDMs(ctx);
+    const store = useData();
+    const channels = [...store.channels.values()]
+        .filter(
+            (x) =>
+                x.channel_type === "DirectMessage" ||
+                x.channel_type === "Group",
+        )
+        .map((x) => mapChannelWithUnread(x, props.unreads));
 
-    const obj = channels.find((x) => x?._id === channel);
+    const obj = store.channels.get(channel);
     if (channel && !obj) return <Redirect to="/" />;
     if (obj) useUnreads({ ...props, channel: obj });
 
@@ -60,12 +66,7 @@ const HomeSidebar = observer((props: Props) => {
         });
     }, [channel]);
 
-    const channelsArr = channels
-        .filter((x) => x.channel_type !== "SavedMessages")
-        .map((x) => mapChannelWithUnread(x, props.unreads));
-
-    const store = useData();
-    channelsArr.sort((b, a) => a.timestamp.localeCompare(b.timestamp));
+    channels.sort((b, a) => a.timestamp.localeCompare(b.timestamp));
 
     return (
         <GenericSidebarBase padding>
@@ -132,20 +133,22 @@ const HomeSidebar = observer((props: Props) => {
                         })
                     }
                 />
-                {channelsArr.length === 0 && (
+                {channels.length === 0 && (
                     <img src={placeholderSVG} loading="eager" />
                 )}
-                {channelsArr.map((x) => {
+                {channels.map((x) => {
                     let user;
-                    if (x.channel_type === "DirectMessage") {
-                        if (!x.active) return null;
+                    if (x.channel.channel_type === "DirectMessage") {
+                        if (!x.channel.active) return null;
 
-                        const recipient = client.channels.getRecipient(x._id);
+                        const recipient = client.channels.getRecipient(
+                            x.channel._id,
+                        );
                         user = store.users.get(recipient);
 
                         if (!user) {
                             console.warn(
-                                `Skipped DM ${x._id} because user was missing.`,
+                                `Skipped DM ${x.channel._id} because user was missing.`,
                             );
                             return null;
                         }
@@ -153,14 +156,14 @@ const HomeSidebar = observer((props: Props) => {
 
                     return (
                         <ConditionalLink
-                            active={x._id === channel}
-                            to={`/channel/${x._id}`}>
+                            active={x.channel._id === channel}
+                            to={`/channel/${x.channel._id}`}>
                             <ChannelButton
                                 user={user}
-                                channel={x}
+                                channel={x.channel}
                                 alert={x.unread}
                                 alertCount={x.alertCount}
-                                active={x._id === channel}
+                                active={x.channel._id === channel}
                             />
                         </ConditionalLink>
                     );

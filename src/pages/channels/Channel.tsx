@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { useParams, useHistory } from "react-router-dom";
 import { Channels } from "revolt.js/dist/api/objects";
 import styled from "styled-components";
@@ -6,9 +7,9 @@ import { useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
+import { Channel as MobXChannel } from "../../mobx";
+import { useData } from "../../mobx/State";
 import { dispatch, getState } from "../../redux";
-
-import { useChannel, useForceUpdate } from "../../context/revoltjs/hooks";
 
 import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
@@ -36,19 +37,19 @@ const ChannelContent = styled.div`
 `;
 
 export function Channel({ id }: { id: string }) {
-    const ctx = useForceUpdate();
-    const channel = useChannel(id, ctx);
-
+    const store = useData();
+    const channel = store.channels.get(id);
     if (!channel) return null;
 
     if (channel.channel_type === "VoiceChannel") {
         return <VoiceChannel channel={channel} />;
     }
+
     return <TextChannel channel={channel} />;
 }
 
 const MEMBERS_SIDEBAR_KEY = "sidebar_members";
-function TextChannel({ channel }: { channel: Channels.Channel }) {
+const TextChannel = observer(({ channel }: { channel: MobXChannel }) => {
     const [showMembers, setMembers] = useState(
         getState().sectionToggle[MEMBERS_SIDEBAR_KEY] ?? true,
     );
@@ -61,7 +62,9 @@ function TextChannel({ channel }: { channel: Channels.Channel }) {
             gated={
                 (channel.channel_type === "TextChannel" ||
                     channel.channel_type === "Group") &&
-                channel.name.includes("nsfw")
+                channel.name?.includes("nsfw")
+                    ? true
+                    : false
             }>
             <ChannelHeader
                 channel={channel}
@@ -96,9 +99,9 @@ function TextChannel({ channel }: { channel: Channels.Channel }) {
             </ChannelMain>
         </AgeGate>
     );
-}
+});
 
-function VoiceChannel({ channel }: { channel: Channels.Channel }) {
+function VoiceChannel({ channel }: { channel: MobXChannel }) {
     return (
         <>
             <ChannelHeader channel={channel} />

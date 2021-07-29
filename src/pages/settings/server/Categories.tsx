@@ -1,5 +1,6 @@
 import { XCircle } from "@styled-icons/boxicons-regular";
 import isEqual from "lodash.isequal";
+import { observer } from "mobx-react-lite";
 import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
 import { Route } from "revolt.js/dist/api/routes";
 import { ulid } from "ulid";
@@ -8,8 +9,9 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { useData } from "../../../mobx/State";
+
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { useChannels } from "../../../context/revoltjs/hooks";
 
 import ChannelIcon from "../../../components/common/ChannelIcon";
 import UserIcon from "../../../components/common/user/UserIcon";
@@ -25,12 +27,12 @@ interface Props {
 }
 
 // ! FIXME: really bad code
-export function Categories({ server }: Props) {
+export const Categories = observer(({ server }: Props) => {
     const client = useContext(AppContext);
-    const channels = useChannels(server.channels) as (
-        | Channels.TextChannel
-        | Channels.VoiceChannel
-    )[];
+    const store = useData();
+    const channels = server.channels
+        .map((id) => store.channels.get(id)!)
+        .filter((x) => typeof x !== "undefined");
 
     const [cats, setCats] = useState<Servers.Category[]>(
         server.categories ?? [],
@@ -150,4 +152,4 @@ export function Categories({ server }: Props) {
             })}
         </div>
     );
-}
+});

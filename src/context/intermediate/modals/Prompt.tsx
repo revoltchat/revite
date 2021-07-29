@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import { TextReact } from "../../../lib/i18n";
 
-import { User } from "../../../mobx";
+import { Channel, User } from "../../../mobx";
 import { useData } from "../../../mobx/State";
 
 import Message from "../../../components/common/messaging/Message";
@@ -55,15 +55,15 @@ export function PromptModal({
 }
 
 type SpecialProps = { onClose: () => void } & (
-    | { type: "leave_group"; target: Channels.GroupChannel }
-    | { type: "close_dm"; target: Channels.DirectMessageChannel }
+    | { type: "leave_group"; target: Channel }
+    | { type: "close_dm"; target: Channel }
     | { type: "leave_server"; target: Servers.Server }
     | { type: "delete_server"; target: Servers.Server }
-    | { type: "delete_channel"; target: Channels.TextChannel }
+    | { type: "delete_channel"; target: Channel }
     | { type: "delete_message"; target: Channels.Message }
     | {
           type: "create_invite";
-          target: Channels.TextChannel | Channels.GroupChannel;
+          target: Channel;
       }
     | { type: "kick_member"; target: Servers.Server; user: User }
     | { type: "ban_member"; target: Servers.Server; user: User }

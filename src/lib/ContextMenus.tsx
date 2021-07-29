@@ -34,7 +34,7 @@ import {
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
-import { User } from "../mobx";
+import { Channel, User } from "../mobx";
 import { useData } from "../mobx/State";
 import { dispatch } from "../redux";
 import { connectState } from "../redux/connector";
@@ -53,7 +53,6 @@ import {
     useClient,
 } from "../context/revoltjs/RevoltClient";
 import {
-    useChannel,
     useChannelPermission,
     useForceUpdate,
     useServer,
@@ -86,7 +85,7 @@ type Action =
     | { action: "copy_id"; id: string }
     | { action: "copy_selection" }
     | { action: "copy_text"; content: string }
-    | { action: "mark_as_read"; channel: Channels.Channel }
+    | { action: "mark_as_read"; channel: Channel }
     | { action: "retry_message"; message: QueuedMessage }
     | { action: "cancel_message"; message: QueuedMessage }
     | { action: "mention"; user: string }
@@ -115,20 +114,17 @@ type Action =
     | { action: "create_channel"; target: Servers.Server }
     | {
           action: "create_invite";
-          target:
-              | Channels.GroupChannel
-              | Channels.TextChannel
-              | Channels.VoiceChannel;
+          target: Channel;
       }
-    | { action: "leave_group"; target: Channels.GroupChannel }
+    | { action: "leave_group"; target: Channel }
     | {
           action: "delete_channel";
-          target: Channels.TextChannel | Channels.VoiceChannel;
+          target: Channel;
       }
-    | { action: "close_dm"; target: Channels.DirectMessageChannel }
+    | { action: "close_dm"; target: Channel }
     | { action: "leave_server"; target: Servers.Server }
     | { action: "delete_server"; target: Servers.Server }
-    | { action: "open_notification_options"; channel: Channels.Channel }
+    | { action: "open_notification_options"; channel: Channel }
     | { action: "open_settings" }
     | { action: "open_channel_settings"; id: string }
     | { action: "open_server_settings"; id: string }
@@ -172,9 +168,10 @@ function ContextMenus(props: Props) {
                             return;
 
                         const message =
-                            data.channel.channel_type === "TextChannel"
+                            typeof data.channel.last_message === "string"
                                 ? data.channel.last_message
-                                : data.channel.last_message._id;
+                                : data.channel.last_message!._id;
+
                         dispatch({
                             type: "UNREADS_MARK_READ",
                             channel: data.channel._id,
@@ -529,8 +526,10 @@ function ContextMenus(props: Props) {
                         pushDivider();
                     }
 
-                    const channel = useChannel(cid, forceUpdate);
-                    const contextualChannel = useChannel(cxid, forceUpdate);
+                    const channel = cid ? store.channels.get(cid) : undefined;
+                    const contextualChannel = cxid
+                        ? store.channels.get(cxid)
+                        : undefined;
                     const targetChannel = channel ?? contextualChannel;
 
                     const user = uid ? store.users.get(uid) : undefined;
@@ -541,7 +540,7 @@ function ContextMenus(props: Props) {
                             ? targetChannel
                             : undefined;
                     const server = useServer(
-                        serverChannel ? serverChannel.server : sid,
+                        serverChannel ? serverChannel.server! : sid,
                         forceUpdate,
                     );
 
@@ -551,7 +550,10 @@ function ContextMenus(props: Props) {
                     const serverPermissions = server
                         ? useServerPermission(server._id, forceUpdate)
                         : serverChannel
-                        ? useServerPermission(serverChannel.server, forceUpdate)
+                        ? useServerPermission(
+                              serverChannel.server!,
+                              forceUpdate,
+                          )
                         : 0;
                     const userPermissions = user
                         ? useUserPermission(user._id, forceUpdate)
@@ -819,7 +821,7 @@ function ContextMenus(props: Props) {
                                         generateAction(
                                             {
                                                 action: "open_server_channel_settings",
-                                                server: channel.server,
+                                                server: channel.server!,
                                                 id: channel._id,
                                             },
                                             "open_channel_settings",

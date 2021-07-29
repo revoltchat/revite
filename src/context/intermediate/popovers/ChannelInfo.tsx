@@ -1,23 +1,23 @@
 import { X } from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
 
 import styles from "./ChannelInfo.module.scss";
+
+import { Channel } from "../../../mobx";
 
 import Modal from "../../../components/ui/Modal";
 
 import Markdown from "../../../components/markdown/Markdown";
-import { useChannel, useForceUpdate } from "../../revoltjs/hooks";
+import { useClient } from "../../revoltjs/RevoltClient";
+import { useForceUpdate } from "../../revoltjs/hooks";
 import { getChannelName } from "../../revoltjs/util";
 
 interface Props {
-    channel_id: string;
+    channel: Channel;
     onClose: () => void;
 }
 
-export function ChannelInfo({ channel_id, onClose }: Props) {
-    const ctx = useForceUpdate();
-    const channel = useChannel(channel_id, ctx);
-    if (!channel) return null;
-
+export const ChannelInfo = observer(({ channel, onClose }: Props) => {
     if (
         channel.channel_type === "DirectMessage" ||
         channel.channel_type === "SavedMessages"
@@ -26,19 +26,20 @@ export function ChannelInfo({ channel_id, onClose }: Props) {
         return null;
     }
 
+    const client = useClient();
     return (
         <Modal visible={true} onClose={onClose}>
             <div className={styles.info}>
                 <div className={styles.header}>
-                    <h1>{getChannelName(ctx.client, channel, true)}</h1>
+                    <h1>{getChannelName(client, channel, true)}</h1>
                     <div onClick={onClose}>
                         <X size={36} />
                     </div>
                 </div>
                 <p>
-                    <Markdown content={channel.description} />
+                    <Markdown content={channel.description!} />
                 </p>
             </div>
         </Modal>
     );
-}
+});
