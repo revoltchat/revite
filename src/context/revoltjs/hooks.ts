@@ -5,7 +5,7 @@ import Collection from "revolt.js/dist/maps/Collection";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
-//#region Hooks v1
+//#region Hooks v1 (deprecated)
 import { AppContext } from "./RevoltClient";
 
 export interface HookContext {
@@ -238,7 +238,7 @@ export function useServerPermission(id: string, context?: HookContext) {
 }
 //#endregion
 
-//#region Hooks v2
+//#region Hooks v2 (deprecated)
 type CollectionKeys = Exclude<
     keyof PickProperties<Client, Collection<any>>,
     undefined
@@ -249,7 +249,7 @@ interface Depedency {
     id?: string;
 }
 
-export function useData<T>(
+export function useDataDeprecated<T>(
     cb: (client: Client) => T,
     dependencies: Depedency[],
 ): T {
