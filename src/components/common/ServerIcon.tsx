@@ -1,7 +1,9 @@
-import { Server } from "revolt.js/dist/api/objects";
+import { observer } from "mobx-react-lite";
 import styled from "styled-components";
 
 import { useContext } from "preact/hooks";
+
+import { Server } from "../../mobx";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
@@ -22,48 +24,50 @@ const ServerText = styled.div`
 `;
 
 const fallback = "/assets/group.png";
-export default function ServerIcon(
-    props: Props & Omit<JSX.HTMLAttributes<HTMLImageElement>, keyof Props>,
-) {
-    const client = useContext(AppContext);
+export default observer(
+    (
+        props: Props & Omit<JSX.HTMLAttributes<HTMLImageElement>, keyof Props>,
+    ) => {
+        const client = useContext(AppContext);
 
-    const {
-        target,
-        attachment,
-        size,
-        animate,
-        server_name,
-        children,
-        as,
-        ...imgProps
-    } = props;
-    const iconURL = client.generateFileURL(
-        target?.icon ?? attachment,
-        { max_side: 256 },
-        animate,
-    );
+        const {
+            target,
+            attachment,
+            size,
+            animate,
+            server_name,
+            children,
+            as,
+            ...imgProps
+        } = props;
+        const iconURL = client.generateFileURL(
+            target?.icon ?? attachment,
+            { max_side: 256 },
+            animate,
+        );
 
-    if (typeof iconURL === "undefined") {
-        const name = target?.name ?? server_name ?? "";
+        if (typeof iconURL === "undefined") {
+            const name = target?.name ?? server_name ?? "";
+
+            return (
+                <ServerText style={{ width: size, height: size }}>
+                    {name
+                        .split(" ")
+                        .map((x) => x[0])
+                        .filter((x) => typeof x !== "undefined")}
+                </ServerText>
+            );
+        }
 
         return (
-            <ServerText style={{ width: size, height: size }}>
-                {name
-                    .split(" ")
-                    .map((x) => x[0])
-                    .filter((x) => typeof x !== "undefined")}
-            </ServerText>
+            <ImageIconBase
+                {...imgProps}
+                width={size}
+                height={size}
+                src={iconURL}
+                loading="lazy"
+                aria-hidden="true"
+            />
         );
-    }
-
-    return (
-        <ImageIconBase
-            {...imgProps}
-            width={size}
-            height={size}
-            src={iconURL}
-            loading="lazy"
-            aria-hidden="true"
-        />
-    );
-}
+    },
+);

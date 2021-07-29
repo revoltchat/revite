@@ -6,6 +6,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
+import { Server } from "../../../mobx";
 import { useData } from "../../../mobx/State";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
@@ -16,7 +17,7 @@ import IconButton from "../../../components/ui/IconButton";
 import Preloader from "../../../components/ui/Preloader";
 
 interface Props {
-    server: Servers.Server;
+    server: Server;
 }
 
 export const Invites = observer(({ server }: Props) => {

@@ -1,10 +1,13 @@
 import { XCircle } from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
 import { Servers, Users } from "revolt.js/dist/api/objects";
 import { Route } from "revolt.js/dist/api/routes";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
+
+import { Server } from "../../../mobx";
 
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
@@ -13,10 +16,10 @@ import IconButton from "../../../components/ui/IconButton";
 import Preloader from "../../../components/ui/Preloader";
 
 interface Props {
-    server: Servers.Server;
+    server: Server;
 }
 
-export function Bans({ server }: Props) {
+export const Bans = observer(({ server }: Props) => {
     const client = useContext(AppContext);
     const [deleting, setDelete] = useState<string[]>([]);
     const [data, setData] = useState<
@@ -81,4 +84,4 @@ export function Bans({ server }: Props) {
             })}
         </div>
     );
-}
+});

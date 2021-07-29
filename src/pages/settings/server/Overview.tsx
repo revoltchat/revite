@@ -1,6 +1,6 @@
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import { Servers, Server } from "revolt.js/dist/api/objects";
+import { Servers } from "revolt.js/dist/api/objects";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
+import { Server } from "../../../mobx";
 import { useData } from "../../../mobx/State";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -19,7 +20,7 @@ import ComboBox from "../../../components/ui/ComboBox";
 import InputBox from "../../../components/ui/InputBox";
 
 interface Props {
-    server: Servers.Server;
+    server: Server;
 }
 
 export const Overview = observer(({ server }: Props) => {
@@ -51,7 +52,7 @@ export const Overview = observer(({ server }: Props) => {
         if (description !== server.description)
             changes.description = description;
         if (!isEqual(systemMessages, server.system_messages))
-            changes.system_messages = systemMessages;
+            changes.system_messages = systemMessages ?? undefined;
 
         client.servers.edit(server._id, changes);
         setChanged(false);

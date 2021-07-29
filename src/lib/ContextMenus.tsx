@@ -34,7 +34,7 @@ import {
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
-import { Channel, User } from "../mobx";
+import { Channel, Server, User } from "../mobx";
 import { useData } from "../mobx/State";
 import { dispatch } from "../redux";
 import { connectState } from "../redux/connector";
@@ -55,7 +55,6 @@ import {
 import {
     useChannelPermission,
     useForceUpdate,
-    useServer,
     useServerPermission,
     useUserPermission,
 } from "../context/revoltjs/hooks";
@@ -99,8 +98,8 @@ type Action =
     | { action: "open_link"; link: string }
     | { action: "copy_link"; link: string }
     | { action: "remove_member"; channel: string; user: User }
-    | { action: "kick_member"; target: Servers.Server; user: User }
-    | { action: "ban_member"; target: Servers.Server; user: User }
+    | { action: "kick_member"; target: Server; user: User }
+    | { action: "ban_member"; target: Server; user: User }
     | { action: "view_profile"; user: User }
     | { action: "message_user"; user: User }
     | { action: "block_user"; user: User }
@@ -111,7 +110,7 @@ type Action =
     | { action: "set_presence"; presence: Users.Presence }
     | { action: "set_status" }
     | { action: "clear_status" }
-    | { action: "create_channel"; target: Servers.Server }
+    | { action: "create_channel"; target: Server }
     | {
           action: "create_invite";
           target: Channel;
@@ -122,8 +121,8 @@ type Action =
           target: Channel;
       }
     | { action: "close_dm"; target: Channel }
-    | { action: "leave_server"; target: Servers.Server }
-    | { action: "delete_server"; target: Servers.Server }
+    | { action: "leave_server"; target: Server }
+    | { action: "delete_server"; target: Server }
     | { action: "open_notification_options"; channel: Channel }
     | { action: "open_settings" }
     | { action: "open_channel_settings"; id: string }
@@ -139,7 +138,8 @@ type Props = {
     notifications: Notifications;
 };
 
-// ! FIXME: no observers here!
+// ! FIXME: I dare someone to re-write this
+// Tip: This should just be split into separate context menus per logical area.
 function ContextMenus(props: Props) {
     const { openScreen, writeClipboard } = useIntermediate();
     const client = useContext(AppContext);
@@ -495,7 +495,7 @@ function ContextMenus(props: Props) {
                     }
 
                     if (server_list) {
-                        const server = useServer(server_list, forceUpdate);
+                        const server = store.servers.get(server_list);
                         const permissions = useServerPermission(
                             server_list,
                             forceUpdate,
@@ -539,10 +539,9 @@ function ContextMenus(props: Props) {
                             targetChannel.channel_type === "VoiceChannel")
                             ? targetChannel
                             : undefined;
-                    const server = useServer(
-                        serverChannel ? serverChannel.server! : sid,
-                        forceUpdate,
-                    );
+
+                    const s = serverChannel ? serverChannel.server! : sid;
+                    const server = s ? store.servers.get(s) : undefined;
 
                     const channelPermissions = targetChannel
                         ? useChannelPermission(targetChannel._id, forceUpdate)

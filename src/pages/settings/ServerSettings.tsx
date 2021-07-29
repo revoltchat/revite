@@ -5,7 +5,6 @@ import { Route, useHistory, useParams } from "react-router-dom";
 import { Text } from "preact-i18n";
 
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
-import { useServer } from "../../context/revoltjs/hooks";
 
 import Category from "../../components/ui/Category";
 
@@ -16,10 +15,12 @@ import { Invites } from "./server/Invites";
 import { Members } from "./server/Members";
 import { Overview } from "./server/Overview";
 import { Roles } from "./server/Roles";
+import { useData } from "../../mobx/State";
 
 export default function ServerSettings() {
     const { server: sid } = useParams<{ server: string }>();
-    const server = useServer(sid);
+    const store = useData();
+    const server = store.servers.get(sid);
     if (!server) return null;
 
     const history = useHistory();

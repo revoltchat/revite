@@ -14,8 +14,6 @@ import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import { Unreads } from "../../../redux/reducers/unreads";
 
-import { useForceUpdate, useServer } from "../../../context/revoltjs/hooks";
-
 import CollapsibleSection from "../../common/CollapsibleSection";
 import ServerHeader from "../../common/ServerHeader";
 import Category from "../../ui/Category";
@@ -52,18 +50,16 @@ const ServerList = styled.div`
 `;
 
 const ServerSidebar = observer((props: Props) => {
-    const { server: server_id, channel: channel_id } =
-        useParams<{ server?: string; channel?: string }>();
-    const ctx = useForceUpdate();
-
-    const server = useServer(server_id, ctx);
-    if (!server) return <Redirect to="/" />;
-
     const store = useData();
+    const { server: server_id, channel: channel_id } =
+        useParams<{ server: string; channel?: string }>();
+
+    const server = store.servers.get(server_id);
+    if (!server) return <Redirect to="/" />;
 
     const channel = channel_id ? store.channels.get(channel_id) : undefined;
     if (channel_id && !channel) return <Redirect to={`/server/${server_id}`} />;
-    if (channel) useUnreads({ ...props, channel }, ctx);
+    if (channel) useUnreads({ ...props, channel });
 
     useEffect(() => {
         if (!channel_id) return;
@@ -125,7 +121,7 @@ const ServerSidebar = observer((props: Props) => {
 
     return (
         <ServerBase>
-            <ServerHeader server={server} ctx={ctx} />
+            <ServerHeader server={server} />
             <ConnectionStatus />
             <ServerList
                 onContextMenu={attachContextMenu("Menu", {

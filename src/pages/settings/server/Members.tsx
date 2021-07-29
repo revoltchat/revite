@@ -7,6 +7,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
+import { Server } from "../../../mobx";
 import { useData } from "../../../mobx/State";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
@@ -18,7 +19,7 @@ import IconButton from "../../../components/ui/IconButton";
 import Overline from "../../../components/ui/Overline";
 
 interface Props {
-    server: Servers.Server;
+    server: Server;
 }
 
 export const Members = observer(({ server }: Props) => {

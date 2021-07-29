@@ -9,6 +9,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { Server } from "../../../mobx";
 import { useData } from "../../../mobx/State";
 
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
@@ -23,7 +24,7 @@ import Preloader from "../../../components/ui/Preloader";
 import Tip from "../../../components/ui/Tip";
 
 interface Props {
-    server: Servers.Server;
+    server: Server;
 }
 
 // ! FIXME: really bad code

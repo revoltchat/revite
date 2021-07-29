@@ -1,5 +1,6 @@
 import { Plus } from "@styled-icons/boxicons-regular";
 import isEqual from "lodash.isequal";
+import { observer } from "mobx-react-lite";
 import { Servers } from "revolt.js/dist/api/objects";
 import {
     ChannelPermission,
@@ -9,6 +10,8 @@ import {
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
+
+import { Server } from "../../../mobx";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
@@ -24,13 +27,13 @@ import Tip from "../../../components/ui/Tip";
 import ButtonItem from "../../../components/navigation/items/ButtonItem";
 
 interface Props {
-    server: Servers.Server;
+    server: Server;
 }
 
 const I32ToU32 = (arr: number[]) => arr.map((x) => x >>> 0);
 
 // ! FIXME: bad code :)
-export function Roles({ server }: Props) {
+export const Roles = observer(({ server }: Props) => {
     const [role, setRole] = useState("default");
     const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
@@ -227,4 +230,4 @@ export function Roles({ server }: Props) {
             </div>
         </div>
     );
-}
+});
