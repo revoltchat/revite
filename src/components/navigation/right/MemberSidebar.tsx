@@ -181,7 +181,7 @@ export const ServerMemberSidebar = observer(
                 status === ClientStatus.ONLINE &&
                 typeof members === "undefined"
             ) {
-                client.members
+                store
                     .fetchMembers(channel.server!)
                     .then((members) => setMembers(members));
             }
