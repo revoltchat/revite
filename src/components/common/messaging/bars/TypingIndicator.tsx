@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { User } from "revolt.js";
 import styled from "styled-components";
 
@@ -6,10 +7,14 @@ import { useContext } from "preact/hooks";
 
 import { TextReact } from "../../../../lib/i18n";
 
+import { useData } from "../../../../mobx/State";
 import { connectState } from "../../../../redux/connector";
 import { TypingUser } from "../../../../redux/reducers/typing";
 
-import { AppContext } from "../../../../context/revoltjs/RevoltClient";
+import {
+    AppContext,
+    useClient,
+} from "../../../../context/revoltjs/RevoltClient";
 import { useUsers } from "../../../../context/revoltjs/hooks";
 
 import { Username } from "../../user/UserShort";
@@ -61,12 +66,13 @@ const Base = styled.div`
     }
 `;
 
-export function TypingIndicator({ typing }: Props) {
+export const TypingIndicator = observer(({ typing }: Props) => {
     if (typing && typing.length > 0) {
-        const client = useContext(AppContext);
-        const users = useUsers(typing.map((x) => x.id)).filter(
-            (x) => typeof x !== "undefined",
-        ) as User[];
+        const client = useClient();
+        const store = useData();
+        const users = typing
+            .map((x) => store.users.get(x.id)!)
+            .filter((x) => typeof x !== "undefined");
 
         users.sort((a, b) =>
             a._id.toUpperCase().localeCompare(b._id.toUpperCase()),
@@ -123,7 +129,7 @@ export function TypingIndicator({ typing }: Props) {
     }
 
     return null;
-}
+});
 
 export default connectState<{ id: string }>(TypingIndicator, (state, props) => {
     return {

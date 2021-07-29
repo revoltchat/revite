@@ -1,14 +1,16 @@
 import { Search } from "@styled-icons/boxicons-regular";
 import { Message, Group, Inbox } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { useHistory, useLocation } from "react-router";
 import styled, { css } from "styled-components";
 
 import ConditionalLink from "../../lib/ConditionalLink";
 
+import { useData } from "../../mobx/State";
 import { connectState } from "../../redux/connector";
 import { LastOpened } from "../../redux/reducers/last_opened";
 
-import { useSelf } from "../../context/revoltjs/hooks";
+import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../common/user/UserIcon";
 import IconButton from "../ui/IconButton";
@@ -51,8 +53,11 @@ interface Props {
     lastOpened: LastOpened;
 }
 
-export function BottomNavigation({ lastOpened }: Props) {
-    const user = useSelf();
+export const BottomNavigation = observer(({ lastOpened }: Props) => {
+    const client = useClient();
+    const store = useData();
+    const user = store.users.get(client.user!._id);
+
     const history = useHistory();
     const path = useLocation().pathname;
 
@@ -114,7 +119,7 @@ export function BottomNavigation({ lastOpened }: Props) {
             </Navbar>
         </Base>
     );
-}
+});
 
 export default connectState(BottomNavigation, (state) => {
     return {

@@ -1,8 +1,12 @@
-import { SYSTEM_USER_ID, User } from "revolt.js";
+import { useStore } from "react-redux";
+import { SYSTEM_USER_ID } from "revolt.js";
 import { Channels } from "revolt.js/dist/api/objects";
 import styled, { css } from "styled-components";
 
 import { StateUpdater, useState } from "preact/hooks";
+
+import { User } from "../../mobx";
+import { useData } from "../../mobx/State";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
@@ -53,6 +57,7 @@ export function useAutoComplete(
     const [state, setState] = useState<AutoCompleteState>({ type: "none" });
     const [focused, setFocused] = useState(false);
     const client = useClient();
+    const store = useData();
 
     function findSearchString(
         el: HTMLTextAreaElement,
@@ -127,7 +132,7 @@ export function useAutoComplete(
                 let users: User[] = [];
                 switch (searchClues.users.type) {
                     case "all":
-                        users = client.users.toArray();
+                        users = [...store.users.values()];
                         break;
                     case "channel": {
                         const channel = client.channels.get(
@@ -136,8 +141,8 @@ export function useAutoComplete(
                         switch (channel?.channel_type) {
                             case "Group":
                             case "DirectMessage":
-                                users = client.users
-                                    .mapKeys(channel.recipients)
+                                users = channel.recipients
+                                    .map((x) => store.users.get(x))
                                     .filter(
                                         (x) => typeof x !== "undefined",
                                     ) as User[];
@@ -150,7 +155,7 @@ export function useAutoComplete(
                                         (x) => x._id.substr(0, 26) === server,
                                     )
                                     .map((x) =>
-                                        client.users.get(x._id.substr(26)),
+                                        store.users.get(x._id.substr(26)),
                                     )
                                     .filter(
                                         (x) => typeof x !== "undefined",
