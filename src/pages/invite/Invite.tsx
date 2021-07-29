@@ -1,11 +1,15 @@
 import { ArrowBack } from "@styled-icons/boxicons-regular";
+import { autorun } from "mobx";
+import { useStore } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { Invites } from "revolt.js/dist/api/objects";
+import { Invites, Servers } from "revolt.js/dist/api/objects";
 
 import styles from "./Invite.module.scss";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { defer } from "../../lib/defer";
+
+import { useData } from "../../mobx/State";
 
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import {
@@ -22,6 +26,7 @@ import Overline from "../../components/ui/Overline";
 import Preloader from "../../components/ui/Preloader";
 
 export default function Invite() {
+    const store = useData();
     const history = useHistory();
     const client = useContext(AppContext);
     const status = useContext(StatusContext);
@@ -115,19 +120,25 @@ export default function Invite() {
                                                 `/server/${invite.server_id}/channel/${invite.channel_id}`,
                                             );
                                         }
-                                    }
 
-                                    const result = await client.joinInvite(
-                                        code,
-                                    );
-
-                                    if (result.type === "Server") {
-                                        defer(() => {
-                                            history.push(
-                                                `/server/${result.server._id}/channel/${result.channel._id}`,
+                                        const dispose = autorun(() => {
+                                            let server = store.servers.get(
+                                                invite.server_id,
                                             );
+
+                                            defer(() => {
+                                                if (server) {
+                                                    history.push(
+                                                        `/server/${server._id}/channel/${invite.channel_id}`,
+                                                    );
+                                                }
+                                            });
+
+                                            dispose();
                                         });
                                     }
+
+                                    await client.joinInvite(code);
                                 } catch (err) {
                                     setError(takeError(err));
                                     setProcessing(false);
