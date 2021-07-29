@@ -14,6 +14,7 @@ import { AuthState } from "../../redux/reducers/auth";
 
 import Preloader from "../../components/ui/Preloader";
 
+import { useData } from "../../mobx/State";
 import { Children } from "../../types/Preact";
 import { useIntermediate } from "../intermediate/Intermediate";
 import { registerEvents, setReconnectDisallowed } from "./events";
@@ -157,9 +158,10 @@ function Context({ auth, children }: Props) {
         };
     }, [client, auth.active]);
 
+    const store = useData();
     useEffect(
-        () => registerEvents({ operations }, setStatus, client),
-        [client],
+        () => registerEvents({ operations }, setStatus, client, store),
+        [client, store],
     );
 
     useEffect(() => {

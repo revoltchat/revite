@@ -5,6 +5,8 @@ import { StateUpdater } from "preact/hooks";
 
 import { dispatch } from "../../redux";
 
+import { DataStore } from "../../mobx";
+import { useData } from "../../mobx/State";
 import { ClientOperations, ClientStatus } from "./RevoltClient";
 
 export var preventReconnect = false;
@@ -18,6 +20,7 @@ export function registerEvents(
     { operations }: { operations: ClientOperations },
     setStatus: StateUpdater<ClientStatus>,
     client: Client,
+    store: DataStore,
 ) {
     function attemptReconnect() {
         if (preventReconnect) return;
@@ -45,6 +48,7 @@ export function registerEvents(
         },
 
         packet: (packet: ClientboundNotification) => {
+            store.packet(packet);
             switch (packet.type) {
                 case "ChannelStartTyping": {
                     if (packet.user === client.user?._id) return;

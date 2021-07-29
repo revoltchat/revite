@@ -2,6 +2,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import State from "../redux/State";
 
+import MobXState from "../mobx/State";
 import { Children } from "../types/Preact";
 import Locale from "./Locale";
 import Settings from "./Settings";
@@ -14,17 +15,19 @@ export default function Context({ children }: { children: Children }) {
     return (
         <Router>
             <State>
-                <Theme>
-                    <Settings>
-                        <Locale>
-                            <Intermediate>
-                                <Client>
-                                    <Voice>{children}</Voice>
-                                </Client>
-                            </Intermediate>
-                        </Locale>
-                    </Settings>
-                </Theme>
+                <MobXState>
+                    <Theme>
+                        <Settings>
+                            <Locale>
+                                <Intermediate>
+                                    <Client>
+                                        <Voice>{children}</Voice>
+                                    </Client>
+                                </Intermediate>
+                            </Locale>
+                        </Settings>
+                    </Theme>
+                </MobXState>
             </State>
         </Router>
     );

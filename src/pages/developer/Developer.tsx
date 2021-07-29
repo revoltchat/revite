@@ -1,4 +1,6 @@
 import { Wrench } from "@styled-icons/boxicons-solid";
+import { isObservable, isObservableProp } from "mobx";
+import { observer } from "mobx-react-lite";
 import { Channels } from "revolt.js/dist/api/objects";
 
 import { useContext } from "preact/hooks";
@@ -7,9 +9,12 @@ import PaintCounter from "../../lib/PaintCounter";
 import { TextReact } from "../../lib/i18n";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
-import { useData, useUserPermission } from "../../context/revoltjs/hooks";
+import { useUserPermission } from "../../context/revoltjs/hooks";
 
+import UserIcon from "../../components/common/user/UserIcon";
 import Header from "../../components/ui/Header";
+
+import { useData } from "../../mobx/State";
 
 export default function Developer() {
     // const voice = useContext(VoiceContext);
@@ -35,7 +40,10 @@ export default function Developer() {
                     fields={{ provider: <b>GAMING!</b> }}
                 />
             </div>
-            <DataTest />
+            <ObserverTest />
+            <ObserverTest2 />
+            <ObserverTest3 />
+            <ObserverTest4 />
             <div style={{ padding: "16px" }}>
                 {/*<span>
                     <b>Voice Status:</b> {VoiceStatus[voice.status]}
@@ -55,29 +63,66 @@ export default function Developer() {
     );
 }
 
-function DataTest() {
-    const channel_id = (
-        useContext(AppContext)
-            .channels.toArray()
-            .find((x) => x.channel_type === "Group") as Channels.GroupChannel
-    )._id;
-
-    const data = useData(
-        (client) => {
-            return {
-                name: (client.channels.get(channel_id) as Channels.GroupChannel)
-                    .name,
-            };
-        },
-        [{ key: "channels", id: channel_id }],
-    );
-
+const ObserverTest = observer(() => {
+    const client = useContext(AppContext);
+    const store = useData();
     return (
         <div style={{ padding: "16px" }}>
-            Channel name: {data.name}
-            <div style={{ width: "24px" }}>
+            <p>
+                username:{" "}
+                {store.users.get(client.user!._id)?.username ?? "no user!"}
                 <PaintCounter small />
-            </div>
+            </p>
         </div>
     );
-}
+});
+
+const ObserverTest2 = observer(() => {
+    const client = useContext(AppContext);
+    const store = useData();
+    return (
+        <div style={{ padding: "16px" }}>
+            <p>
+                status:{" "}
+                {JSON.stringify(store.users.get(client.user!._id)?.status) ??
+                    "none"}
+                <PaintCounter small />
+            </p>
+        </div>
+    );
+});
+
+const ObserverTest3 = observer(() => {
+    const client = useContext(AppContext);
+    const store = useData();
+    return (
+        <div style={{ padding: "16px" }}>
+            <p>
+                avatar{" "}
+                <UserIcon
+                    size={64}
+                    attachment={
+                        store.users.get(client.user!._id)?.avatar ?? undefined
+                    }
+                />
+                <PaintCounter small />
+            </p>
+        </div>
+    );
+});
+
+const ObserverTest4 = observer(() => {
+    const client = useContext(AppContext);
+    const store = useData();
+    return (
+        <div style={{ padding: "16px" }}>
+            <p>
+                status text:{" "}
+                {JSON.stringify(
+                    store.users.get(client.user!._id)?.status?.text,
+                ) ?? "none"}
+                <PaintCounter small />
+            </p>
+        </div>
+    );
+});
