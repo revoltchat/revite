@@ -321,7 +321,7 @@ export class DataStore {
     }
 
     @action
-    packet(packet: ClientboundNotification) {
+    async packet(packet: ClientboundNotification) {
         switch (packet.type) {
             case "Ready": {
                 for (let user of packet.users) {
@@ -352,6 +352,12 @@ export class DataStore {
             }
             case "ChannelGroupJoin": {
                 this.channels.get(packet.id)?.groupJoin(packet.user);
+
+                if (!this.users.has(packet.user)) {
+                    let user = await this.client.users.fetch(packet.user);
+                    this.users.set(packet.user, new User(user));
+                }
+
                 break;
             }
             case "ChannelGroupLeave": {
@@ -375,6 +381,13 @@ export class DataStore {
                 break;
             }
             case "ServerDelete": {
+                let server = this.servers.get(packet.id);
+                if (server) {
+                    for (let channel of server.channels) {
+                        this.channels.delete(channel);
+                    }
+                }
+
                 this.servers.delete(packet.id);
                 break;
             }
@@ -385,10 +398,32 @@ export class DataStore {
             case "ServerMemberJoin": {
                 const _id = { server: packet.id, user: packet.user };
                 this.members.set(_id, new Member({ _id }));
+
+                if (!this.servers.has(packet.id)) {
+                    let server = await this.client.servers.fetch(packet.id);
+                    this.servers.set(packet.id, new Server(server));
+
+                    for (let id of server.channels) {
+                        let channel = this.client.channels.get(id);
+                        if (channel) {
+                            this.channels.set(id, new Channel(channel));
+                        }
+                    }
+                }
+
+                if (!this.users.has(packet.user)) {
+                    let user = await this.client.users.fetch(packet.user);
+                    this.users.set(packet.user, new User(user));
+                }
+
                 break;
             }
             case "ServerMemberLeave": {
                 this.members.delete({ server: packet.id, user: packet.user });
+                if (packet.user === this.client.user!._id) {
+                    await this.packet({ type: "ServerDelete", id: packet.id });
+                }
+
                 break;
             }
         }
