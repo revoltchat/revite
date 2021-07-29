@@ -23,11 +23,7 @@ import { Unreads } from "../../../redux/reducers/unreads";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import {
-    useDMs,
-    useForceUpdate,
-    useUsers,
-} from "../../../context/revoltjs/hooks";
+import { useDMs, useForceUpdate } from "../../../context/revoltjs/hooks";
 
 import Category from "../../ui/Category";
 import placeholderSVG from "../items/placeholder.svg";

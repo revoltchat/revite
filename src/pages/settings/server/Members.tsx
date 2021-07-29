@@ -10,7 +10,6 @@ import { useEffect, useState } from "preact/hooks";
 import { useData } from "../../../mobx/State";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
-import { useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";

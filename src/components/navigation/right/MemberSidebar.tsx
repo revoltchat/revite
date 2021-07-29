@@ -21,7 +21,6 @@ import {
     HookContext,
     useChannel,
     useForceUpdate,
-    useUsers,
 } from "../../../context/revoltjs/hooks";
 
 import CollapsibleSection from "../../common/CollapsibleSection";

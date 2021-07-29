@@ -31,7 +31,6 @@ import {
     useChannels,
     useForceUpdate,
     useUserPermission,
-    useUsers,
 } from "../../revoltjs/hooks";
 import { useIntermediate } from "../Intermediate";
 

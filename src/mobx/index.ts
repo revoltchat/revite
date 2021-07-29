@@ -9,8 +9,8 @@ import {
     action,
     extendObservable,
 } from "mobx";
-import { Attachment, Users } from "revolt.js/dist/api/objects";
-import { RemoveUserField } from "revolt.js/dist/api/routes";
+import { Attachment, Channels, Users } from "revolt.js/dist/api/objects";
+import { RemoveChannelField, RemoveUserField } from "revolt.js/dist/api/routes";
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 
 type Nullable<T> = T | null;
@@ -42,7 +42,7 @@ export class User {
     }
 
     @action update(data: Partial<Users.User>, clear?: RemoveUserField) {
-        const apply = (key: keyof Users.User) => {
+        const apply = (key: string) => {
             // This code has been tested.
             // @ts-expect-error
             if (data[key] && !isEqual(this[key], data[key])) {
@@ -62,6 +62,7 @@ export class User {
             }
         }
 
+        apply("username");
         apply("avatar");
         apply("badges");
         apply("status");
@@ -70,8 +71,110 @@ export class User {
     }
 }
 
+export class Channel {
+    _id: string;
+    type: Channels.Channel["channel_type"];
+
+    // Direct Message
+    active: Nullable<boolean> = null;
+
+    // Group
+    owner: Nullable<string> = null;
+
+    // Server
+    server: Nullable<string> = null;
+
+    // Permissions
+    permissions: Nullable<number> = null;
+    default_permissions: Nullable<number> = null;
+    role_permissions: Nullable<{ [key: string]: number }> = null;
+
+    // Common
+    name: Nullable<string> = null;
+    icon: Nullable<Attachment> = null;
+    description: Nullable<string> = null;
+    recipients: Nullable<string[]> = null;
+    last_message: Nullable<string | Channels.LastMessage> = null;
+
+    constructor(data: Channels.Channel) {
+        this._id = data._id;
+        this.type = data.channel_type;
+
+        switch (data.channel_type) {
+            case "DirectMessage": {
+                this.active = toNullable(data.active);
+                this.recipients = toNullable(data.recipients);
+                this.last_message = toNullable(data.last_message);
+                break;
+            }
+            case "Group": {
+                this.recipients = toNullable(data.recipients);
+                this.name = toNullable(data.name);
+                this.owner = toNullable(data.owner);
+                this.description = toNullable(data.description);
+                this.last_message = toNullable(data.last_message);
+                this.icon = toNullable(data.icon);
+                this.permissions = toNullable(data.permissions);
+                break;
+            }
+            case "TextChannel":
+            case "VoiceChannel": {
+                this.server = toNullable(data.server);
+                this.name = toNullable(data.name);
+                this.description = toNullable(data.description);
+                this.icon = toNullable(data.icon);
+                this.default_permissions = toNullable(data.default_permissions);
+                this.role_permissions = toNullable(data.role_permissions);
+
+                if (data.channel_type === "TextChannel") {
+                    this.last_message = toNullable(data.last_message);
+                }
+
+                break;
+            }
+        }
+
+        makeAutoObservable(this);
+    }
+
+    @action update(
+        data: Partial<Channels.Channel>,
+        clear?: RemoveChannelField,
+    ) {
+        const apply = (key: string) => {
+            // This code has been tested.
+            // @ts-expect-error
+            if (data[key] && !isEqual(this[key], data[key])) {
+                // @ts-expect-error
+                this[key] = data[key];
+            }
+        };
+
+        switch (clear) {
+            case "Description":
+                this.description = null;
+                break;
+            case "Icon":
+                this.icon = null;
+                break;
+        }
+
+        apply("active");
+        apply("owner");
+        apply("permissions");
+        apply("default_permissions");
+        apply("role_permissions");
+        apply("name");
+        apply("icon");
+        apply("description");
+        apply("recipients");
+        apply("last_message");
+    }
+}
+
 export class DataStore {
     @observable users = new Map<string, User>();
+    @observable channels = new Map<string, Channel>();
 
     constructor() {
         makeAutoObservable(this);
@@ -84,6 +187,11 @@ export class DataStore {
                 for (let user of packet.users) {
                     this.users.set(user._id, new User(user));
                 }
+
+                for (let channel of packet.channels) {
+                    this.channels.set(channel._id, new Channel(channel));
+                }
+
                 break;
             }
             case "UserUpdate": {

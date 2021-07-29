@@ -8,7 +8,6 @@ import { TextReact } from "../../../lib/i18n";
 import { User } from "../../../mobx";
 import { useData } from "../../../mobx/State";
 
-import { useForceUpdate, useUser } from "../../../context/revoltjs/hooks";
 import { MessageObject } from "../../../context/revoltjs/util";
 
 import UserShort from "../user/UserShort";
