@@ -9,7 +9,6 @@ import { QueuedMessage } from "../../../redux/reducers/queue";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { useUser } from "../../../context/revoltjs/hooks";
 import { MessageObject } from "../../../context/revoltjs/util";
 
 import Overline from "../../ui/Overline";

@@ -9,11 +9,7 @@ import { useEffect, useState } from "preact/hooks";
 import { useData } from "../../../mobx/State";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
-import {
-    useChannels,
-    useForceUpdate,
-    useUsers,
-} from "../../../context/revoltjs/hooks";
+import { useChannels, useForceUpdate } from "../../../context/revoltjs/hooks";
 import { getChannelName } from "../../../context/revoltjs/util";
 
 import UserIcon from "../../../components/common/user/UserIcon";
@@ -34,7 +30,6 @@ export const Invites = observer(({ server }: Props) => {
     const channels = useChannels(invites?.map((x) => x.channel) ?? [], ctx);
 
     const store = useData();
-    const client = useClient();
     const users = invites?.map((invite) => store.users.get(invite.creator));
 
     useEffect(() => {

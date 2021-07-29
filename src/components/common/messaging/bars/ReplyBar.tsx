@@ -17,8 +17,6 @@ import { useRenderState } from "../../../../lib/renderer/Singleton";
 import { useData } from "../../../../mobx/State";
 import { Reply } from "../../../../redux/reducers/queue";
 
-import { useUsers } from "../../../../context/revoltjs/hooks";
-
 import IconButton from "../../../ui/IconButton";
 
 import Markdown from "../../../markdown/Markdown";

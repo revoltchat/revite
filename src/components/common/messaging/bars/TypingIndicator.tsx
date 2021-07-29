@@ -15,7 +15,6 @@ import {
     AppContext,
     useClient,
 } from "../../../../context/revoltjs/RevoltClient";
-import { useUsers } from "../../../../context/revoltjs/hooks";
 
 import { Username } from "../../user/UserShort";
 
