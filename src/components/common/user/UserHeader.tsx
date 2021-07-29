@@ -1,6 +1,6 @@
 import { Cog } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
-import { User } from "revolt.js";
 import styled from "styled-components";
 
 import { openContextMenu } from "preact-context-menu";
@@ -8,6 +8,8 @@ import { Text } from "preact-i18n";
 import { Localizer } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+
+import { User } from "../../../mobx";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
@@ -49,7 +51,7 @@ interface Props {
     user: User;
 }
 
-export default function UserHeader({ user }: Props) {
+export default observer(({ user }: Props) => {
     const { writeClipboard } = useIntermediate();
 
     return (
@@ -81,4 +83,4 @@ export default function UserHeader({ user }: Props) {
             )}
         </Header>
     );
-}
+});

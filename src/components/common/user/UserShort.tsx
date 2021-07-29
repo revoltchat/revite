@@ -21,7 +21,7 @@ export const Username = observer(
         let username = user?.username;
         let color;
 
-        // ! FIXME: this must be really bad for perf.
+        /* // ! FIXME: this must be really bad for perf.
         if (user) {
             let { server } = useParams<{ server?: string }>();
             if (server) {
@@ -44,7 +44,7 @@ export const Username = observer(
                     }
                 }
             }
-        }
+        } */
 
         return (
             <span {...otherProps} style={{ color }}>

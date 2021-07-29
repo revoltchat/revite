@@ -1,13 +1,13 @@
-import { User, Users } from "revolt.js/dist/api/objects";
+import { Users } from "revolt.js/dist/api/objects";
 
 import styles from "./UserPicker.module.scss";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
+import { useData } from "../../../mobx/State";
+
 import UserCheckbox from "../../../components/common/user/UserCheckbox";
 import Modal from "../../../components/ui/Modal";
-
-import { useUsers } from "../../revoltjs/hooks";
 
 interface Props {
     omit?: string[];
@@ -19,7 +19,7 @@ export function UserPicker(props: Props) {
     const [selected, setSelected] = useState<string[]>([]);
     const omit = [...(props.omit || []), "00000000000000000000000000"];
 
-    const users = useUsers();
+    const store = useData();
 
     return (
         <Modal
@@ -33,24 +33,17 @@ export function UserPicker(props: Props) {
                 },
             ]}>
             <div className={styles.list}>
-                {(
-                    users.filter(
+                {[...store.users.values()]
+                    .filter(
                         (x) =>
                             x &&
                             x.relationship === Users.Relationship.Friend &&
                             !omit.includes(x._id),
-                    ) as User[]
-                )
-                    .map((x) => {
-                        return {
-                            ...x,
-                            selected: selected.includes(x._id),
-                        };
-                    })
+                    )
                     .map((x) => (
                         <UserCheckbox
                             user={x}
-                            checked={x.selected}
+                            checked={selected.includes(x._id)}
                             onChange={(v) => {
                                 if (v) {
                                     setSelected([...selected, x._id]);

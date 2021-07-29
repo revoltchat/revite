@@ -1,5 +1,6 @@
 import { Reply } from "@styled-icons/boxicons-regular";
 import { File } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { SYSTEM_USER_ID } from "revolt.js";
 import { Users } from "revolt.js/dist/api/objects";
@@ -9,6 +10,8 @@ import { Text } from "preact-i18n";
 import { useLayoutEffect, useState } from "preact/hooks";
 
 import { useRenderState } from "../../../../lib/renderer/Singleton";
+
+import { useData } from "../../../../mobx/State";
 
 import { useForceUpdate, useUser } from "../../../../context/revoltjs/hooks";
 import { mapMessage, MessageObject } from "../../../../context/revoltjs/util";
@@ -120,7 +123,7 @@ export const ReplyBase = styled.div<{
         `}
 `;
 
-export function MessageReply({ index, channel, id }: Props) {
+export const MessageReply = observer(({ index, channel, id }: Props) => {
     const ctx = useForceUpdate();
     const view = useRenderState(channel);
     if (view?.type !== "RENDER") return null;
@@ -152,7 +155,8 @@ export function MessageReply({ index, channel, id }: Props) {
         );
     }
 
-    const user = useUser(message.author, ctx);
+    const store = useData();
+    const user = store.users.get(message.author);
     const history = useHistory();
 
     return (
@@ -203,4 +207,4 @@ export function MessageReply({ index, channel, id }: Props) {
             )}
         </ReplyBase>
     );
-}
+});

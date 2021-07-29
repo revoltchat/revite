@@ -4,6 +4,7 @@ import {
     File,
     XCircle,
 } from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
 import { SYSTEM_USER_ID } from "revolt.js";
 import styled from "styled-components";
 
@@ -13,6 +14,7 @@ import { StateUpdater, useEffect } from "preact/hooks";
 import { internalSubscribe } from "../../../../lib/eventEmitter";
 import { useRenderState } from "../../../../lib/renderer/Singleton";
 
+import { useData } from "../../../../mobx/State";
 import { Reply } from "../../../../redux/reducers/queue";
 
 import { useUsers } from "../../../../context/revoltjs/hooks";
@@ -56,7 +58,7 @@ const Base = styled.div`
 
 // ! FIXME: Move to global config
 const MAX_REPLIES = 5;
-export default function ReplyBar({ channel, replies, setReplies }: Props) {
+export default observer(({ channel, replies, setReplies }: Props) => {
     useEffect(() => {
         return internalSubscribe(
             "ReplyBar",
@@ -73,7 +75,9 @@ export default function ReplyBar({ channel, replies, setReplies }: Props) {
 
     const ids = replies.map((x) => x.id);
     const messages = view.messages.filter((x) => ids.includes(x._id));
-    const users = useUsers(messages.map((x) => x.author));
+
+    const store = useData();
+    const users = messages.map((x) => store.users.get(x.author));
 
     return (
         <div>
@@ -90,9 +94,7 @@ export default function ReplyBar({ channel, replies, setReplies }: Props) {
                         </span>
                     );
 
-                const user = users.find((x) => message!.author === x?._id);
-                if (!user) return;
-
+                const user = users[index];
                 return (
                     <Base key={reply.id}>
                         <ReplyBase preview>
@@ -143,4 +145,4 @@ export default function ReplyBar({ channel, replies, setReplies }: Props) {
             })}
         </div>
     );
-}
+});
