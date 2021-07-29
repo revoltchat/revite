@@ -17,6 +17,7 @@ import {
 } from "revolt.js/dist/api/objects";
 import {
     RemoveChannelField,
+    RemoveMemberField,
     RemoveServerField,
     RemoveUserField,
 } from "revolt.js/dist/api/routes";
@@ -251,10 +252,51 @@ export class Server {
     }
 }
 
+export class Member {
+    _id: Servers.MemberCompositeKey;
+    nickname: Nullable<string> = null;
+    avatar: Nullable<Attachment> = null;
+    roles: Nullable<string[]> = null;
+
+    constructor(data: Servers.Member) {
+        this._id = data._id;
+        this.nickname = toNullable(data.nickname);
+        this.avatar = toNullable(data.avatar);
+        this.roles = toNullable(data.roles);
+
+        makeAutoObservable(this);
+    }
+
+    @action update(data: Partial<Servers.Member>, clear?: RemoveMemberField) {
+        const apply = (key: string) => {
+            // This code has been tested.
+            // @ts-expect-error
+            if (data[key] && !isEqual(this[key], data[key])) {
+                // @ts-expect-error
+                this[key] = data[key];
+            }
+        };
+
+        switch (clear) {
+            case "Nickname":
+                this.nickname = null;
+                break;
+            case "Avatar":
+                this.avatar = null;
+                break;
+        }
+
+        apply("nickname");
+        apply("avatar");
+        apply("roles");
+    }
+}
+
 export class DataStore {
     @observable users = new Map<string, User>();
     @observable channels = new Map<string, Channel>();
     @observable servers = new Map<string, Server>();
+    @observable members = new Map<Servers.MemberCompositeKey, Member>();
 
     constructor() {
         makeAutoObservable(this);

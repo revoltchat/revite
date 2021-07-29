@@ -1,7 +1,4 @@
-import isEqual from "lodash.isequal";
 import { Client, PermissionCalculator } from "revolt.js";
-import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
-import Collection from "revolt.js/dist/maps/Collection";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
@@ -28,95 +25,6 @@ export function useForceUpdate(context?: HookContext): HookContext {
     }
 
     return { client, forceUpdate: () => updateState(Math.random()) };
-}
-
-// TODO: utils.d.ts maybe?
-type PickProperties<T, U> = Pick<
-    T,
-    {
-        [K in keyof T]: T[K] extends U ? K : never;
-    }[keyof T]
->;
-
-// The keys in Client that are an object
-// for some reason undefined keeps appearing despite there being no reason to so it's filtered out
-type ClientCollectionKey = Exclude<
-    keyof PickProperties<Client, Collection<any>>,
-    undefined
->;
-
-function useObject(
-    type: ClientCollectionKey,
-    id?: string | string[],
-    context?: HookContext,
-) {
-    const ctx = useForceUpdate(context);
-
-    function update(target: any) {
-        if (
-            typeof id === "string"
-                ? target === id
-                : Array.isArray(id)
-                ? id.includes(target)
-                : true
-        ) {
-            ctx.forceUpdate();
-        }
-    }
-
-    const map = ctx.client[type];
-    useEffect(() => {
-        map.addListener("update", update);
-        return () => map.removeListener("update", update);
-    }, [id]);
-
-    return typeof id === "string"
-        ? map.get(id)
-        : Array.isArray(id)
-        ? id.map((x) => map.get(x))
-        : map.toArray();
-}
-
-export function useMember(id?: string, context?: HookContext) {
-    if (typeof id === "undefined") return;
-    return useObject("members", id, context) as
-        | Readonly<Servers.Member>
-        | undefined;
-}
-
-export function useDMs(context?: HookContext) {
-    const ctx = useForceUpdate(context);
-
-    function mutation(target: string) {
-        const channel = ctx.client.channels.get(target);
-        if (channel) {
-            if (
-                channel.channel_type === "DirectMessage" ||
-                channel.channel_type === "Group"
-            ) {
-                ctx.forceUpdate();
-            }
-        }
-    }
-
-    const map = ctx.client.channels;
-    useEffect(() => {
-        map.addListener("update", mutation);
-        return () => map.removeListener("update", mutation);
-    }, []);
-
-    return map
-        .toArray()
-        .filter(
-            (x) =>
-                x.channel_type === "DirectMessage" ||
-                x.channel_type === "Group" ||
-                x.channel_type === "SavedMessages",
-        ) as (
-        | Channels.GroupChannel
-        | Channels.DirectMessageChannel
-        | Channels.SavedMessagesChannel
-    )[];
 }
 
 export function useUserPermission(id: string, context?: HookContext) {
@@ -190,45 +98,5 @@ export function useServerPermission(id: string, context?: HookContext) {
 
     const calculator = new PermissionCalculator(ctx.client);
     return calculator.forServer(id);
-}
-//#endregion
-
-//#region Hooks v2 (deprecated)
-type CollectionKeys = Exclude<
-    keyof PickProperties<Client, Collection<any>>,
-    undefined
->;
-
-interface Depedency {
-    key: CollectionKeys;
-    id?: string;
-}
-
-export function useDataDeprecated<T>(
-    cb: (client: Client) => T,
-    dependencies: Depedency[],
-): T {
-    // ! FIXME: not sure if this may cost a lot
-    const client = useContext(AppContext);
-    const [data, setData] = useState(cb(client));
-
-    useEffect(() => {
-        let fns = dependencies.map((dependency) => {
-            function update() {
-                let generated = cb(client);
-                if (!isEqual(data, generated)) {
-                    setData(generated);
-                }
-            }
-
-            client[dependency.key].addListener("update", update);
-            return () =>
-                client[dependency.key].removeListener("update", update);
-        });
-
-        return () => fns.forEach((x) => x());
-    }, [data]);
-
-    return data;
 }
 //#endregion
