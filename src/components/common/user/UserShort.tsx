@@ -1,15 +1,8 @@
 import { observer } from "mobx-react-lite";
-import { useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";
 
 import { User } from "../../../mobx";
-
-import {
-    useForceUpdate,
-    useMember,
-    useServer,
-} from "../../../context/revoltjs/hooks";
 
 import UserIcon from "./UserIcon";
 

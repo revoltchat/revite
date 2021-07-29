@@ -1,26 +1,30 @@
 import { Cog } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
-import { Server } from "revolt.js/dist/api/objects";
 import { ServerPermission } from "revolt.js/dist/api/permissions";
 import styled from "styled-components";
 
-import { HookContext, useServerPermission } from "../../context/revoltjs/hooks";
+import { Server } from "../../mobx";
+
+import { useClient } from "../../context/revoltjs/RevoltClient";
+import { useServerPermission } from "../../context/revoltjs/hooks";
 
 import Header from "../ui/Header";
 import IconButton from "../ui/IconButton";
 
 interface Props {
     server: Server;
-    ctx: HookContext;
 }
 
 const ServerName = styled.div`
     flex-grow: 1;
 `;
 
-export default function ServerHeader({ server, ctx }: Props) {
-    const permissions = useServerPermission(server._id, ctx);
-    const bannerURL = ctx.client.servers.getBannerURL(
+export default observer(({ server }: Props) => {
+    const permissions = useServerPermission(server._id);
+    const client = useClient();
+
+    const bannerURL = client.servers.getBannerURL(
         server._id,
         { width: 480 },
         true,
@@ -46,4 +50,4 @@ export default function ServerHeader({ server, ctx }: Props) {
             )}
         </Header>
     );
-}
+});

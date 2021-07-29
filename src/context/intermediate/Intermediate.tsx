@@ -13,7 +13,7 @@ import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
 
-import { Channel, User } from "../../mobx";
+import { Channel, Server, User } from "../../mobx";
 
 import { Action } from "../../components/ui/Modal";
 
@@ -36,19 +36,19 @@ export type Screen =
     | ({ id: "special_prompt" } & (
           | { type: "leave_group"; target: Channel }
           | { type: "close_dm"; target: Channel }
-          | { type: "leave_server"; target: Servers.Server }
-          | { type: "delete_server"; target: Servers.Server }
+          | { type: "leave_server"; target: Server }
+          | { type: "delete_server"; target: Server }
           | { type: "delete_channel"; target: Channel }
           | { type: "delete_message"; target: Channels.Message }
           | {
                 type: "create_invite";
                 target: Channel;
             }
-          | { type: "kick_member"; target: Servers.Server; user: User }
-          | { type: "ban_member"; target: Servers.Server; user: User }
+          | { type: "kick_member"; target: Server; user: User }
+          | { type: "ban_member"; target: Server; user: User }
           | { type: "unfriend_user"; target: User }
           | { type: "block_user"; target: User }
-          | { type: "create_channel"; target: Servers.Server }
+          | { type: "create_channel"; target: Server }
       ))
     | ({ id: "special_input" } & (
           | {

@@ -4,6 +4,7 @@ import { Channel } from "../../../mobx";
 import { dispatch } from "../../../redux";
 import { Unreads } from "../../../redux/reducers/unreads";
 
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 import { HookContext, useForceUpdate } from "../../../context/revoltjs/hooks";
 
 type UnreadProps = {
@@ -11,11 +12,8 @@ type UnreadProps = {
     unreads: Unreads;
 };
 
-export function useUnreads(
-    { channel, unreads }: UnreadProps,
-    context?: HookContext,
-) {
-    const ctx = useForceUpdate(context);
+export function useUnreads({ channel, unreads }: UnreadProps) {
+    const client = useClient();
 
     useLayoutEffect(() => {
         function checkUnread(target?: Channel) {
@@ -40,7 +38,7 @@ export function useUnreads(
                         message,
                     });
 
-                    ctx.client.req(
+                    client.req(
                         "PUT",
                         `/channels/${channel._id}/ack/${message}` as "/channels/id/ack/id",
                     );
@@ -50,9 +48,8 @@ export function useUnreads(
 
         checkUnread(channel);
 
-        ctx.client.channels.addListener("mutation", checkUnread);
-        return () =>
-            ctx.client.channels.removeListener("mutation", checkUnread);
+        client.channels.addListener("mutation", checkUnread);
+        return () => client.channels.removeListener("mutation", checkUnread);
     }, [channel, unreads]);
 }
 

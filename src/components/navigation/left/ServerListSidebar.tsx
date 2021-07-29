@@ -17,7 +17,6 @@ import { Unreads } from "../../../redux/reducers/unreads";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
-import { useForceUpdate, useServers } from "../../../context/revoltjs/hooks";
 
 import logoSVG from "../../../assets/logo.svg";
 import ServerIcon from "../../common/ServerIcon";
@@ -180,8 +179,9 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
     const client = useClient();
     const self = store.users.get(client.user!._id);
 
-    const ctx = useForceUpdate();
-    const activeServers = useServers(undefined, ctx) as Servers.Server[];
+    const { server: server_id } = useParams<{ server?: string }>();
+    const server = server_id ? store.servers.get(server_id) : undefined;
+    const activeServers = [...store.servers.values()];
     const channels = [...store.channels.values()].map((x) =>
         mapChannelWithUnread(x, unreads),
     );
@@ -200,7 +200,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
         }
 
         return {
-            ...server,
+            server,
             unread: (typeof server.channels.find((x) =>
                 unreadChannels.includes(x),
             ) !== "undefined"
@@ -213,9 +213,6 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
     });
 
     const path = useLocation().pathname;
-    const { server: server_id } = useParams<{ server?: string }>();
-    const server = servers.find((x) => x!._id == server_id);
-
     const { openScreen } = useIntermediate();
 
     let homeUnread: "mention" | "unread" | undefined;
@@ -267,24 +264,29 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                 </ConditionalLink>
                 <LineDivider />
                 {servers.map((entry) => {
-                    const active = entry!._id === server?._id;
-                    const id = lastOpened[entry!._id];
+                    const active = entry.server._id === server?._id;
+                    const id = lastOpened[entry.server._id];
 
                     return (
                         <ConditionalLink
                             active={active}
-                            to={`/server/${entry!._id}${
+                            to={`/server/${entry.server._id}${
                                 id ? `/channel/${id}` : ""
                             }`}>
                             <ServerEntry
                                 active={active}
                                 onContextMenu={attachContextMenu("Menu", {
-                                    server: entry!._id,
+                                    server: entry.server._id,
                                 })}>
                                 <Swoosh />
-                                <Tooltip content={entry.name} placement="right">
+                                <Tooltip
+                                    content={entry.server.name}
+                                    placement="right">
                                     <Icon size={42} unread={entry.unread}>
-                                        <ServerIcon size={32} target={entry} />
+                                        <ServerIcon
+                                            size={32}
+                                            target={entry.server}
+                                        />
                                     </Icon>
                                 </Tooltip>
                             </ServerEntry>

@@ -77,20 +77,6 @@ function useObject(
         : map.toArray();
 }
 
-export function useServer(id?: string, context?: HookContext) {
-    if (typeof id === "undefined") return;
-    return useObject("servers", id, context) as
-        | Readonly<Servers.Server>
-        | undefined;
-}
-
-export function useServers(ids?: string[], context?: HookContext) {
-    return useObject("servers", ids, context) as (
-        | Readonly<Servers.Server>
-        | undefined
-    )[];
-}
-
 export function useMember(id?: string, context?: HookContext) {
     if (typeof id === "undefined") return;
     return useObject("members", id, context) as

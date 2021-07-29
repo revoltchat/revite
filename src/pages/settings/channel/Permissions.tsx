@@ -5,9 +5,9 @@ import { ChannelPermission } from "revolt.js/dist/api/permissions";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { Channel } from "../../../mobx";
+import { useData } from "../../../mobx/State";
 
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { useServer } from "../../../context/revoltjs/hooks";
 
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
@@ -31,11 +31,12 @@ interface Props {
 export default observer(({ channel }: Props) => {
     const [selected, setSelected] = useState("default");
     const client = useContext(AppContext);
+    const store = useData();
 
     type R = { name: string; permissions: number };
     const roles: { [key: string]: R } = {};
     if (channel.channel_type !== "Group") {
-        const server = useServer(channel.server!);
+        const server = store.servers.get(channel.server!);
         const a = server?.roles ?? {};
         for (const b of Object.keys(a)) {
             roles[b] = {
