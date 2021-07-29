@@ -1,8 +1,11 @@
+import { observer } from "mobx-react-lite";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 
-import { useChannel, useForceUpdate } from "../../../context/revoltjs/hooks";
+import { useData } from "../../../mobx/State";
+
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../../context/revoltjs/util";
 
 const StartBase = styled.div`
@@ -24,17 +27,18 @@ interface Props {
     id: string;
 }
 
-export default function ConversationStart({ id }: Props) {
-    const ctx = useForceUpdate();
-    const channel = useChannel(id, ctx);
+export default observer(({ id }: Props) => {
+    const store = useData();
+    const client = useClient();
+    const channel = store.channels.get(id);
     if (!channel) return null;
 
     return (
         <StartBase>
-            <h1>{getChannelName(ctx.client, channel, true)}</h1>
+            <h1>{getChannelName(client, channel, true)}</h1>
             <h4>
                 <Text id="app.main.channel.start.group" />
             </h4>
         </StartBase>
     );
-}
+});

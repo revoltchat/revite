@@ -2,14 +2,13 @@ import { At, Hash, Menu } from "@styled-icons/boxicons-regular";
 import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { observable } from "mobx";
 import { observer } from "mobx-react-lite";
-import { Channel } from "revolt.js";
 import styled from "styled-components";
 
 import { useContext } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { User } from "../../mobx";
+import { Channel, User } from "../../mobx";
 import { useData } from "../../mobx/State";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
@@ -131,7 +130,7 @@ export default observer(({ channel, toggleSidebar }: ChannelHeaderProps) => {
                                 onClick={() =>
                                     openScreen({
                                         id: "channel_info",
-                                        channel_id: channel._id,
+                                        channel,
                                     })
                                 }>
                                 <Markdown

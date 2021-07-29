@@ -1,7 +1,6 @@
 import { Send, HappyAlt, ShieldX } from "@styled-icons/boxicons-solid";
 import { Styleshare } from "@styled-icons/simple-icons";
 import Axios, { CancelTokenSource } from "axios";
-import { Channel } from "revolt.js";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
 import styled from "styled-components";
 import { ulid } from "ulid";
@@ -20,6 +19,7 @@ import {
     SMOOTH_SCROLL_ON_RECEIVE,
 } from "../../../lib/renderer/Singleton";
 
+import { Channel } from "../../../mobx";
 import { dispatch, getState } from "../../../redux";
 import { Reply } from "../../../redux/reducers/queue";
 
@@ -360,7 +360,7 @@ export default function MessageBox({ channel }: Props) {
         users: { type: "channel", id: channel._id },
         channels:
             channel.channel_type === "TextChannel"
-                ? { server: channel.server }
+                ? { server: channel.server! }
                 : undefined,
     });
 

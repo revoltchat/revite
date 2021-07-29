@@ -13,7 +13,7 @@ import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
 
-import { User } from "../../mobx";
+import { Channel, User } from "../../mobx";
 
 import { Action } from "../../components/ui/Modal";
 
@@ -34,15 +34,15 @@ export type Screen =
           actions: Action[];
       }
     | ({ id: "special_prompt" } & (
-          | { type: "leave_group"; target: Channels.GroupChannel }
-          | { type: "close_dm"; target: Channels.DirectMessageChannel }
+          | { type: "leave_group"; target: Channel }
+          | { type: "close_dm"; target: Channel }
           | { type: "leave_server"; target: Servers.Server }
           | { type: "delete_server"; target: Servers.Server }
-          | { type: "delete_channel"; target: Channels.TextChannel }
+          | { type: "delete_channel"; target: Channel }
           | { type: "delete_message"; target: Channels.Message }
           | {
                 type: "create_invite";
-                target: Channels.TextChannel | Channels.GroupChannel;
+                target: Channel;
             }
           | { type: "kick_member"; target: Servers.Server; user: User }
           | { type: "ban_member"; target: Servers.Server; user: User }
@@ -83,7 +83,7 @@ export type Screen =
     | { id: "image_viewer"; attachment?: Attachment; embed?: EmbedImage }
     | { id: "modify_account"; field: "username" | "email" | "password" }
     | { id: "profile"; user_id: string }
-    | { id: "channel_info"; channel_id: string }
+    | { id: "channel_info"; channel: Channel }
     | { id: "pending_requests"; users: User[] }
     | {
           id: "user_picker";

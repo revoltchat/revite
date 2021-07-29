@@ -10,7 +10,7 @@ import { Localizer, Text } from "preact-i18n";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { stopPropagation } from "../../../lib/stopPropagation";
 
-import { User } from "../../../mobx";
+import { Channel, User } from "../../../mobx";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
@@ -34,8 +34,8 @@ type CommonProps = Omit<
 
 type UserProps = CommonProps & {
     user: User;
-    context?: Channels.Channel;
-    channel?: Channels.DirectMessageChannel;
+    context?: Channel;
+    channel?: Channel;
 };
 
 export const UserButton = observer((props: UserProps) => {
@@ -73,7 +73,7 @@ export const UserButton = observer((props: UserProps) => {
                 {
                     <div className={styles.subText}>
                         {channel?.last_message && alert ? (
-                            channel.last_message.short
+                            (channel.last_message as { short: string }).short
                         ) : (
                             <UserStatus user={user} />
                         )}
@@ -115,12 +115,12 @@ export const UserButton = observer((props: UserProps) => {
 });
 
 type ChannelProps = CommonProps & {
-    channel: Channels.Channel & { unread?: string };
+    channel: Channel & { unread?: string };
     user?: User;
     compact?: boolean;
 };
 
-export function ChannelButton(props: ChannelProps) {
+export const ChannelButton = observer((props: ChannelProps) => {
     const { active, alert, alertCount, channel, user, compact, ...divProps } =
         props;
 
@@ -153,12 +153,12 @@ export function ChannelButton(props: ChannelProps) {
                 {channel.channel_type === "Group" && (
                     <div className={styles.subText}>
                         {channel.last_message && alert ? (
-                            channel.last_message.short
+                            (channel.last_message as { short: string }).short
                         ) : (
                             <Text
                                 id="quantities.members"
-                                plural={channel.recipients.length}
-                                fields={{ count: channel.recipients.length }}
+                                plural={channel.recipients!.length}
+                                fields={{ count: channel.recipients!.length }}
                             />
                         )}
                     </div>
@@ -186,7 +186,7 @@ export function ChannelButton(props: ChannelProps) {
             </div>
         </div>
     );
-}
+});
 
 type ButtonProps = CommonProps & {
     onClick?: () => void;

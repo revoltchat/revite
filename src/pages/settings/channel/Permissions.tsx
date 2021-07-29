@@ -1,7 +1,10 @@
+import { observer } from "mobx-react-lite";
 import { Channels } from "revolt.js/dist/api/objects";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
 
 import { useContext, useEffect, useState } from "preact/hooks";
+
+import { Channel } from "../../../mobx";
 
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { useServer } from "../../../context/revoltjs/hooks";
@@ -21,21 +24,18 @@ const DEFAULT_PERMISSION_DM =
     ChannelPermission.UploadFiles;
 
 interface Props {
-    channel:
-        | Channels.GroupChannel
-        | Channels.TextChannel
-        | Channels.VoiceChannel;
+    channel: Channel;
 }
 
 // ! FIXME: bad code :)
-export default function Permissions({ channel }: Props) {
+export default observer(({ channel }: Props) => {
     const [selected, setSelected] = useState("default");
     const client = useContext(AppContext);
 
     type R = { name: string; permissions: number };
     const roles: { [key: string]: R } = {};
     if (channel.channel_type !== "Group") {
-        const server = useServer(channel.server);
+        const server = useServer(channel.server!);
         const a = server?.roles ?? {};
         for (const b of Object.keys(a)) {
             roles[b] = {
@@ -110,4 +110,4 @@ export default function Permissions({ channel }: Props) {
             </Button>
         </div>
     );
-}
+});

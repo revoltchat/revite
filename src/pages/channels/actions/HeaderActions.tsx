@@ -41,7 +41,7 @@ export default function HeaderActions({
                         onClick={() =>
                             openScreen({
                                 id: "user_picker",
-                                omit: channel.recipients,
+                                omit: channel.recipients!,
                                 callback: async (users) => {
                                     for (const user of users) {
                                         await client.channels.addMember(

@@ -73,7 +73,7 @@ export class User {
 
 export class Channel {
     _id: string;
-    type: Channels.Channel["channel_type"];
+    channel_type: Channels.Channel["channel_type"];
 
     // Direct Message
     active: Nullable<boolean> = null;
@@ -98,7 +98,7 @@ export class Channel {
 
     constructor(data: Channels.Channel) {
         this._id = data._id;
-        this.type = data.channel_type;
+        this.channel_type = data.channel_type;
 
         switch (data.channel_type) {
             case "DirectMessage": {

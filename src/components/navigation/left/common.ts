@@ -1,7 +1,6 @@
-import { Channel } from "revolt.js";
-
 import { useLayoutEffect } from "preact/hooks";
 
+import { Channel } from "../../../mobx";
 import { dispatch } from "../../../redux";
 import { Unreads } from "../../../redux/reducers/unreads";
 
@@ -63,12 +62,12 @@ export function mapChannelWithUnread(channel: Channel, unreads: Unreads) {
         channel.channel_type === "DirectMessage" ||
         channel.channel_type === "Group"
     ) {
-        last_message_id = channel.last_message?._id;
+        last_message_id = (channel.last_message as { _id: string })?._id;
     } else if (channel.channel_type === "TextChannel") {
-        last_message_id = channel.last_message;
+        last_message_id = channel.last_message as string;
     } else {
         return {
-            ...channel,
+            channel,
             unread: undefined,
             alertCount: undefined,
             timestamp: channel._id,
@@ -85,7 +84,7 @@ export function mapChannelWithUnread(channel: Channel, unreads: Unreads) {
                 unread = "mention";
             } else if (
                 u.last_id &&
-                last_message_id.localeCompare(u.last_id) > 0
+                (last_message_id as string).localeCompare(u.last_id) > 0
             ) {
                 unread = "unread";
             }
@@ -95,7 +94,7 @@ export function mapChannelWithUnread(channel: Channel, unreads: Unreads) {
     }
 
     return {
-        ...channel,
+        channel,
         timestamp: last_message_id ?? channel._id,
         unread,
         alertCount,

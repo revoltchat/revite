@@ -1,7 +1,9 @@
 import { Client } from "revolt.js";
-import { Channel, Message, User } from "revolt.js/dist/api/objects";
+import { Message } from "revolt.js/dist/api/objects";
 
 import { Text } from "preact-i18n";
+
+import { Channel } from "../../mobx";
 
 import { Children } from "../../types/Preact";
 

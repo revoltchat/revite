@@ -186,16 +186,18 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
 
     const ctx = useForceUpdate();
     const activeServers = useServers(undefined, ctx) as Servers.Server[];
-    const channels = (useChannels(undefined, ctx) as Channel[]).map((x) =>
+    const channels = [...store.channels.values()].map((x) =>
         mapChannelWithUnread(x, unreads),
     );
 
-    const unreadChannels = channels.filter((x) => x.unread).map((x) => x._id);
+    const unreadChannels = channels
+        .filter((x) => x.unread)
+        .map((x) => x.channel?._id);
 
     const servers = activeServers.map((server) => {
         let alertCount = 0;
         for (const id of server.channels) {
-            const channel = channels.find((x) => x._id === id);
+            const channel = channels.find((x) => x.channel?._id === id);
             if (channel?.alertCount) {
                 alertCount += channel.alertCount;
             }
@@ -224,8 +226,9 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
     let alertCount = 0;
     for (const x of channels) {
         if (
-            ((x.channel_type === "DirectMessage" && x.active) ||
-                x.channel_type === "Group") &&
+            (x.channel?.channel_type === "DirectMessage"
+                ? x.channel?.active
+                : true) &&
             x.unread
         ) {
             homeUnread = "unread";

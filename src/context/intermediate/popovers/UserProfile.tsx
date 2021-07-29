@@ -27,11 +27,7 @@ import {
     StatusContext,
     useClient,
 } from "../../revoltjs/RevoltClient";
-import {
-    useChannels,
-    useForceUpdate,
-    useUserPermission,
-} from "../../revoltjs/hooks";
+import { useForceUpdate, useUserPermission } from "../../revoltjs/hooks";
 import { useIntermediate } from "../Intermediate";
 
 interface Props {
@@ -65,7 +61,6 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
     const [tab, setTab] = useState("profile");
 
     const ctx = useForceUpdate();
-    const channels = useChannels(undefined, ctx);
     const permissions = useUserPermission(client.user!._id, ctx);
 
     const store = useData();
@@ -76,6 +71,12 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
 
     const user = store.users.get(user_id)!;
     const users = mutual?.users.map((id) => store.users.get(id));
+
+    const mutualGroups = [...store.channels.values()].filter(
+        (channel) =>
+            channel?.channel_type === "Group" &&
+            channel.recipients!.includes(user_id),
+    );
 
     useLayoutEffect(() => {
         if (!user_id) return;
@@ -110,12 +111,6 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
             }
         }
     }, [profile, status]);
-
-    const mutualGroups = channels.filter(
-        (channel) =>
-            channel?.channel_type === "Group" &&
-            channel.recipients.includes(user_id),
-    );
 
     const backgroundURL =
         profile &&

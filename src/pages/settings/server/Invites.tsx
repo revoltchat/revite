@@ -9,7 +9,6 @@ import { useEffect, useState } from "preact/hooks";
 import { useData } from "../../../mobx/State";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
-import { useChannels, useForceUpdate } from "../../../context/revoltjs/hooks";
 import { getChannelName } from "../../../context/revoltjs/util";
 
 import UserIcon from "../../../components/common/user/UserIcon";
@@ -26,14 +25,15 @@ export const Invites = observer(({ server }: Props) => {
         InvitesNS.ServerInvite[] | undefined
     >(undefined);
 
-    const ctx = useForceUpdate();
-    const channels = useChannels(invites?.map((x) => x.channel) ?? [], ctx);
-
     const store = useData();
+    const client = useClient();
     const users = invites?.map((invite) => store.users.get(invite.creator));
+    const channels = invites?.map((invite) =>
+        store.channels.get(invite.channel),
+    );
 
     useEffect(() => {
-        ctx.client.servers
+        client.servers
             .fetchInvites(server._id)
             .then((invites) => setInvites(invites));
     }, []);
@@ -57,7 +57,7 @@ export const Invites = observer(({ server }: Props) => {
             {typeof invites === "undefined" && <Preloader type="ring" />}
             {invites?.map((invite, index) => {
                 const creator = users![index];
-                const channel = channels.find((x) => x?._id === invite.channel);
+                const channel = channels![index];
 
                 return (
                     <div
@@ -72,14 +72,14 @@ export const Invites = observer(({ server }: Props) => {
                         </span>
                         <span>
                             {channel && creator
-                                ? getChannelName(ctx.client, channel, true)
+                                ? getChannelName(client, channel, true)
                                 : "#??"}
                         </span>
                         <IconButton
                             onClick={async () => {
                                 setDelete([...deleting, invite._id]);
 
-                                await ctx.client.deleteInvite(invite._id);
+                                await client.deleteInvite(invite._id);
 
                                 setInvites(
                                     invites?.filter(

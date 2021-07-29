@@ -8,6 +8,7 @@ import { ClientboundNotification } from "revolt.js/dist/websocket/notifications"
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { Channel } from "../../../mobx";
 import { useData } from "../../../mobx/State";
 import { getState } from "../../../redux";
 
@@ -17,11 +18,7 @@ import {
     ClientStatus,
     StatusContext,
 } from "../../../context/revoltjs/RevoltClient";
-import {
-    HookContext,
-    useChannel,
-    useForceUpdate,
-} from "../../../context/revoltjs/hooks";
+import { HookContext } from "../../../context/revoltjs/hooks";
 
 import CollapsibleSection from "../../common/CollapsibleSection";
 import Button from "../../ui/Button";
@@ -34,27 +31,19 @@ import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 import { UserButton } from "../items/ButtonItem";
 import { ChannelDebugInfo } from "./ChannelDebugInfo";
 
-interface Props {
-    ctx: HookContext;
-}
-
-export default function MemberSidebar(props: { channel?: Channels.Channel }) {
-    const ctx = useForceUpdate();
-    const { channel: cid } = useParams<{ channel: string }>();
-    const channel = props.channel ?? useChannel(cid, ctx);
-
+export default function MemberSidebar({ channel }: { channel?: Channel }) {
     switch (channel?.channel_type) {
         case "Group":
-            return <GroupMemberSidebar channel={channel} ctx={ctx} />;
+            return <GroupMemberSidebar channel={channel} />;
         case "TextChannel":
-            return <ServerMemberSidebar channel={channel} ctx={ctx} />;
+            return <ServerMemberSidebar channel={channel} />;
         default:
             return null;
     }
 }
 
 export const GroupMemberSidebar = observer(
-    ({ channel }: Props & { channel: Channels.GroupChannel }) => {
+    ({ channel }: { channel: Channel }) => {
         const { openScreen } = useIntermediate();
 
         const store = useData();
@@ -77,7 +66,7 @@ export const GroupMemberSidebar = observer(
         voiceParticipants.sort((a, b) => a.username.localeCompare(b.username));
     }*/
 
-        members.sort((a, b) => {
+        members?.sort((a, b) => {
             // ! FIXME: should probably rewrite all this code
             const l =
                 +(
@@ -141,21 +130,21 @@ export const GroupMemberSidebar = observer(
                                 text={
                                     <span>
                                         <Text id="app.main.categories.members" />{" "}
-                                        — {channel.recipients.length}
+                                        — {channel.recipients?.length ?? 0}
                                     </span>
                                 }
                             />
                         }>
-                        {members.length === 0 && (
+                        {members?.length === 0 && (
                             <img src={placeholderSVG} loading="eager" />
                         )}
-                        {members.map(
+                        {members?.map(
                             (user) =>
                                 user && (
                                     <UserButton
                                         key={user._id}
                                         user={user}
-                                        context={channel}
+                                        context={channel!}
                                         onClick={() =>
                                             openScreen({
                                                 id: "profile",
@@ -173,7 +162,7 @@ export const GroupMemberSidebar = observer(
 );
 
 export const ServerMemberSidebar = observer(
-    ({ channel }: Props & { channel: Channels.TextChannel }) => {
+    ({ channel }: { channel: Channel }) => {
         const [members, setMembers] = useState<Servers.Member[] | undefined>(
             undefined,
         );
@@ -193,7 +182,7 @@ export const ServerMemberSidebar = observer(
                 typeof members === "undefined"
             ) {
                 client.members
-                    .fetchMembers(channel.server)
+                    .fetchMembers(channel.server!)
                     .then((members) => setMembers(members));
             }
         }, [status]);

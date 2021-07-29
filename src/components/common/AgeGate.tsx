@@ -1,10 +1,11 @@
+import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { Channel } from "revolt.js";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
+import { Channel } from "../../mobx";
 import { dispatch, getState } from "../../redux";
 
 import Button from "../ui/Button";
@@ -46,7 +47,7 @@ type Props = {
     channel: Channel;
 };
 
-export default function AgeGate(props: Props) {
+export default observer((props: Props) => {
     const history = useHistory();
     const [consent, setConsent] = useState(
         getState().sectionToggle["nsfw"] ?? false,
@@ -105,4 +106,4 @@ export default function AgeGate(props: Props) {
             </div>
         </Base>
     );
-}
+});
