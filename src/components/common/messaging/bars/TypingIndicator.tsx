@@ -81,15 +81,15 @@ export const TypingIndicator = observer(({ typing }: Props) => {
         if (users.length >= 5) {
             text = <Text id="app.main.channel.typing.several" />;
         } else if (users.length > 1) {
-            const userlist = [...users].map((x) => <Username user={x} />);
+            const userlist = [...users].map((x) => x.username);
             const user = userlist.pop();
 
             for (let i = 0; i < userlist.length - 1; i++) {
-                userlist.splice(i * 2 + 1, 0, <>, </>);
+                userlist.splice(i * 2 + 1, 0, ", ");
             }
 
             text = (
-                <TextReact
+                <Text
                     id="app.main.channel.typing.multiple"
                     fields={{
                         user,
@@ -99,7 +99,7 @@ export const TypingIndicator = observer(({ typing }: Props) => {
             );
         } else {
             text = (
-                <TextReact
+                <Text
                     id="app.main.channel.typing.single"
                     fields={{ user: <Username user={users[0]} /> }}
                 />
