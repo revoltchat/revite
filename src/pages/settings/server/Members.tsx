@@ -1,11 +1,15 @@
 import { ChevronDown } from "@styled-icons/boxicons-regular";
 import { isEqual } from "lodash";
+import { observer } from "mobx-react-lite";
 import { Servers } from "revolt.js/dist/api/objects";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
+import { useData } from "../../../mobx/State";
+
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 import { useForceUpdate, useUsers } from "../../../context/revoltjs/hooks";
 
 import UserIcon from "../../../components/common/user/UserIcon";
@@ -18,17 +22,18 @@ interface Props {
     server: Servers.Server;
 }
 
-export function Members({ server }: Props) {
+export const Members = observer(({ server }: Props) => {
+    const [selected, setSelected] = useState<undefined | string>();
     const [members, setMembers] = useState<Servers.Member[] | undefined>(
         undefined,
     );
 
-    const ctx = useForceUpdate();
-    const [selected, setSelected] = useState<undefined | string>();
-    const users = useUsers(members?.map((x) => x._id.user) ?? [], ctx);
+    const store = useData();
+    const client = useClient();
+    const users = members?.map((member) => store.users.get(member._id.user));
 
     useEffect(() => {
-        ctx.client.members
+        client.members
             .fetchMembers(server._id)
             .then((members) => setMembers(members));
     }, []);
@@ -50,10 +55,10 @@ export function Members({ server }: Props) {
             {members &&
                 members.length > 0 &&
                 members
-                    .map((x) => {
+                    .map((member, index) => {
                         return {
-                            member: x,
-                            user: users.find((y) => y?._id === x._id.user),
+                            member,
+                            user: users![index],
                         };
                     })
                     .map(({ member, user }) => (
@@ -126,7 +131,7 @@ export function Members({ server }: Props) {
                                             roles,
                                         )}
                                         onClick={async () => {
-                                            await ctx.client.members.editMember(
+                                            await client.members.editMember(
                                                 server._id,
                                                 member._id.user,
                                                 {
@@ -154,4 +159,4 @@ export function Members({ server }: Props) {
                     ))}
         </div>
     );
-}
+});

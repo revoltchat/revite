@@ -2,7 +2,7 @@ import styles from "./Panes.module.scss";
 import { Localizer, Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import { useSelf } from "../../../context/revoltjs/hooks";
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Button from "../../../components/ui/Button";
 import InputBox from "../../../components/ui/InputBox";
@@ -10,7 +10,7 @@ import Radio from "../../../components/ui/Radio";
 import TextArea from "../../../components/ui/TextArea";
 
 export function Feedback() {
-    const user = useSelf();
+    const client = useClient();
     const [other, setOther] = useState("");
     const [description, setDescription] = useState("");
     const [state, setState] = useState<"ready" | "sending" | "sent">("ready");
@@ -28,7 +28,7 @@ export function Feedback() {
                 checked,
                 other,
                 description,
-                name: user?.username ?? "Unknown User",
+                name: client.user!.username,
             }),
             mode: "no-cors",
         });

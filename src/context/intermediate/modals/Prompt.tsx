@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
 import { ulid } from "ulid";
@@ -7,6 +8,9 @@ import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { TextReact } from "../../../lib/i18n";
+
+import { User } from "../../../mobx";
+import { useData } from "../../../mobx/State";
 
 import Message from "../../../components/common/messaging/Message";
 import UserIcon from "../../../components/common/user/UserIcon";
@@ -61,14 +65,14 @@ type SpecialProps = { onClose: () => void } & (
           type: "create_invite";
           target: Channels.TextChannel | Channels.GroupChannel;
       }
-    | { type: "kick_member"; target: Servers.Server; user: string }
-    | { type: "ban_member"; target: Servers.Server; user: string }
-    | { type: "unfriend_user"; target: Users.User }
-    | { type: "block_user"; target: Users.User }
+    | { type: "kick_member"; target: Servers.Server; user: User }
+    | { type: "ban_member"; target: Servers.Server; user: User }
+    | { type: "unfriend_user"; target: User }
+    | { type: "block_user"; target: User }
     | { type: "create_channel"; target: Servers.Server }
 );
 
-export function SpecialPromptModal(props: SpecialProps) {
+export const SpecialPromptModal = observer((props: SpecialProps) => {
     const client = useContext(AppContext);
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<undefined | string>(undefined);
@@ -286,8 +290,6 @@ export function SpecialPromptModal(props: SpecialProps) {
             );
         }
         case "kick_member": {
-            const user = client.users.get(props.user);
-
             return (
                 <PromptModal
                     onClose={onClose}
@@ -306,7 +308,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                                 try {
                                     await client.members.kickMember(
                                         props.target._id,
-                                        props.user,
+                                        props.user._id,
                                     );
                                     onClose();
                                 } catch (err) {
@@ -324,10 +326,10 @@ export function SpecialPromptModal(props: SpecialProps) {
                     ]}
                     content={
                         <div className={styles.column}>
-                            <UserIcon target={user} size={64} />
+                            <UserIcon target={props.user} size={64} />
                             <Text
                                 id="app.special.modals.prompt.confirm_kick"
-                                fields={{ name: user?.username }}
+                                fields={{ name: props.user?.username }}
                             />
                         </div>
                     }
@@ -338,7 +340,6 @@ export function SpecialPromptModal(props: SpecialProps) {
         }
         case "ban_member": {
             const [reason, setReason] = useState<string | undefined>(undefined);
-            const user = client.users.get(props.user);
 
             return (
                 <PromptModal
@@ -358,7 +359,7 @@ export function SpecialPromptModal(props: SpecialProps) {
                                 try {
                                     await client.servers.banUser(
                                         props.target._id,
-                                        props.user,
+                                        props.user._id,
                                         { reason },
                                     );
                                     onClose();
@@ -377,10 +378,10 @@ export function SpecialPromptModal(props: SpecialProps) {
                     ]}
                     content={
                         <div className={styles.column}>
-                            <UserIcon target={user} size={64} />
+                            <UserIcon target={props.user} size={64} />
                             <Text
                                 id="app.special.modals.prompt.confirm_ban"
-                                fields={{ name: user?.username }}
+                                fields={{ name: props.user?.username }}
                             />
                             <Overline>
                                 <Text id="app.special.modals.prompt.confirm_ban_reason" />
@@ -477,4 +478,4 @@ export function SpecialPromptModal(props: SpecialProps) {
         default:
             return null;
     }
-}
+});

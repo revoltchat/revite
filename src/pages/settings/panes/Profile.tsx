@@ -11,8 +11,8 @@ import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import {
     ClientStatus,
     StatusContext,
+    useClient,
 } from "../../../context/revoltjs/RevoltClient";
-import { useForceUpdate, useSelf } from "../../../context/revoltjs/hooks";
 
 import AutoComplete, {
     useAutoComplete,
@@ -23,9 +23,7 @@ export function Profile() {
     const { intl } = useContext(IntlContext);
     const status = useContext(StatusContext);
 
-    const ctx = useForceUpdate();
-    const user = useSelf();
-    if (!user) return null;
+    const client = useClient();
 
     const [profile, setProfile] = useState<undefined | Users.Profile>(
         undefined,
@@ -34,8 +32,8 @@ export function Profile() {
     // ! FIXME: temporary solution
     // ! we should just announce profile changes through WS
     function refreshProfile() {
-        ctx.client.users
-            .fetchProfile(user!._id)
+        client.users
+            .fetchProfile(client.user!._id)
             .then((profile) => setProfile(profile ?? {}));
     }
 
@@ -69,7 +67,7 @@ export function Profile() {
             </h3>
             <div className={styles.preview}>
                 <UserProfile
-                    user_id={user._id}
+                    user_id={client.user!._id}
                     dummy={true}
                     dummyProfile={profile}
                     onClose={() => {}}
@@ -87,19 +85,17 @@ export function Profile() {
                         fileType="avatars"
                         behaviour="upload"
                         maxFileSize={4_000_000}
-                        onUpload={(avatar) =>
-                            ctx.client.users.editUser({ avatar })
-                        }
+                        onUpload={(avatar) => client.users.editUser({ avatar })}
                         remove={() =>
-                            ctx.client.users.editUser({ remove: "Avatar" })
+                            client.users.editUser({ remove: "Avatar" })
                         }
-                        defaultPreview={ctx.client.users.getAvatarURL(
-                            user._id,
+                        defaultPreview={client.users.getAvatarURL(
+                            client.user!._id,
                             { max_side: 256 },
                             true,
                         )}
-                        previewURL={ctx.client.users.getAvatarURL(
-                            user._id,
+                        previewURL={client.users.getAvatarURL(
+                            client.user!._id,
                             { max_side: 256 },
                             true,
                             true,
@@ -117,20 +113,20 @@ export function Profile() {
                         fileType="backgrounds"
                         maxFileSize={6_000_000}
                         onUpload={async (background) => {
-                            await ctx.client.users.editUser({
+                            await client.users.editUser({
                                 profile: { background },
                             });
                             refreshProfile();
                         }}
                         remove={async () => {
-                            await ctx.client.users.editUser({
+                            await client.users.editUser({
                                 remove: "ProfileBackground",
                             });
                             setProfile({ ...profile, background: undefined });
                         }}
                         previewURL={
                             profile?.background
-                                ? ctx.client.users.getBackgroundURL(
+                                ? client.users.getBackgroundURL(
                                       profile,
                                       { width: 1000 },
                                       true,
@@ -173,7 +169,7 @@ export function Profile() {
                     contrast
                     onClick={() => {
                         setChanged(false);
-                        ctx.client.users.editUser({
+                        client.users.editUser({
                             profile: { content: profile?.content },
                         });
                     }}

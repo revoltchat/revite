@@ -4,7 +4,8 @@ import {
     ListPlus,
 } from "@styled-icons/boxicons-regular";
 import { UserDetail, MessageAdd, UserPlus } from "@styled-icons/boxicons-solid";
-import { User, Users } from "revolt.js/dist/api/objects";
+import { observer } from "mobx-react-lite";
+import { Users } from "revolt.js/dist/api/objects";
 
 import styles from "./Friend.module.scss";
 import { Text } from "preact-i18n";
@@ -12,30 +13,30 @@ import { Text } from "preact-i18n";
 import { TextReact } from "../../lib/i18n";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
+import { User } from "../../mobx";
+import { useData } from "../../mobx/State";
+
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-import { useUsers } from "../../context/revoltjs/hooks";
 
 import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
 import UserIcon from "../../components/common/user/UserIcon";
-import Details from "../../components/ui/Details";
 import Header from "../../components/ui/Header";
 import IconButton from "../../components/ui/IconButton";
-import Overline from "../../components/ui/Overline";
 
 import { Children } from "../../types/Preact";
 import { Friend } from "./Friend";
 
-export default function Friends() {
+export default observer(() => {
     const { openScreen } = useIntermediate();
 
-    const users = useUsers() as User[];
+    const store = useData();
+    const users = [...store.users.values()];
     users.sort((a, b) => a.username.localeCompare(b.username));
 
     const friends = users.filter(
         (x) => x.relationship === Users.Relationship.Friend,
     );
-
     const lists = [
         [
             "",
@@ -138,7 +139,7 @@ export default function Friends() {
                         onClick={() =>
                             openScreen({
                                 id: "pending_requests",
-                                users: incoming.map((x) => x._id),
+                                users: incoming,
                             })
                         }>
                         <div className={styles.avatars}>
@@ -216,4 +217,4 @@ export default function Friends() {
             </div>
         </>
     );
-}
+});

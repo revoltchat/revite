@@ -13,6 +13,8 @@ import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
 
+import { User } from "../../mobx";
+
 import { Action } from "../../components/ui/Modal";
 
 import { Children } from "../../types/Preact";
@@ -42,10 +44,10 @@ export type Screen =
                 type: "create_invite";
                 target: Channels.TextChannel | Channels.GroupChannel;
             }
-          | { type: "kick_member"; target: Servers.Server; user: string }
-          | { type: "ban_member"; target: Servers.Server; user: string }
-          | { type: "unfriend_user"; target: Users.User }
-          | { type: "block_user"; target: Users.User }
+          | { type: "kick_member"; target: Servers.Server; user: User }
+          | { type: "ban_member"; target: Servers.Server; user: User }
+          | { type: "unfriend_user"; target: User }
+          | { type: "block_user"; target: User }
           | { type: "create_channel"; target: Servers.Server }
       ))
     | ({ id: "special_input" } & (
@@ -82,7 +84,7 @@ export type Screen =
     | { id: "modify_account"; field: "username" | "email" | "password" }
     | { id: "profile"; user_id: string }
     | { id: "channel_info"; channel_id: string }
-    | { id: "pending_requests"; users: string[] }
+    | { id: "pending_requests"; users: User[] }
     | {
           id: "user_picker";
           omit?: string[];

@@ -1,6 +1,7 @@
 import { X, Plus } from "@styled-icons/boxicons-regular";
 import { PhoneCall, Envelope, UserX } from "@styled-icons/boxicons-solid";
-import { User, Users } from "revolt.js/dist/api/objects";
+import { observer } from "mobx-react-lite";
+import { Users } from "revolt.js/dist/api/objects";
 
 import styles from "./Friend.module.scss";
 import classNames from "classnames";
@@ -9,6 +10,8 @@ import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
 import { stopPropagation } from "../../lib/stopPropagation";
+
+import { User } from "../../mobx";
 
 import { VoiceOperationsContext } from "../../context/Voice";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
@@ -27,7 +30,7 @@ interface Props {
     user: User;
 }
 
-export function Friend({ user }: Props) {
+export const Friend = observer(({ user }: Props) => {
     const client = useContext(AppContext);
     const { openScreen } = useIntermediate();
     const { openDM } = useContext(OperationsContext);
@@ -133,4 +136,4 @@ export function Friend({ user }: Props) {
             <div className={styles.actions}>{actions}</div>
         </div>
     );
-}
+});

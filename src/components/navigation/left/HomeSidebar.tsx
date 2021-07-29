@@ -4,6 +4,7 @@ import {
     Wrench,
     Notepad,
 } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { Link, Redirect, useLocation, useParams } from "react-router-dom";
 import { Channels } from "revolt.js/dist/api/objects";
 import { Users as UsersNS } from "revolt.js/dist/api/objects";
@@ -15,6 +16,7 @@ import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
+import { useData } from "../../../mobx/State";
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import { Unreads } from "../../../redux/reducers/unreads";
@@ -39,7 +41,7 @@ type Props = {
     unreads: Unreads;
 };
 
-function HomeSidebar(props: Props) {
+const HomeSidebar = observer((props: Props) => {
     const { pathname } = useLocation();
     const client = useContext(AppContext);
     const { channel } = useParams<{ channel: string }>();
@@ -66,7 +68,7 @@ function HomeSidebar(props: Props) {
         .filter((x) => x.channel_type !== "SavedMessages")
         .map((x) => mapChannelWithUnread(x, props.unreads));
 
-    const users = useUsers(undefined, ctx);
+    const store = useData();
     channelsArr.sort((b, a) => a.timestamp.localeCompare(b.timestamp));
 
     return (
@@ -89,7 +91,7 @@ function HomeSidebar(props: Props) {
                             <ButtonItem
                                 active={pathname === "/friends"}
                                 alert={
-                                    typeof users.find(
+                                    typeof [...store.users.values()].find(
                                         (user) =>
                                             user?.relationship ===
                                             UsersNS.Relationship.Incoming,
@@ -143,7 +145,7 @@ function HomeSidebar(props: Props) {
                         if (!x.active) return null;
 
                         const recipient = client.channels.getRecipient(x._id);
-                        user = users.find((x) => x?._id === recipient);
+                        user = store.users.get(recipient);
 
                         if (!user) {
                             console.warn(
@@ -171,7 +173,7 @@ function HomeSidebar(props: Props) {
             </GenericSidebarList>
         </GenericSidebarBase>
     );
-}
+});
 
 export default connectState(
     HomeSidebar,

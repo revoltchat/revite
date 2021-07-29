@@ -1,4 +1,5 @@
 import { Plus } from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
 import { useLocation, useParams } from "react-router-dom";
 import { Channel, Servers, Users } from "revolt.js/dist/api/objects";
 import styled, { css } from "styled-components";
@@ -9,17 +10,17 @@ import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
+import { useData } from "../../../mobx/State";
 import { connectState } from "../../../redux/connector";
 import { LastOpened } from "../../../redux/reducers/last_opened";
 import { Unreads } from "../../../redux/reducers/unreads";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 import {
     useChannels,
     useForceUpdate,
-    useSelf,
     useServers,
-    useUsers,
 } from "../../../context/revoltjs/hooks";
 
 import logoSVG from "../../../assets/logo.svg";
@@ -178,14 +179,16 @@ interface Props {
     lastOpened: LastOpened;
 }
 
-export function ServerListSidebar({ unreads, lastOpened }: Props) {
+export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
+    const store = useData();
+    const client = useClient();
+    const self = store.users.get(client.user!._id);
+
     const ctx = useForceUpdate();
-    const self = useSelf(ctx);
     const activeServers = useServers(undefined, ctx) as Servers.Server[];
     const channels = (useChannels(undefined, ctx) as Channel[]).map((x) =>
         mapChannelWithUnread(x, unreads),
     );
-    const users = useUsers(undefined, ctx);
 
     const unreadChannels = channels.filter((x) => x.unread).map((x) => x._id);
 
@@ -230,7 +233,11 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
         }
     }
 
-    if (users.find((x) => x?.relationship === Users.Relationship.Incoming)) {
+    if (
+        [...store.users.values()].find(
+            (x) => x.relationship === Users.Relationship.Incoming,
+        )
+    ) {
         alertCount++;
     }
 
@@ -298,7 +305,7 @@ export function ServerListSidebar({ unreads, lastOpened }: Props) {
             </ServerList>
         </ServersBase>
     );
-}
+});
 
 export default connectState(ServerListSidebar, (state) => {
     return {

@@ -34,6 +34,8 @@ import {
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
+import { User } from "../mobx";
+import { useData } from "../mobx/State";
 import { dispatch } from "../redux";
 import { connectState } from "../redux/connector";
 import {
@@ -48,6 +50,7 @@ import {
     AppContext,
     ClientStatus,
     StatusContext,
+    useClient,
 } from "../context/revoltjs/RevoltClient";
 import {
     useChannel,
@@ -55,7 +58,6 @@ import {
     useForceUpdate,
     useServer,
     useServerPermission,
-    useUser,
     useUserPermission,
 } from "../context/revoltjs/hooks";
 import { takeError } from "../context/revoltjs/util";
@@ -97,16 +99,16 @@ type Action =
     | { action: "copy_file_link"; attachment: Attachment }
     | { action: "open_link"; link: string }
     | { action: "copy_link"; link: string }
-    | { action: "remove_member"; channel: string; user: string }
-    | { action: "kick_member"; target: Servers.Server; user: string }
-    | { action: "ban_member"; target: Servers.Server; user: string }
-    | { action: "view_profile"; user: string }
-    | { action: "message_user"; user: string }
-    | { action: "block_user"; user: Users.User }
-    | { action: "unblock_user"; user: Users.User }
-    | { action: "add_friend"; user: Users.User }
-    | { action: "remove_friend"; user: Users.User }
-    | { action: "cancel_friend"; user: Users.User }
+    | { action: "remove_member"; channel: string; user: User }
+    | { action: "kick_member"; target: Servers.Server; user: User }
+    | { action: "ban_member"; target: Servers.Server; user: User }
+    | { action: "view_profile"; user: User }
+    | { action: "message_user"; user: User }
+    | { action: "block_user"; user: User }
+    | { action: "unblock_user"; user: User }
+    | { action: "add_friend"; user: User }
+    | { action: "remove_friend"; user: User }
+    | { action: "cancel_friend"; user: User }
     | { action: "set_presence"; presence: Users.Presence }
     | { action: "set_status" }
     | { action: "clear_status" }
@@ -141,6 +143,7 @@ type Props = {
     notifications: Notifications;
 };
 
+// ! FIXME: no observers here!
 function ContextMenus(props: Props) {
     const { openScreen, writeClipboard } = useIntermediate();
     const client = useContext(AppContext);
@@ -313,17 +316,22 @@ function ContextMenus(props: Props) {
 
                 case "remove_member":
                     {
-                        client.channels.removeMember(data.channel, data.user);
+                        client.channels.removeMember(
+                            data.channel,
+                            data.user._id,
+                        );
                     }
                     break;
 
                 case "view_profile":
-                    openScreen({ id: "profile", user_id: data.user });
+                    openScreen({ id: "profile", user_id: data.user._id });
                     break;
 
                 case "message_user":
                     {
-                        const channel = await client.users.openDM(data.user);
+                        const channel = await client.users.openDM(
+                            data.user._id,
+                        );
                         if (channel) {
                             history.push(`/channel/${channel._id}`);
                         }
@@ -458,6 +466,8 @@ function ContextMenus(props: Props) {
                     unread,
                     contextualChannel: cxid,
                 }: ContextMenuData) => {
+                    const store = useData();
+
                     const forceUpdate = useForceUpdate();
                     const elements: Children[] = [];
                     let lastDivider = false;
@@ -523,7 +533,7 @@ function ContextMenus(props: Props) {
                     const contextualChannel = useChannel(cxid, forceUpdate);
                     const targetChannel = channel ?? contextualChannel;
 
-                    const user = useUser(uid, forceUpdate);
+                    const user = uid ? store.users.get(uid) : undefined;
                     const serverChannel =
                         targetChannel &&
                         (targetChannel.channel_type === "TextChannel" ||
@@ -595,7 +605,7 @@ function ContextMenus(props: Props) {
                         if (userPermissions & UserPermission.ViewProfile) {
                             generateAction({
                                 action: "view_profile",
-                                user: user._id,
+                                user,
                             });
                         }
 
@@ -605,7 +615,7 @@ function ContextMenus(props: Props) {
                         ) {
                             generateAction({
                                 action: "message_user",
-                                user: user._id,
+                                user,
                             });
                         }
 
@@ -624,7 +634,7 @@ function ContextMenus(props: Props) {
                                 generateAction({
                                     action: "remove_member",
                                     channel: contextualChannel._id,
-                                    user: uid,
+                                    user: user!,
                                 });
                             }
                         }
@@ -641,14 +651,14 @@ function ContextMenus(props: Props) {
                                 generateAction({
                                     action: "kick_member",
                                     target: server,
-                                    user: uid,
+                                    user: user!,
                                 });
 
                             if (serverPermissions & ServerPermission.BanMembers)
                                 generateAction({
                                     action: "ban_member",
                                     target: server,
-                                    user: uid,
+                                    user: user!,
                                 });
                         }
                     }
@@ -873,89 +883,100 @@ function ContextMenus(props: Props) {
                 id="Status"
                 onClose={contextClick}
                 className="Status">
-                {() => (
-                    <>
-                        <div className="header">
-                            <div className="main">
-                                <div
-                                    className="username"
-                                    onClick={() =>
-                                        writeClipboard(client.user!.username)
-                                    }>
-                                    <Tooltip
-                                        content={
-                                            <Text id="app.special.copy_username" />
+                {() => {
+                    const store = useData();
+                    const user = store.users.get(client.user!._id)!;
+
+                    return (
+                        <>
+                            <div className="header">
+                                <div className="main">
+                                    <div
+                                        className="username"
+                                        onClick={() =>
+                                            writeClipboard(
+                                                client.user!.username,
+                                            )
                                         }>
-                                        @{client.user!.username}
-                                    </Tooltip>
+                                        <Tooltip
+                                            content={
+                                                <Text id="app.special.copy_username" />
+                                            }>
+                                            @{user.username}
+                                        </Tooltip>
+                                    </div>
+                                    <div
+                                        className="status"
+                                        onClick={() =>
+                                            contextClick({
+                                                action: "set_status",
+                                            })
+                                        }>
+                                        <UserStatus user={user} />
+                                    </div>
                                 </div>
-                                <div
-                                    className="status"
-                                    onClick={() =>
-                                        contextClick({ action: "set_status" })
-                                    }>
-                                    <UserStatus user={client.user!} />
-                                </div>
-                            </div>
-                            <IconButton>
-                                <MenuItem data={{ action: "open_settings" }}>
-                                    <Cog size={22} />
-                                </MenuItem>
-                            </IconButton>
-                        </div>
-                        <LineDivider />
-                        <MenuItem
-                            data={{
-                                action: "set_presence",
-                                presence: Users.Presence.Online,
-                            }}
-                            disabled={!isOnline}>
-                            <div className="indicator online" />
-                            <Text id={`app.status.online`} />
-                        </MenuItem>
-                        <MenuItem
-                            data={{
-                                action: "set_presence",
-                                presence: Users.Presence.Idle,
-                            }}
-                            disabled={!isOnline}>
-                            <div className="indicator idle" />
-                            <Text id={`app.status.idle`} />
-                        </MenuItem>
-                        <MenuItem
-                            data={{
-                                action: "set_presence",
-                                presence: Users.Presence.Busy,
-                            }}
-                            disabled={!isOnline}>
-                            <div className="indicator busy" />
-                            <Text id={`app.status.busy`} />
-                        </MenuItem>
-                        <MenuItem
-                            data={{
-                                action: "set_presence",
-                                presence: Users.Presence.Invisible,
-                            }}
-                            disabled={!isOnline}>
-                            <div className="indicator invisible" />
-                            <Text id={`app.status.invisible`} />
-                        </MenuItem>
-                        <LineDivider />
-                        <MenuItem
-                            data={{ action: "set_status" }}
-                            disabled={!isOnline}>
-                            <UserVoice size={18} />
-                            <Text id={`app.context_menu.custom_status`} />
-                            {client.user!.status?.text && (
                                 <IconButton>
-                                    <MenuItem data={{ action: "clear_status" }}>
-                                        <Trash size={18} />
+                                    <MenuItem
+                                        data={{ action: "open_settings" }}>
+                                        <Cog size={22} />
                                     </MenuItem>
                                 </IconButton>
-                            )}
-                        </MenuItem>
-                    </>
-                )}
+                            </div>
+                            <LineDivider />
+                            <MenuItem
+                                data={{
+                                    action: "set_presence",
+                                    presence: Users.Presence.Online,
+                                }}
+                                disabled={!isOnline}>
+                                <div className="indicator online" />
+                                <Text id={`app.status.online`} />
+                            </MenuItem>
+                            <MenuItem
+                                data={{
+                                    action: "set_presence",
+                                    presence: Users.Presence.Idle,
+                                }}
+                                disabled={!isOnline}>
+                                <div className="indicator idle" />
+                                <Text id={`app.status.idle`} />
+                            </MenuItem>
+                            <MenuItem
+                                data={{
+                                    action: "set_presence",
+                                    presence: Users.Presence.Busy,
+                                }}
+                                disabled={!isOnline}>
+                                <div className="indicator busy" />
+                                <Text id={`app.status.busy`} />
+                            </MenuItem>
+                            <MenuItem
+                                data={{
+                                    action: "set_presence",
+                                    presence: Users.Presence.Invisible,
+                                }}
+                                disabled={!isOnline}>
+                                <div className="indicator invisible" />
+                                <Text id={`app.status.invisible`} />
+                            </MenuItem>
+                            <LineDivider />
+                            <MenuItem
+                                data={{ action: "set_status" }}
+                                disabled={!isOnline}>
+                                <UserVoice size={18} />
+                                <Text id={`app.context_menu.custom_status`} />
+                                {client.user!.status?.text && (
+                                    <IconButton>
+                                        <MenuItem
+                                            data={{ action: "clear_status" }}>
+                                            <Trash size={18} />
+                                        </MenuItem>
+                                    </IconButton>
+                                )}
+                            </MenuItem>
+                        </>
+                    );
+                }}
             </ContextMenuWithData>
             <ContextMenuWithData
                 id="NotificationOptions"

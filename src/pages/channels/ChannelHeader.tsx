@@ -1,14 +1,18 @@
 import { At, Hash, Menu } from "@styled-icons/boxicons-regular";
 import { Notepad, Group } from "@styled-icons/boxicons-solid";
-import { Channel, User } from "revolt.js";
+import { observable } from "mobx";
+import { Channel } from "revolt.js";
 import styled from "styled-components";
 
 import { useContext } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
+import { User } from "../../mobx";
+import { useData } from "../../mobx/State";
+
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-import { AppContext } from "../../context/revoltjs/RevoltClient";
+import { AppContext, useClient } from "../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../context/revoltjs/util";
 
 import { useStatusColour } from "../../components/common/user/UserIcon";
@@ -65,15 +69,13 @@ const Info = styled.div`
     }
 `;
 
-export default function ChannelHeader({
-    channel,
-    toggleSidebar,
-}: ChannelHeaderProps) {
+export default observable(({ channel, toggleSidebar }: ChannelHeaderProps) => {
     const { openScreen } = useIntermediate();
-    const client = useContext(AppContext);
+    const client = useClient();
+    const state = useData();
 
     const name = getChannelName(client, channel);
-    let icon, recipient;
+    let icon, recipient: User | undefined;
     switch (channel.channel_type) {
         case "SavedMessages":
             icon = <Notepad size={24} />;
@@ -81,7 +83,7 @@ export default function ChannelHeader({
         case "DirectMessage":
             icon = <At size={24} />;
             const uid = client.channels.getRecipient(channel._id);
-            recipient = client.users.get(uid);
+            recipient = state.users.get(uid);
             break;
         case "Group":
             icon = <Group size={24} />;
@@ -109,12 +111,11 @@ export default function ChannelHeader({
                                 <div
                                     className="status"
                                     style={{
-                                        backgroundColor: useStatusColour(
-                                            recipient as User,
-                                        ),
+                                        backgroundColor:
+                                            useStatusColour(recipient),
                                     }}
                                 />
-                                <UserStatus user={recipient as User} />
+                                <UserStatus user={recipient} />
                             </span>
                         </>
                     )}
@@ -145,4 +146,4 @@ export default function ChannelHeader({
             <HeaderActions channel={channel} toggleSidebar={toggleSidebar} />
         </Header>
     );
-}
+});
