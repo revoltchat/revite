@@ -1,6 +1,9 @@
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
+import { Channel } from "revolt.js/dist/maps/Channels";
+import { Message as MessageI } from "revolt.js/dist/maps/Messages";
+import { Server } from "revolt.js/dist/maps/Servers";
+import { User } from "revolt.js/dist/maps/Users";
 import { ulid } from "ulid";
 
 import styles from "./Prompt.module.scss";
@@ -8,9 +11,6 @@ import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { TextReact } from "../../../lib/i18n";
-
-import { Channel, Server, User } from "../../../mobx";
-import { useData } from "../../../mobx/State";
 
 import Message from "../../../components/common/messaging/Message";
 import UserIcon from "../../../components/common/user/UserIcon";
@@ -21,7 +21,7 @@ import Radio from "../../../components/ui/Radio";
 
 import { Children } from "../../../types/Preact";
 import { AppContext } from "../../revoltjs/RevoltClient";
-import { mapMessage, takeError } from "../../revoltjs/util";
+import { takeError } from "../../revoltjs/util";
 import { useIntermediate } from "../Intermediate";
 
 interface Props {
@@ -60,7 +60,7 @@ type SpecialProps = { onClose: () => void } & (
     | { type: "leave_server"; target: Server }
     | { type: "delete_server"; target: Server }
     | { type: "delete_channel"; target: Channel }
-    | { type: "delete_message"; target: Channels.Message }
+    | { type: "delete_message"; target: MessageI }
     | {
           type: "create_invite";
           target: Channel;
@@ -104,9 +104,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     name = props.target.username;
                     break;
                 case "close_dm":
-                    name = client.users.get(
-                        client.channels.getRecipient(props.target._id),
-                    )?.username;
+                    name = props.target.recipient?.username;
                     break;
                 default:
                     name = props.target.name;
@@ -137,27 +135,19 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                 try {
                                     switch (props.type) {
                                         case "unfriend_user":
-                                            await client.users.removeFriend(
-                                                props.target._id,
-                                            );
+                                            await props.target.removeFriend();
                                             break;
                                         case "block_user":
-                                            await client.users.blockUser(
-                                                props.target._id,
-                                            );
+                                            await props.target.blockUser();
                                             break;
                                         case "leave_group":
                                         case "close_dm":
                                         case "delete_channel":
-                                            await client.channels.delete(
-                                                props.target._id,
-                                            );
+                                            props.target.delete();
                                             break;
                                         case "leave_server":
                                         case "delete_server":
-                                            await client.servers.delete(
-                                                props.target._id,
-                                            );
+                                            props.target.delete();
                                             break;
                                     }
 
@@ -203,11 +193,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                 setProcessing(true);
 
                                 try {
-                                    await client.channels.deleteMessage(
-                                        props.target.channel,
-                                        props.target._id,
-                                    );
-
+                                    props.target.deleteMessage();
                                     onClose();
                                 } catch (err) {
                                     setError(takeError(err));
@@ -229,7 +215,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                 id={`app.special.modals.prompt.confirm_delete_message_long`}
                             />
                             <Message
-                                message={mapMessage(props.target)}
+                                message={props.target}
                                 head={true}
                                 contrast
                             />
@@ -247,8 +233,8 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
             useEffect(() => {
                 setProcessing(true);
 
-                client.channels
-                    .createInvite(props.target._id)
+                props.target
+                    .createInvite()
                     .then((code) => setCode(code))
                     .catch((err) => setError(takeError(err)))
                     .finally(() => setProcessing(false));
@@ -306,10 +292,13 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                 setProcessing(true);
 
                                 try {
-                                    await client.members.kickMember(
-                                        props.target._id,
-                                        props.user._id,
-                                    );
+                                    client.members
+                                        .get({
+                                            server: props.target._id,
+                                            user: props.user._id,
+                                        })
+                                        ?.kick();
+
                                     onClose();
                                 } catch (err) {
                                     setError(takeError(err));
@@ -357,11 +346,9 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                 setProcessing(true);
 
                                 try {
-                                    await client.servers.banUser(
-                                        props.target._id,
-                                        props.user._id,
-                                        { reason },
-                                    );
+                                    await props.target.banUser(props.user._id, {
+                                        reason,
+                                    });
                                     onClose();
                                 } catch (err) {
                                     setError(takeError(err));
@@ -420,14 +407,11 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
 
                                 try {
                                     const channel =
-                                        await client.servers.createChannel(
-                                            props.target._id,
-                                            {
-                                                type,
-                                                name,
-                                                nonce: ulid(),
-                                            },
-                                        );
+                                        await props.target.createChannel({
+                                            type,
+                                            name,
+                                            nonce: ulid(),
+                                        });
 
                                     history.push(
                                         `/server/${props.target._id}/channel/${channel._id}`,

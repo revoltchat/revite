@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Attachment } from "revolt.js/dist/api/objects";
+import { Attachment } from "revolt-api/types/Autumn";
 
 import styles from "./Attachment.module.scss";
 import { useContext, useEffect, useState } from "preact/hooks";

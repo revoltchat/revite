@@ -1,4 +1,4 @@
-import { Attachment } from "revolt.js/dist/api/objects";
+import { Attachment } from "revolt-api/types/Autumn";
 import styled, { css } from "styled-components";
 
 export interface IconBaseProps<T> {

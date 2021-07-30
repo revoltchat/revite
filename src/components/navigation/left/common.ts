@@ -1,11 +1,12 @@
+import { autorun } from "mobx";
+import { Channel } from "revolt.js/dist/maps/Channels";
+
 import { useLayoutEffect } from "preact/hooks";
 
-import { Channel } from "../../../mobx";
 import { dispatch } from "../../../redux";
 import { Unreads } from "../../../redux/reducers/unreads";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
-import { HookContext, useForceUpdate } from "../../../context/revoltjs/hooks";
 
 type UnreadProps = {
     channel: Channel;
@@ -16,7 +17,10 @@ export function useUnreads({ channel, unreads }: UnreadProps) {
     const client = useClient();
 
     useLayoutEffect(() => {
-        function checkUnread(target?: Channel) {
+        function checkUnread(
+            target: Channel,
+            last_message: Channel["last_message"],
+        ) {
             if (!target) return;
             if (target._id !== channel._id) return;
             if (
@@ -46,10 +50,7 @@ export function useUnreads({ channel, unreads }: UnreadProps) {
             }
         }
 
-        checkUnread(channel);
-
-        client.channels.addListener("mutation", checkUnread);
-        return () => client.channels.removeListener("mutation", checkUnread);
+        return autorun(() => checkUnread(channel!, channel!.last_message));
     }, [channel, unreads]);
 }
 

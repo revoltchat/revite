@@ -1,7 +1,7 @@
-import { Send, HappyAlt, ShieldX } from "@styled-icons/boxicons-solid";
-import { Styleshare } from "@styled-icons/simple-icons";
+import { Send, ShieldX } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
+import { Channel } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 import { ulid } from "ulid";
 
@@ -19,7 +19,6 @@ import {
     SMOOTH_SCROLL_ON_RECEIVE,
 } from "../../../lib/renderer/Singleton";
 
-import { Channel } from "../../../mobx";
 import { dispatch, getState } from "../../../redux";
 import { Reply } from "../../../redux/reducers/queue";
 
@@ -31,7 +30,6 @@ import {
     uploadFile,
 } from "../../../context/revoltjs/FileUploads";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { useChannelPermission } from "../../../context/revoltjs/hooks";
 import { takeError } from "../../../context/revoltjs/util";
 
 import IconButton from "../../ui/IconButton";
@@ -123,8 +121,7 @@ export default function MessageBox({ channel }: Props) {
     const client = useContext(AppContext);
     const translate = useTranslation();
 
-    const permissions = useChannelPermission(channel._id);
-    if (!(permissions & ChannelPermission.SendMessage)) {
+    if (!(channel.permission & ChannelPermission.SendMessage)) {
         return (
             <Base>
                 <Blocked>
@@ -194,7 +191,8 @@ export default function MessageBox({ channel }: Props) {
         playSound("outbound");
 
         const nonce = ulid();
-        dispatch({
+        // ! FIXME: queued
+        /*dispatch({
             type: "QUEUE_ADD",
             nonce,
             channel: channel._id,
@@ -206,7 +204,7 @@ export default function MessageBox({ channel }: Props) {
                 content,
                 replies,
             },
-        });
+        });*/
 
         defer(() =>
             SingletonMessageRenderer.jumpToBottom(
@@ -216,7 +214,7 @@ export default function MessageBox({ channel }: Props) {
         );
 
         try {
-            await client.channels.sendMessage(channel._id, {
+            await channel.sendMessage({
                 content,
                 nonce,
                 replies,
@@ -290,7 +288,7 @@ export default function MessageBox({ channel }: Props) {
 
         const nonce = ulid();
         try {
-            await client.channels.sendMessage(channel._id, {
+            await channel.sendMessage({
                 content,
                 nonce,
                 replies,
@@ -360,7 +358,7 @@ export default function MessageBox({ channel }: Props) {
         users: { type: "channel", id: channel._id },
         channels:
             channel.channel_type === "TextChannel"
-                ? { server: channel.server! }
+                ? { server: channel.server_id! }
                 : undefined,
     });
 
@@ -403,7 +401,7 @@ export default function MessageBox({ channel }: Props) {
                 setReplies={setReplies}
             />
             <Base>
-                {permissions & ChannelPermission.UploadFiles ? (
+                {channel.permission & ChannelPermission.UploadFiles ? (
                     <Action>
                         <FileUploader
                             size={24}
@@ -475,9 +473,7 @@ export default function MessageBox({ channel }: Props) {
                     placeholder={
                         channel.channel_type === "DirectMessage"
                             ? translate("app.main.channel.message_who", {
-                                  person: client.users.get(
-                                      client.channels.getRecipient(channel._id),
-                                  )?.username,
+                                  person: channel.recipient?.username,
                               })
                             : channel.channel_type === "SavedMessages"
                             ? translate("app.main.channel.message_saved")

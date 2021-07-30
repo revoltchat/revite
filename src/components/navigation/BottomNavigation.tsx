@@ -1,12 +1,10 @@
-import { Search } from "@styled-icons/boxicons-regular";
-import { Message, Group, Inbox } from "@styled-icons/boxicons-solid";
+import { Message, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory, useLocation } from "react-router";
 import styled, { css } from "styled-components";
 
 import ConditionalLink from "../../lib/ConditionalLink";
 
-import { useData } from "../../mobx/State";
 import { connectState } from "../../redux/connector";
 import { LastOpened } from "../../redux/reducers/last_opened";
 
@@ -55,8 +53,7 @@ interface Props {
 
 export const BottomNavigation = observer(({ lastOpened }: Props) => {
     const client = useClient();
-    const store = useData();
-    const user = store.users.get(client.user!._id);
+    const user = client.users.get(client.user!._id);
 
     const history = useHistory();
     const path = useLocation().pathname;

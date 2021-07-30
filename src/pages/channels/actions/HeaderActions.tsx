@@ -91,7 +91,7 @@ function VoiceActions({ channel }: Pick<ChannelHeaderProps, "channel">) {
             <IconButton
                 onClick={() => {
                     disconnect();
-                    connect(channel._id);
+                    connect(channel);
                 }}>
                 <PhoneCall size={24} />
             </IconButton>

@@ -1,7 +1,7 @@
 import { Plus } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { useLocation, useParams } from "react-router-dom";
-import { Channel, Servers, Users } from "revolt.js/dist/api/objects";
+import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components";
 
 import { attachContextMenu, openContextMenu } from "preact-context-menu";
@@ -10,7 +10,6 @@ import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
-import { useData } from "../../../mobx/State";
 import { connectState } from "../../../redux/connector";
 import { LastOpened } from "../../../redux/reducers/last_opened";
 import { Unreads } from "../../../redux/reducers/unreads";
@@ -175,14 +174,12 @@ interface Props {
 }
 
 export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
-    const store = useData();
     const client = useClient();
-    const self = store.users.get(client.user!._id);
 
     const { server: server_id } = useParams<{ server?: string }>();
-    const server = server_id ? store.servers.get(server_id) : undefined;
-    const activeServers = [...store.servers.values()];
-    const channels = [...store.channels.values()].map((x) =>
+    const server = server_id ? client.servers.get(server_id) : undefined;
+    const activeServers = [...client.servers.values()];
+    const channels = [...client.channels.values()].map((x) =>
         mapChannelWithUnread(x, unreads),
     );
 
@@ -192,7 +189,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
 
     const servers = activeServers.map((server) => {
         let alertCount = 0;
-        for (const id of server.channels) {
+        for (const id of server.channel_ids) {
             const channel = channels.find((x) => x.channel?._id === id);
             if (channel?.alertCount) {
                 alertCount += channel.alertCount;
@@ -201,7 +198,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
 
         return {
             server,
-            unread: (typeof server.channels.find((x) =>
+            unread: (typeof server.channel_ids.find((x) =>
                 unreadChannels.includes(x),
             ) !== "undefined"
                 ? alertCount > 0
@@ -230,8 +227,8 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
     }
 
     if (
-        [...store.users.values()].find(
-            (x) => x.relationship === Users.Relationship.Incoming,
+        [...client.users.values()].find(
+            (x) => x.relationship === RelationshipStatus.Incoming,
         )
     ) {
         alertCount++;
@@ -254,9 +251,13 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                             onClick={() =>
                                 homeActive && openContextMenu("Status")
                             }>
-                            <UserHover user={self}>
+                            <UserHover user={client.user}>
                                 <Icon size={42} unread={homeUnread}>
-                                    <UserIcon target={self} size={32} status />
+                                    <UserIcon
+                                        target={client.user}
+                                        size={32}
+                                        status
+                                    />
                                 </Icon>
                             </UserHover>
                         </div>

@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router";
-import { Channels } from "revolt.js/dist/api/objects";
 import styled from "styled-components";
 
 import { attachContextMenu } from "preact-context-menu";
@@ -9,10 +8,11 @@ import { useEffect } from "preact/hooks";
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 
-import { useData } from "../../../mobx/State";
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import { Unreads } from "../../../redux/reducers/unreads";
+
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import CollapsibleSection from "../../common/CollapsibleSection";
 import ServerHeader from "../../common/ServerHeader";
@@ -50,14 +50,14 @@ const ServerList = styled.div`
 `;
 
 const ServerSidebar = observer((props: Props) => {
-    const store = useData();
+    const client = useClient();
     const { server: server_id, channel: channel_id } =
         useParams<{ server: string; channel?: string }>();
 
-    const server = store.servers.get(server_id);
+    const server = client.servers.get(server_id);
     if (!server) return <Redirect to="/" />;
 
-    const channel = channel_id ? store.channels.get(channel_id) : undefined;
+    const channel = channel_id ? client.channels.get(channel_id) : undefined;
     if (channel_id && !channel) return <Redirect to={`/server/${server_id}`} />;
     if (channel) useUnreads({ ...props, channel });
 
@@ -71,11 +71,11 @@ const ServerSidebar = observer((props: Props) => {
         });
     }, [channel_id]);
 
-    const uncategorised = new Set(server.channels);
+    const uncategorised = new Set(server.channel_ids);
     const elements = [];
 
     function addChannel(id: string) {
-        const entry = store.channels.get(id);
+        const entry = client.channels.get(id);
         if (!entry) return;
 
         const active = channel?._id === entry._id;

@@ -1,9 +1,8 @@
 import { observer } from "mobx-react-lite";
+import { User } from "revolt.js/dist/maps/Users";
 
 import styles from "./UserPicker.module.scss";
 import { Text } from "preact-i18n";
-
-import { User } from "../../../mobx";
 
 import Modal from "../../../components/ui/Modal";
 

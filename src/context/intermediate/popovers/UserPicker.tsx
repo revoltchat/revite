@@ -1,13 +1,13 @@
-import { Users } from "revolt.js/dist/api/objects";
+import { RelationshipStatus } from "revolt-api/types/Users";
 
 import styles from "./UserPicker.module.scss";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import { useData } from "../../../mobx/State";
-
 import UserCheckbox from "../../../components/common/user/UserCheckbox";
 import Modal from "../../../components/ui/Modal";
+
+import { useClient } from "../../revoltjs/RevoltClient";
 
 interface Props {
     omit?: string[];
@@ -19,7 +19,7 @@ export function UserPicker(props: Props) {
     const [selected, setSelected] = useState<string[]>([]);
     const omit = [...(props.omit || []), "00000000000000000000000000"];
 
-    const store = useData();
+    const client = useClient();
 
     return (
         <Modal
@@ -33,11 +33,11 @@ export function UserPicker(props: Props) {
                 },
             ]}>
             <div className={styles.list}>
-                {[...store.users.values()]
+                {[...client.users.values()]
                     .filter(
                         (x) =>
                             x &&
-                            x.relationship === Users.Relationship.Friend &&
+                            x.relationship === RelationshipStatus.Friend &&
                             !omit.includes(x._id),
                     )
                     .map((x) => (

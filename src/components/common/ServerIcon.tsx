@@ -1,9 +1,8 @@
 import { observer } from "mobx-react-lite";
+import { Server } from "revolt.js/dist/maps/Servers";
 import styled from "styled-components";
 
 import { useContext } from "preact/hooks";
-
-import { Server } from "../../mobx";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 

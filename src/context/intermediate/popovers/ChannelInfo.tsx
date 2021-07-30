@@ -1,15 +1,12 @@
 import { X } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
+import { Channel } from "revolt.js/dist/maps/Channels";
 
 import styles from "./ChannelInfo.module.scss";
-
-import { Channel } from "../../../mobx";
 
 import Modal from "../../../components/ui/Modal";
 
 import Markdown from "../../../components/markdown/Markdown";
-import { useClient } from "../../revoltjs/RevoltClient";
-import { useForceUpdate } from "../../revoltjs/hooks";
 import { getChannelName } from "../../revoltjs/util";
 
 interface Props {
@@ -26,12 +23,11 @@ export const ChannelInfo = observer(({ channel, onClose }: Props) => {
         return null;
     }
 
-    const client = useClient();
     return (
         <Modal visible={true} onClose={onClose}>
             <div className={styles.info}>
                 <div className={styles.header}>
-                    <h1>{getChannelName(client, channel, true)}</h1>
+                    <h1>{getChannelName(channel, true)}</h1>
                     <div onClick={onClose}>
                         <X size={36} />
                     </div>

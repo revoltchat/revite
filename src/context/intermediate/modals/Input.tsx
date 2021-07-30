@@ -1,4 +1,5 @@
 import { useHistory } from "react-router";
+import { Server } from "revolt.js/dist/maps/Servers";
 import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
@@ -81,7 +82,7 @@ type SpecialProps = { onClose: () => void } & (
               | "set_custom_status"
               | "add_friend";
       }
-    | { type: "create_role"; server: string; callback: (id: string) => void }
+    | { type: "create_role"; server: Server; callback: (id: string) => void }
 );
 
 export function SpecialInputModal(props: SpecialProps) {
@@ -134,10 +135,7 @@ export function SpecialInputModal(props: SpecialProps) {
                     }
                     field={<Text id="app.settings.permissions.role_name" />}
                     callback={async (name) => {
-                        const role = await client.servers.createRole(
-                            props.server,
-                            name,
-                        );
+                        const role = await props.server.createRole(name);
                         props.callback(role.id);
                     }}
                 />
@@ -151,7 +149,7 @@ export function SpecialInputModal(props: SpecialProps) {
                     field={<Text id="app.context_menu.custom_status" />}
                     defaultValue={client.user?.status?.text}
                     callback={(text) =>
-                        client.users.editUser({
+                        client.users.edit({
                             status: {
                                 ...client.user?.status,
                                 text: text.trim().length > 0 ? text : undefined,
@@ -166,7 +164,14 @@ export function SpecialInputModal(props: SpecialProps) {
                 <InputModal
                     onClose={onClose}
                     question={"Add Friend"}
-                    callback={(username) => client.users.addFriend(username)}
+                    callback={(username) =>
+                        client
+                            .req(
+                                "PUT",
+                                `/users/${username}/friend` as "/users/id/friend",
+                            )
+                            .then(undefined)
+                    }
                 />
             );
         }

@@ -1,5 +1,5 @@
 import { LinkExternal } from "@styled-icons/boxicons-regular";
-import { EmbedImage } from "revolt.js/dist/api/objects";
+import { EmbedImage } from "revolt-api/types/January";
 
 import styles from "./Embed.module.scss";
 

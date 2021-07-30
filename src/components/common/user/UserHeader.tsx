@@ -1,6 +1,7 @@
 import { Cog } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
+import { User } from "revolt.js/dist/maps/Users";
 import styled from "styled-components";
 
 import { openContextMenu } from "preact-context-menu";
@@ -9,15 +10,12 @@ import { Localizer } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
-import { User } from "../../../mobx";
-
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import Header from "../../ui/Header";
 import IconButton from "../../ui/IconButton";
 
 import Tooltip from "../Tooltip";
-import UserIcon from "./UserIcon";
 import UserStatus from "./UserStatus";
 
 const HeaderBase = styled.div`

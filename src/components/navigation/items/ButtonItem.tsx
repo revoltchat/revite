@@ -1,6 +1,8 @@
 import { X, Crown } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
-import { Channels, Users } from "revolt.js/dist/api/objects";
+import { Presence } from "revolt-api/types/Users";
+import { Channel } from "revolt.js/dist/maps/Channels";
+import { User } from "revolt.js/dist/maps/Users";
 
 import styles from "./Item.module.scss";
 import classNames from "classnames";
@@ -9,8 +11,6 @@ import { Localizer, Text } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { stopPropagation } from "../../../lib/stopPropagation";
-
-import { Channel, User } from "../../../mobx";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
@@ -51,8 +51,7 @@ export const UserButton = observer((props: UserProps) => {
             data-alert={typeof alert === "string"}
             data-online={
                 typeof channel !== "undefined" ||
-                (user.online &&
-                    user.status?.presence !== Users.Presence.Invisible)
+                (user.online && user.status?.presence !== Presence.Invisible)
             }
             onContextMenu={attachContextMenu("Menu", {
                 user: user._id,
@@ -82,7 +81,7 @@ export const UserButton = observer((props: UserProps) => {
             </div>
             <div className={styles.button}>
                 {context?.channel_type === "Group" &&
-                    context.owner === user._id && (
+                    context.owner_id === user._id && (
                         <Localizer>
                             <Tooltip
                                 content={<Text id="app.main.groups.owner" />}>

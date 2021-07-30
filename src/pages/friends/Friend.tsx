@@ -48,10 +48,10 @@ export const Friend = observer(({ user }: Props) => {
                     onClick={(ev) =>
                         stopPropagation(
                             ev,
-                            user.openDM().then((channel) => {
-                                connect(channel._id);
-                                history.push(`/channel/${channel._id}`);
-                            }),
+                            user
+                                .openDM()
+                                .then(connect)
+                                .then((x) => history.push(`/channel/${x._id}`)),
                         )
                     }>
                     <PhoneCall size={20} />

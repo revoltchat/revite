@@ -1,4 +1,4 @@
-import { Embed as EmbedRJS } from "revolt.js/dist/api/objects";
+import { Embed as EmbedI } from "revolt-api/types/January";
 
 import styles from "./Embed.module.scss";
 import classNames from "classnames";
@@ -11,7 +11,7 @@ import { MessageAreaWidthContext } from "../../../../pages/channels/messaging/Me
 import EmbedMedia from "./EmbedMedia";
 
 interface Props {
-    embed: EmbedRJS;
+    embed: EmbedI;
 }
 
 const MAX_EMBED_WIDTH = 480;
