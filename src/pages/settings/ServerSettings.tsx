@@ -1,10 +1,12 @@
 import { ListUl, ListCheck, ListMinus } from "@styled-icons/boxicons-regular";
 import { XSquare, Share, Group } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { Route, useHistory, useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";
 
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
+import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import Category from "../../components/ui/Category";
 
@@ -15,12 +17,11 @@ import { Invites } from "./server/Invites";
 import { Members } from "./server/Members";
 import { Overview } from "./server/Overview";
 import { Roles } from "./server/Roles";
-import { useData } from "../../mobx/State";
 
-export default function ServerSettings() {
+export default observer(() => {
     const { server: sid } = useParams<{ server: string }>();
-    const store = useData();
-    const server = store.servers.get(sid);
+    const client = useClient();
+    const server = client.servers.get(sid);
     if (!server) return null;
 
     const history = useHistory();
@@ -36,7 +37,7 @@ export default function ServerSettings() {
         <GenericSettings
             pages={[
                 {
-                    category: <Category variant="uniform" text={server.name} />, //TOFIX: Just add the server.name as a string, otherwise it makes a duplicate category
+                    category: <Category variant="uniform" text={server.name} />,
                     id: "overview",
                     icon: <ListUl size={20} />,
                     title: (
@@ -110,4 +111,4 @@ export default function ServerSettings() {
             showExitButton
         />
     );
-}
+});

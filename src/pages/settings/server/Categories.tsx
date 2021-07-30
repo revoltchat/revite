@@ -1,16 +1,10 @@
-import { XCircle } from "@styled-icons/boxicons-regular";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import { Channels, Servers, Users } from "revolt.js/dist/api/objects";
-import { Route } from "revolt.js/dist/api/routes";
+import { Category } from "revolt-api/types/Servers";
+import { Server } from "revolt.js/dist/maps/Servers";
 import { ulid } from "ulid";
 
-import styles from "./Panes.module.scss";
-import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
-
-import { Server } from "../../../mobx";
-import { useData } from "../../../mobx/State";
+import { useContext, useState } from "preact/hooks";
 
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
@@ -30,15 +24,9 @@ interface Props {
 // ! FIXME: really bad code
 export const Categories = observer(({ server }: Props) => {
     const client = useContext(AppContext);
-    const store = useData();
-    const channels = server.channels
-        .map((id) => store.channels.get(id)!)
-        .filter((x) => typeof x !== "undefined");
+    const channels = server.channels.filter((x) => typeof x !== "undefined");
 
-    const [cats, setCats] = useState<Servers.Category[]>(
-        server.categories ?? [],
-    );
-
+    const [cats, setCats] = useState<Category[]>(server.categories ?? []);
     const [name, setName] = useState("");
 
     return (
@@ -48,9 +36,7 @@ export const Categories = observer(({ server }: Props) => {
                 <Button
                     contrast
                     disabled={isEqual(server.categories ?? [], cats)}
-                    onClick={() =>
-                        client.servers.edit(server._id, { categories: cats })
-                    }>
+                    onClick={() => server.edit({ categories: cats })}>
                     save categories
                 </Button>
             </p>
@@ -116,13 +102,13 @@ export const Categories = observer(({ server }: Props) => {
                         }}>
                         <div style={{ flexShrink: 0 }}>
                             <ChannelIcon target={channel} size={24} />{" "}
-                            <span>{channel.name}</span>
+                            <span>{channel!.name}</span>
                         </div>
                         <ComboBox
                             style={{ flexGrow: 1 }}
                             value={
                                 cats.find((x) =>
-                                    x.channels.includes(channel._id),
+                                    x.channels.includes(channel!._id),
                                 )?.id ?? "none"
                             }
                             onChange={(e) =>
@@ -132,11 +118,11 @@ export const Categories = observer(({ server }: Props) => {
                                             ...x,
                                             channels: [
                                                 ...x.channels.filter(
-                                                    (y) => y !== channel._id,
+                                                    (y) => y !== channel!._id,
                                                 ),
                                                 ...(e.currentTarget.value ===
                                                 x.id
-                                                    ? [channel._id]
+                                                    ? [channel!._id]
                                                     : []),
                                             ],
                                         };

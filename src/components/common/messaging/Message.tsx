@@ -1,15 +1,14 @@
 import { observer } from "mobx-react-lite";
+import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
 
 import { attachContextMenu } from "preact-context-menu";
 import { memo } from "preact/compat";
-import { useContext, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 
-import { useData } from "../../../mobx/State";
 import { QueuedMessage } from "../../../redux/reducers/queue";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { MessageObject } from "../../../context/revoltjs/util";
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Overline from "../../ui/Overline";
 
@@ -46,15 +45,14 @@ const Message = observer(
         head: preferHead,
         queued,
     }: Props) => {
-        const store = useData();
-        const user = store.users.get(message.author);
+        const client = useClient();
+        const user = message.author;
 
-        const client = useContext(AppContext);
         const { openScreen } = useIntermediate();
 
         const content = message.content as string;
         const head =
-            preferHead || (message.replies && message.replies.length > 0);
+            preferHead || (message.reply_ids && message.reply_ids.length > 0);
 
         // ! FIXME: tell fatal to make this type generic
         // bree: Fatal please...
@@ -66,28 +64,33 @@ const Message = observer(
             : undefined;
 
         const openProfile = () =>
-            openScreen({ id: "profile", user_id: message.author });
+            openScreen({ id: "profile", user_id: message.author_id });
 
         // ! FIXME: animate on hover
         const [animate, setAnimate] = useState(false);
 
         return (
             <div id={message._id}>
-                {message.replies?.map((message_id, index) => (
+                {message.reply_ids?.map((message_id, index) => (
                     <MessageReply
                         index={index}
                         id={message_id}
-                        channel={message.channel}
+                        channel={message.channel!}
                     />
                 ))}
                 <MessageBase
                     highlight={highlight}
                     head={
-                        head && !(message.replies && message.replies.length > 0)
+                        (head &&
+                            !(
+                                message.reply_ids &&
+                                message.reply_ids.length > 0
+                            )) ??
+                        false
                     }
                     contrast={contrast}
                     sending={typeof queued !== "undefined"}
-                    mention={message.mentions?.includes(client.user!._id)}
+                    mention={message.mention_ids?.includes(client.user!._id)}
                     failed={typeof queued?.error !== "undefined"}
                     onContextMenu={
                         attachContext

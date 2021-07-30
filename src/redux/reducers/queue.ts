@@ -1,5 +1,3 @@
-import type { MessageObject } from "../../context/revoltjs/util";
-
 export enum QueueStatus {
     SENDING = "sending",
     ERRORED = "errored",
@@ -10,7 +8,7 @@ export interface Reply {
     mention: boolean;
 }
 
-export type QueuedMessageData = Omit<MessageObject, "content" | "replies"> & {
+export type QueuedMessageData = {
     content: string;
     replies: Reply[];
 };

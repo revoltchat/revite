@@ -5,7 +5,8 @@ import {
 } from "@styled-icons/boxicons-regular";
 import { UserDetail, MessageAdd, UserPlus } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Users } from "revolt.js/dist/api/objects";
+import { RelationshipStatus, Presence } from "revolt-api/types/Users";
+import { User } from "revolt.js/dist/maps/Users";
 
 import styles from "./Friend.module.scss";
 import { Text } from "preact-i18n";
@@ -13,10 +14,8 @@ import { Text } from "preact-i18n";
 import { TextReact } from "../../lib/i18n";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { User } from "../../mobx";
-import { useData } from "../../mobx/State";
-
 import { useIntermediate } from "../../context/intermediate/Intermediate";
+import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
@@ -30,43 +29,40 @@ import { Friend } from "./Friend";
 export default observer(() => {
     const { openScreen } = useIntermediate();
 
-    const store = useData();
-    const users = [...store.users.values()];
+    const client = useClient();
+    const users = [...client.users.values()];
     users.sort((a, b) => a.username.localeCompare(b.username));
 
     const friends = users.filter(
-        (x) => x.relationship === Users.Relationship.Friend,
+        (x) => x.relationship === RelationshipStatus.Friend,
     );
     const lists = [
         [
             "",
-            users.filter((x) => x.relationship === Users.Relationship.Incoming),
+            users.filter((x) => x.relationship === RelationshipStatus.Incoming),
         ],
         [
             "app.special.friends.sent",
-            users.filter((x) => x.relationship === Users.Relationship.Outgoing),
+            users.filter((x) => x.relationship === RelationshipStatus.Outgoing),
             "outgoing",
         ],
         [
             "app.status.online",
             friends.filter(
-                (x) =>
-                    x.online && x.status?.presence !== Users.Presence.Invisible,
+                (x) => x.online && x.status?.presence !== Presence.Invisible,
             ),
             "online",
         ],
         [
             "app.status.offline",
             friends.filter(
-                (x) =>
-                    !x.online ||
-                    x.status?.presence === Users.Presence.Invisible,
+                (x) => !x.online || x.status?.presence === Presence.Invisible,
             ),
             "offline",
         ],
         [
             "app.special.friends.blocked",
-            users.filter((x) => x.relationship === Users.Relationship.Blocked),
+            users.filter((x) => x.relationship === RelationshipStatus.Blocked),
             "blocked",
         ],
     ] as [string, User[], string][];

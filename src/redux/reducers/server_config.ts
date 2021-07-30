@@ -1,16 +1,16 @@
-import type { Core } from "revolt.js/dist/api/objects";
+import type { RevoltConfiguration } from "revolt-api/types/Core";
 
 export type ConfigAction =
     | { type: undefined }
     | {
           type: "SET_CONFIG";
-          config: Core.RevoltNodeConfiguration;
+          config: RevoltConfiguration;
       };
 
 export function config(
-    state = {} as Core.RevoltNodeConfiguration,
+    state = {} as RevoltConfiguration,
     action: ConfigAction,
-): Core.RevoltNodeConfiguration {
+): RevoltConfiguration {
     switch (action.type) {
         case "SET_CONFIG":
             return action.config;

@@ -1,9 +1,7 @@
 import { Client } from "revolt.js";
-import { Message } from "revolt.js/dist/api/objects";
+import { Channel } from "revolt.js/dist/maps/Channels";
 
 import { Text } from "preact-i18n";
-
-import { Channel } from "../../mobx";
 
 import { Children } from "../../types/Preact";
 
@@ -25,7 +23,6 @@ export function takeError(error: any): string {
 }
 
 export function getChannelName(
-    client: Client,
     channel: Channel,
     prefixType?: boolean,
 ): Children {
@@ -33,11 +30,10 @@ export function getChannelName(
         return <Text id="app.navigation.tabs.saved" />;
 
     if (channel.channel_type === "DirectMessage") {
-        const uid = client.channels.getRecipient(channel._id);
         return (
             <>
                 {prefixType && "@"}
-                {client.users.get(uid)?.username}
+                {channel.recipient!.username}
             </>
         );
     }
@@ -47,13 +43,4 @@ export function getChannelName(
     }
 
     return <>{channel.name}</>;
-}
-
-export type MessageObject = Omit<Message, "edited"> & { edited?: string };
-export function mapMessage(message: Partial<Message>) {
-    const { edited, ...msg } = message;
-    return {
-        ...msg,
-        edited: edited?.$date,
-    } as MessageObject;
 }

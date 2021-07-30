@@ -1,6 +1,6 @@
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import { Servers } from "revolt.js/dist/api/objects";
+import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
@@ -8,11 +8,8 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
-import { Server } from "../../../mobx";
-import { useData } from "../../../mobx/State";
-
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { AppContext, useClient } from "../../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../../context/revoltjs/util";
 
 import Button from "../../../components/ui/Button";
@@ -24,8 +21,7 @@ interface Props {
 }
 
 export const Overview = observer(({ server }: Props) => {
-    const client = useContext(AppContext);
-    const store = useData();
+    const client = useClient();
 
     const [name, setName] = useState(server.name);
     const [description, setDescription] = useState(server.description ?? "");
@@ -45,16 +41,14 @@ export const Overview = observer(({ server }: Props) => {
 
     const [changed, setChanged] = useState(false);
     function save() {
-        const changes: Partial<
-            Pick<Servers.Server, "name" | "description" | "system_messages">
-        > = {};
+        const changes: Record<string, any> = {};
         if (name !== server.name) changes.name = name;
         if (description !== server.description)
             changes.description = description;
         if (!isEqual(systemMessages, server.system_messages))
             changes.system_messages = systemMessages ?? undefined;
 
-        client.servers.edit(server._id, changes);
+        server.edit(changes);
         setChanged(false);
     }
 
@@ -68,17 +62,9 @@ export const Overview = observer(({ server }: Props) => {
                     fileType="icons"
                     behaviour="upload"
                     maxFileSize={2_500_000}
-                    onUpload={(icon) =>
-                        client.servers.edit(server._id, { icon })
-                    }
-                    previewURL={client.servers.getIconURL(
-                        server._id,
-                        { max_side: 256 },
-                        true,
-                    )}
-                    remove={() =>
-                        client.servers.edit(server._id, { remove: "Icon" })
-                    }
+                    onUpload={(icon) => server.edit({ icon })}
+                    previewURL={server.generateIconURL({ max_side: 256 }, true)}
+                    remove={() => server.edit({ remove: "Icon" })}
                 />
                 <div className={styles.name}>
                     <h3>
@@ -120,17 +106,9 @@ export const Overview = observer(({ server }: Props) => {
                 fileType="banners"
                 behaviour="upload"
                 maxFileSize={6_000_000}
-                onUpload={(banner) =>
-                    client.servers.edit(server._id, { banner })
-                }
-                previewURL={client.servers.getBannerURL(
-                    server._id,
-                    { width: 1000 },
-                    true,
-                )}
-                remove={() =>
-                    client.servers.edit(server._id, { remove: "Banner" })
-                }
+                onUpload={(banner) => server.edit({ banner })}
+                previewURL={server.generateBannerURL({ width: 1000 }, true)}
+                remove={() => server.edit({ remove: "Banner" })}
             />
 
             <h3>
@@ -176,11 +154,10 @@ export const Overview = observer(({ server }: Props) => {
                             <Text id="general.disabled" />
                         </option>
                         {server.channels
-                            .map((id) => store.channels.get(id)!)
                             .filter((x) => typeof x !== "undefined")
                             .map((channel) => (
-                                <option value={channel._id}>
-                                    {getChannelName(client, channel, true)}
+                                <option value={channel!._id}>
+                                    {getChannelName(channel!, true)}
                                 </option>
                             ))}
                     </ComboBox>

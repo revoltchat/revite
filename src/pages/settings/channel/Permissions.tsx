@@ -1,13 +1,10 @@
 import { observer } from "mobx-react-lite";
-import { Channels } from "revolt.js/dist/api/objects";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
+import { Channel } from "revolt.js/dist/maps/Channels";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { Channel } from "../../../mobx";
-import { useData } from "../../../mobx/State";
-
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { AppContext, useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
@@ -30,13 +27,12 @@ interface Props {
 // ! FIXME: bad code :)
 export default observer(({ channel }: Props) => {
     const [selected, setSelected] = useState("default");
-    const client = useContext(AppContext);
-    const store = useData();
+    const client = useClient();
 
     type R = { name: string; permissions: number };
     const roles: { [key: string]: R } = {};
     if (channel.channel_type !== "Group") {
-        const server = store.servers.get(channel.server!);
+        const server = channel.server;
         const a = server?.roles ?? {};
         for (const b of Object.keys(a)) {
             roles[b] = {
@@ -105,7 +101,7 @@ export default observer(({ channel }: Props) => {
             <Button
                 contrast
                 onClick={() => {
-                    client.channels.setPermissions(channel._id, selected, p);
+                    channel.setPermissions(selected, p);
                 }}>
                 click here to save permissions for role
             </Button>

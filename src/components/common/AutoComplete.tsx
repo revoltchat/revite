@@ -1,12 +1,10 @@
 import { useStore } from "react-redux";
 import { SYSTEM_USER_ID } from "revolt.js";
-import { Channels } from "revolt.js/dist/api/objects";
+import { Channel } from "revolt.js/dist/maps/Channels";
+import { User } from "revolt.js/dist/maps/Users";
 import styled, { css } from "styled-components";
 
 import { StateUpdater, useState } from "preact/hooks";
-
-import { Channel, User } from "../../mobx";
-import { useData } from "../../mobx/State";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
@@ -57,7 +55,6 @@ export function useAutoComplete(
     const [state, setState] = useState<AutoCompleteState>({ type: "none" });
     const [focused, setFocused] = useState(false);
     const client = useClient();
-    const store = useData();
 
     function findSearchString(
         el: HTMLTextAreaElement,
@@ -132,7 +129,7 @@ export function useAutoComplete(
                 let users: User[] = [];
                 switch (searchClues.users.type) {
                     case "all":
-                        users = [...store.users.values()];
+                        users = [...client.users.values()];
                         break;
                     case "channel": {
                         const channel = client.channels.get(
@@ -141,22 +138,15 @@ export function useAutoComplete(
                         switch (channel?.channel_type) {
                             case "Group":
                             case "DirectMessage":
-                                users = channel.recipients
-                                    .map((x) => store.users.get(x))
-                                    .filter(
-                                        (x) => typeof x !== "undefined",
-                                    ) as User[];
+                                users = channel.recipients!.filter(
+                                    (x) => typeof x !== "undefined",
+                                ) as User[];
                                 break;
                             case "TextChannel":
-                                const server = channel.server;
-                                users = client.members
-                                    .toArray()
-                                    .filter(
-                                        (x) => x._id.substr(0, 26) === server,
-                                    )
-                                    .map((x) =>
-                                        store.users.get(x._id.substr(26)),
-                                    )
+                                const server = channel.server_id;
+                                users = [...client.members.keys()]
+                                    .filter((x) => x.server === server)
+                                    .map((x) => client.users.get(x.user))
                                     .filter(
                                         (x) => typeof x !== "undefined",
                                     ) as User[];
@@ -197,7 +187,7 @@ export function useAutoComplete(
             if (type === "channel" && searchClues?.channels) {
                 const channels = client.servers
                     .get(searchClues.channels.server)
-                    ?.channels.map((x) => store.channels.get(x))
+                    ?.channels.map((x) => client.channels.get(x))
                     .filter((x) => typeof x !== "undefined") as Channel[];
 
                 const matches = (
