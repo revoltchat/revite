@@ -1,5 +1,7 @@
 import { X } from "@styled-icons/boxicons-regular";
-import { Users } from "revolt.js/dist/api/objects";
+import { RelationshipStatus } from "revolt-api/types/Users";
+import { SYSTEM_USER_ID } from "revolt.js";
+import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 import { decodeTime } from "ulid";
 
@@ -15,7 +17,6 @@ import { QueuedMessage } from "../../../redux/reducers/queue";
 
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { MessageObject } from "../../../context/revoltjs/util";
 
 import Message from "../../../components/common/messaging/Message";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
@@ -60,7 +61,7 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
         function editLast() {
             if (state.type !== "RENDER") return;
             for (let i = state.messages.length - 1; i >= 0; i--) {
-                if (state.messages[i].author === userId) {
+                if (state.messages[i].author_id === userId) {
                     setEditing(state.messages[i]._id);
                     internalEmit("MessageArea", "jump_to_bottom");
                     return;
@@ -129,10 +130,15 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
 
     for (const message of state.messages) {
         if (previous) {
-            compare(message._id, message.author, previous._id, previous.author);
+            compare(
+                message._id,
+                message.author_id,
+                previous._id,
+                previous.author_id,
+            );
         }
 
-        if (message.author === "00000000000000000000000000") {
+        if (message.author_id === SYSTEM_USER_ID) {
             render.push(
                 <SystemMessage
                     key={message._id}
@@ -143,10 +149,7 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
             );
         } else {
             // ! FIXME: temp solution
-            if (
-                client.users.get(message.author)?.relationship ===
-                Users.Relationship.Blocked
-            ) {
+            if (message.author?.relationship === RelationshipStatus.Blocked) {
                 blocked++;
             } else {
                 if (blocked > 0) pushBlocked();
@@ -183,7 +186,7 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
             if (nonces.includes(msg.id)) continue;
 
             if (previous) {
-                compare(msg.id, userId!, previous._id, previous.author);
+                compare(msg.id, userId!, previous._id, previous.author_id);
 
                 previous = {
                     _id: msg.id,
@@ -191,7 +194,8 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
                 } as any;
             }
 
-            render.push(
+            // ! FIXME: add queued messages back
+            /* render.push(
                 <Message
                     message={{
                         ...msg.data,
@@ -202,7 +206,7 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
                     head={head}
                     attachContext
                 />,
-            );
+            ); */
         }
     } else {
         render.push(

@@ -1,3 +1,4 @@
+import { Message } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 
 import { useContext, useEffect, useState } from "preact/hooks";
@@ -10,7 +11,6 @@ import {
     useIntermediate,
 } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { MessageObject } from "../../../context/revoltjs/util";
 
 import AutoComplete, {
     useAutoComplete,
@@ -44,7 +44,7 @@ const EditorBase = styled.div`
 `;
 
 interface Props {
-    message: MessageObject;
+    message: Message;
     finish: () => void;
 }
 
@@ -52,7 +52,6 @@ export default function MessageEditor({ message, finish }: Props) {
     const [content, setContent] = useState((message.content as string) ?? "");
     const { focusTaken } = useContext(IntermediateContext);
     const { openScreen } = useIntermediate();
-    const client = useContext(AppContext);
 
     async function save() {
         finish();
@@ -60,13 +59,11 @@ export default function MessageEditor({ message, finish }: Props) {
         if (content.length === 0) {
             openScreen({
                 id: "special_prompt",
-                // @ts-expect-error
                 type: "delete_message",
-                // @ts-expect-error
                 target: message,
             });
         } else if (content !== message.content) {
-            await client.channels.editMessage(message.channel, message._id, {
+            await message.editMessage({
                 content,
             });
         }

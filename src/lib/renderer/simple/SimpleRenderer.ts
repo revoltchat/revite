@@ -1,5 +1,3 @@
-import { mapMessage } from "../../../context/revoltjs/util";
-
 import { SMOOTH_SCROLL_ON_RECEIVE } from "../Singleton";
 import { RendererRoutines } from "../types";
 
@@ -8,14 +6,10 @@ export const SimpleRenderer: RendererRoutines = {
         if (renderer.client!.websocket.connected) {
             if (nearby)
                 renderer
-                    .client!.channels.fetchMessagesWithUsers(
-                        id,
-                        { nearby, limit: 100 },
-                        true,
-                    )
-                    .then(({ messages: data }) => {
-                        data.sort((a, b) => a._id.localeCompare(b._id));
-                        const messages = data.map((x) => mapMessage(x));
+                    .client!.channels.get(id)!
+                    .fetchMessagesWithUsers({ nearby, limit: 100 })
+                    .then(({ messages }) => {
+                        messages.sort((a, b) => a._id.localeCompare(b._id));
                         renderer.setState(
                             id,
                             {
@@ -29,16 +23,16 @@ export const SimpleRenderer: RendererRoutines = {
                     });
             else
                 renderer
-                    .client!.channels.fetchMessagesWithUsers(id, {}, true)
-                    .then(({ messages: data }) => {
-                        data.reverse();
-                        const messages = data.map((x) => mapMessage(x));
+                    .client!.channels.get(id)!
+                    .fetchMessagesWithUsers({})
+                    .then(({ messages }) => {
+                        messages.reverse();
                         renderer.setState(
                             id,
                             {
                                 type: "RENDER",
                                 messages,
-                                atTop: data.length < 50,
+                                atTop: messages.length < 50,
                                 atBottom: true,
                             },
                             { type: "ScrollToBottom", smooth },
@@ -54,7 +48,7 @@ export const SimpleRenderer: RendererRoutines = {
         if (renderer.state.messages.find((x) => x._id === message._id)) return;
         if (!renderer.state.atBottom) return;
 
-        let messages = [...renderer.state.messages, mapMessage(message)];
+        let messages = [...renderer.state.messages, message];
         let atTop = renderer.state.atTop;
         if (messages.length > 150) {
             messages = messages.slice(messages.length - 150);
@@ -62,7 +56,7 @@ export const SimpleRenderer: RendererRoutines = {
         }
 
         renderer.setState(
-            message.channel,
+            message.channel_id,
             {
                 ...renderer.state,
                 messages,
@@ -72,7 +66,8 @@ export const SimpleRenderer: RendererRoutines = {
         );
     },
     edit: async (renderer, id, patch) => {
-        const channel = renderer.channel;
+        // ! FIXME: verify if this is needed anymore
+        /*const channel = renderer.channel;
         if (!channel) return;
         if (renderer.state.type !== "RENDER") return;
 
@@ -91,7 +86,7 @@ export const SimpleRenderer: RendererRoutines = {
                 },
                 { type: "StayAtBottom" },
             );
-        }
+        }*/
     },
     delete: async (renderer, id) => {
         const channel = renderer.channel;
@@ -122,14 +117,11 @@ export const SimpleRenderer: RendererRoutines = {
         if (state.type !== "RENDER") return;
         if (state.atTop) return;
 
-        const { messages: data } =
-            await renderer.client!.channels.fetchMessagesWithUsers(
-                channel,
-                {
-                    before: state.messages[0]._id,
-                },
-                true,
-            );
+        const { messages: data } = await renderer
+            .client!.channels.get(channel)!
+            .fetchMessagesWithUsers({
+                before: state.messages[0]._id,
+            });
 
         if (data.length === 0) {
             return renderer.setState(channel, {
@@ -139,7 +131,7 @@ export const SimpleRenderer: RendererRoutines = {
         }
 
         data.reverse();
-        let messages = [...data.map((x) => mapMessage(x)), ...state.messages];
+        let messages = [...data, ...state.messages];
 
         let atTop = false;
         if (data.length < 50) {
@@ -166,15 +158,12 @@ export const SimpleRenderer: RendererRoutines = {
         if (state.type !== "RENDER") return;
         if (state.atBottom) return;
 
-        const { messages: data } =
-            await renderer.client!.channels.fetchMessagesWithUsers(
-                channel,
-                {
-                    after: state.messages[state.messages.length - 1]._id,
-                    sort: "Oldest",
-                },
-                true,
-            );
+        const { messages: data } = await renderer
+            .client!.channels.get(channel)!
+            .fetchMessagesWithUsers({
+                after: state.messages[state.messages.length - 1]._id,
+                sort: "Oldest",
+            });
 
         if (data.length === 0) {
             return renderer.setState(channel, {
@@ -183,7 +172,7 @@ export const SimpleRenderer: RendererRoutines = {
             });
         }
 
-        let messages = [...state.messages, ...data.map((x) => mapMessage(x))];
+        let messages = [...state.messages, ...data];
 
         let atBottom = false;
         if (data.length < 50) {

@@ -29,7 +29,6 @@ export default function HeaderActions({
     toggleSidebar,
 }: ChannelHeaderProps) {
     const { openScreen } = useIntermediate();
-    const client = useContext(AppContext);
     const history = useHistory();
 
     return (
@@ -41,13 +40,10 @@ export default function HeaderActions({
                         onClick={() =>
                             openScreen({
                                 id: "user_picker",
-                                omit: channel.recipients!,
+                                omit: channel.recipient_ids!,
                                 callback: async (users) => {
                                     for (const user of users) {
-                                        await client.channels.addMember(
-                                            channel._id,
-                                            user,
-                                        );
+                                        await channel.addMember(user);
                                     }
                                 },
                             })

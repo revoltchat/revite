@@ -1,10 +1,9 @@
-import { Client, Message } from "revolt.js/dist";
+import { Client } from "revolt.js/dist";
+import { Message } from "revolt.js/dist/maps/Messages";
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 
 import { StateUpdater } from "preact/hooks";
 
-import { DataStore } from "../../mobx";
-import { useData } from "../../mobx/State";
 import { dispatch } from "../../redux";
 
 import { ClientOperations, ClientStatus } from "./RevoltClient";
@@ -78,10 +77,10 @@ export function registerEvents(
         },
 
         message: (message: Message) => {
-            if (message.mentions?.includes(client.user!._id)) {
+            if (message.mention_ids?.includes(client.user!._id)) {
                 dispatch({
                     type: "UNREADS_MENTION",
-                    channel: message.channel,
+                    channel: message.channel_id,
                     message: message._id,
                 });
             }
@@ -110,13 +109,6 @@ export function registerEvents(
         console.log("(o) Object mutated", target, "\nChanged:", key);
     }
 
-    if (import.meta.env.DEV) {
-        client.users.addListener("mutation", logMutation);
-        client.servers.addListener("mutation", logMutation);
-        client.channels.addListener("mutation", logMutation);
-        client.members.addListener("mutation", logMutation);
-    }
-
     const online = () => {
         if (operations.ready()) {
             setStatus(ClientStatus.RECONNECTING);
@@ -142,13 +134,6 @@ export function registerEvents(
                 listener,
                 listeners[listener as keyof typeof listeners],
             );
-        }
-
-        if (import.meta.env.DEV) {
-            client.users.removeListener("mutation", logMutation);
-            client.servers.removeListener("mutation", logMutation);
-            client.channels.removeListener("mutation", logMutation);
-            client.members.removeListener("mutation", logMutation);
         }
 
         window.removeEventListener("online", online);

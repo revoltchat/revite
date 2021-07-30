@@ -14,7 +14,6 @@ import {
     StatusContext,
     useClient,
 } from "../../../context/revoltjs/RevoltClient";
-import { useForceUpdate } from "../../../context/revoltjs/hooks";
 
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";

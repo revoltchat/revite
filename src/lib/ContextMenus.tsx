@@ -12,18 +12,17 @@ import {
 } from "@styled-icons/boxicons-regular";
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
-import {
-    Attachment,
-    Channels,
-    Message,
-    Servers,
-    Users,
-} from "revolt.js/dist/api/objects";
+import { Attachment } from "revolt-api/types/Autumn";
+import { Presence, RelationshipStatus } from "revolt-api/types/Users";
 import {
     ChannelPermission,
     ServerPermission,
     UserPermission,
 } from "revolt.js/dist/api/permissions";
+import { Channel } from "revolt.js/dist/maps/Channels";
+import { Message } from "revolt.js/dist/maps/Messages";
+import { Server } from "revolt.js/dist/maps/Servers";
+import { User } from "revolt.js/dist/maps/Users";
 
 import {
     ContextMenu,
@@ -34,8 +33,6 @@ import {
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
-import { Channel, Server, User } from "../mobx";
-import { useData } from "../mobx/State";
 import { dispatch } from "../redux";
 import { connectState } from "../redux/connector";
 import {
@@ -52,12 +49,6 @@ import {
     StatusContext,
     useClient,
 } from "../context/revoltjs/RevoltClient";
-import {
-    useChannelPermission,
-    useForceUpdate,
-    useServerPermission,
-    useUserPermission,
-} from "../context/revoltjs/hooks";
 import { takeError } from "../context/revoltjs/util";
 
 import Tooltip from "../components/common/Tooltip";
@@ -91,13 +82,13 @@ type Action =
     | { action: "reply_message"; id: string }
     | { action: "quote_message"; content: string }
     | { action: "edit_message"; id: string }
-    | { action: "delete_message"; target: Channels.Message }
+    | { action: "delete_message"; target: Message }
     | { action: "open_file"; attachment: Attachment }
     | { action: "save_file"; attachment: Attachment }
     | { action: "copy_file_link"; attachment: Attachment }
     | { action: "open_link"; link: string }
     | { action: "copy_link"; link: string }
-    | { action: "remove_member"; channel: string; user: User }
+    | { action: "remove_member"; channel: Channel; user: User }
     | { action: "kick_member"; target: Server; user: User }
     | { action: "ban_member"; target: Server; user: User }
     | { action: "view_profile"; user: User }
@@ -107,7 +98,7 @@ type Action =
     | { action: "add_friend"; user: User }
     | { action: "remove_friend"; user: User }
     | { action: "cancel_friend"; user: User }
-    | { action: "set_presence"; presence: Users.Presence }
+    | { action: "set_presence"; presence: Presence }
     | { action: "set_status" }
     | { action: "clear_status" }
     | { action: "create_channel"; target: Server }
@@ -196,7 +187,8 @@ function ContextMenus(props: Props) {
                             });
 
                         client.channels
-                            .sendMessage(data.message.channel, {
+                            .get(data.message.channel)!
+                            .sendMessage({
                                 nonce: data.message.id,
                                 content: data.message.data.content as string,
                                 replies: data.message.data.replies,
@@ -313,10 +305,7 @@ function ContextMenus(props: Props) {
 
                 case "remove_member":
                     {
-                        client.channels.removeMember(
-                            data.channel,
-                            data.user._id,
-                        );
+                        data.channel.removeMember(data.user._id);
                     }
                     break;
 
@@ -326,9 +315,7 @@ function ContextMenus(props: Props) {
 
                 case "message_user":
                     {
-                        const channel = await client.users.openDM(
-                            data.user._id,
-                        );
+                        const channel = await data.user.openDM();
                         if (channel) {
                             history.push(`/channel/${channel._id}`);
                         }
@@ -337,7 +324,7 @@ function ContextMenus(props: Props) {
 
                 case "add_friend":
                     {
-                        await client.users.addFriend(data.user.username);
+                        await data.user.addFriend();
                     }
                     break;
 
@@ -349,7 +336,7 @@ function ContextMenus(props: Props) {
                     });
                     break;
                 case "unblock_user":
-                    await client.users.unblockUser(data.user._id);
+                    await data.user.unblockUser();
                     break;
                 case "remove_friend":
                     openScreen({
@@ -359,12 +346,12 @@ function ContextMenus(props: Props) {
                     });
                     break;
                 case "cancel_friend":
-                    await client.users.removeFriend(data.user._id);
+                    await data.user.removeFriend();
                     break;
 
                 case "set_presence":
                     {
-                        await client.users.editUser({
+                        await client.users.edit({
                             status: {
                                 ...client.user?.status,
                                 presence: data.presence,
@@ -383,7 +370,7 @@ function ContextMenus(props: Props) {
                 case "clear_status":
                     {
                         const { text, ...status } = client.user?.status ?? {};
-                        await client.users.editUser({ status });
+                        await client.users.edit({ status });
                     }
                     break;
 
@@ -463,9 +450,6 @@ function ContextMenus(props: Props) {
                     unread,
                     contextualChannel: cxid,
                 }: ContextMenuData) => {
-                    const store = useData();
-
-                    const forceUpdate = useForceUpdate();
                     const elements: Children[] = [];
                     let lastDivider = false;
 
@@ -495,11 +479,8 @@ function ContextMenus(props: Props) {
                     }
 
                     if (server_list) {
-                        const server = store.servers.get(server_list);
-                        const permissions = useServerPermission(
-                            server_list,
-                            forceUpdate,
-                        );
+                        const server = client.servers.get(server_list)!;
+                        const permissions = server.permission;
                         if (server) {
                             if (permissions & ServerPermission.ManageChannels)
                                 generateAction({
@@ -526,13 +507,13 @@ function ContextMenus(props: Props) {
                         pushDivider();
                     }
 
-                    const channel = cid ? store.channels.get(cid) : undefined;
+                    const channel = cid ? client.channels.get(cid) : undefined;
                     const contextualChannel = cxid
-                        ? store.channels.get(cxid)
+                        ? client.channels.get(cxid)
                         : undefined;
                     const targetChannel = channel ?? contextualChannel;
 
-                    const user = uid ? store.users.get(uid) : undefined;
+                    const user = uid ? client.users.get(uid) : undefined;
                     const serverChannel =
                         targetChannel &&
                         (targetChannel.channel_type === "TextChannel" ||
@@ -540,23 +521,17 @@ function ContextMenus(props: Props) {
                             ? targetChannel
                             : undefined;
 
-                    const s = serverChannel ? serverChannel.server! : sid;
-                    const server = s ? store.servers.get(s) : undefined;
+                    const s = serverChannel ? serverChannel.server_id! : sid;
+                    const server = s ? client.servers.get(s) : undefined;
 
-                    const channelPermissions = targetChannel
-                        ? useChannelPermission(targetChannel._id, forceUpdate)
-                        : 0;
-                    const serverPermissions = server
-                        ? useServerPermission(server._id, forceUpdate)
-                        : serverChannel
-                        ? useServerPermission(
-                              serverChannel.server!,
-                              forceUpdate,
-                          )
-                        : 0;
-                    const userPermissions = user
-                        ? useUserPermission(user._id, forceUpdate)
-                        : 0;
+                    const channelPermissions = targetChannel?.permission || 0;
+                    const serverPermissions =
+                        (server
+                            ? server.permission
+                            : serverChannel
+                            ? serverChannel.server?.permission
+                            : 0) || 0;
+                    const userPermissions = (user ? user.permission : 0) || 0;
 
                     if (channel && unread) {
                         generateAction({ action: "mark_as_read", channel });
@@ -576,29 +551,29 @@ function ContextMenus(props: Props) {
                     if (user) {
                         let actions: Action["action"][];
                         switch (user.relationship) {
-                            case Users.Relationship.User:
+                            case RelationshipStatus.User:
                                 actions = [];
                                 break;
-                            case Users.Relationship.Friend:
+                            case RelationshipStatus.Friend:
                                 actions = ["remove_friend", "block_user"];
                                 break;
-                            case Users.Relationship.Incoming:
+                            case RelationshipStatus.Incoming:
                                 actions = [
                                     "add_friend",
                                     "cancel_friend",
                                     "block_user",
                                 ];
                                 break;
-                            case Users.Relationship.Outgoing:
+                            case RelationshipStatus.Outgoing:
                                 actions = ["cancel_friend", "block_user"];
                                 break;
-                            case Users.Relationship.Blocked:
+                            case RelationshipStatus.Blocked:
                                 actions = ["unblock_user"];
                                 break;
-                            case Users.Relationship.BlockedOther:
+                            case RelationshipStatus.BlockedOther:
                                 actions = ["block_user"];
                                 break;
-                            case Users.Relationship.None:
+                            case RelationshipStatus.None:
                             default:
                                 actions = ["add_friend", "block_user"];
                         }
@@ -629,12 +604,12 @@ function ContextMenus(props: Props) {
                     if (contextualChannel) {
                         if (contextualChannel.channel_type === "Group" && uid) {
                             if (
-                                contextualChannel.owner === userId &&
+                                contextualChannel.owner_id === userId &&
                                 userId !== uid
                             ) {
                                 generateAction({
                                     action: "remove_member",
-                                    channel: contextualChannel._id,
+                                    channel: contextualChannel,
                                     user: user!,
                                 });
                             }
@@ -697,7 +672,7 @@ function ContextMenus(props: Props) {
                             });
                         }
 
-                        if (message.author === userId) {
+                        if (message.author_id === userId) {
                             generateAction({
                                 action: "edit_message",
                                 id: message._id,
@@ -705,7 +680,7 @@ function ContextMenus(props: Props) {
                         }
 
                         if (
-                            message.author === userId ||
+                            message.author_id === userId ||
                             channelPermissions &
                                 ChannelPermission.ManageMessages
                         ) {
@@ -820,7 +795,7 @@ function ContextMenus(props: Props) {
                                         generateAction(
                                             {
                                                 action: "open_server_channel_settings",
-                                                server: channel.server!,
+                                                server: channel.server_id!,
                                                 id: channel._id,
                                             },
                                             "open_channel_settings",
@@ -885,9 +860,7 @@ function ContextMenus(props: Props) {
                 onClose={contextClick}
                 className="Status">
                 {() => {
-                    const store = useData();
-                    const user = store.users.get(client.user!._id)!;
-
+                    const user = client.user!;
                     return (
                         <>
                             <div className="header">
@@ -927,7 +900,7 @@ function ContextMenus(props: Props) {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Users.Presence.Online,
+                                    presence: Presence.Online,
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator online" />
@@ -936,7 +909,7 @@ function ContextMenus(props: Props) {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Users.Presence.Idle,
+                                    presence: Presence.Idle,
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator idle" />
@@ -945,7 +918,7 @@ function ContextMenus(props: Props) {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Users.Presence.Busy,
+                                    presence: Presence.Busy,
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator busy" />
@@ -954,7 +927,7 @@ function ContextMenus(props: Props) {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Users.Presence.Invisible,
+                                    presence: Presence.Invisible,
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator invisible" />
@@ -982,7 +955,7 @@ function ContextMenus(props: Props) {
             <ContextMenuWithData
                 id="NotificationOptions"
                 onClose={contextClick}>
-                {({ channel }: { channel: Channels.Channel }) => {
+                {({ channel }: { channel: Channel }) => {
                     const state = props.notifications[channel._id];
                     const actual = getNotificationState(
                         props.notifications,

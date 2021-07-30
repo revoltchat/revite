@@ -1,6 +1,4 @@
-import { Message } from "revolt.js";
-
-import { MessageObject } from "../../context/revoltjs/util";
+import { Message } from "revolt.js/dist/maps/Messages";
 
 import { SingletonRenderer } from "./Singleton";
 
@@ -20,7 +18,7 @@ export type RenderState =
           type: "RENDER";
           atTop: boolean;
           atBottom: boolean;
-          messages: MessageObject[];
+          messages: Message[];
       };
 
 export interface RendererRoutines {

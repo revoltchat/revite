@@ -1,5 +1,6 @@
 import EventEmitter3 from "eventemitter3";
-import { Client, Message } from "revolt.js";
+import { Client } from "revolt.js";
+import { Message } from "revolt.js/dist/maps/Messages";
 
 import { useEffect, useState } from "preact/hooks";
 

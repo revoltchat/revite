@@ -1,18 +1,13 @@
 import { At, Hash, Menu } from "@styled-icons/boxicons-regular";
 import { Notepad, Group } from "@styled-icons/boxicons-solid";
-import { observable } from "mobx";
 import { observer } from "mobx-react-lite";
+import { Channel } from "revolt.js/dist/maps/Channels";
+import { User } from "revolt.js/dist/maps/Users";
 import styled from "styled-components";
-
-import { useContext } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { Channel, User } from "../../mobx";
-import { useData } from "../../mobx/State";
-
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-import { AppContext, useClient } from "../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../context/revoltjs/util";
 
 import { useStatusColour } from "../../components/common/user/UserIcon";
@@ -71,10 +66,8 @@ const Info = styled.div`
 
 export default observer(({ channel, toggleSidebar }: ChannelHeaderProps) => {
     const { openScreen } = useIntermediate();
-    const client = useClient();
-    const state = useData();
 
-    const name = getChannelName(client, channel);
+    const name = getChannelName(channel);
     let icon, recipient: User | undefined;
     switch (channel.channel_type) {
         case "SavedMessages":
@@ -82,8 +75,7 @@ export default observer(({ channel, toggleSidebar }: ChannelHeaderProps) => {
             break;
         case "DirectMessage":
             icon = <At size={24} />;
-            const uid = client.channels.getRecipient(channel._id);
-            recipient = state.users.get(uid);
+            recipient = channel.recipient;
             break;
         case "Group":
             icon = <Group size={24} />;
