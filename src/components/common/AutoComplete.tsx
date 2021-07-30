@@ -145,6 +145,7 @@ export function useAutoComplete(
                             case "TextChannel":
                                 const server = channel.server_id;
                                 users = [...client.members.keys()]
+                                    .map((x) => JSON.parse(x))
                                     .filter((x) => x.server === server)
                                     .map((x) => client.users.get(x.user))
                                     .filter(
