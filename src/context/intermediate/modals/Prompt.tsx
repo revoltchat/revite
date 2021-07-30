@@ -293,7 +293,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
 
                                 try {
                                     client.members
-                                        .get({
+                                        .getKey({
                                             server: props.target._id,
                                             user: props.user._id,
                                         })

@@ -172,6 +172,7 @@ export const ServerMemberSidebar = observer(
         }, [status]);
 
         let users = [...client.members.keys()]
+            .map((x) => JSON.parse(x))
             .filter((x) => x.server === channel.server_id)
             .map((y) => client.users.get(y.user)!)
             .filter((z) => typeof z !== "undefined");
