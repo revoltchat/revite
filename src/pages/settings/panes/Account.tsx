@@ -2,13 +2,11 @@ import { At } from "@styled-icons/boxicons-regular";
 import { Envelope, Key, HelpCircle } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
-import { Users } from "revolt.js/dist/api/objects";
+import { Profile } from "revolt-api/types/Users";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
-
-import { useData } from "../../../mobx/State";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
@@ -28,14 +26,10 @@ export const Account = observer(() => {
     const status = useContext(StatusContext);
 
     const client = useClient();
-    const store = useData();
-    const user = store.users.get(client.user!._id)!;
 
     const [email, setEmail] = useState("...");
     const [revealEmail, setRevealEmail] = useState(false);
-    const [profile, setProfile] = useState<undefined | Users.Profile>(
-        undefined,
-    );
+    const [profile, setProfile] = useState<undefined | Profile>(undefined);
     const history = useHistory();
 
     function switchPage(to: string) {
@@ -50,8 +44,8 @@ export const Account = observer(() => {
         }
 
         if (profile === undefined && status === ClientStatus.ONLINE) {
-            client.users
-                .fetchProfile(user._id)
+            client
+                .user!.fetchProfile()
                 .then((profile) => setProfile(profile ?? {}));
         }
     }, [status]);
@@ -61,12 +55,14 @@ export const Account = observer(() => {
             <div className={styles.banner}>
                 <UserIcon
                     className={styles.avatar}
-                    target={user}
+                    target={client.user!}
                     size={72}
                     onClick={() => switchPage("profile")}
                 />
                 <div className={styles.userDetail}>
-                    <div className={styles.username}>@{user.username}</div>
+                    <div className={styles.username}>
+                        @{client.user!.username}
+                    </div>
                     <div className={styles.userid}>
                         <Tooltip
                             content={
@@ -75,8 +71,8 @@ export const Account = observer(() => {
                             <HelpCircle size={16} />
                         </Tooltip>
                         <Tooltip content={<Text id="app.special.copy" />}>
-                            <a onClick={() => writeClipboard(user._id)}>
-                                {user._id}
+                            <a onClick={() => writeClipboard(client.user!._id)}>
+                                {client.user!._id}
                             </a>
                         </Tooltip>
                     </div>
@@ -85,7 +81,7 @@ export const Account = observer(() => {
             <div className={styles.details}>
                 {(
                     [
-                        ["username", user.username, <At size={24} />],
+                        ["username", client.user!.username, <At size={24} />],
                         ["email", email, <Envelope size={24} />],
                         ["password", "***********", <Key size={24} />],
                     ] as const

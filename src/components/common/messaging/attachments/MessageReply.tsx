@@ -2,8 +2,10 @@ import { Reply } from "@styled-icons/boxicons-regular";
 import { File } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
+import { RelationshipStatus } from "revolt-api/types/Users";
 import { SYSTEM_USER_ID } from "revolt.js";
-import { Users } from "revolt.js/dist/api/objects";
+import { Channel } from "revolt.js/dist/maps/Channels";
+import { Message } from "revolt.js/dist/maps/Messages";
 import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
@@ -11,17 +13,14 @@ import { useLayoutEffect, useState } from "preact/hooks";
 
 import { useRenderState } from "../../../../lib/renderer/Singleton";
 
-import { useData } from "../../../../mobx/State";
-
 import { useClient } from "../../../../context/revoltjs/RevoltClient";
-import { mapMessage, MessageObject } from "../../../../context/revoltjs/util";
 
 import Markdown from "../../../markdown/Markdown";
 import UserShort from "../../user/UserShort";
 import { SystemMessage } from "../SystemMessage";
 
 interface Props {
-    channel: string;
+    channel: Channel;
     index: number;
     id: string;
 }
@@ -124,13 +123,11 @@ export const ReplyBase = styled.div<{
 `;
 
 export const MessageReply = observer(({ index, channel, id }: Props) => {
-    const client = useClient();
-    const view = useRenderState(channel);
+    const view = useRenderState(channel._id);
     if (view?.type !== "RENDER") return null;
 
-    const [message, setMessage] = useState<MessageObject | undefined>(
-        undefined,
-    );
+    const [message, setMessage] = useState<Message | undefined>(undefined);
+
     useLayoutEffect(() => {
         // ! FIXME: We should do this through the message renderer, so it can fetch it from cache if applicable.
         const m = view.messages.find((x) => x._id === id);
@@ -138,9 +135,7 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
         if (m) {
             setMessage(m);
         } else {
-            client.channels
-                .fetchMessage(channel, id)
-                .then((m) => setMessage(mapMessage(m)));
+            channel.fetchMessage(id).then(setMessage);
         }
     }, [view.messages]);
 
@@ -155,33 +150,32 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
         );
     }
 
-    const store = useData();
-    const user = store.users.get(message.author);
     const history = useHistory();
 
     return (
         <ReplyBase head={index === 0}>
             <Reply size={16} />
-            {user?.relationship === Users.Relationship.Blocked ? (
+            {message.author?.relationship === RelationshipStatus.Blocked ? (
                 <>
                     <Text id="app.main.channel.misc.blocked_user" />
                 </>
             ) : (
                 <>
-                    {message.author === SYSTEM_USER_ID ? (
+                    {message.author_id === SYSTEM_USER_ID ? (
                         <SystemMessage message={message} hideInfo />
                     ) : (
                         <>
                             <div className="user">
-                                <UserShort user={user} size={16} />
+                                <UserShort user={message.author} size={16} />
                             </div>
                             <div
                                 className="content"
                                 onClick={() => {
-                                    const obj = client.channels.get(channel);
-                                    if (obj?.channel_type === "TextChannel") {
+                                    if (
+                                        channel.channel_type === "TextChannel"
+                                    ) {
                                         history.push(
-                                            `/server/${obj.server}/channel/${obj._id}/${message._id}`,
+                                            `/server/${channel.server}/channel/${channel._id}/${message._id}`,
                                         );
                                     } else {
                                         history.push(

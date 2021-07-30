@@ -1,19 +1,16 @@
 import { Prompt } from "react-router";
 import { useHistory } from "react-router-dom";
-import {
-    Attachment,
-    Channels,
-    EmbedImage,
-    Servers,
-    Users,
-} from "revolt.js/dist/api/objects";
+import type { Attachment } from "revolt-api/types/Autumn";
+import type { EmbedImage } from "revolt-api/types/January";
+import { Channel } from "revolt.js/dist/maps/Channels";
+import { Message } from "revolt.js/dist/maps/Messages";
+import { Server } from "revolt.js/dist/maps/Servers";
+import { User } from "revolt.js/dist/maps/Users";
 
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
-
-import { Channel, Server, User } from "../../mobx";
 
 import { Action } from "../../components/ui/Modal";
 
@@ -39,7 +36,7 @@ export type Screen =
           | { type: "leave_server"; target: Server }
           | { type: "delete_server"; target: Server }
           | { type: "delete_channel"; target: Channel }
-          | { type: "delete_message"; target: Channels.Message }
+          | { type: "delete_message"; target: Message }
           | {
                 type: "create_invite";
                 target: Channel;

@@ -1,13 +1,11 @@
 import { XCircle } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
-import { Invites as InvitesNS, Servers } from "revolt.js/dist/api/objects";
+import { ServerInvite } from "revolt-api/types/Invites";
+import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
-
-import { Server } from "../../../mobx";
-import { useData } from "../../../mobx/State";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../../context/revoltjs/util";
@@ -22,21 +20,18 @@ interface Props {
 
 export const Invites = observer(({ server }: Props) => {
     const [deleting, setDelete] = useState<string[]>([]);
-    const [invites, setInvites] = useState<
-        InvitesNS.ServerInvite[] | undefined
-    >(undefined);
+    const [invites, setInvites] = useState<ServerInvite[] | undefined>(
+        undefined,
+    );
 
-    const store = useData();
     const client = useClient();
-    const users = invites?.map((invite) => store.users.get(invite.creator));
+    const users = invites?.map((invite) => client.users.get(invite.creator));
     const channels = invites?.map((invite) =>
-        store.channels.get(invite.channel),
+        client.channels.get(invite.channel),
     );
 
     useEffect(() => {
-        client.servers
-            .fetchInvites(server._id)
-            .then((invites) => setInvites(invites));
+        server.fetchInvites().then(setInvites);
     }, []);
 
     return (
@@ -73,7 +68,7 @@ export const Invites = observer(({ server }: Props) => {
                         </span>
                         <span>
                             {channel && creator
-                                ? getChannelName(client, channel, true)
+                                ? getChannelName(channel, true)
                                 : "#??"}
                         </span>
                         <IconButton

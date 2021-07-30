@@ -1,7 +1,8 @@
 import { X, Plus } from "@styled-icons/boxicons-regular";
 import { PhoneCall, Envelope, UserX } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Users } from "revolt.js/dist/api/objects";
+import { RelationshipStatus } from "revolt-api/types/Users";
+import { User } from "revolt.js/dist/maps/Users";
 
 import styles from "./Friend.module.scss";
 import classNames from "classnames";
@@ -10,8 +11,6 @@ import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
 import { stopPropagation } from "../../lib/stopPropagation";
-
-import { User } from "../../mobx";
 
 import { VoiceOperationsContext } from "../../context/Voice";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
@@ -39,7 +38,7 @@ export const Friend = observer(({ user }: Props) => {
     const actions: Children[] = [];
     let subtext: Children = null;
 
-    if (user.relationship === Users.Relationship.Friend) {
+    if (user.relationship === RelationshipStatus.Friend) {
         subtext = <UserStatus user={user} />;
         actions.push(
             <>
@@ -61,14 +60,12 @@ export const Friend = observer(({ user }: Props) => {
         );
     }
 
-    if (user.relationship === Users.Relationship.Incoming) {
+    if (user.relationship === RelationshipStatus.Incoming) {
         actions.push(
             <IconButton
                 type="circle"
                 className={styles.button}
-                onClick={(ev) =>
-                    stopPropagation(ev, client.users.addFriend(user.username))
-                }>
+                onClick={(ev) => stopPropagation(ev, user.addFriend())}>
                 <Plus size={24} />
             </IconButton>,
         );
@@ -76,14 +73,14 @@ export const Friend = observer(({ user }: Props) => {
         subtext = <Text id="app.special.friends.incoming" />;
     }
 
-    if (user.relationship === Users.Relationship.Outgoing) {
+    if (user.relationship === RelationshipStatus.Outgoing) {
         subtext = <Text id="app.special.friends.outgoing" />;
     }
 
     if (
-        user.relationship === Users.Relationship.Friend ||
-        user.relationship === Users.Relationship.Outgoing ||
-        user.relationship === Users.Relationship.Incoming
+        user.relationship === RelationshipStatus.Friend ||
+        user.relationship === RelationshipStatus.Outgoing ||
+        user.relationship === RelationshipStatus.Incoming
     ) {
         actions.push(
             <IconButton
@@ -96,13 +93,13 @@ export const Friend = observer(({ user }: Props) => {
                 onClick={(ev) =>
                     stopPropagation(
                         ev,
-                        user.relationship === Users.Relationship.Friend
+                        user.relationship === RelationshipStatus.Friend
                             ? openScreen({
                                   id: "special_prompt",
                                   type: "unfriend_user",
                                   target: user,
                               })
-                            : client.users.removeFriend(user._id),
+                            : user.removeFriend(),
                     )
                 }>
                 <X size={24} />
@@ -110,14 +107,12 @@ export const Friend = observer(({ user }: Props) => {
         );
     }
 
-    if (user.relationship === Users.Relationship.Blocked) {
+    if (user.relationship === RelationshipStatus.Blocked) {
         actions.push(
             <IconButton
                 type="circle"
                 className={classNames(styles.button, styles.error)}
-                onClick={(ev) =>
-                    stopPropagation(ev, client.users.unblockUser(user._id))
-                }>
+                onClick={(ev) => stopPropagation(ev, user.unblockUser())}>
                 <UserX size={24} />
             </IconButton>,
         );

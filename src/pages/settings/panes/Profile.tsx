@@ -1,5 +1,3 @@
-import { Users } from "revolt.js/dist/api/objects";
-
 import styles from "./Panes.module.scss";
 import { IntlContext, Text, translate } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
@@ -18,6 +16,7 @@ import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
 import Button from "../../../components/ui/Button";
+import { Profile } from "revolt-api/types/Users";
 
 export function Profile() {
     const { intl } = useContext(IntlContext);
@@ -25,15 +24,15 @@ export function Profile() {
 
     const client = useClient();
 
-    const [profile, setProfile] = useState<undefined | Users.Profile>(
+    const [profile, setProfile] = useState<undefined | Profile>(
         undefined,
     );
 
     // ! FIXME: temporary solution
     // ! we should just announce profile changes through WS
     function refreshProfile() {
-        client.users
-            .fetchProfile(client.user!._id)
+        client
+            .user!.fetchProfile()
             .then((profile) => setProfile(profile ?? {}));
     }
 
@@ -85,19 +84,16 @@ export function Profile() {
                         fileType="avatars"
                         behaviour="upload"
                         maxFileSize={4_000_000}
-                        onUpload={(avatar) => client.users.editUser({ avatar })}
+                        onUpload={(avatar) => client.users.edit({ avatar })}
                         remove={() =>
-                            client.users.editUser({ remove: "Avatar" })
+                            client.users.edit({ remove: "Avatar" })
                         }
-                        defaultPreview={client.users.getAvatarURL(
-                            client.user!._id,
+                        defaultPreview={client.user!.generateAvatarURL(
                             { max_side: 256 },
                             true,
                         )}
-                        previewURL={client.users.getAvatarURL(
-                            client.user!._id,
+                        previewURL={client.user!.generateAvatarURL(
                             { max_side: 256 },
-                            true,
                             true,
                         )}
                     />
@@ -113,21 +109,21 @@ export function Profile() {
                         fileType="backgrounds"
                         maxFileSize={6_000_000}
                         onUpload={async (background) => {
-                            await client.users.editUser({
+                            await client.users.edit({
                                 profile: { background },
                             });
                             refreshProfile();
                         }}
                         remove={async () => {
-                            await client.users.editUser({
+                            await client.users.edit({
                                 remove: "ProfileBackground",
                             });
                             setProfile({ ...profile, background: undefined });
                         }}
                         previewURL={
                             profile?.background
-                                ? client.users.getBackgroundURL(
-                                      profile,
+                                ? client.generateFileURL(
+                                      profile.background,
                                       { width: 1000 },
                                       true,
                                   )
@@ -169,7 +165,7 @@ export function Profile() {
                     contrast
                     onClick={() => {
                         setChanged(false);
-                        client.users.editUser({
+                        client.users.edit({
                             profile: { content: profile?.content },
                         });
                     }}

@@ -22,7 +22,8 @@
     }
   },
   "dependencies": {
-    "preact": "^10.5.13"
+    "preact": "^10.5.13",
+    "revolt-api": "0.5.1-alpha.10-patch.0"
   },
   "devDependencies": {
     "@fontsource/atkinson-hyperlegible": "^4.4.5",
@@ -96,7 +97,7 @@
     "react-router-dom": "^5.2.0",
     "react-scroll": "^1.8.2",
     "redux": "^4.1.0",
-    "revolt.js": "4.4.0-alpha.0",
+    "revolt.js": "5.0.0-alpha.5",
     "rimraf": "^3.0.2",
     "sass": "^1.35.1",
     "shade-blend-color": "^1.0.0",

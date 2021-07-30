@@ -1,6 +1,6 @@
 import localForage from "localforage";
 import { createStore } from "redux";
-import { Core } from "revolt.js/dist/api/objects";
+import { RevoltConfiguration } from "revolt-api/types/Core";
 
 import { Language } from "../context/Locale";
 
@@ -18,7 +18,7 @@ import { Typing } from "./reducers/typing";
 import { Unreads } from "./reducers/unreads";
 
 export type State = {
-    config: Core.RevoltNodeConfiguration;
+    config: RevoltConfiguration;
     locale: Language;
     auth: AuthState;
     settings: Settings;

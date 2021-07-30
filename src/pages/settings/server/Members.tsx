@@ -1,14 +1,13 @@
 import { ChevronDown } from "@styled-icons/boxicons-regular";
 import { isEqual } from "lodash";
 import { observer } from "mobx-react-lite";
-import { Servers } from "revolt.js/dist/api/objects";
+import { Member } from "revolt.js/dist/maps/Members";
+import { Server } from "revolt.js/dist/maps/Servers";
+import { User } from "revolt.js/dist/maps/Users";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
-
-import { Server } from "../../../mobx";
-import { useData } from "../../../mobx/State";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
@@ -24,25 +23,21 @@ interface Props {
 
 export const Members = observer(({ server }: Props) => {
     const [selected, setSelected] = useState<undefined | string>();
-    const [members, setMembers] = useState<Servers.Member[] | undefined>(
-        undefined,
-    );
+    const [data, setData] = useState<
+        { members: Member[]; users: User[] } | undefined
+    >(undefined);
 
-    const store = useData();
     const client = useClient();
-    const users = members?.map((member) => store.users.get(member._id.user));
 
     useEffect(() => {
-        client.members
-            .fetchMembers(server._id)
-            .then((members) => setMembers(members));
+        server.fetchMembers().then(setData);
     }, []);
 
     const [roles, setRoles] = useState<string[]>([]);
     useEffect(() => {
         if (selected) {
             setRoles(
-                members!.find((x) => x._id.user === selected)?.roles ?? [],
+                data!.members.find((x) => x._id.user === selected)?.roles ?? [],
             );
         }
     }, [selected]);
@@ -50,15 +45,15 @@ export const Members = observer(({ server }: Props) => {
     return (
         <div className={styles.userList}>
             <div className={styles.subtitle}>
-                {members?.length ?? 0} Members
+                {data?.members.length ?? 0} Members
             </div>
-            {members &&
-                members.length > 0 &&
-                members
+            {data &&
+                data.members.length > 0 &&
+                data.members
                     .map((member, index) => {
                         return {
                             member,
-                            user: users![index],
+                            user: data.users[index],
                         };
                     })
                     .map(({ member, user }) => (
@@ -130,27 +125,11 @@ export const Members = observer(({ server }: Props) => {
                                             member.roles ?? [],
                                             roles,
                                         )}
-                                        onClick={async () => {
-                                            await client.members.editMember(
-                                                server._id,
-                                                member._id.user,
-                                                {
-                                                    roles,
-                                                },
-                                            );
-
-                                            setMembers(
-                                                members.map((x) =>
-                                                    x._id.user ===
-                                                    member._id.user
-                                                        ? {
-                                                              ...x,
-                                                              roles,
-                                                          }
-                                                        : x,
-                                                ),
-                                            );
-                                        }}>
+                                        onClick={() =>
+                                            member.edit({
+                                                roles,
+                                            })
+                                        }>
                                         <Text id="app.special.modals.actions.save" />
                                     </Button>
                                 </div>

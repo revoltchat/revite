@@ -1,13 +1,11 @@
 import { XCircle } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
-import { Servers, Users } from "revolt.js/dist/api/objects";
 import { Route } from "revolt.js/dist/api/routes";
+import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
-
-import { Server } from "../../../mobx";
 
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
@@ -27,7 +25,7 @@ export const Bans = observer(({ server }: Props) => {
     >(undefined);
 
     useEffect(() => {
-        client.servers.fetchBans(server._id).then(setData as any);
+        server.fetchBans().then(setData as any);
     }, []);
 
     return (
@@ -64,10 +62,7 @@ export const Bans = observer(({ server }: Props) => {
                             onClick={async () => {
                                 setDelete([...deleting, x._id.user]);
 
-                                await client.servers.unbanUser(
-                                    server._id,
-                                    x._id.user,
-                                );
+                                await server.unbanUser(x._id.user);
 
                                 setData({
                                     ...data,

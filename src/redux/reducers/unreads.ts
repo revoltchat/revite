@@ -1,7 +1,7 @@
-import type { Sync } from "revolt.js/dist/api/objects";
+import type { ChannelUnread } from "revolt-api/types/Sync";
 
 export interface Unreads {
-    [key: string]: Partial<Omit<Sync.ChannelUnread, "_id">>;
+    [key: string]: Partial<Omit<ChannelUnread, "_id">>;
 }
 
 export type UnreadsAction =
@@ -13,7 +13,7 @@ export type UnreadsAction =
       }
     | {
           type: "UNREADS_SET";
-          unreads: Sync.ChannelUnread[];
+          unreads: ChannelUnread[];
       }
     | {
           type: "UNREADS_MENTION";

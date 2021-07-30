@@ -1,4 +1,5 @@
-import type { Channel, Message } from "revolt.js";
+import { Channel } from "revolt.js/dist/maps/Channels";
+import { Message } from "revolt.js/dist/maps/Messages";
 
 import type { SyncUpdateAction } from "./sync";
 
@@ -35,7 +36,7 @@ export function shouldNotify(
         case "none":
             return false;
         case "mention": {
-            if (!message.mentions?.includes(user_id)) return false;
+            if (!message.mention_ids?.includes(user_id)) return false;
         }
     }
 

@@ -1,17 +1,12 @@
 import { Plus } from "@styled-icons/boxicons-regular";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import { Servers } from "revolt.js/dist/api/objects";
-import {
-    ChannelPermission,
-    ServerPermission,
-} from "revolt.js/dist/api/permissions";
+import { ChannelPermission, ServerPermission } from "revolt.js";
+import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
-
-import { Server } from "../../../mobx";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
@@ -73,20 +68,20 @@ export const Roles = observer(({ server }: Props) => {
 
     const save = () => {
         if (!isEqual(perm, getPermissions(role))) {
-            client.servers.setPermissions(server._id, role, {
+            server.setPermissions(role, {
                 server: perm[0],
                 channel: perm[1],
             });
         }
 
         if (!isEqual(name, roleName) || !isEqual(colour, roleColour)) {
-            client.servers.editRole(server._id, role, { name, colour });
+            server.editRole(role, { name, colour });
         }
     };
 
     const deleteRole = () => {
         setRole("default");
-        client.servers.deleteRole(server._id, role);
+        server.deleteRole(role);
     };
 
     return (

@@ -1,9 +1,9 @@
-import type { Auth } from "revolt.js/dist/api/objects";
+import { Session } from "revolt-api/types/Auth";
 
 export interface AuthState {
     accounts: {
         [key: string]: {
-            session: Auth.Session;
+            session: Session;
         };
     };
     active?: string;
@@ -13,7 +13,7 @@ export type AuthAction =
     | { type: undefined }
     | {
           type: "LOGIN";
-          session: Auth.Session;
+          session: Session;
       }
     | {
           type: "LOGOUT";

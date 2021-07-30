@@ -1,11 +1,11 @@
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
+import { Channel } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import { Channel } from "../../mobx";
 import { dispatch, getState } from "../../redux";
 
 import Button from "../ui/Button";

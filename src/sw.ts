@@ -1,8 +1,8 @@
 /// <reference lib="webworker" />
 import { IDBPDatabase, openDB } from "idb";
 import { getItem } from "localforage";
-import { Channel, Message, User } from "revolt.js";
-import { Server } from "revolt.js/dist/api/objects";
+// import { Channel, Message, User } from "revolt.js";
+// import { Server } from "revolt.js/dist/api/objects";
 import { precacheAndRoute } from "workbox-precaching";
 
 import type { State } from "./redux";
@@ -43,7 +43,8 @@ function decodeTime(id: string) {
 self.addEventListener("push", (event) => {
     async function process() {
         if (event.data === null) return;
-        const data: Message = event.data.json();
+        // ! FIXME: removed until client data is saved to local storage
+        /* const data: Message = event.data.json();
 
         const item = await localStorage.getItem("state");
         if (!item) return;
@@ -142,7 +143,7 @@ self.addEventListener("push", (event) => {
                 channel?.channel_type === "TextChannel"
                     ? `/server/${channel.server}/channel/${channel._id}`
                     : `/channel/${data.channel}`,
-        });
+        }); */
     }
 
     event.waitUntil(process());

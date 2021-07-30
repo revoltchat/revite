@@ -1,13 +1,11 @@
 import { observer } from "mobx-react-lite";
-import { Channels } from "revolt.js/dist/api/objects";
+import { Channel } from "revolt.js/dist/maps/Channels";
 import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
-
-import { Channel } from "../../../mobx";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
@@ -51,7 +49,7 @@ export default observer(({ channel }: Props) => {
         if (description !== channel.description)
             changes.description = description;
 
-        client.channels.edit(channel._id, changes);
+        channel.edit(changes);
         setChanged(false);
     }
 
@@ -65,17 +63,12 @@ export default observer(({ channel }: Props) => {
                     fileType="icons"
                     behaviour="upload"
                     maxFileSize={2_500_000}
-                    onUpload={(icon) =>
-                        client.channels.edit(channel._id, { icon })
-                    }
-                    previewURL={client.channels.getIconURL(
-                        channel._id,
+                    onUpload={(icon) => channel.edit({ icon })}
+                    previewURL={channel.generateIconURL(
                         { max_side: 256 },
                         true,
                     )}
-                    remove={() =>
-                        client.channels.edit(channel._id, { remove: "Icon" })
-                    }
+                    remove={() => channel.edit({ remove: "Icon" })}
                     defaultPreview={
                         channel.channel_type === "Group"
                             ? "/assets/group.png"
