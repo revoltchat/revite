@@ -1,6 +1,7 @@
 import { X, Plus } from "@styled-icons/boxicons-regular";
 import { PhoneCall, Envelope, UserX } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
+import { useHistory } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import { User } from "revolt.js/dist/maps/Users";
 
@@ -30,9 +31,8 @@ interface Props {
 }
 
 export const Friend = observer(({ user }: Props) => {
-    const client = useContext(AppContext);
+    const history = useHistory();
     const { openScreen } = useIntermediate();
-    const { openDM } = useContext(OperationsContext);
     const { connect } = useContext(VoiceOperationsContext);
 
     const actions: Children[] = [];
@@ -46,14 +46,29 @@ export const Friend = observer(({ user }: Props) => {
                     type="circle"
                     className={classNames(styles.button, styles.success)}
                     onClick={(ev) =>
-                        stopPropagation(ev, openDM(user._id).then(connect))
+                        stopPropagation(
+                            ev,
+                            user.openDM().then((channel) => {
+                                connect(channel._id);
+                                history.push(`/channel/${channel._id}`);
+                            }),
+                        )
                     }>
                     <PhoneCall size={20} />
                 </IconButton>
                 <IconButton
                     type="circle"
                     className={styles.button}
-                    onClick={(ev) => stopPropagation(ev, openDM(user._id))}>
+                    onClick={(ev) =>
+                        stopPropagation(
+                            ev,
+                            user
+                                .openDM()
+                                .then((channel) =>
+                                    history.push(`/channel/${channel._id}`),
+                                ),
+                        )
+                    }>
                     <Envelope size={20} />
                 </IconButton>
             </>,

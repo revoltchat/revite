@@ -29,15 +29,15 @@ export default function Open() {
 
     useEffect(() => {
         if (id === "saved") {
-            for (const channel of client.channels.toArray()) {
+            for (const channel of [...client.channels.values()]) {
                 if (channel?.channel_type === "SavedMessages") {
                     history.push(`/channel/${channel._id}`);
                     return;
                 }
             }
 
-            client.users
-                .openDM(client.user?._id as string)
+            client
+                .user!.openDM()
                 .then((channel) => history.push(`/channel/${channel?._id}`))
                 .catch((error) => openScreen({ id: "error", error }));
 
@@ -46,19 +46,20 @@ export default function Open() {
 
         let user = client.users.get(id);
         if (user) {
-            const channel: string | undefined = client.channels
-                .toArray()
-                .find(
-                    (channel) =>
-                        channel?.channel_type === "DirectMessage" &&
-                        channel.recipients.includes(id),
-                )?._id;
+            const channel: string | undefined = [
+                ...client.channels.values(),
+            ].find(
+                (channel) =>
+                    channel?.channel_type === "DirectMessage" &&
+                    channel.recipient_ids!.includes(id),
+            )?._id;
 
             if (channel) {
                 history.push(`/channel/${channel}`);
             } else {
                 client.users
-                    .openDM(id)
+                    .get(id)
+                    ?.openDM()
                     .then((channel) => history.push(`/channel/${channel?._id}`))
                     .catch((error) => openScreen({ id: "error", error }));
             }

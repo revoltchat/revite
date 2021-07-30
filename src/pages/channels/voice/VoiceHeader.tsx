@@ -6,8 +6,6 @@ import styled from "styled-components";
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
-import { useData } from "../../../mobx/State";
-
 import {
     VoiceContext,
     VoiceOperationsContext,
@@ -77,14 +75,13 @@ export default observer(({ id }: Props) => {
     const { isProducing, startProducing, stopProducing, disconnect } =
         useContext(VoiceOperationsContext);
 
-    const store = useData();
     const client = useClient();
-    const self = store.users.get(client.user!._id);
+    const self = client.users.get(client.user!._id);
 
     //const ctx = useForceUpdate();
     //const self = useSelf(ctx);
     const keys = participants ? Array.from(participants.keys()) : undefined;
-    const users = keys?.map((key) => store.users.get(key));
+    const users = keys?.map((key) => client.users.get(key));
 
     return (
         <VoiceBase>

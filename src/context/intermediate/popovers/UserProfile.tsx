@@ -1,16 +1,13 @@
 import { Money } from "@styled-icons/boxicons-regular";
 import { Envelope, Edit, UserPlus, Shield } from "@styled-icons/boxicons-solid";
 import { Link, useHistory } from "react-router-dom";
-import { Users } from "revolt.js/dist/api/objects";
+import { Profile, RelationshipStatus } from "revolt-api/types/Users";
 import { UserPermission } from "revolt.js/dist/api/permissions";
 import { Route } from "revolt.js/dist/api/routes";
-import { decodeTime } from "ulid";
 
 import styles from "./UserProfile.module.scss";
 import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
-
-import { useData } from "../../../mobx/State";
 
 import ChannelIcon from "../../../components/common/ChannelIcon";
 import Tooltip from "../../../components/common/Tooltip";
@@ -27,14 +24,13 @@ import {
     StatusContext,
     useClient,
 } from "../../revoltjs/RevoltClient";
-import { useForceUpdate, useUserPermission } from "../../revoltjs/hooks";
 import { useIntermediate } from "../Intermediate";
 
 interface Props {
     user_id: string;
     dummy?: boolean;
     onClose: () => void;
-    dummyProfile?: Users.Profile;
+    dummyProfile?: Profile;
 }
 
 enum Badges {
@@ -48,7 +44,7 @@ enum Badges {
 export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
     const { openScreen, writeClipboard } = useIntermediate();
 
-    const [profile, setProfile] = useState<undefined | null | Users.Profile>(
+    const [profile, setProfile] = useState<undefined | null | Profile>(
         undefined,
     );
     const [mutual, setMutual] = useState<
@@ -60,22 +56,18 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
     const status = useContext(StatusContext);
     const [tab, setTab] = useState("profile");
 
-    const ctx = useForceUpdate();
-    const permissions = useUserPermission(client.user!._id, ctx);
-
-    const store = useData();
-    if (!store.users.has(user_id)) {
+    const user = client.users.get(user_id);
+    if (!user) {
         useEffect(onClose, []);
         return null;
     }
 
-    const user = store.users.get(user_id)!;
-    const users = mutual?.users.map((id) => store.users.get(id));
+    const users = mutual?.users.map((id) => client.users.get(id));
 
-    const mutualGroups = [...store.channels.values()].filter(
+    const mutualGroups = [...client.channels.values()].filter(
         (channel) =>
             channel?.channel_type === "Group" &&
-            channel.recipients!.includes(user_id),
+            channel.recipient_ids!.includes(user_id),
     );
 
     useLayoutEffect(() => {
@@ -94,7 +86,7 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
         if (dummy) return;
         if (status === ClientStatus.ONLINE && typeof mutual === "undefined") {
             setMutual(null);
-            client.users.fetchMutual(user_id).then((data) => setMutual(data));
+            user.fetchMutual().then(setMutual);
         }
     }, [mutual, status]);
 
@@ -103,10 +95,9 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
         if (status === ClientStatus.ONLINE && typeof profile === "undefined") {
             setProfile(null);
 
-            if (permissions & UserPermission.ViewProfile) {
-                client.users
-                    .fetchProfile(user_id)
-                    .then((data) => setProfile(data))
+            if (user.permission & UserPermission.ViewProfile) {
+                user.fetchProfile()
+                    .then(setProfile)
                     .catch(() => {});
             }
         }
@@ -114,10 +105,8 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
 
     const backgroundURL =
         profile &&
-        client.users.getBackgroundURL(profile, { width: 1000 }, true);
-    const badges =
-        (user.badges ?? 0) |
-        (decodeTime(user._id) < 1623751765790 ? Badges.EarlyAdopter : 0);
+        client.generateFileURL(profile.background, { width: 1000 }, true);
+    const badges = user.badges ?? 0;
 
     return (
         <Modal
@@ -150,7 +139,7 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
                             </span>
                         )}
                     </div>
-                    {user.relationship === Users.Relationship.Friend && (
+                    {user.relationship === RelationshipStatus.Friend && (
                         <Localizer>
                             <Tooltip
                                 content={
@@ -166,7 +155,7 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
                             </Tooltip>
                         </Localizer>
                     )}
-                    {user.relationship === Users.Relationship.User && (
+                    {user.relationship === RelationshipStatus.User && (
                         <IconButton
                             onClick={() => {
                                 onClose();
@@ -176,12 +165,9 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
                             <Edit size={28} />
                         </IconButton>
                     )}
-                    {(user.relationship === Users.Relationship.Incoming ||
-                        user.relationship === Users.Relationship.None) && (
-                        <IconButton
-                            onClick={() =>
-                                client.users.addFriend(user.username)
-                            }>
+                    {(user.relationship === RelationshipStatus.Incoming ||
+                        user.relationship === RelationshipStatus.None) && (
+                        <IconButton onClick={() => user.addFriend()}>
                             <UserPlus size={28} />
                         </IconButton>
                     )}
@@ -192,7 +178,7 @@ export function UserProfile({ user_id, onClose, dummy, dummyProfile }: Props) {
                         onClick={() => setTab("profile")}>
                         <Text id="app.special.popovers.user_profile.profile" />
                     </div>
-                    {user.relationship !== Users.Relationship.User && (
+                    {user.relationship !== RelationshipStatus.User && (
                         <>
                             <div
                                 data-active={tab === "friends"}

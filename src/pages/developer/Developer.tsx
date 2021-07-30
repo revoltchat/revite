@@ -1,7 +1,5 @@
 import { Wrench } from "@styled-icons/boxicons-solid";
-import { isObservable, isObservableProp } from "mobx";
 import { observer } from "mobx-react-lite";
-import { Channels } from "revolt.js/dist/api/objects";
 
 import { useContext } from "preact/hooks";
 
@@ -9,17 +7,13 @@ import PaintCounter from "../../lib/PaintCounter";
 import { TextReact } from "../../lib/i18n";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
-import { useUserPermission } from "../../context/revoltjs/hooks";
 
-import UserIcon from "../../components/common/user/UserIcon";
 import Header from "../../components/ui/Header";
-
-import { useData } from "../../mobx/State";
 
 export default function Developer() {
     // const voice = useContext(VoiceContext);
     const client = useContext(AppContext);
-    const userPermission = useUserPermission(client.user!._id);
+    const userPermission = client.user!.permission;
 
     return (
         <div>
@@ -40,10 +34,6 @@ export default function Developer() {
                     fields={{ provider: <b>GAMING!</b> }}
                 />
             </div>
-            <ObserverTest />
-            <ObserverTest2 />
-            <ObserverTest3 />
-            <ObserverTest4 />
             <div style={{ padding: "16px" }}>
                 {/*<span>
                     <b>Voice Status:</b> {VoiceStatus[voice.status]}
@@ -62,67 +52,3 @@ export default function Developer() {
         </div>
     );
 }
-
-const ObserverTest = observer(() => {
-    const client = useContext(AppContext);
-    const store = useData();
-    return (
-        <div style={{ padding: "16px" }}>
-            <p>
-                username:{" "}
-                {store.users.get(client.user!._id)?.username ?? "no user!"}
-                <PaintCounter small />
-            </p>
-        </div>
-    );
-});
-
-const ObserverTest2 = observer(() => {
-    const client = useContext(AppContext);
-    const store = useData();
-    return (
-        <div style={{ padding: "16px" }}>
-            <p>
-                status:{" "}
-                {JSON.stringify(store.users.get(client.user!._id)?.status) ??
-                    "none"}
-                <PaintCounter small />
-            </p>
-        </div>
-    );
-});
-
-const ObserverTest3 = observer(() => {
-    const client = useContext(AppContext);
-    const store = useData();
-    return (
-        <div style={{ padding: "16px" }}>
-            <p>
-                avatar{" "}
-                <UserIcon
-                    size={64}
-                    attachment={
-                        store.users.get(client.user!._id)?.avatar ?? undefined
-                    }
-                />
-                <PaintCounter small />
-            </p>
-        </div>
-    );
-});
-
-const ObserverTest4 = observer(() => {
-    const client = useContext(AppContext);
-    const store = useData();
-    return (
-        <div style={{ padding: "16px" }}>
-            <p>
-                status text:{" "}
-                {JSON.stringify(
-                    store.users.get(client.user!._id)?.status?.text,
-                ) ?? "none"}
-                <PaintCounter small />
-            </p>
-        </div>
-    );
-});

@@ -2,7 +2,7 @@
  * This file monitors changes to settings and syncs them to the server.
  */
 import isEqual from "lodash.isequal";
-import { Sync } from "revolt.js/dist/api/objects";
+import { UserSettings } from "revolt-api/types/Sync";
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 
 import { useContext, useEffect } from "preact/hooks";
@@ -31,7 +31,7 @@ type Props = {
 const lastValues: { [key in SyncKeys]?: any } = {};
 
 export function mapSync(
-    packet: Sync.UserSettings,
+    packet: UserSettings,
     revision?: Record<string, number>,
 ) {
     const update: { [key in SyncKeys]?: [number, SyncData[key]] } = {};

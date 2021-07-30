@@ -1,6 +1,8 @@
+import { autorun } from "mobx";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
-import { Message, SYSTEM_USER_ID, User } from "revolt.js";
-import { Users } from "revolt.js/dist/api/objects";
+import { Presence, RelationshipStatus } from "revolt-api/types/Users";
+import { SYSTEM_USER_ID } from "revolt.js";
+import { Message } from "revolt.js/dist/maps/Messages";
 import { decodeTime } from "ulid";
 
 import { useContext, useEffect } from "preact/hooks";
@@ -50,41 +52,36 @@ function Notifier({ options, notifs }: Props) {
     const playSound = useContext(SoundContext);
 
     async function message(msg: Message) {
-        if (msg.author === client.user!._id) return;
-        if (msg.channel === channel_id && document.hasFocus()) return;
-        if (client.user!.status?.presence === Users.Presence.Busy) return;
+        if (msg.author_id === client.user!._id) return;
+        if (msg.channel_id === channel_id && document.hasFocus()) return;
+        if (client.user!.status?.presence === Presence.Busy) return;
+        if (msg.author?.relationship === RelationshipStatus.Blocked) return;
 
-        const channel = client.channels.get(msg.channel);
-        const author = client.users.get(msg.author);
-        if (!channel) return;
-        if (author?.relationship === Users.Relationship.Blocked) return;
-
-        const notifState = getNotificationState(notifs, channel);
+        const notifState = getNotificationState(notifs, msg.channel!);
         if (!shouldNotify(notifState, msg, client.user!._id)) return;
 
         playSound("message");
         if (!showNotification) return;
 
         let title;
-        switch (channel.channel_type) {
+        switch (msg.channel?.channel_type) {
             case "SavedMessages":
                 return;
             case "DirectMessage":
-                title = `@${author?.username}`;
+                title = `@${msg.author?.username}`;
                 break;
             case "Group":
-                if (author?._id === SYSTEM_USER_ID) {
-                    title = channel.name;
+                if (msg.author?._id === SYSTEM_USER_ID) {
+                    title = msg.channel.name;
                 } else {
-                    title = `@${author?.username} - ${channel.name}`;
+                    title = `@${msg.author?.username} - ${msg.channel.name}`;
                 }
                 break;
             case "TextChannel":
-                const server = client.servers.get(channel.server);
-                title = `@${author?.username} (#${channel.name}, ${server?.name})`;
+                title = `@${msg.author?.username} (#${msg.channel.name}, ${msg.channel.server?.name})`;
                 break;
             default:
-                title = msg.channel;
+                title = msg.channel?._id;
                 break;
         }
 
@@ -103,70 +100,82 @@ function Notifier({ options, notifs }: Props) {
         let body, icon;
         if (typeof msg.content === "string") {
             body = client.markdownToText(msg.content);
-            icon = client.users.getAvatarURL(msg.author, { max_side: 256 });
+            icon = msg.author?.generateAvatarURL({ max_side: 256 });
         } else {
             const users = client.users;
             switch (msg.content.type) {
                 case "user_added":
                 case "user_remove":
-                    body = translate(
-                        `app.main.channel.system.${
-                            msg.content.type === "user_added"
-                                ? "added_by"
-                                : "removed_by"
-                        }`,
-                        {
-                            user: users.get(msg.content.id)?.username,
-                            other_user: users.get(msg.content.by)?.username,
-                        },
-                    );
-                    icon = client.users.getAvatarURL(msg.content.id, {
-                        max_side: 256,
-                    });
+                    {
+                        let user = users.get(msg.content.id);
+                        body = translate(
+                            `app.main.channel.system.${
+                                msg.content.type === "user_added"
+                                    ? "added_by"
+                                    : "removed_by"
+                            }`,
+                            {
+                                user: user?.username,
+                                other_user: users.get(msg.content.by)?.username,
+                            },
+                        );
+                        icon = user?.generateAvatarURL({
+                            max_side: 256,
+                        });
+                    }
                     break;
                 case "user_joined":
                 case "user_left":
                 case "user_kicked":
                 case "user_banned":
-                    body = translate(
-                        `app.main.channel.system.${msg.content.type}`,
-                        { user: users.get(msg.content.id)?.username },
-                    );
-                    icon = client.users.getAvatarURL(msg.content.id, {
-                        max_side: 256,
-                    });
+                    {
+                        let user = users.get(msg.content.id);
+                        body = translate(
+                            `app.main.channel.system.${msg.content.type}`,
+                            { user: user?.username },
+                        );
+                        icon = user?.generateAvatarURL({
+                            max_side: 256,
+                        });
+                    }
                     break;
                 case "channel_renamed":
-                    body = translate(
-                        `app.main.channel.system.channel_renamed`,
-                        {
-                            user: users.get(msg.content.by)?.username,
-                            name: msg.content.name,
-                        },
-                    );
-                    icon = client.users.getAvatarURL(msg.content.by, {
-                        max_side: 256,
-                    });
+                    {
+                        let user = users.get(msg.content.by);
+                        body = translate(
+                            `app.main.channel.system.channel_renamed`,
+                            {
+                                user: users.get(msg.content.by)?.username,
+                                name: msg.content.name,
+                            },
+                        );
+                        icon = user?.generateAvatarURL({
+                            max_side: 256,
+                        });
+                    }
                     break;
                 case "channel_description_changed":
                 case "channel_icon_changed":
-                    body = translate(
-                        `app.main.channel.system.${msg.content.type}`,
-                        { user: users.get(msg.content.by)?.username },
-                    );
-                    icon = client.users.getAvatarURL(msg.content.by, {
-                        max_side: 256,
-                    });
+                    {
+                        let user = users.get(msg.content.by);
+                        body = translate(
+                            `app.main.channel.system.${msg.content.type}`,
+                            { user: users.get(msg.content.by)?.username },
+                        );
+                        icon = user?.generateAvatarURL({
+                            max_side: 256,
+                        });
+                    }
                     break;
             }
         }
 
-        const notif = await createNotification(title, {
+        const notif = await createNotification(title!, {
             icon,
             image,
             body,
             timestamp: decodeTime(msg._id),
-            tag: msg.channel,
+            tag: msg.channel?._id,
             badge: "/assets/icons/android-chrome-512x512.png",
             silent: true,
         });
@@ -174,7 +183,7 @@ function Notifier({ options, notifs }: Props) {
         if (notif) {
             notif.addEventListener("click", () => {
                 window.focus();
-                const id = msg.channel;
+                const id = msg.channel_id;
                 if (id !== channel_id) {
                     const channel = client.channels.get(id);
                     if (channel) {
@@ -189,15 +198,15 @@ function Notifier({ options, notifs }: Props) {
                 }
             });
 
-            notifications[msg.channel] = notif;
+            notifications[msg.channel_id] = notif;
             notif.addEventListener(
                 "close",
-                () => delete notifications[msg.channel],
+                () => delete notifications[msg.channel_id],
             );
         }
     }
 
-    async function relationship(user: User, property: string) {
+    /*async function relationship(user: User, property: string) {
         if (client.user?.status?.presence === Users.Presence.Busy) return;
         if (property !== "relationship") return;
         if (!showNotification) return;
@@ -219,7 +228,7 @@ function Notifier({ options, notifs }: Props) {
         }
 
         const notif = await createNotification(event, {
-            icon: client.users.getAvatarURL(user._id, { max_side: 256 }),
+            icon: user.generateAvatarURL({ max_side: 256 }),
             badge: "/assets/icons/android-chrome-512x512.png",
             timestamp: +new Date(),
         });
@@ -227,15 +236,17 @@ function Notifier({ options, notifs }: Props) {
         notif?.addEventListener("click", () => {
             history.push(`/friends`);
         });
-    }
+    }*/
 
     useEffect(() => {
+        // ! FIXME: need event from client about relationship
+
         client.addListener("message", message);
-        client.users.addListener("mutation", relationship);
+        // client.users.addListener("mutation", relationship);
 
         return () => {
             client.removeListener("message", message);
-            client.users.removeListener("mutation", relationship);
+            // client.users.removeListener("mutation", relationship);
         };
     }, [client, playSound, guild_id, channel_id, showNotification, notifs]);
 

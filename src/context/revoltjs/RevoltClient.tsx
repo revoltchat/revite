@@ -8,7 +8,6 @@ import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
 import { SingletonMessageRenderer } from "../../lib/renderer/Singleton";
 
-import { useData } from "../../mobx/State";
 import { dispatch } from "../../redux";
 import { connectState } from "../../redux/connector";
 import { AuthState } from "../../redux/reducers/auth";
@@ -36,8 +35,6 @@ export interface ClientOperations {
     logout: (shouldRequest?: boolean) => Promise<void>;
     loggedIn: () => boolean;
     ready: () => boolean;
-
-    openDM: (user_id: string) => Promise<string>;
 }
 
 // By the time they are used, they should all be initialized.
@@ -53,7 +50,6 @@ type Props = {
 };
 
 function Context({ auth, children }: Props) {
-    const history = useHistory();
     const { openScreen } = useIntermediate();
     const [status, setStatus] = useState(ClientStatus.INIT);
     const [client, setClient] = useState<Client>(
@@ -89,7 +85,6 @@ function Context({ auth, children }: Props) {
                 autoReconnect: false,
                 apiURL: import.meta.env.VITE_API_URL,
                 debug: import.meta.env.DEV,
-                db,
             });
 
             setClient(client);
@@ -150,11 +145,6 @@ function Context({ auth, children }: Props) {
             loggedIn: () => typeof auth.active !== "undefined",
             ready: () =>
                 operations.loggedIn() && typeof client.user !== "undefined",
-            openDM: async (user_id: string) => {
-                const channel = await client.users.openDM(user_id);
-                history.push(`/channel/${channel!._id}`);
-                return channel!._id;
-            },
         };
     }, [client, auth.active]);
 
@@ -165,10 +155,6 @@ function Context({ auth, children }: Props) {
 
     useEffect(() => {
         (async () => {
-            if (client.db) {
-                await client.restore();
-            }
-
             if (auth.active) {
                 dispatch({ type: "QUEUE_FAIL_ALL" });
 

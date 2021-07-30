@@ -1,15 +1,15 @@
 import { observer } from "mobx-react-lite";
-import { useParams, useHistory } from "react-router-dom";
-import { Channels } from "revolt.js/dist/api/objects";
+import { useParams } from "react-router-dom";
+import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
 import { useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { Channel as MobXChannel } from "../../mobx";
-import { useData } from "../../mobx/State";
 import { dispatch, getState } from "../../redux";
+
+import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
@@ -37,8 +37,8 @@ const ChannelContent = styled.div`
 `;
 
 export function Channel({ id }: { id: string }) {
-    const store = useData();
-    const channel = store.channels.get(id);
+    const client = useClient();
+    const channel = client.channels.get(id);
     if (!channel) return null;
 
     if (channel.channel_type === "VoiceChannel") {
@@ -49,7 +49,7 @@ export function Channel({ id }: { id: string }) {
 }
 
 const MEMBERS_SIDEBAR_KEY = "sidebar_members";
-const TextChannel = observer(({ channel }: { channel: MobXChannel }) => {
+const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
     const [showMembers, setMembers] = useState(
         getState().sectionToggle[MEMBERS_SIDEBAR_KEY] ?? true,
     );
@@ -101,7 +101,7 @@ const TextChannel = observer(({ channel }: { channel: MobXChannel }) => {
     );
 });
 
-function VoiceChannel({ channel }: { channel: MobXChannel }) {
+function VoiceChannel({ channel }: { channel: ChannelI }) {
     return (
         <>
             <ChannelHeader channel={channel} />
