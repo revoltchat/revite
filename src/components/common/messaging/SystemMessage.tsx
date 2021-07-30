@@ -1,14 +1,13 @@
 import { observer } from "mobx-react-lite";
+import { Message } from "revolt.js/dist/maps/Messages";
+import { User } from "revolt.js/dist/maps/Users";
 import styled from "styled-components";
 
 import { attachContextMenu } from "preact-context-menu";
 
 import { TextReact } from "../../../lib/i18n";
 
-import { User } from "../../../mobx";
-import { useData } from "../../../mobx/State";
-
-import { MessageObject } from "../../../context/revoltjs/util";
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import UserShort from "../user/UserShort";
 import MessageBase, { MessageDetail, MessageInfo } from "./MessageBase";
@@ -36,14 +35,14 @@ type SystemMessageParsed =
 
 interface Props {
     attachContext?: boolean;
-    message: MessageObject;
+    message: Message;
     highlight?: boolean;
     hideInfo?: boolean;
 }
 
 export const SystemMessage = observer(
     ({ attachContext, message, highlight, hideInfo }: Props) => {
-        const store = useData();
+        const client = useClient();
 
         let data: SystemMessageParsed;
         const content = message.content;
@@ -56,8 +55,8 @@ export const SystemMessage = observer(
                 case "user_remove":
                     data = {
                         type: content.type,
-                        user: store.users.get(content.id)!,
-                        by: store.users.get(content.by)!,
+                        user: client.users.get(content.id)!,
+                        by: client.users.get(content.by)!,
                     };
                     break;
                 case "user_joined":
@@ -66,21 +65,21 @@ export const SystemMessage = observer(
                 case "user_banned":
                     data = {
                         type: content.type,
-                        user: store.users.get(content.id)!,
+                        user: client.users.get(content.id)!,
                     };
                     break;
                 case "channel_renamed":
                     data = {
                         type: "channel_renamed",
                         name: content.name,
-                        by: store.users.get(content.by)!,
+                        by: client.users.get(content.by)!,
                     };
                     break;
                 case "channel_description_changed":
                 case "channel_icon_changed":
                     data = {
                         type: content.type,
-                        by: store.users.get(content.by)!,
+                        by: client.users.get(content.by)!,
                     };
                     break;
                 default:

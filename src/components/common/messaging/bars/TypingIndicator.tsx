@@ -1,22 +1,12 @@
 import { observer } from "mobx-react-lite";
-import { User } from "revolt.js";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
-import { useContext } from "preact/hooks";
 
-import { TextReact } from "../../../../lib/i18n";
-
-import { useData } from "../../../../mobx/State";
 import { connectState } from "../../../../redux/connector";
 import { TypingUser } from "../../../../redux/reducers/typing";
 
-import {
-    AppContext,
-    useClient,
-} from "../../../../context/revoltjs/RevoltClient";
-
-import { Username } from "../../user/UserShort";
+import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 interface Props {
     typing?: TypingUser[];
@@ -68,9 +58,8 @@ const Base = styled.div`
 export const TypingIndicator = observer(({ typing }: Props) => {
     if (typing && typing.length > 0) {
         const client = useClient();
-        const store = useData();
         const users = typing
-            .map((x) => store.users.get(x.id)!)
+            .map((x) => client.users.get(x.id)!)
             .filter((x) => typeof x !== "undefined");
 
         users.sort((a, b) =>
@@ -113,11 +102,7 @@ export const TypingIndicator = observer(({ typing }: Props) => {
                         {users.map((user) => (
                             <img
                                 loading="eager"
-                                src={client.users.getAvatarURL(
-                                    user._id,
-                                    { max_side: 256 },
-                                    true,
-                                )}
+                                src={user.generateAvatarURL({ max_side: 256 })}
                             />
                         ))}
                     </div>

@@ -1,4 +1,4 @@
-import { Embed } from "revolt.js/dist/api/objects";
+import { Embed } from "revolt-api/types/January";
 
 import styles from "./Embed.module.scss";
 

@@ -1,10 +1,8 @@
 import { Hash, VolumeFull } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
-import { Channels } from "revolt.js/dist/api/objects";
+import { Channel } from "revolt.js/dist/maps/Channels";
 
 import { useContext } from "preact/hooks";
-
-import { Channel } from "../../mobx";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 

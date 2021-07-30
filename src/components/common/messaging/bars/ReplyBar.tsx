@@ -14,7 +14,6 @@ import { StateUpdater, useEffect } from "preact/hooks";
 import { internalSubscribe } from "../../../../lib/eventEmitter";
 import { useRenderState } from "../../../../lib/renderer/Singleton";
 
-import { useData } from "../../../../mobx/State";
 import { Reply } from "../../../../redux/reducers/queue";
 
 import IconButton from "../../../ui/IconButton";
@@ -74,9 +73,6 @@ export default observer(({ channel, replies, setReplies }: Props) => {
     const ids = replies.map((x) => x.id);
     const messages = view.messages.filter((x) => ids.includes(x._id));
 
-    const store = useData();
-    const users = messages.map((x) => store.users.get(x.author));
-
     return (
         <div>
             {replies.map((reply, index) => {
@@ -92,17 +88,16 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                         </span>
                     );
 
-                const user = users[index];
                 return (
                     <Base key={reply.id}>
                         <ReplyBase preview>
                             <ReplyIcon size={22} />
-                            <UserShort user={user} size={16} />
+                            <UserShort user={message.author} size={16} />
                             {message.attachments &&
                                 message.attachments.length > 0 && (
                                     <File size={16} />
                                 )}
-                            {message.author === SYSTEM_USER_ID ? (
+                            {message.author_id === SYSTEM_USER_ID ? (
                                 <SystemMessage message={message} />
                             ) : (
                                 <Markdown

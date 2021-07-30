@@ -1,11 +1,7 @@
-import {
-    Attachment,
-    AttachmentMetadata,
-    EmbedImage,
-} from "revolt.js/dist/api/objects";
+import { Attachment, AttachmentMetadata } from "revolt-api/types/Autumn";
+import { EmbedImage } from "revolt-api/types/January";
 
 import styles from "./ImageViewer.module.scss";
-import { useContext, useEffect } from "preact/hooks";
 
 import AttachmentActions from "../../../components/common/messaging/attachments/AttachmentActions";
 import EmbedMediaActions from "../../../components/common/messaging/embed/EmbedMediaActions";

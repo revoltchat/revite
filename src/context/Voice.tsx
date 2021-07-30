@@ -1,3 +1,5 @@
+import { Channel } from "revolt.js/dist/maps/Channels";
+
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef, useState } from "preact/hooks";
 
@@ -21,7 +23,7 @@ export enum VoiceStatus {
 }
 
 export interface VoiceOperations {
-    connect: (channelId: string) => Promise<void>;
+    connect: (channel: Channel) => Promise<Channel>;
     disconnect: () => void;
     isProducing: (type: ProduceType) => boolean;
     startProducing: (type: ProduceType) => Promise<void>;
@@ -79,27 +81,25 @@ export default function Voice({ children }: Props) {
     const isConnecting = useRef(false);
     const operations: VoiceOperations = useMemo(() => {
         return {
-            connect: async (channelId) => {
+            connect: async (channel) => {
                 if (!client?.supported()) throw new Error("RTC is unavailable");
 
                 isConnecting.current = true;
-                setStatus(VoiceStatus.CONNECTING, channelId);
+                setStatus(VoiceStatus.CONNECTING, channel._id);
 
                 try {
-                    const call = await revoltClient.channels.joinCall(
-                        channelId,
-                    );
+                    const call = await channel.joinCall();
 
                     if (!isConnecting.current) {
                         setStatus(VoiceStatus.READY);
-                        return;
+                        return channel;
                     }
 
                     // ! FIXME: use configuration to check if voso is enabled
                     // await client.connect("wss://voso.revolt.chat/ws");
                     await client.connect(
                         "wss://voso.revolt.chat/ws",
-                        channelId,
+                        channel._id,
                     );
 
                     setStatus(VoiceStatus.AUTHENTICATING);
@@ -111,11 +111,12 @@ export default function Voice({ children }: Props) {
                 } catch (error) {
                     console.error(error);
                     setStatus(VoiceStatus.READY);
-                    return;
+                    return channel;
                 }
 
                 setStatus(VoiceStatus.CONNECTED);
                 isConnecting.current = false;
+                return channel;
             },
             disconnect: () => {
                 if (!client?.supported()) throw new Error("RTC is unavailable");

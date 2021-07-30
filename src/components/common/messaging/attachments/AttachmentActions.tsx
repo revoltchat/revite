@@ -5,7 +5,7 @@ import {
     Headphone,
     Video,
 } from "@styled-icons/boxicons-regular";
-import { Attachment } from "revolt.js/dist/api/objects";
+import { Attachment } from "revolt-api/types/Autumn";
 
 import styles from "./AttachmentActions.module.scss";
 import classNames from "classnames";

@@ -1,6 +1,5 @@
+import { User } from "revolt.js/dist/maps/Users";
 import styled from "styled-components";
-
-import { User } from "../../../mobx";
 
 import { Children } from "../../../types/Preact";
 import Tooltip from "../Tooltip";

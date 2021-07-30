@@ -97,7 +97,7 @@ export const Roles = observer(({ server }: Props) => {
                             openScreen({
                                 id: "special_input",
                                 type: "create_role",
-                                server: server._id,
+                                server,
                                 callback: (id) => setRole(id),
                             })
                         }

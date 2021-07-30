@@ -6,8 +6,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, Redirect, useLocation, useParams } from "react-router-dom";
-import { Channels } from "revolt.js/dist/api/objects";
-import { Users as UsersNS } from "revolt.js/dist/api/objects";
+import { RelationshipStatus } from "revolt-api/types/Users";
 
 import { Text } from "preact-i18n";
 import { useContext, useEffect } from "preact/hooks";
@@ -16,7 +15,6 @@ import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
-import { useData } from "../../../mobx/State";
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import { Unreads } from "../../../redux/reducers/unreads";
@@ -42,8 +40,7 @@ const HomeSidebar = observer((props: Props) => {
     const { channel } = useParams<{ channel: string }>();
     const { openScreen } = useIntermediate();
 
-    const store = useData();
-    const channels = [...store.channels.values()]
+    const channels = [...client.channels.values()]
         .filter(
             (x) =>
                 x.channel_type === "DirectMessage" ||
@@ -51,7 +48,7 @@ const HomeSidebar = observer((props: Props) => {
         )
         .map((x) => mapChannelWithUnread(x, props.unreads));
 
-    const obj = store.channels.get(channel);
+    const obj = client.channels.get(channel);
     if (channel && !obj) return <Redirect to="/" />;
     if (obj) useUnreads({ ...props, channel: obj });
 
@@ -87,10 +84,10 @@ const HomeSidebar = observer((props: Props) => {
                             <ButtonItem
                                 active={pathname === "/friends"}
                                 alert={
-                                    typeof [...store.users.values()].find(
+                                    typeof [...client.users.values()].find(
                                         (user) =>
                                             user?.relationship ===
-                                            UsersNS.Relationship.Incoming,
+                                            RelationshipStatus.Incoming,
                                     ) !== "undefined"
                                         ? "unread"
                                         : undefined
@@ -139,11 +136,7 @@ const HomeSidebar = observer((props: Props) => {
                     let user;
                     if (x.channel.channel_type === "DirectMessage") {
                         if (!x.channel.active) return null;
-
-                        const recipient = client.channels.getRecipient(
-                            x.channel._id,
-                        );
-                        user = store.users.get(recipient);
+                        user = x.channel.recipient;
 
                         if (!user) {
                             console.warn(

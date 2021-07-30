@@ -1,6 +1,7 @@
 import { MicrophoneOff } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
-import { Users } from "revolt.js/dist/api/objects";
+import { Presence } from "revolt-api/types/Users";
+import { User } from "revolt.js/dist/maps/Users";
 import styled, { css } from "styled-components";
 
 import { useContext } from "preact/hooks";
@@ -8,7 +9,6 @@ import { useContext } from "preact/hooks";
 import { ThemeContext } from "../../../context/Theme";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
-import { User } from "../../../mobx";
 import IconBase, { IconBaseProps } from "../IconBase";
 import fallback from "../assets/user.png";
 
@@ -22,10 +22,10 @@ interface Props extends IconBaseProps<User> {
 export function useStatusColour(user?: User) {
     const theme = useContext(ThemeContext);
 
-    return user?.online && user?.status?.presence !== Users.Presence.Invisible
-        ? user?.status?.presence === Users.Presence.Idle
+    return user?.online && user?.status?.presence !== Presence.Invisible
+        ? user?.status?.presence === Presence.Idle
             ? theme["status-away"]
-            : user?.status?.presence === Users.Presence.Busy
+            : user?.status?.presence === Presence.Busy
             ? theme["status-busy"]
             : theme["status-online"]
         : theme["status-invisible"];
@@ -72,8 +72,7 @@ export default observer(
                 target?.avatar ?? attachment,
                 { max_side: 256 },
                 animate,
-            ) ??
-            (target ? client.users.getDefaultAvatarURL(target._id) : fallback);
+            ) ?? (target ? target.defaultAvatarURL : fallback);
 
         return (
             <IconBase

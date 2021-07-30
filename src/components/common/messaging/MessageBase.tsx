@@ -1,3 +1,5 @@
+import { observer } from "mobx-react-lite";
+import { Message } from "revolt.js/dist/maps/Messages";
 import styled, { css, keyframes } from "styled-components";
 import { decodeTime } from "ulid";
 
@@ -6,7 +8,6 @@ import { Text } from "preact-i18n";
 import { useDictionary } from "../../../lib/i18n";
 
 import { dayjs } from "../../../context/Locale";
-import { MessageObject } from "../../../context/revoltjs/util";
 
 import Tooltip from "../Tooltip";
 
@@ -192,57 +193,54 @@ export const DetailBase = styled.div`
     }
 `;
 
-export function MessageDetail({
-    message,
-    position,
-}: {
-    message: MessageObject;
-    position: "left" | "top";
-}) {
-    const dict = useDictionary();
+export const MessageDetail = observer(
+    ({ message, position }: { message: Message; position: "left" | "top" }) => {
+        const dict = useDictionary();
 
-    if (position === "left") {
-        if (message.edited) {
+        if (position === "left") {
+            if (message.edited) {
+                return (
+                    <>
+                        <time className="copyTime">
+                            <i className="copyBracket">[</i>
+                            {dayjs(decodeTime(message._id)).format(
+                                dict.dayjs.timeFormat,
+                            )}
+                            <i className="copyBracket">]</i>
+                        </time>
+                        <span className="edited">
+                            <Tooltip
+                                content={dayjs(message.edited).format("LLLL")}>
+                                <Text id="app.main.channel.edited" />
+                            </Tooltip>
+                        </span>
+                    </>
+                );
+            }
             return (
                 <>
-                    <time className="copyTime">
+                    <time>
                         <i className="copyBracket">[</i>
                         {dayjs(decodeTime(message._id)).format(
                             dict.dayjs.timeFormat,
                         )}
                         <i className="copyBracket">]</i>
                     </time>
-                    <span className="edited">
-                        <Tooltip content={dayjs(message.edited).format("LLLL")}>
-                            <Text id="app.main.channel.edited" />
-                        </Tooltip>
-                    </span>
                 </>
             );
         }
-        return (
-            <>
-                <time>
-                    <i className="copyBracket">[</i>
-                    {dayjs(decodeTime(message._id)).format(
-                        dict.dayjs.timeFormat,
-                    )}
-                    <i className="copyBracket">]</i>
-                </time>
-            </>
-        );
-    }
 
-    return (
-        <DetailBase>
-            <time>{dayjs(decodeTime(message._id)).calendar()}</time>
-            {message.edited && (
-                <Tooltip content={dayjs(message.edited).format("LLLL")}>
-                    <span className="edited">
-                        <Text id="app.main.channel.edited" />
-                    </span>
-                </Tooltip>
-            )}
-        </DetailBase>
-    );
-}
+        return (
+            <DetailBase>
+                <time>{dayjs(decodeTime(message._id)).calendar()}</time>
+                {message.edited && (
+                    <Tooltip content={dayjs(message.edited).format("LLLL")}>
+                        <span className="edited">
+                            <Text id="app.main.channel.edited" />
+                        </span>
+                    </Tooltip>
+                )}
+            </DetailBase>
+        );
+    },
+);

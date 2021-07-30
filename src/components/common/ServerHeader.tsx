@@ -2,12 +2,8 @@ import { Cog } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import { ServerPermission } from "revolt.js/dist/api/permissions";
+import { Server } from "revolt.js/dist/maps/Servers";
 import styled from "styled-components";
-
-import { Server } from "../../mobx";
-
-import { useClient } from "../../context/revoltjs/RevoltClient";
-import { useServerPermission } from "../../context/revoltjs/hooks";
 
 import Header from "../ui/Header";
 import IconButton from "../ui/IconButton";
@@ -21,14 +17,7 @@ const ServerName = styled.div`
 `;
 
 export default observer(({ server }: Props) => {
-    const permissions = useServerPermission(server._id);
-    const client = useClient();
-
-    const bannerURL = client.servers.getBannerURL(
-        server._id,
-        { width: 480 },
-        true,
-    );
+    const bannerURL = server.generateBannerURL({ width: 480 });
 
     return (
         <Header
@@ -39,7 +28,7 @@ export default observer(({ server }: Props) => {
                 background: bannerURL ? `url('${bannerURL}')` : undefined,
             }}>
             <ServerName>{server.name}</ServerName>
-            {(permissions & ServerPermission.ManageServer) > 0 && (
+            {(server.permission & ServerPermission.ManageServer) > 0 && (
                 <div className="actions">
                     <Link to={`/server/${server._id}/settings`}>
                         <IconButton>

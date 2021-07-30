@@ -187,8 +187,9 @@ export function useAutoComplete(
             if (type === "channel" && searchClues?.channels) {
                 const channels = client.servers
                     .get(searchClues.channels.server)
-                    ?.channels.map((x) => client.channels.get(x))
-                    .filter((x) => typeof x !== "undefined") as Channel[];
+                    ?.channels.filter(
+                        (x) => typeof x !== "undefined",
+                    ) as Channel[];
 
                 const matches = (
                     search.length > 0

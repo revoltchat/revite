@@ -1,15 +1,15 @@
 import { observer } from "mobx-react-lite";
-import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { User } from "revolt.js";
-import { Channels, Message, Servers, Users } from "revolt.js/dist/api/objects";
+import { Presence } from "revolt-api/types/Users";
+import { Channel } from "revolt.js/dist/maps/Channels";
+import Members, { Member } from "revolt.js/dist/maps/Members";
+import { Message } from "revolt.js/dist/maps/Messages";
+import { User } from "revolt.js/dist/maps/Users";
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { Channel } from "../../../mobx";
-import { useData } from "../../../mobx/State";
 import { getState } from "../../../redux";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
@@ -17,8 +17,8 @@ import {
     AppContext,
     ClientStatus,
     StatusContext,
+    useClient,
 } from "../../../context/revoltjs/RevoltClient";
-import { HookContext } from "../../../context/revoltjs/hooks";
 
 import CollapsibleSection from "../../common/CollapsibleSection";
 import Button from "../../ui/Button";
@@ -46,10 +46,10 @@ export const GroupMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
         const { openScreen } = useIntermediate();
 
-        const store = useData();
-        const members = channel.recipients
-            ?.map((member) => store.users.get(member)!)
-            .filter((x) => typeof x !== "undefined");
+        const client = useClient();
+        const members = channel.recipients?.filter(
+            (x) => typeof x !== "undefined",
+        );
 
         /*const voice = useContext(VoiceContext);
     const voiceActive = voice.roomId === channel._id;
@@ -70,14 +70,12 @@ export const GroupMemberSidebar = observer(
             // ! FIXME: should probably rewrite all this code
             const l =
                 +(
-                    (a.online &&
-                        a.status?.presence !== Users.Presence.Invisible) ??
+                    (a!.online && a!.status?.presence !== Presence.Invisible) ??
                     false
                 ) | 0;
             const r =
                 +(
-                    (b.online &&
-                        b.status?.presence !== Users.Presence.Invisible) ??
+                    (b!.online && b!.status?.presence !== Presence.Invisible) ??
                     false
                 ) | 0;
 
@@ -86,14 +84,14 @@ export const GroupMemberSidebar = observer(
                 return n;
             }
 
-            return a.username.localeCompare(b.username);
+            return a!.username.localeCompare(b!.username);
         });
 
         return (
             <GenericSidebarBase>
                 <GenericSidebarList>
                     <ChannelDebugInfo id={channel._id} />
-                    <Search channel={channel._id} />
+                    <Search channel={channel} />
 
                     {/*voiceActive && voiceParticipants.length !== 0 && (
                     <Fragment>
@@ -163,71 +161,32 @@ export const GroupMemberSidebar = observer(
 
 export const ServerMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
-        const [members, setMembers] = useState<Servers.Member[] | undefined>(
-            undefined,
-        );
-
-        const store = useData();
-        const users = members
-            ?.map((member) => store.users.get(member._id.user)!)
-            .filter((x) => typeof x !== "undefined");
-
+        const client = useClient();
         const { openScreen } = useIntermediate();
         const status = useContext(StatusContext);
-        const client = useContext(AppContext);
 
         useEffect(() => {
-            if (
-                status === ClientStatus.ONLINE &&
-                typeof members === "undefined"
-            ) {
-                store
-                    .fetchMembers(channel.server!)
-                    .then((members) => setMembers(members));
+            if (status === ClientStatus.ONLINE) {
+                channel.server!.fetchMembers();
             }
         }, [status]);
 
-        // ! FIXME: temporary code
-        useEffect(() => {
-            function onPacket(packet: ClientboundNotification) {
-                if (!members) return;
-                if (packet.type === "ServerMemberJoin") {
-                    if (packet.id !== channel.server) return;
-                    setMembers([
-                        ...members,
-                        { _id: { server: packet.id, user: packet.user } },
-                    ]);
-                } else if (packet.type === "ServerMemberLeave") {
-                    if (packet.id !== channel.server) return;
-                    setMembers(
-                        members.filter(
-                            (x) =>
-                                !(
-                                    x._id.user === packet.user &&
-                                    x._id.server === packet.id
-                                ),
-                        ),
-                    );
-                }
-            }
-
-            client.addListener("packet", onPacket);
-            return () => client.removeListener("packet", onPacket);
-        }, [members]);
+        let users = [...client.members.keys()]
+            .filter((x) => x.server === channel.server_id)
+            .map((y) => client.users.get(y.user)!)
+            .filter((z) => typeof z !== "undefined");
 
         // copy paste from above
-        users?.sort((a, b) => {
+        users.sort((a, b) => {
             // ! FIXME: should probably rewrite all this code
             const l =
                 +(
-                    (a.online &&
-                        a.status?.presence !== Users.Presence.Invisible) ??
+                    (a.online && a.status?.presence !== Presence.Invisible) ??
                     false
                 ) | 0;
             const r =
                 +(
-                    (b.online &&
-                        b.status?.presence !== Users.Presence.Invisible) ??
+                    (b.online && b.status?.presence !== Presence.Invisible) ??
                     false
                 ) | 0;
 
@@ -243,9 +202,9 @@ export const ServerMemberSidebar = observer(
             <GenericSidebarBase>
                 <GenericSidebarList>
                     <ChannelDebugInfo id={channel._id} />
-                    <Search channel={channel._id} />
-                    <div>{!members && <Preloader type="ring" />}</div>
-                    {members && (
+                    <Search channel={channel} />
+                    <div>{users.length === 0 && <Preloader type="ring" />}</div>
+                    {users.length > 0 && (
                         <CollapsibleSection
                             //sticky //will re-add later, need to fix css
                             id="members"
@@ -256,10 +215,7 @@ export const ServerMemberSidebar = observer(
                                     {users?.length ?? 0}
                                 </span>
                             }>
-                            {(users?.length ?? 0) === 0 && (
-                                <img src={placeholderSVG} loading="eager" />
-                            )}
-                            {users?.map(
+                            {users.map(
                                 (user) =>
                                     user && (
                                         <UserButton
@@ -283,7 +239,7 @@ export const ServerMemberSidebar = observer(
     },
 );
 
-function Search({ channel }: { channel: string }) {
+function Search({ channel }: { channel: Channel }) {
     if (!getState().experiments.enabled?.includes("search")) return null;
 
     const client = useContext(AppContext);
@@ -294,11 +250,7 @@ function Search({ channel }: { channel: string }) {
     const [results, setResults] = useState<Message[]>([]);
 
     async function search() {
-        const data = await client.channels.searchWithUsers(
-            channel,
-            { query, sort },
-            true,
-        );
+        const data = await channel.searchWithUsers({ query, sort });
         setResults(data.messages);
     }
 
@@ -340,7 +292,6 @@ function Search({ channel }: { channel: string }) {
                 }}>
                 {results.map((message) => {
                     let href = "";
-                    const channel = client.channels.get(message.channel);
                     if (channel?.channel_type === "TextChannel") {
                         href += `/server/${channel.server}`;
                     }
@@ -355,10 +306,7 @@ function Search({ channel }: { channel: string }) {
                                     padding: "6px",
                                     background: "var(--primary-background)",
                                 }}>
-                                <b>
-                                    @
-                                    {client.users.get(message.author)?.username}
-                                </b>
+                                <b>@{message.author?.username}</b>
                                 <br />
                                 {message.content}
                             </div>

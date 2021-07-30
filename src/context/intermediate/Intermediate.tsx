@@ -57,7 +57,7 @@ export type Screen =
             }
           | {
                 type: "create_role";
-                server: string;
+                server: Server;
                 callback: (id: string) => void;
             }
       ))
