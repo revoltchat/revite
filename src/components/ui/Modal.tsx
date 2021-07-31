@@ -190,7 +190,7 @@ export default function Modal(props: Props) {
     useEffect(() => {
         if (!confirmationAction) return;
 
-        // ! FIXME: this may be done better if we
+        // ! TODO: this may be done better if we
         // ! can focus the button although that
         // ! doesn't seem to work...
         function keyDown(e: KeyboardEvent) {

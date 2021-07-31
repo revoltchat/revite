@@ -50,7 +50,7 @@ export default observer(
         }
 
         return (
-            // ! fixme: replace fallback with <picture /> + <source />
+            // ! TODO: replace fallback with <picture /> + <source />
             <ImageIconBase
                 {...imgProps}
                 width={size}
