@@ -54,19 +54,19 @@ const Message = observer(
         const head =
             preferHead || (message.reply_ids && message.reply_ids.length > 0);
 
-        // ! FIXME: tell fatal to make this type generic
+        // ! TODO: tell fatal to make this type generic
         // bree: Fatal please...
         const userContext = attachContext
             ? (attachContextMenu("Menu", {
-                  user: message.author,
-                  contextualChannel: message.channel,
+                  user: message.author_id,
+                  contextualChannel: message.channel_id,
               }) as any)
             : undefined;
 
         const openProfile = () =>
             openScreen({ id: "profile", user_id: message.author_id });
 
-        // ! FIXME: animate on hover
+        // ! FIXME(?): animate on hover
         const [animate, setAnimate] = useState(false);
 
         return (
@@ -96,7 +96,7 @@ const Message = observer(
                         attachContext
                             ? attachContextMenu("Menu", {
                                   message,
-                                  contextualChannel: message.channel,
+                                  contextualChannel: message.channel_id,
                                   queued,
                               })
                             : undefined

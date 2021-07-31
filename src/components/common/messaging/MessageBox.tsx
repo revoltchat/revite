@@ -191,8 +191,7 @@ export default function MessageBox({ channel }: Props) {
         playSound("outbound");
 
         const nonce = ulid();
-        // ! FIXME: queued
-        /*dispatch({
+        dispatch({
             type: "QUEUE_ADD",
             nonce,
             channel: channel._id,
@@ -204,7 +203,7 @@ export default function MessageBox({ channel }: Props) {
                 content,
                 replies,
             },
-        });*/
+        });
 
         defer(() =>
             SingletonMessageRenderer.jumpToBottom(

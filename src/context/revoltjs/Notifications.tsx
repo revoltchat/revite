@@ -1,8 +1,9 @@
-import { autorun } from "mobx";
+import { autorun, reaction } from "mobx";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
 import { Presence, RelationshipStatus } from "revolt-api/types/Users";
 import { SYSTEM_USER_ID } from "revolt.js";
 import { Message } from "revolt.js/dist/maps/Messages";
+import { User } from "revolt.js/dist/maps/Users";
 import { decodeTime } from "ulid";
 
 import { useContext, useEffect } from "preact/hooks";
@@ -206,19 +207,18 @@ function Notifier({ options, notifs }: Props) {
         }
     }
 
-    /*async function relationship(user: User, property: string) {
-        if (client.user?.status?.presence === Users.Presence.Busy) return;
-        if (property !== "relationship") return;
+    async function relationship(user: User) {
+        if (client.user?.status?.presence === Presence.Busy) return;
         if (!showNotification) return;
 
         let event;
         switch (user.relationship) {
-            case Users.Relationship.Incoming:
+            case RelationshipStatus.Incoming:
                 event = translate("notifications.sent_request", {
                     person: user.username,
                 });
                 break;
-            case Users.Relationship.Friend:
+            case RelationshipStatus.Friend:
                 event = translate("notifications.now_friends", {
                     person: user.username,
                 });
@@ -236,17 +236,15 @@ function Notifier({ options, notifs }: Props) {
         notif?.addEventListener("click", () => {
             history.push(`/friends`);
         });
-    }*/
+    }
 
     useEffect(() => {
-        // ! FIXME: need event from client about relationship
-
         client.addListener("message", message);
-        // client.users.addListener("mutation", relationship);
+        client.addListener("user/relationship", relationship);
 
         return () => {
             client.removeListener("message", message);
-            // client.users.removeListener("mutation", relationship);
+            client.removeListener("user/relationship", relationship);
         };
     }, [client, playSound, guild_id, channel_id, showNotification, notifs]);
 

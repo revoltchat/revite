@@ -4,9 +4,11 @@ import { useHistory, useParams } from "react-router-dom";
 import { RetrievedInvite } from "revolt-api/types/Invites";
 
 import styles from "./Invite.module.scss";
+import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { defer } from "../../lib/defer";
+import { TextReact } from "../../lib/i18n";
 
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import {
@@ -90,12 +92,20 @@ export default function Invite() {
                         <h1>{invite.server_name}</h1>
                         <h2>#{invite.channel_name}</h2>
                         <h3>
-                            Invited by{" "}
-                            <UserIcon
-                                size={24}
-                                attachment={invite.user_avatar}
-                            />{" "}
-                            {invite.user_name}
+                            <TextReact
+                                id="app.special.invite.invited_by"
+                                fields={{
+                                    user: (
+                                        <>
+                                            <UserIcon
+                                                size={24}
+                                                attachment={invite.user_avatar}
+                                            />{" "}
+                                            {invite.user_name}
+                                        </>
+                                    ),
+                                }}
+                            />
                         </h3>
                         <Overline type="error" error={error} />
                         <Button
@@ -140,9 +150,11 @@ export default function Invite() {
                                     setProcessing(false);
                                 }
                             }}>
-                            {status === ClientStatus.READY
-                                ? "Login to Revolt"
-                                : "Accept Invite"}
+                            {status === ClientStatus.READY ? (
+                                <Text id="app.special.invite.login" />
+                            ) : (
+                                <Text id="app.special.invite.accept" />
+                            )}
                         </Button>
                     </>
                 )}

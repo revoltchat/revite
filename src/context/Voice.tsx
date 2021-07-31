@@ -95,7 +95,7 @@ export default function Voice({ children }: Props) {
                         return channel;
                     }
 
-                    // ! FIXME: use configuration to check if voso is enabled
+                    // ! TODO: use configuration to check if voso is enabled
                     // await client.connect("wss://voso.revolt.chat/ws");
                     await client.connect(
                         "wss://voso.revolt.chat/ws",
@@ -138,9 +138,9 @@ export default function Voice({ children }: Props) {
                 switch (type) {
                     case "audio": {
                         if (client?.audioProducer !== undefined)
-                            return console.log("No audio producer."); // ! FIXME: let the user know
+                            return console.log("No audio producer."); // ! TODO: let the user know
                         if (navigator.mediaDevices === undefined)
-                            return console.log("No media devices."); // ! FIXME: let the user know
+                            return console.log("No media devices."); // ! TODO: let the user know
                         const mediaStream =
                             await navigator.mediaDevices.getUserMedia({
                                 audio: true,
@@ -165,7 +165,7 @@ export default function Voice({ children }: Props) {
     useEffect(() => {
         if (!client?.supported()) return;
 
-        // ! FIXME: message for fatal:
+        // ! TODO: message for fatal:
         // ! get rid of these force updates
         // ! handle it through state or smth
 

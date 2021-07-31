@@ -782,11 +782,15 @@ function ContextMenus(props: Props) {
                                     break;
                                 case "TextChannel":
                                 case "VoiceChannel":
-                                    // ! FIXME: add permission for invites
-                                    generateAction({
-                                        action: "create_invite",
-                                        target: channel,
-                                    });
+                                    if (
+                                        channelPermissions &
+                                        ChannelPermission.InviteOthers
+                                    ) {
+                                        generateAction({
+                                            action: "create_invite",
+                                            target: channel,
+                                        });
+                                    }
 
                                     if (
                                         serverPermissions &

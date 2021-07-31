@@ -9,6 +9,10 @@ export interface Reply {
 }
 
 export type QueuedMessageData = {
+    _id: string;
+    author: string;
+    channel: string;
+
     content: string;
     replies: Reply[];
 };

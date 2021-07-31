@@ -1,24 +1,17 @@
 import { observer } from "mobx-react-lite";
-import { ChannelPermission } from "revolt.js/dist/api/permissions";
+import {
+    ChannelPermission,
+    DEFAULT_PERMISSION_DM,
+} from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
 
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
-import { AppContext, useClient } from "../../../context/revoltjs/RevoltClient";
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
-
-// ! FIXME: export from revolt.js
-const DEFAULT_PERMISSION_DM =
-    ChannelPermission.View +
-    ChannelPermission.SendMessage +
-    ChannelPermission.ManageChannel +
-    ChannelPermission.VoiceCall +
-    ChannelPermission.InviteOthers +
-    ChannelPermission.EmbedLinks +
-    ChannelPermission.UploadFiles;
 
 interface Props {
     channel: Channel;
@@ -27,7 +20,6 @@ interface Props {
 // ! FIXME: bad code :)
 export default observer(({ channel }: Props) => {
     const [selected, setSelected] = useState("default");
-    const client = useClient();
 
     type R = { name: string; permissions: number };
     const roles: { [key: string]: R } = {};

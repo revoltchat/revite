@@ -136,7 +136,7 @@ export const ChannelButton = observer((props: ChannelProps) => {
             {...divProps}
             data-active={active}
             data-alert={typeof alert === "string"}
-            aria-label={{}} /*FIXME: ADD ARIA LABEL*/
+            aria-label={channel.name}
             className={classNames(styles.item, { [styles.compact]: compact })}
             onContextMenu={attachContextMenu("Menu", {
                 channel: channel._id,

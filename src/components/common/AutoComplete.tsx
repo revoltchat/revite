@@ -105,7 +105,7 @@ export function useAutoComplete(
             const regex = new RegExp(search, "i");
 
             if (type === "emoji") {
-                // ! FIXME: we should convert it to a Binary Search Tree and use that
+                // ! TODO: we should convert it to a Binary Search Tree and use that
                 const matches = Object.keys(emojiDictionary)
                     .filter((emoji: string) => emoji.match(regex))
                     .splice(0, 5);

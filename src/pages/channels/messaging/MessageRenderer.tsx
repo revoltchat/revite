@@ -2,6 +2,7 @@ import { X } from "@styled-icons/boxicons-regular";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import { SYSTEM_USER_ID } from "revolt.js";
 import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
+import { Message as MessageI } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 import { decodeTime } from "ulid";
 
@@ -16,7 +17,7 @@ import { connectState } from "../../../redux/connector";
 import { QueuedMessage } from "../../../redux/reducers/queue";
 
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { AppContext, useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Message from "../../../components/common/messaging/Message";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
@@ -48,7 +49,7 @@ const BlockedMessage = styled.div`
 function MessageRenderer({ id, state, queue, highlight }: Props) {
     if (state.type !== "RENDER") return null;
 
-    const client = useContext(AppContext);
+    const client = useClient();
     const userId = client.user!._id;
 
     const [editing, setEditing] = useState<string | undefined>(undefined);
@@ -148,7 +149,6 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
                 />,
             );
         } else {
-            // ! FIXME: temp solution
             if (message.author?.relationship === RelationshipStatus.Blocked) {
                 blocked++;
             } else {
@@ -190,23 +190,24 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
 
                 previous = {
                     _id: msg.id,
-                    data: { author: userId! },
+                    author_id: userId!,
                 } as any;
             }
 
-            // ! FIXME: add queued messages back
-            /* render.push(
+            render.push(
                 <Message
-                    message={{
-                        ...msg.data,
-                        replies: msg.data.replies.map((x) => x.id),
-                    }}
+                    message={
+                        new MessageI(client, {
+                            ...msg.data,
+                            replies: msg.data.replies.map((x) => x.id),
+                        })
+                    }
                     key={msg.id}
                     queued={msg}
                     head={head}
                     attachContext
                 />,
-            ); */
+            );
         }
     } else {
         render.push(
