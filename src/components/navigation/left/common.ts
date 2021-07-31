@@ -1,4 +1,4 @@
-import { autorun } from "mobx";
+import { autorun, isObservableProp, reaction } from "mobx";
 import { Channel } from "revolt.js/dist/maps/Channels";
 
 import { useLayoutEffect } from "preact/hooks";
@@ -17,10 +17,7 @@ export function useUnreads({ channel, unreads }: UnreadProps) {
     const client = useClient();
 
     useLayoutEffect(() => {
-        function checkUnread(
-            target: Channel,
-            last_message: Channel["last_message"],
-        ) {
+        function checkUnread(target: Channel) {
             if (!target) return;
             if (target._id !== channel._id) return;
             if (
@@ -50,7 +47,11 @@ export function useUnreads({ channel, unreads }: UnreadProps) {
             }
         }
 
-        return autorun(() => checkUnread(channel!, channel!.last_message));
+        checkUnread(channel);
+        return reaction(
+            () => channel.last_message,
+            () => checkUnread(channel),
+        );
     }, [channel, unreads]);
 }
 
