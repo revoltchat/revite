@@ -1,5 +1,6 @@
 import { Send, ShieldX } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
+import { observer } from "mobx-react-lite";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
@@ -108,7 +109,7 @@ const Action = styled.div`
 // ! FIXME: add to app config and load from app config
 export const CAN_UPLOAD_AT_ONCE = 4;
 
-export default function MessageBox({ channel }: Props) {
+export default observer(({ channel }: Props) => {
     const [draft, setDraft] = useState(getState().drafts[channel._id] ?? "");
 
     const [uploadState, setUploadState] = useState<UploadState>({
@@ -506,4 +507,4 @@ export default function MessageBox({ channel }: Props) {
             </Base>
         </>
     );
-}
+});

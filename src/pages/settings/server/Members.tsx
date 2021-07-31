@@ -27,8 +27,6 @@ export const Members = observer(({ server }: Props) => {
         { members: Member[]; users: User[] } | undefined
     >(undefined);
 
-    const client = useClient();
-
     useEffect(() => {
         server.fetchMembers().then(setData);
     }, []);
@@ -50,10 +48,12 @@ export const Members = observer(({ server }: Props) => {
             {data &&
                 data.members.length > 0 &&
                 data.members
-                    .map((member, index) => {
+                    .map((member) => {
                         return {
                             member,
-                            user: data.users[index],
+                            user: data.users.find(
+                                (x) => x._id === member._id.user,
+                            ),
                         };
                     })
                     .map(({ member, user }) => (
