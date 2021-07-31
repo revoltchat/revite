@@ -65,29 +65,7 @@ export const SimpleRenderer: RendererRoutines = {
             { type: "StayAtBottom", smooth: SMOOTH_SCROLL_ON_RECEIVE },
         );
     },
-    edit: async (renderer, id, patch) => {
-        // ! FIXME: verify if this is needed anymore
-        /*const channel = renderer.channel;
-        if (!channel) return;
-        if (renderer.state.type !== "RENDER") return;
-
-        const messages = [...renderer.state.messages];
-        const index = messages.findIndex((x) => x._id === id);
-
-        if (index > -1) {
-            const message = { ...messages[index], ...mapMessage(patch) };
-            messages.splice(index, 1, message);
-
-            renderer.setState(
-                channel,
-                {
-                    ...renderer.state,
-                    messages,
-                },
-                { type: "StayAtBottom" },
-            );
-        }*/
-    },
+    edit: async () => {},
     delete: async (renderer, id) => {
         const channel = renderer.channel;
         if (!channel) return;

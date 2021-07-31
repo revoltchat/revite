@@ -7,8 +7,6 @@ import { Channel } from "revolt.js/dist/maps/Channels";
 
 import { useEffect, useState } from "preact/hooks";
 
-import { useClient } from "../../../context/revoltjs/RevoltClient";
-
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
