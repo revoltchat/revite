@@ -298,10 +298,10 @@ function Search({ channel }: { channel: Channel }) {
                 {results.map((message) => {
                     let href = "";
                     if (channel?.channel_type === "TextChannel") {
-                        href += `/server/${channel.server}`;
+                        href += `/server/${channel.server_id}`;
                     }
 
-                    href += `/channel/${message.channel}/${message._id}`;
+                    href += `/channel/${message.channel_id}/${message._id}`;
 
                     return (
                         <Link to={href}>
