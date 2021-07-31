@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Presence } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import Members, { Member } from "revolt.js/dist/maps/Members";
@@ -31,7 +31,11 @@ import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 import { UserButton } from "../items/ButtonItem";
 import { ChannelDebugInfo } from "./ChannelDebugInfo";
 
-export default function MemberSidebar({ channel }: { channel?: Channel }) {
+export default function MemberSidebar({ channel: obj }: { channel?: Channel }) {
+    const { channel: channel_id } = useParams<{ channel: string }>();
+    const client = useClient();
+    const channel = obj ?? client.channels.get(channel_id);
+
     switch (channel?.channel_type) {
         case "Group":
             return <GroupMemberSidebar channel={channel} />;

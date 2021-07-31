@@ -43,7 +43,7 @@ export const SimpleRenderer: RendererRoutines = {
         }
     },
     receive: async (renderer, message) => {
-        if (message.channel !== renderer.channel) return;
+        if (message.channel_id !== renderer.channel) return;
         if (renderer.state.type !== "RENDER") return;
         if (renderer.state.messages.find((x) => x._id === message._id)) return;
         if (!renderer.state.atBottom) return;

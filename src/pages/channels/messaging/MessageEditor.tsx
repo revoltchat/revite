@@ -63,7 +63,7 @@ export default function MessageEditor({ message, finish }: Props) {
                 target: message,
             });
         } else if (content !== message.content) {
-            await message.editMessage({
+            await message.edit({
                 content,
             });
         }

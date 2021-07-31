@@ -3570,10 +3570,10 @@ revolt-api@0.5.1-alpha.10-patch.0:
   resolved "https://registry.yarnpkg.com/revolt-api/-/revolt-api-0.5.1-alpha.10-patch.0.tgz#97d31bec7dfa4573567097443acb059c4feaac20"
   integrity sha512-UyM890HkGlYNQOxpHuEpUsJHLt8Ujnjg9/zPEDGpbvS4iy0jmHX23Hh8tOCfb/ewxbNrtT3G1HpSWKOneW/vYg==
 
-revolt.js@5.0.0-alpha.7:
-  version "5.0.0-alpha.7"
-  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.0.0-alpha.7.tgz#b84b424a20359b305a3d87627e82f6c7e7835c5b"
-  integrity sha512-BH1px02kke5hDRvpnwEu7y09oYQxJm4ZKQdy8JRqBJ73LOQgYyEnmv0Jcumb9fwcGaBHZQKPErhlYDJtb37img==
+revolt.js@5.0.0-alpha.10:
+  version "5.0.0-alpha.10"
+  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.0.0-alpha.10.tgz#3fa1a8944a338134da09626278ee47b91f20ce2a"
+  integrity sha512-b5nCQDtLUei4mfXhZNkIfQiyG8WDHBnpOVRaRaJz2ZjcQtdBjxIPXxOWkBYL7N/dBJ7sn5xgLMqra9UzkwkewA==
   dependencies:
     axios "^0.19.2"
     eventemitter3 "^4.0.7"
