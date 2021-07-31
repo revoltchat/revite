@@ -1,7 +1,10 @@
 import { observer } from "mobx-react-lite";
+import { useParams } from "react-router-dom";
 import { User } from "revolt.js/dist/maps/Users";
 
 import { Text } from "preact-i18n";
+
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import UserIcon from "./UserIcon";
 
@@ -13,30 +16,35 @@ export const Username = observer(
         let username = user?.username;
         let color;
 
-        /* // ! FIXME: this must be really bad for perf.
         if (user) {
-            let { server } = useParams<{ server?: string }>();
+            const { server } = useParams<{ server?: string }>();
             if (server) {
-                let ctx = useForceUpdate();
-                let member = useMember(`${server}${user._id}`, ctx);
+                const client = useClient();
+                const member = client.members.getKey({
+                    server,
+                    user: user._id,
+                });
+
                 if (member) {
                     if (member.nickname) {
                         username = member.nickname;
                     }
 
                     if (member.roles && member.roles.length > 0) {
-                        let s = useServer(server, ctx);
-                        for (let role of member.roles) {
-                            let c = s?.roles?.[role].colour;
-                            if (c) {
-                                color = c;
-                                continue;
+                        let srv = client.servers.get(member._id.server);
+                        if (srv?.roles) {
+                            for (let role of member.roles) {
+                                let c = srv.roles[role].colour;
+                                if (c) {
+                                    color = c;
+                                    continue;
+                                }
                             }
                         }
                     }
                 }
             }
-        } */
+        }
 
         return (
             <span {...otherProps} style={{ color }}>
