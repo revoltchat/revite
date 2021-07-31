@@ -190,7 +190,7 @@ function Notifier({ options, notifs }: Props) {
                     if (channel) {
                         if (channel.channel_type === "TextChannel") {
                             history.push(
-                                `/server/${channel.server}/channel/${id}`,
+                                `/server/${channel.server_id}/channel/${id}`,
                             );
                         } else {
                             history.push(`/channel/${id}`);
