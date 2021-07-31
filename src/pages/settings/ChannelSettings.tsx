@@ -30,7 +30,7 @@ export default function ChannelSettings() {
         switch (channel?.channel_type) {
             case "TextChannel":
             case "VoiceChannel":
-                base_url = `/server/${channel.server}/channel/${cid}/settings`;
+                base_url = `/server/${channel.server_id}/channel/${cid}/settings`;
                 break;
             default:
                 base_url = `/channel/${cid}/settings`;
