@@ -67,6 +67,8 @@ export const md: MarkdownIt = MarkdownIt({
         throwOnError: false,
         maxExpand: 0,
         maxSize: 10,
+        strict: false,
+        errorColor: "var(--error)",
     });
 
 // TODO: global.d.ts file for defining globals
