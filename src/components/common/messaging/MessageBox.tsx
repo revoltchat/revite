@@ -323,7 +323,7 @@ export default observer(({ channel }: Props) => {
 
         const ws = client.websocket;
         if (ws.connected) {
-            setTyping(+new Date() + 4000);
+            setTyping(+new Date() + 2500);
             ws.send({
                 type: "BeginTyping",
                 channel: channel._id,

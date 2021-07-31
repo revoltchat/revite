@@ -1,4 +1,5 @@
 import { observer } from "mobx-react-lite";
+import { RelationshipStatus } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
@@ -57,7 +58,10 @@ const Base = styled.div`
 
 export default observer(({ channel }: Props) => {
     const users = channel.typing.filter(
-        (x) => typeof x !== "undefined" && x._id !== x.client.user!._id,
+        (x) =>
+            typeof x !== "undefined" &&
+            x._id !== x.client.user!._id &&
+            x.relationship !== RelationshipStatus.Blocked,
     );
 
     if (users.length > 0) {
