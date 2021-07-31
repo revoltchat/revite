@@ -8,13 +8,11 @@ import { useContext, useEffect } from "preact/hooks";
 import { dispatch } from "../../redux";
 import { connectState } from "../../redux/connector";
 import { QueuedMessage } from "../../redux/reducers/queue";
-import { Typing } from "../../redux/reducers/typing";
 
 import { AppContext } from "./RevoltClient";
 
 type Props = {
     messages: QueuedMessage[];
-    typing: Typing;
 };
 
 function StateMonitor(props: Props) {
@@ -41,36 +39,11 @@ function StateMonitor(props: Props) {
         return () => client.removeListener("message", add);
     }, [props.messages]);
 
-    useEffect(() => {
-        function removeOld() {
-            if (!props.typing) return;
-            for (const channel of Object.keys(props.typing)) {
-                const users = props.typing[channel];
-
-                for (const user of users) {
-                    if (+new Date() > user.started + 5000) {
-                        dispatch({
-                            type: "TYPING_STOP",
-                            channel,
-                            user: user.id,
-                        });
-                    }
-                }
-            }
-        }
-
-        removeOld();
-
-        const interval = setInterval(removeOld, 1000);
-        return () => clearInterval(interval);
-    }, [props.typing]);
-
     return null;
 }
 
 export default connectState(StateMonitor, (state) => {
     return {
         messages: [...state.queue],
-        typing: state.typing,
     };
 });

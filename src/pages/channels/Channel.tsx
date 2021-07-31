@@ -89,7 +89,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                 <ChannelContent>
                     <VoiceHeader id={id} />
                     <MessageArea id={id} />
-                    <TypingIndicator id={id} />
+                    <TypingIndicator channel={channel} />
                     <JumpToBottom id={id} />
                     <MessageBox channel={channel} />
                 </ChannelContent>

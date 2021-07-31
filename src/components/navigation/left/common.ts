@@ -39,10 +39,7 @@ export function useUnreads({ channel, unreads }: UnreadProps) {
                         message,
                     });
 
-                    client.req(
-                        "PUT",
-                        `/channels/${channel._id}/ack/${message}` as "/channels/id/ack/id",
-                    );
+                    channel.ack(message);
                 }
             }
         }
