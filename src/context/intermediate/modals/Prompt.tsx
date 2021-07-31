@@ -193,7 +193,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                 setProcessing(true);
 
                                 try {
-                                    props.target.deleteMessage();
+                                    props.target.delete();
                                     onClose();
                                 } catch (err) {
                                     setError(takeError(err));
