@@ -3,6 +3,7 @@ import {
     Sync as SyncIcon,
     Globe,
     LogOut,
+    Desktop,
 } from "@styled-icons/boxicons-regular";
 import {
     Bell,
@@ -38,6 +39,7 @@ import { Appearance } from "./panes/Appearance";
 import { ExperimentsPage } from "./panes/Experiments";
 import { Feedback } from "./panes/Feedback";
 import { Languages } from "./panes/Languages";
+import { Native } from "./panes/Native";
 import { Notifications } from "./panes/Notifications";
 import { Profile } from "./panes/Profile";
 import { Sessions } from "./panes/Sessions";
@@ -101,6 +103,11 @@ export default function Settings() {
                     title: <Text id="app.settings.pages.sync.title" />,
                 },
                 {
+                    id: "native",
+                    icon: <Desktop size={20} />,
+                    title: <Text id="app.settings.pages.native.title" />,
+                },
+                {
                     divider: true,
                     id: "experiments",
                     icon: <Flask size={20} />,
@@ -133,6 +140,11 @@ export default function Settings() {
                 <Route path="/settings/sync">
                     <Sync />
                 </Route>,
+                window.isNative && (
+                    <Route path="/settings/native">
+                        <Native />
+                    </Route>
+                ),
                 <Route path="/settings/experiments">
                     <ExperimentsPage />
                 </Route>,
