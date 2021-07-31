@@ -92,9 +92,8 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
 
     // We replace the message with the mention at the time of render.
     // We don't care if the mention changes.
-    const newContent = content.replace(
-        RE_MENTIONS,
-        (sub: string, ...args: any[]) => {
+    const newContent = content
+        .replace(RE_MENTIONS, (sub: string, ...args: any[]) => {
             const id = args[0],
                 user = client.users.get(id);
 
@@ -103,20 +102,17 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
             }
 
             return sub;
-        },
-    ).replace(
-        RE_CHANNELS,
-        (sub: string, ...args: any[]) => {
+        })
+        .replace(RE_CHANNELS, (sub: string, ...args: any[]) => {
             const id = args[0],
                 channel = client.channels.get(id);
 
-            if (channel?.channel_type === 'TextChannel') {
-                return `[#${channel.name}](/server/${channel.server}/channel/${id})`;
+            if (channel?.channel_type === "TextChannel") {
+                return `[#${channel.name}](/server/${channel.server_id}/channel/${id})`;
             }
 
             return sub;
-        },
-    );
+        });
 
     const useLargeEmojis = disallowBigEmoji
         ? false

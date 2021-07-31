@@ -218,7 +218,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
         if (
             (x.channel?.channel_type === "DirectMessage"
                 ? x.channel?.active
-                : true) &&
+                : x.channel?.channel_type === "Group") &&
             x.unread
         ) {
             homeUnread = "unread";

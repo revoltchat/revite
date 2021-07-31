@@ -118,6 +118,7 @@
 
         > * {
             opacity: 0;
+            pointer-events: none;
         }
 
         &:global(.shown) {
@@ -128,6 +129,7 @@
 
             > * {
                 opacity: 1;
+                pointer-events: unset;
             }
         }
     }
