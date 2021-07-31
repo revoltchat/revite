@@ -12,7 +12,6 @@ import { sectionToggle, SectionToggleAction } from "./section_toggle";
 import { config, ConfigAction } from "./server_config";
 import { settings, SettingsAction } from "./settings";
 import { sync, SyncAction } from "./sync";
-import { typing, TypingAction } from "./typing";
 import { unreads, UnreadsAction } from "./unreads";
 
 export default combineReducers({
@@ -22,7 +21,6 @@ export default combineReducers({
     settings,
     unreads,
     queue,
-    typing,
     drafts,
     sync,
     experiments,
@@ -38,7 +36,6 @@ export type Action =
     | SettingsAction
     | UnreadsAction
     | QueueAction
-    | TypingAction
     | DraftAction
     | SyncAction
     | ExperimentsAction

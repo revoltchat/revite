@@ -1,15 +1,15 @@
 import { observer } from "mobx-react-lite";
+import { Channel } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 
 import { connectState } from "../../../../redux/connector";
-import { TypingUser } from "../../../../redux/reducers/typing";
 
 import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 interface Props {
-    typing?: TypingUser[];
+    channel: Channel;
 }
 
 const Base = styled.div`
@@ -55,22 +55,21 @@ const Base = styled.div`
     }
 `;
 
-export const TypingIndicator = observer(({ typing }: Props) => {
-    if (typing && typing.length > 0) {
-        const client = useClient();
-        const users = typing
-            .map((x) => client.users.get(x.id)!)
-            .filter((x) => typeof x !== "undefined");
+export default observer(({ channel }: Props) => {
+    const users = channel.typing.filter(
+        (x) => typeof x !== "undefined" && x._id !== x.client.user!._id,
+    );
 
+    if (users.length > 0) {
         users.sort((a, b) =>
-            a._id.toUpperCase().localeCompare(b._id.toUpperCase()),
+            a!._id.toUpperCase().localeCompare(b!._id.toUpperCase()),
         );
 
         let text;
         if (users.length >= 5) {
             text = <Text id="app.main.channel.typing.several" />;
         } else if (users.length > 1) {
-            const userlist = [...users].map((x) => x.username);
+            const userlist = [...users].map((x) => x!.username);
             const user = userlist.pop();
 
             /*for (let i = 0; i < userlist.length - 1; i++) {
@@ -90,7 +89,7 @@ export const TypingIndicator = observer(({ typing }: Props) => {
             text = (
                 <Text
                     id="app.main.channel.typing.single"
-                    fields={{ user: users[0].username }}
+                    fields={{ user: users[0]!.username }}
                 />
             );
         }
@@ -102,7 +101,7 @@ export const TypingIndicator = observer(({ typing }: Props) => {
                         {users.map((user) => (
                             <img
                                 loading="eager"
-                                src={user.generateAvatarURL({ max_side: 256 })}
+                                src={user!.generateAvatarURL({ max_side: 256 })}
                             />
                         ))}
                     </div>
@@ -113,10 +112,4 @@ export const TypingIndicator = observer(({ typing }: Props) => {
     }
 
     return null;
-});
-
-export default connectState<{ id: string }>(TypingIndicator, (state, props) => {
-    return {
-        typing: state.typing && state.typing[props.id],
-    };
 });

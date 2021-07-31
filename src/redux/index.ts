@@ -14,7 +14,6 @@ import { QueuedMessage } from "./reducers/queue";
 import { SectionToggle } from "./reducers/section_toggle";
 import { Settings } from "./reducers/settings";
 import { SyncOptions } from "./reducers/sync";
-import { Typing } from "./reducers/typing";
 import { Unreads } from "./reducers/unreads";
 
 export type State = {
@@ -24,7 +23,6 @@ export type State = {
     settings: Settings;
     unreads: Unreads;
     queue: QueuedMessage[];
-    typing: Typing;
     drafts: Drafts;
     sync: SyncOptions;
     experiments: ExperimentOptions;

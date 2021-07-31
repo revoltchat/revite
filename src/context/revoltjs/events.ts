@@ -47,24 +47,6 @@ export function registerEvents(
 
         packet: (packet: ClientboundNotification) => {
             switch (packet.type) {
-                case "ChannelStartTyping": {
-                    if (packet.user === client.user?._id) return;
-                    dispatch({
-                        type: "TYPING_START",
-                        channel: packet.id,
-                        user: packet.user,
-                    });
-                    break;
-                }
-                case "ChannelStopTyping": {
-                    if (packet.user === client.user?._id) return;
-                    dispatch({
-                        type: "TYPING_STOP",
-                        channel: packet.id,
-                        user: packet.user,
-                    });
-                    break;
-                }
                 case "ChannelAck": {
                     dispatch({
                         type: "UNREADS_MARK_READ",
