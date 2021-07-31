@@ -171,15 +171,19 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
                             <div
                                 className="content"
                                 onClick={() => {
+                                    const channel = message.channel!;
                                     if (
                                         channel.channel_type === "TextChannel"
                                     ) {
+                                        console.log(
+                                            `/server/${channel.server_id}/channel/${channel._id}/${message._id}`,
+                                        );
                                         history.push(
                                             `/server/${channel.server_id}/channel/${channel._id}/${message._id}`,
                                         );
                                     } else {
                                         history.push(
-                                            `/channel/${channel}/${message._id}`,
+                                            `/channel/${channel._id}/${message._id}`,
                                         );
                                     }
                                 }}>

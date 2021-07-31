@@ -179,7 +179,7 @@ export function MessageArea({ id }: Props) {
 
             const channel = client.channels.get(id);
             if (channel?.channel_type === "TextChannel") {
-                history.push(`/server/${channel.server}/channel/${id}`);
+                history.push(`/server/${channel.server_id}/channel/${id}`);
             } else {
                 history.push(`/channel/${id}`);
             }
