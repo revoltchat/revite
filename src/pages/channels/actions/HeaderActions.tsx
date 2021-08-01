@@ -33,7 +33,7 @@ export default function HeaderActions({
 
     return (
         <>
-            <UpdateIndicator />
+            <UpdateIndicator style="channel" />
             {channel.channel_type === "Group" && (
                 <>
                     <IconButton

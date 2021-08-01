@@ -1,8 +1,9 @@
-import { X, Minus, Square, CloudDownload } from "@styled-icons/boxicons-regular";
+import { X, Minus, Square } from "@styled-icons/boxicons-regular";
 import { Wrench } from "@styled-icons/boxicons-solid";
 import styled from "styled-components";
 
-export const USE_TITLEBAR = window.isNative && !window.native.getConfig().frame;
+import Tooltip from "../common/Tooltip";
+import UpdateIndicator from "../common/UpdateIndicator";
 
 const TitlebarBase = styled.div`
     height: var(--titlebar-height);
@@ -30,17 +31,6 @@ const TitlebarBase = styled.div`
         }
     }
 
-    .update-bar {
-        background: var(--success);
-        margin: 16px;
-        font-size: 12px;
-        border-radius: 60px;
-        padding: 2px 10px;
-        display: flex;
-        align-items: center;
-        gap: 2px;
-    }
-
     .actions {
         z-index: 100;
         display: flex;
@@ -54,6 +44,7 @@ const TitlebarBase = styled.div`
 
             display: grid;
             place-items: center;
+            transition: 0.2s ease color;
             transition: 0.2s ease background-color;
 
             &:hover {
@@ -84,14 +75,12 @@ export function Titlebar() {
                 </svg>
                 {window.native.getConfig().build === "dev" && <Wrench />}
             </div>
-            {/*<div class="update-bar">
-                <CloudDownload size={16} />
-                New update available!
-            </div>*/}
             <div class="actions">
-                <div>
-                    <CloudDownload size={22} color={`var(--success)`} />
-                </div>
+                <Tooltip
+                    content="A new update is available!"
+                    placement="bottom">
+                    <UpdateIndicator style="titlebar" />
+                </Tooltip>
             </div>
             <div class="actions">
                 <div onClick={window.native.min}>
