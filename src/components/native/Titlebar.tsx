@@ -1,4 +1,4 @@
-import { X, Minus, Square } from "@styled-icons/boxicons-regular";
+import { X, Minus, Square, CloudDownload } from "@styled-icons/boxicons-regular";
 import { Wrench } from "@styled-icons/boxicons-solid";
 import styled from "styled-components";
 
@@ -7,6 +7,7 @@ export const USE_TITLEBAR = window.isNative && !window.native.getConfig().frame;
 const TitlebarBase = styled.div`
     height: var(--titlebar-height);
     display: flex;
+    gap: 6px;
     user-select: none;
     align-items: center;
 
@@ -27,6 +28,17 @@ const TitlebarBase = styled.div`
             height: calc(var(--titlebar-height) / 3);
             margin-bottom: 4px;
         }
+    }
+
+    .update-bar {
+        background: var(--success);
+        margin: 16px;
+        font-size: 12px;
+        border-radius: 60px;
+        padding: 2px 10px;
+        display: flex;
+        align-items: center;
+        gap: 2px;
     }
 
     .actions {
@@ -71,6 +83,15 @@ export function Titlebar() {
                     />
                 </svg>
                 {window.native.getConfig().build === "dev" && <Wrench />}
+            </div>
+            {/*<div class="update-bar">
+                <CloudDownload size={16} />
+                New update available!
+            </div>*/}
+            <div class="actions">
+                <div>
+                    <CloudDownload size={22} color={`var(--success)`} />
+                </div>
             </div>
             <div class="actions">
                 <div onClick={window.native.min}>
