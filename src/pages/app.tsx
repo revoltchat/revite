@@ -8,6 +8,8 @@ import { CheckAuth } from "../context/revoltjs/CheckAuth";
 import Masks from "../components/ui/Masks";
 import Preloader from "../components/ui/Preloader";
 
+import { Titlebar, USE_TITLEBAR } from "../components/native/Titlebar";
+
 const Login = lazy(() => import("./login/Login"));
 const RevoltApp = lazy(() => import("./RevoltApp"));
 
@@ -15,6 +17,7 @@ export function App() {
     return (
         <Context>
             <Masks />
+            {USE_TITLEBAR && <Titlebar />}
             {/* 
             // @ts-expect-error */}
             <Suspense fallback={<Preloader type="spinner" />}>
