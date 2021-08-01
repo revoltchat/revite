@@ -1,4 +1,3 @@
-import { X, Minus, Square } from "@styled-icons/boxicons-regular";
 import { Wrench } from "@styled-icons/boxicons-solid";
 import styled from "styled-components";
 
@@ -11,6 +10,7 @@ const TitlebarBase = styled.div`
     gap: 6px;
     user-select: none;
     align-items: center;
+    
 
     .title {
         flex-grow: 1;
@@ -20,14 +20,19 @@ const TitlebarBase = styled.div`
         font-weight: 600;
         margin-inline-start: 10px;
         margin-top: 4px;
-        gap: 8px;
+        gap: 6px;
         display: flex;
         align-items: center;
         justify-content: flex-start;
+        z-index: 90000;
+        color: var(--titlebar-logo-color);
 
         svg {
-            height: calc(var(--titlebar-height) / 3);
             margin-bottom: 4px;
+        }
+
+        svg:first-child {
+            height: calc(var(--titlebar-height) / 3);
         }
     }
 
@@ -73,7 +78,7 @@ export function Titlebar() {
                         stroke-width="1"
                     />
                 </svg>
-                {window.native.getConfig().build === "dev" && <Wrench />}
+                {window.native.getConfig().build === "dev" && <Wrench size="12.5"/>}
             </div>
             <UpdateIndicator style="titlebar" />
             <div class="actions">

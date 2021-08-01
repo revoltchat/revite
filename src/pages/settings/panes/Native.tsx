@@ -24,6 +24,7 @@ export function Native(props: Props) {
 
     return (
         <div>
+            <h3>App Behavior</h3>
             <Checkbox
                 checked={autoStart ?? false}
                 disabled={typeof autoStart === "undefined"}
