@@ -1,5 +1,4 @@
 import { Wrench } from "@styled-icons/boxicons-solid";
-import { observer } from "mobx-react-lite";
 
 import { useContext } from "preact/hooks";
 
