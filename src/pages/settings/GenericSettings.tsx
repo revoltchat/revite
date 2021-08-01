@@ -3,8 +3,9 @@ import { Helmet } from "react-helmet";
 import { Switch, useHistory, useParams } from "react-router-dom";
 
 import styles from "./Settings.module.scss";
+import classNames from "classnames";
 import { Text } from "preact-i18n";
-import { useContext, useEffect } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -48,12 +49,17 @@ export function GenericSettings({
     const theme = useContext(ThemeContext);
     const { page } = useParams<{ page: string }>();
 
+    const [closing, setClosing] = useState(false);
     function exitSettings() {
-        if (history.length > 0) {
-            history.goBack();
-        } else {
-            history.push("/");
-        }
+        setClosing(true);
+
+        setTimeout(() => {
+            if (history.length > 0) {
+                history.goBack();
+            } else {
+                history.push("/");
+            }
+        }, 100);
     }
 
     useEffect(() => {
@@ -68,7 +74,11 @@ export function GenericSettings({
     }, []);
 
     return (
-        <div className={styles.settings} data-mobile={isTouchscreenDevice}>
+        <div
+            className={classNames(styles.settings, {
+                [styles.closing]: closing,
+            })}
+            data-mobile={isTouchscreenDevice}>
             <Helmet>
                 <meta
                     name="theme-color"
