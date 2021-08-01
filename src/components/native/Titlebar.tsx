@@ -75,13 +75,7 @@ export function Titlebar() {
                 </svg>
                 {window.native.getConfig().build === "dev" && <Wrench />}
             </div>
-            <div class="actions">
-                <Tooltip
-                    content="A new update is available!"
-                    placement="bottom">
-                    <UpdateIndicator style="titlebar" />
-                </Tooltip>
-            </div>
+            <UpdateIndicator style="titlebar" />
             <div class="actions">
                 <div onClick={window.native.min}>
                     <Minus size={20} />
