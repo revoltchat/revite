@@ -1,11 +1,11 @@
-import { X, Minus, Square, Wrench } from "@styled-icons/boxicons-regular";
+import { X, Minus, Square } from "@styled-icons/boxicons-regular";
+import { Wrench } from "@styled-icons/boxicons-solid";
 import styled from "styled-components";
 
 export const USE_TITLEBAR = window.isNative && !window.native.getConfig().frame;
 
 const TitlebarBase = styled.div`
     height: var(--titlebar-height);
-
     display: flex;
     user-select: none;
     align-items: center;
@@ -13,18 +13,19 @@ const TitlebarBase = styled.div`
     .title {
         flex-grow: 1;
         -webkit-app-region: drag;
-
+        height: var(--titlebar-height);
         font-size: 16px;
         font-weight: 600;
-        margin-left: 8px;
-
+        margin-inline-start: 10px;
+        margin-top: 4px;
         gap: 8px;
         display: flex;
         align-items: center;
         justify-content: flex-start;
 
         svg {
-            height: calc(var(--titlebar-height) / 2);
+            height: calc(var(--titlebar-height) / 3);
+            margin-bottom: 4px;
         }
     }
 
@@ -57,7 +58,7 @@ const TitlebarBase = styled.div`
 export function Titlebar() {
     return (
         <TitlebarBase>
-            <span class="title">
+            <div class="title">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 193.733 37.438">
@@ -70,7 +71,7 @@ export function Titlebar() {
                     />
                 </svg>
                 {window.native.getConfig().build === "dev" && <Wrench />}
-            </span>
+            </div>
             <div class="actions">
                 <div onClick={window.native.min}>
                     <Minus size={20} />
@@ -79,7 +80,7 @@ export function Titlebar() {
                     <Square size={14} />
                 </div>
                 <div onClick={window.native.close} class="error">
-                    <X size={20} />
+                    <X size={24} />
                 </div>
             </div>
         </TitlebarBase>
