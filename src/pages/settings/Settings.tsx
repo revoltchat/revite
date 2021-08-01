@@ -210,6 +210,9 @@ export default function Settings() {
                             {GIT_BRANCH === "production" ? "Stable" : "Nightly"}{" "}
                             {APP_VERSION}
                         </span>
+                        {window.isNative && (
+                            <span>Native: {window.nativeVersion}</span>
+                        )}
                         <span>
                             API: {client.configuration?.revolt ?? "N/A"}
                         </span>
