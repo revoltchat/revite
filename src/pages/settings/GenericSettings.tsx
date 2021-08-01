@@ -26,6 +26,7 @@ interface Props {
         id: string;
         icon: Children;
         title: Children;
+        hidden?: boolean;
         hideTitle?: boolean;
     }[];
     custom?: Children;
@@ -51,15 +52,15 @@ export function GenericSettings({
 
     const [closing, setClosing] = useState(false);
     function exitSettings() {
-        setClosing(true);
+        if (history.length > 1) {
+            setClosing(true);
 
-        setTimeout(() => {
-            if (history.length > 0) {
+            setTimeout(() => {
                 history.goBack();
-            } else {
-                history.push("/");
-            }
-        }, 100);
+            }, 100);
+        } else {
+            history.push("/");
+        }
     }
 
     useEffect(() => {
@@ -77,6 +78,7 @@ export function GenericSettings({
         <div
             className={classNames(styles.settings, {
                 [styles.closing]: closing,
+                [styles.native]: window.isNative,
             })}
             data-mobile={isTouchscreenDevice}>
             <Helmet>
@@ -121,28 +123,30 @@ export function GenericSettings({
             {(!isTouchscreenDevice || typeof page === "undefined") && (
                 <div className={styles.sidebar}>
                     <div className={styles.container}>
-                        {pages.map((entry, i) => (
-                            <>
-                                {entry.category && (
-                                    <Category
-                                        variant="uniform"
-                                        text={entry.category}
-                                    />
-                                )}
-                                <ButtonItem
-                                    active={
-                                        page === entry.id ||
-                                        (i === 0 &&
-                                            !isTouchscreenDevice &&
-                                            typeof page === "undefined")
-                                    }
-                                    onClick={() => switchPage(entry.id)}
-                                    compact>
-                                    {entry.icon} {entry.title}
-                                </ButtonItem>
-                                {entry.divider && <LineDivider />}
-                            </>
-                        ))}
+                        {pages.map((entry, i) =>
+                            entry.hidden ? undefined : (
+                                <>
+                                    {entry.category && (
+                                        <Category
+                                            variant="uniform"
+                                            text={entry.category}
+                                        />
+                                    )}
+                                    <ButtonItem
+                                        active={
+                                            page === entry.id ||
+                                            (i === 0 &&
+                                                !isTouchscreenDevice &&
+                                                typeof page === "undefined")
+                                        }
+                                        onClick={() => switchPage(entry.id)}
+                                        compact>
+                                        {entry.icon} {entry.title}
+                                    </ButtonItem>
+                                    {entry.divider && <LineDivider />}
+                                </>
+                            ),
+                        )}
                         {custom}
                     </div>
                 </div>

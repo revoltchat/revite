@@ -104,6 +104,7 @@ export default function Settings() {
                 },
                 {
                     id: "native",
+                    hidden: !window.isNative,
                     icon: <Desktop size={20} />,
                     title: <Text id="app.settings.pages.native.title" />,
                 },
@@ -140,11 +141,9 @@ export default function Settings() {
                 <Route path="/settings/sync">
                     <Sync />
                 </Route>,
-                window.isNative && (
-                    <Route path="/settings/native">
-                        <Native />
-                    </Route>
-                ),
+                <Route path="/settings/native">
+                    <Native />
+                </Route>,
                 <Route path="/settings/experiments">
                     <ExperimentsPage />
                 </Route>,
