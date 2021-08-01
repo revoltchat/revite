@@ -10,7 +10,6 @@ import Notifications from "../context/revoltjs/Notifications";
 import StateMonitor from "../context/revoltjs/StateMonitor";
 import SyncManager from "../context/revoltjs/SyncManager";
 
-import { USE_TITLEBAR } from "../components/native/Titlebar";
 import BottomNavigation from "../components/navigation/BottomNavigation";
 import LeftSidebar from "../components/navigation/LeftSidebar";
 import RightSidebar from "../components/navigation/RightSidebar";
@@ -47,7 +46,7 @@ export default function App() {
             <OverlappingPanels
                 width="100vw"
                 height={
-                    USE_TITLEBAR
+                    window.isNative && !window.native.getConfig().frame
                         ? "calc(var(--app-height) - var(--titlebar-height))"
                         : "var(--app-height)"
                 }
