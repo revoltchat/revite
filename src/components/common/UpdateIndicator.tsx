@@ -10,6 +10,7 @@ import { ThemeContext } from "../../context/Theme";
 import IconButton from "../ui/IconButton";
 
 import { updateSW } from "../../main";
+import Tooltip from "./Tooltip";
 
 let pendingUpdate = false;
 internalSubscribe("PWA", "update", () => (pendingUpdate = true));
@@ -30,8 +31,14 @@ export default function UpdateIndicator({ style }: Props) {
 
     if (style === "titlebar") {
         return (
-            <div onClick={() => updateSW(true)}>
-                <CloudDownload size={22} color={theme.success} />
+            <div class="actions">
+                <Tooltip
+                    content="A new update is available!"
+                    placement="bottom">
+                    <div onClick={() => updateSW(true)}>
+                        <CloudDownload size={22} color={theme.success} />
+                    </div>
+                </Tooltip>
             </div>
         );
     }
