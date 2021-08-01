@@ -7,13 +7,20 @@
     --font: "Open Sans";
     --codeblock-font: "Fira Code";
     --sidebar-active: var(--secondary-background);
-    
+
+    /**
+     * Native
+     */
+    --titlebar-height: 29px;
+    --titlebar-action-padding: 8px;
+    --titlebar-logo-color: var(--secondary-foreground);
+
     /**
      * Layout
      */
     --app-height: 100vh;
     --border-radius: 6px;
-    
+
     --input-border-width: 2px;
     --textarea-padding: 16px;
     --textarea-line-height: 20px;
@@ -29,6 +36,13 @@
     /**
      * Experimental
      */
-    --background-rgb: (25,25,25); //THIS IS SO THAT WE CAN HAVE CUSTOM BACKGROUNDS FOR THE CLIENT, CONVERTS THE HEX TO AN RGB VALUE FROM --background
-    --background-rgba: rgba(var(--background-rgb), .8); //make the opacity also customizable
+    --background-rgb: (
+        25,
+        25,
+        25
+    ); //THIS IS SO THAT WE CAN HAVE CUSTOM BACKGROUNDS FOR THE CLIENT, CONVERTS THE HEX TO AN RGB VALUE FROM --background
+    --background-rgba: rgba(
+        var(--background-rgb),
+        0.8
+    ); //make the opacity also customizable
 }
