@@ -69,6 +69,10 @@
     height: 100%;
     position: fixed;
     animation: open 0.18s ease-out, opacity 0.18s;
+
+    &.closing {
+        animation: close 0.18s ease-in;
+    }
 }
 
 .settings {
