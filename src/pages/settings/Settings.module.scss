@@ -80,7 +80,7 @@
     background: var(--primary-background);
 
     .sidebar {
-        flex: 2;
+        flex: 1 0 218px;
         display: flex;
         flex-shrink: 0;
         overflow-y: scroll;
@@ -91,6 +91,9 @@
             width: 218px;
             padding: 60px 8px;
             height: fit-content;
+            display: flex;
+            gap: 2px;
+            flex-direction: column;
         }
 
         .divider {
