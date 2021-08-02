@@ -3,8 +3,9 @@ import { Helmet } from "react-helmet";
 import { Switch, useHistory, useParams } from "react-router-dom";
 
 import styles from "./Settings.module.scss";
+import classNames from "classnames";
 import { Text } from "preact-i18n";
-import { useContext, useEffect } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -25,6 +26,7 @@ interface Props {
         id: string;
         icon: Children;
         title: Children;
+        hidden?: boolean;
         hideTitle?: boolean;
     }[];
     custom?: Children;
@@ -48,9 +50,14 @@ export function GenericSettings({
     const theme = useContext(ThemeContext);
     const { page } = useParams<{ page: string }>();
 
+    const [closing, setClosing] = useState(false);
     function exitSettings() {
-        if (history.length > 0) {
-            history.goBack();
+        if (history.length > 1) {
+            setClosing(true);
+
+            setTimeout(() => {
+                history.goBack();
+            }, 100);
         } else {
             history.push("/");
         }
@@ -68,7 +75,12 @@ export function GenericSettings({
     }, []);
 
     return (
-        <div className={styles.settings} data-mobile={isTouchscreenDevice}>
+        <div
+            className={classNames(styles.settings, {
+                [styles.closing]: closing,
+                [styles.native]: window.isNative,
+            })}
+            data-mobile={isTouchscreenDevice}>
             <Helmet>
                 <meta
                     name="theme-color"
@@ -111,28 +123,30 @@ export function GenericSettings({
             {(!isTouchscreenDevice || typeof page === "undefined") && (
                 <div className={styles.sidebar}>
                     <div className={styles.container}>
-                        {pages.map((entry, i) => (
-                            <>
-                                {entry.category && (
-                                    <Category
-                                        variant="uniform"
-                                        text={entry.category}
-                                    />
-                                )}
-                                <ButtonItem
-                                    active={
-                                        page === entry.id ||
-                                        (i === 0 &&
-                                            !isTouchscreenDevice &&
-                                            typeof page === "undefined")
-                                    }
-                                    onClick={() => switchPage(entry.id)}
-                                    compact>
-                                    {entry.icon} {entry.title}
-                                </ButtonItem>
-                                {entry.divider && <LineDivider />}
-                            </>
-                        ))}
+                        {pages.map((entry, i) =>
+                            entry.hidden ? undefined : (
+                                <>
+                                    {entry.category && (
+                                        <Category
+                                            variant="uniform"
+                                            text={entry.category}
+                                        />
+                                    )}
+                                    <ButtonItem
+                                        active={
+                                            page === entry.id ||
+                                            (i === 0 &&
+                                                !isTouchscreenDevice &&
+                                                typeof page === "undefined")
+                                        }
+                                        onClick={() => switchPage(entry.id)}
+                                        compact>
+                                        {entry.icon} {entry.title}
+                                    </ButtonItem>
+                                    {entry.divider && <LineDivider />}
+                                </>
+                            ),
+                        )}
                         {custom}
                     </div>
                 </div>
