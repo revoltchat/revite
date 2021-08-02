@@ -16,6 +16,10 @@
     background: var(--scrollbar-thumb);
 }
 
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
 ::selection {
     background: var(--accent);
     color: var(--foreground);

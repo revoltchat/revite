@@ -76,7 +76,8 @@ const ServerList = styled.div`
     flex-grow: 1;
     display: flex;
     overflow-y: scroll;
-    padding-bottom: 48px;
+    padding-bottom: 20px;
+    width: 58px;
     flex-direction: column;
 
     scrollbar-width: none;
