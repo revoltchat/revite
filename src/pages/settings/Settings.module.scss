@@ -80,20 +80,23 @@
     display: flex;
     user-select: none;
     flex-direction: row;
-    justify-content: center;
+    /*justify-content: center;*/
     background: var(--primary-background);
 
-    .scrollbox {
-        overflow: auto;
-        visibility: hidden;
+    /* Scrollbox hides the scrollbar on the desktop app. */
+    @media (hover: hover) { .scrollbox { visibility: hidden; }}
 
-        transition: visibility 0.2s;
+    .scrollbox {
+        overflow-y: scroll;
+        visibility: hidden;
+        transition: visibility 0.1s;
     }
 
     .container,
+    .contentcontainer,
     .scrollbox:hover,
     .scrollbox:focus {
-    visibility: visible;
+        visibility: visible;
     }
     
     ::-webkit-scrollbar-thumb {
@@ -108,6 +111,11 @@
         overflow-y: scroll;
         justify-content: flex-end;
         background: var(--secondary-background);
+
+        display: flex;
+        -webkit-box-flex: 1;
+        -webkit-box-pack: end;
+        justify-content: flex-end;
 
         .container {
             width: 218px;
@@ -137,9 +145,7 @@
             color: var(--secondary-foreground);
             font-family: var(--monospace-font), monospace;
             user-select: text;
-
             display: grid;
-            //place-items: center;
 
             > div {
                 gap: 2px;
@@ -156,11 +162,24 @@
     }
 
     .content {
-        flex: 3;
-        max-width: 740px;
-        padding: 80px 2em;
-        overflow-y: scroll;
+        flex: 1 1 800px;
+        display: flex;
+        overflow-y: auto;
         overflow-x: hidden;
+
+        .scrollbox {
+            display: flex;
+            flex-grow: 1;
+        }
+
+        .contentcontainer {
+            display: flex;
+            max-width: 740px;
+            padding: 80px 2em;
+            visibility: visible;
+            flex-direction: column;
+            flex-grow: 1;
+        }
 
         details {
             margin: 14px 0;
@@ -202,11 +221,40 @@
         }
     }
 
-    .action {
+    .closeButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+        border: 3px solid var(--tertiary-background);
+        cursor: pointer;
+        visibility: visible;
+        position: sticky;
+        top: 80px;
+
+        svg {
+            color: var(--secondary-foreground);
+        }
+
+        &:hover {
+            background: var(--secondary-header);
+        }
+
+        &:active {
+            transform: translateY(2px);
+        }
+    }
+
+    /*.action {
         flex: 1;
         flex-shrink: 0;
         padding: 80px 8px;
         color: var(--tertiary-background);
+        visibility: visible;
+        position: sticky;
+        top: 0;
 
         &:after {
             content: "ESC";
@@ -231,6 +279,7 @@
             width: 40px;
             border: 3px solid var(--tertiary-background);
             cursor: pointer;
+            visibility: visible;
 
             svg {
                 color: var(--secondary-foreground);
@@ -248,7 +297,7 @@
         > div {
             display: inline;
         }
-    }
+    }*/
 
     section {
         margin-bottom: 1em;
