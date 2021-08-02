@@ -155,28 +155,31 @@ export function GenericSettings({
             )}
             {(!isTouchscreenDevice || typeof page === "string") && (
                 <div className={styles.content}>
-                    {/*<div className={styles.scrollbox}>*/}
-                    {!isTouchscreenDevice &&
-                        !pages.find((x) => x.id === page && x.hideTitle) && (
-                            <h1>
-                                <Text
-                                    id={`app.settings.${category}.${
-                                        page ?? defaultPage
-                                    }.title`}
-                                />
-                            </h1>
+                    <div className={styles.scrollbox}>
+                        <div className={styles.contentcontainer}>
+                            {!isTouchscreenDevice &&
+                                !pages.find((x) => x.id === page && x.hideTitle) && (
+                                    <h1>
+                                        <Text
+                                            id={`app.settings.${category}.${
+                                                page ?? defaultPage
+                                            }.title`}
+                                        />
+                                    </h1>
+                                )}
+                            <Switch>{children}</Switch>
+                        </div>
+                        {!isTouchscreenDevice && (
+                            
+                        <div onClick={exitSettings} className={styles.closeButton}>
+                            <X size={28} />
+                            <span className={styles.esc} />
+                        </div>
                         )}
-                    <Switch>{children}</Switch>
-                    {/*</div>*/}
-                </div>
-            )}
-            {!isTouchscreenDevice && (
-                <div className={styles.action}>
-                    <div onClick={exitSettings} className={styles.closeButton}>
-                        <X size={28} />
                     </div>
                 </div>
             )}
+            
         </div>
     );
 }
