@@ -40,6 +40,8 @@ export default function FormField({
                             ? "password"
                             : type
                     }
+                    // See https://github.com/mozilla/contain-facebook/issues/783
+                    className="fbc-has-badge"
                     ref={register(
                         type === "password" || type === "current_password"
                             ? {
