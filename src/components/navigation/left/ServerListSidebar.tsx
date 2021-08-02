@@ -61,6 +61,7 @@ function Icon({
 const ServersBase = styled.div`
     width: 56px;
     height: 100%;
+    padding-left: 2px;
     display: flex;
     flex-direction: column;
 
@@ -95,7 +96,7 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
 
     > div {
         height: 42px;
-        padding-left: 10px;
+        padding-inline-start: 6px;
 
         display: grid;
         place-items: center;
@@ -128,8 +129,6 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
 
         svg {
             margin-top: 5px;
-            display: relative;
-
             pointer-events: none;
             // outline: 1px solid red;
         }
@@ -145,25 +144,22 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
 function Swoosh() {
     return (
         <span>
-            <svg
-                width="56"
-                height="103"
-                viewBox="0 0 56 103"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+            
+            <svg width="54" height="106" viewBox="0 0 54 106" xmlns="http://www.w3.org/2000/svg">
                 <path
-                    d="M55.0368 51.5947C55.0368 64.8596 44.2834 75.613 31.0184 75.613C17.7534 75.613 7 64.8596 7 51.5947C7 38.3297 17.7534 27.5763 31.0184 27.5763C44.2834 27.5763 55.0368 38.3297 55.0368 51.5947Z"
+                    d="M54 53C54 67.9117 41.9117 80 27 80C12.0883 80 0 67.9117 0 53C0 38.0883 12.0883 26 27 26C41.9117 26 54 38.0883 54 53Z"
                     fill="var(--sidebar-active)"
                 />
                 <path
-                    d="M55.8809 1C55.5597 16.9971 34.4597 25.2244 24.0847 28.6715L55.8846 60.4859L55.8809 1Z"
+                    d="M27 80C4.5 80 54 53 54 53L54.0001 106C54.0001 106 49.5 80 27 80Z"
                     fill="var(--sidebar-active)"
                 />
                 <path
-                    d="M55.8809 102.249C55.5597 86.2516 34.4597 78.0243 24.0847 74.5771L55.8846 42.7627L55.8809 102.249Z"
+                    d="M27 26C4.5 26 54 53 54 53L53.9999 0C53.9999 0 49.5 26 27 26Z"
                     fill="var(--sidebar-active)"
                 />
             </svg>
+
         </span>
     );
 }
