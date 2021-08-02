@@ -83,6 +83,24 @@
     justify-content: center;
     background: var(--primary-background);
 
+    .scrollbox {
+        overflow: auto;
+        visibility: hidden;
+
+        transition: visibility 0.2s;
+    }
+
+    .container,
+    .scrollbox:hover,
+    .scrollbox:focus {
+    visibility: visible;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background-clip: content-box;
+        border-top: 80px solid transparent;
+    }
+
     .sidebar {
         flex: 1 0 218px;
         display: flex;
@@ -93,11 +111,12 @@
 
         .container {
             width: 218px;
-            padding: 60px 8px;
+            padding: 80px 8px;
             height: fit-content;
             display: flex;
             gap: 2px;
             flex-direction: column;
+            visibility: visible;
         }
 
         .divider {
@@ -139,7 +158,7 @@
     .content {
         flex: 3;
         max-width: 740px;
-        padding: 60px 2em;
+        padding: 80px 2em;
         overflow-y: scroll;
         overflow-x: hidden;
 
@@ -186,7 +205,7 @@
     .action {
         flex: 1;
         flex-shrink: 0;
-        padding: 60px 8px;
+        padding: 80px 8px;
         color: var(--tertiary-background);
 
         &:after {

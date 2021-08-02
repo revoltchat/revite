@@ -122,37 +122,40 @@ export function GenericSettings({
             )}
             {(!isTouchscreenDevice || typeof page === "undefined") && (
                 <div className={styles.sidebar}>
-                    <div className={styles.container}>
-                        {pages.map((entry, i) =>
-                            entry.hidden ? undefined : (
-                                <>
-                                    {entry.category && (
-                                        <Category
-                                            variant="uniform"
-                                            text={entry.category}
-                                        />
-                                    )}
-                                    <ButtonItem
-                                        active={
-                                            page === entry.id ||
-                                            (i === 0 &&
-                                                !isTouchscreenDevice &&
-                                                typeof page === "undefined")
-                                        }
-                                        onClick={() => switchPage(entry.id)}
-                                        compact>
-                                        {entry.icon} {entry.title}
-                                    </ButtonItem>
-                                    {entry.divider && <LineDivider />}
-                                </>
-                            ),
-                        )}
-                        {custom}
+                    <div className={styles.scrollbox}>
+                        <div className={styles.container}>
+                            {pages.map((entry, i) =>
+                                entry.hidden ? undefined : (
+                                    <>
+                                        {entry.category && (
+                                            <Category
+                                                variant="uniform"
+                                                text={entry.category}
+                                            />
+                                        )}
+                                        <ButtonItem
+                                            active={
+                                                page === entry.id ||
+                                                (i === 0 &&
+                                                    !isTouchscreenDevice &&
+                                                    typeof page === "undefined")
+                                            }
+                                            onClick={() => switchPage(entry.id)}
+                                            compact>
+                                            {entry.icon} {entry.title}
+                                        </ButtonItem>
+                                        {entry.divider && <LineDivider />}
+                                    </>
+                                ),
+                            )}
+                            {custom}
+                        </div>
                     </div>
                 </div>
             )}
             {(!isTouchscreenDevice || typeof page === "string") && (
                 <div className={styles.content}>
+                    {/*<div className={styles.scrollbox}>*/}
                     {!isTouchscreenDevice &&
                         !pages.find((x) => x.id === page && x.hideTitle) && (
                             <h1>
@@ -164,6 +167,7 @@ export function GenericSettings({
                             </h1>
                         )}
                     <Switch>{children}</Switch>
+                    {/*</div>*/}
                 </div>
             )}
             {!isTouchscreenDevice && (
