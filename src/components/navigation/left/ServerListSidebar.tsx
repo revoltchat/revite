@@ -1,7 +1,7 @@
 import { Plus } from "@styled-icons/boxicons-regular";
 import { Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components";
 
@@ -98,7 +98,7 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
 
     :focus {
         outline: 3px solid blue;
-      }
+    }
 
     > div {
         height: 42px;
@@ -150,8 +150,11 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
 function Swoosh() {
     return (
         <span>
-            
-            <svg width="54" height="106" viewBox="0 0 54 106" xmlns="http://www.w3.org/2000/svg">
+            <svg
+                width="54"
+                height="106"
+                viewBox="0 0 54 106"
+                xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M54 53C54 67.9117 41.9117 80 27 80C12.0883 80 0 67.9117 0 53C0 38.0883 12.0883 26 27 26C41.9117 26 54 38.0883 54 53Z"
                     fill="var(--sidebar-active)"
@@ -165,7 +168,6 @@ function Swoosh() {
                     fill="var(--sidebar-active)"
                 />
             </svg>
-
         </span>
     );
 }
@@ -211,6 +213,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
         };
     });
 
+    const history = useHistory();
     const path = useLocation().pathname;
     const { openScreen } = useIntermediate();
 
@@ -251,7 +254,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                         <div
                             onContextMenu={attachContextMenu("Status")}
                             onClick={() =>
-                                homeActive && openContextMenu("Status")
+                                homeActive && history.push("/settings")
                             }>
                             <UserHover user={client.user}>
                                 <Icon size={42} unread={homeUnread}>
