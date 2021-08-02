@@ -122,24 +122,16 @@
     .sidebar {
         flex: 1 0 218px;
         display: flex;
-        flex-shrink: 0;
         overflow-y: scroll;
         justify-content: flex-end;
         background: var(--secondary-background);
 
-        display: flex;
-        -webkit-box-flex: 1;
-        -webkit-box-pack: end;
-        justify-content: flex-end;
-
         .container {
-            width: 218px;
+            min-width: 218px;
             padding: 80px 8px;
-            height: fit-content;
             display: flex;
             gap: 2px;
             flex-direction: column;
-            visibility: visible;
         }
 
         .divider {
@@ -172,15 +164,12 @@
                 text-decoration: underline;
             }
         }
-
-        scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
     }
 
     .content {
         flex: 1 1 800px;
         display: flex;
         overflow-y: auto;
-        overflow-x: hidden;
 
         .scrollbox {
             display: flex;
@@ -190,11 +179,10 @@
         .contentcontainer {
             display: flex;
             gap: 13px;
-            height: max-content;
+            height: fit-content;
             max-width: 740px;
             padding: 80px 2em;
             width: 100%;
-            visibility: visible;
             flex-direction: column;
         }
 
@@ -243,10 +231,8 @@
     }
 
     .action {
-        flex: 1;
-        flex-shrink: 0;
+        flex-grow: 1;
         padding: 80px 8px;
-        color: var(--tertiary-background);
         visibility: visible;
         position: sticky;
         top: 0;
@@ -287,10 +273,6 @@
             &:active {
                 transform: translateY(2px);
             }
-        }
-
-        > div {
-            display: inline;
         }
     }
 
