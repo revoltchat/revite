@@ -1,4 +1,5 @@
 import { Plus } from "@styled-icons/boxicons-regular";
+import { Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
@@ -93,6 +94,10 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
     height: 58px;
     display: flex;
     align-items: center;
+
+    :focus {
+        outline: 3px solid blue;
+      }
 
     > div {
         height: 42px;
@@ -299,6 +304,15 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                     }>
                     <Plus size={36} />
                 </IconButton>
+                {/*<IconButton
+                    onClick={() =>
+                        openScreen({
+                            id: "special_input",
+                            type: "create_server",
+                        })
+                    }>
+                    <Compass size={36} />
+                </IconButton>*/}
                 <PaintCounter small />
             </ServerList>
         </ServersBase>
