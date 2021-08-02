@@ -141,12 +141,14 @@
     .themes {
         gap: 8px;
         display: flex;
+        width: 100%;
 
         img {
             cursor: pointer;
             border-radius: var(--border-radius);
             transition: border 0.3s;
             border: 3px solid transparent;
+            width: 100%;
 
             &[data-active="true"] {
                 cursor: default;
