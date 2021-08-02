@@ -6,6 +6,7 @@ interface Props {
     readonly contrast?: boolean;
     readonly plain?: boolean;
     readonly error?: boolean;
+    readonly gold?: boolean;
     readonly iconbutton?: boolean;
 }
 
@@ -123,6 +124,24 @@ export default styled.button<Props>`
             &:disabled {
                 cursor: not-allowed;
                 background: var(--error);
+            }
+        `}
+    
+    ${(props) =>
+        props.gold &&
+        css`
+            color: black;
+            font-weight: 600;
+            background: goldenrod;
+
+            &:hover {
+                filter: brightness(1.2);
+                background: goldenrod;
+            }
+
+            &:disabled {
+                cursor: not-allowed;
+                background: goldenrod;
             }
         `}
 `;
