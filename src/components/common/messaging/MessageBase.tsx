@@ -95,11 +95,19 @@ export default styled.div<BaseMessageProps>`
         gap: 8px;
         display: flex;
         align-items: center;
+        flex-shrink: 0;
     }
 
     .author {
+        overflow: hidden;
         cursor: pointer;
         font-weight: 600 !important;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        white-space: normal;
 
         &:hover {
             text-decoration: underline;
@@ -184,6 +192,7 @@ export const MessageContent = styled.div`
 `;
 
 export const DetailBase = styled.div`
+    flex-shrink: 0;
     gap: 4px;
     font-size: 10px;
     display: inline-flex;
