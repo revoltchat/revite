@@ -1,3 +1,4 @@
+import { Coffee } from "@styled-icons/boxicons-regular";
 import { Home as HomeIcon } from "@styled-icons/boxicons-solid";
 import { Link } from "react-router-dom";
 
@@ -17,7 +18,8 @@ export default function Home() {
                 <Text id="app.navigation.tabs.home" />
             </Header>
             <h3>
-                <Text id="app.special.modals.onboarding.welcome" />{" "}
+                <Text id="app.special.modals.onboarding.welcome" />
+                <br />
                 <img src={wideSVG} />
             </h3>
             <div className={styles.actions}>
@@ -26,6 +28,14 @@ export default function Home() {
                         Join testers server
                     </Button>
                 </Link>
+                <a
+                    href="https://insrt.uk/donate"
+                    target="_blank"
+                    rel="noreferrer">
+                    <Button contrast gold>
+                        Donate to Revolt
+                    </Button>
+                </a>
                 <Link to="/settings/feedback">
                     <Button contrast>Give feedback</Button>
                 </Link>
@@ -34,12 +44,6 @@ export default function Home() {
                         <Button contrast>Open settings</Button>
                     </Tooltip>
                 </Link>
-                <a
-                    href="https://gitlab.insrt.uk/revolt"
-                    target="_blank"
-                    rel="noreferrer">
-                    <Button contrast>Source code</Button>
-                </a>
             </div>
         </div>
     );
