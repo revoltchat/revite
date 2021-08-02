@@ -34,6 +34,15 @@
     flex-direction: column;
     background: var(--primary-header);
 
+    .scrollbox { //TOFIX: need to put this into a media query later
+        visibility: visible !important;
+        overflow-y: auto;
+        
+        &::-webkit-scrollbar-thumb {
+            border-top: none;
+        }
+    }
+
     .sidebar,
     .content {
         background: var(--primary-background);
@@ -42,9 +51,12 @@
     .sidebar {
         justify-content: flex-start;
 
+        
+
         .container {
-            padding: 20px 8px;
+            padding: 20px 8px calc(var(--bottom-navigation-height) + 30px);
             min-width: 218px;
+            width: 100%;
         }
 
         > div {
@@ -57,7 +69,11 @@
     }
 
     .content {
-        padding: 10px 12px var(--bottom-navigation-height);
+        padding: 0;
+    }
+
+    .contentcontainer {
+        padding: 10px 12px var(--bottom-navigation-height) !important;
     }
 }
 
@@ -80,11 +96,10 @@
     display: flex;
     user-select: none;
     flex-direction: row;
-    /*justify-content: center;*/
     background: var(--primary-background);
 
     /* Scrollbox hides the scrollbar on the desktop app. */
-    @media (hover: hover) { .scrollbox { visibility: hidden; }}
+    /*@media (hover: hover) { .scrollbox { visibility: hidden; }}*/
 
     .scrollbox {
         overflow-y: scroll;
@@ -174,11 +189,13 @@
 
         .contentcontainer {
             display: flex;
+            gap: 13px;
+            height: max-content;
             max-width: 740px;
             padding: 80px 2em;
+            width: 100%;
             visibility: visible;
             flex-direction: column;
-            flex-grow: 1;
         }
 
         details {
@@ -186,7 +203,7 @@
         }
 
         h1 {
-            margin-top: 0;
+            margin: 0;
             line-height: 1em;
             font-size: 1.2em;
             font-weight: 600;
@@ -196,6 +213,10 @@
             font-size: 13px;
             text-transform: uppercase;
             color: var(--secondary-foreground);
+
+            &:first-child {
+                margin-top: 0;
+            }
         }
 
         h4 {
@@ -221,33 +242,7 @@
         }
     }
 
-    .closeButton {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        height: 40px;
-        width: 40px;
-        border: 3px solid var(--tertiary-background);
-        cursor: pointer;
-        visibility: visible;
-        position: sticky;
-        top: 80px;
-
-        svg {
-            color: var(--secondary-foreground);
-        }
-
-        &:hover {
-            background: var(--secondary-header);
-        }
-
-        &:active {
-            transform: translateY(2px);
-        }
-    }
-
-    /*.action {
+    .action {
         flex: 1;
         flex-shrink: 0;
         padding: 80px 8px;
@@ -297,7 +292,7 @@
         > div {
             display: inline;
         }
-    }*/
+    }
 
     section {
         margin-bottom: 1em;

@@ -170,10 +170,10 @@ export function GenericSettings({
                             <Switch>{children}</Switch>
                         </div>
                         {!isTouchscreenDevice && (
-                            
-                        <div onClick={exitSettings} className={styles.closeButton}>
-                            <X size={28} />
-                            <span className={styles.esc} />
+                        <div className={styles.action}>
+                            <div onClick={exitSettings} className={styles.closeButton}>
+                                <X size={28} />
+                            </div>
                         </div>
                         )}
                     </div>
