@@ -879,6 +879,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.14.8":
+  version "7.14.8"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.14.8.tgz#7119a56f421018852694290b9f9148097391b446"
+  integrity sha512-twj3L8Og5SaCRCErB4x4ajbvBIVV77CGeFglHpeg5WC5FF8TZzBWXtTJ4MqaD9QszLYTtr+IsaAL2rEUevb+eg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.12.13", "@babel/template@^7.14.5":
   version "7.14.5"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.14.5.tgz#a9bc9d8b33354ff6e55a9c60d1109200a68974f4"
@@ -1244,12 +1251,12 @@
     "@babel/runtime" "^7.14.0"
     "@styled-icons/styled-icon" "^10.6.3"
 
-"@styled-icons/boxicons-solid@^10.34.0":
-  version "10.34.0"
-  resolved "https://registry.yarnpkg.com/@styled-icons/boxicons-solid/-/boxicons-solid-10.34.0.tgz#4f31b873a1d52c85230f86eb7106c04f416a12c9"
-  integrity sha512-0DTsuysRgIO/XoSq5sFPeknnidLzhTEmaG5uJuLmCPBw78VjxNt6DQFRcn8ytn+ba5Qhu+Ps3Km8nbY7Zf14/g==
+"@styled-icons/boxicons-solid@^10.37.0":
+  version "10.37.0"
+  resolved "https://registry.yarnpkg.com/@styled-icons/boxicons-solid/-/boxicons-solid-10.37.0.tgz#49e3ec72b560967f1ba12c433f28270d8a74e9b9"
+  integrity sha512-u6/urwIWesGArSHW98TFHnzMduInQYkhWE1LdNCWkmzs0CvQ0Xmmvnl1Lz9LnAHatQR+UFpKLz2y08Fhu7zBgQ==
   dependencies:
-    "@babel/runtime" "^7.14.0"
+    "@babel/runtime" "^7.14.8"
     "@styled-icons/styled-icon" "^10.6.3"
 
 "@styled-icons/simple-icons@^10.33.0":
