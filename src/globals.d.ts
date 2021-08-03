@@ -3,6 +3,8 @@ type Build = "stable" | "nightly" | "dev";
 type NativeConfig = {
     frame: boolean;
     build: Build;
+    discordRPC: boolean;
+    hardwareAcceleration: boolean;
 };
 
 declare interface Window {
@@ -16,8 +18,7 @@ declare interface Window {
         relaunch();
 
         getConfig(): NativeConfig;
-        setFrame(frame: boolean);
-        setBuild(build: Build);
+        set(key: keyof NativeConfig, value: any);
 
         getAutoStart(): Promise<boolean>;
         enableAutoStart(): Promise<void>;
