@@ -2,7 +2,7 @@ import {
     UserPlus,
     Cog,
     PhoneCall,
-    PhoneOutgoing,
+    PhoneOff,
     Group,
 } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
@@ -83,7 +83,7 @@ function VoiceActions({ channel }: Pick<ChannelHeaderProps, "channel">) {
         if (voice.roomId === channel._id) {
             return (
                 <IconButton onClick={disconnect}>
-                    <PhoneOutgoing size={22} />
+                    <PhoneOff size={22} />
                 </IconButton>
             );
         }
