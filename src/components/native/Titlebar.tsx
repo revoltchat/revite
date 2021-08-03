@@ -1,4 +1,4 @@
-import { Wrench } from "@styled-icons/boxicons-solid";
+import { Wrench, Microphone, VolumeFull } from "@styled-icons/boxicons-solid";
 import styled from "styled-components";
 
 import Tooltip from "../common/Tooltip";
@@ -10,16 +10,37 @@ const TitlebarBase = styled.div`
     gap: 6px;
     user-select: none;
     align-items: center;
-    
 
-    .title {
+    .drag {
         flex-grow: 1;
         -webkit-app-region: drag;
-        height: var(--titlebar-height);
+        margin-top: 10px;
+        height: 100%;
+    }
+    
+    .quick {
+        color: var(--secondary-foreground);
+
+        > div, > div > div {
+            width: var(--titlebar-height) !important;
+        }
+
+        &.disabled {
+            color: var(--error);
+        }
+
+        &.unavailable {
+            background: var(--error);
+        }
+    }
+
+    .title {
+        -webkit-app-region: drag;
+        /*height: var(--titlebar-height);*/
         font-size: 16px;
         font-weight: 600;
         margin-inline-start: 10px;
-        margin-top: 4px;
+        margin-top: 10px;
         gap: 6px;
         display: flex;
         align-items: center;
@@ -28,7 +49,7 @@ const TitlebarBase = styled.div`
         color: var(--titlebar-logo-color);
 
         svg {
-            margin-bottom: 4px;
+            margin-bottom: 10px;
         }
 
         svg:first-child {
@@ -80,6 +101,23 @@ export function Titlebar() {
                 </svg>
                 {window.native.getConfig().build === "dev" && <Wrench size="12.5"/>}
             </div>
+            {/*<div class="actions quick">
+                <Tooltip
+                    content="Mute"
+                    placement="bottom">
+                    <div onClick={window.native.min}>
+                        <Microphone size={15}/>
+                    </div>
+                </Tooltip>
+                <Tooltip
+                    content="Deafen"
+                    placement="bottom">
+                    <div onClick={window.native.min}>
+                        <VolumeFull size={15}/>
+                    </div>
+                </Tooltip>
+            </div>*/}
+            <div class="drag" />
             <UpdateIndicator style="titlebar" />
             <div class="actions">
                 <div onClick={window.native.min}>
