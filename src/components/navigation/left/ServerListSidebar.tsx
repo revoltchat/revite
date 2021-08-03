@@ -77,7 +77,7 @@ const ServerList = styled.div`
     display: flex;
     overflow-y: scroll;
     padding-bottom: 20px;
-    width: 58px;
+    /*width: 58px;*/
     flex-direction: column;
 
     scrollbar-width: none;
@@ -89,6 +89,11 @@ const ServerList = styled.div`
     &::-webkit-scrollbar {
         width: 0px;
     }
+
+    /*${isTouchscreenDevice &&
+    css`
+        width: 58px;
+    `}*/
 `;
 
 const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
