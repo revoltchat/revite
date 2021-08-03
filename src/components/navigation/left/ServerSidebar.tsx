@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { attachContextMenu } from "preact-context-menu";
 import { useEffect } from "preact/hooks";
@@ -11,6 +11,7 @@ import PaintCounter from "../../../lib/PaintCounter";
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import { Unreads } from "../../../redux/reducers/unreads";
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
@@ -37,6 +38,13 @@ const ServerBase = styled.div`
     border-start-start-radius: 8px;
     border-end-start-radius: 8px;
     overflow: hidden;
+
+    ${isTouchscreenDevice &&
+        css`
+            padding-bottom: 50px;
+            border-end-start-radius: 0;
+        `}
+    
 `;
 
 const ServerList = styled.div`

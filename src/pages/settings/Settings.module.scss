@@ -98,9 +98,6 @@
     flex-direction: row;
     background: var(--primary-background);
 
-    /* Scrollbox hides the scrollbar on the desktop app. */
-    /*@media (hover: hover) { .scrollbox { visibility: hidden; }}*/
-
     .scrollbox {
         overflow-y: scroll;
         visibility: hidden;
@@ -115,6 +112,7 @@
     }
     
     ::-webkit-scrollbar-thumb {
+        width: 4px;
         background-clip: content-box;
         border-top: 80px solid transparent;
     }
@@ -125,6 +123,7 @@
         overflow-y: scroll;
         justify-content: flex-end;
         background: var(--secondary-background);
+        scrollbar-width: thin;
 
         .container {
             min-width: 218px;

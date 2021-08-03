@@ -467,27 +467,41 @@
 
 .languages {
     .list {
+        display: flex;
+        flex-direction: column;
         margin-bottom: 1em;
+        gap: 10px;
         
         .entry {
-            height: 50px;
+            display: flex;
+            height: 45px;
+            padding: 0 8px;
+            background: var(--tertiary-background);
+            border-radius: var(--border-radius);
+            margin-top: 0;
+
+            &:hover {
+                background: var(--secondary-background);
+            }
         }
 
         .entry > span > span {
-            gap: 20px;
+            gap: 12px;
             display: flex;
             align-items: center;
             flex-direction: row;
 
             .flag {
                 display: flex;
-                font-size: 2.625rem;
-                line-height: 48px;
 
                 > div {
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                }
+
+                > img {
+                    height: 32px !important;
                 }
             }
 
