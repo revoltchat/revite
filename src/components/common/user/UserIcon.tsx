@@ -63,6 +63,7 @@ export default observer(
             status,
             animate,
             mask,
+            hover,
             children,
             as,
             ...svgProps
@@ -79,6 +80,7 @@ export default observer(
                 {...svgProps}
                 width={size}
                 height={size}
+                hover={hover}
                 aria-hidden="true"
                 viewBox="0 0 32 32">
                 <foreignObject
@@ -86,6 +88,7 @@ export default observer(
                     y="0"
                     width="32"
                     height="32"
+                    class="icon"
                     mask={mask ?? (status ? "url(#user)" : undefined)}>
                     {<img src={iconURL} draggable={false} loading="lazy" />}
                 </foreignObject>

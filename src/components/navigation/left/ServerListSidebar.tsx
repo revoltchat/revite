@@ -1,11 +1,10 @@
 import { Plus } from "@styled-icons/boxicons-regular";
-import { Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components";
 
-import { attachContextMenu, openContextMenu } from "preact-context-menu";
+import { attachContextMenu } from "preact-context-menu";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
@@ -18,7 +17,6 @@ import { Unreads } from "../../../redux/reducers/unreads";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
-import logoSVG from "../../../assets/logo.svg";
 import ServerIcon from "../../common/ServerIcon";
 import Tooltip from "../../common/Tooltip";
 import UserHover from "../../common/user/UserHover";
@@ -267,6 +265,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                                         target={client.user}
                                         size={32}
                                         status
+                                        hover
                                     />
                                 </Icon>
                             </UserHover>
