@@ -41,9 +41,25 @@ export function Native(props: Props) {
                 Start with computer
             </Checkbox>
             <Checkbox
+                checked={config.hardwareAcceleration}
+                onChange={async (hardwareAcceleration) => {
+                    window.native.set(
+                        "hardwareAcceleration",
+                        hardwareAcceleration,
+                    );
+                    setHintRelaunch(true);
+                    setConfig({
+                        ...config,
+                        hardwareAcceleration,
+                    });
+                }}
+                description="Use the GPU to render the app, disable if you run into visual issues.">
+                Hardware Acceleration
+            </Checkbox>
+            <Checkbox
                 checked={!config.frame}
                 onChange={(frame) => {
-                    window.native.setFrame(!frame);
+                    window.native.set("frame", !frame);
                     setHintRelaunch(true);
                     setConfig({
                         ...config,
@@ -54,10 +70,22 @@ export function Native(props: Props) {
                 Custom window frame
             </Checkbox>
             <Checkbox
+                checked={config.discordRPC}
+                onChange={(discordRPC) => {
+                    window.native.set("discordRPC", discordRPC);
+                    setConfig({
+                        ...config,
+                        discordRPC,
+                    });
+                }}
+                description={<>Rep Revolt on your Discord status.</>}>
+                Discord RPC
+            </Checkbox>
+            <Checkbox
                 checked={config.build === "nightly"}
                 onChange={(nightly) => {
                     const build = nightly ? "nightly" : "stable";
-                    window.native.setBuild(build);
+                    window.native.set("build", build);
                     setHintReload(true);
                     setConfig({
                         ...config,
@@ -90,7 +118,7 @@ export function Native(props: Props) {
                         contrast
                         compact
                         onClick={() => {
-                            window.native.setBuild("stable");
+                            window.native.set("build", "stable");
                             window.native.reload();
                         }}>
                         Exit Development Mode
@@ -123,7 +151,7 @@ export function Native(props: Props) {
                             compact
                             disabled={!confirmDev}
                             onClick={() => {
-                                window.native.setBuild("dev");
+                                window.native.set("build", "dev");
                                 window.native.reload();
                             }}>
                             Enter Development Mode
