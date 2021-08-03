@@ -1,79 +1,56 @@
+/* Settings animations */
 @keyframes open {
-    0% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1.2); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes close {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1.2);
-        opacity: 0;
-    }
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.2); opacity: 0; }
 }
 
 @keyframes opacity {
-    0% {
-        opacity: 0;
-    }
-    20% {
-        opacity: 0.5;
-    }
-    50% {
-        opacity: 1;
-    }
+    0% { opacity: 0; }
+    20% { opacity: 0.5; }
+    50% { opacity: 1; }
 }
 
+/* Settings CSS */
 .settings[data-mobile="true"] {
     flex-direction: column;
     background: var(--primary-header);
 
-    .scrollbox { //TOFIX: need to put this into a media query later
-        visibility: visible !important;
-        overflow-y: auto;
-        
+    .sidebar, .content { background: var(--primary-background); }
+
+    .scrollbox {
         &::-webkit-scrollbar-thumb {
             border-top: none;
         }
     }
 
-    .sidebar,
-    .content {
-        background: var(--primary-background);
-    }
-
+    /* Sidebar */
     .sidebar {
-        justify-content: flex-start;
-
-        
+        overflow-y: auto;
 
         .container {
             padding: 20px 8px calc(var(--bottom-navigation-height) + 30px);
             min-width: 218px;
-            width: 100%;
         }
 
-        > div {
-            width: 100%;
-        }
-
-        .version {
-            place-items: center;
-        }
+        .scrollbox { width: 100%; }
+        .version { place-items: center; }
     }
 
+    /* Content */
     .content {
         padding: 0;
-    }
 
-    .contentcontainer {
-        padding: 10px 12px var(--bottom-navigation-height) !important;
+        .scrollbox { overflow: auto; }
+
+        .contentcontainer {
+            max-width: unset !important;
+            padding: 10px 12px var(--bottom-navigation-height) !important;
+        }
     }
 }
 
@@ -86,9 +63,7 @@
     position: fixed;
     animation: open 0.18s ease-out, opacity 0.18s;
 
-    &.closing {
-        animation: close 0.18s ease-in;
-    }
+    &.closing { animation: close 0.18s ease-in; }
 }
 
 .settings {
@@ -133,21 +108,14 @@
             flex-direction: column;
         }
 
-        .divider {
-            height: 30px;
-        }
+        .divider { height: 30px; }
 
-        .donate {
-            color: goldenrod !important;
-        }
-
-        .logOut {
-            color: var(--error) !important;
-        }
+        .donate { color: goldenrod !important; }
+        .logOut {color: var(--error) !important; }
 
         .version {
             margin: 1rem 12px 0;
-            font-size: 10px;
+            font-size: .625rem;
             color: var(--secondary-foreground);
             font-family: var(--monospace-font), monospace;
             user-select: text;
@@ -159,7 +127,7 @@
                 flex-direction: column;
             }
 
-            .revision a:hover {
+            a:hover {
                 text-decoration: underline;
             }
         }
@@ -180,7 +148,7 @@
             gap: 13px;
             height: fit-content;
             max-width: 740px;
-            padding: 80px 2em;
+            padding: 80px 32px;
             width: 100%;
             flex-direction: column;
         }
@@ -191,13 +159,13 @@
 
         h1 {
             margin: 0;
-            line-height: 1em;
-            font-size: 1.2em;
+            line-height: 1rem;
+            font-size: 1.2rem;
             font-weight: 600;
         }
 
         h3 {
-            font-size: 13px;
+            font-size: .8125rem;
             text-transform: uppercase;
             color: var(--secondary-foreground);
 
@@ -208,15 +176,14 @@
 
         h4 {
             margin: 4px 2px;
-            font-size: 13px;
-
+            font-size: .8125rem;
             color: var(--tertiary-foreground);
             text-transform: uppercase;
         }
 
         h5 {
             margin-top: 0;
-            font-size: 12px;
+            font-size: .75rem;
             font-weight: 400;
         }
 
@@ -224,7 +191,7 @@
             border-top: 1px solid;
             margin: 0;
             padding-top: 5px;
-            font-size: 14px;
+            font-size: .875rem;
             color: var(--secondary-foreground);
         }
     }
@@ -240,14 +207,10 @@
             content: "ESC";
             margin-top: 4px;
             display: flex;
-            text-align: center;
-            align-content: center;
             justify-content: center;
-            position: relative;
-            color: var(--foreground);
             width: 40px;
-            opacity: 0.5;
-            font-size: 0.75em;
+            opacity: .5;
+            font-size: .75rem;
         }
 
         .closeButton {
@@ -259,29 +222,17 @@
             width: 40px;
             border: 3px solid var(--tertiary-background);
             cursor: pointer;
-            visibility: visible;
 
-            svg {
-                color: var(--secondary-foreground);
-            }
-
-            &:hover {
-                background: var(--secondary-header);
-            }
-
-            &:active {
-                transform: translateY(2px);
-            }
+            svg { color: var(--secondary-foreground); }
+            &:hover { background: var(--secondary-header); }
+            &:active { transform: translateY(2px); }
         }
-    }
-
-    section {
-        margin-bottom: 1em;
     }
 }
 
-.loader {
-    > div {
-        margin: auto;
+@media (pointer: coarse) {
+    .scrollbox {
+        visibility: visible !important;
+        overflow-y: auto;
     }
 }

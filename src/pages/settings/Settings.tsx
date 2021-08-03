@@ -185,38 +185,36 @@ export default function Settings() {
                     <Text id="app.settings.pages.logOut" />
                 </ButtonItem>,
                 <div className={styles.version}>
-                    <div>
-                        <span className={styles.revision}>
-                            <a
-                                href={`${REPO_URL}/${GIT_REVISION}`}
-                                target="_blank"
-                                rel="noreferrer">
-                                {GIT_REVISION.substr(0, 7)}
-                            </a>
-                            {` `}
-                            <a
-                                href={
-                                    GIT_BRANCH !== "DETACHED"
-                                        ? `https://gitlab.insrt.uk/revolt/client/-/tree/${GIT_BRANCH}`
-                                        : undefined
-                                }
-                                target="_blank"
-                                rel="noreferrer">
-                                ({GIT_BRANCH})
-                            </a>
-                        </span>
-                        <span>
-                            {GIT_BRANCH === "production" ? "Stable" : "Nightly"}{" "}
-                            {APP_VERSION}
-                        </span>
-                        {window.isNative && (
-                            <span>Native: {window.nativeVersion}</span>
-                        )}
-                        <span>
-                            API: {client.configuration?.revolt ?? "N/A"}
-                        </span>
-                        <span>revolt.js: {LIBRARY_VERSION}</span>
-                    </div>
+                    <span className={styles.revision}>
+                        <a
+                            href={`${REPO_URL}/${GIT_REVISION}`}
+                            target="_blank"
+                            rel="noreferrer">
+                            {GIT_REVISION.substr(0, 7)}
+                        </a>
+                        {` `}
+                        <a
+                            href={
+                                GIT_BRANCH !== "DETACHED"
+                                    ? `https://gitlab.insrt.uk/revolt/client/-/tree/${GIT_BRANCH}`
+                                    : undefined
+                            }
+                            target="_blank"
+                            rel="noreferrer">
+                            ({GIT_BRANCH})
+                        </a>
+                    </span>
+                    <span>
+                        {GIT_BRANCH === "production" ? "Stable" : "Nightly"}{" "}
+                        {APP_VERSION}
+                    </span>
+                    {window.isNative && (
+                        <span>Native: {window.nativeVersion}</span>
+                    )}
+                    <span>
+                        API: {client.configuration?.revolt ?? "N/A"}
+                    </span>
+                    <span>revolt.js: {LIBRARY_VERSION}</span>
                 </div>,
             ]}
         />
