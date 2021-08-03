@@ -6,11 +6,13 @@ export interface IconBaseProps<T> {
     attachment?: Attachment;
 
     size: number;
+    hover?: boolean;
     animate?: boolean;
 }
 
 interface IconModifiers {
     square?: boolean;
+    hover?: boolean;
 }
 
 export default styled.svg<IconModifiers>`
@@ -27,6 +29,14 @@ export default styled.svg<IconModifiers>`
                 border-radius: 50%;
             `}
     }
+
+    ${(props) =>
+        props.hover &&
+        css`
+            &:hover .icon {
+                filter: brightness(0.8);
+            }
+        `}
 `;
 
 export const ImageIconBase = styled.img<IconModifiers>`
@@ -37,5 +47,13 @@ export const ImageIconBase = styled.img<IconModifiers>`
         !props.square &&
         css`
             border-radius: 50%;
+        `}
+
+    ${(props) =>
+        props.hover &&
+        css`
+            &:hover img {
+                filter: brightness(0.8);
+            }
         `}
 `;

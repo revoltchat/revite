@@ -48,3 +48,7 @@ hr {
     height: 1px;
     flex-grow: 1;
 }
+
+foreignObject > svg {
+    vertical-align: top !important;
+}
