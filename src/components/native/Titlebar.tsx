@@ -7,7 +7,6 @@ import UpdateIndicator from "../common/UpdateIndicator";
 const TitlebarBase = styled.div`
     height: var(--titlebar-height);
     display: flex;
-    gap: 6px;
     user-select: none;
     align-items: center;
 
@@ -61,6 +60,7 @@ const TitlebarBase = styled.div`
         z-index: 100;
         display: flex;
         align-items: center;
+        margin-inline-start: 6px;
 
         div {
             width: calc(
