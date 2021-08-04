@@ -1,9 +1,5 @@
-import {
-    At,
-    Reply as ReplyIcon,
-    File,
-    XCircle,
-} from "@styled-icons/boxicons-regular";
+import { At, Reply as ReplyIcon } from "@styled-icons/boxicons-regular";
+import { File, XCircle } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { SYSTEM_USER_ID } from "revolt.js";
 import styled from "styled-components";
@@ -31,13 +27,23 @@ interface Props {
 
 const Base = styled.div`
     display: flex;
-    padding: 0 22px;
+    height: 30px;
+    padding: 0 12px;
     user-select: none;
     align-items: center;
     background: var(--message-box);
+        
+        .username {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+    }
 
-    div {
+    > div {
         flex-grow: 1;
+        margin-bottom: 0;
     }
 
     .actions {
@@ -48,9 +54,16 @@ const Base = styled.div`
     .toggle {
         gap: 4px;
         display: flex;
-        font-size: 0.7em;
+        font-size: 12px;
         align-items: center;
+        font-weight: 600;
     }
+
+    /*@media (pointer: coarse) { //FIXME: Make action buttons bigger on pointer coarse
+        .actions > svg {
+            height: 25px;
+        }
+    }*/
 `;
 
 // ! FIXME: Move to global config
@@ -92,21 +105,29 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                     <Base key={reply.id}>
                         <ReplyBase preview>
                             <ReplyIcon size={22} />
-                            <UserShort user={message.author} size={16} />
-                            {message.attachments &&
-                                message.attachments.length > 0 && (
-                                    <File size={16} />
+                            <div class="username">
+                                <UserShort user={message.author} size={16} />
+                            </div>
+                            <div class="message">
+                                {message.attachments && (
+                                    <>
+                                        <File size={16} />
+                                        <em>{message.attachments.length > 1 ?
+                                            "Sent multiple attachments" :
+                                            "Sent an attachment"}</em>
+                                    </>
                                 )}
-                            {message.author_id === SYSTEM_USER_ID ? (
-                                <SystemMessage message={message} />
-                            ) : (
-                                <Markdown
-                                    disallowBigEmoji
-                                    content={(
-                                        message.content as string
-                                    ).replace(/\n/g, " ")}
-                                />
-                            )}
+                                {message.author_id === SYSTEM_USER_ID ? (
+                                    <SystemMessage message={message} />
+                                ) : (
+                                    <Markdown
+                                        disallowBigEmoji
+                                        content={(
+                                            message.content as string
+                                        ).replace(/\n/g, " ")}
+                                    />
+                                )}
+                            </div>
                         </ReplyBase>
                         <span class="actions">
                             <IconButton
