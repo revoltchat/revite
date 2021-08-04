@@ -25,6 +25,7 @@ export function Native(props: Props) {
     return (
         <div>
             <h3>App Behavior</h3>
+            <h5>Some options might require a restart.</h5>
             <Checkbox
                 checked={autoStart ?? false}
                 disabled={typeof autoStart === "undefined"}
@@ -40,22 +41,35 @@ export function Native(props: Props) {
                 description="Launch Revolt when you log into your computer.">
                 Start with computer
             </Checkbox>
+            
+            
             <Checkbox
-                checked={config.hardwareAcceleration}
-                onChange={async (hardwareAcceleration) => {
-                    window.native.set(
-                        "hardwareAcceleration",
-                        hardwareAcceleration,
-                    );
-                    setHintRelaunch(true);
+                checked={config.discordRPC}
+                onChange={(discordRPC) => {
+                    window.native.set("discordRPC", discordRPC);
                     setConfig({
                         ...config,
-                        hardwareAcceleration,
+                        discordRPC,
                     });
                 }}
-                description="Use the GPU to render the app, disable if you run into visual issues.">
-                Hardware Acceleration
+                description="Rep Revolt on your Discord status.">
+                Enable Discord status
             </Checkbox>
+            <Checkbox
+                checked={config.build === "nightly"}
+                onChange={(nightly) => {
+                    const build = nightly ? "nightly" : "stable";
+                    window.native.set("build", build);
+                    setHintReload(true);
+                    setConfig({
+                        ...config,
+                        build,
+                    });
+                }}
+                description="Use the beta branch of Revolt.">
+                Revolt Nightly
+            </Checkbox>
+            <h3>Titlebar</h3>
             <Checkbox
                 checked={!config.frame}
                 onChange={(frame) => {
@@ -69,31 +83,36 @@ export function Native(props: Props) {
                 description={<>Let Revolt use its own window frame.</>}>
                 Custom window frame
             </Checkbox>
-            <Checkbox
-                checked={config.discordRPC}
-                onChange={(discordRPC) => {
-                    window.native.set("discordRPC", discordRPC);
+            <Checkbox //FIXME: In Titlebar.tsx, enable .quick css
+                disabled={true}
+                checked={!config.frame}
+                onChange={(frame) => {
+                    window.native.set("frame", !frame);
+                    setHintRelaunch(true);
                     setConfig({
                         ...config,
-                        discordRPC,
+                        frame: !frame,
                     });
                 }}
-                description={<>Rep Revolt on your Discord status.</>}>
-                Discord RPC
+                description="Show mute/deafen buttons on the titlebar.">
+                Enable quick action buttons
             </Checkbox>
+            <h3>Advanced</h3>
             <Checkbox
-                checked={config.build === "nightly"}
-                onChange={(nightly) => {
-                    const build = nightly ? "nightly" : "stable";
-                    window.native.set("build", build);
-                    setHintReload(true);
+                checked={config.hardwareAcceleration}
+                onChange={async (hardwareAcceleration) => {
+                    window.native.set(
+                        "hardwareAcceleration",
+                        hardwareAcceleration,
+                    );
+                    setHintRelaunch(true);
                     setConfig({
                         ...config,
-                        build,
+                        hardwareAcceleration,
                     });
                 }}
-                description={<>Use the beta branch of Revolt.</>}>
-                Revolt Nightly
+                description="Uses your GPU to render the app, disable if you run into visual issues.">
+                Hardware Acceleration
             </Checkbox>
             <p style={{ display: "flex", gap: "8px" }}>
                 <Button
@@ -113,7 +132,8 @@ export function Native(props: Props) {
             </p>
             <h3 style={{ marginTop: "4em" }}>Local Development Mode</h3>
             {config.build === "dev" ? (
-                <p>
+                <>
+                    <h5>Development mode is currently on.</h5>
                     <Button
                         contrast
                         compact
@@ -123,7 +143,7 @@ export function Native(props: Props) {
                         }}>
                         Exit Development Mode
                     </Button>
-                </p>
+                </>
             ) : (
                 <>
                     <Checkbox
