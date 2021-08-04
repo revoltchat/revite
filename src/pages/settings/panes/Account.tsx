@@ -1,5 +1,10 @@
 import { At, Key, Block } from "@styled-icons/boxicons-regular";
-import { Envelope, HelpCircle, Lock, Trash } from "@styled-icons/boxicons-solid";
+import {
+    Envelope,
+    HelpCircle,
+    Lock,
+    Trash,
+} from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
 import { Profile } from "revolt-api/types/Users";
@@ -7,6 +12,8 @@ import { Profile } from "revolt-api/types/Users";
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
+
+import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
@@ -18,7 +25,9 @@ import {
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";
+import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
+import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 export const Account = observer(() => {
     const { openScreen, writeClipboard } = useIntermediate();
@@ -62,25 +71,29 @@ export const Account = observer(() => {
                     <div className={styles.userDetail}>
                         @{client.user!.username}
                         <div className={styles.userid}>
-                            <Tooltip content={<Text id="app.settings.pages.account.unique_id" />}>
+                            <Tooltip
+                                content={
+                                    <Text id="app.settings.pages.account.unique_id" />
+                                }>
                                 <HelpCircle size={16} />
                             </Tooltip>
                             <Tooltip content={<Text id="app.special.copy" />}>
-                                <a onClick={() => writeClipboard(client.user!._id)}>
+                                <a
+                                    onClick={() =>
+                                        writeClipboard(client.user!._id)
+                                    }>
                                     {client.user!._id}
                                 </a>
                             </Tooltip>
                         </div>
                     </div>
                 </div>
-                
-                <Button
-                    onClick={() => switchPage("profile")}
-                    contrast>
-                    Edit Profile
+
+                <Button onClick={() => switchPage("profile")} contrast>
+                    <Text id="app.settings.pages.profile.edit_profile" />
                 </Button>
             </div>
-            <div className={styles.details}>
+            <div>
                 {(
                     [
                         ["username", client.user!.username, <At size={24} />],
@@ -88,64 +101,64 @@ export const Account = observer(() => {
                         ["password", "•••••••••", <Key size={24} />],
                     ] as const
                 ).map(([field, value, icon]) => (
-                    <div>
-                        {icon}
-                        <div className={styles.detail}>
-                            <div className={styles.subtext}>
-                                <Text id={`login.${field}`} />
-                            </div>
-                            <div className={styles.entry}>
-                                {field === "email" ? (
-                                    revealEmail ? (
-                                        <>
-                                            {value}{" "}
-                                            <a
-                                                onClick={() =>
-                                                    setRevealEmail(false)
-                                                }>
-                                                <Text id="app.special.modals.actions.hide" />
-                                            </a>
-                                        </>
-                                    ) : (
-                                        <>
-                                            •••••••••••@{value.split("@").pop()}{" "}
-                                            <a
-                                                onClick={() =>
-                                                    setRevealEmail(true)
-                                                }>
-                                                <Text id="app.special.modals.actions.reveal" />
-                                            </a>
-                                        </>
-                                    )
+                    <CategoryButton
+                        icon={icon}
+                        description={
+                            field === "email" ? (
+                                revealEmail ? (
+                                    <>
+                                        {value}{" "}
+                                        <a
+                                            onClick={(ev) =>
+                                                stopPropagation(
+                                                    ev,
+                                                    setRevealEmail(false),
+                                                )
+                                            }>
+                                            <Text id="app.special.modals.actions.hide" />
+                                        </a>
+                                    </>
                                 ) : (
-                                    value
-                                )}
-                            </div>
-                        </div>
-                        <div>
-                            <Button
-                                onClick={() =>
-                                    openScreen({
-                                        id: "modify_account",
-                                        field,
-                                    })
-                                }
-                                plain>
-                                <Text id="app.settings.pages.account.change_field" />
-                            </Button>
-                        </div>
-                    </div>
+                                    <>
+                                        •••••••••••@{value.split("@").pop()}{" "}
+                                        <a
+                                            onClick={(ev) =>
+                                                stopPropagation(
+                                                    ev,
+                                                    setRevealEmail(true),
+                                                )
+                                            }>
+                                            <Text id="app.special.modals.actions.reveal" />
+                                        </a>
+                                    </>
+                                )
+                            ) : (
+                                value
+                            )
+                        }
+                        action="chevron"
+                        onClick={() =>
+                            openScreen({
+                                id: "modify_account",
+                                field,
+                            })
+                        }>
+                        <Overline type="subtle" noMargin>
+                            <Text id={`login.${field}`} />
+                        </Overline>
+                    </CategoryButton>
                 ))}
             </div>
             <h3>
                 <Text id="app.settings.pages.account.2fa.title" />
             </h3>
-            <h5><Text id="app.settings.pages.account.2fa.description" /></h5>
-            <div className={styles.entrytest}>
-                <Lock size={24}/>
-                <div className={styles.content}>
-                    Currently not available
-                    <div className={styles.description}>
+            <h5>
+                <Text id="app.settings.pages.account.2fa.description" />
+            </h5>
+            <CategoryButton
+                icon={<Lock size={24} color="var(--error)" />}
+                description={
+                    <>
                         Two-factor auth is currently work-in-progress, see{" "}
                         <a
                             href="https://gitlab.insrt.uk/insert/rauth/-/issues/2"
@@ -154,54 +167,45 @@ export const Account = observer(() => {
                             tracking issue here
                         </a>
                         .
-                    </div>
-                </div>
-                <Button accent compact disabled>
-                    <Text id="app.settings.pages.account.2fa.add_auth" />
-                </Button>
-            </div>
+                    </>
+                }
+                action={
+                    <Button accent compact disabled>
+                        <Text id="app.settings.pages.account.2fa.add_auth" />
+                    </Button>
+                }>
+                Currently not available
+            </CategoryButton>
             <h3>
                 <Text id="app.settings.pages.account.manage.title" />
             </h3>
             <h5>
                 <Text id="app.settings.pages.account.manage.description" />
             </h5>
-            <div className={styles.entrytest}>
-                <Block size={24}/>
-                <div className={styles.content}>
-                    <Text id="app.settings.pages.account.manage.disable" />
-                    <div className={styles.description}>
-                        Disable your account. You won't be able to access it unless you log back in.
-                    </div>
-                </div>
-                <Button accent compact disabled>
-                    Unavailable
-                </Button>
-            </div>
-            <div className={styles.entrytest}>
-                <Trash size={24}/>
-                <div className={styles.content}>
-                    <Text id="app.settings.pages.account.manage.delete" />
-                    <div className={styles.description}>
-                        Delete your account, including all of your data.
-                    </div>
-                </div>
-                <a href="mailto:contact@revolt.chat?subject=Delete%20my%20account">
-                    <Button error compact>
-                        <Text id="app.settings.pages.account.manage.delete" />
+            <CategoryButton
+                icon={<Block size={24} color="var(--error)" />}
+                description={
+                    "Disable your account. You won't be able to access it unless you log back in."
+                }
+                action={
+                    <Button accent compact disabled>
+                        <Text id="general.unavailable" />
                     </Button>
-                </a>
-            </div>
-            <div className={styles.buttons}>
-                {/* <Button contrast>
-                    <Text id="app.settings.pages.account.manage.disable" />
-                </Button> 
-                <a href="mailto:contact@revolt.chat?subject=Delete%20my%20account">
-                    <Button error compact>
-                        <Text id="app.settings.pages.account.manage.delete" />
-                    </Button>
-                </a>*/}
-            </div>
+                }>
+                <Text id="app.settings.pages.account.manage.disable" />
+            </CategoryButton>
+            <CategoryButton
+                icon={<Trash size={24} color="var(--error)" />}
+                description={"Delete your account, including all of your data."}
+                action={
+                    <a href="mailto:contact@revolt.chat?subject=Delete%20my%20account">
+                        <Button error compact>
+                            <Text id="app.settings.pages.account.manage.delete" />
+                        </Button>
+                    </a>
+                }>
+                <Text id="app.settings.pages.account.manage.delete" />
+            </CategoryButton>
             <Tip>
                 <span>
                     <Text id="app.settings.tips.account.a" />

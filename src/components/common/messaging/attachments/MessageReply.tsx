@@ -187,12 +187,18 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
                                         );
                                     }
                                 }}>
-                                {message.attachments && (
+                                {message.attachments &&
+                                    message.attachments.length > 0 && (
                                         <>
                                             <File size={16} />
-                                            <em>{message.attachments.length > 1 ?
-                                                "Sent multiple attachments" :
-                                                "Sent an attachment"}</em>
+                                            <em>
+                                                {message.attachments.length >
+                                                0 ? (
+                                                    <Text id="app.main.channel.misc.sent_multiple_files" />
+                                                ) : (
+                                                    <Text id="app.main.channel.misc.sent_file" />
+                                                )}
+                                            </em>
                                         </>
                                     )}
                                 <Markdown
