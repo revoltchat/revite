@@ -19,7 +19,11 @@ export function FormLogin() {
                 let device_name;
                 if (browser) {
                     const { name, os } = browser;
-                    device_name = `${name} on ${os}`;
+                    if (window.isNative) {
+                        device_name = `Revolt Desktop on ${os}`;
+                    } else {
+                        device_name = `${name} on ${os}`;
+                    }
                 } else {
                     device_name = "Unknown Device";
                 }
