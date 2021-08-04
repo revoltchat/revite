@@ -1,6 +1,8 @@
 import { IntlContext, translate } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
+import { Dictionary } from "../context/Locale";
+
 import { Children } from "../types/Preact";
 
 interface Fields {
@@ -10,18 +12,6 @@ interface Fields {
 interface Props {
     id: string;
     fields: Fields;
-}
-
-export interface Dictionary {
-    dayjs: {
-        defaults: {
-            twelvehour: "yes" | "no";
-            separator: string;
-            date: "traditional" | "simplified" | "ISO8601";
-        };
-        timeFormat: string;
-    };
-    [key: string]: Object | string;
 }
 
 export interface IntlType {

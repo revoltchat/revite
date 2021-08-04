@@ -149,35 +149,60 @@ interface Props {
     locale: Language;
 }
 
+export interface Dictionary {
+    dayjs?: {
+        defaults?: {
+            twelvehour?: "yes" | "no";
+            separator?: string;
+            date?: "traditional" | "simplified" | "ISO8601";
+        };
+        timeFormat?: string;
+    };
+    [key: string]:
+        | Record<string, Omit<Dictionary, "dayjs">>
+        | string
+        | undefined;
+}
+
 function Locale({ children, locale }: Props) {
-    // TODO: create and use LanguageDefinition type here
-    const [defns, setDefinition] =
-        useState<Record<string, unknown>>(definition);
-    const lang = Languages[locale];
+    const [defns, setDefinition] = useState<Dictionary>(definition as any);
 
-    // TODO: clean this up and use the built in Intl API
+    // Load relevant language information, fallback to English if invalid.
+    const lang = Languages[locale] ?? Languages.en;
+
     function transformLanguage(source: { [key: string]: any }) {
+        // Fallback untranslated strings to English (UK)
         const obj = defaultsDeep(source, definition);
-        const dayjs = obj.dayjs;
-        const defaults = dayjs.defaults;
 
+        // Take relevant objects out, dayjs and defaults
+        // should exist given we just took defaults above.
+        const { dayjs } = obj;
+        const { defaults } = dayjs;
+
+        // Determine whether we are using 12-hour clock.
         const twelvehour = defaults?.twelvehour
             ? defaults.twelvehour === "yes"
             : false;
 
+        // Determine what date separator we are using.
         const separator: string = defaults?.date_separator ?? "/";
+
+        // Determine what date format we are using.
         const date: "traditional" | "simplified" | "ISO8601" =
             defaults?.date_format ?? "traditional";
 
+        // Available date formats.
         const DATE_FORMATS = {
             traditional: `DD${separator}MM${separator}YYYY`,
             simplified: `MM${separator}DD${separator}YYYY`,
             ISO8601: "YYYY-MM-DD",
         };
 
-        dayjs["sameElse"] = DATE_FORMATS[date];
+        // Replace data in dayjs object, make sure to provide fallbacks.
+        dayjs["sameElse"] = DATE_FORMATS[date] ?? DATE_FORMATS.traditional;
         dayjs["timeFormat"] = twelvehour ? "hh:mm A" : "HH:mm";
 
+        // Replace {{time}} format string in dayjs strings with the time format.
         Object.keys(dayjs)
             .filter((k) => typeof dayjs[k] === "string")
             .forEach(
@@ -191,8 +216,10 @@ function Locale({ children, locale }: Props) {
         return obj;
     }
 
-    useEffect(() => {
+    function loadLanguage(locale: string) {
         if (locale === "en") {
+            // If English, make sure to restore everything to defaults.
+            // Use what we already have.
             const defn = transformLanguage(definition);
             setDefinition(defn);
             dayjs.locale("en");
@@ -202,24 +229,33 @@ function Locale({ children, locale }: Props) {
 
         import(`../../external/lang/${lang.i18n}.json`).then(
             async (lang_file) => {
+                // Transform the definitions data.
                 const defn = transformLanguage(lang_file.default);
+
+                // Determine and load dayjs locales.
                 const target = lang.dayjs ?? lang.i18n;
                 const dayjs_locale = await import(
                     `../../node_modules/dayjs/esm/locale/${target}.js`
                 );
 
+                // Load dayjs locales.
                 dayjs.locale(target, dayjs_locale.default);
 
                 if (defn.dayjs) {
+                    // Override dayjs calendar locales with our own.
                     dayjs.updateLocale(target, { calendar: defn.dayjs });
                 }
 
+                // Apply definition to app.
                 setDefinition(defn);
             },
         );
-    }, [locale, lang]);
+    }
+
+    useEffect(() => loadLanguage(locale), [locale, lang]);
 
     useEffect(() => {
+        // Apply RTL language format.
         document.body.style.direction = lang.rtl ? "rtl" : "";
     }, [lang.rtl]);
 
