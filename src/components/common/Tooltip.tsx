@@ -17,7 +17,7 @@ export default function Tooltip(props: Props) {
         <Tippy content={content} {...tippyProps}>
             {/*
             // @ts-expect-error */}
-            <div>{children}</div>
+            <div style={`display: flex;`}>{children}</div>
         </Tippy>
     );
 }

@@ -1,5 +1,7 @@
 .user {
     .banner {
+        position: relative;
+        margin-top: 5px;
         gap: 24px;
         width: 100%;
         padding: 1em;
@@ -8,6 +10,14 @@
         align-items: center;
         background: var(--secondary-header);
         border-radius: var(--border-radius);
+
+        .userDetail {
+            display: flex;
+            gap: 2px;
+            flex-direction: column;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
 
         .avatar {
             cursor: pointer;
@@ -18,13 +28,8 @@
             }
         }
 
-        .username {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
         .userid {
-            font-size: .875rem;
+            font-size: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -41,6 +46,7 @@
     .details {
         display: flex;
         margin-top: 1em;
+        gap: 10px;
         flex-direction: column;
 
         > div {
@@ -49,7 +55,6 @@
             display: flex;
             align-items: center;
             flex-direction: row;
-            margin-bottom: 5px;
 
             > svg {
                 flex-shrink: 0;
@@ -526,4 +531,8 @@
         justify-content: center;
         align-items: center;
     }
+}
+
+section {
+    margin-bottom: 20px;
 }
