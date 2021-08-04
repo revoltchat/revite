@@ -114,7 +114,7 @@ export const Account = observer(() => {
                                         field,
                                     })
                                 }
-                                contrast>
+                                plain>
                                 <Text id="app.settings.pages.account.change_field" />
                             </Button>
                         </div>
