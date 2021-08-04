@@ -61,6 +61,9 @@ export function Component(props: Props) {
                     ))}
             </div>
             <h3>
+                <Text id="app.settings.pages.language.const" />
+            </h3>
+            <h3>
                 <Text id="app.settings.pages.language.other" />
             </h3>
             <div className={styles.list}>
