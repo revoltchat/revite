@@ -61,7 +61,10 @@ export const Account = observer(() => {
                 <div className={styles.userDetail}>
                     @{client.user!.username}
                     <div className={styles.userid}>
-                        <Tooltip content={<Text id="app.settings.pages.account.unique_id" />}>
+                        <Tooltip
+                            content={
+                                <Text id="app.settings.pages.account.unique_id" />
+                            }>
                             <HelpCircle size={16} />
                         </Tooltip>
                         <Tooltip content={<Text id="app.special.copy" />}>
@@ -89,7 +92,15 @@ export const Account = observer(() => {
                             <div className={styles.entry}>
                                 {field === "email" ? (
                                     revealEmail ? (
-                                        value
+                                        <>
+                                            {value}{" "}
+                                            <a
+                                                onClick={() =>
+                                                    setRevealEmail(false)
+                                                }>
+                                                <Text id="app.special.modals.actions.hide" />
+                                            </a>
+                                        </>
                                     ) : (
                                         <>
                                             •••••••••••@{value.split("@").pop()}{" "}

@@ -1,5 +1,5 @@
 import { Chrome, Android, Apple, Windows } from "@styled-icons/boxicons-logos";
-import { HelpCircle } from "@styled-icons/boxicons-regular";
+import { HelpCircle, Desktop } from "@styled-icons/boxicons-regular";
 import {
     Safari,
     Firefoxbrowser,
@@ -73,6 +73,8 @@ export function Sessions() {
                 return <Microsoftedge size={32} />;
             case /opera/i.test(name):
                 return <Opera size={32} />;
+            case /desktop/i.test(name):
+                return <Desktop size={32} />;
             default:
                 return <HelpCircle size={32} />;
         }
