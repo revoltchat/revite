@@ -1,5 +1,5 @@
-import { At } from "@styled-icons/boxicons-regular";
-import { Envelope, Key, HelpCircle } from "@styled-icons/boxicons-solid";
+import { At, Key } from "@styled-icons/boxicons-regular";
+import { Envelope, HelpCircle } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
 import { Profile } from "revolt-api/types/Users";
@@ -77,7 +77,7 @@ export const Account = observer(() => {
                     [
                         ["username", client.user!.username, <At size={24} />],
                         ["email", email, <Envelope size={24} />],
-                        ["password", "*********", <Key size={24} />],
+                        ["password", "•••••••••", <Key size={24} />],
                     ] as const
                 ).map(([field, value, icon]) => (
                     <div>
@@ -86,13 +86,13 @@ export const Account = observer(() => {
                             <div className={styles.subtext}>
                                 <Text id={`login.${field}`} />
                             </div>
-                            <p>
+                            <div className={styles.entry}>
                                 {field === "email" ? (
                                     revealEmail ? (
                                         value
                                     ) : (
                                         <>
-                                            ***********@{value.split("@").pop()}{" "}
+                                            •••••••••••@{value.split("@").pop()}{" "}
                                             <a
                                                 onClick={() =>
                                                     setRevealEmail(true)
@@ -104,7 +104,7 @@ export const Account = observer(() => {
                                 ) : (
                                     value
                                 )}
-                            </p>
+                            </div>
                         </div>
                         <div>
                             <Button
