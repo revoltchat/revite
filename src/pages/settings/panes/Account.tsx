@@ -1,5 +1,5 @@
-import { At, Key } from "@styled-icons/boxicons-regular";
-import { Envelope, HelpCircle } from "@styled-icons/boxicons-solid";
+import { At, Key, Block } from "@styled-icons/boxicons-regular";
+import { Envelope, HelpCircle, Lock, Trash } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
 import { Profile } from "revolt-api/types/Users";
@@ -140,38 +140,68 @@ export const Account = observer(() => {
             <h3>
                 <Text id="app.settings.pages.account.2fa.title" />
             </h3>
-            <h5>
-                Currently work in progress, see{" "}
-                <a
-                    href="https://gitlab.insrt.uk/insert/rauth/-/issues/2"
-                    target="_blank"
-                    rel="noreferrer">
-                    tracking issue here
-                </a>
-                .
-            </h5>
-            {/*<h5><Text id="app.settings.pages.account.two_factor_auth.description" /></h5>
-            <Button accent compact>
-                <Text id="app.settings.pages.account.two_factor_auth.add_auth" />
-            </Button>*/}
-
+            <h5><Text id="app.settings.pages.account.2fa.description" /></h5>
+            <div className={styles.entrytest}>
+                <Lock size={24}/>
+                <div className={styles.content}>
+                    Currently not available
+                    <div className={styles.description}>
+                        Two-factor auth is currently work-in-progress, see{" "}
+                        <a
+                            href="https://gitlab.insrt.uk/insert/rauth/-/issues/2"
+                            target="_blank"
+                            rel="noreferrer">
+                            tracking issue here
+                        </a>
+                        .
+                    </div>
+                </div>
+                <Button accent compact disabled>
+                    <Text id="app.settings.pages.account.2fa.add_auth" />
+                </Button>
+            </div>
             <h3>
                 <Text id="app.settings.pages.account.manage.title" />
             </h3>
             <h5>
                 <Text id="app.settings.pages.account.manage.description" />
             </h5>
-            <div className={styles.buttons}>
-                {/* <Button contrast>
+            <div className={styles.entrytest}>
+                <Block size={24}/>
+                <div className={styles.content}>
                     <Text id="app.settings.pages.account.manage.disable" />
-                </Button> */}
+                    <div className={styles.description}>
+                        Disable your account. You won't be able to access it unless you log back in.
+                    </div>
+                </div>
+                <Button accent compact disabled>
+                    Unavailable
+                </Button>
+            </div>
+            <div className={styles.entrytest}>
+                <Trash size={24}/>
+                <div className={styles.content}>
+                    <Text id="app.settings.pages.account.manage.delete" />
+                    <div className={styles.description}>
+                        Delete your account, including all of your data.
+                    </div>
+                </div>
                 <a href="mailto:contact@revolt.chat?subject=Delete%20my%20account">
                     <Button error compact>
                         <Text id="app.settings.pages.account.manage.delete" />
                     </Button>
                 </a>
             </div>
-
+            <div className={styles.buttons}>
+                {/* <Button contrast>
+                    <Text id="app.settings.pages.account.manage.disable" />
+                </Button> 
+                <a href="mailto:contact@revolt.chat?subject=Delete%20my%20account">
+                    <Button error compact>
+                        <Text id="app.settings.pages.account.manage.delete" />
+                    </Button>
+                </a>*/}
+            </div>
             <Tip>
                 <span>
                     <Text id="app.settings.tips.account.a" />

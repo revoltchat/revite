@@ -48,7 +48,7 @@ export const ReplyBase = styled.div<{
     }
 
     .user {
-        gap: 4px;
+        gap: 6px;
         display: flex;
         flex-shrink: 0;
         font-weight: 600;
@@ -92,9 +92,9 @@ export const ReplyBase = styled.div<{
             pointer-events: none;
         }
 
-        > span {
+        /*> span > p {
             display: flex;
-        }
+        }*/
     }
 
     > svg:first-child {

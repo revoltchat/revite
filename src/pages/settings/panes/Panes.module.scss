@@ -56,9 +56,12 @@
 
     .details {
         display: flex;
-        margin: 1em 0;
+        padding: 1em 0;
         gap: 10px;
         flex-direction: column;
+
+        /*border-top: 1px solid var(--secondary-header);
+        border-width: 100%;*/
 
         > div {
             gap: 12px;
@@ -148,6 +151,40 @@
     .buttons {
         display: flex;
         gap: 12px;
+    }
+
+    .entrytest {
+        gap: 12px;
+        /* padding: 4px; */
+        height: 54px;
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        background: var(--secondary-header);
+        border-radius: 6px;
+        margin-bottom: 10px;
+
+        > svg {
+            color: var(--error);
+        }
+
+        .content {
+            display: flex;
+            flex-grow: 1;
+            flex-direction: column;
+            font-weight: 600;
+            font-size: 14px;
+
+            .description {
+                font-size: 11px;
+                font-weight: 400;
+
+                a:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
     }
 }
 
@@ -504,7 +541,7 @@
         display: flex;
         flex-direction: column;
         margin-bottom: 1em;
-        gap: 10px;
+        gap: 8px;
         
         .entry {
             display: flex;
