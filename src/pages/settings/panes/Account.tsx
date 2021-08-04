@@ -52,28 +52,33 @@ export const Account = observer(() => {
     return (
         <div className={styles.user}>
             <div className={styles.banner}>
-                <UserIcon
-                    className={styles.avatar}
-                    target={client.user!}
-                    size={72}
-                    onClick={() => switchPage("profile")}
-                />
-                <div className={styles.userDetail}>
-                    @{client.user!.username}
-                    <div className={styles.userid}>
-                        <Tooltip
-                            content={
-                                <Text id="app.settings.pages.account.unique_id" />
-                            }>
-                            <HelpCircle size={16} />
-                        </Tooltip>
-                        <Tooltip content={<Text id="app.special.copy" />}>
-                            <a onClick={() => writeClipboard(client.user!._id)}>
-                                {client.user!._id}
-                            </a>
-                        </Tooltip>
+                <div className={styles.container}>
+                    <UserIcon
+                        className={styles.avatar}
+                        target={client.user!}
+                        size={72}
+                        onClick={() => switchPage("profile")}
+                    />
+                    <div className={styles.userDetail}>
+                        @{client.user!.username}
+                        <div className={styles.userid}>
+                            <Tooltip content={<Text id="app.settings.pages.account.unique_id" />}>
+                                <HelpCircle size={16} />
+                            </Tooltip>
+                            <Tooltip content={<Text id="app.special.copy" />}>
+                                <a onClick={() => writeClipboard(client.user!._id)}>
+                                    {client.user!._id}
+                                </a>
+                            </Tooltip>
+                        </div>
                     </div>
                 </div>
+                
+                <Button
+                    onClick={() => switchPage("profile")}
+                    contrast>
+                    Edit Profile
+                </Button>
             </div>
             <div className={styles.details}>
                 {(
@@ -132,12 +137,6 @@ export const Account = observer(() => {
                     </div>
                 ))}
             </div>
-            <h3>
-                <Text id="app.settings.pages.account.account_management.title" />
-            </h3>
-            <h5>
-                <Text id="app.settings.pages.account.account_management.description" />
-            </h5>
             <h3>
                 <Text id="app.settings.pages.account.2fa.title" />
             </h3>
