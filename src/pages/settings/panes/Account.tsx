@@ -170,11 +170,8 @@ export const Account = observer(() => {
                         .
                     </>
                 }
-                action={
-                    <Button accent compact disabled>
-                        <Text id="app.settings.pages.account.2fa.add_auth" />
-                    </Button>
-                }>
+                disabled
+                action="chevron">
                 Currently not available
             </CategoryButton>
             <h3>
@@ -188,25 +185,21 @@ export const Account = observer(() => {
                 description={
                     "Disable your account. You won't be able to access it unless you log back in."
                 }
-                action={
-                    <Button accent compact disabled>
-                        <Text id="general.unavailable" />
-                    </Button>
-                }>
+                disabled
+                action={<Text id="general.unavailable" />}>
                 <Text id="app.settings.pages.account.manage.disable" />
             </CategoryButton>
-            <CategoryButton
-                icon={<Trash size={24} color="var(--error)" />}
-                description={"Delete your account, including all of your data."}
-                action={
-                    <a href="mailto:contact@revolt.chat?subject=Delete%20my%20account">
-                        <Button error compact>
-                            <Text id="app.settings.pages.account.manage.delete" />
-                        </Button>
-                    </a>
-                }>
-                <Text id="app.settings.pages.account.manage.delete" />
-            </CategoryButton>
+            <a href="mailto:contact@revolt.chat?subject=Delete%20my%20account">
+                <CategoryButton
+                    icon={<Trash size={24} color="var(--error)" />}
+                    description={
+                        "Delete your account, including all of your data."
+                    }
+                    onClick={() => {}}
+                    action="external">
+                    <Text id="app.settings.pages.account.manage.delete" />
+                </CategoryButton>
+            </a>
             <Tip>
                 <span>
                     <Text id="app.settings.tips.account.a" />

@@ -1,9 +1,10 @@
-import { ChevronRight } from "@styled-icons/boxicons-regular";
+import { ChevronRight, LinkExternal } from "@styled-icons/boxicons-regular";
 import styled, { css } from "styled-components";
 
 import { Children } from "../../../types/Preact";
 
 interface BaseProps {
+    readonly disabled?: boolean;
     readonly largeDescription?: boolean;
 }
 
@@ -13,6 +14,7 @@ const CategoryBase = styled.div<BaseProps>`
     border-radius: 6px;
     margin-bottom: 10px;
 
+    color: var(--foreground);
     background: var(--secondary-header);
 
     gap: 12px;
@@ -58,6 +60,15 @@ const CategoryBase = styled.div<BaseProps>`
                 cursor: pointer;
             }
         `}
+
+    ${(props) =>
+        props.disabled &&
+        css`
+            .content,
+            .action {
+                color: var(--tertiary-foreground);
+            }
+        `}
 `;
 
 interface Props extends BaseProps {
@@ -66,7 +77,7 @@ interface Props extends BaseProps {
     description?: Children;
 
     onClick?: () => void;
-    action?: "chevron" | Children;
+    action?: "chevron" | "external" | Children;
 }
 
 export default function CategoryButton({
@@ -74,11 +85,15 @@ export default function CategoryButton({
     children,
     description,
     largeDescription,
+    disabled,
     onClick,
     action,
 }: Props) {
     return (
-        <CategoryBase onClick={onClick} largeDescription={largeDescription}>
+        <CategoryBase
+            onClick={onClick}
+            disabled={disabled}
+            largeDescription={largeDescription}>
             {icon}
             <div class="content">
                 {children}
@@ -86,7 +101,11 @@ export default function CategoryButton({
             </div>
             <div class="action">
                 {typeof action === "string" ? (
-                    <ChevronRight size={24} />
+                    action === "chevron" ? (
+                        <ChevronRight size={24} />
+                    ) : (
+                        <LinkExternal size={24} />
+                    )
                 ) : (
                     action
                 )}
