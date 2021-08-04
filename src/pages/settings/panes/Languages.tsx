@@ -55,7 +55,7 @@ export function Component(props: Props) {
             </h3>
             <div className={styles.list}>
                 {languages
-                    .filter(([, lang]) => !lang.alt)
+                    .filter(([, lang]) => !lang.cat)
                     .map(([x, lang]) => (
                         <Entry key={x} entry={[x, lang]} {...props} />
                     ))}
@@ -63,12 +63,19 @@ export function Component(props: Props) {
             <h3>
                 <Text id="app.settings.pages.language.const" />
             </h3>
+            <div className={styles.list}>
+                {languages
+                    .filter(([, lang]) => lang.cat === "const")
+                    .map(([x, lang]) => (
+                        <Entry key={x} entry={[x, lang]} {...props} />
+                    ))}
+            </div>
             <h3>
                 <Text id="app.settings.pages.language.other" />
             </h3>
             <div className={styles.list}>
                 {languages
-                    .filter(([, lang]) => lang.alt)
+                    .filter(([, lang]) => lang.cat === "alt")
                     .map(([x, lang]) => (
                         <Entry key={x} entry={[x, lang]} {...props} />
                     ))}

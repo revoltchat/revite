@@ -59,7 +59,7 @@ export interface LanguageEntry {
     i18n: string;
     dayjs?: string;
     rtl?: boolean;
-    alt?: boolean;
+    cat?: "const" | "alt";
 }
 
 export const Languages: { [key in Language]: LanguageEntry } = {
@@ -97,12 +97,6 @@ export const Languages: { [key in Language]: LanguageEntry } = {
     ru: { display: "Русский", emoji: "🇷🇺", i18n: "ru" },
     sr: { display: "Српски", emoji: "🇷🇸", i18n: "sr" },
     sv: { display: "Svenska", emoji: "🇸🇪", i18n: "sv" },
-    tokipona: {
-        display: "Toki Pona",
-        emoji: "🙂",
-        i18n: "tokipona",
-        dayjs: "en-gb",
-    },
     tr: { display: "Türkçe", emoji: "🇹🇷", i18n: "tr" },
     uk: { display: "Українська", emoji: "🇺🇦", i18n: "uk" },
     zh_Hans: {
@@ -112,33 +106,41 @@ export const Languages: { [key in Language]: LanguageEntry } = {
         dayjs: "zh",
     },
 
+    tokipona: {
+        display: "Toki Pona",
+        emoji: "🙂",
+        i18n: "tokipona",
+        dayjs: "en-gb",
+        cat: "const",
+    },
+
     owo: {
         display: "OwO",
         emoji: "🐱",
         i18n: "owo",
         dayjs: "en-gb",
-        alt: true,
+        cat: "alt",
     },
     pr: {
         display: "Pirate",
         emoji: "🏴‍☠️",
         i18n: "pr",
         dayjs: "en-gb",
-        alt: true,
+        cat: "alt",
     },
     bottom: {
         display: "Bottom",
         emoji: "🥺",
         i18n: "bottom",
         dayjs: "en-gb",
-        alt: true,
+        cat: "alt",
     },
     piglatin: {
         display: "Pig Latin",
         emoji: "🐖",
         i18n: "piglatin",
         dayjs: "en-gb",
-        alt: true,
+        cat: "alt",
     },
 };
 
