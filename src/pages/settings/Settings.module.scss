@@ -95,10 +95,8 @@
     .sidebar {
         flex: 1 0 218px;
         display: flex;
-        overflow-y: scroll;
         justify-content: flex-end;
         background: var(--secondary-background);
-        scrollbar-width: thin;
 
         .container {
             min-width: 218px;
