@@ -4,11 +4,11 @@
         margin-top: 5px;
         gap: 24px;
         width: 100%;
-        padding: 1em;
+        padding: 12px 10px;
         display: flex;
         overflow: hidden;
         align-items: center;
-        background: var(--secondary-header);
+        /*background: var(--secondary-header);*/
         border-radius: var(--border-radius);
 
         .userDetail {
@@ -51,10 +51,13 @@
 
         > div {
             gap: 12px;
-            padding: 4px;
+            /*padding: 4px;*/
+            padding: 8px 12px;
             display: flex;
             align-items: center;
             flex-direction: row;
+            background: var(--secondary-header);
+            border-radius: 6px;
 
             > svg {
                 flex-shrink: 0;
@@ -70,14 +73,21 @@
 
             .subtext {
                 display: inline;
-                font-size: .875rem;
+                font-size: 12px;
                 font-weight: 600;
-                color: var(--foreground);
                 text-transform: uppercase;
+                color: var(--secondary-foreground);
 
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
+            }
+
+            .entry {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                font-size: 15px;
             }
 
             a {
@@ -87,12 +97,6 @@
                 &:hover {
                     text-decoration: underline;
                 }
-            }
-
-            p {
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
             }
         }
 
@@ -481,7 +485,7 @@
             display: flex;
             height: 45px;
             padding: 0 8px;
-            background: var(--tertiary-background);
+            background: var(--secondary-header);
             border-radius: var(--border-radius);
             margin-top: 0;
 
