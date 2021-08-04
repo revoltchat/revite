@@ -59,14 +59,9 @@ export const Account = observer(() => {
                     onClick={() => switchPage("profile")}
                 />
                 <div className={styles.userDetail}>
-                    <div className={styles.username}>
-                        @{client.user!.username}
-                    </div>
+                    @{client.user!.username}
                     <div className={styles.userid}>
-                        <Tooltip
-                            content={
-                                <Text id="app.settings.pages.account.unique_id" />
-                            }>
+                        <Tooltip content={<Text id="app.settings.pages.account.unique_id" />}>
                             <HelpCircle size={16} />
                         </Tooltip>
                         <Tooltip content={<Text id="app.special.copy" />}>
@@ -82,7 +77,7 @@ export const Account = observer(() => {
                     [
                         ["username", client.user!.username, <At size={24} />],
                         ["email", email, <Envelope size={24} />],
-                        ["password", "***********", <Key size={24} />],
+                        ["password", "*********", <Key size={24} />],
                     ] as const
                 ).map(([field, value, icon]) => (
                     <div>
@@ -132,7 +127,6 @@ export const Account = observer(() => {
             <h5>
                 <Text id="app.settings.pages.account.account_management.description" />
             </h5>
-
             <h3>
                 <Text id="app.settings.pages.account.2fa.title" />
             </h3>
