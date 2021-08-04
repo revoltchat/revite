@@ -8,15 +8,26 @@
         display: flex;
         overflow: hidden;
         align-items: center;
-        /*background: var(--secondary-header);*/
         border-radius: var(--border-radius);
+
+        .container {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-direction: row;
+            width: 100%;
+        }
 
         .userDetail {
             display: flex;
+            flex-grow: 1;
             gap: 2px;
             flex-direction: column;
             font-size: 1.5rem;
             font-weight: 600;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         .avatar {
@@ -45,7 +56,7 @@
 
     .details {
         display: flex;
-        margin-top: 1em;
+        margin: 1em 0;
         gap: 10px;
         flex-direction: column;
 
@@ -137,6 +148,20 @@
     .buttons {
         display: flex;
         gap: 12px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .user {
+        .banner {
+            gap: 18px;
+            padding: 0;
+            flex-direction: column;
+
+            > button {
+                width: 100%;
+            }
+        }
     }
 }
 
