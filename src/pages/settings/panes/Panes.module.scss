@@ -78,42 +78,6 @@
             }
         }
 
-        .detail {
-            flex-grow: 1;
-            min-width: 0;
-
-            display: flex;
-            flex-direction: column;
-
-            .subtext {
-                display: inline;
-                font-size: 12px;
-                font-weight: 600;
-                text-transform: uppercase;
-                color: var(--secondary-foreground);
-
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-            }
-
-            .entry {
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-                font-size: 15px;
-            }
-
-            a {
-                font-size: .875rem;
-                cursor: pointer;
-
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
-        }
-
         p {
             margin: 0;
             font-size: 1rem;
@@ -126,7 +90,7 @@
         display: grid;
         place-items: center;
         grid-template-columns: minmax(auto, 100%);
-        
+
         > div {
             width: 100%;
             max-width: 560px;
@@ -151,40 +115,6 @@
     .buttons {
         display: flex;
         gap: 12px;
-    }
-
-    .entrytest {
-        gap: 12px;
-        /* padding: 4px; */
-        height: 54px;
-        padding: 8px 12px;
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        background: var(--secondary-header);
-        border-radius: 6px;
-        margin-bottom: 10px;
-
-        > svg {
-            color: var(--error);
-        }
-
-        .content {
-            display: flex;
-            flex-grow: 1;
-            flex-direction: column;
-            font-weight: 600;
-            font-size: 14px;
-
-            .description {
-                font-size: 11px;
-                font-weight: 400;
-
-                a:hover {
-                    text-decoration: underline;
-                }
-            }
-        }
     }
 }
 
@@ -236,14 +166,13 @@
     }
 
     details {
-
         summary {
-            font-size: .8125rem;
+            font-size: 0.8125rem;
             font-weight: 700;
             text-transform: uppercase;
             color: var(--secondary-foreground);
             cursor: pointer;
-        }      
+        }
     }
 
     .emojiPack {
@@ -297,15 +226,12 @@
             text-transform: unset;
 
             a {
-                
                 opacity: 0.7;
                 color: var(--accent);
                 font-weight: 600;
                 &:hover {
                     text-decoration: underline;
                 }
-
-                
             }
 
             @media only screen and (max-width: 800px) {
@@ -331,7 +257,7 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            font-size: .875rem;
+            font-size: 0.875rem;
             min-width: 0;
             flex-grow: 1;
             padding: 8px;
@@ -352,7 +278,7 @@
         row-gap: 8px;
         display: grid;
         column-gap: 16px;
-        grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         margin-bottom: 20px;
 
         .entry {
@@ -365,7 +291,7 @@
                 flex: 1;
                 display: block;
                 font-weight: 600;
-                font-size: .875rem;
+                font-size: 0.875rem;
                 margin-bottom: 8px;
                 text-transform: capitalize;
 
@@ -427,7 +353,7 @@
             display: flex;
             gap: 12px;
             flex-grow: 1;
-            
+
             svg {
                 margin-top: 1px;
             }
@@ -452,7 +378,6 @@
                     border-bottom: 2px solid var(--primary-background);
                 }
             }
-
         }
 
         &[data-deleting="true"] {
@@ -487,7 +412,7 @@
         .label {
             margin-bottom: 8px;
             color: var(--primary-text);
-            font-size: .75rem;
+            font-size: 0.75rem;
             font-weight: 600;
         }
 
@@ -507,7 +432,7 @@
             }
 
             .time {
-                font-size: .75rem;
+                font-size: 0.75rem;
                 color: var(--teriary-text);
                 text-overflow: ellipsis;
                 overflow: hidden;
@@ -524,7 +449,7 @@
             align-items: unset;
             flex-direction: column;
             gap: 20px;
-    
+
             > button {
                 width: 100%;
             }
@@ -542,7 +467,7 @@
         flex-direction: column;
         margin-bottom: 1em;
         gap: 8px;
-        
+
         .entry {
             display: flex;
             height: 45px;

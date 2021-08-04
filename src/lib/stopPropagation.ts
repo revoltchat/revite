@@ -1,5 +1,5 @@
 export const stopPropagation = (
-    ev: JSX.TargetedMouseEvent<HTMLDivElement>,
+    ev: JSX.TargetedMouseEvent<HTMLElement>,
     _consume?: any,
 ) => {
     ev.preventDefault();

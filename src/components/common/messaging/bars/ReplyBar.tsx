@@ -32,23 +32,10 @@ const Base = styled.div`
     user-select: none;
     align-items: center;
     background: var(--message-box);
-        
-        .username {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 600;
-        }
-    }
 
     > div {
         flex-grow: 1;
         margin-bottom: 0;
-    }
-
-    .actions {
-        gap: 12px;
-        display: flex;
     }
 
     .toggle {
@@ -57,6 +44,22 @@ const Base = styled.div`
         font-size: 12px;
         align-items: center;
         font-weight: 600;
+    }
+
+    .username {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 600;
+    }
+
+    .message {
+        display: flex;
+    }
+
+    .actions {
+        gap: 12px;
+        display: flex;
     }
 
     /*@media (pointer: coarse) { //FIXME: Make action buttons bigger on pointer coarse
@@ -109,14 +112,20 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                 <UserShort user={message.author} size={16} />
                             </div>
                             <div class="message">
-                                {message.attachments && (
-                                    <>
-                                        <File size={16} />
-                                        <em>{message.attachments.length > 1 ?
-                                            "Sent multiple attachments" :
-                                            "Sent an attachment"}</em>
-                                    </>
-                                )}
+                                {message.attachments &&
+                                    message.attachments.length > 0 && (
+                                        <>
+                                            <File size={16} />
+                                            <em>
+                                                {message.attachments!.length >
+                                                1 ? (
+                                                    <Text id="app.main.channel.misc.sent_multiple_files" />
+                                                ) : (
+                                                    <Text id="app.main.channel.misc.sent_file" />
+                                                )}
+                                            </em>
+                                        </>
+                                    )}
                                 {message.author_id === SYSTEM_USER_ID ? (
                                     <SystemMessage message={message} />
                                 ) : (

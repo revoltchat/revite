@@ -8,13 +8,19 @@ type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, "children" | "as"> & {
     error?: string;
     block?: boolean;
     spaced?: boolean;
+    noMargin?: boolean;
     children?: Children;
     type?: "default" | "subtle" | "error";
 };
 
 const OverlineBase = styled.div<Omit<Props, "children" | "error">>`
     display: inline;
-    margin: 0.4em 0;
+
+    ${(props) =>
+        !props.noMargin &&
+        css`
+            margin: 0.4em 0;
+        `}
 
     ${(props) =>
         props.spaced &&
