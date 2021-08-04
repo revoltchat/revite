@@ -11,17 +11,15 @@ interface BaseProps {
 
 const CategoryBase = styled.div<BaseProps>`
     /*height: 54px;*/
-    padding: 10px 12px;
+    padding: 9.8px 12px;
     border-radius: 6px;
     margin-bottom: 10px;
-
     color: var(--foreground);
     background: var(--secondary-header);
     gap: 12px;
     display: flex;
     align-items: center;
     flex-direction: row;
-    opacity: .7;
 
     > svg {
         flex-shrink: 0;
@@ -77,19 +75,16 @@ const CategoryBase = styled.div<BaseProps>`
             &:hover {
                 background: var(--secondary-background);
             }
-
-            a {
-                cursor: pointer;
-            }
         `}
 
     ${(props) =>
         props.disabled &&
         css`
-            .content,
+            opacity: .4;
+            /*.content,
             .action {
                 color: var(--tertiary-foreground);
-            }
+            }*/
 
             .action {
                 font-size: 14px;
@@ -102,6 +97,9 @@ const CategoryBase = styled.div<BaseProps>`
             height: 54px;
 
             .content {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
                 .title {
                     text-transform: uppercase;
                     font-size: 12px;

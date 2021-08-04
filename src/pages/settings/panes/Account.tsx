@@ -25,7 +25,6 @@ import {
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";
-import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
@@ -152,25 +151,21 @@ export const Account = observer(() => {
                 <Text id="app.settings.pages.account.2fa.title" />
             </h3>
             <h5>
-                <Text id="app.settings.pages.account.2fa.description" />
+                {/*<Text id="app.settings.pages.account.2fa.description" />*/}
+                Two-factor authentication is currently work-in-progress, see {` `}
+                <a
+                    href="https://gitlab.insrt.uk/insert/rauth/-/issues/2"
+                    target="_blank"
+                    rel="noreferrer">
+                    tracking issue here
+                </a>.
             </h5>
             <CategoryButton
                 icon={<Lock size={24} color="var(--error)" />}
-                description={
-                    <>
-                        Two-factor auth is currently work-in-progress, see{" "}
-                        <a
-                            href="https://gitlab.insrt.uk/insert/rauth/-/issues/2"
-                            target="_blank"
-                            rel="noreferrer">
-                            tracking issue here
-                        </a>
-                        .
-                    </>
-                }
+                description={"Set up 2FA Authentication on your account."}
                 disabled
                 action="chevron">
-                Currently not available
+                Set up Two-factor authentication
             </CategoryButton>
             <h3>
                 <Text id="app.settings.pages.account.manage.title" />
