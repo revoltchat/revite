@@ -13,6 +13,7 @@ import {
 import Emoji from "../../../components/common/Emoji";
 import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
+import tokiponaSVG from "../assets/toki_pona.svg";
 
 type Props = {
     locale: Language;
@@ -35,7 +36,11 @@ function Entry({ entry: [x, lang], locale }: { entry: Key } & Props) {
                 }
             }}>
             <div className={styles.flag}>
-                <Emoji size={42} emoji={lang.emoji} />
+                {lang.emoji === "🙂" ? (
+                    <img src={tokiponaSVG} width={42} />
+                ) : (
+                    <Emoji size={42} emoji={lang.emoji} />
+                )}
             </div>
             <span className={styles.description}>{lang.display}</span>
         </Checkbox>
