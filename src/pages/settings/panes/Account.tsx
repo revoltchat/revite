@@ -136,6 +136,7 @@ export const Account = observer(() => {
                                 value
                             )
                         }
+                        largeDescription
                         action="chevron"
                         onClick={() =>
                             openScreen({

@@ -3,7 +3,11 @@ import styled, { css } from "styled-components";
 
 import { Children } from "../../../types/Preact";
 
-const CategoryBase = styled.div`
+interface BaseProps {
+    readonly largeDescription?: boolean;
+}
+
+const CategoryBase = styled.div<BaseProps>`
     height: 54px;
     padding: 8px 12px;
     border-radius: 6px;
@@ -24,7 +28,15 @@ const CategoryBase = styled.div`
         font-size: 14px;
 
         .description {
-            font-size: 11px;
+            ${(props) =>
+                props.largeDescription
+                    ? css`
+                          font-size: 14px;
+                      `
+                    : css`
+                          font-size: 11px;
+                      `}
+
             font-weight: 400;
 
             a:hover {
@@ -48,7 +60,7 @@ const CategoryBase = styled.div`
         `}
 `;
 
-interface Props {
+interface Props extends BaseProps {
     icon?: Children;
     children?: Children;
     description?: Children;
@@ -61,11 +73,12 @@ export default function CategoryButton({
     icon,
     children,
     description,
+    largeDescription,
     onClick,
     action,
 }: Props) {
     return (
-        <CategoryBase onClick={onClick}>
+        <CategoryBase onClick={onClick} largeDescription={largeDescription}>
             {icon}
             <div class="content">
                 {children}
