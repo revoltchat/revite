@@ -136,7 +136,7 @@ export const Account = observer(() => {
                                 value
                             )
                         }
-                        largeDescription
+                        account
                         action="chevron"
                         onClick={() =>
                             openScreen({
@@ -144,9 +144,7 @@ export const Account = observer(() => {
                                 field,
                             })
                         }>
-                        <Overline type="subtle" noMargin>
-                            <Text id={`login.${field}`} />
-                        </Overline>
+                        <Text id={`login.${field}`} />
                     </CategoryButton>
                 ))}
             </div>
