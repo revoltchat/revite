@@ -4,23 +4,30 @@ import styled, { css } from "styled-components";
 import { Children } from "../../../types/Preact";
 
 interface BaseProps {
+    readonly account?: boolean;
     readonly disabled?: boolean;
     readonly largeDescription?: boolean;
 }
 
 const CategoryBase = styled.div<BaseProps>`
-    height: 54px;
-    padding: 8px 12px;
+    /*height: 54px;*/
+    padding: 10px 12px;
     border-radius: 6px;
     margin-bottom: 10px;
 
     color: var(--foreground);
     background: var(--secondary-header);
-
     gap: 12px;
     display: flex;
     align-items: center;
     flex-direction: row;
+    opacity: .7;
+
+    > svg {
+        flex-shrink: 0;
+    }
+
+    
 
     .content {
         display: flex;
@@ -28,6 +35,15 @@ const CategoryBase = styled.div<BaseProps>`
         flex-direction: column;
         font-weight: 600;
         font-size: 14px;
+
+        .title {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+        }
+
+        
 
         .description {
             ${(props) =>
@@ -40,6 +56,10 @@ const CategoryBase = styled.div<BaseProps>`
                       `}
 
             font-weight: 400;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
 
             a:hover {
                 text-decoration: underline;
@@ -50,10 +70,12 @@ const CategoryBase = styled.div<BaseProps>`
     ${(props) =>
         typeof props.onClick !== "undefined" &&
         css`
+            cursor: pointer;
+            opacity: 1;
             transition: 0.1s ease background-color;
 
             &:hover {
-                background: var(--tertiary-background);
+                background: var(--secondary-background);
             }
 
             a {
@@ -67,6 +89,32 @@ const CategoryBase = styled.div<BaseProps>`
             .content,
             .action {
                 color: var(--tertiary-foreground);
+            }
+
+            .action {
+                font-size: 14px;
+            }
+        `}
+    
+    ${(props) =>
+        props.account &&
+        css`
+            height: 54px;
+
+            .content {
+                .title {
+                    text-transform: uppercase;
+                    font-size: 12px;
+                    color: var(--secondary-foreground);
+                }
+
+                .description {
+                    font-size: 15px;
+
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
             }
         `}
 `;
@@ -84,7 +132,7 @@ export default function CategoryButton({
     icon,
     children,
     description,
-    largeDescription,
+    account,
     disabled,
     onClick,
     action,
@@ -93,10 +141,11 @@ export default function CategoryButton({
         <CategoryBase
             onClick={onClick}
             disabled={disabled}
-            largeDescription={largeDescription}>
+            account={account}>
             {icon}
             <div class="content">
-                {children}
+                <div className="title">{children}</div>
+                
                 <div className="description">{description}</div>
             </div>
             <div class="action">
@@ -104,7 +153,7 @@ export default function CategoryButton({
                     action === "chevron" ? (
                         <ChevronRight size={24} />
                     ) : (
-                        <LinkExternal size={24} />
+                        <LinkExternal size={20} />
                     )
                 ) : (
                     action
