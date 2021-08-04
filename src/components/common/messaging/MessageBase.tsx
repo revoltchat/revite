@@ -218,7 +218,7 @@ export const MessageDetail = observer(
                         <time className="copyTime">
                             <i className="copyBracket">[</i>
                             {dayjs(decodeTime(message._id)).format(
-                                dict.dayjs.timeFormat,
+                                dict.dayjs?.timeFormat,
                             )}
                             <i className="copyBracket">]</i>
                         </time>
@@ -236,7 +236,7 @@ export const MessageDetail = observer(
                     <time>
                         <i className="copyBracket">[</i>
                         {dayjs(decodeTime(message._id)).format(
-                            dict.dayjs.timeFormat,
+                            dict.dayjs?.timeFormat,
                         )}
                         <i className="copyBracket">]</i>
                     </time>
