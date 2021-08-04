@@ -112,30 +112,25 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                 <UserShort user={message.author} size={16} />
                             </div>
                             <div class="message">
-                                {message.attachments &&
-                                    message.attachments.length > 0 && (
-                                        <>
-                                            <File size={16} />
-                                            <em>
-                                                {message.attachments!.length >
-                                                1 ? (
-                                                    <Text id="app.main.channel.misc.sent_multiple_files" />
-                                                ) : (
-                                                    <Text id="app.main.channel.misc.sent_file" />
-                                                )}
-                                            </em>
-                                        </>
-                                    )}
-                                {message.author_id === SYSTEM_USER_ID ? (
-                                    <SystemMessage message={message} />
-                                ) : (
-                                    <Markdown
-                                        disallowBigEmoji
-                                        content={(
-                                            message.content as string
-                                        ).replace(/\n/g, " ")}
-                                    />
-                                )}
+                            {message.attachments && (
+                                    <>
+                                        <File size={16} />
+                                        <em>{message.attachments.length > 1 ?
+                                            <Text id="app.main.channel.misc.sent_multiple_files" /> :
+                                            <Text id="app.main.channel.misc.sent_file" /> }
+                                        </em>
+                                    </>
+                            )}
+                            {message.author_id === SYSTEM_USER_ID ? (
+                                <SystemMessage message={message} />
+                            ) : (
+                                <Markdown
+                                    disallowBigEmoji
+                                    content={(
+                                        message.content as string
+                                    ).replace(/\n/g, " ")}
+                                />
+                            )}
                             </div>
                         </ReplyBase>
                         <span class="actions">

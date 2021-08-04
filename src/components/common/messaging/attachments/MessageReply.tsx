@@ -187,20 +187,15 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
                                         );
                                     }
                                 }}>
-                                {message.attachments &&
-                                    message.attachments.length > 0 && (
-                                        <>
-                                            <File size={16} />
-                                            <em>
-                                                {message.attachments.length >
-                                                0 ? (
-                                                    <Text id="app.main.channel.misc.sent_multiple_files" />
-                                                ) : (
-                                                    <Text id="app.main.channel.misc.sent_file" />
-                                                )}
-                                            </em>
-                                        </>
-                                    )}
+                                {message.attachments && (
+                                    <>
+                                        <File size={16} />
+                                        <em>{message.attachments.length > 1 ?
+                                            <Text id="app.main.channel.misc.sent_multiple_files" /> :
+                                            <Text id="app.main.channel.misc.sent_file" /> }
+                                        </em>
+                                    </>
+                                )}
                                 <Markdown
                                     disallowBigEmoji
                                     content={(
