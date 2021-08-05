@@ -75,13 +75,14 @@ export const UserProfile = observer(
             if (!user_id) return;
             if (typeof profile !== "undefined") setProfile(undefined);
             if (typeof mutual !== "undefined") setMutual(undefined);
-        }, [user_id, mutual, profile]);
+            // eslint-disable-next-line
+        }, [user_id]);
 
-        if (dummy) {
-            useLayoutEffect(() => {
+        useEffect(() => {
+            if (dummy) {
                 setProfile(dummyProfile);
-            }, [dummyProfile]);
-        }
+            }
+        }, [dummy, dummyProfile]);
 
         useEffect(() => {
             if (dummy) return;

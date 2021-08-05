@@ -1,18 +1,36 @@
 /* Settings animations */
 @keyframes open {
-    0% { transform: scale(1.2); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes close {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(1.2); opacity: 0; }
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
 }
 
 @keyframes opacity {
-    0% { opacity: 0; }
-    20% { opacity: 0.5; }
-    50% { opacity: 1; }
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 /* Settings CSS */
@@ -20,7 +38,10 @@
     flex-direction: column;
     background: var(--primary-header);
 
-    .sidebar, .content { background: var(--primary-background); }
+    .sidebar,
+    .content {
+        background: var(--primary-background);
+    }
 
     .scrollbox {
         &::-webkit-scrollbar-thumb {
@@ -37,15 +58,21 @@
             min-width: 218px;
         }
 
-        .scrollbox { width: 100%; }
-        .version { place-items: center; }
+        .scrollbox {
+            width: 100%;
+        }
+        .version {
+            place-items: center;
+        }
     }
 
     /* Content */
     .content {
         padding: 0;
 
-        .scrollbox { overflow: auto; }
+        .scrollbox {
+            overflow: auto;
+        }
 
         .contentcontainer {
             max-width: unset !important;
@@ -63,7 +90,9 @@
     position: fixed;
     animation: open 0.18s ease-out, opacity 0.18s;
 
-    &.closing { animation: close 0.18s ease-in; }
+    &.closing {
+        animation: close 0.18s ease-in;
+    }
 }
 
 .settings {
@@ -85,8 +114,9 @@
     .scrollbox:focus {
         visibility: visible;
     }
-    
-    ::-webkit-scrollbar-thumb {
+
+    // All children receive custom scrollbar.
+    > * > ::-webkit-scrollbar-thumb {
         width: 4px;
         background-clip: content-box;
         border-top: 80px solid transparent;
@@ -106,14 +136,20 @@
             flex-direction: column;
         }
 
-        .divider { height: 30px; }
+        .divider {
+            height: 30px;
+        }
 
-        .donate { color: goldenrod !important; }
-        .logOut {color: var(--error) !important; }
+        .donate {
+            color: goldenrod !important;
+        }
+        .logOut {
+            color: var(--error) !important;
+        }
 
         .version {
             margin: 1rem 12px 0;
-            font-size: .625rem;
+            font-size: 0.625rem;
             color: var(--secondary-foreground);
             font-family: var(--monospace-font), monospace;
             user-select: text;
@@ -163,7 +199,7 @@
         }
 
         h3 {
-            font-size: .8125rem;
+            font-size: 0.8125rem;
             text-transform: uppercase;
             color: var(--secondary-foreground);
 
@@ -174,14 +210,14 @@
 
         h4 {
             margin: 4px 2px;
-            font-size: .8125rem;
+            font-size: 0.8125rem;
             color: var(--tertiary-foreground);
             text-transform: uppercase;
         }
 
         h5 {
             margin-top: 0;
-            font-size: .75rem;
+            font-size: 0.75rem;
             font-weight: 400;
         }
 
@@ -189,7 +225,7 @@
             border-top: 1px solid;
             margin: 0;
             padding-top: 5px;
-            font-size: .875rem;
+            font-size: 0.875rem;
             color: var(--secondary-foreground);
         }
     }
@@ -207,8 +243,8 @@
             display: flex;
             justify-content: center;
             width: 40px;
-            opacity: .5;
-            font-size: .75rem;
+            opacity: 0.5;
+            font-size: 0.75rem;
         }
 
         .closeButton {
@@ -221,9 +257,15 @@
             border: 3px solid var(--tertiary-background);
             cursor: pointer;
 
-            svg { color: var(--secondary-foreground); }
-            &:hover { background: var(--secondary-header); }
-            &:active { transform: translateY(2px); }
+            svg {
+                color: var(--secondary-foreground);
+            }
+            &:hover {
+                background: var(--secondary-header);
+            }
+            &:active {
+                transform: translateY(2px);
+            }
         }
     }
 }
