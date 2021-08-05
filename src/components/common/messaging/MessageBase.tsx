@@ -33,7 +33,7 @@ export default styled.div<BaseMessageProps>`
     overflow: none;
     padding: 0.125rem;
     flex-direction: row;
-    padding-right: 16px;
+    padding-inline-end: 16px;
 
     @media (pointer: coarse) {
         user-select: none;
