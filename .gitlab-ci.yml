@@ -1,0 +1,40 @@
+image: node:14-buster
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+cache:
+  paths:
+    - node_modules
+
+# Fetch dependencies and setup project for compilation.
+install:
+  stage: prepare
+  script:
+    - yarn
+
+# Type check the project
+typecheck:
+  stage: test
+  needs:
+    - install
+  dependencies: 
+    - install
+  script:
+    - yarn typecheck
+
+# Lint the project and check prettier output.
+lint:
+  stage: test
+  allow_failure: true
+  needs:
+    - install
+  dependencies: 
+    - install
+  script:
+    - yarn lint
+    - yarn --check 'src/**/*.{js,jsx,ts,tsx}'
+
+stages:
+  - prepare
+  - test
