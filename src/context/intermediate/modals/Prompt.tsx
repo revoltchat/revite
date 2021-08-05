@@ -238,7 +238,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     .then((code) => setCode(code))
                     .catch((err) => setError(takeError(err)))
                     .finally(() => setProcessing(false));
-            }, []);
+            }, [props.target]);
 
             return (
                 <PromptModal

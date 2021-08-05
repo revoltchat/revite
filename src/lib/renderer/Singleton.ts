@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import EventEmitter3 from "eventemitter3";
 import { Client } from "revolt.js";
 import { Message } from "revolt.js/dist/maps/Messages";
@@ -123,6 +124,7 @@ export class SingletonRenderer extends EventEmitter3 {
                                         window
                                             .getComputedStyle(child)
                                             .marginTop.slice(0, -2),
+                                        10,
                                     );
                             }
                         }
@@ -167,6 +169,7 @@ export class SingletonRenderer extends EventEmitter3 {
                                         window
                                             .getComputedStyle(child)
                                             .marginTop.slice(0, -2),
+                                        10,
                                     );
                             }
                         }

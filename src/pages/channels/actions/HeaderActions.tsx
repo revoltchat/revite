@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
     UserPlus,
     Cog,
@@ -9,15 +10,12 @@ import { useHistory } from "react-router-dom";
 
 import { useContext } from "preact/hooks";
 
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
-
 import {
     VoiceContext,
     VoiceOperationsContext,
     VoiceStatus,
 } from "../../../context/Voice";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import UpdateIndicator from "../../../components/common/UpdateIndicator";
 import IconButton from "../../../components/ui/IconButton";

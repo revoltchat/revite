@@ -42,6 +42,7 @@ export function UserPicker(props: Props) {
                     )
                     .map((x) => (
                         <UserCheckbox
+                            key={x._id}
                             user={x}
                             checked={selected.includes(x._id)}
                             onChange={(v) => {

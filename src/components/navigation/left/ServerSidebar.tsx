@@ -7,11 +7,11 @@ import { useEffect } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import { Unreads } from "../../../redux/reducers/unreads";
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
@@ -38,9 +38,9 @@ const ServerBase = styled.div`
     overflow: hidden;
 
     ${isTouchscreenDevice &&
-        css`
-            padding-bottom: 50px;
-        `}
+    css`
+        padding-bottom: 50px;
+    `}
 `;
 
 const ServerList = styled.div`
@@ -73,7 +73,7 @@ const ServerSidebar = observer((props: Props) => {
             parent: server_id!,
             child: channel_id!,
         });
-    }, [channel_id]);
+    }, [channel_id, server_id]);
 
     const uncategorised = new Set(server.channel_ids);
     const elements = [];

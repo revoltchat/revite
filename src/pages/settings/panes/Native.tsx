@@ -1,15 +1,9 @@
 import { useEffect, useState } from "preact/hooks";
 
-import { SyncOptions } from "../../../redux/reducers/sync";
-
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 
-interface Props {
-    options?: SyncOptions;
-}
-
-export function Native(props: Props) {
+export function Native() {
     const [config, setConfig] = useState(window.native.getConfig());
     const [autoStart, setAutoStart] = useState<boolean | undefined>();
     const fetchValue = () => window.native.getAutoStart().then(setAutoStart);
@@ -41,8 +35,7 @@ export function Native(props: Props) {
                 description="Launch Revolt when you log into your computer.">
                 Start with computer
             </Checkbox>
-            
-            
+
             <Checkbox
                 checked={config.discordRPC}
                 onChange={(discordRPC) => {

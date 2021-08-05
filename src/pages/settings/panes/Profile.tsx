@@ -1,8 +1,11 @@
+import { Profile as ProfileI } from "revolt-api/types/Users";
+
 import styles from "./Panes.module.scss";
-import { IntlContext, Text, translate } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { Text } from "preact-i18n";
+import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
+import { useTranslation } from "../../../lib/i18n";
 
 import { UserProfile } from "../../../context/intermediate/popovers/UserProfile";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -16,31 +19,27 @@ import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
 import Button from "../../../components/ui/Button";
-import { Profile } from "revolt-api/types/Users";
 
 export function Profile() {
-    const { intl } = useContext(IntlContext);
     const status = useContext(StatusContext);
-
+    const translate = useTranslation();
     const client = useClient();
 
-    const [profile, setProfile] = useState<undefined | Profile>(
-        undefined,
-    );
+    const [profile, setProfile] = useState<undefined | ProfileI>(undefined);
 
     // ! FIXME: temporary solution
     // ! we should just announce profile changes through WS
-    function refreshProfile() {
+    const refreshProfile = useCallback(() => {
         client
             .user!.fetchProfile()
             .then((profile) => setProfile(profile ?? {}));
-    }
+    }, [client.user, setProfile]);
 
     useEffect(() => {
         if (profile === undefined && status === ClientStatus.ONLINE) {
             refreshProfile();
         }
-    }, [status]);
+    }, [profile, status, refreshProfile]);
 
     const [changed, setChanged] = useState(false);
     function setContent(content?: string) {
@@ -69,7 +68,6 @@ export function Profile() {
                     user_id={client.user!._id}
                     dummy={true}
                     dummyProfile={profile}
-                    onClose={() => {}}
                 />
             </div>
             <div className={styles.row}>
@@ -85,9 +83,7 @@ export function Profile() {
                         behaviour="upload"
                         maxFileSize={4_000_000}
                         onUpload={(avatar) => client.users.edit({ avatar })}
-                        remove={() =>
-                            client.users.edit({ remove: "Avatar" })
-                        }
+                        remove={() => client.users.edit({ remove: "Avatar" })}
                         defaultPreview={client.user!.generateAvatarURL(
                             { max_side: 256 },
                             true,
@@ -152,8 +148,6 @@ export function Profile() {
                             ? "fetching"
                             : "placeholder"
                     }`,
-                    "",
-                    (intl as any).dictionary as Record<string, unknown>,
                 )}
                 onKeyUp={onKeyUp}
                 onKeyDown={onKeyDown}

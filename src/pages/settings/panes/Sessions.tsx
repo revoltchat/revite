@@ -50,7 +50,7 @@ export function Sessions() {
             );
             setSessions(data);
         });
-    }, []);
+    }, [client, setSessions, deviceId]);
 
     if (typeof sessions === "undefined") {
         return (
@@ -123,6 +123,7 @@ export function Sessions() {
                 const systemIcon = getSystemIcon(session);
                 return (
                     <div
+                        key={session.id}
                         className={styles.entry}
                         data-active={session.id === deviceId}
                         data-deleting={

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Embed } from "revolt-api/types/January";
 
 import styles from "./Embed.module.scss";

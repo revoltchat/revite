@@ -1,4 +1,4 @@
-import { Plus, X, XCircle } from "@styled-icons/boxicons-regular";
+import { Plus } from "@styled-icons/boxicons-regular";
 import { Pencil } from "@styled-icons/boxicons-solid";
 import Axios, { AxiosRequestConfig } from "axios";
 
@@ -147,6 +147,7 @@ export function FileUploader(props: Props) {
     }
 
     if (props.behaviour === "multi" && props.append) {
+        // eslint-disable-next-line
         useEffect(() => {
             // File pasting.
             function paste(e: ClipboardEvent) {
@@ -210,7 +211,7 @@ export function FileUploader(props: Props) {
                 document.removeEventListener("dragover", dragover);
                 document.removeEventListener("drop", drop);
             };
-        }, [props.append]);
+        }, [openScreen, props, props.append]);
     }
 
     if (props.style === "icon" || props.style === "banner") {

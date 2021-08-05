@@ -10,7 +10,6 @@ import {
     IntermediateContext,
     useIntermediate,
 } from "../../../context/intermediate/Intermediate";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import AutoComplete, {
     useAutoComplete,
@@ -79,7 +78,7 @@ export default function MessageEditor({ message, finish }: Props) {
 
         document.body.addEventListener("keyup", keyUp);
         return () => document.body.removeEventListener("keyup", keyUp);
-    }, [focusTaken]);
+    }, [focusTaken, finish]);
 
     const {
         onChange,

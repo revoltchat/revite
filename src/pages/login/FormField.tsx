@@ -1,3 +1,5 @@
+import { UseFormMethods } from "react-hook-form";
+
 import { Text, Localizer } from "preact-i18n";
 
 import InputBox from "../../components/ui/InputBox";
@@ -6,7 +8,7 @@ import Overline from "../../components/ui/Overline";
 interface Props {
     type: "email" | "username" | "password" | "invite" | "current_password";
     showOverline?: boolean;
-    register: Function;
+    register: UseFormMethods["register"];
     error?: string;
     name?: string;
 }
@@ -27,9 +29,11 @@ export default function FormField({
             )}
             <Localizer>
                 <InputBox
-                    // Styled uses React typing while we use Preact
-                    // this leads to inconsistances where things need to be typed oddly
-                    placeholder={(<Text id={`login.enter.${type}`} />) as any}
+                    placeholder={
+                        (
+                            <Text id={`login.enter.${type}`} />
+                        ) as unknown as string
+                    }
                     name={
                         type === "current_password" ? "password" : name ?? type
                     }

@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import styled, { css, keyframes } from "styled-components";
 
-import { createPortal, useEffect, useState } from "preact/compat";
+import { createPortal, useCallback, useEffect, useState } from "preact/compat";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
 
@@ -134,7 +135,7 @@ interface Props {
     dontModal?: boolean;
     padding?: boolean;
 
-    onClose: () => void;
+    onClose?: () => void;
     actions?: Action[];
     disabled?: boolean;
     border?: boolean;
@@ -163,12 +164,12 @@ export default function Modal(props: Props) {
 
     const [animateClose, setAnimateClose] = useState(false);
     isModalClosing = animateClose;
-    function onClose() {
+    const onClose = useCallback(() => {
         setAnimateClose(true);
-        setTimeout(() => props.onClose(), 2e2);
-    }
+        setTimeout(() => props.onClose?.(), 2e2);
+    }, [setAnimateClose, props]);
 
-    useEffect(() => internalSubscribe("Modal", "close", onClose), []);
+    useEffect(() => internalSubscribe("Modal", "close", onClose), [onClose]);
 
     useEffect(() => {
         if (props.disallowClosing) return;
@@ -181,7 +182,7 @@ export default function Modal(props: Props) {
 
         document.body.addEventListener("keydown", keyDown);
         return () => document.body.removeEventListener("keydown", keyDown);
-    }, [props.disallowClosing, props.onClose]);
+    }, [props.disallowClosing, onClose]);
 
     const confirmationAction = props.actions?.find(
         (action) => action.confirmation,
@@ -211,8 +212,12 @@ export default function Modal(props: Props) {
                 {content}
                 {props.actions && (
                     <ModalActions>
-                        {props.actions.map((x) => (
-                            <Button {...x} disabled={props.disabled} />
+                        {props.actions.map((x, index) => (
+                            <Button
+                                key={index}
+                                {...x}
+                                disabled={props.disabled}
+                            />
                         ))}
                     </ModalActions>
                 )}

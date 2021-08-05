@@ -5,8 +5,7 @@ import { User } from "revolt.js/dist/maps/Users";
 import styled from "styled-components";
 
 import { openContextMenu } from "preact-context-menu";
-import { Text } from "preact-i18n";
-import { Localizer } from "preact-i18n";
+import { Text, Localizer } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 

@@ -1,5 +1,5 @@
 import { ListCheck, ListUl } from "@styled-icons/boxicons-regular";
-import { Route, useHistory, useParams } from "react-router-dom";
+import { Route, Switch, useHistory, useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";
 
@@ -16,7 +16,9 @@ export default function ChannelSettings() {
     const { channel: cid } = useParams<{ channel: string }>();
 
     const client = useClient();
+    const history = useHistory();
     const channel = client.channels.get(cid);
+
     if (!channel) return null;
     if (
         channel.channel_type === "SavedMessages" ||
@@ -24,7 +26,6 @@ export default function ChannelSettings() {
     )
         return null;
 
-    const history = useHistory();
     function switchPage(to?: string) {
         let base_url;
         switch (channel?.channel_type) {
@@ -67,18 +68,20 @@ export default function ChannelSettings() {
                     ),
                 },
             ]}
-            children={[
-                <Route path="/server/:server/channel/:channel/settings/permissions">
-                    <Permissions channel={channel} />
-                </Route>,
-                <Route path="/channel/:channel/settings/permissions">
-                    <Permissions channel={channel} />
-                </Route>,
+            children={
+                <Switch>
+                    <Route path="/server/:server/channel/:channel/settings/permissions">
+                        <Permissions channel={channel} />
+                    </Route>
+                    <Route path="/channel/:channel/settings/permissions">
+                        <Permissions channel={channel} />
+                    </Route>
 
-                <Route path="/">
-                    <Overview channel={channel} />
-                </Route>,
-            ]}
+                    <Route>
+                        <Overview channel={channel} />
+                    </Route>
+                </Switch>
+            }
             category="channel_pages"
             switchPage={switchPage}
             defaultPage="overview"

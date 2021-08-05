@@ -15,7 +15,11 @@ interface Props extends IconBaseProps<Channel> {
 
 export default observer(
     (
-        props: Props & Omit<JSX.HTMLAttributes<HTMLImageElement>, keyof Props>,
+        props: Props &
+            Omit<
+                JSX.HTMLAttributes<HTMLImageElement>,
+                keyof Props | "children" | "as"
+            >,
     ) => {
         const client = useContext(AppContext);
 
@@ -25,8 +29,6 @@ export default observer(
             attachment,
             isServerChannel: server,
             animate,
-            children,
-            as,
             ...imgProps
         } = props;
         const iconURL = client.generateFileURL(

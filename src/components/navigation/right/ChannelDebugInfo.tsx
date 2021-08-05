@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useRenderState } from "../../../lib/renderer/Singleton";
 
 interface Props {

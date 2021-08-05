@@ -37,7 +37,7 @@ function StateMonitor(props: Props) {
 
         client.addListener("message", add);
         return () => client.removeListener("message", add);
-    }, [props.messages]);
+    }, [client, props.messages]);
 
     return null;
 }

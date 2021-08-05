@@ -5,9 +5,7 @@ import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
-
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { useEffect, useState } from "preact/hooks";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import IconButton from "../../../components/ui/IconButton";
@@ -18,15 +16,14 @@ interface Props {
 }
 
 export const Bans = observer(({ server }: Props) => {
-    const client = useContext(AppContext);
     const [deleting, setDelete] = useState<string[]>([]);
     const [data, setData] = useState<
         Route<"GET", "/servers/id/bans">["response"] | undefined
     >(undefined);
 
     useEffect(() => {
-        server.fetchBans().then(setData as any);
-    }, []);
+        server.fetchBans().then(setData);
+    }, [server, setData]);
 
     return (
         <div className={styles.userList}>
@@ -43,10 +40,11 @@ export const Bans = observer(({ server }: Props) => {
             </div>
             {typeof data === "undefined" && <Preloader type="ring" />}
             {data?.bans.map((x) => {
-                let user = data.users.find((y) => y._id === x._id.user);
+                const user = data.users.find((y) => y._id === x._id.user);
 
                 return (
                     <div
+                        key={x._id.user}
                         className={styles.ban}
                         data-deleting={deleting.indexOf(x._id.user) > -1}>
                         <span>

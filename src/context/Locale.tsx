@@ -5,7 +5,7 @@ import update from "dayjs/plugin/updateLocale";
 import defaultsDeep from "lodash.defaultsdeep";
 
 import { IntlProvider } from "preact-i18n";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 
 import { connectState } from "../redux/connector";
 
@@ -165,12 +165,14 @@ export interface Dictionary {
 }
 
 function Locale({ children, locale }: Props) {
-    const [defns, setDefinition] = useState<Dictionary>(definition as any);
+    const [defns, setDefinition] = useState<Dictionary>(
+        definition as Dictionary,
+    );
 
     // Load relevant language information, fallback to English if invalid.
     const lang = Languages[locale] ?? Languages.en;
 
-    function transformLanguage(source: { [key: string]: any }) {
+    function transformLanguage(source: Dictionary) {
         // Fallback untranslated strings to English (UK)
         const obj = defaultsDeep(source, definition);
 
@@ -216,43 +218,46 @@ function Locale({ children, locale }: Props) {
         return obj;
     }
 
-    function loadLanguage(locale: string) {
-        if (locale === "en") {
-            // If English, make sure to restore everything to defaults.
-            // Use what we already have.
-            const defn = transformLanguage(definition);
-            setDefinition(defn);
-            dayjs.locale("en");
-            dayjs.updateLocale("en", { calendar: defn.dayjs });
-            return;
-        }
-
-        import(`../../external/lang/${lang.i18n}.json`).then(
-            async (lang_file) => {
-                // Transform the definitions data.
-                const defn = transformLanguage(lang_file.default);
-
-                // Determine and load dayjs locales.
-                const target = lang.dayjs ?? lang.i18n;
-                const dayjs_locale = await import(
-                    `../../node_modules/dayjs/esm/locale/${target}.js`
-                );
-
-                // Load dayjs locales.
-                dayjs.locale(target, dayjs_locale.default);
-
-                if (defn.dayjs) {
-                    // Override dayjs calendar locales with our own.
-                    dayjs.updateLocale(target, { calendar: defn.dayjs });
-                }
-
-                // Apply definition to app.
+    const loadLanguage = useCallback(
+        (locale: string) => {
+            if (locale === "en") {
+                // If English, make sure to restore everything to defaults.
+                // Use what we already have.
+                const defn = transformLanguage(definition as Dictionary);
                 setDefinition(defn);
-            },
-        );
-    }
+                dayjs.locale("en");
+                dayjs.updateLocale("en", { calendar: defn.dayjs });
+                return;
+            }
 
-    useEffect(() => loadLanguage(locale), [locale, lang]);
+            import(`../../external/lang/${lang.i18n}.json`).then(
+                async (lang_file) => {
+                    // Transform the definitions data.
+                    const defn = transformLanguage(lang_file.default);
+
+                    // Determine and load dayjs locales.
+                    const target = lang.dayjs ?? lang.i18n;
+                    const dayjs_locale = await import(
+                        `../../node_modules/dayjs/esm/locale/${target}.js`
+                    );
+
+                    // Load dayjs locales.
+                    dayjs.locale(target, dayjs_locale.default);
+
+                    if (defn.dayjs) {
+                        // Override dayjs calendar locales with our own.
+                        dayjs.updateLocale(target, { calendar: defn.dayjs });
+                    }
+
+                    // Apply definition to app.
+                    setDefinition(defn);
+                },
+            );
+        },
+        [lang.dayjs, lang.i18n],
+    );
+
+    useEffect(() => loadLanguage(locale), [locale, lang, loadLanguage]);
 
     useEffect(() => {
         // Apply RTL language format.

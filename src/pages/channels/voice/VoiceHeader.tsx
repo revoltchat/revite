@@ -1,5 +1,4 @@
 import { BarChart } from "@styled-icons/boxicons-regular";
-import { observable } from "mobx";
 import { observer } from "mobx-react-lite";
 import styled from "styled-components";
 

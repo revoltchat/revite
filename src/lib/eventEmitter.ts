@@ -5,13 +5,13 @@ export const InternalEvent = new EventEmitter();
 export function internalSubscribe(
     ns: string,
     event: string,
-    fn: (...args: any[]) => void,
+    fn: (...args: unknown[]) => void,
 ) {
     InternalEvent.addListener(`${ns}/${event}`, fn);
     return () => InternalEvent.removeListener(`${ns}/${event}`, fn);
 }
 
-export function internalEmit(ns: string, event: string, ...args: any[]) {
+export function internalEmit(ns: string, event: string, ...args: unknown[]) {
     InternalEvent.emit(`${ns}/${event}`, ...args);
 }
 

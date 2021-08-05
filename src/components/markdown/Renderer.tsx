@@ -1,19 +1,20 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import MarkdownKatex from "@traptitech/markdown-it-katex";
 import MarkdownSpoilers from "@traptitech/markdown-it-spoiler";
 import "katex/dist/katex.min.css";
 import MarkdownIt from "markdown-it";
-// @ts-ignore
+// @ts-expect-error No typings.
 import MarkdownEmoji from "markdown-it-emoji/dist/markdown-it-emoji-bare";
-// @ts-ignore
+// @ts-expect-error No typings.
 import MarkdownSub from "markdown-it-sub";
-// @ts-ignore
+// @ts-expect-error No typings.
 import MarkdownSup from "markdown-it-sup";
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
 import { RE_MENTIONS } from "revolt.js";
 
 import styles from "./Markdown.module.scss";
-import { useCallback, useContext, useRef } from "preact/hooks";
+import { useCallback, useContext } from "preact/hooks";
 
 import { internalEmit } from "../../lib/eventEmitter";
 
@@ -95,8 +96,8 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
     // We replace the message with the mention at the time of render.
     // We don't care if the mention changes.
     const newContent = content
-        .replace(RE_MENTIONS, (sub: string, ...args: any[]) => {
-            const id = args[0],
+        .replace(RE_MENTIONS, (sub: string, ...args: unknown[]) => {
+            const id = args[0] as string,
                 user = client.users.get(id);
 
             if (user) {
@@ -105,8 +106,8 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
 
             return sub;
         })
-        .replace(RE_CHANNELS, (sub: string, ...args: any[]) => {
-            const id = args[0],
+        .replace(RE_CHANNELS, (sub: string, ...args: unknown[]) => {
+            const id = args[0] as string,
                 channel = client.channels.get(id);
 
             if (channel?.channel_type === "TextChannel") {

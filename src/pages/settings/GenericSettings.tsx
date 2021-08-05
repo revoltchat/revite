@@ -1,11 +1,11 @@
 import { ArrowBack, X } from "@styled-icons/boxicons-regular";
 import { Helmet } from "react-helmet";
-import { Switch, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import styles from "./Settings.module.scss";
 import classNames from "classnames";
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -51,7 +51,7 @@ export function GenericSettings({
     const { page } = useParams<{ page: string }>();
 
     const [closing, setClosing] = useState(false);
-    function exitSettings() {
+    const exitSettings = useCallback(() => {
         if (history.length > 1) {
             setClosing(true);
 
@@ -61,7 +61,7 @@ export function GenericSettings({
         } else {
             history.push("/");
         }
-    }
+    }, [history]);
 
     useEffect(() => {
         function keyDown(e: KeyboardEvent) {
@@ -72,7 +72,7 @@ export function GenericSettings({
 
         document.body.addEventListener("keydown", keyDown);
         return () => document.body.removeEventListener("keydown", keyDown);
-    }, []);
+    }, [exitSettings]);
 
     return (
         <div
@@ -158,7 +158,9 @@ export function GenericSettings({
                     <div className={styles.scrollbox}>
                         <div className={styles.contentcontainer}>
                             {!isTouchscreenDevice &&
-                                !pages.find((x) => x.id === page && x.hideTitle) && (
+                                !pages.find(
+                                    (x) => x.id === page && x.hideTitle,
+                                ) && (
                                     <h1>
                                         <Text
                                             id={`app.settings.${category}.${
@@ -167,19 +169,20 @@ export function GenericSettings({
                                         />
                                     </h1>
                                 )}
-                            <Switch>{children}</Switch>
+                            {children}
                         </div>
                         {!isTouchscreenDevice && (
-                        <div className={styles.action}>
-                            <div onClick={exitSettings} className={styles.closeButton}>
-                                <X size={28} />
+                            <div className={styles.action}>
+                                <div
+                                    onClick={exitSettings}
+                                    className={styles.closeButton}>
+                                    <X size={28} />
+                                </div>
                             </div>
-                        </div>
                         )}
                     </div>
                 </div>
             )}
-            
         </div>
     );
 }

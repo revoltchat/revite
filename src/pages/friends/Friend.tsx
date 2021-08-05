@@ -15,10 +15,6 @@ import { stopPropagation } from "../../lib/stopPropagation";
 
 import { VoiceOperationsContext } from "../../context/Voice";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-import {
-    AppContext,
-    OperationsContext,
-} from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";

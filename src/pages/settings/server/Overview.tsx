@@ -4,12 +4,11 @@ import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
-import { AppContext, useClient } from "../../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../../context/revoltjs/util";
 
 import Button from "../../../components/ui/Button";
@@ -21,8 +20,6 @@ interface Props {
 }
 
 export const Overview = observer(({ server }: Props) => {
-    const client = useClient();
-
     const [name, setName] = useState(server.name);
     const [description, setDescription] = useState(server.description ?? "");
     const [systemMessages, setSystemMessages] = useState(
@@ -41,7 +38,7 @@ export const Overview = observer(({ server }: Props) => {
 
     const [changed, setChanged] = useState(false);
     function save() {
-        const changes: Record<string, any> = {};
+        const changes: Record<string, unknown> = {};
         if (name !== server.name) changes.name = name;
         if (description !== server.description)
             changes.description = description;
@@ -122,6 +119,7 @@ export const Overview = observer(({ server }: Props) => {
             ].map(([i18n, key]) => (
                 // ! FIXME: temporary code just so we can expose the options
                 <p
+                    key={key}
                     style={{
                         display: "flex",
                         gap: "8px",
@@ -156,7 +154,7 @@ export const Overview = observer(({ server }: Props) => {
                         {server.channels
                             .filter((x) => typeof x !== "undefined")
                             .map((channel) => (
-                                <option value={channel!._id}>
+                                <option key={channel!._id} value={channel!._id}>
                                     {getChannelName(channel!, true)}
                                 </option>
                             ))}

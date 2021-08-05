@@ -31,10 +31,10 @@ export const Username = observer(
                     }
 
                     if (member.roles && member.roles.length > 0) {
-                        let srv = client.servers.get(member._id.server);
+                        const srv = client.servers.get(member._id.server);
                         if (srv?.roles) {
-                            for (let role of member.roles) {
-                                let c = srv.roles[role].colour;
+                            for (const role of member.roles) {
+                                const c = srv.roles[role].colour;
                                 if (c) {
                                     color = c;
                                     continue;

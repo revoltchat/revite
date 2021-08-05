@@ -60,6 +60,7 @@ const Message = observer(
             ? (attachContextMenu("Menu", {
                   user: message.author_id,
                   contextualChannel: message.channel_id,
+                  // eslint-disable-next-line
               }) as any)
             : undefined;
 
@@ -73,6 +74,7 @@ const Message = observer(
             <div id={message._id}>
                 {message.reply_ids?.map((message_id, index) => (
                     <MessageReply
+                        key={message_id}
                         index={index}
                         id={message_id}
                         channel={message.channel!}

@@ -1,4 +1,3 @@
-import { Reply } from "@styled-icons/boxicons-regular";
 import { File } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
@@ -12,8 +11,6 @@ import { Text } from "preact-i18n";
 import { useLayoutEffect, useState } from "preact/hooks";
 
 import { useRenderState } from "../../../../lib/renderer/Singleton";
-
-import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 import Markdown from "../../../markdown/Markdown";
 import UserShort from "../../user/UserShort";
@@ -136,10 +133,6 @@ export const ReplyBase = styled.div<{
         `}
 `;
 
-const Arrow = styled.div`
-         
-`;
-
 export const MessageReply = observer(({ index, channel, id }: Props) => {
     const view = useRenderState(channel._id);
     if (view?.type !== "RENDER") return null;
@@ -155,7 +148,7 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
         } else {
             channel.fetchMessage(id).then(setMessage);
         }
-    }, [view.messages]);
+    }, [id, channel, view.messages]);
 
     if (!message) {
         return (
@@ -204,9 +197,12 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
                                 {message.attachments && (
                                     <>
                                         <File size={16} />
-                                        <em>{message.attachments.length > 1 ?
-                                            <Text id="app.main.channel.misc.sent_multiple_files" /> :
-                                            <Text id="app.main.channel.misc.sent_file" /> }
+                                        <em>
+                                            {message.attachments.length > 1 ? (
+                                                <Text id="app.main.channel.misc.sent_multiple_files" />
+                                            ) : (
+                                                <Text id="app.main.channel.misc.sent_file" />
+                                            )}
                                         </em>
                                     </>
                                 )}

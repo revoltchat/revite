@@ -23,6 +23,7 @@ export function Component(props: Props) {
             </h3>
             {AVAILABLE_EXPERIMENTS.map((key) => (
                 <Checkbox
+                    key={key}
                     checked={(props.options?.enabled ?? []).indexOf(key) > -1}
                     onChange={(enabled) =>
                         dispatch({

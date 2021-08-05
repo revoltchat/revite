@@ -1,14 +1,13 @@
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import Button from "../../../components/ui/Button";
 import InputBox from "../../../components/ui/InputBox";
@@ -31,8 +30,6 @@ const Row = styled.div`
 `;
 
 export default observer(({ channel }: Props) => {
-    const client = useContext(AppContext);
-
     const [name, setName] = useState(channel.name ?? undefined);
     const [description, setDescription] = useState(channel.description ?? "");
 
@@ -44,7 +41,7 @@ export default observer(({ channel }: Props) => {
 
     const [changed, setChanged] = useState(false);
     function save() {
-        const changes: any = {};
+        const changes: Record<string, string | undefined> = {};
         if (name !== channel.name) changes.name = name;
         if (description !== channel.description)
             changes.description = description;

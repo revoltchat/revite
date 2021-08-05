@@ -22,23 +22,19 @@ const ServerText = styled.div`
     background: var(--primary-background);
 `;
 
-const fallback = "/assets/group.png";
+// const fallback = "/assets/group.png";
 export default observer(
     (
-        props: Props & Omit<JSX.HTMLAttributes<HTMLImageElement>, keyof Props>,
+        props: Props &
+            Omit<
+                JSX.HTMLAttributes<HTMLImageElement>,
+                keyof Props | "children" | "as"
+            >,
     ) => {
         const client = useContext(AppContext);
 
-        const {
-            target,
-            attachment,
-            size,
-            animate,
-            server_name,
-            children,
-            as,
-            ...imgProps
-        } = props;
+        const { target, attachment, size, animate, server_name, ...imgProps } =
+            props;
         const iconURL = client.generateFileURL(
             target?.icon ?? attachment,
             { max_side: 256 },

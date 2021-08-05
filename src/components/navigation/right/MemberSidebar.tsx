@@ -1,11 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { observer } from "mobx-react-lite";
 import { Link, useParams } from "react-router-dom";
 import { Presence } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import Members, { Member } from "revolt.js/dist/maps/Members";
 import { Message } from "revolt.js/dist/maps/Messages";
-import { User } from "revolt.js/dist/maps/Users";
-import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
@@ -14,7 +12,6 @@ import { getState } from "../../../redux";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
-    AppContext,
     ClientStatus,
     StatusContext,
     useClient,
@@ -50,7 +47,6 @@ export const GroupMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
         const { openScreen } = useIntermediate();
 
-        const client = useClient();
         const members = channel.recipients?.filter(
             (x) => typeof x !== "undefined",
         );
@@ -173,9 +169,9 @@ export const ServerMemberSidebar = observer(
             if (status === ClientStatus.ONLINE) {
                 channel.server!.fetchMembers();
             }
-        }, [status]);
+        }, [status, channel.server]);
 
-        let users = [...client.members.keys()]
+        const users = [...client.members.keys()]
             .map((x) => JSON.parse(x))
             .filter((x) => x.server === channel.server_id)
             .map((y) => client.users.get(y.user)!)
@@ -247,7 +243,6 @@ export const ServerMemberSidebar = observer(
 function Search({ channel }: { channel: Channel }) {
     if (!getState().experiments.enabled?.includes("search")) return null;
 
-    const client = useContext(AppContext);
     type Sort = "Relevance" | "Latest" | "Oldest";
     const [sort, setSort] = useState<Sort>("Relevance");
 
@@ -272,6 +267,7 @@ function Search({ channel }: { channel: Channel }) {
             <div style={{ display: "flex" }}>
                 {["Relevance", "Latest", "Oldest"].map((key) => (
                     <Button
+                        key={key}
                         style={{ flex: 1, minWidth: 0 }}
                         compact
                         error={sort === key}
@@ -304,7 +300,7 @@ function Search({ channel }: { channel: Channel }) {
                     href += `/channel/${message.channel_id}/${message._id}`;
 
                     return (
-                        <Link to={href}>
+                        <Link to={href} key={message._id}>
                             <div
                                 style={{
                                     margin: "2px",

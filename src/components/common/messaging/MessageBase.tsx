@@ -6,7 +6,6 @@ import { decodeTime } from "ulid";
 import { Text } from "preact-i18n";
 
 import { useDictionary } from "../../../lib/i18n";
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { dayjs } from "../../../context/Locale";
 

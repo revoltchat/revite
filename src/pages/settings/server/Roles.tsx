@@ -6,18 +6,15 @@ import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
-import IconButton from "../../../components/ui/IconButton";
 import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
-import Tip from "../../../components/ui/Tip";
 
 import ButtonItem from "../../../components/navigation/items/ButtonItem";
 
@@ -31,23 +28,29 @@ const I32ToU32 = (arr: number[]) => arr.map((x) => x >>> 0);
 export const Roles = observer(({ server }: Props) => {
     const [role, setRole] = useState("default");
     const { openScreen } = useIntermediate();
-    const client = useContext(AppContext);
-    const roles = server.roles ?? {};
+    const roles = useMemo(() => server.roles ?? {}, [server]);
 
     if (role !== "default" && typeof roles[role] === "undefined") {
-        useEffect(() => setRole("default"));
+        useEffect(() => setRole("default"), [role]);
         return null;
     }
 
-    function getPermissions(id: string) {
-        return I32ToU32(
-            id === "default"
-                ? server.default_permissions
-                : roles[id].permissions,
-        );
-    }
+    const {
+        name: roleName,
+        colour: roleColour,
+        permissions,
+    } = roles[role] ?? {};
 
-    const { name: roleName, colour: roleColour } = roles[role] ?? {};
+    const getPermissions = useCallback(
+        (id: string) => {
+            return I32ToU32(
+                id === "default"
+                    ? server.default_permissions
+                    : roles[id].permissions,
+            );
+        },
+        [roles, server],
+    );
 
     const [perm, setPerm] = useState(getPermissions(role));
     const [name, setName] = useState(roleName);
@@ -55,7 +58,7 @@ export const Roles = observer(({ server }: Props) => {
 
     useEffect(
         () => setPerm(getPermissions(role)),
-        [role, roles[role]?.permissions],
+        [getPermissions, role, permissions],
     );
 
     useEffect(() => setName(roleName), [role, roleName]);
@@ -115,6 +118,7 @@ export const Roles = observer(({ server }: Props) => {
                     }
                     return (
                         <ButtonItem
+                            key={id}
                             active={role === id}
                             onClick={() => setRole(id)}
                             style={{ color: roles[id].colour }}>
@@ -174,6 +178,7 @@ export const Roles = observer(({ server }: Props) => {
 
                         return (
                             <Checkbox
+                                key={key}
                                 checked={(perm[0] & value) > 0}
                                 onChange={() =>
                                     setPerm([perm[0] ^ value, perm[1]])
@@ -199,6 +204,7 @@ export const Roles = observer(({ server }: Props) => {
 
                         return (
                             <Checkbox
+                                key={key}
                                 checked={((perm[1] >>> 0) & value) > 0}
                                 onChange={() =>
                                     setPerm([perm[0], perm[1] ^ value])

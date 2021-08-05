@@ -1,14 +1,14 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { X } from "@styled-icons/boxicons-regular";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import { SYSTEM_USER_ID } from "revolt.js";
-import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 import { decodeTime } from "ulid";
 
 import { Text } from "preact-i18n";
 import { memo } from "preact/compat";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { RenderState } from "../../../lib/renderer/types";
@@ -17,7 +17,7 @@ import { connectState } from "../../../redux/connector";
 import { QueuedMessage } from "../../../redux/reducers/queue";
 
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
-import { AppContext, useClient } from "../../../context/revoltjs/RevoltClient";
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Message from "../../../components/common/messaging/Message";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
@@ -76,10 +76,10 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
         ];
 
         return () => subs.forEach((unsub) => unsub());
-    }, [state.messages]);
+    }, [state.messages, state.type, userId]);
 
-    let render: Children[] = [],
-        previous: MessageObject | undefined;
+    const render: Children[] = [];
+    let previous: MessageI | undefined;
 
     if (state.atTop) {
         render.push(<ConversationStart id={id} />);
@@ -148,30 +148,30 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
                     highlight={highlight === message._id}
                 />,
             );
+        } else if (
+            message.author?.relationship === RelationshipStatus.Blocked
+        ) {
+            blocked++;
         } else {
-            if (message.author?.relationship === RelationshipStatus.Blocked) {
-                blocked++;
-            } else {
-                if (blocked > 0) pushBlocked();
+            if (blocked > 0) pushBlocked();
 
-                render.push(
-                    <Message
-                        message={message}
-                        key={message._id}
-                        head={head}
-                        content={
-                            editing === message._id ? (
-                                <MessageEditor
-                                    message={message}
-                                    finish={stopEditing}
-                                />
-                            ) : undefined
-                        }
-                        attachContext
-                        highlight={highlight === message._id}
-                    />,
-                );
-            }
+            render.push(
+                <Message
+                    message={message}
+                    key={message._id}
+                    head={head}
+                    content={
+                        editing === message._id ? (
+                            <MessageEditor
+                                message={message}
+                                finish={stopEditing}
+                            />
+                        ) : undefined
+                    }
+                    attachContext
+                    highlight={highlight === message._id}
+                />,
+            );
         }
 
         previous = message;
@@ -191,7 +191,7 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
                 previous = {
                     _id: msg.id,
                     author_id: userId!,
-                } as any;
+                } as MessageI;
             }
 
             render.push(

@@ -26,6 +26,7 @@ export function Component(props: Props) {
                 ] as [SyncKeys, string][]
             ).map(([key, title]) => (
                 <Checkbox
+                    key={key}
                     checked={
                         (props.options?.disabled ?? []).indexOf(key) === -1
                     }

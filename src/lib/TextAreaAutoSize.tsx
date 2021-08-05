@@ -10,7 +10,7 @@ import { isTouchscreenDevice } from "./isTouchscreenDevice";
 
 type TextAreaAutoSizeProps = Omit<
     JSX.HTMLAttributes<HTMLTextAreaElement>,
-    "style" | "value" | "onChange"
+    "style" | "value" | "onChange" | "children" | "as"
 > &
     TextAreaProps & {
         forceFocus?: boolean;
@@ -63,8 +63,6 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
         lineHeight,
         hideBorder,
         forceFocus,
-        children,
-        as,
         onChange,
         ...textAreaProps
     } = props;
@@ -81,7 +79,7 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
     useEffect(() => {
         if (isTouchscreenDevice) return;
         autoFocus && ref.current && ref.current.focus();
-    }, [value]);
+    }, [value, autoFocus]);
 
     const inputSelected = () =>
         ["TEXTAREA", "INPUT"].includes(document.activeElement?.nodeName ?? "");
@@ -114,7 +112,7 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
 
         document.body.addEventListener("keydown", keyDown);
         return () => document.body.removeEventListener("keydown", keyDown);
-    }, [ref]);
+    }, [ref, autoFocus, forceFocus, value]);
 
     useEffect(() => {
         if (!ref.current) return;
@@ -124,8 +122,12 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
             }
         }
 
-        return internalSubscribe("TextArea", "focus", focus);
-    }, [ref]);
+        return internalSubscribe(
+            "TextArea",
+            "focus",
+            focus as (...args: unknown[]) => void,
+        );
+    }, [props.id, ref]);
 
     return (
         <Container>

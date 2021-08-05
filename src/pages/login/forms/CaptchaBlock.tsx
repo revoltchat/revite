@@ -20,7 +20,7 @@ export function CaptchaBlock(props: CaptchaProps) {
         if (!client.configuration?.features.captcha.enabled) {
             props.onSuccess();
         }
-    }, []);
+    }, [client.configuration?.features.captcha.enabled, props]);
 
     if (!client.configuration?.features.captcha.enabled)
         return <Preloader type="spinner" />;

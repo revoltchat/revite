@@ -1,6 +1,7 @@
 export const stopPropagation = (
     ev: JSX.TargetedMouseEvent<HTMLElement>,
-    _consume?: any,
+    // eslint-disable-next-line
+    _consume?: unknown,
 ) => {
     ev.preventDefault();
     ev.stopPropagation();

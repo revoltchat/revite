@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 import { Children } from "../../../types/Preact";
 
 interface BaseProps {
+    readonly hover?: boolean;
     readonly account?: boolean;
     readonly disabled?: boolean;
     readonly largeDescription?: boolean;
@@ -25,8 +26,6 @@ const CategoryBase = styled.div<BaseProps>`
         flex-shrink: 0;
     }
 
-    
-
     .content {
         display: flex;
         flex-grow: 1;
@@ -40,8 +39,6 @@ const CategoryBase = styled.div<BaseProps>`
             -webkit-line-clamp: 2;
             overflow: hidden;
         }
-
-        
 
         .description {
             ${(props) =>
@@ -66,7 +63,7 @@ const CategoryBase = styled.div<BaseProps>`
     }
 
     ${(props) =>
-        typeof props.onClick !== "undefined" &&
+        props.hover &&
         css`
             cursor: pointer;
             opacity: 1;
@@ -80,7 +77,7 @@ const CategoryBase = styled.div<BaseProps>`
     ${(props) =>
         props.disabled &&
         css`
-            opacity: .4;
+            opacity: 0.4;
             /*.content,
             .action {
                 color: var(--tertiary-foreground);
@@ -133,17 +130,19 @@ export default function CategoryButton({
     account,
     disabled,
     onClick,
+    hover,
     action,
 }: Props) {
     return (
         <CategoryBase
+            hover={hover || typeof onClick !== "undefined"}
             onClick={onClick}
             disabled={disabled}
             account={account}>
             {icon}
             <div class="content">
                 <div className="title">{children}</div>
-                
+
                 <div className="description">{description}</div>
             </div>
             <div class="action">

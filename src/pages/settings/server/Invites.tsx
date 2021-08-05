@@ -32,7 +32,7 @@ export const Invites = observer(({ server }: Props) => {
 
     useEffect(() => {
         server.fetchInvites().then(setInvites);
-    }, []);
+    }, [server, setInvites]);
 
     return (
         <div className={styles.userList}>
@@ -57,6 +57,7 @@ export const Invites = observer(({ server }: Props) => {
 
                 return (
                     <div
+                        key={invite._id}
                         className={styles.invite}
                         data-deleting={deleting.indexOf(invite._id) > -1}>
                         <code>{invite._id}</code>
