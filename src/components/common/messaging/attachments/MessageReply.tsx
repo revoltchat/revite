@@ -35,11 +35,23 @@ export const ReplyBase = styled.div<{
     display: flex;
     margin-inline-start: 30px;
     margin-inline-end: 12px;
-    margin-bottom: 4px;
+    /*margin-bottom: 4px;*/
     font-size: 0.8em;
     user-select: none;
     align-items: center;
     color: var(--secondary-foreground);
+
+    &::before {
+        content: "";
+        height: 10px;
+        width: 28px;
+        margin-inline-end: 2px;
+        align-self: flex-end;
+        display: flex;
+        border-top: 2.2px solid var(--tertiary-foreground);
+        border-inline-start: 2.2px solid var(--tertiary-foreground);
+        border-start-start-radius: 6px;
+    }
 
     * {
         overflow: hidden;
@@ -54,6 +66,7 @@ export const ReplyBase = styled.div<{
         font-weight: 600;
         overflow: visible;
         align-items: center;
+        padding: 2px 0;
 
         span {
             cursor: pointer;
@@ -71,6 +84,7 @@ export const ReplyBase = styled.div<{
     }
 
     .content {
+        padding: 2px 0;
         gap: 4px;
         display: flex;
         cursor: pointer;
@@ -122,6 +136,10 @@ export const ReplyBase = styled.div<{
         `}
 `;
 
+const Arrow = styled.div`
+         
+`;
+
 export const MessageReply = observer(({ index, channel, id }: Props) => {
     const view = useRenderState(channel._id);
     if (view?.type !== "RENDER") return null;
@@ -142,7 +160,6 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
     if (!message) {
         return (
             <ReplyBase head={index === 0} fail>
-                <Reply size={16} />
                 <span>
                     <Text id="app.main.channel.misc.failed_load" />
                 </span>
@@ -154,11 +171,8 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
 
     return (
         <ReplyBase head={index === 0}>
-            <Reply size={16} />
             {message.author?.relationship === RelationshipStatus.Blocked ? (
-                <>
-                    <Text id="app.main.channel.misc.blocked_user" />
-                </>
+                <Text id="app.main.channel.misc.blocked_user" />
             ) : (
                 <>
                     {message.author_id === SYSTEM_USER_ID ? (
