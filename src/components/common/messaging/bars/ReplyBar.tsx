@@ -36,6 +36,10 @@ const Base = styled.div`
     > div {
         flex-grow: 1;
         margin-bottom: 0;
+
+        &::before {
+            display: none;
+        }
     }
 
     .toggle {
