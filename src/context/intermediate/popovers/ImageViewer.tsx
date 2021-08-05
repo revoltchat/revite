@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Attachment, AttachmentMetadata } from "revolt-api/types/Autumn";
 import { EmbedImage } from "revolt-api/types/January";
 

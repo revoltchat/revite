@@ -29,7 +29,7 @@ export function OnboardingModal({ onClose, callback }: Props) {
         setLoading(true);
         callback(username, true)
             .then(() => onClose())
-            .catch((err: any) => {
+            .catch((err: unknown) => {
                 setError(takeError(err));
                 setLoading(false);
             });

@@ -25,7 +25,6 @@ import { Server } from "revolt.js/dist/maps/Servers";
 import { User } from "revolt.js/dist/maps/Users";
 
 import {
-    ContextMenu,
     ContextMenuWithData,
     MenuItem,
     openContextMenu,
@@ -42,12 +41,11 @@ import {
 } from "../redux/reducers/notifications";
 import { QueuedMessage } from "../redux/reducers/queue";
 
-import { useIntermediate } from "../context/intermediate/Intermediate";
+import { Screen, useIntermediate } from "../context/intermediate/Intermediate";
 import {
     AppContext,
     ClientStatus,
     StatusContext,
-    useClient,
 } from "../context/revoltjs/RevoltClient";
 import { takeError } from "../context/revoltjs/util";
 
@@ -179,7 +177,7 @@ function ContextMenus(props: Props) {
                 case "retry_message":
                     {
                         const nonce = data.message.id;
-                        const fail = (error: any) =>
+                        const fail = (error: string) =>
                             dispatch({
                                 type: "QUEUE_FAIL",
                                 nonce,
@@ -369,7 +367,8 @@ function ContextMenus(props: Props) {
 
                 case "clear_status":
                     {
-                        const { text, ...status } = client.user?.status ?? {};
+                        const { text: _text, ...status } =
+                            client.user?.status ?? {};
                         await client.users.edit({ status });
                     }
                     break;
@@ -382,12 +381,12 @@ function ContextMenus(props: Props) {
                 case "delete_message":
                 case "create_channel":
                 case "create_invite":
-                    // The any here is because typescript flattens the case types into a single type and type structure and specifity is lost or whatever
+                    // Typescript flattens the case types into a single type and type structure and specifity is lost
                     openScreen({
                         id: "special_prompt",
                         type: data.action,
-                        target: data.target as any,
-                    });
+                        target: data.target,
+                    } as unknown as Screen);
                     break;
 
                 case "ban_member":
@@ -596,8 +595,11 @@ function ContextMenus(props: Props) {
                         }
 
                         for (let i = 0; i < actions.length; i++) {
-                            // The any here is because typescript can't determine that user the actions are linked together correctly
-                            generateAction({ action: actions[i] as any, user });
+                            // Typescript can't determine that user the actions are linked together correctly
+                            generateAction({
+                                action: actions[i],
+                                user,
+                            } as unknown as Action);
                         }
                     }
 
@@ -968,6 +970,7 @@ function ContextMenus(props: Props) {
 
                     const elements: Children[] = [
                         <MenuItem
+                            key="notif"
                             data={{
                                 action: "set_notification_state",
                                 key: channel._id,
@@ -987,6 +990,7 @@ function ContextMenus(props: Props) {
                     function generate(key: string, icon: Children) {
                         elements.push(
                             <MenuItem
+                                key={key}
                                 data={{
                                     action: "set_notification_state",
                                     key: channel._id,

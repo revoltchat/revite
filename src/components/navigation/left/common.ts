@@ -1,4 +1,4 @@
-import { autorun, isObservableProp, reaction } from "mobx";
+import { reaction } from "mobx";
 import { Channel } from "revolt.js/dist/maps/Channels";
 
 import { useLayoutEffect } from "preact/hooks";
@@ -6,16 +6,12 @@ import { useLayoutEffect } from "preact/hooks";
 import { dispatch } from "../../../redux";
 import { Unreads } from "../../../redux/reducers/unreads";
 
-import { useClient } from "../../../context/revoltjs/RevoltClient";
-
 type UnreadProps = {
     channel: Channel;
     unreads: Unreads;
 };
 
 export function useUnreads({ channel, unreads }: UnreadProps) {
-    const client = useClient();
-
     useLayoutEffect(() => {
         function checkUnread(target: Channel) {
             if (!target) return;

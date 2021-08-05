@@ -1,2 +1,2 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/* eslint-disable */
 import JSX = preact.JSX;

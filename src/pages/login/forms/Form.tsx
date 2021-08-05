@@ -63,7 +63,7 @@ export function Form({ page, callback }: Props) {
         setGlobalError(undefined);
         setLoading(true);
 
-        function onError(err: any) {
+        function onError(err: unknown) {
             setLoading(false);
 
             const error = takeError(err);

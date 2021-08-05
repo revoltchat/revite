@@ -22,7 +22,7 @@ export function LocaleSelector(props: Props) {
             {Object.keys(Languages).map((x) => {
                 const l = Languages[x as keyof typeof Languages];
                 return (
-                    <option value={x}>
+                    <option value={x} key={x}>
                         {l.emoji} {l.display}
                     </option>
                 );

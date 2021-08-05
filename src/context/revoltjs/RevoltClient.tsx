@@ -1,5 +1,4 @@
-import { openDB } from "idb";
-import { useHistory } from "react-router-dom";
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Client } from "revolt.js";
 import { Route } from "revolt.js/dist/api/routes";
 
@@ -58,29 +57,6 @@ function Context({ auth, children }: Props) {
 
     useEffect(() => {
         (async () => {
-            let db;
-            try {
-                // Match sw.ts#L23
-                db = await openDB("state", 3, {
-                    upgrade(db) {
-                        for (const store of [
-                            "channels",
-                            "servers",
-                            "users",
-                            "members",
-                        ]) {
-                            db.createObjectStore(store, {
-                                keyPath: "_id",
-                            });
-                        }
-                    },
-                });
-            } catch (err) {
-                console.error(
-                    "Failed to open IndexedDB store, continuing without.",
-                );
-            }
-
             const client = new Client({
                 autoReconnect: false,
                 apiURL: import.meta.env.VITE_API_URL,
@@ -146,11 +122,11 @@ function Context({ auth, children }: Props) {
             ready: () =>
                 operations.loggedIn() && typeof client.user !== "undefined",
         };
-    }, [client, auth.active]);
+    }, [client, auth.active, openScreen]);
 
     useEffect(
         () => registerEvents({ operations }, setStatus, client),
-        [client],
+        [client, operations],
     );
 
     useEffect(() => {
@@ -203,6 +179,7 @@ function Context({ auth, children }: Props) {
                 setStatus(ClientStatus.READY);
             }
         })();
+        // eslint-disable-next-line
     }, []);
 
     if (status === ClientStatus.LOADING) {

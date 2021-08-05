@@ -52,20 +52,23 @@ const VoiceIndicator = styled.div<{ status: VoiceStatus }>`
 `;
 
 export default observer(
-    (props: Props & Omit<JSX.SVGAttributes<SVGSVGElement>, keyof Props>) => {
+    (
+        props: Props &
+            Omit<
+                JSX.SVGAttributes<SVGSVGElement>,
+                keyof Props | "children" | "as"
+            >,
+    ) => {
         const client = useContext(AppContext);
 
         const {
             target,
             attachment,
             size,
-            voice,
             status,
             animate,
             mask,
             hover,
-            children,
-            as,
             ...svgProps
         } = props;
         const iconURL =

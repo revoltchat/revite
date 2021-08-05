@@ -70,7 +70,7 @@ export function Feedback() {
                             placeholder={
                                 (
                                     <Text id="app.settings.pages.feedback.other" />
-                                ) as any
+                                ) as unknown as string
                             }
                         />
                     </Localizer>

@@ -64,6 +64,7 @@ export default observer(({ channel }: Props) => {
 
                 return (
                     <Checkbox
+                        key={id}
                         checked={selected === id}
                         onChange={(selected) => selected && setSelected(id)}>
                         {role.name}

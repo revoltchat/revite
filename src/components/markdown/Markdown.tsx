@@ -9,7 +9,7 @@ export interface MarkdownProps {
 
 export default function Markdown(props: MarkdownProps) {
     return (
-        // @ts-expect-error
+        // @ts-expect-error Typings mis-match.
         <Suspense fallback={props.content}>
             <Renderer {...props} />
         </Suspense>

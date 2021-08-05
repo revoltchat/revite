@@ -4,17 +4,12 @@ import { Category } from "revolt-api/types/Servers";
 import { Server } from "revolt.js/dist/maps/Servers";
 import { ulid } from "ulid";
 
-import { useContext, useState } from "preact/hooks";
-
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { useState } from "preact/hooks";
 
 import ChannelIcon from "../../../components/common/ChannelIcon";
-import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";
 import ComboBox from "../../../components/ui/ComboBox";
-import IconButton from "../../../components/ui/IconButton";
 import InputBox from "../../../components/ui/InputBox";
-import Preloader from "../../../components/ui/Preloader";
 import Tip from "../../../components/ui/Tip";
 
 interface Props {
@@ -23,7 +18,6 @@ interface Props {
 
 // ! FIXME: really bad code
 export const Categories = observer(({ server }: Props) => {
-    const client = useContext(AppContext);
     const channels = server.channels.filter((x) => typeof x !== "undefined");
 
     const [cats, setCats] = useState<Category[]>(server.categories ?? []);
@@ -95,6 +89,7 @@ export const Categories = observer(({ server }: Props) => {
             {channels.map((channel) => {
                 return (
                     <div
+                        key={channel!._id}
                         style={{
                             display: "flex",
                             gap: "12px",
@@ -131,7 +126,9 @@ export const Categories = observer(({ server }: Props) => {
                             }>
                             <option value="none">Uncategorised</option>
                             {cats.map((x) => (
-                                <option value={x.id}>{x.title}</option>
+                                <option key={x.id} value={x.id}>
+                                    {x.title}
+                                </option>
                             ))}
                         </ComboBox>
                     </div>

@@ -64,7 +64,7 @@ export default function Tip(
             {!hideSeparator && <Separator />}
             <TipBase {...tipProps}>
                 <InfoCircle size={20} />
-                <span>{props.children}</span>
+                <span>{children}</span>
             </TipBase>
         </>
     );

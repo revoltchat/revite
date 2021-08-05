@@ -16,7 +16,7 @@ export function App() {
         <Context>
             <Masks />
             {/* 
-            // @ts-expect-error */}
+            // @ts-expect-error typings mis-match between preact... and preact? */}
             <Suspense fallback={<Preloader type="spinner" />}>
                 <Switch>
                     <Route path="/login">

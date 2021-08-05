@@ -45,7 +45,7 @@ export default function Invite() {
                 .then((data) => setInvite(data))
                 .catch((err) => setError(takeError(err)));
         }
-    }, [status]);
+    }, [client, code, invite, status]);
 
     if (typeof invite === "undefined") {
         return (
@@ -128,7 +128,7 @@ export default function Invite() {
                                         }
 
                                         const dispose = autorun(() => {
-                                            let server = client.servers.get(
+                                            const server = client.servers.get(
                                                 invite.server_id,
                                             );
 

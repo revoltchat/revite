@@ -127,6 +127,7 @@ export function Component({ options }: Props) {
             </h3>
             {SOUNDS_ARRAY.map((key) => (
                 <Checkbox
+                    key={key}
                     checked={!!enabledSounds[key]}
                     onChange={(enabled) =>
                         dispatch({

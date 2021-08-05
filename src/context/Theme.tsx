@@ -4,8 +4,6 @@ import { createGlobalStyle } from "styled-components";
 import { createContext } from "preact";
 import { useEffect } from "preact/hooks";
 
-import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
-
 import { connectState } from "../redux/connector";
 
 import { Children } from "../types/Preact";
@@ -311,17 +309,17 @@ function Theme({ children, options }: Props) {
         const font = theme.font ?? DEFAULT_FONT;
         root.setProperty("--font", `"${font}"`);
         FONTS[font].load();
-    }, [theme.font]);
+    }, [root, theme.font]);
 
     useEffect(() => {
         const font = theme.monospaceFont ?? DEFAULT_MONO_FONT;
         root.setProperty("--monospace-font", `"${font}"`);
         MONOSPACE_FONTS[font].load();
-    }, [theme.monospaceFont]);
+    }, [root, theme.monospaceFont]);
 
     useEffect(() => {
         root.setProperty("--ligatures", options?.ligatures ? "normal" : "none");
-    }, [options?.ligatures]);
+    }, [root, options?.ligatures]);
 
     useEffect(() => {
         const resize = () =>
@@ -330,7 +328,7 @@ function Theme({ children, options }: Props) {
 
         window.addEventListener("resize", resize);
         return () => window.removeEventListener("resize", resize);
-    }, []);
+    }, [root]);
 
     return (
         <ThemeContext.Provider value={theme}>

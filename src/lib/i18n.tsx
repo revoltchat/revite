@@ -47,7 +47,7 @@ export function TextReact({ id, fields }: Props) {
     const path = id.split(".");
     let entry = intl.dictionary[path.shift()!];
     for (const key of path) {
-        // @ts-expect-error
+        // @ts-expect-error TODO: lazy
         entry = entry[key];
     }
 
@@ -56,8 +56,12 @@ export function TextReact({ id, fields }: Props) {
 
 export function useTranslation() {
     const { intl } = useContext(IntlContext) as unknown as IntlType;
-    return (id: string, fields?: Object, plural?: number, fallback?: string) =>
-        translate(id, "", intl.dictionary, fields, plural, fallback);
+    return (
+        id: string,
+        fields?: Record<string, string | undefined>,
+        plural?: number,
+        fallback?: string,
+    ) => translate(id, "", intl.dictionary, fields, plural, fallback);
 }
 
 export function useDictionary() {

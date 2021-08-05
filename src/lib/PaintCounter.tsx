@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from "preact/hooks";
 
 const counts: { [key: string]: number } = {};

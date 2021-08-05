@@ -12,7 +12,7 @@ import { SignedOutModal } from "./modals/SignedOut";
 
 export interface Props {
     screen: Screen;
-    openScreen: (id: any) => void;
+    openScreen: (screen: Screen) => void;
 }
 
 export default function Modals({ screen, openScreen }: Props) {

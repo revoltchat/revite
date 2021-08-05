@@ -1,4 +1,3 @@
-import { useStore } from "react-redux";
 import { SYSTEM_USER_ID } from "revolt.js";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
@@ -143,14 +142,16 @@ export function useAutoComplete(
                                 ) as User[];
                                 break;
                             case "TextChannel":
-                                const server = channel.server_id;
-                                users = [...client.members.keys()]
-                                    .map((x) => JSON.parse(x))
-                                    .filter((x) => x.server === server)
-                                    .map((x) => client.users.get(x.user))
-                                    .filter(
-                                        (x) => typeof x !== "undefined",
-                                    ) as User[];
+                                {
+                                    const server = channel.server_id;
+                                    users = [...client.members.keys()]
+                                        .map((x) => JSON.parse(x))
+                                        .filter((x) => x.server === server)
+                                        .map((x) => client.users.get(x.user))
+                                        .filter(
+                                            (x) => typeof x !== "undefined",
+                                        ) as User[];
+                                }
                                 break;
                             default:
                                 return;
@@ -304,7 +305,7 @@ export function useAutoComplete(
 
     function onKeyUp(e: KeyboardEvent) {
         if (e.currentTarget !== null) {
-            // @ts-expect-error
+            // @ts-expect-error Type mis-match.
             onChange(e);
         }
     }
@@ -391,6 +392,7 @@ export default function AutoComplete({
                 {state.type === "emoji" &&
                     state.matches.map((match, i) => (
                         <button
+                            key={match}
                             className={i === state.selected ? "active" : ""}
                             onMouseEnter={() =>
                                 (i !== state.selected || !state.within) &&
@@ -422,6 +424,7 @@ export default function AutoComplete({
                 {state.type === "user" &&
                     state.matches.map((match, i) => (
                         <button
+                            key={match}
                             className={i === state.selected ? "active" : ""}
                             onMouseEnter={() =>
                                 (i !== state.selected || !state.within) &&
@@ -446,6 +449,7 @@ export default function AutoComplete({
                 {state.type === "channel" &&
                     state.matches.map((match, i) => (
                         <button
+                            key={match}
                             className={i === state.selected ? "active" : ""}
                             onMouseEnter={() =>
                                 (i !== state.selected || !state.within) &&

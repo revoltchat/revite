@@ -15,7 +15,7 @@ import {
     User,
     Megaphone,
 } from "@styled-icons/boxicons-solid";
-import { Route, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import { LIBRARY_VERSION } from "revolt.js";
 
 import styles from "./Settings.module.scss";
@@ -120,103 +120,107 @@ export default function Settings() {
                     title: <Text id="app.settings.pages.feedback.title" />,
                 },
             ]}
-            children={[
-                <Route path="/settings/profile">
-                    <Profile />
-                </Route>,
-                <Route path="/settings/sessions">
-                    <RequiresOnline>
-                        <Sessions />
-                    </RequiresOnline>
-                </Route>,
-                <Route path="/settings/appearance">
-                    <Appearance />
-                </Route>,
-                <Route path="/settings/notifications">
-                    <Notifications />
-                </Route>,
-                <Route path="/settings/language">
-                    <Languages />
-                </Route>,
-                <Route path="/settings/sync">
-                    <Sync />
-                </Route>,
-                <Route path="/settings/native">
-                    <Native />
-                </Route>,
-                <Route path="/settings/experiments">
-                    <ExperimentsPage />
-                </Route>,
-                <Route path="/settings/feedback">
-                    <Feedback />
-                </Route>,
-                <Route path="/">
-                    <Account />
-                </Route>,
-            ]}
+            children={
+                <Switch>
+                    <Route path="/settings/profile">
+                        <Profile />
+                    </Route>
+                    <Route path="/settings/sessions">
+                        <RequiresOnline>
+                            <Sessions />
+                        </RequiresOnline>
+                    </Route>
+                    <Route path="/settings/appearance">
+                        <Appearance />
+                    </Route>
+                    <Route path="/settings/notifications">
+                        <Notifications />
+                    </Route>
+                    <Route path="/settings/language">
+                        <Languages />
+                    </Route>
+                    <Route path="/settings/sync">
+                        <Sync />
+                    </Route>
+                    <Route path="/settings/native">
+                        <Native />
+                    </Route>
+                    <Route path="/settings/experiments">
+                        <ExperimentsPage />
+                    </Route>
+                    <Route path="/settings/feedback">
+                        <Feedback />
+                    </Route>
+                    <Route path="/" exact>
+                        <Account />
+                    </Route>
+                </Switch>
+            }
             defaultPage="account"
             switchPage={switchPage}
             category="pages"
-            custom={[
-                <a
-                    href="https://gitlab.insrt.uk/revolt"
-                    target="_blank"
-                    rel="noreferrer">
-                    <ButtonItem compact>
-                        <Gitlab size={20} />
-                        <Text id="app.settings.pages.source_code" />
+            custom={
+                <>
+                    <a
+                        href="https://gitlab.insrt.uk/revolt"
+                        target="_blank"
+                        rel="noreferrer">
+                        <ButtonItem compact>
+                            <Gitlab size={20} />
+                            <Text id="app.settings.pages.source_code" />
+                        </ButtonItem>
+                    </a>
+                    <a
+                        href="https://insrt.uk/donate"
+                        target="_blank"
+                        rel="noreferrer">
+                        <ButtonItem className={styles.donate} compact>
+                            <Coffee size={20} />
+                            <Text id="app.settings.pages.donate.title" />
+                        </ButtonItem>
+                    </a>
+                    <LineDivider />
+                    <ButtonItem
+                        onClick={() => operations.logout()}
+                        className={styles.logOut}
+                        compact>
+                        <LogOut size={20} />
+                        <Text id="app.settings.pages.logOut" />
                     </ButtonItem>
-                </a>,
-                <a
-                    href="https://insrt.uk/donate"
-                    target="_blank"
-                    rel="noreferrer">
-                    <ButtonItem className={styles.donate} compact>
-                        <Coffee size={20} />
-                        <Text id="app.settings.pages.donate.title" />
-                    </ButtonItem>
-                </a>,
-                <LineDivider />,
-                <ButtonItem
-                    onClick={() => operations.logout()}
-                    className={styles.logOut}
-                    compact>
-                    <LogOut size={20} />
-                    <Text id="app.settings.pages.logOut" />
-                </ButtonItem>,
-                <div className={styles.version}>
-                    <span className={styles.revision}>
-                        <a
-                            href={`${REPO_URL}/${GIT_REVISION}`}
-                            target="_blank"
-                            rel="noreferrer">
-                            {GIT_REVISION.substr(0, 7)}
-                        </a>
-                        {` `}
-                        <a
-                            href={
-                                GIT_BRANCH !== "DETACHED"
-                                    ? `https://gitlab.insrt.uk/revolt/client/-/tree/${GIT_BRANCH}`
-                                    : undefined
-                            }
-                            target="_blank"
-                            rel="noreferrer">
-                            ({GIT_BRANCH})
-                        </a>
-                    </span>
-                    <span>
-                        {GIT_BRANCH === "production" ? "Stable" : "Nightly"}{" "}
-                        {APP_VERSION}
-                    </span>
-                    {window.isNative && (
-                        <span>Native: {window.nativeVersion}</span>
-                    )}
-                    <span>
-                        API: {client.configuration?.revolt ?? "N/A"}
-                    </span>
-                    <span>revolt.js: {LIBRARY_VERSION}</span>
-                </div>,
-            ]}
+                    <div className={styles.version}>
+                        <span className={styles.revision}>
+                            <a
+                                href={`${REPO_URL}/${GIT_REVISION}`}
+                                target="_blank"
+                                rel="noreferrer">
+                                {GIT_REVISION.substr(0, 7)}
+                            </a>
+                            {` `}
+                            <a
+                                href={
+                                    GIT_BRANCH !== "DETACHED"
+                                        ? `https://gitlab.insrt.uk/revolt/client/-/tree/${GIT_BRANCH}`
+                                        : undefined
+                                }
+                                target="_blank"
+                                rel="noreferrer">
+                                ({GIT_BRANCH})
+                            </a>
+                        </span>
+                        <span>
+                            {GIT_BRANCH === "production" ? "Stable" : "Nightly"}{" "}
+                            {APP_VERSION}
+                        </span>
+                        {window.isNative && (
+                            <span>Native: {window.nativeVersion}</span>
+                        )}
+                        <span>
+                            API: {client.configuration?.revolt ?? "N/A"}
+                        </span>
+                        <span>revolt.js: {LIBRARY_VERSION}</span>
+                    </div>
+                </>
+            }
         />
     );
 }

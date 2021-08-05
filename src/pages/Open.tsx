@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useHistory, useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";
@@ -44,7 +45,7 @@ export default function Open() {
             return;
         }
 
-        let user = client.users.get(id);
+        const user = client.users.get(id);
         if (user) {
             const channel: string | undefined = [
                 ...client.channels.values(),
@@ -68,7 +69,7 @@ export default function Open() {
         }
 
         history.push("/");
-    }, []);
+    });
 
     return (
         <Header placement="primary">

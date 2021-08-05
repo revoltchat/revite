@@ -9,8 +9,6 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { useClient } from "../../../context/revoltjs/RevoltClient";
-
 import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
@@ -29,7 +27,7 @@ export const Members = observer(({ server }: Props) => {
 
     useEffect(() => {
         server.fetchMembers().then(setData);
-    }, []);
+    }, [server, setData]);
 
     const [roles, setRoles] = useState<string[]>([]);
     useEffect(() => {
@@ -38,7 +36,7 @@ export const Members = observer(({ server }: Props) => {
                 data!.members.find((x) => x._id.user === selected)?.roles ?? [],
             );
         }
-    }, [selected]);
+    }, [setRoles, selected, data]);
 
     return (
         <div className={styles.userList}>
@@ -57,9 +55,10 @@ export const Members = observer(({ server }: Props) => {
                         };
                     })
                     .map(({ member, user }) => (
-                        <>
+                        // @ts-expect-error brokey
+                        // eslint-disable-next-line react/jsx-no-undef
+                        <Fragment key={member._id.user}>
                             <div
-                                key={member._id.user}
                                 className={styles.member}
                                 data-open={selected === member._id.user}
                                 onClick={() =>
@@ -81,14 +80,15 @@ export const Members = observer(({ server }: Props) => {
                             </div>
                             {selected === member._id.user && (
                                 <div
-                                    key={"drop_" + member._id.user}
+                                    key={`drop_${member._id.user}`}
                                     className={styles.memberView}>
                                     <Overline type="subtle">Roles</Overline>
                                     {Object.keys(server.roles ?? {}).map(
                                         (key) => {
-                                            let role = server.roles![key];
+                                            const role = server.roles![key];
                                             return (
                                                 <Checkbox
+                                                    key={key}
                                                     checked={
                                                         roles.includes(key) ??
                                                         false
@@ -134,7 +134,7 @@ export const Members = observer(({ server }: Props) => {
                                     </Button>
                                 </div>
                             )}
-                        </>
+                        </Fragment>
                     ))}
         </div>
     );

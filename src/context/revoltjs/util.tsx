@@ -1,10 +1,10 @@
-import { Client } from "revolt.js";
 import { Channel } from "revolt.js/dist/maps/Channels";
 
 import { Text } from "preact-i18n";
 
 import { Children } from "../../types/Preact";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function takeError(error: any): string {
     const type = error?.response?.data?.type;
     const id = type;

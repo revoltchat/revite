@@ -1,7 +1,7 @@
 import { ListUl, ListCheck, ListMinus } from "@styled-icons/boxicons-regular";
 import { XSquare, Share, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Route, useHistory, useParams } from "react-router-dom";
+import { Route, Switch, useHistory, useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";
 
@@ -77,34 +77,36 @@ export default observer(() => {
                     hideTitle: true,
                 },
             ]}
-            children={[
-                <Route path="/server/:server/settings/categories">
-                    <Categories server={server} />
-                </Route>,
-                <Route path="/server/:server/settings/members">
-                    <RequiresOnline>
-                        <Members server={server} />
-                    </RequiresOnline>
-                </Route>,
-                <Route path="/server/:server/settings/invites">
-                    <RequiresOnline>
-                        <Invites server={server} />
-                    </RequiresOnline>
-                </Route>,
-                <Route path="/server/:server/settings/bans">
-                    <RequiresOnline>
-                        <Bans server={server} />
-                    </RequiresOnline>
-                </Route>,
-                <Route path="/server/:server/settings/roles">
-                    <RequiresOnline>
-                        <Roles server={server} />
-                    </RequiresOnline>
-                </Route>,
-                <Route path="/">
-                    <Overview server={server} />
-                </Route>,
-            ]}
+            children={
+                <Switch>
+                    <Route path="/server/:server/settings/categories">
+                        <Categories server={server} />
+                    </Route>
+                    <Route path="/server/:server/settings/members">
+                        <RequiresOnline>
+                            <Members server={server} />
+                        </RequiresOnline>
+                    </Route>
+                    <Route path="/server/:server/settings/invites">
+                        <RequiresOnline>
+                            <Invites server={server} />
+                        </RequiresOnline>
+                    </Route>
+                    <Route path="/server/:server/settings/bans">
+                        <RequiresOnline>
+                            <Bans server={server} />
+                        </RequiresOnline>
+                    </Route>
+                    <Route path="/server/:server/settings/roles">
+                        <RequiresOnline>
+                            <Roles server={server} />
+                        </RequiresOnline>
+                    </Route>
+                    <Route>
+                        <Overview server={server} />
+                    </Route>
+                </Switch>
+            }
             category="server_pages"
             switchPage={switchPage}
             defaultPage="overview"

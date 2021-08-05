@@ -89,13 +89,16 @@ export type Screen =
       };
 
 export const IntermediateContext = createContext({
-    screen: { id: "none" } as Screen,
+    screen: { id: "none" },
     focusTaken: false,
 });
 
-export const IntermediateActionsContext = createContext({
-    openScreen: (screen: Screen) => {},
-    writeClipboard: (text: string) => {},
+export const IntermediateActionsContext = createContext<{
+    openScreen: (screen: Screen) => void;
+    writeClipboard: (text: string) => void;
+}>({
+    openScreen: null!,
+    writeClipboard: null!,
 });
 
 interface Props {
@@ -130,12 +133,20 @@ export default function Intermediate(props: Props) {
         const navigate = (path: string) => history.push(path);
 
         const subs = [
-            internalSubscribe("Intermediate", "openProfile", openProfile),
-            internalSubscribe("Intermediate", "navigate", navigate),
+            internalSubscribe(
+                "Intermediate",
+                "openProfile",
+                openProfile as (...args: unknown[]) => void,
+            ),
+            internalSubscribe(
+                "Intermediate",
+                "navigate",
+                navigate as (...args: unknown[]) => void,
+            ),
         ];
 
         return () => subs.map((unsub) => unsub());
-    }, []);
+    }, [history]);
 
     return (
         <IntermediateContext.Provider value={value}>

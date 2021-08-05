@@ -1,4 +1,3 @@
-import { Coffee } from "@styled-icons/boxicons-regular";
 import { Home as HomeIcon } from "@styled-icons/boxicons-solid";
 import { Link } from "react-router-dom";
 

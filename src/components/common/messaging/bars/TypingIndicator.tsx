@@ -5,10 +5,6 @@ import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 
-import { connectState } from "../../../../redux/connector";
-
-import { useClient } from "../../../../context/revoltjs/RevoltClient";
-
 interface Props {
     channel: Channel;
 }
@@ -104,6 +100,7 @@ export default observer(({ channel }: Props) => {
                     <div className="avatars">
                         {users.map((user) => (
                             <img
+                                key={user!._id}
                                 loading="eager"
                                 src={user!.generateAvatarURL({ max_side: 256 })}
                             />

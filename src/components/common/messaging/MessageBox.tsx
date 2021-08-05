@@ -141,22 +141,25 @@ export default observer(({ channel }: Props) => {
         );
     }
 
-    function setMessage(content?: string) {
-        setDraft(content ?? "");
+    const setMessage = useCallback(
+        (content?: string) => {
+            setDraft(content ?? "");
 
-        if (content) {
-            dispatch({
-                type: "SET_DRAFT",
-                channel: channel._id,
-                content,
-            });
-        } else {
-            dispatch({
-                type: "CLEAR_DRAFT",
-                channel: channel._id,
-            });
-        }
-    }
+            if (content) {
+                dispatch({
+                    type: "SET_DRAFT",
+                    channel: channel._id,
+                    content,
+                });
+            } else {
+                dispatch({
+                    type: "CLEAR_DRAFT",
+                    channel: channel._id,
+                });
+            }
+        },
+        [channel._id],
+    );
 
     useEffect(() => {
         function append(content: string, action: "quote" | "mention") {
@@ -175,8 +178,12 @@ export default observer(({ channel }: Props) => {
             }
         }
 
-        return internalSubscribe("MessageBox", "append", append);
-    }, [draft]);
+        return internalSubscribe(
+            "MessageBox",
+            "append",
+            append as (...args: unknown[]) => void,
+        );
+    }, [draft, setMessage]);
 
     async function send() {
         if (uploadState.type === "uploading" || uploadState.type === "sending")
@@ -344,9 +351,11 @@ export default observer(({ channel }: Props) => {
         }
     }
 
-    const debouncedStopTyping = useCallback(debounce(stopTyping, 1000), [
-        channel._id,
-    ]);
+    // eslint-disable-next-line
+    const debouncedStopTyping = useCallback(
+        debounce(stopTyping as (...args: unknown[]) => void, 1000),
+        [channel._id],
+    );
     const {
         onChange,
         onKeyUp,
@@ -478,7 +487,7 @@ export default observer(({ channel }: Props) => {
                             : channel.channel_type === "SavedMessages"
                             ? translate("app.main.channel.message_saved")
                             : translate("app.main.channel.message_where", {
-                                  channel_name: channel.name,
+                                  channel_name: channel.name ?? undefined,
                               })
                     }
                     disabled={

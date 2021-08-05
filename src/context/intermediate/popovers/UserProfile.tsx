@@ -20,7 +20,6 @@ import Preloader from "../../../components/ui/Preloader";
 
 import Markdown from "../../../components/markdown/Markdown";
 import {
-    AppContext,
     ClientStatus,
     StatusContext,
     useClient,
@@ -30,7 +29,7 @@ import { useIntermediate } from "../Intermediate";
 interface Props {
     user_id: string;
     dummy?: boolean;
-    onClose: () => void;
+    onClose?: () => void;
     dummyProfile?: Profile;
 }
 
@@ -60,7 +59,7 @@ export const UserProfile = observer(
 
         const user = client.users.get(user_id);
         if (!user) {
-            useEffect(onClose, []);
+            if (onClose) useEffect(onClose, []);
             return null;
         }
 
@@ -76,7 +75,7 @@ export const UserProfile = observer(
             if (!user_id) return;
             if (typeof profile !== "undefined") setProfile(undefined);
             if (typeof mutual !== "undefined") setMutual(undefined);
-        }, [user_id]);
+        }, [user_id, mutual, profile]);
 
         if (dummy) {
             useLayoutEffect(() => {
@@ -93,7 +92,7 @@ export const UserProfile = observer(
                 setMutual(null);
                 user.fetchMutual().then(setMutual);
             }
-        }, [mutual, status]);
+        }, [mutual, status, dummy, user]);
 
         useEffect(() => {
             if (dummy) return;
@@ -104,12 +103,10 @@ export const UserProfile = observer(
                 setProfile(null);
 
                 if (user.permission & UserPermission.ViewProfile) {
-                    user.fetchProfile()
-                        .then(setProfile)
-                        .catch(() => {});
+                    user.fetchProfile().then(setProfile);
                 }
             }
-        }, [profile, status]);
+        }, [profile, status, dummy, user]);
 
         const backgroundURL =
             profile &&
@@ -157,7 +154,7 @@ export const UserProfile = observer(
                                     }>
                                     <IconButton
                                         onClick={() => {
-                                            onClose();
+                                            onClose?.();
                                             history.push(`/open/${user_id}`);
                                         }}>
                                         <Envelope size={30} />
@@ -168,7 +165,7 @@ export const UserProfile = observer(
                         {user.relationship === RelationshipStatus.User && (
                             <IconButton
                                 onClick={() => {
-                                    onClose();
+                                    onClose?.();
                                     if (dummy) return;
                                     history.push(`/settings/profile`);
                                 }}>

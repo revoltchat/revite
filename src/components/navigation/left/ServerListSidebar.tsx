@@ -279,6 +279,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
 
                     return (
                         <ConditionalLink
+                            key={entry.server._id}
                             active={active}
                             to={`/server/${entry.server._id}${
                                 id ? `/channel/${id}` : ""

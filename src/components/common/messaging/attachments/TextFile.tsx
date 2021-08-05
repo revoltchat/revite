@@ -60,7 +60,7 @@ export default function TextFile({ attachment }: Props) {
                     setLoading(false);
                 });
         }
-    }, [content, loading, status]);
+    }, [content, loading, status, attachment._id, attachment.size, url]);
 
     return (
         <div

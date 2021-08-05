@@ -1,8 +1,4 @@
-import {
-    ChevronDown,
-    ChevronRight,
-    ListPlus,
-} from "@styled-icons/boxicons-regular";
+import { ChevronRight } from "@styled-icons/boxicons-regular";
 import { UserDetail, MessageAdd, UserPlus } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { RelationshipStatus, Presence } from "revolt-api/types/Users";
@@ -68,7 +64,9 @@ export default observer(() => {
     ] as [string, User[], string][];
 
     const incoming = lists[0][1];
-    const userlist: Children[] = incoming.map((x) => <b>{x.username}</b>);
+    const userlist: Children[] = incoming.map((x) => (
+        <b key={x._id}>{x.username}</b>
+    ));
     for (let i = incoming.length - 1; i > 0; i--) userlist.splice(i, 0, ", ");
 
     const isEmpty = lists.reduce((p: number, n) => p + n.length, 0) === 0;
@@ -195,6 +193,7 @@ export default observer(() => {
 
                     return (
                         <CollapsibleSection
+                            key={section_id}
                             id={`friends_${section_id}`}
                             defaultValue={true}
                             sticky

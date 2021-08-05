@@ -148,6 +148,7 @@ const HomeSidebar = observer((props: Props) => {
 
                     return (
                         <ConditionalLink
+                            key={x.channel._id}
                             active={x.channel._id === channel}
                             to={`/channel/${x.channel._id}`}>
                             <ChannelButton

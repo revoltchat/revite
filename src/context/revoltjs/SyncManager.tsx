@@ -5,7 +5,7 @@ import isEqual from "lodash.isequal";
 import { UserSettings } from "revolt-api/types/Sync";
 import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 
-import { useContext, useEffect } from "preact/hooks";
+import { useCallback, useContext, useEffect, useMemo } from "preact/hooks";
 
 import { dispatch } from "../../redux";
 import { connectState } from "../../redux/connector";
@@ -28,7 +28,7 @@ type Props = {
     notifications: Notifications;
 };
 
-const lastValues: { [key in SyncKeys]?: any } = {};
+const lastValues: { [key in SyncKeys]?: unknown } = {};
 
 export function mapSync(
     packet: UserSettings,
@@ -78,31 +78,38 @@ function SyncManager(props: Props) {
                 .syncFetchUnreads()
                 .then((unreads) => dispatch({ type: "UNREADS_SET", unreads }));
         }
-    }, [status]);
+    }, [client, props.sync?.disabled, status]);
 
-    function syncChange(key: SyncKeys, data: any) {
-        const timestamp = +new Date();
-        dispatch({
-            type: "SYNC_SET_REVISION",
-            key,
-            timestamp,
-        });
+    const syncChange = useCallback(
+        (key: SyncKeys, data: unknown) => {
+            const timestamp = +new Date();
+            dispatch({
+                type: "SYNC_SET_REVISION",
+                key,
+                timestamp,
+            });
 
-        client.syncSetSettings(
-            {
-                [key]: data,
-            },
-            timestamp,
-        );
-    }
+            client.syncSetSettings(
+                {
+                    [key]: data as string,
+                },
+                timestamp,
+            );
+        },
+        [client],
+    );
 
-    const disabled = props.sync.disabled ?? [];
+    const disabled = useMemo(
+        () => props.sync.disabled ?? [],
+        [props.sync.disabled],
+    );
     for (const [key, object] of [
         ["appearance", props.settings.appearance],
         ["theme", props.settings.theme],
         ["locale", props.locale],
         ["notifications", props.notifications],
-    ] as [SyncKeys, any][]) {
+    ] as [SyncKeys, unknown][]) {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         useEffect(() => {
             if (disabled.indexOf(key) === -1) {
                 if (typeof lastValues[key] !== "undefined") {
@@ -113,7 +120,7 @@ function SyncManager(props: Props) {
             }
 
             lastValues[key] = object;
-        }, [disabled, object]);
+        }, [key, syncChange, disabled, object]);
     }
 
     useEffect(() => {
@@ -131,7 +138,7 @@ function SyncManager(props: Props) {
 
         client.addListener("packet", onPacket);
         return () => client.removeListener("packet", onPacket);
-    }, [disabled, props.sync]);
+    }, [client, disabled, props.sync]);
 
     return null;
 }

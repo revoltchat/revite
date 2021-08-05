@@ -18,10 +18,12 @@ declare interface Window {
         relaunch();
 
         getConfig(): NativeConfig;
-        set(key: keyof NativeConfig, value: any);
+        set(key: keyof NativeConfig, value: unknown);
 
         getAutoStart(): Promise<boolean>;
         enableAutoStart(): Promise<void>;
         disableAutoStart(): Promise<void>;
     };
 }
+
+declare const Fragment = preact.Fragment;

@@ -6,7 +6,7 @@ import {
     Trash,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Profile } from "revolt-api/types/Users";
 
 import styles from "./Panes.module.scss";
@@ -55,7 +55,7 @@ export const Account = observer(() => {
                 .user!.fetchProfile()
                 .then((profile) => setProfile(profile ?? {}));
         }
-    }, [status]);
+    }, [client, email, profile, status]);
 
     return (
         <div className={styles.user}>
@@ -95,12 +95,17 @@ export const Account = observer(() => {
             <div>
                 {(
                     [
-                        ["username", client.user!.username, <At size={24} />],
-                        ["email", email, <Envelope size={24} />],
-                        ["password", "•••••••••", <Key size={24} />],
+                        [
+                            "username",
+                            client.user!.username,
+                            <At key="at" size={24} />,
+                        ],
+                        ["email", email, <Envelope key="envelope" size={24} />],
+                        ["password", "•••••••••", <Key key="key" size={24} />],
                     ] as const
                 ).map(([field, value, icon]) => (
                     <CategoryButton
+                        key={field}
                         icon={icon}
                         description={
                             field === "email" ? (
@@ -152,13 +157,15 @@ export const Account = observer(() => {
             </h3>
             <h5>
                 {/*<Text id="app.settings.pages.account.2fa.description" />*/}
-                Two-factor authentication is currently work-in-progress, see {` `}
+                Two-factor authentication is currently work-in-progress, see{" "}
+                {` `}
                 <a
                     href="https://gitlab.insrt.uk/insert/rauth/-/issues/2"
                     target="_blank"
                     rel="noreferrer">
                     tracking issue here
-                </a>.
+                </a>
+                .
             </h5>
             <CategoryButton
                 icon={<Lock size={24} color="var(--error)" />}
@@ -188,7 +195,7 @@ export const Account = observer(() => {
                     description={
                         "Delete your account, including all of your data."
                     }
-                    onClick={() => {}}
+                    hover
                     action="external">
                     <Text id="app.settings.pages.account.manage.delete" />
                 </CategoryButton>

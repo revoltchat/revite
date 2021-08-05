@@ -1,5 +1,5 @@
-import { Download } from "@styled-icons/boxicons-regular";
-import { CloudDownload } from "@styled-icons/boxicons-regular";
+/* eslint-disable react-hooks/rules-of-hooks */
+import { Download, CloudDownload } from "@styled-icons/boxicons-regular";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 

@@ -60,11 +60,11 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
             type="channel"
             channel={channel}
             gated={
-                (channel.channel_type === "TextChannel" ||
-                    channel.channel_type === "Group") &&
-                channel.name?.includes("nsfw")
-                    ? true
-                    : false
+                !!(
+                    (channel.channel_type === "TextChannel" ||
+                        channel.channel_type === "Group") &&
+                    channel.name?.includes("nsfw")
+                )
             }>
             <ChannelHeader
                 channel={channel}
@@ -110,7 +110,7 @@ function VoiceChannel({ channel }: { channel: ChannelI }) {
     );
 }
 
-export default function () {
+export default function ChannelComponent() {
     const { channel } = useParams<{ channel: string }>();
     return <Channel id={channel} key={channel} />;
 }

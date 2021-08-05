@@ -8,7 +8,7 @@ import { dispatch } from "../../redux";
 
 import { ClientOperations, ClientStatus } from "./RevoltClient";
 
-export var preventReconnect = false;
+export let preventReconnect = false;
 let preventUntil = 0;
 
 export function setReconnectDisallowed(allowed: boolean) {
@@ -34,6 +34,7 @@ export function registerEvents(
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let listeners: Record<string, (...args: any[]) => void> = {
         connecting: () =>
             operations.ready() && setStatus(ClientStatus.CONNECTING),
@@ -74,7 +75,7 @@ export function registerEvents(
     if (import.meta.env.DEV) {
         listeners = new Proxy(listeners, {
             get:
-                (target, listener, receiver) =>
+                (target, listener) =>
                 (...args: unknown[]) => {
                     console.debug(`Calling ${listener.toString()} with`, args);
                     Reflect.get(target, listener)(...args);
@@ -85,10 +86,6 @@ export function registerEvents(
     // TODO: clean this a bit and properly handle types
     for (const listener in listeners) {
         client.addListener(listener, listeners[listener]);
-    }
-
-    function logMutation(target: string, key: string) {
-        console.log("(o) Object mutated", target, "\nChanged:", key);
     }
 
     const online = () => {

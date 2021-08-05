@@ -20,6 +20,7 @@ interface SignalingEvents {
     open: (event: Event) => void;
     close: (event: CloseEvent) => void;
     error: (event: Event) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: (data: any) => void;
 }
 
@@ -87,6 +88,7 @@ export default class Signaling extends EventEmitter<SignalingEvents> {
         entry(json);
     }
 
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     sendRequest(type: string, data?: any): Promise<any> {
         if (this.ws === undefined || this.ws.readyState !== WebSocket.OPEN)
             return Promise.reject({ error: WSErrorCode.NotConnected });
@@ -124,6 +126,7 @@ export default class Signaling extends EventEmitter<SignalingEvents> {
             this.index++;
         });
     }
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     authenticate(token: string, roomId: string): Promise<AuthenticationResult> {
         return this.sendRequest(WSCommandType.Authenticate, { token, roomId });

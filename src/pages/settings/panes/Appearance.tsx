@@ -1,6 +1,6 @@
 import { Reset, Import } from "@styled-icons/boxicons-regular";
 import { Pencil } from "@styled-icons/boxicons-solid";
-// @ts-ignore
+// @ts-expect-error shade-blend-color does not have typings.
 import pSBC from "shade-blend-color";
 
 import styles from "./Panes.module.scss";
@@ -17,8 +17,10 @@ import { EmojiPacks, Settings } from "../../../redux/reducers/settings";
 import {
     DEFAULT_FONT,
     DEFAULT_MONO_FONT,
+    Fonts,
     FONTS,
     FONT_KEYS,
+    MonospaceFonts,
     MONOSPACE_FONTS,
     MONOSPACE_FONT_KEYS,
     Theme,
@@ -30,6 +32,7 @@ import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import Button from "../../../components/ui/Button";
+import Checkbox from "../../../components/ui/Checkbox";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
 import ComboBox from "../../../components/ui/ComboBox";
 import InputBox from "../../../components/ui/InputBox";
@@ -56,12 +59,12 @@ export function Component(props: Props) {
         });
     }
 
-    function pushOverride(custom: Partial<Theme>) {
+    const pushOverride = useCallback((custom: Partial<Theme>) => {
         dispatch({
             type: "SETTINGS_SET_THEME_OVERRIDE",
             custom,
         });
-    }
+    }, []);
 
     function setAccent(accent: string) {
         setOverride({
@@ -80,12 +83,14 @@ export function Component(props: Props) {
         });
     }
 
-    const setOverride = useCallback(debounce(pushOverride, 200), []) as (
-        custom: Partial<Theme>,
-    ) => void;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const setOverride = useCallback(
+        debounce(pushOverride as (...args: unknown[]) => void, 200),
+        [pushOverride],
+    ) as (custom: Partial<Theme>) => void;
     const [css, setCSS] = useState(props.settings.theme?.custom?.css ?? "");
 
-    useEffect(() => setOverride({ css }), [css]);
+    useEffect(() => setOverride({ css }), [setOverride, css]);
 
     const selected = props.settings.theme?.preset ?? "dark";
     return (
@@ -169,15 +174,15 @@ export function Component(props: Props) {
             <ComboBox
                 value={theme.font ?? DEFAULT_FONT}
                 onChange={(e) =>
-                    pushOverride({ font: e.currentTarget.value as any })
+                    pushOverride({ font: e.currentTarget.value as Fonts })
                 }>
                 {FONT_KEYS.map((key) => (
-                    <option value={key}>
+                    <option value={key} key={key}>
                         {FONTS[key as keyof typeof FONTS].name}
                     </option>
                 ))}
             </ComboBox>
-            {/* TOFIX: Only show when a font with ligature support is selected, i.e.: Inter.
+            {/* TOFIX: Only show when a font with ligature support is selected, i.e.: Inter.*/}
             <p>
                 <Checkbox
                     checked={props.settings.theme?.ligatures === true}
@@ -191,7 +196,7 @@ export function Component(props: Props) {
                     }>
                     <Text id="app.settings.pages.appearance.ligatures" />
                 </Checkbox>
-                </p>*/}
+            </p>
 
             <h3>
                 <Text id="app.settings.pages.appearance.emoji_pack" />
@@ -405,11 +410,12 @@ export function Component(props: Props) {
                     value={theme.monospaceFont ?? DEFAULT_MONO_FONT}
                     onChange={(e) =>
                         pushOverride({
-                            monospaceFont: e.currentTarget.value as any,
+                            monospaceFont: e.currentTarget
+                                .value as MonospaceFonts,
                         })
                     }>
                     {MONOSPACE_FONT_KEYS.map((key) => (
-                        <option value={key}>
+                        <option value={key} key={key}>
                             {
                                 MONOSPACE_FONTS[
                                     key as keyof typeof MONOSPACE_FONTS

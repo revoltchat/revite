@@ -1,8 +1,8 @@
-export function debounce(cb: Function, duration: number) {
+export function debounce(cb: (...args: unknown[]) => void, duration: number) {
     // Store the timer variable.
     let timer: NodeJS.Timeout;
     // This function is given to React.
-    return (...args: any[]) => {
+    return (...args: unknown[]) => {
         // Get rid of the old timer.
         clearTimeout(timer);
         // Set a new timer.

@@ -1,14 +1,20 @@
 import { Channel } from "revolt.js/dist/maps/Channels";
 
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo, useRef, useState } from "preact/hooks";
+import {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "preact/hooks";
 
 import type { ProduceType, VoiceUser } from "../lib/vortex/Types";
 import type VoiceClient from "../lib/vortex/VoiceClient";
 
 import { Children } from "../types/Preact";
 import { SoundContext } from "./Settings";
-import { AppContext } from "./revoltjs/RevoltClient";
 
 export enum VoiceStatus {
     LOADING = 0,
@@ -45,20 +51,22 @@ type Props = {
 };
 
 export default function Voice({ children }: Props) {
-    const revoltClient = useContext(AppContext);
     const [client, setClient] = useState<VoiceClient | undefined>(undefined);
     const [state, setState] = useState<VoiceState>({
         status: VoiceStatus.LOADING,
         participants: new Map(),
     });
 
-    function setStatus(status: VoiceStatus, roomId?: string) {
-        setState({
-            status,
-            roomId: roomId ?? client?.roomId,
-            participants: client?.participants ?? new Map(),
-        });
-    }
+    const setStatus = useCallback(
+        (status: VoiceStatus, roomId?: string) => {
+            setState({
+                status,
+                roomId: roomId ?? client?.roomId,
+                participants: client?.participants ?? new Map(),
+            });
+        },
+        [client?.participants, client?.roomId],
+    );
 
     useEffect(() => {
         import("../lib/vortex/VoiceClient")
@@ -76,7 +84,7 @@ export default function Voice({ children }: Props) {
                 console.error("Failed to load voice library!", err);
                 setStatus(VoiceStatus.UNAVAILABLE);
             });
-    }, []);
+    }, [setStatus]);
 
     const isConnecting = useRef(false);
     const operations: VoiceOperations = useMemo(() => {
@@ -158,7 +166,7 @@ export default function Voice({ children }: Props) {
                 return client?.stopProduce(type);
             },
         };
-    }, [client]);
+    }, [client, setStatus]);
 
     const playSound = useContext(SoundContext);
 
@@ -200,7 +208,7 @@ export default function Voice({ children }: Props) {
             client.removeListener("userStopProduce", stateUpdate);
             client.removeListener("close", stateUpdate);
         };
-    }, [client, state]);
+    }, [client, state, playSound, setStatus]);
 
     return (
         <VoiceContext.Provider value={state}>

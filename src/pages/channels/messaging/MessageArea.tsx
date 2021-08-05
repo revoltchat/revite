@@ -5,6 +5,7 @@ import useResizeObserver from "use-resize-observer";
 
 import { createContext } from "preact";
 import {
+    useCallback,
     useContext,
     useEffect,
     useLayoutEffect,
@@ -74,7 +75,7 @@ export function MessageArea({ id }: Props) {
     // ? useRef to avoid re-renders
     const scrollState = useRef<ScrollState>({ type: "Free" });
 
-    const setScrollState = (v: ScrollState) => {
+    const setScrollState = useCallback((v: ScrollState) => {
         if (v.type === "StayAtBottom") {
             if (scrollState.current.type === "Bottom" || atBottom()) {
                 scrollState.current = {
@@ -131,7 +132,7 @@ export function MessageArea({ id }: Props) {
                 setScrollState({ type: "Free" });
             }
         });
-    };
+    }, []);
 
     // ? Determine if we are at the bottom of the scroll container.
     // -> https://stackoverflow.com/a/44893438
@@ -151,7 +152,7 @@ export function MessageArea({ id }: Props) {
         return internalSubscribe("MessageArea", "jump_to_bottom", () =>
             setScrollState({ type: "ScrollToBottom" }),
         );
-    }, []);
+    }, [setScrollState]);
 
     // ? Handle events from renderer.
     useEffect(() => {
@@ -163,12 +164,13 @@ export function MessageArea({ id }: Props) {
         SingletonMessageRenderer.addListener("scroll", setScrollState);
         return () =>
             SingletonMessageRenderer.removeListener("scroll", setScrollState);
-    }, [scrollState]);
+    }, [scrollState, setScrollState]);
 
     // ? Load channel initially.
     useEffect(() => {
         if (message) return;
         SingletonMessageRenderer.init(id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     // ? If message present or changes, load it as well.
@@ -184,6 +186,7 @@ export function MessageArea({ id }: Props) {
                 history.push(`/channel/${id}`);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [message]);
 
     // ? If we are waiting for network, try again.
@@ -203,11 +206,14 @@ export function MessageArea({ id }: Props) {
                 SingletonMessageRenderer.markStale();
                 break;
         }
-    }, [status, state]);
+    }, [id, status, state]);
 
     // ? When the container is scrolled.
     // ? Also handle StayAtBottom
     useEffect(() => {
+        const current = ref.current;
+        if (!current) return;
+
         async function onScroll() {
             if (scrollState.current.type === "Free" && atBottom()) {
                 setScrollState({ type: "Bottom" });
@@ -221,12 +227,15 @@ export function MessageArea({ id }: Props) {
             }
         }
 
-        ref.current?.addEventListener("scroll", onScroll);
-        return () => ref.current?.removeEventListener("scroll", onScroll);
-    }, [ref, scrollState]);
+        current.addEventListener("scroll", onScroll);
+        return () => current.removeEventListener("scroll", onScroll);
+    }, [ref, scrollState, setScrollState]);
 
     // ? Top and bottom loaders.
     useEffect(() => {
+        const current = ref.current;
+        if (!current) return;
+
         async function onScroll() {
             if (atTop(100)) {
                 SingletonMessageRenderer.loadTop(ref.current!);
@@ -237,12 +246,12 @@ export function MessageArea({ id }: Props) {
             }
         }
 
-        ref.current?.addEventListener("scroll", onScroll);
-        return () => ref.current?.removeEventListener("scroll", onScroll);
+        current.addEventListener("scroll", onScroll);
+        return () => current.removeEventListener("scroll", onScroll);
     }, [ref]);
 
     // ? Scroll down whenever the message area resizes.
-    function stbOnResize() {
+    const stbOnResize = useCallback(() => {
         if (!atBottom() && scrollState.current.type === "Bottom") {
             animateScroll.scrollToBottom({
                 container: ref.current,
@@ -251,18 +260,18 @@ export function MessageArea({ id }: Props) {
 
             setScrollState({ type: "Bottom" });
         }
-    }
+    }, [setScrollState]);
 
     // ? Scroll down when container resized.
     useLayoutEffect(() => {
         stbOnResize();
-    }, [height]);
+    }, [stbOnResize, height]);
 
     // ? Scroll down whenever the window resizes.
     useLayoutEffect(() => {
         document.addEventListener("resize", stbOnResize);
         return () => document.removeEventListener("resize", stbOnResize);
-    }, [ref, scrollState]);
+    }, [ref, scrollState, stbOnResize]);
 
     // ? Scroll to bottom when pressing 'Escape'.
     useEffect(() => {
@@ -275,7 +284,7 @@ export function MessageArea({ id }: Props) {
 
         document.body.addEventListener("keyup", keyUp);
         return () => document.body.removeEventListener("keyup", keyUp);
-    }, [ref, focusTaken]);
+    }, [id, ref, focusTaken]);
 
     return (
         <MessageAreaWidthContext.Provider

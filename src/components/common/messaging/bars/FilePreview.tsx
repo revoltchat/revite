@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { XCircle, Plus, Share, X, File } from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
 
@@ -186,7 +187,9 @@ export default function FilePreview({ state, addFile, removeFile }: Props) {
         <Container>
             <Carousel>
                 {state.files.map((file, index) => (
-                    <>
+                    // @ts-expect-error brokey
+                    // eslint-disable-next-line react/jsx-no-undef
+                    <Fragment key={file.name}>
                         {index === CAN_UPLOAD_AT_ONCE && <Divider />}
                         <FileEntry
                             index={index}
@@ -198,7 +201,7 @@ export default function FilePreview({ state, addFile, removeFile }: Props) {
                                     : undefined
                             }
                         />
-                    </>
+                    </Fragment>
                 ))}
                 {state.type === "attached" && (
                     <EmptyEntry onClick={addFile}>

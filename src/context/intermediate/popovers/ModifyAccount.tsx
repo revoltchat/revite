@@ -85,11 +85,13 @@ export function ModifyAccountModal({ onClose, field }: Props) {
             ]}>
             {/* Preact / React typing incompatabilities */}
             <form
-                onSubmit={
+                onSubmit={(e) => {
+                    e.preventDefault();
                     handleSubmit(
                         onSubmit,
-                    ) as JSX.GenericEventHandler<HTMLFormElement>
-                }>
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    )(e as any);
+                }}>
                 {field === "email" && (
                     <FormField
                         type="email"

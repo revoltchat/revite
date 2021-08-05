@@ -114,7 +114,7 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
 
         this.signaling.on(
             "error",
-            (error) => {
+            () => {
                 this.emit("error", new Error("Signaling error"));
             },
             this,
