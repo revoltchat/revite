@@ -151,7 +151,7 @@ export default function Settings() {
                     <Route path="/settings/feedback">
                         <Feedback />
                     </Route>
-                    <Route path="/" exact>
+                    <Route path="/">
                         <Account />
                     </Route>
                 </Switch>
