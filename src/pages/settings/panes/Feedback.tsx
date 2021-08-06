@@ -1,3 +1,6 @@
+import { Github } from "@styled-icons/boxicons-logos";
+import { ListOl } from "@styled-icons/boxicons-regular";
+
 import styles from "./Panes.module.scss";
 import { Localizer, Text } from "preact-i18n";
 import { useState } from "preact/hooks";
@@ -8,6 +11,7 @@ import Button from "../../../components/ui/Button";
 import InputBox from "../../../components/ui/InputBox";
 import Radio from "../../../components/ui/Radio";
 import TextArea from "../../../components/ui/TextArea";
+import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 export function Feedback() {
     const client = useClient();
@@ -41,6 +45,30 @@ export function Feedback() {
 
     return (
         <form className={styles.feedback} onSubmit={onSubmit}>
+            <a
+                href="https://github.com/revoltchat/revolt/discussions"
+                target="_blank"
+                rel="noreferrer">
+                <CategoryButton
+                    hover
+                    action="external"
+                    icon={<Github size={24} />}
+                    description="Suggest new Revolt features on GitHub discussions.">
+                    Submit feature suggestion
+                </CategoryButton>
+            </a>
+            <a
+                href="https://github.com/revoltchat/revite/issues/new"
+                target="_blank"
+                rel="noreferrer">
+                <CategoryButton
+                    hover
+                    action="external"
+                    icon={<ListOl size={24} />}
+                    description="To help us more easily triage issues, you can create an issue on GitHub.">
+                    Create a new GitHub issue
+                </CategoryButton>
+            </a>
             <h3>
                 <Text id="app.settings.pages.feedback.report" />
             </h3>
@@ -50,12 +78,6 @@ export function Feedback() {
                     disabled={state === "sending"}
                     onSelect={() => setChecked("Bug")}>
                     <Text id="app.settings.pages.feedback.bug" />
-                </Radio>
-                <Radio
-                    disabled={state === "sending"}
-                    checked={checked === "Feature Request"}
-                    onSelect={() => setChecked("Feature Request")}>
-                    <Text id="app.settings.pages.feedback.feature" />
                 </Radio>
                 <Radio
                     disabled={state === "sending"}
