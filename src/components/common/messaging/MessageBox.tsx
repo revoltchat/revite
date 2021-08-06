@@ -477,6 +477,10 @@ export default observer(({ channel }: Props) => {
                             return send();
                         }
 
+                        if (e.key === "Escape" && replies.length > 0) {
+                            setReplies(replies.slice(0, -1));
+                        }
+
                         debouncedStopTyping(true);
                     }}
                     placeholder={
