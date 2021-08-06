@@ -4,24 +4,26 @@ import { Children } from "../../../../types/Preact";
 
 const Grid = styled.div`
     display: grid;
-    overflow: hidden;
 
-    max-width: min(var(--attachment-max-width), 100%, var(--width));
-    max-height: min(var(--attachment-max-height), var(--height));
     aspect-ratio: var(--aspect-ratio);
 
-    img,
-    video {
-        min-width: 100%;
-        min-height: 100%;
+    max-width: min(100%, var(--width), var(--attachment-max-width));
+    max-height: min(var(--height), var(--attachment-max-height));
 
-        width: auto;
-        height: auto;
+    img, video {
+        grid-area: 1 / 1;
+        
+        display: block;
 
         max-width: 100%;
         max-height: 100%;
 
-        grid-area: 1 / 1;
+        object-fit: contain;
+    }
+
+    video {
+        width: 100%;
+        height: 100%;
     }
 
     &.spoiler {
@@ -56,7 +58,7 @@ export function SizedGrid(props: Props) {
                 ...style,
                 "--width": `${width}px`,
                 "--height": `${height}px`,
-                "--aspect-ratio": width / height,
+                "--aspect-ratio": `${width} / ${height}`,
             }}>
             {children}
         </Grid>
