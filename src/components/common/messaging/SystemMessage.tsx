@@ -1,3 +1,15 @@
+import {
+    InfoCircle,
+    UserPlus,
+    UserMinus,
+    ArrowToRight,
+    ArrowToLeft,
+    UserX,
+    ShieldX,
+    EditAlt,
+    Edit,
+    MessageSquareEdit,
+} from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Message } from "revolt.js/dist/maps/Messages";
 import { User } from "revolt.js/dist/maps/Users";
@@ -39,6 +51,19 @@ interface Props {
     highlight?: boolean;
     hideInfo?: boolean;
 }
+
+const iconDictionary = {
+    user_added: UserPlus,
+    user_remove: UserMinus,
+    user_joined: ArrowToRight,
+    user_left: ArrowToLeft,
+    user_kicked: UserX,
+    user_banned: ShieldX,
+    channel_renamed: EditAlt,
+    channel_description_changed: Edit,
+    channel_icon_changed: MessageSquareEdit,
+    text: InfoCircle,
+};
 
 export const SystemMessage = observer(
     ({ attachContext, message, highlight, hideInfo }: Props) => {
@@ -88,6 +113,15 @@ export const SystemMessage = observer(
         } else {
             data = { type: "text", content };
         }
+
+        const SystemMessageIcon = iconDictionary[data.type] ?? InfoCircle;
+
+        const SystemIcon = styled(SystemMessageIcon)`
+            height: 1.33em;
+            width: 1.33em;
+            margin-right: 0.5em;
+            color: var(--tertiary-foreground);
+        `;
 
         let children;
         switch (data.type) {
@@ -161,6 +195,7 @@ export const SystemMessage = observer(
                 {!hideInfo && (
                     <MessageInfo>
                         <MessageDetail message={message} position="left" />
+                        <SystemIcon className="system-message-icon" />
                     </MessageInfo>
                 )}
                 <SystemContent>{children}</SystemContent>
