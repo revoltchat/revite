@@ -53,6 +53,24 @@ export function Component(props: Props) {
         Langs[x as keyof typeof Langs],
     ]) as Key[];
 
+    // Get the user's system language
+    const preferredLanguage =
+        navigator.languages
+            ?.filter((lang) =>
+                languages.find((l) => l[0] == lang.split("-")[0]),
+            )?.[0]
+            ?.split("-")[0] ?? "en";
+
+    // This moves the user's system language to the top of the language list
+    const prefLangKey = languages.find((lang) => lang[0] == preferredLanguage);
+    if (prefLangKey) {
+        languages.splice(
+            0,
+            0,
+            languages.splice(languages.indexOf(prefLangKey), 1)[0],
+        );
+    }
+
     return (
         <div className={styles.languages}>
             <h3>
