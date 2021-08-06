@@ -53,22 +53,29 @@ export function Component(props: Props) {
         Langs[x as keyof typeof Langs],
     ]) as Key[];
 
-    // Get the user's system language
+    // Get the user's system language. Check for exact
+    // matches first, otherwise check for partial matches
     const preferredLanguage =
+        navigator.languages.filter((lang) =>
+            languages.find((l) => l[0].replace(/_/g, "-") == lang),
+        )?.[0] ||
         navigator.languages
-            ?.filter((lang) =>
-                languages.find((l) => l[0] == lang.split("-")[0]),
-            )?.[0]
-            ?.split("-")[0] ?? "en";
+            ?.map((x) => x.split("-")[0])
+            ?.filter((lang) => languages.find((l) => l[0] == lang))?.[0]
+            ?.split("-")[0];
 
-    // This moves the user's system language to the top of the language list
-    const prefLangKey = languages.find((lang) => lang[0] == preferredLanguage);
-    if (prefLangKey) {
-        languages.splice(
-            0,
-            0,
-            languages.splice(languages.indexOf(prefLangKey), 1)[0],
+    if (preferredLanguage) {
+        // This moves the user's system language to the top of the language list
+        const prefLangKey = languages.find(
+            (lang) => lang[0].replace(/_/g, "-") == preferredLanguage,
         );
+        if (prefLangKey) {
+            languages.splice(
+                0,
+                0,
+                languages.splice(languages.indexOf(prefLangKey), 1)[0],
+            );
+        }
     }
 
     return (
