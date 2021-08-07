@@ -124,6 +124,10 @@ export default styled.div<BaseMessageProps>`
         time {
             opacity: 1;
         }
+
+        .system-message-icon {
+            display: none;
+        }
     }
 `;
 
