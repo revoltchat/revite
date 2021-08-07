@@ -3,13 +3,10 @@ import { observer } from "mobx-react-lite";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
-import { useContext } from "preact/hooks";
+import { useMemo } from "preact/hooks";
 
-import {
-    VoiceContext,
-    VoiceOperationsContext,
-    VoiceStatus,
-} from "../../../context/Voice";
+import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
+
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../../components/common/user/UserIcon";
@@ -68,19 +65,16 @@ const VoiceBase = styled.div`
 `;
 
 export default observer(({ id }: Props) => {
-    const { status, participants, roomId } = useContext(VoiceContext);
-    if (roomId !== id) return null;
-
-    const { isProducing, startProducing, stopProducing, disconnect } =
-        useContext(VoiceOperationsContext);
+    if (voiceState.roomId !== id) return null;
 
     const client = useClient();
     const self = client.users.get(client.user!._id);
 
-    //const ctx = useForceUpdate();
-    //const self = useSelf(ctx);
-    const keys = participants ? Array.from(participants.keys()) : undefined;
-    const users = keys?.map((key) => client.users.get(key));
+    const keys = Array.from(voiceState.participants.keys());
+    const users = useMemo(() => {
+        return keys.map((key) => client.users.get(key));
+        // eslint-disable-next-line
+    }, [keys]);
 
     return (
         <VoiceBase>
@@ -95,7 +89,8 @@ export default observer(({ id }: Props) => {
                                       target={user}
                                       status={false}
                                       voice={
-                                          participants!.get(id)?.audio
+                                          voiceState.participants!.get(id)
+                                              ?.audio
                                               ? undefined
                                               : "muted"
                                       }
@@ -115,20 +110,20 @@ export default observer(({ id }: Props) => {
             </div>
             <div className="status">
                 <BarChart size={20} />
-                {status === VoiceStatus.CONNECTED && (
+                {voiceState.status === VoiceStatus.CONNECTED && (
                     <Text id="app.main.channel.voice.connected" />
                 )}
             </div>
             <div className="actions">
-                <Button error onClick={disconnect}>
+                <Button error onClick={voiceState.disconnect}>
                     <Text id="app.main.channel.voice.leave" />
                 </Button>
-                {isProducing("audio") ? (
-                    <Button onClick={() => stopProducing("audio")}>
+                {voiceState.isProducing("audio") ? (
+                    <Button onClick={() => voiceState.stopProducing("audio")}>
                         <Text id="app.main.channel.voice.mute" />
                     </Button>
                 ) : (
-                    <Button onClick={() => startProducing("audio")}>
+                    <Button onClick={() => voiceState.startProducing("audio")}>
                         <Text id="app.main.channel.voice.unmute" />
                     </Button>
                 )}
@@ -136,71 +131,3 @@ export default observer(({ id }: Props) => {
         </VoiceBase>
     );
 });
-
-/**{voice.roomId === id && (
-                        <div className={styles.rtc}>
-                            <div className={styles.participants}>
-                                {participants.length !== 0 ? participants.map((user, index) => {
-                                    const id = participantIds[index];
-                                    return (
-                                        <div key={id}>
-                                            <UserIcon
-                                                size={80}
-                                                user={user}
-                                                status={false}
-                                                voice={
-                                                    voice.participants.get(id)
-                                                        ?.audio
-                                                        ? undefined
-                                                        : "muted"
-                                                }
-                                            />
-                                        </div>
-                                    );
-                                }) : self !== undefined && (
-                                    <div key={self._id} className={styles.disconnected}>
-                                            <UserIcon
-                                                size={80}
-                                                user={self}
-                                                status={false}
-                                            />
-                                        </div>
-                                )}
-                            </div>
-                            <div className={styles.status}>
-                                <BarChart size={20} />
-                                { voice.status === VoiceStatus.CONNECTED && <Text id="app.main.channel.voice.connected" /> }
-                            </div>
-                            <div className={styles.actions}>
-                                <Button
-                                    style="error"
-                                    onClick={() =>
-                                        voice.operations.disconnect()
-                                    }
-                                >
-                                    <Text id="app.main.channel.voice.leave" />
-                                </Button>
-                                {voice.operations.isProducing("audio") ? (
-                                    <Button
-                                        onClick={() =>
-                                            voice.operations.stopProducing(
-                                                "audio"
-                                            )
-                                        }
-                                    >
-                                        <Text id="app.main.channel.voice.mute" />
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        onClick={() =>
-                                            voice.operations.startProducing(
-                                                "audio"
-                                            )
-                                        }
-                                    >
-                                        <Text id="app.main.channel.voice.unmute" />
-                                    </Button>
-                                )}
-                            </div>
-                        </div>
-                    )} */

@@ -12,8 +12,8 @@ import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
 import { stopPropagation } from "../../lib/stopPropagation";
+import { voiceState } from "../../lib/vortex/VoiceState";
 
-import { VoiceOperationsContext } from "../../context/Voice";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 
 import UserIcon from "../../components/common/user/UserIcon";
@@ -29,7 +29,6 @@ interface Props {
 export const Friend = observer(({ user }: Props) => {
     const history = useHistory();
     const { openScreen } = useIntermediate();
-    const { connect } = useContext(VoiceOperationsContext);
 
     const actions: Children[] = [];
     let subtext: Children = null;
@@ -46,7 +45,7 @@ export const Friend = observer(({ user }: Props) => {
                             ev,
                             user
                                 .openDM()
-                                .then(connect)
+                                .then(voiceState.connect)
                                 .then((x) => history.push(`/channel/${x._id}`)),
                         )
                     }>
