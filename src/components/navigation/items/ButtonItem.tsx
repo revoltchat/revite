@@ -114,7 +114,7 @@ export const UserButton = observer((props: UserProps) => {
 });
 
 type ChannelProps = CommonProps & {
-    channel: Channel & { unread?: string };
+    channel: Channel;
     user?: User;
     compact?: boolean;
 };
@@ -140,7 +140,7 @@ export const ChannelButton = observer((props: ChannelProps) => {
             className={classNames(styles.item, { [styles.compact]: compact })}
             onContextMenu={attachContextMenu("Menu", {
                 channel: channel._id,
-                unread: typeof channel.unread !== "undefined",
+                unread: typeof alert !== "undefined",
             })}>
             <ChannelIcon
                 className={styles.avatar}

@@ -75,6 +75,7 @@ type Action =
     | { action: "copy_selection" }
     | { action: "copy_text"; content: string }
     | { action: "mark_as_read"; channel: Channel }
+    | { action: "mark_server_as_read"; server: Server }
     | { action: "retry_message"; message: QueuedMessage }
     | { action: "cancel_message"; message: QueuedMessage }
     | { action: "mention"; user: string }
@@ -178,10 +179,17 @@ function ContextMenus(props: Props) {
                             message,
                         });
 
-                        client.req(
-                            "PUT",
-                            `/channels/${data.channel._id}/ack/${message}` as "/channels/id/ack/id",
-                        );
+                        data.channel.ack(message);
+                    }
+                    break;
+                case "mark_server_as_read":
+                    {
+                        dispatch({
+                            type: "UNREADS_MARK_MULTIPLE_READ",
+                            channels: data.server.channel_ids,
+                        });
+
+                        data.server.ack();
                     }
                     break;
 
@@ -545,6 +553,16 @@ function ContextMenus(props: Props) {
 
                     if (channel && unread) {
                         generateAction({ action: "mark_as_read", channel });
+                    }
+
+                    if (server && unread) {
+                        generateAction(
+                            {
+                                action: "mark_server_as_read",
+                                server,
+                            },
+                            "mark_as_read",
+                        );
                     }
 
                     if (contextualChannel) {
