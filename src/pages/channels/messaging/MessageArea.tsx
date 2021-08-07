@@ -173,7 +173,7 @@ export const MessageArea = observer(({ channel }: Props) => {
         if (message) return;
         if (renderer.state === "RENDER") {
             runInAction(() => (renderer.fetching = true));
-            setScrollState({ type: "ScrollTop", y: 151 });
+            setScrollState({ type: "ScrollTop", y: renderer.scrollPosition });
         } else {
             renderer.init();
         }
@@ -245,12 +245,14 @@ export const MessageArea = observer(({ channel }: Props) => {
         if (!current) return;
 
         async function onScroll() {
+            renderer.scrollPosition = current!.scrollTop;
+
             if (atTop(100)) {
-                renderer.loadTop(ref.current!);
+                renderer.loadTop(current!);
             }
 
             if (atBottom(100)) {
-                renderer.loadBottom(ref.current!);
+                renderer.loadBottom(current!);
             }
         }
 
