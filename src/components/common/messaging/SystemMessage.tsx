@@ -11,15 +11,13 @@ import {
     MessageSquareEdit,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
+import { SystemMessage as SystemMessageI } from "revolt-api/types/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
-import { User } from "revolt.js/dist/maps/Users";
 import styled from "styled-components";
 
 import { attachContextMenu } from "preact-context-menu";
 
 import { TextReact } from "../../../lib/i18n";
-
-import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import UserShort from "../user/UserShort";
 import MessageBase, { MessageDetail, MessageInfo } from "./MessageBase";
@@ -32,18 +30,6 @@ const SystemContent = styled.div`
     align-items: center;
     flex-direction: row;
 `;
-
-type SystemMessageParsed =
-    | { type: "text"; content: string }
-    | { type: "user_added"; user: User; by: User }
-    | { type: "user_remove"; user: User; by: User }
-    | { type: "user_joined"; user: User }
-    | { type: "user_left"; user: User }
-    | { type: "user_kicked"; user: User }
-    | { type: "user_banned"; user: User }
-    | { type: "channel_renamed"; name: string; by: User }
-    | { type: "channel_description_changed"; by: User }
-    | { type: "channel_icon_changed"; by: User };
 
 interface Props {
     attachContext?: boolean;
@@ -67,54 +53,9 @@ const iconDictionary = {
 
 export const SystemMessage = observer(
     ({ attachContext, message, highlight, hideInfo }: Props) => {
-        const client = useClient();
-
-        let data: SystemMessageParsed;
-        const content = message.content;
-        if (typeof content === "object") {
-            switch (content.type) {
-                case "text":
-                    data = content;
-                    break;
-                case "user_added":
-                case "user_remove":
-                    data = {
-                        type: content.type,
-                        user: client.users.get(content.id)!,
-                        by: client.users.get(content.by)!,
-                    };
-                    break;
-                case "user_joined":
-                case "user_left":
-                case "user_kicked":
-                case "user_banned":
-                    data = {
-                        type: content.type,
-                        user: client.users.get(content.id)!,
-                    };
-                    break;
-                case "channel_renamed":
-                    data = {
-                        type: "channel_renamed",
-                        name: content.name,
-                        by: client.users.get(content.by)!,
-                    };
-                    break;
-                case "channel_description_changed":
-                case "channel_icon_changed":
-                    data = {
-                        type: content.type,
-                        by: client.users.get(content.by)!,
-                    };
-                    break;
-                default:
-                    data = { type: "text", content: JSON.stringify(content) };
-            }
-        } else {
-            data = { type: "text", content };
-        }
-
-        const SystemMessageIcon = iconDictionary[data.type] ?? InfoCircle;
+        const data = message.asSystemMessage;
+        const SystemMessageIcon =
+            iconDictionary[data.type as SystemMessageI["type"]] ?? InfoCircle;
 
         const SystemIcon = styled(SystemMessageIcon)`
             height: 1.33em;
