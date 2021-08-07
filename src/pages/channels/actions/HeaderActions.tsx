@@ -8,13 +8,8 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
 
-import { useContext } from "preact/hooks";
+import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 
-import {
-    VoiceContext,
-    VoiceOperationsContext,
-    VoiceStatus,
-} from "../../../context/Voice";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import UpdateIndicator from "../../../components/common/UpdateIndicator";
@@ -74,27 +69,27 @@ function VoiceActions({ channel }: Pick<ChannelHeaderProps, "channel">) {
     )
         return null;
 
-    const voice = useContext(VoiceContext);
-    const { connect, disconnect } = useContext(VoiceOperationsContext);
-
-    if (voice.status >= VoiceStatus.READY) {
-        if (voice.roomId === channel._id) {
+    if (voiceState.status >= VoiceStatus.READY) {
+        if (voiceState.roomId === channel._id) {
             return (
-                <IconButton onClick={disconnect}>
+                <IconButton onClick={voiceState.disconnect}>
                     <PhoneOff size={22} />
                 </IconButton>
             );
         }
+
         return (
             <IconButton
-                onClick={() => {
-                    disconnect();
-                    connect(channel);
+                onClick={async () => {
+                    await voiceState.loadVoice();
+                    voiceState.disconnect();
+                    voiceState.connect(channel);
                 }}>
                 <PhoneCall size={24} />
             </IconButton>
         );
     }
+
     return (
         <IconButton>
             <PhoneCall size={24} /** ! FIXME: TEMP */ color="red" />

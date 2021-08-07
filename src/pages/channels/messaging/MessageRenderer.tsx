@@ -72,7 +72,11 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
 
         const subs = [
             internalSubscribe("MessageRenderer", "edit_last", editLast),
-            internalSubscribe("MessageRenderer", "edit_message", setEditing),
+            internalSubscribe(
+                "MessageRenderer",
+                "edit_message",
+                setEditing as (...args: unknown[]) => void,
+            ),
         ];
 
         return () => subs.forEach((unsub) => unsub());

@@ -6,7 +6,6 @@ import { Children } from "../types/Preact";
 import Locale from "./Locale";
 import Settings from "./Settings";
 import Theme from "./Theme";
-import Voice from "./Voice";
 import Intermediate from "./intermediate/Intermediate";
 import Client from "./revoltjs/RevoltClient";
 
@@ -18,9 +17,7 @@ export default function Context({ children }: { children: Children }) {
                     <Settings>
                         <Locale>
                             <Intermediate>
-                                <Client>
-                                    <Voice>{children}</Voice>
-                                </Client>
+                                <Client>{children}</Client>
                             </Intermediate>
                         </Locale>
                     </Settings>
