@@ -16,7 +16,7 @@ import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { useTranslation } from "../../../lib/i18n";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import {
-    SingletonMessageRenderer,
+    getRenderer,
     SMOOTH_SCROLL_ON_RECEIVE,
 } from "../../../lib/renderer/Singleton";
 
@@ -122,6 +122,8 @@ export default observer(({ channel }: Props) => {
     const client = useContext(AppContext);
     const translate = useTranslation();
 
+    const renderer = getRenderer(channel);
+
     if (!(channel.permission & ChannelPermission.SendMessage)) {
         return (
             <Base>
@@ -213,12 +215,7 @@ export default observer(({ channel }: Props) => {
             },
         });
 
-        defer(() =>
-            SingletonMessageRenderer.jumpToBottom(
-                channel._id,
-                SMOOTH_SCROLL_ON_RECEIVE,
-            ),
-        );
+        defer(() => renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE));
 
         try {
             await channel.sendMessage({
@@ -405,7 +402,7 @@ export default observer(({ channel }: Props) => {
                 }}
             />
             <ReplyBar
-                channel={channel._id}
+                channel={channel}
                 replies={replies}
                 setReplies={setReplies}
             />

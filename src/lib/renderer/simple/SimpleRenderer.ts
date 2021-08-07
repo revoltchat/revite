@@ -1,173 +1,160 @@
+import { runInAction } from "mobx";
+
 import { noopAsync } from "../../js";
 import { SMOOTH_SCROLL_ON_RECEIVE } from "../Singleton";
 import { RendererRoutines } from "../types";
 
 export const SimpleRenderer: RendererRoutines = {
-    init: async (renderer, id, nearby, smooth) => {
-        if (renderer.client!.websocket.connected) {
+    init: async (renderer, nearby, smooth) => {
+        if (renderer.channel.client.websocket.connected) {
             if (nearby)
-                renderer
-                    .client!.channels.get(id)!
+                renderer.channel
                     .fetchMessagesWithUsers({ nearby, limit: 100 })
                     .then(({ messages }) => {
                         messages.sort((a, b) => a._id.localeCompare(b._id));
-                        renderer.setState(
-                            id,
-                            {
-                                type: "RENDER",
-                                messages,
-                                atTop: false,
-                                atBottom: false,
-                            },
-                            { type: "ScrollToView", id: nearby },
-                        );
+
+                        runInAction(() => {
+                            renderer.state = "RENDER";
+                            renderer.messages = messages;
+                            renderer.atTop = false;
+                            renderer.atBottom = false;
+
+                            renderer.emitScroll({
+                                type: "ScrollToView",
+                                id: nearby,
+                            });
+                        });
                     });
             else
-                renderer
-                    .client!.channels.get(id)!
+                renderer.channel
                     .fetchMessagesWithUsers({})
                     .then(({ messages }) => {
                         messages.reverse();
-                        renderer.setState(
-                            id,
-                            {
-                                type: "RENDER",
-                                messages,
-                                atTop: messages.length < 50,
-                                atBottom: true,
-                            },
-                            { type: "ScrollToBottom", smooth },
-                        );
+
+                        runInAction(() => {
+                            renderer.state = "RENDER";
+                            renderer.messages = messages;
+                            renderer.atTop = messages.length < 50;
+                            renderer.atBottom = true;
+
+                            renderer.emitScroll({
+                                type: "ScrollToBottom",
+                                smooth,
+                            });
+                        });
                     });
         } else {
-            renderer.setState(id, { type: "WAITING_FOR_NETWORK" });
+            runInAction(() => {
+                renderer.state = "WAITING_FOR_NETWORK";
+            });
         }
     },
     receive: async (renderer, message) => {
-        if (message.channel_id !== renderer.channel) return;
-        if (renderer.state.type !== "RENDER") return;
-        if (renderer.state.messages.find((x) => x._id === message._id)) return;
-        if (!renderer.state.atBottom) return;
+        if (message.channel_id !== renderer.channel._id) return;
+        if (renderer.state !== "RENDER") return;
+        if (renderer.messages.find((x) => x._id === message._id)) return;
+        if (!renderer.atBottom) return;
 
-        let messages = [...renderer.state.messages, message];
-        let atTop = renderer.state.atTop;
+        let messages = [...renderer.messages, message];
+        let atTop = renderer.atTop;
         if (messages.length > 150) {
             messages = messages.slice(messages.length - 150);
             atTop = false;
         }
 
-        renderer.setState(
-            message.channel_id,
-            {
-                ...renderer.state,
-                messages,
-                atTop,
-            },
-            { type: "StayAtBottom", smooth: SMOOTH_SCROLL_ON_RECEIVE },
-        );
+        runInAction(() => {
+            renderer.messages = messages;
+            renderer.atTop = atTop;
+
+            renderer.emitScroll({
+                type: "StayAtBottom",
+                smooth: SMOOTH_SCROLL_ON_RECEIVE,
+            });
+        });
     },
     edit: noopAsync,
     delete: async (renderer, id) => {
         const channel = renderer.channel;
         if (!channel) return;
-        if (renderer.state.type !== "RENDER") return;
+        if (renderer.state !== "RENDER") return;
 
-        const messages = [...renderer.state.messages];
-        const index = messages.findIndex((x) => x._id === id);
+        const index = renderer.messages.findIndex((x) => x._id === id);
 
         if (index > -1) {
-            messages.splice(index, 1);
-
-            renderer.setState(
-                channel,
-                {
-                    ...renderer.state,
-                    messages,
-                },
-                { type: "StayAtBottom" },
-            );
+            runInAction(() => {
+                renderer.messages.splice(index, 1);
+                renderer.emitScroll({ type: "StayAtBottom" });
+            });
         }
     },
     loadTop: async (renderer, generateScroll) => {
         const channel = renderer.channel;
-        if (!channel) return;
+        if (!channel) return true;
 
-        const state = renderer.state;
-        if (state.type !== "RENDER") return;
-        if (state.atTop) return;
+        if (renderer.state !== "RENDER") return true;
+        if (renderer.atTop) return true;
 
-        const { messages: data } = await renderer
-            .client!.channels.get(channel)!
-            .fetchMessagesWithUsers({
-                before: state.messages[0]._id,
+        const { messages: data } =
+            await renderer.channel.fetchMessagesWithUsers({
+                before: renderer.messages[0]._id,
             });
 
-        if (data.length === 0) {
-            return renderer.setState(channel, {
-                ...state,
-                atTop: true,
-            });
-        }
+        runInAction(() => {
+            if (data.length === 0) {
+                renderer.atTop = true;
+                return;
+            }
 
-        data.reverse();
-        let messages = [...data, ...state.messages];
+            data.reverse();
+            renderer.messages = [...data, ...renderer.messages];
 
-        let atTop = false;
-        if (data.length < 50) {
-            atTop = true;
-        }
+            if (data.length < 50) {
+                renderer.atTop = true;
+            }
 
-        let atBottom = state.atBottom;
-        if (messages.length > 150) {
-            messages = messages.slice(0, 150);
-            atBottom = false;
-        }
+            if (renderer.messages.length > 150) {
+                renderer.messages = renderer.messages.slice(0, 150);
+                renderer.atBottom = false;
+            }
 
-        renderer.setState(
-            channel,
-            { ...state, atTop, atBottom, messages },
-            generateScroll(messages[messages.length - 1]._id),
-        );
+            renderer.emitScroll(
+                generateScroll(
+                    renderer.messages[renderer.messages.length - 1]._id,
+                ),
+            );
+        });
     },
     loadBottom: async (renderer, generateScroll) => {
         const channel = renderer.channel;
-        if (!channel) return;
+        if (!channel) return true;
 
-        const state = renderer.state;
-        if (state.type !== "RENDER") return;
-        if (state.atBottom) return;
+        if (renderer.state !== "RENDER") return true;
+        if (renderer.atBottom) return true;
 
-        const { messages: data } = await renderer
-            .client!.channels.get(channel)!
-            .fetchMessagesWithUsers({
-                after: state.messages[state.messages.length - 1]._id,
+        const { messages: data } =
+            await renderer.channel.fetchMessagesWithUsers({
+                after: renderer.messages[renderer.messages.length - 1]._id,
                 sort: "Oldest",
             });
 
-        if (data.length === 0) {
-            return renderer.setState(channel, {
-                ...state,
-                atBottom: true,
-            });
-        }
+        runInAction(() => {
+            if (data.length === 0) {
+                renderer.atBottom = true;
+                return;
+            }
 
-        let messages = [...state.messages, ...data];
+            renderer.messages.splice(renderer.messages.length, 0, ...data);
 
-        let atBottom = false;
-        if (data.length < 50) {
-            atBottom = true;
-        }
+            if (data.length < 50) {
+                renderer.atBottom = true;
+            }
 
-        let atTop = state.atTop;
-        if (messages.length > 150) {
-            messages = messages.slice(messages.length - 150);
-            atTop = false;
-        }
+            if (renderer.messages.length > 150) {
+                renderer.messages.splice(0, renderer.messages.length - 150);
+                renderer.atTop = false;
+            }
 
-        renderer.setState(
-            channel,
-            { ...state, atTop, atBottom, messages },
-            generateScroll(messages[0]._id),
-        );
+            renderer.emitScroll(generateScroll(renderer.messages[0]._id));
+        });
     },
 };

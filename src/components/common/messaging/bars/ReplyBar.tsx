@@ -2,13 +2,14 @@ import { At, Reply as ReplyIcon } from "@styled-icons/boxicons-regular";
 import { File, XCircle } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { SYSTEM_USER_ID } from "revolt.js";
+import { Channel } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 import { StateUpdater, useEffect } from "preact/hooks";
 
 import { internalSubscribe } from "../../../../lib/eventEmitter";
-import { useRenderState } from "../../../../lib/renderer/Singleton";
+import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 import { Reply } from "../../../../redux/reducers/queue";
 
@@ -20,7 +21,7 @@ import { SystemMessage } from "../SystemMessage";
 import { ReplyBase } from "../attachments/MessageReply";
 
 interface Props {
-    channel: string;
+    channel: Channel;
     replies: Reply[];
     setReplies: StateUpdater<Reply[]>;
 }
@@ -87,11 +88,11 @@ export default observer(({ channel, replies, setReplies }: Props) => {
         );
     }, [replies, setReplies]);
 
-    const view = useRenderState(channel);
-    if (view?.type !== "RENDER") return null;
+    const renderer = getRenderer(channel);
+    if (renderer.state !== "RENDER") return null;
 
     const ids = replies.map((x) => x.id);
-    const messages = view.messages.filter((x) => ids.includes(x._id));
+    const messages = renderer.messages.filter((x) => ids.includes(x._id));
 
     return (
         <div>

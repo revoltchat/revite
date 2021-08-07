@@ -5,8 +5,6 @@ import { Route } from "revolt.js/dist/api/routes";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
-import { SingletonMessageRenderer } from "../../lib/renderer/Singleton";
-
 import { dispatch } from "../../redux";
 import { connectState } from "../../redux/connector";
 import { AuthState } from "../../redux/reducers/auth";
@@ -64,7 +62,6 @@ function Context({ auth, children }: Props) {
             });
 
             setClient(client);
-            SingletonMessageRenderer.subscribe(client);
             setStatus(ClientStatus.LOADING);
         })();
     }, []);

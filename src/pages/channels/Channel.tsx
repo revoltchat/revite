@@ -88,9 +88,9 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
             <ChannelMain>
                 <ChannelContent>
                     <VoiceHeader id={id} />
-                    <MessageArea id={id} />
+                    <MessageArea channel={channel} />
                     <TypingIndicator channel={channel} />
-                    <JumpToBottom id={id} />
+                    <JumpToBottom channel={channel} />
                     <MessageBox channel={channel} />
                 </ChannelContent>
                 {!isTouchscreenDevice && showMembers && (
