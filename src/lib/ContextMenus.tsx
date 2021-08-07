@@ -71,6 +71,7 @@ interface ContextMenuData {
 
 type Action =
     | { action: "copy_id"; id: string }
+    | { action: "copy_message_link"; message: Message }
     | { action: "copy_selection" }
     | { action: "copy_text"; content: string }
     | { action: "mark_as_read"; channel: Channel }
@@ -144,6 +145,16 @@ function ContextMenus(props: Props) {
             switch (data.action) {
                 case "copy_id":
                     writeClipboard(data.id);
+                    break;
+                case "copy_message_link":
+                    {
+                        let pathname = `/channel/${data.message.channel_id}/${data.message._id}`;
+                        const channel = data.message.channel;
+                        if (channel?.channel_type === "TextChannel")
+                            pathname = `/server/${channel.server_id}${pathname}`;
+
+                        writeClipboard(window.origin + pathname);
+                    }
                     break;
                 case "copy_selection":
                     writeClipboard(document.getSelection()?.toString() ?? "");
@@ -844,6 +855,13 @@ function ContextMenus(props: Props) {
                                     "leave_server",
                                 );
                             }
+                        }
+
+                        if (message) {
+                            generateAction({
+                                action: "copy_message_link",
+                                message,
+                            });
                         }
 
                         generateAction(

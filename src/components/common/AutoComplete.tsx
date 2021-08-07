@@ -264,6 +264,7 @@ export function useAutoComplete(
     function onClick(ev: JSX.TargetedMouseEvent<HTMLButtonElement>) {
         ev.preventDefault();
         selectCurrent(document.querySelector("#message")!);
+        setFocused(false);
     }
 
     function onKeyDown(e: KeyboardEvent) {
