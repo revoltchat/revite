@@ -65,7 +65,8 @@ export default function Voice({ children }: Props) {
                 participants: client?.participants ?? new Map(),
             });
         },
-        [client?.participants, client?.roomId],
+        // eslint-disable-next-line
+        [],
     );
 
     useEffect(() => {
@@ -84,7 +85,8 @@ export default function Voice({ children }: Props) {
                 console.error("Failed to load voice library!", err);
                 setStatus(VoiceStatus.UNAVAILABLE);
             });
-    }, [setStatus]);
+        // eslint-disable-next-line
+    }, []);
 
     const isConnecting = useRef(false);
     const operations: VoiceOperations = useMemo(() => {
@@ -166,7 +168,8 @@ export default function Voice({ children }: Props) {
                 return client?.stopProduce(type);
             },
         };
-    }, [client, setStatus]);
+        // eslint-disable-next-line
+    }, [client]);
 
     const playSound = useContext(SoundContext);
 
@@ -183,25 +186,15 @@ export default function Voice({ children }: Props) {
 
         client.on("startProduce", stateUpdate);
         client.on("stopProduce", stateUpdate);
-
-        client.on("userJoined", () => {
-            playSound("call_join");
-            stateUpdate();
-        });
-        client.on("userLeft", () => {
-            playSound("call_leave");
-            stateUpdate();
-        });
-
+        client.on("userJoined", stateUpdate);
+        client.on("userLeft", stateUpdate);
         client.on("userStartProduce", stateUpdate);
         client.on("userStopProduce", stateUpdate);
-
         client.on("close", stateUpdate);
 
         return () => {
             client.removeListener("startProduce", stateUpdate);
             client.removeListener("stopProduce", stateUpdate);
-
             client.removeListener("userJoined", stateUpdate);
             client.removeListener("userLeft", stateUpdate);
             client.removeListener("userStartProduce", stateUpdate);
