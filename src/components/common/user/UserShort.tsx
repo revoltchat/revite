@@ -11,12 +11,16 @@ import UserIcon from "./UserIcon";
 export const Username = observer(
     ({
         user,
+        showServerIdentity,
         ...otherProps
-    }: { user?: User } & JSX.HTMLAttributes<HTMLElement>) => {
+    }: {
+        user?: User;
+        showServerIdentity?: boolean;
+    } & JSX.HTMLAttributes<HTMLElement>) => {
         let username = user?.username;
         let color;
 
-        if (user) {
+        if (user && showServerIdentity) {
             const { server } = useParams<{ server?: string }>();
             if (server) {
                 const client = useClient();

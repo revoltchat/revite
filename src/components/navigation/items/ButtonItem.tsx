@@ -64,10 +64,11 @@ export const UserButton = observer((props: UserProps) => {
                 target={user}
                 size={32}
                 status
+                showServerIdentity
             />
             <div className={styles.name}>
                 <div>
-                    <Username user={user} />
+                    <Username user={user} showServerIdentity />
                 </div>
                 {
                     <div className={styles.subText}>

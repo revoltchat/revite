@@ -114,6 +114,7 @@ type Action =
     | { action: "close_dm"; target: Channel }
     | { action: "leave_server"; target: Server }
     | { action: "delete_server"; target: Server }
+    | { action: "edit_identity"; target: Server }
     | { action: "open_notification_options"; channel: Channel }
     | { action: "open_settings" }
     | { action: "open_channel_settings"; id: string }
@@ -406,6 +407,13 @@ function ContextMenus(props: Props) {
                         type: data.action,
                         target: data.target,
                     } as unknown as Screen);
+                    break;
+
+                case "edit_identity":
+                    openScreen({
+                        id: "server_identity",
+                        server: data.target,
+                    });
                     break;
 
                 case "ban_member":
@@ -850,6 +858,17 @@ function ContextMenus(props: Props) {
                         }
 
                         if (sid && server) {
+                            if (
+                                serverPermissions &
+                                    ServerPermission.ChangeNickname ||
+                                serverPermissions &
+                                    ServerPermission.ChangeAvatar
+                            )
+                                generateAction(
+                                    { action: "edit_identity", target: server },
+                                    "edit_identity",
+                                );
+
                             if (
                                 serverPermissions &
                                 ServerPermission.ManageServer

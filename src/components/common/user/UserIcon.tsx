@@ -1,5 +1,6 @@
 import { MicrophoneOff } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
+import { useParams } from "react-router-dom";
 import { Presence } from "revolt-api/types/Users";
 import { User } from "revolt.js/dist/maps/Users";
 import styled, { css } from "styled-components";
@@ -7,7 +8,7 @@ import styled, { css } from "styled-components";
 import { useContext } from "preact/hooks";
 
 import { ThemeContext } from "../../../context/Theme";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { AppContext, useClient } from "../../../context/revoltjs/RevoltClient";
 
 import IconBase, { IconBaseProps } from "../IconBase";
 import fallback from "../assets/user.png";
@@ -17,6 +18,7 @@ interface Props extends IconBaseProps<User> {
     mask?: string;
     status?: boolean;
     voice?: VoiceStatus;
+    showServerIdentity?: boolean;
 }
 
 export function useStatusColour(user?: User) {
@@ -59,7 +61,7 @@ export default observer(
                 keyof Props | "children" | "as"
             >,
     ) => {
-        const client = useContext(AppContext);
+        const client = useClient();
 
         const {
             target,
@@ -69,11 +71,28 @@ export default observer(
             animate,
             mask,
             hover,
+            showServerIdentity,
             ...svgProps
         } = props;
+
+        let override;
+        if (target && showServerIdentity) {
+            const { server } = useParams<{ server?: string }>();
+            if (server) {
+                const member = client.members.getKey({
+                    server,
+                    user: target._id,
+                });
+
+                if (member?.avatar) {
+                    override = member?.avatar;
+                }
+            }
+        }
+
         const iconURL =
             client.generateFileURL(
-                target?.avatar ?? attachment,
+                override ?? target?.avatar ?? attachment,
                 { max_side: 256 },
                 animate,
             ) ?? (target ? target.defaultAvatarURL : fallback);

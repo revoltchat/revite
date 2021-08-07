@@ -86,6 +86,10 @@ export type Screen =
           id: "user_picker";
           omit?: string[];
           callback: (users: string[]) => Promise<void>;
+      }
+    | {
+          id: "server_identity";
+          server: Server;
       };
 
 export const IntermediateContext = createContext({
