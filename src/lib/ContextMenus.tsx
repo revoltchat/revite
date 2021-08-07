@@ -559,18 +559,18 @@ function ContextMenus(props: Props) {
                             : 0) || 0;
                     const userPermissions = (user ? user.permission : 0) || 0;
 
-                    if (channel && unread) {
-                        generateAction({ action: "mark_as_read", channel });
-                    }
-
-                    if (server && unread) {
-                        generateAction(
-                            {
-                                action: "mark_server_as_read",
-                                server,
-                            },
-                            "mark_as_read",
-                        );
+                    if (unread) {
+                        if (channel) {
+                            generateAction({ action: "mark_as_read", channel });
+                        } else if (server) {
+                            generateAction(
+                                {
+                                    action: "mark_server_as_read",
+                                    server,
+                                },
+                                "mark_as_read",
+                            );
+                        }
                     }
 
                     if (contextualChannel) {
