@@ -11,6 +11,7 @@ import { ChannelInfo } from "./popovers/ChannelInfo";
 import { ImageViewer } from "./popovers/ImageViewer";
 import { ModifyAccountModal } from "./popovers/ModifyAccount";
 import { PendingRequests } from "./popovers/PendingRequests";
+import { ServerIdentityModal } from "./popovers/ServerIdentityModal";
 import { UserPicker } from "./popovers/UserPicker";
 import { UserProfile } from "./popovers/UserProfile";
 
@@ -40,6 +41,8 @@ export default function Popovers() {
             return <SpecialPromptModal onClose={onClose} {...screen} />;
         case "special_input":
             return <SpecialInputModal onClose={onClose} {...screen} />;
+        case "server_identity":
+            return <ServerIdentityModal onClose={onClose} {...screen} />;
     }
 
     return null;

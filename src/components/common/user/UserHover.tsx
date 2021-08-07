@@ -42,7 +42,11 @@ export default function UserHover({ user, children }: Props) {
             placement="right-end"
             content={
                 <Base>
-                    <Username className="username" user={user} />
+                    <Username
+                        className="username"
+                        user={user}
+                        showServerIdentity
+                    />
                     <span className="status">
                         <UserStatus user={user} />
                     </span>

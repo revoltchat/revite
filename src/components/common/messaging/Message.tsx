@@ -113,6 +113,7 @@ const Message = observer(
                                 onContextMenu={userContext}
                                 onClick={openProfile}
                                 animate={animate}
+                                showServerIdentity
                             />
                         ) : (
                             <MessageDetail message={message} position="left" />
@@ -126,6 +127,7 @@ const Message = observer(
                                     user={user}
                                     onContextMenu={userContext}
                                     onClick={openProfile}
+                                    showServerIdentity
                                 />
                                 <MessageDetail
                                     message={message}
