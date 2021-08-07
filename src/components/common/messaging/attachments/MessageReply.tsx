@@ -10,7 +10,7 @@ import styled, { css } from "styled-components";
 import { Text } from "preact-i18n";
 import { useLayoutEffect, useState } from "preact/hooks";
 
-import { useRenderState } from "../../../../lib/renderer/Singleton";
+import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 import Markdown from "../../../markdown/Markdown";
 import UserShort from "../../user/UserShort";
@@ -134,8 +134,8 @@ export const ReplyBase = styled.div<{
 `;
 
 export const MessageReply = observer(({ index, channel, id }: Props) => {
-    const view = useRenderState(channel._id);
-    if (view?.type !== "RENDER") return null;
+    const view = getRenderer(channel);
+    if (view.state !== "RENDER") return null;
 
     const [message, setMessage] = useState<Message | undefined>(undefined);
 

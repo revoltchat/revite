@@ -90,7 +90,7 @@ export const GroupMemberSidebar = observer(
         return (
             <GenericSidebarBase>
                 <GenericSidebarList>
-                    <ChannelDebugInfo id={channel._id} />
+                    <ChannelDebugInfo channel={channel} />
                     <Search channel={channel} />
 
                     {/*voiceActive && voiceParticipants.length !== 0 && (
@@ -202,7 +202,7 @@ export const ServerMemberSidebar = observer(
         return (
             <GenericSidebarBase>
                 <GenericSidebarList>
-                    <ChannelDebugInfo id={channel._id} />
+                    <ChannelDebugInfo channel={channel} />
                     <Search channel={channel} />
                     <div>{users.length === 0 && <Preloader type="ring" />}</div>
                     {users.length > 0 && (

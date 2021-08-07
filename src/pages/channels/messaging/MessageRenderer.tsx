@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { X } from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import { SYSTEM_USER_ID } from "revolt.js";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
@@ -11,7 +12,7 @@ import { memo } from "preact/compat";
 import { useEffect, useState } from "preact/hooks";
 
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
-import { RenderState } from "../../../lib/renderer/types";
+import { ChannelRenderer } from "../../../lib/renderer/Singleton";
 
 import { connectState } from "../../../redux/connector";
 import { QueuedMessage } from "../../../redux/reducers/queue";
@@ -29,10 +30,9 @@ import ConversationStart from "./ConversationStart";
 import MessageEditor from "./MessageEditor";
 
 interface Props {
-    id: string;
-    state: RenderState;
     highlight?: string;
     queue: QueuedMessage[];
+    renderer: ChannelRenderer;
 }
 
 const BlockedMessage = styled.div`
@@ -46,9 +46,7 @@ const BlockedMessage = styled.div`
     }
 `;
 
-function MessageRenderer({ id, state, queue, highlight }: Props) {
-    if (state.type !== "RENDER") return null;
-
+const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
     const client = useClient();
     const userId = client.user!._id;
 
@@ -60,10 +58,10 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
 
     useEffect(() => {
         function editLast() {
-            if (state.type !== "RENDER") return;
-            for (let i = state.messages.length - 1; i >= 0; i--) {
-                if (state.messages[i].author_id === userId) {
-                    setEditing(state.messages[i]._id);
+            if (renderer.state !== "RENDER") return;
+            for (let i = renderer.messages.length - 1; i >= 0; i--) {
+                if (renderer.messages[i].author_id === userId) {
+                    setEditing(renderer.messages[i]._id);
                     internalEmit("MessageArea", "jump_to_bottom");
                     return;
                 }
@@ -80,13 +78,13 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
         ];
 
         return () => subs.forEach((unsub) => unsub());
-    }, [state.messages, state.type, userId]);
+    }, [renderer.messages, renderer.state, userId]);
 
     const render: Children[] = [];
     let previous: MessageI | undefined;
 
-    if (state.atTop) {
-        render.push(<ConversationStart id={id} />);
+    if (renderer.atTop) {
+        render.push(<ConversationStart channel={renderer.channel} />);
     } else {
         render.push(
             <RequiresOnline>
@@ -133,7 +131,7 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
         blocked = 0;
     }
 
-    for (const message of state.messages) {
+    for (const message of renderer.messages) {
         if (previous) {
             compare(
                 message._id,
@@ -183,10 +181,10 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
 
     if (blocked > 0) pushBlocked();
 
-    const nonces = state.messages.map((x) => x.nonce);
-    if (state.atBottom) {
+    const nonces = renderer.messages.map((x) => x.nonce);
+    if (renderer.atBottom) {
         for (const msg of queue) {
-            if (msg.channel !== id) continue;
+            if (msg.channel !== renderer.channel._id) continue;
             if (nonces.includes(msg.id)) continue;
 
             if (previous) {
@@ -222,7 +220,7 @@ function MessageRenderer({ id, state, queue, highlight }: Props) {
     }
 
     return <>{render}</>;
-}
+});
 
 export default memo(
     connectState<Omit<Props, "queue">>(MessageRenderer, (state) => {

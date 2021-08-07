@@ -1,6 +1,6 @@
 import { Message } from "revolt.js/dist/maps/Messages";
 
-import { SingletonRenderer } from "./Singleton";
+import { ChannelRenderer } from "./Singleton";
 
 export type ScrollState =
     | { type: "Free" }
@@ -23,26 +23,25 @@ export type RenderState =
 
 export interface RendererRoutines {
     init: (
-        renderer: SingletonRenderer,
-        id: string,
+        renderer: ChannelRenderer,
         message?: string,
         smooth?: boolean,
     ) => Promise<void>;
 
-    receive: (renderer: SingletonRenderer, message: Message) => Promise<void>;
+    receive: (renderer: ChannelRenderer, message: Message) => Promise<void>;
     edit: (
-        renderer: SingletonRenderer,
+        renderer: ChannelRenderer,
         id: string,
         partial: Partial<Message>,
     ) => Promise<void>;
-    delete: (renderer: SingletonRenderer, id: string) => Promise<void>;
+    delete: (renderer: ChannelRenderer, id: string) => Promise<void>;
 
     loadTop: (
-        renderer: SingletonRenderer,
+        renderer: ChannelRenderer,
         generateScroll: (end: string) => ScrollState,
-    ) => Promise<void>;
+    ) => Promise<void | true>;
     loadBottom: (
-        renderer: SingletonRenderer,
+        renderer: ChannelRenderer,
         generateScroll: (start: string) => ScrollState,
-    ) => Promise<void>;
+    ) => Promise<void | true>;
 }

@@ -1,12 +1,11 @@
 import { DownArrowAlt } from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
+import { Channel } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 
-import {
-    SingletonMessageRenderer,
-    useRenderState,
-} from "../../../../lib/renderer/Singleton";
+import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 const Bar = styled.div`
     z-index: 10;
@@ -51,14 +50,13 @@ const Bar = styled.div`
     }
 `;
 
-export default function JumpToBottom({ id }: { id: string }) {
-    const view = useRenderState(id);
-    if (!view || view.type !== "RENDER" || view.atBottom) return null;
+export default observer(({ channel }: { channel: Channel }) => {
+    const renderer = getRenderer(channel);
+    if (renderer.state !== "RENDER" || renderer.atBottom) return null;
 
     return (
         <Bar>
-            <div
-                onClick={() => SingletonMessageRenderer.jumpToBottom(id, true)}>
+            <div onClick={() => renderer.jumpToBottom(true)}>
                 <div>
                     <Text id="app.main.channel.misc.viewing_old" />
                 </div>
@@ -69,4 +67,4 @@ export default function JumpToBottom({ id }: { id: string }) {
             </div>
         </Bar>
     );
-}
+});

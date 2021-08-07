@@ -1,9 +1,9 @@
 import { observer } from "mobx-react-lite";
+import { Channel } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 
-import { useClient } from "../../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../../context/revoltjs/util";
 
 const StartBase = styled.div`
@@ -22,14 +22,10 @@ const StartBase = styled.div`
 `;
 
 interface Props {
-    id: string;
+    channel: Channel;
 }
 
-export default observer(({ id }: Props) => {
-    const client = useClient();
-    const channel = client.channels.get(id);
-    if (!channel) return null;
-
+export default observer(({ channel }: Props) => {
     return (
         <StartBase>
             <h1>{getChannelName(channel, true)}</h1>

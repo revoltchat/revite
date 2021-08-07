@@ -1,5 +1,8 @@
+import { runInAction } from "mobx";
+import { observer } from "mobx-react-lite";
 import { useHistory, useParams } from "react-router-dom";
 import { animateScroll } from "react-scroll";
+import { Channel } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 import useResizeObserver from "use-resize-observer";
 
@@ -15,13 +18,12 @@ import {
 
 import { defer } from "../../../lib/defer";
 import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
-import { SingletonMessageRenderer } from "../../../lib/renderer/Singleton";
-import { RenderState, ScrollState } from "../../../lib/renderer/types";
+import { getRenderer } from "../../../lib/renderer/Singleton";
+import { ScrollState } from "../../../lib/renderer/types";
 
 import { IntermediateContext } from "../../../context/intermediate/Intermediate";
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
 import {
-    AppContext,
     ClientStatus,
     StatusContext,
 } from "../../../context/revoltjs/RevoltClient";
@@ -49,15 +51,14 @@ const Area = styled.div`
 `;
 
 interface Props {
-    id: string;
+    channel: Channel;
 }
 
 export const MessageAreaWidthContext = createContext(0);
 export const MESSAGE_AREA_PADDING = 82;
 
-export function MessageArea({ id }: Props) {
+export const MessageArea = observer(({ channel }: Props) => {
     const history = useHistory();
-    const client = useContext(AppContext);
     const status = useContext(StatusContext);
     const { focusTaken } = useContext(IntermediateContext);
 
@@ -70,69 +71,75 @@ export function MessageArea({ id }: Props) {
     const { width, height } = useResizeObserver<HTMLDivElement>({ ref });
 
     // ? Current channel state.
-    const [state, setState] = useState<RenderState>({ type: "LOADING" });
+    const renderer = getRenderer(channel);
 
     // ? useRef to avoid re-renders
     const scrollState = useRef<ScrollState>({ type: "Free" });
 
-    const setScrollState = useCallback((v: ScrollState) => {
-        if (v.type === "StayAtBottom") {
-            if (scrollState.current.type === "Bottom" || atBottom()) {
-                scrollState.current = {
-                    type: "ScrollToBottom",
-                    smooth: v.smooth,
-                };
+    const setScrollState = useCallback(
+        (v: ScrollState) => {
+            if (v.type === "StayAtBottom") {
+                if (scrollState.current.type === "Bottom" || atBottom()) {
+                    scrollState.current = {
+                        type: "ScrollToBottom",
+                        smooth: v.smooth,
+                    };
+                } else {
+                    scrollState.current = { type: "Free" };
+                }
             } else {
-                scrollState.current = { type: "Free" };
+                scrollState.current = v;
             }
-        } else {
-            scrollState.current = v;
-        }
 
-        defer(() => {
-            if (scrollState.current.type === "ScrollToBottom") {
-                setScrollState({
-                    type: "Bottom",
-                    scrollingUntil: +new Date() + 150,
-                });
+            defer(() => {
+                if (scrollState.current.type === "ScrollToBottom") {
+                    setScrollState({
+                        type: "Bottom",
+                        scrollingUntil: +new Date() + 150,
+                    });
 
-                animateScroll.scrollToBottom({
-                    container: ref.current,
-                    duration: scrollState.current.smooth ? 150 : 0,
-                });
-            } else if (scrollState.current.type === "ScrollToView") {
-                document
-                    .getElementById(scrollState.current.id)
-                    ?.scrollIntoView({ block: "center" });
+                    animateScroll.scrollToBottom({
+                        container: ref.current,
+                        duration: scrollState.current.smooth ? 150 : 0,
+                    });
+                } else if (scrollState.current.type === "ScrollToView") {
+                    document
+                        .getElementById(scrollState.current.id)
+                        ?.scrollIntoView({ block: "center" });
 
-                setScrollState({ type: "Free" });
-            } else if (scrollState.current.type === "OffsetTop") {
-                animateScroll.scrollTo(
-                    Math.max(
-                        101,
-                        ref.current
-                            ? ref.current.scrollTop +
-                                  (ref.current.scrollHeight -
-                                      scrollState.current.previousHeight)
-                            : 101,
-                    ),
-                    {
+                    setScrollState({ type: "Free" });
+                } else if (scrollState.current.type === "OffsetTop") {
+                    animateScroll.scrollTo(
+                        Math.max(
+                            101,
+                            ref.current
+                                ? ref.current.scrollTop +
+                                      (ref.current.scrollHeight -
+                                          scrollState.current.previousHeight)
+                                : 101,
+                        ),
+                        {
+                            container: ref.current,
+                            duration: 0,
+                        },
+                    );
+
+                    setScrollState({ type: "Free" });
+                } else if (scrollState.current.type === "ScrollTop") {
+                    animateScroll.scrollTo(scrollState.current.y, {
                         container: ref.current,
                         duration: 0,
-                    },
-                );
+                    });
 
-                setScrollState({ type: "Free" });
-            } else if (scrollState.current.type === "ScrollTop") {
-                animateScroll.scrollTo(scrollState.current.y, {
-                    container: ref.current,
-                    duration: 0,
-                });
+                    setScrollState({ type: "Free" });
+                }
 
-                setScrollState({ type: "Free" });
-            }
-        });
-    }, []);
+                defer(() => renderer.complete());
+            });
+        },
+        // eslint-disable-next-line
+        [scrollState],
+    );
 
     // ? Determine if we are at the bottom of the scroll container.
     // -> https://stackoverflow.com/a/44893438
@@ -155,35 +162,36 @@ export function MessageArea({ id }: Props) {
     }, [setScrollState]);
 
     // ? Handle events from renderer.
-    useEffect(() => {
-        SingletonMessageRenderer.addListener("state", setState);
-        return () => SingletonMessageRenderer.removeListener("state", setState);
-    }, []);
-
-    useEffect(() => {
-        SingletonMessageRenderer.addListener("scroll", setScrollState);
-        return () =>
-            SingletonMessageRenderer.removeListener("scroll", setScrollState);
-    }, [scrollState, setScrollState]);
+    useLayoutEffect(
+        () => setScrollState(renderer.scrollState),
+        // eslint-disable-next-line
+        [renderer.scrollState],
+    );
 
     // ? Load channel initially.
     useEffect(() => {
         if (message) return;
-        SingletonMessageRenderer.init(id);
+        if (renderer.state === "RENDER") {
+            runInAction(() => (renderer.fetching = true));
+            setScrollState({ type: "ScrollTop", y: 151 });
+        } else {
+            renderer.init();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, []);
 
     // ? If message present or changes, load it as well.
     useEffect(() => {
         if (message) {
             setHighlight(message);
-            SingletonMessageRenderer.init(id, message);
+            renderer.init(message);
 
-            const channel = client.channels.get(id);
-            if (channel?.channel_type === "TextChannel") {
-                history.push(`/server/${channel.server_id}/channel/${id}`);
+            if (channel.channel_type === "TextChannel") {
+                history.push(
+                    `/server/${channel.server_id}/channel/${channel._id}`,
+                );
             } else {
-                history.push(`/channel/${id}`);
+                history.push(`/channel/${channel._id}`);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -193,20 +201,20 @@ export function MessageArea({ id }: Props) {
     useEffect(() => {
         switch (status) {
             case ClientStatus.ONLINE:
-                if (state.type === "WAITING_FOR_NETWORK") {
-                    SingletonMessageRenderer.init(id);
+                if (renderer.state === "WAITING_FOR_NETWORK") {
+                    renderer.init();
                 } else {
-                    SingletonMessageRenderer.reloadStale(id);
+                    renderer.reloadStale();
                 }
 
                 break;
             case ClientStatus.OFFLINE:
             case ClientStatus.DISCONNECTED:
             case ClientStatus.CONNECTING:
-                SingletonMessageRenderer.markStale();
+                renderer.markStale();
                 break;
         }
-    }, [id, status, state]);
+    }, [renderer, status]);
 
     // ? When the container is scrolled.
     // ? Also handle StayAtBottom
@@ -238,17 +246,17 @@ export function MessageArea({ id }: Props) {
 
         async function onScroll() {
             if (atTop(100)) {
-                SingletonMessageRenderer.loadTop(ref.current!);
+                renderer.loadTop(ref.current!);
             }
 
             if (atBottom(100)) {
-                SingletonMessageRenderer.loadBottom(ref.current!);
+                renderer.loadBottom(ref.current!);
             }
         }
 
         current.addEventListener("scroll", onScroll);
         return () => current.removeEventListener("scroll", onScroll);
-    }, [ref]);
+    }, [ref, renderer]);
 
     // ? Scroll down whenever the message area resizes.
     const stbOnResize = useCallback(() => {
@@ -277,36 +285,37 @@ export function MessageArea({ id }: Props) {
     useEffect(() => {
         function keyUp(e: KeyboardEvent) {
             if (e.key === "Escape" && !focusTaken) {
-                SingletonMessageRenderer.jumpToBottom(id, true);
+                renderer.jumpToBottom(true);
                 internalEmit("TextArea", "focus", "message");
             }
         }
 
         document.body.addEventListener("keyup", keyUp);
         return () => document.body.removeEventListener("keyup", keyUp);
-    }, [id, ref, focusTaken]);
+    }, [renderer, ref, focusTaken]);
 
     return (
         <MessageAreaWidthContext.Provider
             value={(width ?? 0) - MESSAGE_AREA_PADDING}>
             <Area ref={ref}>
                 <div>
-                    {state.type === "LOADING" && <Preloader type="ring" />}
-                    {state.type === "WAITING_FOR_NETWORK" && (
+                    {renderer.state === "LOADING" && <Preloader type="ring" />}
+                    {renderer.state === "WAITING_FOR_NETWORK" && (
                         <RequiresOnline>
                             <Preloader type="ring" />
                         </RequiresOnline>
                     )}
-                    {state.type === "RENDER" && (
+                    {renderer.state === "RENDER" && (
                         <MessageRenderer
-                            id={id}
-                            state={state}
+                            renderer={renderer}
                             highlight={highlight}
                         />
                     )}
-                    {state.type === "EMPTY" && <ConversationStart id={id} />}
+                    {renderer.state === "EMPTY" && (
+                        <ConversationStart channel={channel} />
+                    )}
                 </div>
             </Area>
         </MessageAreaWidthContext.Provider>
     );
-}
+});
