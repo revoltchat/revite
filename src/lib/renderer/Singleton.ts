@@ -4,7 +4,6 @@ import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
 import { Nullable } from "revolt.js/dist/util/null";
 
-import { defer } from "../defer";
 import { SimpleRenderer } from "./simple/SimpleRenderer";
 import { RendererRoutines, ScrollState } from "./types";
 
@@ -23,6 +22,7 @@ export class ChannelRenderer {
 
     stale = false;
     fetching = false;
+    scrollPosition = 0;
 
     constructor(channel: Channel) {
         this.channel = channel;
@@ -30,6 +30,7 @@ export class ChannelRenderer {
         makeAutoObservable(this, {
             channel: false,
             currentRenderer: false,
+            scrollPosition: false,
         });
 
         this.receive = this.receive.bind(this);
