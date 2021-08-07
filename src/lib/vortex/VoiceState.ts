@@ -34,6 +34,10 @@ class VoiceStateReference {
         this.status = VoiceStatus.UNLOADED;
         this.participants = new Map();
 
+        this.syncState = this.syncState.bind(this);
+        this.connect = this.connect.bind(this);
+        this.disconnect = this.disconnect.bind(this);
+
         makeAutoObservable(this, {
             client: false,
             connecting: false,
@@ -57,6 +61,13 @@ class VoiceStateReference {
         try {
             const { default: VoiceClient } = await import("./VoiceClient");
             const client = new VoiceClient();
+
+            client.on("startProduce", this.syncState);
+            client.on("stopProduce", this.syncState);
+            client.on("userJoined", this.syncState);
+            client.on("userLeft", this.syncState);
+            client.on("userStartProduce", this.syncState);
+            client.on("userStopProduce", this.syncState);
 
             runInAction(() => {
                 if (!client.supported()) {
@@ -91,6 +102,7 @@ class VoiceStateReference {
             });
 
             await this.client.authenticate(call.token);
+            this.syncState();
 
             runInAction(() => {
                 this.status = VoiceStatus.RTC_CONNECTING;
@@ -117,12 +129,11 @@ class VoiceStateReference {
 
     // Disconnect from current channel.
     @action disconnect() {
-        if (!this.client?.supported()) throw new Error("RTC is unavailable");
-
         this.connecting = false;
         this.status = VoiceStatus.READY;
 
-        this.client.disconnect();
+        this.client?.disconnect();
+        this.syncState();
     }
 
     isProducing(type: ProduceType) {
