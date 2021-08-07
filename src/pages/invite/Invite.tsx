@@ -10,6 +10,8 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import { defer } from "../../lib/defer";
 import { TextReact } from "../../lib/i18n";
 
+import { dispatch } from "../../redux";
+
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import {
     AppContext,
@@ -134,6 +136,12 @@ export default function Invite() {
 
                                             defer(() => {
                                                 if (server) {
+                                                    dispatch({
+                                                        type: "UNREADS_MARK_MULTIPLE_READ",
+                                                        channels:
+                                                            server.channel_ids,
+                                                    });
+
                                                     history.push(
                                                         `/server/${server._id}/channel/${invite.channel_id}`,
                                                     );

@@ -288,6 +288,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                                 active={active}
                                 onContextMenu={attachContextMenu("Menu", {
                                     server: entry.server._id,
+                                    unread: entry.unread,
                                 })}>
                                 <Swoosh />
                                 <Tooltip
