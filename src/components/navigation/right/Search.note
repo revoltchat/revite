@@ -1,0 +1,80 @@
+// this is the search code
+
+function Search({ channel }: { channel: Channel }) {
+    if (!getState().experiments.enabled?.includes("search")) return null;
+
+    type Sort = "Relevance" | "Latest" | "Oldest";
+    const [sort, setSort] = useState<Sort>("Relevance");
+
+    const [query, setV] = useState("");
+    const [results, setResults] = useState<Message[]>([]);
+
+    async function search() {
+        const data = await channel.searchWithUsers({ query, sort });
+        setResults(data.messages);
+    }
+
+    return (
+        <CollapsibleSection
+            sticky
+            id="search"
+            defaultValue={false}
+            summary={
+                <>
+                    <Text id="app.main.channel.search.title" /> (BETA)
+                </>
+            }>
+            <div style={{ display: "flex" }}>
+                {["Relevance", "Latest", "Oldest"].map((key) => (
+                    <Button
+                        key={key}
+                        style={{ flex: 1, minWidth: 0 }}
+                        compact
+                        error={sort === key}
+                        onClick={() => setSort(key as Sort)}>
+                        <Text
+                            id={`app.main.channel.search.sort.${key.toLowerCase()}`}
+                        />
+                    </Button>
+                ))}
+            </div>
+            <InputBox
+                style={{ width: "100%" }}
+                onKeyDown={(e) => e.key === "Enter" && search()}
+                value={query}
+                onChange={(e) => setV(e.currentTarget.value)}
+            />
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "4px",
+                    marginTop: "8px",
+                }}>
+                {results.map((message) => {
+                    let href = "";
+                    if (channel?.channel_type === "TextChannel") {
+                        href += `/server/${channel.server_id}`;
+                    }
+
+                    href += `/channel/${message.channel_id}/${message._id}`;
+
+                    return (
+                        <Link to={href} key={message._id}>
+                            <div
+                                style={{
+                                    margin: "2px",
+                                    padding: "6px",
+                                    background: "var(--primary-background)",
+                                }}>
+                                <b>@{message.author?.username}</b>
+                                <br />
+                                {message.content}
+                            </div>
+                        </Link>
+                    );
+                })}
+            </div>
+        </CollapsibleSection>
+    );
+}
