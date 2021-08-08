@@ -23,6 +23,7 @@ export class ChannelRenderer {
     stale = false;
     fetching = false;
     scrollPosition = 0;
+    scrollAnchored = false;
 
     constructor(channel: Channel) {
         this.channel = channel;
@@ -31,6 +32,7 @@ export class ChannelRenderer {
             channel: false,
             currentRenderer: false,
             scrollPosition: false,
+            scrollAnchored: false,
         });
 
         this.receive = this.receive.bind(this);
