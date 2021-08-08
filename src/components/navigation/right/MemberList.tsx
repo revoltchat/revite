@@ -50,7 +50,9 @@ export default function MemberList({
                 const type = entries[index].type;
                 return (
                     <ListCategory first={index === 0}>
-                        {type === "online" ? (
+                        {type === "role" ? (
+                            <>{entries[index].name}</>
+                        ) : type === "online" ? (
                             <Text id="app.status.online" />
                         ) : (
                             <Text id="app.status.offline" />
