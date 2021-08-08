@@ -70,29 +70,31 @@ export default observer(({ channel }: Props) => {
             const userlist = [...users].map((x) => (
                 <Username key={x!._id} user={x} showServerIdentity />
             ));
-            const user = userlist.pop();
+            //const user = userlist.pop();
 
             for (let i = 0; i < userlist.length - 1; i++) {
                 userlist.splice(i * 2 + 1, 0, <span key={`sep_${i}`}>, </span>);
             }
 
             text = (
-                <TextReact
+                userlist
+                /*<TextReact
                     id="app.main.channel.typing.multiple"
                     fields={{
                         user,
                         userlist,
                     }}
-                />
+                />*/
             );
         } else {
             text = (
-                <TextReact
+                <Username user={users[0]} showServerIdentity />
+                /*<TextReact
                     id="app.main.channel.typing.single"
                     fields={{
                         user: <Username user={users[0]} showServerIdentity />,
                     }}
-                />
+                />*/
             );
         }
 
