@@ -1,7 +1,9 @@
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { User } from "revolt.js/dist/maps/Users";
+import styled from "styled-components";
 
+import { Text } from "preact-i18n";
 import { forwardRef } from "preact/compat";
 
 import { UserButton } from "../items/ButtonItem";
@@ -13,6 +15,17 @@ interface ItemData {
 
 const PADDING_SIZE = 6;
 
+const ListCategory = styled.div`
+    display: flex;
+    padding: 14px;
+    font-size: 0.8em;
+    font-weight: 600;
+    user-select: none;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: var(--secondary-foreground);
+`;
+
 const Row = ({
     data,
     style,
@@ -23,16 +36,27 @@ const Row = ({
     style: JSX.CSSProperties;
 }) => {
     const item = data.entries[index];
+    style.top = `${parseFloat(style.top as string) + PADDING_SIZE}px`;
 
-    return (
-        <div
-            style={{
-                ...style,
-                top: `${parseFloat(style.top as string) + PADDING_SIZE}px`,
-            }}>
-            {typeof item === "string" ? (
-                `cat ${item}`
-            ) : (
+    if (typeof item === "string") {
+        const [cat, count] = item.split(":");
+        return (
+            <div style={style}>
+                <ListCategory>
+                    {cat === "online" ? (
+                        <Text id="app.status.online" />
+                    ) : (
+                        <Text id="app.status.offline" />
+                    )}
+                    {" - "}
+                    {count}
+                </ListCategory>
+            </div>
+        );
+        // eslint-disable-next-line
+    } else {
+        return (
+            <div style={style}>
                 <UserButton
                     key={item._id}
                     user={item}
@@ -45,9 +69,9 @@ const Row = ({
                         })
                     } */
                 />
-            )}
-        </div>
-    );
+            </div>
+        );
+    }
 };
 
 // @ts-expect-error Copied directly from example code.
