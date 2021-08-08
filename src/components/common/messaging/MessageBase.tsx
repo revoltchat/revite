@@ -182,6 +182,13 @@ export const MessageInfo = styled.div`
     .header {
         cursor: pointer;
     }
+
+    .systemIcon {
+        height: 1.33em;
+        width: 1.33em;
+        margin-right: 0.5em;
+        color: var(--tertiary-foreground);
+    }
 `;
 
 export const MessageContent = styled.div`

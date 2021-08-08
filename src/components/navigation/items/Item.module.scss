@@ -9,10 +9,10 @@
     gap: 8px;
     align-items: center;
     flex-direction: row;
-    
+
     cursor: pointer;
     font-size: 16px;
-    transition: .1s ease-in-out background-color;
+    transition: 0.1s ease-in-out background-color;
 
     color: var(--tertiary-foreground);
 
@@ -20,14 +20,15 @@
         height: 42px;
     }
 
-    &.compact { /* TOFIX: Introduce two separate compact items, one for settings, other for channels. */
+    &.compact {
+        /* TOFIX: Introduce two separate compact items, one for settings, other for channels. */
         height: 32px;
     }
 
     &.user {
         opacity: 0.4;
         cursor: pointer;
-        transition: .1s ease-in-out opacity;
+        transition: 0.1s ease-in-out opacity;
 
         &[data-online="true"],
         &:hover {
@@ -43,7 +44,7 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        transition: color .1s ease-in-out;
+        transition: color 0.1s ease-in-out;
 
         &.content {
             gap: 10px;
@@ -73,13 +74,13 @@
             flex-grow: 1;
             display: flex;
             font-weight: 600;
-            font-size: .90625rem;
+            font-size: 0.90625rem;
             flex-direction: column;
 
             .subText {
                 margin-top: -1px;
                 font-weight: 500;
-                font-size: .6875rem;
+                font-size: 0.6875rem;
                 color: var(--tertiary-foreground);
             }
         }
@@ -90,7 +91,7 @@
             svg {
                 opacity: 0;
                 display: none;
-                transition: .1s ease-in-out opacity;
+                transition: 0.1s ease-in-out opacity;
             }
         }
     }
@@ -115,12 +116,18 @@
         }
     }
 
-    &[data-alert="true"], &[data-active="true"], &:hover {
+    &[data-alert="true"],
+    &[data-active="true"],
+    &:hover {
         color: var(--foreground);
 
         .subText {
             color: var(--secondary-foreground) !important;
         }
+    }
+
+    &[data-margin="true"] {
+        margin: 0 6px;
     }
 }
 
@@ -162,4 +169,4 @@
             }
         }
     }
-  }
+}

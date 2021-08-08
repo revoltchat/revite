@@ -30,6 +30,7 @@ type CommonProps = Omit<
     active?: boolean;
     alert?: "unread" | "mention";
     alertCount?: number;
+    margin?: boolean;
 };
 
 type UserProps = CommonProps & {
@@ -39,8 +40,16 @@ type UserProps = CommonProps & {
 };
 
 export const UserButton = observer((props: UserProps) => {
-    const { active, alert, alertCount, user, context, channel, ...divProps } =
-        props;
+    const {
+        active,
+        alert,
+        margin,
+        alertCount,
+        user,
+        context,
+        channel,
+        ...divProps
+    } = props;
     const { openScreen } = useIntermediate();
 
     return (
@@ -48,6 +57,7 @@ export const UserButton = observer((props: UserProps) => {
             {...divProps}
             className={classNames(styles.item, styles.user)}
             data-active={active}
+            data-margin={margin}
             data-alert={typeof alert === "string"}
             data-online={
                 typeof channel !== "undefined" ||
