@@ -14,7 +14,7 @@ import {
 } from "../../../context/revoltjs/RevoltClient";
 
 import { GenericSidebarBase } from "../SidebarBase";
-import MemberList from "./MemberList";
+import MemberList, { MemberListGroup } from "./MemberList";
 
 export default function MemberSidebar({ channel: obj }: { channel?: Channel }) {
     const { channel: channel_id } = useParams<{ channel: string }>();
@@ -73,20 +73,20 @@ function useEntries(channel: Channel, keys: string[], isServer?: boolean) {
             categories[key].sort((a, b) => a[1].localeCompare(b[1])),
         );
 
-        const entries = [];
+        const entries: MemberListGroup[] = [];
 
         if (categories.online.length > 0) {
-            entries.push(
-                `online:${categories.online.length}`,
-                ...categories.online.map((x) => x[0]),
-            );
+            entries.push({
+                type: "online",
+                users: categories.online.map((x) => x[0]),
+            });
         }
 
         if (categories.offline.length > 0) {
-            entries.push(
-                `offline:${categories.offline.length}`,
-                ...categories.offline.map((x) => x[0]),
-            );
+            entries.push({
+                type: "offline",
+                users: categories.offline.map((x) => x[0]),
+            });
         }
 
         return entries;
