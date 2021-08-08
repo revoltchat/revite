@@ -1,21 +1,43 @@
 # Revite
 
+## Description
+
 This is the web client for Revolt, which is also available live at [app.revolt.chat](https://app.revolt.chat).
 
-You can track progress on the client on [our Wekan board](https://wekan.insrt.uk/b/jj3x5C6nbYzM6ERQD/revolt).
+## Stack
 
-Official screenshots of the client are available in [this Google Drive folder](https://drive.google.com/drive/folders/1Ckhl7_9OTTaKzyisrWHzZw1hHj55JwhD).
+-   [Preact](https://preactjs.com/)
+-   [Vite](https://vitejs.dev/)
+
+## Submodule Hint
+
+This project contains submodules. Run `git submodule init` after you clone this repository to initialize the submodules.
+It is also recommended to run `git submodule update` after you pull from upstream.
+
+## Resources
+
+### Revite
+
+-   [Revite Issue Board](https://github.com/revoltchat/revite/issues)
+-   [Google Drive Folder with Screenshots](https://drive.google.com/drive/folders/1Ckhl7_9OTTaKzyisrWHzZw1hHj55JwhD)
+
+### Revolt
+
+-   [Revolt Project Board](https://github.com/revoltchat/revolt/discussions) (Submit feature requests here)
+-   [Revolt Testers Server](https://app.revolt.chat/invite/Testers)
+-   [Contribution Guide](https://developers.revolt.chat/contributing)
 
 ## CLI Commands
 
-* `yarn dev`: Runs a development server.
+| Command          | Description                                  |
+| ---------------- | -------------------------------------------- |
+| `yarn dev`       | Start the Revolt client in development mode. |
+| `yarn build`     | Build the Revolt client.                     |
+| `yarn preview`   | Start a local server with the built client.  |
+| `yarn lint`      | Run ESLint on the client.                    |
+| `yarn fmt`       | Run Prettier on the client.                  |
+| `yarn typecheck` | Run TypeScript type checking on the client.  |
 
-* `yarn build`: Creates a production build of the client.
+## License
 
-* `yarn preview`: Starts a local server with the production build.
-
-* `yarn lint`: Runs ESLint to check project.
-
-* `yarn fmt`: Runs prettier on source code.
-
-* `yarn typecheck`: Runs Typescript compiler in noEmit mode.
+Revite is licensed under the [GNU Affero General Public License v3.0](https://github.com/revoltchat/revite/blob/master/LICENSE).
