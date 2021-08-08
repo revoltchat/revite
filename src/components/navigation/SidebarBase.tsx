@@ -10,17 +10,19 @@ export default styled.div`
     align-items: stretch;
 `;
 
-export const GenericSidebarBase = styled.div<{ padding?: boolean }>`
+export const GenericSidebarBase = styled.div<{
+    mobilePadding?: boolean;
+}>`
     height: 100%;
     width: 240px;
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
-    background: var(--secondary-background);
     border-end-start-radius: 8px;
+    background: var(--secondary-background);
 
     ${(props) =>
-        props.padding &&
+        props.mobilePadding &&
         isTouchscreenDevice &&
         css`
             padding-bottom: 50px;

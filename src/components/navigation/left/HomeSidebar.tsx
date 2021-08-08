@@ -65,7 +65,7 @@ const HomeSidebar = observer((props: Props) => {
     channels.sort((b, a) => a.timestamp.localeCompare(b.timestamp));
 
     return (
-        <GenericSidebarBase padding>
+        <GenericSidebarBase mobilePadding>
             <ConnectionStatus />
             <GenericSidebarList>
                 <ConditionalLink active={pathname === "/"} to="/">

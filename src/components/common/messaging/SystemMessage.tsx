@@ -57,13 +57,6 @@ export const SystemMessage = observer(
         const SystemMessageIcon =
             iconDictionary[data.type as SystemMessageI["type"]] ?? InfoCircle;
 
-        const SystemIcon = styled(SystemMessageIcon)`
-            height: 1.33em;
-            width: 1.33em;
-            margin-right: 0.5em;
-            color: var(--tertiary-foreground);
-        `;
-
         let children;
         switch (data.type) {
             case "text":
@@ -136,7 +129,7 @@ export const SystemMessage = observer(
                 {!hideInfo && (
                     <MessageInfo>
                         <MessageDetail message={message} position="left" />
-                        <SystemIcon className="system-message-icon" />
+                        <SystemMessageIcon className="systemIcon" />
                     </MessageInfo>
                 )}
                 <SystemContent>{children}</SystemContent>

@@ -4,9 +4,10 @@ import { Link, useParams } from "react-router-dom";
 import { Presence } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
+import { User } from "revolt.js/dist/maps/Users";
 
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
 import { getState } from "../../../redux";
 
@@ -27,6 +28,7 @@ import placeholderSVG from "../items/placeholder.svg";
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 import { UserButton } from "../items/ButtonItem";
 import { ChannelDebugInfo } from "./ChannelDebugInfo";
+import MemberList, { MemberListEntry } from "./MemberList";
 
 export default function MemberSidebar({ channel: obj }: { channel?: Channel }) {
     const { channel: channel_id } = useParams<{ channel: string }>();
@@ -90,7 +92,6 @@ export const GroupMemberSidebar = observer(
         return (
             <GenericSidebarBase>
                 <GenericSidebarList>
-                    <ChannelDebugInfo channel={channel} />
                     <Search channel={channel} />
 
                     {/*voiceActive && voiceParticipants.length !== 0 && (
@@ -162,6 +163,64 @@ export const GroupMemberSidebar = observer(
 export const ServerMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
         const client = useClient();
+        const status = useContext(StatusContext);
+
+        useEffect(() => {
+            if (status === ClientStatus.ONLINE) {
+                channel.server!.fetchMembers();
+            }
+        }, [status, channel.server]);
+
+        const keys = [...client.members.keys()];
+        const entries = useMemo(() => {
+            const categories: { [key: string]: [User, string][] } = {
+                online: [],
+                offline: [],
+            };
+
+            keys.forEach((key) => {
+                const { server, user } = JSON.parse(key);
+                if (server !== channel.server_id) return;
+
+                const u = client.users.get(user);
+                if (!u) return;
+
+                const member = client.members.get(key);
+                const sort = member?.nickname ?? u.username;
+                const entry = [u, sort] as [User, string];
+
+                if (!u.online || u.status?.presence === Presence.Invisible) {
+                    categories.offline.push(entry);
+                } else {
+                    categories.online.push(entry);
+                }
+            });
+
+            Object.keys(categories).forEach((key) =>
+                categories[key].sort((a, b) => a[1].localeCompare(b[1])),
+            );
+
+            const entries = [];
+
+            entries.push(
+                "online",
+                ...categories.online.map((x) => x[0]),
+                "offline",
+                ...categories.offline.map((x) => x[0]),
+            );
+
+            return entries;
+            // eslint-disable-next-line
+        }, [keys]);
+
+        return (
+            <GenericSidebarBase>
+                <MemberList entries={entries} />
+            </GenericSidebarBase>
+        );
+
+        /*
+        const client = useClient();
         const { openScreen } = useIntermediate();
         const status = useContext(StatusContext);
 
@@ -202,7 +261,6 @@ export const ServerMemberSidebar = observer(
         return (
             <GenericSidebarBase>
                 <GenericSidebarList>
-                    <ChannelDebugInfo channel={channel} />
                     <Search channel={channel} />
                     <div>{users.length === 0 && <Preloader type="ring" />}</div>
                     {users.length > 0 && (
@@ -236,7 +294,7 @@ export const ServerMemberSidebar = observer(
                     )}
                 </GenericSidebarList>
             </GenericSidebarBase>
-        );
+        );*/
     },
 );
 
