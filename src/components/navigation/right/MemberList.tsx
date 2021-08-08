@@ -1,23 +1,32 @@
 import AutoSizer from "react-virtualized-auto-sizer";
-import { FixedSizeList as List } from "react-window";
+import { VariableSizeList as List } from "react-window";
+import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 import { forwardRef } from "preact/compat";
 
+import {
+    Screen,
+    useIntermediate,
+} from "../../../context/intermediate/Intermediate";
+
 import { UserButton } from "../items/ButtonItem";
 
 export type MemberListEntry = string | User;
 interface ItemData {
     entries: MemberListEntry[];
+    context: Channel;
+    openScreen: (screen: Screen) => void;
 }
 
 const PADDING_SIZE = 6;
 
 const ListCategory = styled.div`
+    height: 100%;
     display: flex;
-    padding: 14px;
+    padding: 0 14px;
     font-size: 0.8em;
     font-weight: 600;
     user-select: none;
@@ -28,7 +37,7 @@ const ListCategory = styled.div`
 
 const Row = ({
     data,
-    style,
+    style: styleIn,
     index,
 }: {
     data: ItemData;
@@ -36,7 +45,10 @@ const Row = ({
     style: JSX.CSSProperties;
 }) => {
     const item = data.entries[index];
-    style.top = `${parseFloat(style.top as string) + PADDING_SIZE}px`;
+    const style = {
+        ...styleIn,
+        top: `${parseFloat(styleIn.top as string) + PADDING_SIZE}px`,
+    };
 
     if (typeof item === "string") {
         const [cat, count] = item.split(":");
@@ -61,13 +73,13 @@ const Row = ({
                     key={item._id}
                     user={item}
                     margin
-                    /* context={channel}
+                    context={data.context}
                     onClick={() =>
-                        openScreen({
+                        data.openScreen({
                             id: "profile",
-                            user_id: user._id,
+                            user_id: item._id,
                         })
-                    } */
+                    }
                 />
             </div>
         );
@@ -89,22 +101,29 @@ const innerElementType = forwardRef(({ style, ...rest }, ref) => (
 
 export default function MemberList({
     entries,
+    context,
 }: {
     entries: MemberListEntry[];
+    context: Channel;
 }) {
+    const { openScreen } = useIntermediate();
     return (
         <AutoSizer>
             {({ width, height }) => (
                 <List
-                    className="virtualList"
                     width={width}
                     height={height}
                     itemData={{
                         entries,
+                        context,
+                        openScreen,
                     }}
                     itemCount={entries.length}
                     innerElementType={innerElementType}
-                    itemSize={42}>
+                    itemSize={(index) =>
+                        typeof entries[index] === "string" ? 24 : 42
+                    }
+                    estimatedItemSize={42}>
                     {
                         // eslint-disable-next-line
                         Row as any
