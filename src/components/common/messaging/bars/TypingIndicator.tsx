@@ -5,6 +5,11 @@ import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 
+import { TextReact } from "../../../../lib/i18n";
+
+import UserIcon from "../../user/UserIcon";
+import { Username } from "../../user/UserShort";
+
 interface Props {
     channel: Channel;
 }
@@ -31,15 +36,8 @@ const Base = styled.div`
     .avatars {
         display: flex;
 
-        img {
-            width: 16px;
-            height: 16px;
-            object-fit: cover;
-            border-radius: 50%;
-
-            &:not(:first-child) {
-                margin-left: -4px;
-            }
+        :not(:first-child) {
+            margin-left: -4px;
         }
     }
 
@@ -69,27 +67,31 @@ export default observer(({ channel }: Props) => {
         if (users.length >= 5) {
             text = <Text id="app.main.channel.typing.several" />;
         } else if (users.length > 1) {
-            const userlist = [...users].map((x) => x!.username);
+            const userlist = [...users].map((x) => (
+                <Username key={x!._id} user={x} showServerIdentity />
+            ));
             const user = userlist.pop();
 
-            /*for (let i = 0; i < userlist.length - 1; i++) {
-                userlist.splice(i * 2 + 1, 0, ", ");
-            }*/
+            for (let i = 0; i < userlist.length - 1; i++) {
+                userlist.splice(i * 2 + 1, 0, <span key={`sep_${i}`}>, </span>);
+            }
 
             text = (
-                <Text
+                <TextReact
                     id="app.main.channel.typing.multiple"
                     fields={{
                         user,
-                        userlist: userlist.join(", "),
+                        userlist,
                     }}
                 />
             );
         } else {
             text = (
-                <Text
+                <TextReact
                     id="app.main.channel.typing.single"
-                    fields={{ user: users[0]!.username }}
+                    fields={{
+                        user: <Username user={users[0]} showServerIdentity />,
+                    }}
                 />
             );
         }
@@ -99,10 +101,11 @@ export default observer(({ channel }: Props) => {
                 <div>
                     <div className="avatars">
                         {users.map((user) => (
-                            <img
+                            <UserIcon
                                 key={user!._id}
-                                loading="eager"
-                                src={user!.generateAvatarURL({ max_side: 256 })}
+                                target={user}
+                                size={16}
+                                showServerIdentity
                             />
                         ))}
                     </div>

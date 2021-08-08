@@ -1,3 +1,4 @@
+import { Reply } from "@styled-icons/boxicons-regular";
 import { File } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
@@ -38,6 +39,9 @@ export const ReplyBase = styled.div<{
     align-items: center;
     color: var(--secondary-foreground);
 
+    /* nizune's Discord replies,
+        does not scale properly with messages,
+        reverted temporarily
     &::before {
         content: "";
         height: 10px;
@@ -48,7 +52,7 @@ export const ReplyBase = styled.div<{
         border-top: 2.2px solid var(--tertiary-foreground);
         border-inline-start: 2.2px solid var(--tertiary-foreground);
         border-start-start-radius: 6px;
-    }
+    }*/
 
     * {
         overflow: hidden;
@@ -153,6 +157,7 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
     if (!message) {
         return (
             <ReplyBase head={index === 0} fail>
+                <Reply size={16} />
                 <span>
                     <Text id="app.main.channel.misc.failed_load" />
                 </span>
@@ -164,6 +169,7 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
 
     return (
         <ReplyBase head={index === 0}>
+            <Reply size={16} />
             {message.author?.relationship === RelationshipStatus.Blocked ? (
                 <Text id="app.main.channel.misc.blocked_user" />
             ) : (
@@ -173,7 +179,11 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
                     ) : (
                         <>
                             <div className="user">
-                                <UserShort user={message.author} size={16} />
+                                <UserShort
+                                    user={message.author}
+                                    size={16}
+                                    showServerIdentity
+                                />
                             </div>
                             <div
                                 className="content"

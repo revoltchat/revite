@@ -61,14 +61,20 @@ export const Username = observer(
 export default function UserShort({
     user,
     size,
+    showServerIdentity,
 }: {
     user?: User;
     size?: number;
+    showServerIdentity?: boolean;
 }) {
     return (
         <>
-            <UserIcon size={size ?? 24} target={user} />
-            <Username user={user} />
+            <UserIcon
+                size={size ?? 24}
+                target={user}
+                showServerIdentity={showServerIdentity}
+            />
+            <Username user={user} showServerIdentity={showServerIdentity} />
         </>
     );
 }

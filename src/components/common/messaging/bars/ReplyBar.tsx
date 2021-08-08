@@ -114,7 +114,11 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                         <ReplyBase preview>
                             <ReplyIcon size={22} />
                             <div class="username">
-                                <UserShort user={message.author} size={16} />
+                                <UserShort
+                                    user={message.author}
+                                    size={16}
+                                    showServerIdentity
+                                />
                             </div>
                             <div class="message">
                                 {message.attachments && (
@@ -130,7 +134,7 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                     </>
                                 )}
                                 {message.author_id === SYSTEM_USER_ID ? (
-                                    <SystemMessage message={message} />
+                                    <SystemMessage message={message} hideInfo />
                                 ) : (
                                     <Markdown
                                         disallowBigEmoji
