@@ -203,9 +203,9 @@ export const ServerMemberSidebar = observer(
             const entries = [];
 
             entries.push(
-                "online",
+                `online:${categories.online.length}`,
                 ...categories.online.map((x) => x[0]),
-                "offline",
+                `offline:${categories.offline.length}`,
                 ...categories.offline.map((x) => x[0]),
             );
 
