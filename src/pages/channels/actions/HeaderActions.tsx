@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { Search } from "@styled-icons/boxicons-regular";
 import {
     UserPlus,
     Cog,
@@ -8,6 +9,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
 
+import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 
@@ -25,13 +27,17 @@ export default function HeaderActions({
     const { openScreen } = useIntermediate();
     const history = useHistory();
 
+    function openRightSidebar() {
+        const panels = document.querySelector("#app > div > div");
+        panels?.scrollTo({
+            behavior: "smooth",
+            left: panels.clientWidth * 3,
+        });
+    }
+
     function openSidebar() {
         if (isTouchscreenDevice) {
-            const panels = document.querySelector("#app > div > div");
-            panels?.scrollTo({
-                behavior: "smooth",
-                left: panels.clientWidth * 3,
-            });
+            openRightSidebar();
         } else {
             toggleSidebar?.();
         }
@@ -65,6 +71,15 @@ export default function HeaderActions({
                 </>
             )}
             <VoiceActions channel={channel} />
+            {channel.channel_type !== "VoiceChannel" && (
+                <IconButton
+                    onClick={() => {
+                        internalEmit("RightSidebar", "open", "search");
+                        openRightSidebar();
+                    }}>
+                    <Search size={25} />
+                </IconButton>
+            )}
             {(channel.channel_type === "Group" ||
                 channel.channel_type === "TextChannel") && (
                 <IconButton onClick={openSidebar}>

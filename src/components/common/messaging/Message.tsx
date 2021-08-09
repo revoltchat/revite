@@ -33,6 +33,7 @@ interface Props {
     contrast?: boolean;
     content?: Children;
     head?: boolean;
+    hideReply?: boolean;
 }
 
 const Message = observer(
@@ -44,6 +45,7 @@ const Message = observer(
         content: replacement,
         head: preferHead,
         queued,
+        hideReply,
     }: Props) => {
         const client = useClient();
         const user = message.author;
@@ -72,23 +74,26 @@ const Message = observer(
 
         return (
             <div id={message._id}>
-                {message.reply_ids?.map((message_id, index) => (
-                    <MessageReply
-                        key={message_id}
-                        index={index}
-                        id={message_id}
-                        channel={message.channel!}
-                    />
-                ))}
+                {!hideReply &&
+                    message.reply_ids?.map((message_id, index) => (
+                        <MessageReply
+                            key={message_id}
+                            index={index}
+                            id={message_id}
+                            channel={message.channel!}
+                        />
+                    ))}
                 <MessageBase
                     highlight={highlight}
                     head={
-                        (head &&
-                            !(
-                                message.reply_ids &&
-                                message.reply_ids.length > 0
-                            )) ??
-                        false
+                        hideReply
+                            ? false
+                            : (head &&
+                                  !(
+                                      message.reply_ids &&
+                                      message.reply_ids.length > 0
+                                  )) ??
+                              false
                     }
                     contrast={contrast}
                     sending={typeof queued !== "undefined"}
