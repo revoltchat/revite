@@ -130,7 +130,20 @@ export const UserProfile = observer(
                             `linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url('${backgroundURL}')`,
                     }}>
                     <div className={styles.profile}>
-                        <UserIcon size={80} target={user} status animate />
+                        <UserIcon
+                            size={80}
+                            target={user}
+                            status
+                            animate
+                            hover={typeof user.avatar !== "undefined"}
+                            onClick={() =>
+                                user.avatar &&
+                                openScreen({
+                                    id: "image_viewer",
+                                    attachment: user.avatar,
+                                })
+                            }
+                        />
                         <div className={styles.details}>
                             <Localizer>
                                 <span

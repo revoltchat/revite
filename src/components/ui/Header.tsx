@@ -1,4 +1,7 @@
+import { Menu } from "@styled-icons/boxicons-regular";
 import styled, { css } from "styled-components";
+
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 interface Props {
     borders?: boolean;
@@ -60,3 +63,19 @@ export default styled.div<Props>`
             border-start-start-radius: 8px;
         `}
 `;
+
+export function HamburgerAction() {
+    if (!isTouchscreenDevice) return null;
+
+    function openSidebar() {
+        document
+            .querySelector("#app > div > div")
+            ?.scrollTo({ behavior: "smooth", left: 0 });
+    }
+
+    return (
+        <div className="menu" onClick={openSidebar}>
+            <Menu size={27} />
+        </div>
+    );
+}

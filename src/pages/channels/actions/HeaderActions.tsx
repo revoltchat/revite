@@ -8,6 +8,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
 
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
@@ -23,6 +24,18 @@ export default function HeaderActions({
 }: ChannelHeaderProps) {
     const { openScreen } = useIntermediate();
     const history = useHistory();
+
+    function openSidebar() {
+        if (isTouchscreenDevice) {
+            const panels = document.querySelector("#app > div > div");
+            panels?.scrollTo({
+                behavior: "smooth",
+                left: panels.clientWidth * 3,
+            });
+        } else {
+            toggleSidebar?.();
+        }
+    }
 
     return (
         <>
@@ -54,7 +67,7 @@ export default function HeaderActions({
             <VoiceActions channel={channel} />
             {(channel.channel_type === "Group" ||
                 channel.channel_type === "TextChannel") && (
-                <IconButton onClick={toggleSidebar}>
+                <IconButton onClick={openSidebar}>
                     <Group size={25} />
                 </IconButton>
             )}
