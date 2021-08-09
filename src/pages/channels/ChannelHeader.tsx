@@ -12,7 +12,7 @@ import { getChannelName } from "../../context/revoltjs/util";
 
 import { useStatusColour } from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
-import Header from "../../components/ui/Header";
+import Header, { HamburgerAction } from "../../components/ui/Header";
 
 import Markdown from "../../components/markdown/Markdown";
 import HeaderActions from "./actions/HeaderActions";
@@ -87,11 +87,7 @@ export default observer(({ channel, toggleSidebar }: ChannelHeaderProps) => {
 
     return (
         <Header placement="primary">
-            {isTouchscreenDevice && (
-                <div className="menu">
-                    <Menu size={27} />
-                </div>
-            )}
+            <HamburgerAction />
             {icon}
             <Info>
                 <span className="name">{name}</span>

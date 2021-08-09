@@ -16,7 +16,7 @@ import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
 
-import MemberSidebar from "../../components/navigation/right/MemberSidebar";
+import RightSidebar from "../../components/navigation/RightSidebar";
 import ChannelHeader from "./ChannelHeader";
 import { MessageArea } from "./messaging/MessageArea";
 import VoiceHeader from "./voice/VoiceHeader";
@@ -93,9 +93,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                     <JumpToBottom channel={channel} />
                     <MessageBox channel={channel} />
                 </ChannelContent>
-                {!isTouchscreenDevice && showMembers && (
-                    <MemberSidebar channel={channel} />
-                )}
+                {!isTouchscreenDevice && showMembers && <RightSidebar />}
             </ChannelMain>
         </AgeGate>
     );

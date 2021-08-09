@@ -4,6 +4,7 @@ import { User } from "revolt.js/dist/maps/Users";
 
 import { Text } from "preact-i18n";
 
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import UserIcon from "./UserIcon";
@@ -67,14 +68,23 @@ export default function UserShort({
     size?: number;
     showServerIdentity?: boolean;
 }) {
+    const { openScreen } = useIntermediate();
+    const openProfile = () =>
+        user && openScreen({ id: "profile", user_id: user._id });
+
     return (
         <>
             <UserIcon
                 size={size ?? 24}
                 target={user}
+                onClick={openProfile}
                 showServerIdentity={showServerIdentity}
             />
-            <Username user={user} showServerIdentity={showServerIdentity} />
+            <Username
+                user={user}
+                showServerIdentity={showServerIdentity}
+                onClick={openProfile}
+            />
         </>
     );
 }

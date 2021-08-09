@@ -79,7 +79,6 @@ export function grabFiles(
         const files = (e.currentTarget as HTMLInputElement)?.files;
         if (!files) return;
         for (const file of files) {
-            alert(file.size);
             if (file.size > maxFileSize) {
                 return tooLarge();
             }
