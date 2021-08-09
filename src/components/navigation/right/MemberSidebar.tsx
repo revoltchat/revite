@@ -16,10 +16,10 @@ import {
 import { GenericSidebarBase } from "../SidebarBase";
 import MemberList, { MemberListGroup } from "./MemberList";
 
-export default function MemberSidebar({ channel: obj }: { channel?: Channel }) {
-    const { channel: channel_id } = useParams<{ channel: string }>();
-    const client = useClient();
-    const channel = obj ?? client.channels.get(channel_id);
+export default function MemberSidebar() {
+    const channel = useClient().channels.get(
+        useParams<{ channel: string }>().channel,
+    );
 
     switch (channel?.channel_type) {
         case "Group":
