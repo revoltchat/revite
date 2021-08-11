@@ -46,6 +46,8 @@ const SearchBase = styled.div`
         padding: 6px;
         overflow: hidden;
         border-radius: var(--border-radius);
+
+        color: var(--foreground);
         background: var(--primary-background);
 
         &:hover {
@@ -100,7 +102,7 @@ export function SearchSidebar({ close }: Props) {
         <GenericSidebarBase>
             <SearchBase>
                 <Overline type="error" onClick={close} block>
-                    go back to members
+                    « back to members
                 </Overline>
                 <Overline type="subtle" block>
                     <Text id="app.main.channel.search.title" />
