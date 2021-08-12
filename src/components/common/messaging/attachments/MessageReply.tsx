@@ -192,9 +192,6 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
                                     if (
                                         channel.channel_type === "TextChannel"
                                     ) {
-                                        console.log(
-                                            `/server/${channel.server_id}/channel/${channel._id}/${message._id}`,
-                                        );
                                         history.push(
                                             `/server/${channel.server_id}/channel/${channel._id}/${message._id}`,
                                         );
