@@ -77,9 +77,6 @@ export interface ThemeOptions {
     custom?: Partial<Theme>;
 }
 
-// import aaa from "@fontsource/open-sans/300.css?raw";
-// console.info(aaa);
-
 export const FONTS: Record<Fonts, { name: string; load: () => void }> = {
     "Open Sans": {
         name: "Open Sans",
