@@ -74,9 +74,8 @@ export const UserProfile = observer(
                 channel.recipient_ids!.includes(user_id),
         );
 
-        // Fix this once an API route for fetching mutual servers exists
-        const mutualServers = [...client.servers.values()].filter(
-            (server) => true,
+        const mutualServers = mutual?.servers.map((id) =>
+            client.servers.get(id),
         );
 
         useLayoutEffect(() => {
@@ -428,7 +427,7 @@ export const UserProfile = observer(
                     )}
                     {tab === "servers" && (
                         <div className={styles.entries}>
-                            {mutualServers.length === 0 ? (
+                            {!mutualServers || mutualServers.length === 0 ? (
                                 <div className={styles.empty}>
                                     <Text id="app.special.popovers.user_profile.no_servers" />
                                 </div>
