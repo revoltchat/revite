@@ -107,7 +107,7 @@ const Action = styled.div`
 `;
 
 // For sed replacement
-const SED_REGEX = new RegExp("^s/([^])+/([^])+$");
+const SED_REGEX = new RegExp("^s/([^])*/([^])*$");
 
 // ! FIXME: add to app config and load from app config
 export const CAN_UPLOAD_AT_ONCE = 4;
@@ -214,22 +214,34 @@ export default observer(({ channel }: Props) => {
             renderer.messages.reverse();
 
             if (msg) {
-                const [_, toReplace, newText, flags] =
-                    content.split(/(?<!\\)\//);
-                const newContent = msg.content
-                    .toString()
-                    .replace(new RegExp(toReplace, flags), newText);
+                // eslint-disable-next-line prefer-const
+                let [_, toReplace, newText, flags] = content.split(/(?<!\\)\//);
+
+                if (toReplace == "*") toReplace = msg.content.toString();
+
+                const newContent =
+                    toReplace == ""
+                        ? msg.content.toString() + newText
+                        : msg.content
+                              .toString()
+                              .replace(new RegExp(toReplace, flags), newText);
 
                 if (newContent != msg.content) {
-                    msg.edit({
-                        content: newContent.substr(0, 2000),
-                    })
-                        .then(() =>
-                            defer(() =>
-                                renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE),
-                            ),
-                        )
-                        .catch(console.warn);
+                    if (newContent.length == 0) {
+                        msg.delete().catch(console.error);
+                    } else {
+                        msg.edit({
+                            content: newContent.substr(0, 2000),
+                        })
+                            .then(() =>
+                                defer(() =>
+                                    renderer.jumpToBottom(
+                                        SMOOTH_SCROLL_ON_RECEIVE,
+                                    ),
+                                ),
+                            )
+                            .catch(console.error);
+                    }
                 }
             }
         } else {
