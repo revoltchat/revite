@@ -47,7 +47,7 @@ export default function InviteBot() {
                     <Button
                         contrast
                         onClick={() =>
-                            group !== "none" &&
+                            server !== "none" &&
                             client.bots.invite(data._id, { server })
                         }>
                         add
