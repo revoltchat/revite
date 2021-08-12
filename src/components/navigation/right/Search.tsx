@@ -13,7 +13,7 @@ import InputBox from "../../ui/InputBox";
 import Overline from "../../ui/Overline";
 import Preloader from "../../ui/Preloader";
 
-import { GenericSidebarBase } from "../SidebarBase";
+import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 
 type SearchState =
     | {
@@ -100,57 +100,59 @@ export function SearchSidebar({ close }: Props) {
 
     return (
         <GenericSidebarBase>
-            <SearchBase>
-                <Overline type="error" onClick={close} block>
-                    « back to members
-                </Overline>
-                <Overline type="subtle" block>
-                    <Text id="app.main.channel.search.title" />
-                </Overline>
-                <InputBox
-                    value={query}
-                    onKeyDown={(e) => e.key === "Enter" && search()}
-                    onChange={(e) => setQuery(e.currentTarget.value)}
-                />
-                <div class="sort">
-                    {["Latest", "Oldest", "Relevance"].map((key) => (
-                        <Button
-                            key={key}
-                            compact
-                            error={sort === key}
-                            onClick={() => setSort(key as Sort)}>
-                            <Text
-                                id={`app.main.channel.search.sort.${key.toLowerCase()}`}
-                            />
-                        </Button>
-                    ))}
-                </div>
-                {state.type === "loading" && <Preloader type="ring" />}
-                {state.type === "results" && (
-                    <div class="list">
-                        {state.results.map((message) => {
-                            let href = "";
-                            if (channel?.channel_type === "TextChannel") {
-                                href += `/server/${channel.server_id}`;
-                            }
-
-                            href += `/channel/${message.channel_id}/${message._id}`;
-
-                            return (
-                                <Link to={href} key={message._id}>
-                                    <div class="message">
-                                        <Message
-                                            message={message}
-                                            head
-                                            hideReply
-                                        />
-                                    </div>
-                                </Link>
-                            );
-                        })}
+            <GenericSidebarList>
+                <SearchBase>
+                    <Overline type="error" onClick={close} block>
+                        « back to members
+                    </Overline>
+                    <Overline type="subtle" block>
+                        <Text id="app.main.channel.search.title" />
+                    </Overline>
+                    <InputBox
+                        value={query}
+                        onKeyDown={(e) => e.key === "Enter" && search()}
+                        onChange={(e) => setQuery(e.currentTarget.value)}
+                    />
+                    <div class="sort">
+                        {["Latest", "Oldest", "Relevance"].map((key) => (
+                            <Button
+                                key={key}
+                                compact
+                                error={sort === key}
+                                onClick={() => setSort(key as Sort)}>
+                                <Text
+                                    id={`app.main.channel.search.sort.${key.toLowerCase()}`}
+                                />
+                            </Button>
+                        ))}
                     </div>
-                )}
-            </SearchBase>
+                    {state.type === "loading" && <Preloader type="ring" />}
+                    {state.type === "results" && (
+                        <div class="list">
+                            {state.results.map((message) => {
+                                let href = "";
+                                if (channel?.channel_type === "TextChannel") {
+                                    href += `/server/${channel.server_id}`;
+                                }
+
+                                href += `/channel/${message.channel_id}/${message._id}`;
+
+                                return (
+                                    <Link to={href} key={message._id}>
+                                        <div class="message">
+                                            <Message
+                                                message={message}
+                                                head
+                                                hideReply
+                                            />
+                                        </div>
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    )}
+                </SearchBase>
+            </GenericSidebarList>
         </GenericSidebarBase>
     );
 }
