@@ -174,7 +174,6 @@ export const MessageArea = observer(({ channel }: Props) => {
         if (renderer.state === "RENDER") {
             runInAction(() => (renderer.fetching = true));
 
-            console.log(renderer.scrollAnchored);
             if (renderer.scrollAnchored) {
                 setScrollState({ type: "ScrollToBottom" });
             } else {

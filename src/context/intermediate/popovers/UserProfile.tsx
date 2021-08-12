@@ -195,12 +195,15 @@ export const UserProfile = observer(
                                 <Edit size={28} />
                             </IconButton>
                         )}
-                        {(user.relationship === RelationshipStatus.Incoming ||
-                            user.relationship === RelationshipStatus.None) && (
-                            <IconButton onClick={() => user.addFriend()}>
-                                <UserPlus size={28} />
-                            </IconButton>
-                        )}
+                        {!user.bot &&
+                            (user.relationship ===
+                                RelationshipStatus.Incoming ||
+                                user.relationship ===
+                                    RelationshipStatus.None) && (
+                                <IconButton onClick={() => user.addFriend()}>
+                                    <UserPlus size={28} />
+                                </IconButton>
+                            )}
                     </div>
                     <div className={styles.tabs}>
                         <div
