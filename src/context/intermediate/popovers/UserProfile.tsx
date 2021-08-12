@@ -14,9 +14,11 @@ import ChannelIcon from "../../../components/common/ChannelIcon";
 import ServerIcon from "../../../components/common/ServerIcon";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
+import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
 import IconButton from "../../../components/ui/IconButton";
 import Modal from "../../../components/ui/Modal";
+import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
 
 import Markdown from "../../../components/markdown/Markdown";
@@ -118,7 +120,9 @@ export const UserProfile = observer(
         const backgroundURL =
             profile &&
             client.generateFileURL(profile.background, { width: 1000 }, true);
+
         const badges = user.badges ?? 0;
+        const flags = user.flags ?? 0;
 
         return (
             <Modal
@@ -229,11 +233,63 @@ export const UserProfile = observer(
                 <div className={styles.content}>
                     {tab === "profile" && (
                         <div>
-                            {!(profile?.content || badges > 0) && (
+                            {!(
+                                profile?.content ||
+                                badges > 0 ||
+                                flags > 0 ||
+                                user.bot
+                            ) && (
                                 <div className={styles.empty}>
                                     <Text id="app.special.popovers.user_profile.empty" />
                                 </div>
                             )}
+                            {flags & 1 ? (
+                                /** ! FIXME: i18n this area */
+                                <Overline type="error" block>
+                                    User is suspended
+                                </Overline>
+                            ) : undefined}
+                            {flags & 2 ? (
+                                <Overline type="error" block>
+                                    User deleted their account
+                                </Overline>
+                            ) : undefined}
+                            {flags & 4 ? (
+                                <Overline type="error" block>
+                                    User is banned
+                                </Overline>
+                            ) : undefined}
+                            {user.bot ? (
+                                <>
+                                    <div className={styles.category}>
+                                        bot owner
+                                    </div>
+                                    <div
+                                        onClick={() =>
+                                            user.bot &&
+                                            openScreen({
+                                                id: "profile",
+                                                user_id: user.bot.owner,
+                                            })
+                                        }
+                                        className={styles.entry}
+                                        key={user.bot.owner}>
+                                        <UserIcon
+                                            size={32}
+                                            target={client.users.get(
+                                                user.bot.owner,
+                                            )}
+                                        />
+                                        <span>
+                                            <Username
+                                                user={client.users.get(
+                                                    user.bot.owner,
+                                                )}
+                                            />
+                                        </span>
+                                    </div>
+                                </>
+                            ) : undefined}
                             {badges > 0 && (
                                 <div className={styles.category}>
                                     <Text id="app.special.popovers.user_profile.sub.badges" />

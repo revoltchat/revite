@@ -7,6 +7,7 @@ import Button from "../../../components/ui/Button";
 import InputBox from "../../../components/ui/InputBox";
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
+import Tip from "../../../components/ui/Tip";
 
 import { FileUploader } from "../../revoltjs/FileUploads";
 import { useClient } from "../../revoltjs/RevoltClient";
@@ -30,6 +31,9 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
 
     return (
         <Modal visible={true} onClose={onClose}>
+            <Tip warning hideSeparator>
+                This section is under construction.
+            </Tip>
             <Overline type="subtle">Nickname</Overline>
             <p>
                 <InputBox
