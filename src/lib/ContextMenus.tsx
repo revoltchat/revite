@@ -585,58 +585,60 @@ function ContextMenus(props: Props) {
                     }
 
                     if (user) {
-                        let actions: Action["action"][];
-                        switch (user.relationship) {
-                            case RelationshipStatus.User:
-                                actions = [];
-                                break;
-                            case RelationshipStatus.Friend:
-                                actions = ["remove_friend", "block_user"];
-                                break;
-                            case RelationshipStatus.Incoming:
-                                actions = [
-                                    "add_friend",
-                                    "cancel_friend",
-                                    "block_user",
-                                ];
-                                break;
-                            case RelationshipStatus.Outgoing:
-                                actions = ["cancel_friend", "block_user"];
-                                break;
-                            case RelationshipStatus.Blocked:
-                                actions = ["unblock_user"];
-                                break;
-                            case RelationshipStatus.BlockedOther:
-                                actions = ["block_user"];
-                                break;
-                            case RelationshipStatus.None:
-                            default:
-                                actions = ["add_friend", "block_user"];
-                        }
+                        if (!user.bot) {
+                            let actions: Action["action"][];
+                            switch (user.relationship) {
+                                case RelationshipStatus.User:
+                                    actions = [];
+                                    break;
+                                case RelationshipStatus.Friend:
+                                    actions = ["remove_friend", "block_user"];
+                                    break;
+                                case RelationshipStatus.Incoming:
+                                    actions = [
+                                        "add_friend",
+                                        "cancel_friend",
+                                        "block_user",
+                                    ];
+                                    break;
+                                case RelationshipStatus.Outgoing:
+                                    actions = ["cancel_friend", "block_user"];
+                                    break;
+                                case RelationshipStatus.Blocked:
+                                    actions = ["unblock_user"];
+                                    break;
+                                case RelationshipStatus.BlockedOther:
+                                    actions = ["block_user"];
+                                    break;
+                                case RelationshipStatus.None:
+                                default:
+                                    actions = ["add_friend", "block_user"];
+                            }
 
-                        if (userPermissions & UserPermission.ViewProfile) {
-                            generateAction({
-                                action: "view_profile",
-                                user,
-                            });
-                        }
+                            if (userPermissions & UserPermission.ViewProfile) {
+                                generateAction({
+                                    action: "view_profile",
+                                    user,
+                                });
+                            }
 
-                        if (
-                            user._id !== userId &&
-                            userPermissions & UserPermission.SendMessage
-                        ) {
-                            generateAction({
-                                action: "message_user",
-                                user,
-                            });
-                        }
+                            if (
+                                user._id !== userId &&
+                                userPermissions & UserPermission.SendMessage
+                            ) {
+                                generateAction({
+                                    action: "message_user",
+                                    user,
+                                });
+                            }
 
-                        for (let i = 0; i < actions.length; i++) {
-                            // Typescript can't determine that user the actions are linked together correctly
-                            generateAction({
-                                action: actions[i],
-                                user,
-                            } as unknown as Action);
+                            for (let i = 0; i < actions.length; i++) {
+                                // Typescript can't determine that user the actions are linked together correctly
+                                generateAction({
+                                    action: actions[i],
+                                    user,
+                                } as unknown as Action);
+                            }
                         }
                     }
 
