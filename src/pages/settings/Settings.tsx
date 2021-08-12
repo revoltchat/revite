@@ -4,6 +4,7 @@ import {
     Globe,
     LogOut,
     Desktop,
+    Bot,
 } from "@styled-icons/boxicons-regular";
 import {
     Bell,
@@ -39,6 +40,7 @@ import { Appearance } from "./panes/Appearance";
 import { ExperimentsPage } from "./panes/Experiments";
 import { Feedback } from "./panes/Feedback";
 import { Languages } from "./panes/Languages";
+import { MyBots } from "./panes/MyBots";
 import { Native } from "./panes/Native";
 import { Notifications } from "./panes/Notifications";
 import { Profile } from "./panes/Profile";
@@ -109,10 +111,16 @@ export default function Settings() {
                     title: <Text id="app.settings.pages.native.title" />,
                 },
                 {
-                    divider: true,
                     id: "experiments",
                     icon: <Flask size={20} />,
                     title: <Text id="app.settings.pages.experiments.title" />,
+                },
+                {
+                    divider: true,
+                    category: "revolt",
+                    id: "bots",
+                    icon: <Bot size={20} />,
+                    title: <Text id="app.settings.pages.bots.title" />,
                 },
                 {
                     id: "feedback",
@@ -147,6 +155,9 @@ export default function Settings() {
                     </Route>
                     <Route path="/settings/experiments">
                         <ExperimentsPage />
+                    </Route>
+                    <Route path="/settings/bots">
+                        <MyBots />
                     </Route>
                     <Route path="/settings/feedback">
                         <Feedback />
