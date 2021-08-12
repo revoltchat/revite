@@ -223,7 +223,13 @@ export default observer(({ channel }: Props) => {
                 if (newContent != msg.content) {
                     msg.edit({
                         content: newContent.substr(0, 2000),
-                    }).catch(console.warn);
+                    })
+                        .then(() =>
+                            defer(() =>
+                                renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE),
+                            ),
+                        )
+                        .catch(console.warn);
                 }
             }
         } else {
