@@ -3,6 +3,7 @@ import { Bot } from "revolt-api/types/Bots";
 
 import { useEffect, useState } from "preact/hooks";
 
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import UserShort from "../../../components/common/user/UserShort";
@@ -77,6 +78,7 @@ export const MyBots = observer(() => {
     }, []);
 
     const [name, setName] = useState("");
+    const { writeClipboard } = useIntermediate();
 
     return (
         <div>
@@ -141,6 +143,14 @@ export const MyBots = observer(() => {
                                     )
                             }>
                             delete
+                        </Button>
+                        <Button
+                            onClick={() =>
+                                writeClipboard(
+                                    `${window.origin}/bot/${bot._id}`,
+                                )
+                            }>
+                            copy invite link
                         </Button>
                     </div>
                 );
