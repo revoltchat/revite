@@ -92,7 +92,15 @@ export default function Invite() {
                 ) : (
                     <>
                         <h1>{invite.server_name}</h1>
-                        <h2>#{invite.channel_name}</h2>
+                        <h2>
+                            #{invite.channel_name} •{" "}
+                            <Text
+                                id="app.special.invite.user_count"
+                                fields={{
+                                    member_count: invite.member_count,
+                                }}
+                            />
+                        </h2>
                         <h3>
                             <TextReact
                                 id="app.special.invite.invited_by"
