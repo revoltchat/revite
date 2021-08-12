@@ -11,6 +11,7 @@ import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 
 import ChannelIcon from "../../../components/common/ChannelIcon";
+import ServerIcon from "../../../components/common/ServerIcon";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
 import UserStatus from "../../../components/common/user/UserStatus";
@@ -69,6 +70,11 @@ export const UserProfile = observer(
             (channel) =>
                 channel?.channel_type === "Group" &&
                 channel.recipient_ids!.includes(user_id),
+        );
+
+        // Fix this once an API route for fetching mutual servers exists
+        const mutualServers = [...client.servers.values()].filter(
+            (server) => true,
         );
 
         useLayoutEffect(() => {
@@ -211,6 +217,11 @@ export const UserProfile = observer(
                                     onClick={() => setTab("groups")}>
                                     <Text id="app.special.popovers.user_profile.mutual_groups" />
                                 </div>
+                                <div
+                                    data-active={tab === "servers"}
+                                    onClick={() => setTab("servers")}>
+                                    <Text id="app.special.popovers.user_profile.mutual_servers" />
+                                </div>
                             </>
                         )}
                     </div>
@@ -348,6 +359,32 @@ export const UserProfile = observer(
                                                     className={styles.entry}
                                                     key={x._id}>
                                                     <ChannelIcon
+                                                        target={x}
+                                                        size={32}
+                                                    />
+                                                    <span>{x.name}</span>
+                                                </div>
+                                            </Link>
+                                        ),
+                                )
+                            )}
+                        </div>
+                    )}
+                    {tab === "servers" && (
+                        <div className={styles.entries}>
+                            {mutualServers.length === 0 ? (
+                                <div className={styles.empty}>
+                                    <Text id="app.special.popovers.user_profile.no_servers" />
+                                </div>
+                            ) : (
+                                mutualServers.map(
+                                    (x) =>
+                                        x && (
+                                            <Link to={`/server/${x._id}`}>
+                                                <div
+                                                    className={styles.entry}
+                                                    key={x._id}>
+                                                    <ServerIcon
                                                         target={x}
                                                         size={32}
                                                     />
