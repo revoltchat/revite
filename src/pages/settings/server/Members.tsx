@@ -79,9 +79,7 @@ export const Members = observer(({ server }: Props) => {
                                 </IconButton>
                             </div>
                             {selected === member._id.user && (
-                                <div
-                                    key={`drop_${member._id.user}`}
-                                    className={styles.memberView}>
+                                <div className={styles.memberView}>
                                     <Overline type="subtle">Roles</Overline>
                                     {Object.keys(server.roles ?? {}).map(
                                         (key) => {
