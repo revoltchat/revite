@@ -4,8 +4,12 @@ import { User } from "revolt.js/dist/maps/Users";
 import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
+import { memo } from "preact/compat";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import {
+    Screen,
+    useIntermediate,
+} from "../../../context/intermediate/Intermediate";
 
 import { UserButton } from "../items/ButtonItem";
 
@@ -33,6 +37,31 @@ const ListCategory = styled.div<{ first?: boolean }>`
             padding-top: 16px;
         `}
 `;
+
+const ItemContent = memo(
+    ({
+        item,
+        context,
+        openScreen,
+    }: {
+        item: User;
+        context: Channel;
+        openScreen: (screen: Screen) => void;
+    }) => (
+        <UserButton
+            key={item._id}
+            user={item}
+            margin
+            context={context}
+            onClick={() =>
+                openScreen({
+                    id: "profile",
+                    user_id: item._id,
+                })
+            }
+        />
+    ),
+);
 
 export default function MemberList({
     entries,
@@ -74,17 +103,10 @@ export default function MemberList({
 
                 return (
                     <div>
-                        <UserButton
-                            key={item._id}
-                            user={item}
-                            margin
+                        <ItemContent
+                            item={item}
                             context={context}
-                            onClick={() =>
-                                openScreen({
-                                    id: "profile",
-                                    user_id: item._id,
-                                })
-                            }
+                            openScreen={openScreen}
                         />
                     </div>
                 );
