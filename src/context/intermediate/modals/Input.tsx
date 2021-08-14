@@ -57,19 +57,17 @@ export function InputModal({
                 },
             ]}
             onClose={onClose}>
-            <form>
-                {field ? (
-                    <Overline error={error} block>
-                        {field}
-                    </Overline>
-                ) : (
-                    error && <Overline error={error} type="error" block />
-                )}
-                <InputBox
-                    value={value}
-                    onChange={(e) => setValue(e.currentTarget.value)}
-                />
-            </form>
+            {field ? (
+                <Overline error={error} block>
+                    {field}
+                </Overline>
+            ) : (
+                error && <Overline error={error} type="error" block />
+            )}
+            <InputBox
+                value={value}
+                onChange={(e) => setValue(e.currentTarget.value)}
+            />
         </Modal>
     );
 }
