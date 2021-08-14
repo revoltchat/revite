@@ -11,6 +11,7 @@ import { StateUpdater, useEffect } from "preact/hooks";
 import { internalSubscribe } from "../../../../lib/eventEmitter";
 import { getRenderer } from "../../../../lib/renderer/Singleton";
 
+import { dispatch, getState } from "../../../../redux";
 import { Reply } from "../../../../redux/reducers/queue";
 
 import IconButton from "../../../ui/IconButton";
@@ -75,7 +76,7 @@ const Base = styled.div`
 `;
 
 // ! FIXME: Move to global config
-const MAX_REPLIES = 5;
+const MAX_REPLIES = 4;
 export default observer(({ channel, replies, setReplies }: Props) => {
     useEffect(() => {
         return internalSubscribe(
@@ -84,7 +85,13 @@ export default observer(({ channel, replies, setReplies }: Props) => {
             (id) =>
                 replies.length < MAX_REPLIES &&
                 !replies.find((x) => x.id === id) &&
-                setReplies([...replies, { id: id as string, mention: false }]),
+                setReplies([
+                    ...replies,
+                    {
+                        id: id as string,
+                        mention: getState().sectionToggle.mention ?? false,
+                    },
+                ]),
         );
     }, [replies, setReplies]);
 
@@ -147,15 +154,28 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                         </ReplyBase>
                         <span class="actions">
                             <IconButton
-                                onClick={() =>
+                                onClick={() => {
+                                    let state = false;
                                     setReplies(
-                                        replies.map((_, i) =>
-                                            i === index
-                                                ? { ..._, mention: !_.mention }
-                                                : _,
-                                        ),
-                                    )
-                                }>
+                                        replies.map((_, i) => {
+                                            if (i === index) {
+                                                state = !_.mention;
+                                                return {
+                                                    ..._,
+                                                    mention: !_.mention,
+                                                };
+                                            }
+
+                                            return _;
+                                        }),
+                                    );
+
+                                    dispatch({
+                                        type: "SECTION_TOGGLE_SET",
+                                        id: "mention",
+                                        state,
+                                    });
+                                }}>
                                 <span class="toggle">
                                     <At size={16} />{" "}
                                     {reply.mention ? "ON" : "OFF"}
