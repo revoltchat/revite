@@ -144,11 +144,9 @@ export const MessageReply = observer(({ index, channel, id }: Props) => {
     const [message, setMessage] = useState<Message | undefined>(undefined);
 
     useLayoutEffect(() => {
-        // ! FIXME: We should do this through the message renderer, so it can fetch it from cache if applicable.
-        const m = view.messages.find((x) => x._id === id);
-
-        if (m) {
-            setMessage(m);
+        const message = channel.client.messages.get(id);
+        if (message) {
+            setMessage(message);
         } else {
             channel.fetchMessage(id).then(setMessage);
         }

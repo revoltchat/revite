@@ -150,7 +150,8 @@ export const ServerMemberSidebar = observer(
             if (status === ClientStatus.ONLINE) {
                 channel.server!.fetchMembers();
             }
-        }, [status, channel.server]);
+            // eslint-disable-next-line
+        }, [status, channel.server_id]);
 
         const keys = [...client.members.keys()];
         const entries = useEntries(channel, keys, true);
