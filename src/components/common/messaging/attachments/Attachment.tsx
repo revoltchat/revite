@@ -11,6 +11,7 @@ import AttachmentActions from "./AttachmentActions";
 import { SizedGrid } from "./Grid";
 import Spoiler from "./Spoiler";
 import TextFile from "./TextFile";
+import ImageFile from "./ImageFile";
 
 interface Props {
     attachment: AttachmentI;
@@ -21,11 +22,8 @@ const MAX_ATTACHMENT_WIDTH = 480;
 
 export default function Attachment({ attachment, hasContent }: Props) {
     const client = useContext(AppContext);
-    const { openScreen } = useIntermediate();
     const { filename, metadata } = attachment;
     const [spoiler, setSpoiler] = useState(filename.startsWith("SPOILER_"));
-    // only used in image attachments
-    const [loading, setLoading] = useState(true);
 
     const url = client.generateFileURL(
         attachment,
@@ -41,24 +39,9 @@ export default function Attachment({ attachment, hasContent }: Props) {
                     height={metadata.height}
                     className={classNames({
                         [styles.margin]: hasContent,
-                        [styles.loading]: loading,
                         spoiler,
                     })}>
-                    <img
-                        src={url}
-                        alt={filename}
-                        className={styles.image}
-                        loading="lazy"
-                        onClick={() =>
-                            openScreen({ id: "image_viewer", attachment })
-                        }
-                        onLoad={() =>
-                            setLoading(false)
-                        }
-                        onMouseDown={(ev) =>
-                            ev.button === 1 && window.open(url, "_blank")
-                        }
-                    />
+                    <ImageFile attachment={attachment} />
                     {spoiler && <Spoiler set={setSpoiler} />}
                 </SizedGrid>
             );
