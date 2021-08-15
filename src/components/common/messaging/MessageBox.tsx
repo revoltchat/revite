@@ -106,6 +106,9 @@ const Action = styled.div`
     }
 `;
 
+// For sed replacement
+const SED_REGEX = new RegExp("^s/([^])*/([^])*$");
+
 // ! FIXME: add to app config and load from app config
 export const CAN_UPLOAD_AT_ONCE = 4;
 
@@ -198,37 +201,81 @@ export default observer(({ channel }: Props) => {
         stopTyping();
         setMessage();
         setReplies([]);
-        playSound("outbound");
-
         const nonce = ulid();
-        dispatch({
-            type: "QUEUE_ADD",
-            nonce,
-            channel: channel._id,
-            message: {
-                _id: nonce,
-                channel: channel._id,
-                author: client.user!._id,
 
-                content,
-                replies,
-            },
-        });
+        // sed style message editing.
+        // If the user types for example `s/abc/def`, the string "abc"
+        // will be replaced with "def" in their last sent message.
+        if (SED_REGEX.test(content)) {
+            renderer.messages.reverse();
+            const msg = renderer.messages.find(
+                (msg) => msg.author_id === client.user!._id,
+            );
+            renderer.messages.reverse();
 
-        defer(() => renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE));
+            if (msg) {
+                // eslint-disable-next-line prefer-const
+                let [_, toReplace, newText, flags] = content.split(/(?<!\\)\//);
 
-        try {
-            await channel.sendMessage({
-                content,
-                nonce,
-                replies,
-            });
-        } catch (error) {
+                if (toReplace == "*") toReplace = msg.content.toString();
+
+                const newContent =
+                    toReplace == ""
+                        ? msg.content.toString() + newText
+                        : msg.content
+                              .toString()
+                              .replace(new RegExp(toReplace, flags), newText);
+
+                if (newContent != msg.content) {
+                    if (newContent.length == 0) {
+                        msg.delete().catch(console.error);
+                    } else {
+                        msg.edit({
+                            content: newContent.substr(0, 2000),
+                        })
+                            .then(() =>
+                                defer(() =>
+                                    renderer.jumpToBottom(
+                                        SMOOTH_SCROLL_ON_RECEIVE,
+                                    ),
+                                ),
+                            )
+                            .catch(console.error);
+                    }
+                }
+            }
+        } else {
+            playSound("outbound");
+
             dispatch({
-                type: "QUEUE_FAIL",
-                error: takeError(error),
+                type: "QUEUE_ADD",
                 nonce,
+                channel: channel._id,
+                message: {
+                    _id: nonce,
+                    channel: channel._id,
+                    author: client.user!._id,
+
+                    content,
+                    replies,
+                },
             });
+
+            defer(() => renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE));
+
+            try {
+                await channel.sendMessage({
+                    content,
+                    nonce,
+                    replies,
+                });
+            } catch (error) {
+                dispatch({
+                    type: "QUEUE_FAIL",
+                    error: takeError(error),
+                    nonce,
+                });
+            }
         }
     }
 
