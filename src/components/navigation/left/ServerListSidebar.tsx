@@ -1,6 +1,7 @@
 import { Plus } from "@styled-icons/boxicons-regular";
+import { Cog } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components";
 
@@ -75,7 +76,6 @@ const ServerList = styled.div`
     display: flex;
     overflow-y: scroll;
     padding-bottom: 20px;
-    /*width: 58px;*/
     flex-direction: column;
 
     scrollbar-width: none;
@@ -87,11 +87,6 @@ const ServerList = styled.div`
     &::-webkit-scrollbar {
         width: 0px;
     }
-
-    /*${isTouchscreenDevice &&
-    css`
-        width: 58px;
-    `}*/
 `;
 
 const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
@@ -139,7 +134,6 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
         svg {
             margin-top: 5px;
             pointer-events: none;
-            // outline: 1px solid red;
         }
     }
 
@@ -148,6 +142,13 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
         css`
             cursor: pointer;
         `}
+`;
+
+const SettingsButton = styled.div`
+    width: 50px;
+    height: 56px;
+    display: grid;
+    place-items: center;
 `;
 
 function Swoosh() {
@@ -314,17 +315,17 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                     }>
                     <Plus size={36} />
                 </IconButton>
-                {/*<IconButton
-                    onClick={() =>
-                        openScreen({
-                            id: "special_input",
-                            type: "create_server",
-                        })
-                    }>
-                    <Compass size={36} />
-                </IconButton>*/}
                 <PaintCounter small />
             </ServerList>
+            {!isTouchscreenDevice && (
+                <SettingsButton>
+                    <Link to="/settings">
+                        <IconButton>
+                            <Cog size={32} strokeWidth="0.5" />
+                        </IconButton>
+                    </Link>
+                </SettingsButton>
+            )}
         </ServersBase>
     );
 });

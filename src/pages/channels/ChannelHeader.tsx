@@ -46,9 +46,9 @@ const Info = styled.div`
     .status {
         width: 10px;
         height: 10px;
-        border-radius: 50%;
         display: inline-block;
         margin-inline-end: 6px;
+        border-radius: var(--border-radius-half);
     }
 
     .desc {
