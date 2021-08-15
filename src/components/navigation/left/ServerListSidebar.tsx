@@ -320,9 +320,13 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
             {!isTouchscreenDevice && (
                 <SettingsButton>
                     <Link to="/settings">
-                        <IconButton>
-                            <Cog size={32} strokeWidth="0.5" />
-                        </IconButton>
+                        <Tooltip
+                            content="Settings"
+                            placement="right">
+                            <IconButton>
+                                <Cog size={32} strokeWidth="0.5" />
+                            </IconButton>
+                        </Tooltip>
                     </Link>
                 </SettingsButton>
             )}
