@@ -22,19 +22,18 @@ export default function RightSidebar() {
         [setSidebar],
     );
 
-    if (sidebar === "search") {
-        return <SearchSidebar close={close} />;
-    }
+    const content =
+        sidebar === "search" ? (
+            <SearchSidebar close={close} />
+        ) : (
+            <MemberSidebar />
+        );
 
     return (
         <SidebarBase>
             <Switch>
-                <Route path="/server/:server/channel/:channel">
-                    <MemberSidebar />
-                </Route>
-                <Route path="/channel/:channel">
-                    <MemberSidebar />
-                </Route>
+                <Route path="/server/:server/channel/:channel">{content}</Route>
+                <Route path="/channel/:channel">{content}</Route>
             </Switch>
         </SidebarBase>
     );
