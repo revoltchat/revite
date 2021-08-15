@@ -88,7 +88,7 @@
     overflow-y: auto;
     flex-direction: column;
     background: var(--primary-background);
-    border-radius: 0 0 2px 2px;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
 
     .empty {
         display: flex;
@@ -157,7 +157,7 @@
     img {
         width: 32px;
         height: 32px;
-        border-radius: 50%;
+        border-radius: var(--border-radius-half);
     }
 
     span {

@@ -16,10 +16,10 @@ const ServerText = styled.div`
     display: grid;
     padding: 0.2em;
     overflow: hidden;
-    border-radius: 50%;
     place-items: center;
     color: var(--foreground);
     background: var(--primary-background);
+    border-radius: var(--border-radius-half);
 `;
 
 // const fallback = "/assets/group.png";

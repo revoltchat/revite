@@ -4,7 +4,7 @@
 
     &.icon {
         .image {
-            border-radius: 50%;
+            border-radius: var(--border-radius-half);
         }
     }
 
@@ -50,7 +50,7 @@
             color: white;
             place-items: center;
             background: rgba(95, 95, 95, 0.5);
-            transition: .2s ease-in-out opacity;
+            transition: 0.2s ease-in-out opacity;
         }
     }
 
@@ -75,7 +75,8 @@
     }
 
     &[data-uploading="true"] {
-        .image, .modify:first-child {
+        .image,
+        .modify:first-child {
             cursor: not-allowed !important;
         }
     }

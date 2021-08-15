@@ -147,7 +147,6 @@
             align-items: center;
             min-width: 0;
 
-            
             .title {
                 text-overflow: ellipsis;
                 overflow: hidden;
@@ -157,14 +156,14 @@
             span {
                 width: 1.5em;
                 height: 1.5em;
-                font-size: 12px;
                 color: white;
-                border-radius: 50%;
+                flex-shrink: 0;
+                font-size: 12px;
                 align-items: center;
                 display: inline-flex;
                 justify-content: center;
                 background: var(--error);
-                flex-shrink: 0;
+                border-radius: var(--border-radius-half);
             }
         }
 

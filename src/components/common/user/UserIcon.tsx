@@ -36,7 +36,7 @@ export function useStatusColour(user?: User) {
 const VoiceIndicator = styled.div<{ status: VoiceStatus }>`
     width: 10px;
     height: 10px;
-    border-radius: 50%;
+    border-radius: var(--border-radius-half);
 
     display: flex;
     align-items: center;

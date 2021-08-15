@@ -35,7 +35,7 @@ const Base = styled.div`
             width: 16px;
             height: 16px;
             object-fit: cover;
-            border-radius: 50%;
+            border-radius: var(--border-radius-half);
 
             &:not(:first-child) {
                 margin-left: -4px;
