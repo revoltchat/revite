@@ -5,6 +5,8 @@ import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components";
 
+import { Text } from "preact-i18n";
+
 import { attachContextMenu } from "preact-context-menu";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
@@ -320,9 +322,13 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
             {!isTouchscreenDevice && (
                 <SettingsButton>
                     <Link to="/settings">
-                        <IconButton>
-                            <Cog size={32} strokeWidth="0.5" />
-                        </IconButton>
+                        <Tooltip
+                            content={<Text id="app.settings.title" />}
+                            placement="right">
+                            <IconButton>
+                                <Cog size={32} strokeWidth="0.5" />
+                            </IconButton>
+                        </Tooltip>
                     </Link>
                 </SettingsButton>
             )}
