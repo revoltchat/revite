@@ -136,8 +136,8 @@
     height: 6px;
     margin: 9px;
     flex-shrink: 0;
-    border-radius: 50%;
     background: var(--foreground);
+    border-radius: var(--border-radius-half);
 
     display: grid;
     font-size: 10px;

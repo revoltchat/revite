@@ -66,9 +66,9 @@ const PreloaderBase = styled.div`
         height: 32px;
         display: block;
         position: absolute;
-        border-radius: 50%;
         box-sizing: border-box;
         border: 2px solid #fff;
+        border-radius: var(--border-radius-half);
         animation: ${prRing} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
         border-color: #fff transparent transparent transparent;
     }

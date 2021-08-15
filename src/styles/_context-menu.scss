@@ -3,24 +3,25 @@
     min-width: 190px;
     padding: 6px 8px;
     user-select: none;
-    font-size: .875rem;
+    font-size: 0.875rem;
     color: var(--secondary-foreground);
     border-radius: var(--border-radius);
     background: var(--primary-background) !important;
     box-shadow: 0px 0px 8px 8px rgba(0, 0, 0, 0.05);
 
-    > span, .main > span {
+    > span,
+    .main > span {
         gap: 6px;
         margin: 2px 0;
         display: flex;
         padding: 6px 8px;
-        border-radius: 3px;
         align-items: center;
         white-space: nowrap;
-        
+        border-radius: calc(var(--border-radius) / 2);
+
         &:not([data-disabled="true"]) {
             cursor: pointer;
-            
+
             &:hover {
                 background: var(--secondary-background);
             }
@@ -28,7 +29,7 @@
 
         .tip {
             flex-grow: 1;
-            font-size: .650rem;
+            font-size: 0.65rem;
             text-align: right;
             color: var(--tertiary-foreground);
         }
@@ -60,7 +61,7 @@
         .status {
             cursor: pointer;
             max-width: 132px;
-            font-size: .625rem;
+            font-size: 0.625rem;
             color: var(--secondary-foreground);
 
             text-overflow: ellipsis;
@@ -72,7 +73,7 @@
     .indicator {
         width: 8px;
         height: 8px;
-        border-radius: 50%;
+        border-radius: var(--border-radius-half);
 
         &.online {
             background: var(--status-online);

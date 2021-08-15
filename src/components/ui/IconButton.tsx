@@ -13,11 +13,11 @@ export default styled.div<Props>`
     display: grid;
     cursor: pointer;
     place-items: center;
-    transition: 0.1s ease background-color;
+
+    transition: 0.1s ease all;
 
     fill: ${normal};
     color: ${normal};
-    /*stroke: ${normal};*/
 
     a {
         color: ${normal};
@@ -30,7 +30,6 @@ export default styled.div<Props>`
     &:hover {
         fill: ${hover};
         color: ${hover};
-        /*stroke: ${hover};*/
 
         a {
             color: ${hover};
@@ -41,7 +40,7 @@ export default styled.div<Props>`
         props.type === "circle" &&
         css`
             padding: 4px;
-            border-radius: 50%;
+            border-radius: var(--border-radius-half);
             background-color: var(--secondary-header);
 
             &:hover {

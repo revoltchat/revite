@@ -151,9 +151,9 @@
                 background: var(--accent);
 
                 font-size: 10px;
-                border-radius: 2px;
                 text-transform: uppercase;
                 box-shadow: 0 2px #787676;
+                border-radius: calc(var(--border-radius) / 3);
 
                 &:active {
                     transform: translateY(1px);

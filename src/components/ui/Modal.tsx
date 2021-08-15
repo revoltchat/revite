@@ -117,8 +117,8 @@ const ModalActions = styled.div`
     flex-direction: row-reverse;
 
     padding: 1em 1.5em;
-    border-radius: 0 0 8px 8px;
     background: var(--secondary-background);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
 `;
 
 export type Action = Omit<ButtonProps, "onClick"> & {
