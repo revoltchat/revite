@@ -33,10 +33,12 @@ import { Children } from "../../../types/Preact";
 function Icon({
     children,
     unread,
+    count,
     size,
 }: {
     children: Children;
     unread?: "mention" | "unread";
+    count: number | 0;
     size: number;
 }) {
     return (
@@ -54,7 +56,10 @@ function Icon({
                 <circle cx="27" cy="5" r="5" fill={"white"} />
             )}
             {unread === "mention" && (
-                <circle cx="27" cy="5" r="5" fill={"var(--error)"} />
+                <>
+                    <circle cx="27" cy="5" r="5" fill={"var(--error)"} />
+                    <text x="27" y="5" r="5" fill={"white"} text-anchor="middle" fontSize={"7.5"} alignmentBaseline={"middle"}>{count<10?count:"9+"}</text>
+                </>
             )}
         </svg>
     );
@@ -263,7 +268,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                                 homeActive && history.push("/settings")
                             }>
                             <UserHover user={client.user}>
-                                <Icon size={42} unread={homeUnread}>
+                                <Icon size={42} unread={homeUnread} count={0}>
                                     <UserIcon
                                         target={client.user}
                                         size={32}
@@ -297,7 +302,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                                 <Tooltip
                                     content={entry.server.name}
                                     placement="right">
-                                    <Icon size={42} unread={entry.unread}>
+                                    <Icon size={42} unread={entry.unread} count={entry.alertCount}>
                                         <ServerIcon
                                             size={32}
                                             target={entry.server}
