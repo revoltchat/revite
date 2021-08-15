@@ -22,6 +22,7 @@ export enum Language {
 
     ARABIC = "ar",
     AZERBAIJANI = "az",
+    BULGARIAN = "bg",
     CZECH = "cs",
     GERMAN = "de",
     GREEK = "el",
@@ -42,10 +43,12 @@ export enum Language {
     RUSSIAN = "ru",
     SERBIAN = "sr",
     SWEDISH = "sv",
-    TOKIPONA = "tokipona",
+    THAI = "th",
     TURKISH = "tr",
     UKRANIAN = "uk",
     CHINESE_SIMPLIFIED = "zh_Hans",
+
+    TOKIPONA = "tokipona",
 
     OWO = "owo",
     PIRATE = "pr",
@@ -72,6 +75,7 @@ export const Languages: { [key in Language]: LanguageEntry } = {
 
     ar: { display: "عربي", emoji: "🇸🇦", i18n: "ar", rtl: true },
     az: { display: "Azərbaycan dili", emoji: "🇦🇿", i18n: "az" },
+    bg: { display: "български", emoji: "🇧🇬", i18n: "bg" },
     cs: { display: "Čeština", emoji: "🇨🇿", i18n: "cs" },
     de: { display: "Deutsch", emoji: "🇩🇪", i18n: "de" },
     el: { display: "Ελληνικά", emoji: "🇬🇷", i18n: "el" },
@@ -97,6 +101,7 @@ export const Languages: { [key in Language]: LanguageEntry } = {
     ru: { display: "Русский", emoji: "🇷🇺", i18n: "ru" },
     sr: { display: "Српски", emoji: "🇷🇸", i18n: "sr" },
     sv: { display: "Svenska", emoji: "🇸🇪", i18n: "sv" },
+    th: { display: "ไทย", emoji: "🇹🇭", i18n: "th" },
     tr: { display: "Türkçe", emoji: "🇹🇷", i18n: "tr" },
     uk: { display: "Українська", emoji: "🇺🇦", i18n: "uk" },
     zh_Hans: {
