@@ -860,6 +860,15 @@ function ContextMenus(props: Props) {
                         }
 
                         if (sid && server) {
+                            if (server.channels[0] !== undefined)
+                                generateAction(
+                                    {
+                                        action: "create_invite",
+                                        target: server.channels[0],
+                                    },
+                                    "create_invite",
+                                );
+
                             if (
                                 serverPermissions &
                                     ServerPermission.ChangeNickname ||
