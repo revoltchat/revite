@@ -372,7 +372,7 @@ export function Component(props: Props) {
                                     }
                                 />
                             </div>
-                            <span>{x}</span>
+                            <span style={`color: ${getContrastingColour(theme[x])}`}>{x}</span>
                             <div className={styles.override}>
                                 <div
                                     className={styles.picker}
@@ -445,3 +445,12 @@ export const Appearance = connectState(Component, (state) => {
         settings: state.settings,
     };
 });
+
+function getContrastingColour(hex: string){
+    hex = hex.replace("#", "");
+    const r = parseInt(hex.substr(0,2),16);
+    const g = parseInt(hex.substr(2,2),16);
+    const b = parseInt(hex.substr(4,2),16);
+    const cc = ((r*299)+(g*587)+(b*114))/1000;
+    return (cc >= 128) ? 'black' : 'white';
+}
