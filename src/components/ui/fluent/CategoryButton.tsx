@@ -13,7 +13,7 @@ interface BaseProps {
 const CategoryBase = styled.div<BaseProps>`
     /*height: 54px;*/
     padding: 9.8px 12px;
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     margin-bottom: 10px;
     color: var(--foreground);
     background: var(--secondary-header);

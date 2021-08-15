@@ -43,9 +43,9 @@ const RadioBase = styled.label<BaseProps>`
         width: 24px;
         height: 24px;
         display: grid;
-        border-radius: 50%;
         place-items: center;
         background: var(--foreground);
+        border-radius: var(--border-radius-half);
 
         svg {
             color: var(--foreground);

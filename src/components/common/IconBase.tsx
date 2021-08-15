@@ -26,7 +26,7 @@ export default styled.svg<IconModifiers>`
         ${(props) =>
             !props.square &&
             css`
-                border-radius: 50%;
+                border-radius: var(--border-radius-half);
             `}
     }
 
@@ -46,7 +46,7 @@ export const ImageIconBase = styled.img<IconModifiers>`
     ${(props) =>
         !props.square &&
         css`
-            border-radius: 50%;
+            border-radius: var(--border-radius-half);
         `}
 
     ${(props) =>

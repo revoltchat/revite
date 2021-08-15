@@ -72,7 +72,7 @@
             align-items: center;
             flex-direction: row;
             background: var(--secondary-header);
-            border-radius: 6px;
+            border-radius: var(--border-radius);
 
             > svg {
                 flex-shrink: 0;
