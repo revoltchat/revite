@@ -46,6 +46,7 @@ export type Screen =
           | { type: "unfriend_user"; target: User }
           | { type: "block_user"; target: User }
           | { type: "create_channel"; target: Server }
+          | { type: "create_category"; target: Server }
       ))
     | ({ id: "special_input" } & (
           | {
