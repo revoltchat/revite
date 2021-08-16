@@ -38,6 +38,8 @@ export const Roles = observer(({ server }: Props) => {
     const {
         name: roleName,
         colour: roleColour,
+        hoist: roleHoist,
+        rank: roleRank,
         permissions,
     } = roles[role] ?? {};
 
@@ -54,6 +56,8 @@ export const Roles = observer(({ server }: Props) => {
 
     const [perm, setPerm] = useState(getPermissions(role));
     const [name, setName] = useState(roleName);
+    const [hoist, setHoist] = useState(roleHoist);
+    const [rank, setRank] = useState(roleRank);
     const [colour, setColour] = useState(roleColour);
 
     useEffect(
@@ -62,12 +66,16 @@ export const Roles = observer(({ server }: Props) => {
     );
 
     useEffect(() => setName(roleName), [role, roleName]);
+    useEffect(() => setHoist(roleHoist), [role, roleHoist]);
+    useEffect(() => setRank(roleRank), [role, roleRank]);
     useEffect(() => setColour(roleColour), [role, roleColour]);
 
     const modified =
         !isEqual(perm, getPermissions(role)) ||
         !isEqual(name, roleName) ||
-        !isEqual(colour, roleColour);
+        !isEqual(colour, roleColour) ||
+        !isEqual(hoist, roleHoist) ||
+        !isEqual(rank, roleRank);
 
     const save = () => {
         if (!isEqual(perm, getPermissions(role))) {
@@ -77,8 +85,13 @@ export const Roles = observer(({ server }: Props) => {
             });
         }
 
-        if (!isEqual(name, roleName) || !isEqual(colour, roleColour)) {
-            server.editRole(role, { name, colour });
+        if (
+            !isEqual(name, roleName) ||
+            !isEqual(colour, roleColour) ||
+            !isEqual(hoist, roleHoist) ||
+            !isEqual(rank, roleRank)
+        ) {
+            server.editRole(role, { name, colour, hoist, rank });
         }
     };
 
@@ -163,6 +176,17 @@ export const Roles = observer(({ server }: Props) => {
                                 />
                             </p>
                         </section>
+                        <section>
+                            <Overline type="subtle">Role Options</Overline>
+                            <p>
+                                <Checkbox
+                                    checked={hoist ?? false}
+                                    onChange={(v) => setHoist(v)}
+                                    description="Display this role above others.">
+                                    Hoist Role
+                                </Checkbox>
+                            </p>
+                        </section>
                     </>
                 )}
                 <section>
@@ -228,6 +252,24 @@ export const Roles = observer(({ server }: Props) => {
                         </Button>
                     )}
                 </div>
+                {role !== "default" && (
+                    <>
+                        <section>
+                            <Overline type="subtle">
+                                Experimental Role Ranking
+                            </Overline>
+                            <p>
+                                <InputBox
+                                    value={rank ?? 0}
+                                    onChange={(e) =>
+                                        setRank(parseInt(e.currentTarget.value))
+                                    }
+                                    contrast
+                                />
+                            </p>
+                        </section>
+                    </>
+                )}
             </div>
         </div>
     );
