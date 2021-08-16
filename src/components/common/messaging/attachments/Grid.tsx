@@ -14,6 +14,8 @@ const Grid = styled.div<{ width: number; height: number }>`
 
     max-height: min(${(props) => props.height}px, var(--attachment-max-height));
 
+    // This is a hack for browsers not supporting aspect-ratio.
+    // Stolen from https://codepen.io/una/pen/BazyaOM.
     @supports not (
         aspect-ratio: ${(props) => props.width} / ${(props) => props.height}
     ) {
