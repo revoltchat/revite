@@ -53,6 +53,7 @@ export enum Language {
     OWO = "owo",
     PIRATE = "pr",
     BOTTOM = "bottom",
+    LEET = "leet",
     PIGLATIN = "piglatin",
 }
 
@@ -137,6 +138,13 @@ export const Languages: { [key in Language]: LanguageEntry } = {
         display: "Bottom",
         emoji: "🥺",
         i18n: "bottom",
+        dayjs: "en-gb",
+        cat: "alt",
+    },
+    leet: {
+        display: "1337",
+        emoji: "💾",
+        i18n: "leet",
         dayjs: "en-gb",
         cat: "alt",
     },
