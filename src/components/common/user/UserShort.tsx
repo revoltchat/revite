@@ -28,10 +28,12 @@ const BotBadge = styled.div`
 export const Username = observer(
     ({
         user,
+        prefixAt,
         showServerIdentity,
         ...otherProps
     }: {
         user?: User;
+        prefixAt?: boolean;
         showServerIdentity?: boolean;
     } & JSX.HTMLAttributes<HTMLElement>) => {
         let username = user?.username;
@@ -84,6 +86,7 @@ export const Username = observer(
 
         return (
             <span {...otherProps} style={{ color }}>
+                {prefixAt ? "@" : undefined}
                 {username ?? <Text id="app.main.channel.unknown_user" />}
             </span>
         );
@@ -93,10 +96,12 @@ export const Username = observer(
 export default function UserShort({
     user,
     size,
+    prefixAt,
     showServerIdentity,
 }: {
     user?: User;
     size?: number;
+    prefixAt?: boolean;
     showServerIdentity?: boolean;
 }) {
     const { openScreen } = useIntermediate();
@@ -115,6 +120,7 @@ export default function UserShort({
                 user={user}
                 showServerIdentity={showServerIdentity}
                 onClick={openProfile}
+                prefixAt={prefixAt}
             />
         </>
     );

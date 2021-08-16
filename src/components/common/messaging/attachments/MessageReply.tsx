@@ -18,6 +18,7 @@ import UserShort from "../../user/UserShort";
 import { SystemMessage } from "../SystemMessage";
 
 interface Props {
+    parent_mentions: string[];
     channel: Channel;
     index: number;
     id: string;
@@ -33,7 +34,6 @@ export const ReplyBase = styled.div<{
     display: flex;
     margin-inline-start: 30px;
     margin-inline-end: 12px;
-    /*margin-bottom: 4px;*/
     font-size: 0.8em;
     user-select: none;
     align-items: center;
@@ -137,91 +137,98 @@ export const ReplyBase = styled.div<{
         `}
 `;
 
-export const MessageReply = observer(({ index, channel, id }: Props) => {
-    const view = getRenderer(channel);
-    if (view.state !== "RENDER") return null;
+export const MessageReply = observer(
+    ({ index, channel, id, parent_mentions }: Props) => {
+        const view = getRenderer(channel);
+        if (view.state !== "RENDER") return null;
 
-    const [message, setMessage] = useState<Message | undefined>(undefined);
+        const [message, setMessage] = useState<Message | undefined>(undefined);
 
-    useLayoutEffect(() => {
-        const message = channel.client.messages.get(id);
-        if (message) {
-            setMessage(message);
-        } else {
-            channel.fetchMessage(id).then(setMessage);
+        useLayoutEffect(() => {
+            const message = channel.client.messages.get(id);
+            if (message) {
+                setMessage(message);
+            } else {
+                channel.fetchMessage(id).then(setMessage);
+            }
+        }, [id, channel, view.messages]);
+
+        if (!message) {
+            return (
+                <ReplyBase head={index === 0} fail>
+                    <Reply size={16} />
+                    <span>
+                        <Text id="app.main.channel.misc.failed_load" />
+                    </span>
+                </ReplyBase>
+            );
         }
-    }, [id, channel, view.messages]);
 
-    if (!message) {
+        const history = useHistory();
+
         return (
-            <ReplyBase head={index === 0} fail>
+            <ReplyBase head={index === 0}>
                 <Reply size={16} />
-                <span>
-                    <Text id="app.main.channel.misc.failed_load" />
-                </span>
+                {message.author?.relationship === RelationshipStatus.Blocked ? (
+                    <Text id="app.main.channel.misc.blocked_user" />
+                ) : (
+                    <>
+                        {message.author_id === SYSTEM_USER_ID ? (
+                            <SystemMessage message={message} hideInfo />
+                        ) : (
+                            <>
+                                <div className="user">
+                                    <UserShort
+                                        user={message.author}
+                                        size={16}
+                                        showServerIdentity
+                                        prefixAt={parent_mentions.includes(
+                                            message.author_id,
+                                        )}
+                                    />
+                                </div>
+                                <div
+                                    className="content"
+                                    onClick={() => {
+                                        const channel = message.channel!;
+                                        if (
+                                            channel.channel_type ===
+                                            "TextChannel"
+                                        ) {
+                                            history.push(
+                                                `/server/${channel.server_id}/channel/${channel._id}/${message._id}`,
+                                            );
+                                        } else {
+                                            history.push(
+                                                `/channel/${channel._id}/${message._id}`,
+                                            );
+                                        }
+                                    }}>
+                                    {message.attachments && (
+                                        <>
+                                            <File size={16} />
+                                            <em>
+                                                {message.attachments.length >
+                                                1 ? (
+                                                    <Text id="app.main.channel.misc.sent_multiple_files" />
+                                                ) : (
+                                                    <Text id="app.main.channel.misc.sent_file" />
+                                                )}
+                                            </em>
+                                        </>
+                                    )}
+                                    <Markdown
+                                        disallowBigEmoji
+                                        content={(
+                                            message.content as string
+                                        ).replace(/\n/g, " ")}
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </>
+                )}
             </ReplyBase>
         );
-    }
-
-    const history = useHistory();
-
-    return (
-        <ReplyBase head={index === 0}>
-            <Reply size={16} />
-            {message.author?.relationship === RelationshipStatus.Blocked ? (
-                <Text id="app.main.channel.misc.blocked_user" />
-            ) : (
-                <>
-                    {message.author_id === SYSTEM_USER_ID ? (
-                        <SystemMessage message={message} hideInfo />
-                    ) : (
-                        <>
-                            <div className="user">
-                                <UserShort
-                                    user={message.author}
-                                    size={16}
-                                    showServerIdentity
-                                />
-                            </div>
-                            <div
-                                className="content"
-                                onClick={() => {
-                                    const channel = message.channel!;
-                                    if (
-                                        channel.channel_type === "TextChannel"
-                                    ) {
-                                        history.push(
-                                            `/server/${channel.server_id}/channel/${channel._id}/${message._id}`,
-                                        );
-                                    } else {
-                                        history.push(
-                                            `/channel/${channel._id}/${message._id}`,
-                                        );
-                                    }
-                                }}>
-                                {message.attachments && (
-                                    <>
-                                        <File size={16} />
-                                        <em>
-                                            {message.attachments.length > 1 ? (
-                                                <Text id="app.main.channel.misc.sent_multiple_files" />
-                                            ) : (
-                                                <Text id="app.main.channel.misc.sent_file" />
-                                            )}
-                                        </em>
-                                    </>
-                                )}
-                                <Markdown
-                                    disallowBigEmoji
-                                    content={(
-                                        message.content as string
-                                    ).replace(/\n/g, " ")}
-                                />
-                            </div>
-                        </>
-                    )}
-                </>
-            )}
-        </ReplyBase>
-    );
-});
+    },
+);
