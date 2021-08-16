@@ -72,7 +72,13 @@ export const SimpleRenderer: RendererRoutines = {
             });
         });
     },
-    edit: noopAsync,
+    edit: async (renderer) => {
+        console.log("EDIT!!");
+        renderer.emitScroll({
+            type: "StayAtBottom",
+            smooth: false,
+        });
+    },
     delete: async (renderer, id) => {
         const channel = renderer.channel;
         if (!channel) return;

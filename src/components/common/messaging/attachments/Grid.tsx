@@ -2,17 +2,40 @@ import styled from "styled-components";
 
 import { Children } from "../../../../types/Preact";
 
-const Grid = styled.div`
+const Grid = styled.div<{ width: number; height: number }>`
     display: grid;
+    aspect-ratio: ${(props) => props.width} / ${(props) => props.height};
 
-    aspect-ratio: var(--aspect-ratio);
+    max-width: min(
+        100%,
+        ${(props) => props.width}px,
+        var(--attachment-max-width)
+    );
 
-    max-width: min(100%, var(--width), var(--attachment-max-width));
-    max-height: min(var(--height), var(--attachment-max-height));
+    max-height: min(${(props) => props.height}px, var(--attachment-max-height));
 
-    img, video {
+    // This is a hack for browsers not supporting aspect-ratio.
+    // Stolen from https://codepen.io/una/pen/BazyaOM.
+    @supports not (
+        aspect-ratio: ${(props) => props.width} / ${(props) => props.height}
+    ) {
+        div::before {
+            float: left;
+            padding-top: ${(props) => (props.height / props.width) * 100}%;
+            content: "";
+        }
+
+        div::after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+    }
+
+    img,
+    video {
         grid-area: 1 / 1;
-        
+
         display: block;
 
         max-width: 100%;
@@ -44,24 +67,16 @@ type Props = Omit<
     JSX.HTMLAttributes<HTMLDivElement>,
     "children" | "as" | "style"
 > & {
-    style?: JSX.CSSProperties;
     children?: Children;
     width: number;
     height: number;
 };
 
 export function SizedGrid(props: Props) {
-    const { width, height, children, style, ...divProps } = props;
+    const { width, height, children, ...divProps } = props;
 
     return (
-        <Grid
-            {...divProps}
-            style={{
-                ...style,
-                "--width": `${width}px`,
-                "--height": `${height}px`,
-                "--aspect-ratio": `${width} / ${height}`,
-            }}>
+        <Grid {...divProps} width={width} height={height}>
             {children}
         </Grid>
     );

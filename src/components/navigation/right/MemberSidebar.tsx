@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
+import { Role } from "revolt-api/types/Servers";
 import { Presence } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
+import { Server } from "revolt.js/dist/maps/Servers";
 import { User } from "revolt.js/dist/maps/Users";
 
 import { useContext, useEffect, useMemo } from "preact/hooks";
@@ -41,22 +43,42 @@ function useEntries(channel: Channel, keys: string[], isServer?: boolean) {
 
         const categoryInfo: { [key: string]: string } = {};
 
+        let roles: Server["roles"];
+        let roleList: string[];
+        if (
+            channel.channel_type === "TextChannel" ||
+            channel.channel_type === "VoiceChannel"
+        ) {
+            roles = channel.server!.roles;
+            if (roles) {
+                const list = Object.keys(roles)
+                    .map((id) => {
+                        return [id, roles![id], roles![id].rank ?? 0] as [
+                            string,
+                            Role,
+                            number,
+                        ];
+                    })
+                    .filter(([, role]) => role.hoist);
+
+                list.sort((b, a) => b[2] - a[2]);
+
+                list.forEach(([id, role]) => {
+                    if (categories[id]) return;
+                    categories[id] = [];
+                    categoryInfo[id] = role.name;
+                });
+
+                roleList = list.map((x) => x[0]);
+            }
+        }
+
         keys.forEach((key) => {
-            let u, s;
+            let u;
             if (isServer) {
                 const { server, user } = JSON.parse(key);
                 if (server !== channel.server_id) return;
                 u = client.users.get(user);
-                s = client.servers.get(server);
-
-                if (s?.roles) {
-                    for (const id of Object.keys(s.roles)) {
-                        if (categories[id]) continue;
-                        // Check if hoisted.
-                        categories[id] = [];
-                        categoryInfo[id] = s.roles[id].name;
-                    }
-                }
             } else {
                 u = client.users.get(key);
             }
@@ -72,14 +94,14 @@ function useEntries(channel: Channel, keys: string[], isServer?: boolean) {
             } else {
                 if (isServer) {
                     // Sort users into hoisted roles here.
-                    if (member?.roles && s?.roles) {
+                    if (member?.roles && roles) {
                         let success = false;
-                        for (const id of member.roles) {
-                            if (categories[id]) {
-                                categories[id].push(entry);
+                        for (const role of roleList) {
+                            if (member.roles.includes(role)) {
+                                categories[role].push(entry);
                                 success = true;
+                                break;
                             }
-                            break;
                         }
 
                         if (success) return;

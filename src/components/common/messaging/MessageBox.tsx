@@ -107,7 +107,7 @@ const Action = styled.div`
 `;
 
 // For sed replacement
-const SED_REGEX = new RegExp("^s/([^])*/([^])*$");
+const RE_SED = new RegExp("^s/([^])*/([^])*$");
 
 // ! FIXME: add to app config and load from app config
 export const CAN_UPLOAD_AT_ONCE = 4;
@@ -206,7 +206,7 @@ export default observer(({ channel }: Props) => {
         // sed style message editing.
         // If the user types for example `s/abc/def`, the string "abc"
         // will be replaced with "def" in their last sent message.
-        if (SED_REGEX.test(content)) {
+        if (RE_SED.test(content)) {
             renderer.messages.reverse();
             const msg = renderer.messages.find(
                 (msg) => msg.author_id === client.user!._id,
@@ -215,7 +215,7 @@ export default observer(({ channel }: Props) => {
 
             if (msg) {
                 // eslint-disable-next-line prefer-const
-                let [_, toReplace, newText, flags] = content.split(/(?<!\\)\//);
+                let [_, toReplace, newText, flags] = content.split(/\//);
 
                 if (toReplace == "*") toReplace = msg.content.toString();
 
