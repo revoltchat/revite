@@ -14,6 +14,8 @@ import { getRenderer } from "../../../../lib/renderer/Singleton";
 import { dispatch, getState } from "../../../../redux";
 import { Reply } from "../../../../redux/reducers/queue";
 
+import { useClient } from "../../../../context/revoltjs/RevoltClient";
+
 import IconButton from "../../../ui/IconButton";
 
 import Markdown from "../../../markdown/Markdown";
@@ -95,6 +97,7 @@ export default observer(({ channel, replies, setReplies }: Props) => {
         );
     }, [replies, setReplies]);
 
+    const client = useClient();
     const renderer = getRenderer(channel);
     if (renderer.state !== "RENDER") return null;
 
@@ -153,34 +156,36 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                             </div>
                         </ReplyBase>
                         <span class="actions">
-                            <IconButton
-                                onClick={() => {
-                                    let state = false;
-                                    setReplies(
-                                        replies.map((_, i) => {
-                                            if (i === index) {
-                                                state = !_.mention;
-                                                return {
-                                                    ..._,
-                                                    mention: !_.mention,
-                                                };
-                                            }
+                            {message.author_id !== client.user!._id && (
+                                <IconButton
+                                    onClick={() => {
+                                        let state = false;
+                                        setReplies(
+                                            replies.map((_, i) => {
+                                                if (i === index) {
+                                                    state = !_.mention;
+                                                    return {
+                                                        ..._,
+                                                        mention: !_.mention,
+                                                    };
+                                                }
 
-                                            return _;
-                                        }),
-                                    );
+                                                return _;
+                                            }),
+                                        );
 
-                                    dispatch({
-                                        type: "SECTION_TOGGLE_SET",
-                                        id: "mention",
-                                        state,
-                                    });
-                                }}>
-                                <span class="toggle">
-                                    <At size={16} />{" "}
-                                    {reply.mention ? "ON" : "OFF"}
-                                </span>
-                            </IconButton>
+                                        dispatch({
+                                            type: "SECTION_TOGGLE_SET",
+                                            id: "mention",
+                                            state,
+                                        });
+                                    }}>
+                                    <span class="toggle">
+                                        <At size={16} />{" "}
+                                        {reply.mention ? "ON" : "OFF"}
+                                    </span>
+                                </IconButton>
+                            )}
                             <IconButton
                                 onClick={() =>
                                     setReplies(
