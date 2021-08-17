@@ -463,9 +463,6 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
         }
         case "create_category": {
             const [name, setName] = useState("");
-            const [cats, setCats] = useState<Category[]>(
-                props.target.categories ?? [],
-            );
             const history = useHistory();
 
             return (
@@ -482,12 +479,12 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                             onClick: async () => {
                                 setProcessing(true);
                                 try {
-                                    cats.push({
-                                        id: ulid(),
-                                        title: name,
-                                        channels: [],
+                                    props.target.edit({
+                                        categories: [
+                                            ...props.target.categories ?? [],
+                                            { id: ulid(), title: name, channels: [] }
+                                        ]
                                     });
-                                    props.target.edit({ categories: cats });
                                     onClose();
                                     setProcessing(false);
                                 } catch (err) {
