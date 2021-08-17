@@ -102,6 +102,7 @@ type Action =
     | { action: "set_status" }
     | { action: "clear_status" }
     | { action: "create_channel"; target: Server }
+    | { action: "create_category"; target: Server }
     | {
           action: "create_invite";
           target: Channel;
@@ -400,6 +401,7 @@ function ContextMenus(props: Props) {
                 case "delete_server":
                 case "delete_message":
                 case "create_channel":
+                case "create_category":
                 case "create_invite":
                     // Typescript flattens the case types into a single type and type structure and specifity is lost
                     openScreen({
@@ -508,11 +510,16 @@ function ContextMenus(props: Props) {
                         const server = client.servers.get(server_list)!;
                         const permissions = server.permission;
                         if (server) {
-                            if (permissions & ServerPermission.ManageChannels)
+                            if (permissions & ServerPermission.ManageChannels) {
+                                generateAction({
+                                    action: "create_category",
+                                    target: server,
+                                });
                                 generateAction({
                                     action: "create_channel",
                                     target: server,
                                 });
+                            }
                             if (permissions & ServerPermission.ManageServer)
                                 generateAction({
                                     action: "open_server_settings",

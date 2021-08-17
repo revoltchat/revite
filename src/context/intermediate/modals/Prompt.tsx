@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
+import { Category } from "revolt-api/types/Servers";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
 import { Server } from "revolt.js/dist/maps/Servers";
@@ -70,6 +71,7 @@ type SpecialProps = { onClose: () => void } & (
     | { type: "unfriend_user"; target: User }
     | { type: "block_user"; target: User }
     | { type: "create_channel"; target: Server }
+    | { type: "create_category"; target: Server }
 );
 
 export const SpecialPromptModal = observer((props: SpecialProps) => {
@@ -445,6 +447,61 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                 onSelect={() => setType("Voice")}>
                                 <Text id="app.main.servers.voice_channel" />
                             </Radio>
+                            <Overline block type="subtle">
+                                <Text id="app.main.servers.channel_name" />
+                            </Overline>
+                            <InputBox
+                                value={name}
+                                onChange={(e) => setName(e.currentTarget.value)}
+                            />
+                        </>
+                    }
+                    disabled={processing}
+                    error={error}
+                />
+            );
+        }
+        case "create_category": {
+            const [name, setName] = useState("");
+            const history = useHistory();
+
+            return (
+                <PromptModal
+                    onClose={onClose}
+                    question={<Text id="app.context_menu.create_category" />}
+                    actions={[
+                        {
+                            confirmation: true,
+                            contrast: true,
+                            children: (
+                                <Text id="app.special.modals.actions.create" />
+                            ),
+                            onClick: async () => {
+                                setProcessing(true);
+                                try {
+                                    props.target.edit({
+                                        categories: [
+                                            ...props.target.categories ?? [],
+                                            { id: ulid(), title: name, channels: [] }
+                                        ]
+                                    });
+                                    onClose();
+                                    setProcessing(false);
+                                } catch (err) {
+                                    setError(takeError(err));
+                                    setProcessing(false);
+                                }
+                            },
+                        },
+                        {
+                            children: (
+                                <Text id="app.special.modals.actions.cancel" />
+                            ),
+                            onClick: onClose,
+                        },
+                    ]}
+                    content={
+                        <>
                             <Overline block type="subtle">
                                 <Text id="app.main.servers.channel_name" />
                             </Overline>
