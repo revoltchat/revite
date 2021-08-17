@@ -79,7 +79,7 @@ type Action =
     | { action: "retry_message"; message: QueuedMessage }
     | { action: "cancel_message"; message: QueuedMessage }
     | { action: "mention"; user: string }
-    | { action: "reply_message"; id: string }
+    | { action: "reply_message"; target: Message }
     | { action: "quote_message"; content: string }
     | { action: "edit_message"; id: string }
     | { action: "delete_message"; target: Message }
@@ -246,7 +246,7 @@ function ContextMenus(props: Props) {
 
                 case "reply_message":
                     {
-                        internalEmit("ReplyBar", "add", data.id);
+                        internalEmit("ReplyBar", "add", data.target);
                     }
                     break;
 
@@ -695,7 +695,7 @@ function ContextMenus(props: Props) {
                     if (message && !queued) {
                         generateAction({
                             action: "reply_message",
-                            id: message._id,
+                            target: message,
                         });
 
                         if (

@@ -3,6 +3,7 @@ import { File, XCircle } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { SYSTEM_USER_ID } from "revolt.js";
 import { Channel } from "revolt.js/dist/maps/Channels";
+import { Message } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
@@ -80,48 +81,35 @@ const Base = styled.div`
 // ! FIXME: Move to global config
 const MAX_REPLIES = 4;
 export default observer(({ channel, replies, setReplies }: Props) => {
-    useEffect(() => {
-        return internalSubscribe(
-            "ReplyBar",
-            "add",
-            (id) =>
-                replies.length < MAX_REPLIES &&
-                !replies.find((x) => x.id === id) &&
-                setReplies([
-                    ...replies,
-                    {
-                        id: id as string,
-                        mention: getState().sectionToggle.mention ?? false,
-                    },
-                ]),
-        );
-    }, [replies, setReplies]);
-
     const client = useClient();
+
+    useEffect(() => {
+        return internalSubscribe("ReplyBar", "add", (_message) => {
+            const message = _message as Message;
+            if (
+                replies.length >= MAX_REPLIES ||
+                replies.find((x) => x.id === message._id)
+            )
+                return;
+
+            setReplies([
+                ...replies,
+                {
+                    id: message._id,
+                    mention:
+                        message.author_id === client.user!._id
+                            ? false
+                            : getState().sectionToggle.mention ?? false,
+                },
+            ]);
+        });
+    }, [replies, setReplies, client.user]);
+
     const renderer = getRenderer(channel);
     if (renderer.state !== "RENDER") return null;
 
     const ids = replies.map((x) => x.id);
     const messages = renderer.messages.filter((x) => ids.includes(x._id));
-
-    useEffect(() => {
-        let mentionsChanged = false;
-        const modified = replies.map((reply) => {
-            const message = messages.find((x) => reply.id === x._id);
-            if (message?.author_id === client.user!._id && reply.mention) {
-                mentionsChanged = true;
-                return {
-                    ...reply,
-                    mention: false,
-                };
-            }
-
-            return reply;
-        });
-        if (mentionsChanged) {
-            setReplies(modified);
-        }
-    }, [replies, setReplies, client.user, messages]);
 
     return (
         <div>
