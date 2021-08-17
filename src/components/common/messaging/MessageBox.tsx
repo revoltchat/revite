@@ -497,6 +497,7 @@ export default observer(({ channel }: Props) => {
                     hideBorder
                     maxRows={20}
                     id="message"
+                    maxLength={2000}
                     onKeyUp={onKeyUp}
                     value={draft ?? ""}
                     padding="var(--message-box-padding)"
