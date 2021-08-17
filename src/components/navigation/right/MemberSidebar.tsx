@@ -43,13 +43,13 @@ function useEntries(channel: Channel, keys: string[], isServer?: boolean) {
 
         const categoryInfo: { [key: string]: string } = {};
 
-        let roles: Server["roles"];
+        let roles: Server["roles"] | undefined;
         let roleList: string[];
         if (
             channel.channel_type === "TextChannel" ||
             channel.channel_type === "VoiceChannel"
         ) {
-            roles = channel.server!.roles;
+            roles = channel.server?.roles;
             if (roles) {
                 const list = Object.keys(roles)
                     .map((id) => {
