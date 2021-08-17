@@ -5,9 +5,10 @@ import styles from "./Home.module.scss";
 import { Text } from "preact-i18n";
 
 import wideSVG from "../../assets/wide.svg";
+import Emoji from "../../components/common/Emoji";
 import Tooltip from "../../components/common/Tooltip";
-import Button from "../../components/ui/Button";
 import Header from "../../components/ui/Header";
+import CategoryButton from "../../components/ui/fluent/CategoryButton";
 
 export default function Home() {
     return (
@@ -23,26 +24,38 @@ export default function Home() {
             </h3>
             <div className={styles.actions}>
                 <Link to="/invite/Testers">
-                    <Button contrast error>
+                    <CategoryButton
+                        action="chevron"
+                        icon={<Emoji emoji="😁" size={32} />}>
                         Join testers server
-                    </Button>
+                    </CategoryButton>
                 </Link>
                 <a
                     href="https://insrt.uk/donate"
                     target="_blank"
                     rel="noreferrer">
-                    <Button contrast gold>
+                    <CategoryButton
+                        action="external"
+                        icon={<Emoji emoji="💷" size={32} />}>
                         Donate to Revolt
-                    </Button>
+                    </CategoryButton>
                 </a>
                 <Link to="/settings/feedback">
-                    <Button contrast>Give feedback</Button>
+                    <CategoryButton
+                        action="chevron"
+                        icon={<Emoji emoji="🎉" size={32} />}>
+                        Give feedback
+                    </CategoryButton>
                 </Link>
-                <Link to="/settings">
-                    <Tooltip content="You can also right-click the user icon in the top left, or left click it if you're already home.">
-                        <Button contrast>Open settings</Button>
-                    </Tooltip>
-                </Link>
+                <Tooltip content="You can also right-click the user icon in the top left, or left click it if you're already home.">
+                    <Link to="/settings">
+                        <CategoryButton
+                            action="chevron"
+                            icon={<Emoji emoji="🔧" size={32} />}>
+                            Settings
+                        </CategoryButton>
+                    </Link>
+                </Tooltip>
             </div>
         </div>
     );
