@@ -35,12 +35,12 @@ export default observer(({ server }: Props) => {
                 <Tooltip content={"Official Server"} placement={"bottom-start"}>
                     <svg width="20" height="20">
                         <image
-                            xlinkHref="/assets/verified.svg"
+                            xlinkHref="/assets/badges/verified.svg"
                             height="20"
                             width="20"
                         />
                         <image
-                            xlinkHref="/assets/revolt_r.svg"
+                            xlinkHref="/assets/badges/revolt_r.svg"
                             height="15"
                             width="15"
                             x="2"
