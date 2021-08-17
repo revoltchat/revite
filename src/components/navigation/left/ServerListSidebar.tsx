@@ -5,9 +5,8 @@ import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components";
 
-import { Text } from "preact-i18n";
-
 import { attachContextMenu } from "preact-context-menu";
+import { Text } from "preact-i18n";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
@@ -58,7 +57,17 @@ function Icon({
             {unread === "mention" && (
                 <>
                     <circle cx="27" cy="5" r="5" fill={"var(--error)"} />
-                    <text x="27" y="5" r="5" fill={"white"} fontSize={"7.5"} alignmentBaseline={"middle"}>{count < 9 ? count : "9+"}</text>
+                    <text
+                        x="27"
+                        y="5"
+                        r="5"
+                        fill={"white"}
+                        style={"text-align:center;"}
+                        text-anchor="middle"
+                        fontSize={"7.5"}
+                        alignmentBaseline={"middle"}>
+                        {count < 10 ? count : "9+"}
+                    </text>
                 </>
             )}
         </svg>
@@ -242,13 +251,9 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
         }
     }
 
-    if (
-        [...client.users.values()].find(
-            (x) => x.relationship === RelationshipStatus.Incoming,
-        )
-    ) {
-        alertCount++;
-    }
+    alertCount += [...client.users.values()].filter(
+        (x) => x.relationship === RelationshipStatus.Incoming,
+    ).length;
 
     if (alertCount > 0) homeUnread = "mention";
     const homeActive =
@@ -268,7 +273,10 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                                 homeActive && history.push("/settings")
                             }>
                             <UserHover user={client.user}>
-                                <Icon size={42} unread={homeUnread} count={alertCount}>
+                                <Icon
+                                    size={42}
+                                    unread={homeUnread}
+                                    count={alertCount}>
                                     <UserIcon
                                         target={client.user}
                                         size={32}
@@ -302,7 +310,10 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                                 <Tooltip
                                     content={entry.server.name}
                                     placement="right">
-                                    <Icon size={42} unread={entry.unread} count={entry.alertCount}>
+                                    <Icon
+                                        size={42}
+                                        unread={entry.unread}
+                                        count={entry.alertCount}>
                                         <ServerIcon
                                             size={32}
                                             target={entry.server}

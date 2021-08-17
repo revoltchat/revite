@@ -13,11 +13,17 @@
 
     .actions {
         gap: 8px;
+        width: 240px;
+
         margin: auto;
         display: flex;
         width: fit-content;
-        align-items: center;
+        align-items: stretch;
         flex-direction: column;
+
+        a {
+            width: 100%;
+        }
     }
 }
 

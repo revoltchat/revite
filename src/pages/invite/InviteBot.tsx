@@ -10,6 +10,7 @@ import Button from "../../components/ui/Button";
 import ComboBox from "../../components/ui/ComboBox";
 import Overline from "../../components/ui/Overline";
 import Preloader from "../../components/ui/Preloader";
+import Tip from "../../components/ui/Tip";
 
 export default function InviteBot() {
     const { id } = useParams<{ id: string }>();
@@ -27,6 +28,9 @@ export default function InviteBot() {
 
     return (
         <div style={{ padding: "6em" }}>
+            <Tip warning hideSeparator>
+                This section is under construction.
+            </Tip>
             {typeof data === "undefined" && <Preloader type="spinner" />}
             {data && (
                 <>
