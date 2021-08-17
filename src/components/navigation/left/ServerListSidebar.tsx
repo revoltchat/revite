@@ -251,13 +251,9 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
         }
     }
 
-    if (
-        [...client.users.values()].find(
-            (x) => x.relationship === RelationshipStatus.Incoming,
-        )
-    ) {
-        alertCount++;
-    }
+    alertCount += [...client.users.values()].filter(
+        (x) => x.relationship === RelationshipStatus.Incoming,
+    ).length;
 
     if (alertCount > 0) homeUnread = "mention";
     const homeActive =
