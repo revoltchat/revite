@@ -556,7 +556,7 @@ export default observer(({ channel }: Props) => {
                         uploadState.type === "sending"
                     }
                     onChange={(e) => {
-                        setMessage(e.currentTarget.value);
+                        setMessage(e.currentTarget.value.substr(0, 2000));
                         startTyping();
                         onChange(e);
                     }}
