@@ -40,13 +40,13 @@ export default observer(({ server }: Props) => {
                             width="20"
                         />
                         <image
-                            xlinkHref="/assets/badges/developer.svg"
+                            xlinkHref="/assets/revolt_r.svg"
                             height="15"
                             width="15"
-                            x="3"
+                            x="2"
                             y="3"
                             style={
-                                "justify-content: center; align-items: center;"
+                                "justify-content: center; align-items: center; filter: brightness(0);"
                             }
                         />
                     </svg>
