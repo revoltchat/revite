@@ -104,6 +104,25 @@ export default observer(({ channel, replies, setReplies }: Props) => {
     const ids = replies.map((x) => x.id);
     const messages = renderer.messages.filter((x) => ids.includes(x._id));
 
+    useEffect(() => {
+        let mentionsChanged = false;
+        const modified = replies.map((reply) => {
+            const message = messages.find((x) => reply.id === x._id);
+            if (message?.author_id === client.user!._id && reply.mention) {
+                mentionsChanged = true;
+                return {
+                    ...reply,
+                    mention: false,
+                };
+            }
+
+            return reply;
+        });
+        if (mentionsChanged) {
+            setReplies(modified);
+        }
+    }, [replies, setReplies, client.user, messages]);
+
     return (
         <div>
             {replies.map((reply, index) => {
