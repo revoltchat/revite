@@ -3293,12 +3293,12 @@ postcss@^8.3.5:
     nanoid "^3.1.23"
     source-map-js "^0.6.2"
 
-preact-context-menu@0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/preact-context-menu/-/preact-context-menu-0.1.5.tgz#51d13b0eceed8bd53493f2bdbce36e7c74ff8575"
-  integrity sha512-cQxcOf4w8MZAQtLpQeX80TQ2TzSKD/z6rnV+654xiHzqQp2pSV+qE0IEZLkUNz88ZmtpIy6GnB/6pCnCGjS4Ww==
+preact-context-menu@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/preact-context-menu/-/preact-context-menu-0.2.1.tgz#eb916b97e20c118fbd09efbe90859fc4524836f1"
+  integrity sha512-IF5gkI3NjYxMrYNGaYqTXZTTohyt+ZyaW+1dQifrkkrjtZpEZIloX69Dg0J9zvWJyGH1mOyJCOFN9y6qAd9hIg==
   dependencies:
-    preact "^10.4.6"
+    preact "^10.5.14"
 
 preact-i18n@^2.4.0-preactx:
   version "2.4.0-preactx"
@@ -3313,7 +3313,7 @@ preact-markup@^2.0.0:
   resolved "https://registry.yarnpkg.com/preact-markup/-/preact-markup-2.1.1.tgz#0451e7eed1dac732d7194c34a7f16ff45a2cfdd7"
   integrity sha512-8JL2p36mzK8XkspOyhBxUSPjYwMxDM0L5BWBZWxsZMVW8WsGQrYQDgVuDKkRspt2hwrle+Cxr/053hpc9BJwfw==
 
-preact@^10.0.0, preact@^10.4.6, preact@^10.5.14:
+preact@^10.0.0, preact@^10.5.14:
   version "10.5.14"
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.5.14.tgz#0b14a2eefba3c10a57116b90d1a65f5f00cd2701"
   integrity sha512-KojoltCrshZ099ksUZ2OQKfbH66uquFoxHSbnwKbTJHeQNvx42EmC7wQVWNuDt6vC5s3nudRHFtKbpY4ijKlaQ==
@@ -3602,10 +3602,10 @@ revolt-api@0.5.2-alpha.1:
   resolved "https://registry.yarnpkg.com/revolt-api/-/revolt-api-0.5.2-alpha.1.tgz#2164d04cd5581267ce59142557666bd386bc85c4"
   integrity sha512-3OrjYCDNPkJ+yO9d87NJvuUDAbungEbUfrfHlvFwV8hJze/RMkuYUTFWe1HyBMwBC7F/yWQK+2V7IoifC5STmw==
 
-revolt.js@5.0.1-alpha.6-patch.1:
-  version "5.0.1-alpha.6-patch.1"
-  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.0.1-alpha.6-patch.1.tgz#7c5ae5e3fbc13126bacaed520f3a0d1f2fd0ebd1"
-  integrity sha512-cClFCJMn/Dy18cpL6ChBBJ+eGOgaolooMjh9pVqYt3k1RAFp7HUfM94XJbqinZ5BTgj/Wj5WK28BTgmSihgqqw==
+revolt.js@5.0.1-alpha.6-patch.2:
+  version "5.0.1-alpha.6-patch.2"
+  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.0.1-alpha.6-patch.2.tgz#4a9c99f9422fdadbe2ca84a012e018d827c8f2cf"
+  integrity sha512-FfvNFS0noGjLlxsNTUaxIHREW2z7pPu0ZFayI5MUwDqDvdaKyicyZ63zmi14UGATPkCpNiJ4ufYhcLX8ArsGTg==
   dependencies:
     axios "^0.19.2"
     eventemitter3 "^4.0.7"
