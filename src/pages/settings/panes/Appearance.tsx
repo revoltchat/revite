@@ -453,14 +453,12 @@ export const Appearance = connectState(Component, (state) => {
 });
 
 function getContrastingColour(hex: string, fallback: string): string {
-    try {
-        hex = hex.replace("#", "");
-        const r = parseInt(hex.substr(0, 2), 16);
-        const g = parseInt(hex.substr(2, 2), 16);
-        const b = parseInt(hex.substr(4, 2), 16);
-        const cc = (r * 299 + g * 587 + b * 114) / 1000;
-        return cc >= 175 ? "black" : "white";
-    } catch (e) {
+    hex = hex.replace("#", "");
+    const r = parseInt(hex.substr(0, 2), 16);
+    const g = parseInt(hex.substr(2, 2), 16);
+    const b = parseInt(hex.substr(4, 2), 16);
+    const cc = (r * 299 + g * 587 + b * 114) / 1000;
+    if (isNaN(r) || isNaN(g) || isNaN(b) || isNaN(cc))
         return getContrastingColour(fallback, "#fffff");
-    }
+    return cc >= 175 ? "black" : "white";
 }
