@@ -3,7 +3,6 @@ import { File } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
-import { SYSTEM_USER_ID } from "revolt.js";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
 import styled, { css } from "styled-components";
@@ -173,7 +172,7 @@ export const MessageReply = observer(
                     <Text id="app.main.channel.misc.blocked_user" />
                 ) : (
                     <>
-                        {message.author_id === SYSTEM_USER_ID ? (
+                        {message.author_id === "00000000000000000000000000" ? (
                             <SystemMessage message={message} hideInfo />
                         ) : (
                             <>
