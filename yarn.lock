@@ -2063,9 +2063,9 @@ ejs@^2.6.1:
   integrity sha512-7vmuyh5+kuUyJKePhQfRQBhXV5Ce+RnaeeQArKu1EAMpL3WbgMt5WG6uQZpEVvYSSsxMXRKOewtDk9RaTKXRlA==
 
 electron-to-chromium@^1.3.793:
-  version "1.3.809"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.809.tgz#86db795c41c97f252ee1c849a2f70d0739710776"
-  integrity sha512-bZoXTEhEe8o10dHX2gNY9KkCSwz1AFk4c0GbmzlTD5WAkUpDb/zY7JjvLvJ/y1wUsURiVmlGdnIeU+gFyTeaXA==
+  version "1.3.810"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.810.tgz#23e340507e13e48debdb7445d2f8fbfab681c4df"
+  integrity sha512-NteznMlGtkIZCJNM2X6AVm3oMqWAdq7TjqagZhmVLPwd9mtrIq+rRxGHerjFAOFIqQJYQUMT72ncd/lVcH1cOw==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -3133,9 +3133,9 @@ node-cleanup@^2.1.2:
   integrity sha1-esGavSl+Caf3KnFUXZUbUX5N3iw=
 
 node-releases@^1.1.73:
-  version "1.1.74"
-  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.74.tgz#e5866488080ebaa70a93b91144ccde06f3c3463e"
-  integrity sha512-caJBVempXZPepZoZAPCWRTNxYQ+xtG/KAi4ozTA5A+nJ7IU+kLQCbqaUjb5Rwy14M9upBWiQ4NutcmW04LJSRw==
+  version "1.1.75"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.75.tgz#6dd8c876b9897a1b8e5a02de26afa79bb54ebbfe"
+  integrity sha512-Qe5OUajvqrqDSy6wrWFmMwfJ0jVgwiw4T3KqmbTcZ62qW0gQkheXYhcFM1+lOVcGUoRxcEcfyvFMAnDgaF1VWw==
 
 normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
@@ -3293,12 +3293,12 @@ postcss@^8.3.6:
     nanoid "^3.1.23"
     source-map-js "^0.6.2"
 
-preact-context-menu@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/preact-context-menu/-/preact-context-menu-0.2.1.tgz#eb916b97e20c118fbd09efbe90859fc4524836f1"
-  integrity sha512-IF5gkI3NjYxMrYNGaYqTXZTTohyt+ZyaW+1dQifrkkrjtZpEZIloX69Dg0J9zvWJyGH1mOyJCOFN9y6qAd9hIg==
+preact-context-menu@0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/preact-context-menu/-/preact-context-menu-0.1.5.tgz#51d13b0eceed8bd53493f2bdbce36e7c74ff8575"
+  integrity sha512-cQxcOf4w8MZAQtLpQeX80TQ2TzSKD/z6rnV+654xiHzqQp2pSV+qE0IEZLkUNz88ZmtpIy6GnB/6pCnCGjS4Ww==
   dependencies:
-    preact "^10.5.14"
+    preact "^10.4.6"
 
 preact-i18n@^2.4.0-preactx:
   version "2.4.0-preactx"
@@ -3313,7 +3313,7 @@ preact-markup@^2.0.0:
   resolved "https://registry.yarnpkg.com/preact-markup/-/preact-markup-2.1.1.tgz#0451e7eed1dac732d7194c34a7f16ff45a2cfdd7"
   integrity sha512-8JL2p36mzK8XkspOyhBxUSPjYwMxDM0L5BWBZWxsZMVW8WsGQrYQDgVuDKkRspt2hwrle+Cxr/053hpc9BJwfw==
 
-preact@^10.0.0, preact@^10.5.14:
+preact@^10.0.0, preact@^10.4.6, preact@^10.5.14:
   version "10.5.14"
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.5.14.tgz#0b14a2eefba3c10a57116b90d1a65f5f00cd2701"
   integrity sha512-KojoltCrshZ099ksUZ2OQKfbH66uquFoxHSbnwKbTJHeQNvx42EmC7wQVWNuDt6vC5s3nudRHFtKbpY4ijKlaQ==
