@@ -38,7 +38,7 @@
         }
     },
     "dependencies": {
-        "vite": "npm:@insertish/vite@2.4.0-beta.3-dynamic-import-css-3c1466b"
+        "vite": "^2.5.0"
     },
     "devDependencies": {
         "@fontsource/atkinson-hyperlegible": "^4.4.5",
