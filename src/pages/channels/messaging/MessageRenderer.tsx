@@ -2,7 +2,6 @@
 import { X } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { RelationshipStatus } from "revolt-api/types/Users";
-import { SYSTEM_USER_ID } from "revolt.js";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 import { decodeTime } from "ulid";
@@ -141,7 +140,7 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
             );
         }
 
-        if (message.author_id === SYSTEM_USER_ID) {
+        if (message.author_id === "00000000000000000000000000") {
             render.push(
                 <SystemMessage
                     key={message._id}
