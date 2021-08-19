@@ -60,6 +60,8 @@ const Base = styled.div`
     display: flex;
     align-items: flex-start;
     background: var(--message-box);
+    padding: 0 12px;
+    gap: 12px;
 
     textarea {
         font-size: var(--text-size);
@@ -95,8 +97,6 @@ const Action = styled.div`
 
     > div {
         height: 48px;
-        width: 48px;
-        padding: 12px;
     }
 
     .mobile {
