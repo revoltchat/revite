@@ -21,18 +21,18 @@
 }
 
 ::selection {
-    background: var(--accent);
-    color: var(--foreground);
+    background: var(--foreground);
+    color: var(--background);
 }
 
 ::-moz-selection {
-    background: var(--accent);
-    color: var(--foreground);
+    background: var(--foreground);
+    color: var(--background);
 }
 
 ::-webkit-selection {
-    background: var(--accent);
-    color: var(--foreground);
+    background: var(--foreground);
+    color: var(--background);
 }
 
 a,

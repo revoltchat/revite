@@ -28,10 +28,10 @@ const PermissionTooltipBase = styled.div`
     flex-direction: column;
 
     span {
+        font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
         color: var(--secondary-foreground);
-        font-size: 11px;
     }
 
     code {
