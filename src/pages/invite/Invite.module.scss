@@ -26,13 +26,14 @@
     }
 
     .leave {
-        top: 8px;
+        top: 3vh;
         left: 8px;
         cursor: pointer;
         position: fixed;
     }
 
     .details {
+        min-width: 240px;
         text-align: center;
         align-self: center;
         padding: 32px 16px 16px 16px;

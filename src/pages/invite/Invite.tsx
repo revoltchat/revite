@@ -63,7 +63,6 @@ export default function Invite() {
         );
     }
 
-    // ! FIXME: add i18n translations
     return (
         <div
             className={styles.invite}
@@ -73,7 +72,16 @@ export default function Invite() {
                     : undefined,
             }}>
             <div className={styles.leave}>
-                <ArrowBack size={32} onClick={() => history.push("/")} />
+                <ArrowBack size={32} onClick={function(){
+                    if (history.length > 1) {
+                        history.goBack()
+                        
+                    }
+                    else {
+                        history.push('/')
+                    }
+                }
+                } />
             </div>
 
             {!processing && (
