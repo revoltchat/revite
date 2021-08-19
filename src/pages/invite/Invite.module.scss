@@ -74,3 +74,24 @@
     display: grid;
     place-items: center;
 }
+
+.inviteBot {
+    height: 100%;
+    display: flex;
+    color: white;
+    user-select: none;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1%;
+
+    .type {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 16px;
+        flex-direction: column;
+    }
+}
