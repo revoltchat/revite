@@ -2,6 +2,8 @@ import EventEmitter from "eventemitter3";
 import * as mediasoupClient from "mediasoup-client";
 import { types } from "mediasoup-client";
 
+import { playSound } from "../../assets/sounds/Audio";
+
 import { Device, Producer, Transport } from "mediasoup-client/lib/types";
 
 import Signaling from "./Signaling";
@@ -62,11 +64,13 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
                     case WSEventType.UserJoined: {
                         this.participants.set(data.id, {});
                         this.emit("userJoined", data.id);
+                        playSound("call_join");
                         break;
                     }
                     case WSEventType.UserLeft: {
                         this.participants.delete(data.id);
                         this.emit("userLeft", data.id);
+                        playSound("call_leave");
 
                         if (this.recvTransport) this.stopConsume(data.id);
                         break;
