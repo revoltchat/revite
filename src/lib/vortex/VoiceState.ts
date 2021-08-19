@@ -152,8 +152,10 @@ class VoiceStateReference {
                 if (navigator.mediaDevices === undefined)
                     return console.log("No media devices."); // ! TODO: let the user know
 
+                const mediaDevice = window.localStorage.getItem("audioInputDevice");
+
                 const mediaStream = await navigator.mediaDevices.getUserMedia({
-                    audio: true,
+                    audio: mediaDevice?{deviceId: mediaDevice}:true
                 });
 
                 await this.client?.startProduce(
