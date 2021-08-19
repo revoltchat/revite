@@ -7,6 +7,7 @@
 @import "tippy.js/dist/tippy.css";
 
 .tippy-box {
+    color: var(--foreground);
     background: var(--secondary-background);
 }
 
