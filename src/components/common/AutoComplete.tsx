@@ -1,4 +1,3 @@
-import { SYSTEM_USER_ID } from "revolt.js";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
 import styled, { css } from "styled-components";
@@ -159,7 +158,9 @@ export function useAutoComplete(
                     }
                 }
 
-                users = users.filter((x) => x._id !== SYSTEM_USER_ID);
+                users = users.filter(
+                    (x) => x._id !== "00000000000000000000000000",
+                );
 
                 const matches = (
                     search.length > 0

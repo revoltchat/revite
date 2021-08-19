@@ -1,7 +1,6 @@
 import { At, Reply as ReplyIcon } from "@styled-icons/boxicons-regular";
 import { File, XCircle } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { SYSTEM_USER_ID } from "revolt.js";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
@@ -150,7 +149,8 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                         </em>
                                     </>
                                 )}
-                                {message.author_id === SYSTEM_USER_ID ? (
+                                {message.author_id ===
+                                "00000000000000000000000000" ? (
                                     <SystemMessage message={message} hideInfo />
                                 ) : (
                                     <Markdown
