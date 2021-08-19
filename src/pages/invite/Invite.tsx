@@ -72,10 +72,9 @@ export default function Invite() {
                     : undefined,
             }}>
             <div className={styles.leave}>
-                <ArrowBack size={32} onClick={function(){
+                <ArrowBack size={32} onClick={() => {
                     if (history.length > 1) {
                         history.goBack()
-                        
                     }
                     else {
                         history.push('/')

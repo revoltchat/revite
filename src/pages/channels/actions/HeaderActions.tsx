@@ -75,7 +75,6 @@ export default function HeaderActions({
                 <IconButton
                     onClick={() => {
                         internalEmit("RightSidebar", "open", "search");
-                        openRightSidebar();
                     }}>
                     <Search size={25} />
                 </IconButton>

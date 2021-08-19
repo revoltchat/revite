@@ -48,10 +48,10 @@ function BotEditor({ bot }: { bot: Data }) {
                 <Checkbox
                     checked={data.public}
                     onChange={(v) => setData({ ...data, public: v })}>
-                    is public
+                    Is public
                 </Checkbox>
             </p>
-            <p>interactions url: (reserved for the future)</p>
+            <p>Interactions URL: (reserved for the future)</p>
             <p>
                 <InputBox
                     value={data.interactions_url}
@@ -63,7 +63,7 @@ function BotEditor({ bot }: { bot: Data }) {
                     }
                 />
             </p>
-            <Button onClick={save}>save</Button>
+            <Button onClick={save}>Save</Button>
         </div>
     );
 }
@@ -102,7 +102,7 @@ export const MyBots = observer(() => {
                             .create({ name })
                             .then(({ bot }) => setBots([...(bots ?? []), bot]))
                     }>
-                    create
+                    Create
                 </Button>
             </p>
             <Overline>my bots</Overline>
@@ -112,7 +112,7 @@ export const MyBots = observer(() => {
                     <div
                         key={bot._id}
                         style={{
-                            background: "var(--secondary-background)",
+                            background: "var(--block)",
                             margin: "8px",
                             padding: "12px",
                         }}>
@@ -142,7 +142,7 @@ export const MyBots = observer(() => {
                                         ),
                                     )
                             }>
-                            delete
+                            Delete
                         </Button>
                         <Button
                             onClick={() =>
@@ -150,7 +150,7 @@ export const MyBots = observer(() => {
                                     `${window.origin}/bot/${bot._id}`,
                                 )
                             }>
-                            copy invite link
+                            Copy invite link
                         </Button>
                     </div>
                 );

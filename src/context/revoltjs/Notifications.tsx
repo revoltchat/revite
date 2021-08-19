@@ -1,6 +1,5 @@
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
 import { Presence, RelationshipStatus } from "revolt-api/types/Users";
-import { SYSTEM_USER_ID } from "revolt.js";
 import { Message } from "revolt.js/dist/maps/Messages";
 import { User } from "revolt.js/dist/maps/Users";
 import { decodeTime } from "ulid";
@@ -72,7 +71,7 @@ function Notifier({ options, notifs }: Props) {
                     title = `@${msg.author?.username}`;
                     break;
                 case "Group":
-                    if (msg.author?._id === SYSTEM_USER_ID) {
+                    if (msg.author?._id === "00000000000000000000000000") {
                         title = msg.channel.name;
                     } else {
                         title = `@${msg.author?.username} - ${msg.channel.name}`;
