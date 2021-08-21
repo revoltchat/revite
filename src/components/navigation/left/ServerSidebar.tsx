@@ -115,7 +115,7 @@ const ServerSidebar = observer((props: Props) => {
                 <CollapsibleSection
                     id={`category_${category.id}`}
                     defaultValue
-                    summary={<Category onContextMenu={()=>openContextMenu("Menu", {server: server?._id, server_list: server._id, category: category.id, contextualChannel: category.id})} text={category.title} />}>
+                    summary={<Category />}>
                     {channels}
                 </CollapsibleSection>,
             );
