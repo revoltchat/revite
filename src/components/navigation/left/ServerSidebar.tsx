@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router";
 import styled, { css } from "styled-components";
 
-import {attachContextMenu, openContextMenu} from "preact-context-menu";
+import { attachContextMenu } from "preact-context-menu";
 import { useEffect } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
