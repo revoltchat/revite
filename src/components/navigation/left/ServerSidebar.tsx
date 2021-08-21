@@ -115,7 +115,7 @@ const ServerSidebar = observer((props: Props) => {
                 <CollapsibleSection
                     id={`category_${category.id}`}
                     defaultValue
-                    summary={<Category />}>
+                    summary={<Category text={category.title} />}>
                     {channels}
                 </CollapsibleSection>,
             );
