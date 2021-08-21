@@ -22,6 +22,7 @@ import UserStatus from "../../common/user/UserStatus";
 import IconButton from "../../ui/IconButton";
 
 import { Children } from "../../../types/Preact";
+import {Microphone} from "@styled-icons/boxicons-solid";
 
 type CommonProps = Omit<
     JSX.HTMLAttributes<HTMLDivElement>,
@@ -128,10 +129,12 @@ type ChannelProps = CommonProps & {
     channel: Channel;
     user?: User;
     compact?: boolean;
+
+    voice?: boolean;
 };
 
 export const ChannelButton = observer((props: ChannelProps) => {
-    const { active, alert, alertCount, channel, user, compact, ...divProps } =
+    const { active, alert, alertCount, channel, user, compact, voice, ...divProps } =
         props;
 
     if (channel.channel_type === "SavedMessages") throw "Invalid channel type.";
@@ -174,6 +177,12 @@ export const ChannelButton = observer((props: ChannelProps) => {
                     </div>
                 )}
             </div>
+            {voice && (
+                <Tooltip placement={"right"} content={"Voice connected"}>
+                    <Microphone width={15} />
+                </Tooltip>
+                )
+            }
             <div className={styles.button}>
                 {alert && (
                     <div className={styles.alert} data-style={alert}>

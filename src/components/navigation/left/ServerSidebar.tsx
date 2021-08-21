@@ -2,12 +2,14 @@ import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router";
 import styled, { css } from "styled-components";
 
-import { attachContextMenu } from "preact-context-menu";
+import {attachContextMenu, openContextMenu} from "preact-context-menu";
 import { useEffect } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+
+import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
@@ -92,6 +94,7 @@ const ServerSidebar = observer((props: Props) => {
                 <ChannelButton
                     channel={entry}
                     active={active}
+                    voice={voiceState.roomId === entry._id}
                     // ! FIXME: pull it out directly
                     alert={mapChannelWithUnread(entry, props.unreads).unread}
                     compact
@@ -112,7 +115,7 @@ const ServerSidebar = observer((props: Props) => {
                 <CollapsibleSection
                     id={`category_${category.id}`}
                     defaultValue
-                    summary={<Category text={category.title} />}>
+                    summary={<Category onContextMenu={()=>openContextMenu("Menu", {server: server?._id, server_list: server._id, category: category.id, contextualChannel: category.id})} text={category.title} />}>
                     {channels}
                 </CollapsibleSection>,
             );

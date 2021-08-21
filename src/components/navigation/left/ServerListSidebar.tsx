@@ -1,9 +1,11 @@
 import { Plus } from "@styled-icons/boxicons-regular";
-import { Cog } from "@styled-icons/boxicons-solid";
+import {Cog, Microphone} from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components";
+
+import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 
 import { attachContextMenu } from "preact-context-menu";
 import { Text } from "preact-i18n";
@@ -28,18 +30,24 @@ import LineDivider from "../../ui/LineDivider";
 import { mapChannelWithUnread } from "./common";
 
 import { Children } from "../../../types/Preact";
+import {Server} from "revolt.js/dist/maps/Servers";
 
 function Icon({
     children,
     unread,
+    voice,
+    server,
     count,
     size,
 }: {
     children: Children;
     unread?: "mention" | "unread";
+    voice?: boolean;
+    server?: Server;
     count: number | 0;
     size: number;
 }) {
+    const client = useClient();
     return (
         <svg width={size} height={size} aria-hidden="true" viewBox="0 0 32 32">
             <use href="#serverIndicator" />
@@ -69,6 +77,11 @@ function Icon({
                         {count < 10 ? count : "9+"}
                     </text>
                 </>
+            )}
+            {voice && server && voiceState.roomId && client.channels.get(voiceState.roomId)?.server?._id == server._id && (
+                <foreignObject x={22} y={22} width={9} height={9}>
+                    <Microphone width={9} alignmentBaseline={"middle"} />
+                </foreignObject>
             )}
         </svg>
     );
@@ -313,7 +326,10 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                                     <Icon
                                         size={42}
                                         unread={entry.unread}
-                                        count={entry.alertCount}>
+                                        count={entry.alertCount}
+                                        server={entry.server}
+                                        voice={!!voiceState.roomId}
+                                    >
                                         <ServerIcon
                                             size={32}
                                             target={entry.server}
