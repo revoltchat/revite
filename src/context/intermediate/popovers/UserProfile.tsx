@@ -305,7 +305,7 @@ export const UserProfile = observer(
                                                 content={
                                                     <Text id="app.navigation.tabs.dev" />
                                                 }>
-                                                <img src="/assets/badges/developer.svg" />
+                                                <img style={"cursor: default;"} src="/assets/badges/developer.svg" />
                                             </Tooltip>
                                         ) : (
                                             <></>
@@ -315,7 +315,7 @@ export const UserProfile = observer(
                                                 content={
                                                     <Text id="app.special.popovers.user_profile.badges.translator" />
                                                 }>
-                                                <img src="/assets/badges/translator.svg" 
+                                                <img style={"cursor: pointer;"}  src="/assets/badges/translator.svg"
                                                      onClick={() => {
                                                         window.open("https://weblate.insrt.uk/projects/revolt/web-app/", "_blank")
                                                      }} 
@@ -329,7 +329,7 @@ export const UserProfile = observer(
                                                 content={
                                                     <Text id="app.special.popovers.user_profile.badges.early_adopter" />
                                                 }>
-                                                <img src="/assets/badges/early_adopter.svg" />
+                                                <img style={"cursor: default;"}  src="/assets/badges/early_adopter.svg" />
                                             </Tooltip>
                                         ) : (
                                             <></>
@@ -342,6 +342,7 @@ export const UserProfile = observer(
                                                 <Money
                                                     size={32}
                                                     color="#efab44"
+                                                    cursor={"pointer"}
                                                     onClick={() => {
                                                         window.open("https://insrt.uk/donate", "_blank")
                                                     }}
