@@ -15,6 +15,7 @@ import { ChannelRenderer } from "../../../lib/renderer/Singleton";
 
 import { connectState } from "../../../redux/connector";
 import { QueuedMessage } from "../../../redux/reducers/queue";
+import { Unreads } from "../../../redux/reducers/unreads";
 
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
@@ -32,6 +33,7 @@ interface Props {
     highlight?: string;
     queue: QueuedMessage[];
     renderer: ChannelRenderer;
+    unreads: Unreads;
 }
 
 const BlockedMessage = styled.div`
@@ -45,7 +47,7 @@ const BlockedMessage = styled.div`
     }
 `;
 
-const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
+const MessageRenderer = observer(({ renderer, queue, highlight, unreads }: Props) => {
     const client = useClient();
     const userId = client.user!._id;
 
@@ -154,6 +156,9 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
         ) {
             blocked++;
         } else {
+            if(message.author_id !== userId && message.channel && message._id === unreads[id]?.last_id) {
+                render.push(<DateDivider  date={new Date(decodeTime(message._id))} unread={true} />)
+            }
             if (blocked > 0) pushBlocked();
 
             render.push(
@@ -225,6 +230,8 @@ export default memo(
     connectState<Omit<Props, "queue">>(MessageRenderer, (state) => {
         return {
             queue: state.queue,
+            unreads: state.unreads,
         };
     }),
 );
+
