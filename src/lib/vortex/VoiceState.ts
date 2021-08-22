@@ -143,6 +143,33 @@ class VoiceStateReference {
         }
     }
 
+    isDeaf() {
+        if(!this.client)
+            return false;
+
+        return this.client.isDeaf;
+    }
+
+    async startDeafen() {
+        if(!this.client)
+            return console.log("No client object"); // ! TODO: let the user know
+
+        this.client.isDeaf = true;
+
+        this.client?.consumers.forEach(consumer => {
+            consumer.audio?.pause();
+        })
+    }
+    async stopDeafen() {
+        if(!this.client)
+            return console.log("No client object"); // ! TODO: let the user know
+
+        this.client.isDeaf = false;
+        this.client?.consumers.forEach(consumer => {
+            consumer.audio?.resume();
+        })
+    }
+
     async startProducing(type: ProduceType) {
         switch (type) {
             case "audio": {
