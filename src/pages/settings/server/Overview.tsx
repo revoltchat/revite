@@ -152,7 +152,7 @@ export const Overview = observer(({ server }: Props) => {
                             <Text id="general.disabled" />
                         </option>
                         {server.channels
-                            .filter((x) => typeof x !== "undefined")
+                            .filter((x) => (typeof x !== "undefined" && x.channel_type === "TextChannel"))
                             .map((channel) => (
                                 <option key={channel!._id} value={channel!._id}>
                                     {getChannelName(channel!, true)}

@@ -15,6 +15,7 @@ import {
     Flask,
     User,
     Megaphone,
+    Shield,
 } from "@styled-icons/boxicons-solid";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { LIBRARY_VERSION } from "revolt.js";
@@ -74,6 +75,11 @@ export default function Settings() {
                 {
                     id: "profile",
                     icon: <IdCard size={20} />,
+                    title: <Text id="app.settings.pages.profile.title" />,
+                },
+                {
+                    id: "privacy",
+                    icon: <Shield size={20} />,
                     title: <Text id="app.settings.pages.profile.title" />,
                 },
                 {

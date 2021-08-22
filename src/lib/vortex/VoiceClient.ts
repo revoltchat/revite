@@ -40,6 +40,8 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
     sendTransport?: Transport;
     recvTransport?: Transport;
 
+    isDeaf?: boolean;
+
     userId?: string;
     roomId?: string;
     participants: Map<string, VoiceUser>;
@@ -53,6 +55,8 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
 
         this.participants = new Map();
         this.consumers = new Map();
+
+        this.isDeaf = false;
 
         this.signaling.on(
             "data",
