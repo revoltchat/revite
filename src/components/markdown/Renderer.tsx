@@ -172,7 +172,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                                 try {
                                     const url = new URL(href, location.href);
 
-                                    if (url.hostname.replace(/^[^.]+\./g, "") === location.hostname.replace(/^[^.]+\./g, "")) {
+                                    if (url.hostname.replace(/^[^.]+\./g, "") === location.hostname.replace(/^[^.]+\./g, "") && ["nightly.", "app.", "local."].includes(url.hostname.match(/^[^.]+\./g)?.[0] ?? "")) {
                                         internal = true;
                                         element.addEventListener(
                                             "click",
