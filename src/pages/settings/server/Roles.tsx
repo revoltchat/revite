@@ -6,7 +6,7 @@ import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
+import {useCallback, useContext, useEffect, useMemo, useState} from "preact/hooks";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
@@ -17,6 +17,7 @@ import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
 
 import ButtonItem from "../../../components/navigation/items/ButtonItem";
+import {AppContext} from "../../../context/revoltjs/RevoltClient";
 
 interface Props {
     server: Server;
@@ -26,6 +27,7 @@ const I32ToU32 = (arr: number[]) => arr.map((x) => x >>> 0);
 
 // ! FIXME: bad code :)
 export const Roles = observer(({ server }: Props) => {
+    const client = useContext(AppContext);
     const [role, setRole] = useState("default");
     const { openScreen } = useIntermediate();
     const roles = useMemo(() => server.roles ?? {}, [server]);
@@ -34,6 +36,8 @@ export const Roles = observer(({ server }: Props) => {
         useEffect(() => setRole("default"), [role]);
         return null;
     }
+
+    const clientPermissions = client.servers.get(server._id)!.permission;
 
     const {
         name: roleName,
@@ -207,6 +211,7 @@ export const Roles = observer(({ server }: Props) => {
                                 onChange={() =>
                                     setPerm([perm[0] ^ value, perm[1]])
                                 }
+                                disabled={!(clientPermissions & value)}
                                 description={
                                     <Text id={`permissions.server.${key}.d`} />
                                 }>
@@ -233,7 +238,7 @@ export const Roles = observer(({ server }: Props) => {
                                 onChange={() =>
                                     setPerm([perm[0], perm[1] ^ value])
                                 }
-                                disabled={key === "View"}
+                                disabled={key === "View" || (!(clientPermissions & value))}
                                 description={
                                     <Text id={`permissions.channel.${key}.d`} />
                                 }>
