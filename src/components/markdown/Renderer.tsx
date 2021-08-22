@@ -172,7 +172,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                                 try {
                                     const url = new URL(href, location.href);
 
-                                    if (url.hostname === location.hostname) {
+                                    if (url.hostname.replace(/^[^.]+\./g, "") === location.hostname.replace(/^[^.]+\./g, "")) {
                                         internal = true;
                                         element.addEventListener(
                                             "click",
