@@ -11,6 +11,18 @@ import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";
+import {
+    Megaphone,
+    Microphone,
+    MicrophoneOff,
+    PhoneOff,
+    Speaker,
+    VolumeFull,
+    VolumeMute
+} from "@styled-icons/boxicons-solid";
+import Tooltip from "../../../components/common/Tooltip";
+import {Hashnode, Speakerdeck, Teamspeak} from "@styled-icons/simple-icons";
+import VoiceClient from "../../../lib/vortex/VoiceClient";
 
 interface Props {
     id: string;
@@ -89,7 +101,8 @@ export default observer(({ id }: Props) => {
                                       target={user}
                                       status={false}
                                       voice={
-                                          voiceState.participants!.get(id)
+                                          client.user?._id === id && voiceState.isDeaf()?"deaf"
+                                              : voiceState.participants!.get(id)
                                               ?.audio
                                               ? undefined
                                               : "muted"
@@ -115,18 +128,38 @@ export default observer(({ id }: Props) => {
                 )}
             </div>
             <div className="actions">
-                <Button error onClick={voiceState.disconnect}>
-                    <Text id="app.main.channel.voice.leave" />
-                </Button>
+                <Tooltip content={"Leave call"} placement={"bottom"}>
+                    <Button error onClick={voiceState.disconnect}>
+                        <PhoneOff width={25} />
+                    </Button>
+                </Tooltip>
                 {voiceState.isProducing("audio") ? (
-                    <Button onClick={() => voiceState.stopProducing("audio")}>
-                        <Text id="app.main.channel.voice.mute" />
-                    </Button>
+                        <Tooltip content={"Mute microphone"} placement={"bottom"}>
+                            <Button onClick={() => voiceState.stopProducing("audio")}>
+                                <Microphone width={25} />
+                            </Button>
+                        </Tooltip>
                 ) : (
-                    <Button onClick={() => voiceState.startProducing("audio")}>
-                        <Text id="app.main.channel.voice.unmute" />
-                    </Button>
+                    <Tooltip content={"Unmute microphone"} placement={"bottom"}>
+                        <Button onClick={() => voiceState.startProducing("audio")}>
+                            <MicrophoneOff width={25} />
+                        </Button>
+                    </Tooltip>
                 )}
+                {voiceState.isDeaf() ? (
+                    <Tooltip content={"Deafen"} placement={"bottom"}>
+                        <Button onClick={() => voiceState.stopDeafen()}>
+                            <VolumeMute width={25} />
+                        </Button>
+                    </Tooltip>
+                ): (
+                    <Tooltip content={"Deafen"} placement={"bottom"}>
+                        <Button onClick={() => voiceState.startDeafen()}>
+                            <VolumeFull width={25} />
+                        </Button>
+                    </Tooltip>
+                )
+                }
             </div>
         </VoiceBase>
     );
