@@ -24,9 +24,8 @@ export function FormLogin() {
                           name = "safari";
                       }else if(name === "fxios") {
                           name = "firefox";
-                      }else {
-                        device_name = `${name} on ${os}`;
                       }
+                      device_name = `${name} on ${os}`;
                     }
                 } else {
                     device_name = "Unknown Device";
