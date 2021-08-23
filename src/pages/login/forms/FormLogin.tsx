@@ -1,7 +1,6 @@
 import { Form } from "./Form";
 import { detect } from "detect-browser";
 import { useContext } from "preact/hooks";
-import { useHistory } from "react-router-dom";
 import { OperationsContext } from "../../../context/revoltjs/RevoltClient";
 
 export function FormLogin() {
