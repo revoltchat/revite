@@ -17,9 +17,17 @@ export function FormLogin() {
                 if (browser) {
                     let { name } = browser;
                     const { os } = browser;
-                    if(name === "ios") name = "safari";
-                    if(name === "fxios") name = "firefox";
-                    device_name = `${name} on ${os}`;
+                    if (window.isNative) {
+                        device_name = `Revolt Desktop on ${os}`;
+                    } else {
+                      if(name === "ios") {
+                          name = "safari";
+                      }else if(name === "fxios") {
+                          name = "firefox";
+                      }else {
+                        device_name = `${name} on ${os}`;
+                      }
+                    }
                 } else {
                     device_name = "Unknown Device";
                 }
