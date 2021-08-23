@@ -83,7 +83,7 @@ export default function Embed({ embed }: Props) {
                     className={classNames(styles.embed, styles.website)}
                     style={{
                         borderInlineStartColor:
-                            embed.color ?? "var(--tertiary-background)",
+                            embed.colour ?? "var(--tertiary-background)",
                         width: width + CONTAINER_PADDING,
                     }}>
                     <div>
