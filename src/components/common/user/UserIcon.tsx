@@ -14,10 +14,11 @@ import IconBase, { IconBaseProps } from "../IconBase";
 import fallback from "../assets/user.png";
 import {VolumeMute} from "@styled-icons/boxicons-solid";
 
+type VoiceStatus = "muted" | "deaf";
 interface Props extends IconBaseProps<User> {
     mask?: string;
     status?: boolean;
-    voice?: string;
+    voice?: VoiceStatus;
     showServerIdentity?: boolean;
 }
 
@@ -33,7 +34,7 @@ export function useStatusColour(user?: User) {
         : theme["status-invisible"];
 }
 
-const VoiceIndicator = styled.div<{ status: string }>`
+const VoiceIndicator = styled.div<{ status: VoiceStatus }>`
     width: 10px;
     height: 10px;
     border-radius: var(--border-radius-half);
