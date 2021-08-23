@@ -33,10 +33,10 @@ declare global {
 }
 
 const ALLOWED_ORIGINS = [
-	location.hostname,
-	'app.revolt.chat',
-	'nightly.revolt.chat',
-	'local.revolt.chat',
+    location.hostname,
+    'app.revolt.chat',
+    'nightly.revolt.chat',
+    'local.revolt.chat',
 ];
 
 // Handler for code block copy.
