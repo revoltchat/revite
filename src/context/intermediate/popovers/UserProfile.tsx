@@ -305,7 +305,7 @@ export const UserProfile = observer(
                                                 content={
                                                     <Text id="app.navigation.tabs.dev" />
                                                 }>
-                                                <img style={"cursor: default;"} src="/assets/badges/developer.svg" />
+                                                <img src="/assets/badges/developer.svg" />
                                             </Tooltip>
                                         ) : (
                                             <></>
@@ -329,7 +329,7 @@ export const UserProfile = observer(
                                                 content={
                                                     <Text id="app.special.popovers.user_profile.badges.early_adopter" />
                                                 }>
-                                                <img style={"cursor: default;"}  src="/assets/badges/early_adopter.svg" />
+                                                <img src="/assets/badges/early_adopter.svg" />
                                             </Tooltip>
                                         ) : (
                                             <></>
