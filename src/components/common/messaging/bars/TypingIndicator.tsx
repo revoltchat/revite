@@ -3,7 +3,7 @@ import { RelationshipStatus } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
-import { Text } from "preact-i18n";
+import { TextReact } from "preact-i18n";
 
 interface Props {
     channel: Channel;
@@ -67,13 +67,13 @@ export default observer(({ channel }: Props) => {
 
         let text;
         if (users.length >= 5) {
-            text = <Text id="app.main.channel.typing.several" />;
+            text = <TextReact id="app.main.channel.typing.several" />;
         } else if (users.length > 1) {
             const userlist = [...users].map((x) => x!.username);
             const user = userlist.pop();
 
             text = (
-                <Text
+                <TextReact
                     id="app.main.channel.typing.multiple"
                     fields={{
                         user,
@@ -83,9 +83,9 @@ export default observer(({ channel }: Props) => {
             );
         } else {
             text = (
-                <Text
+                <TextReact
                     id="app.main.channel.typing.single"
-                    fields={{ user: users[0]!.username }}
+                    fields={{ user: <Username showServerIdentity /> }}
                 />
             );
         }
