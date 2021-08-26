@@ -32,6 +32,13 @@ declare global {
     }
 }
 
+const ALLOWED_ORIGINS = [
+    location.hostname,
+    'app.revolt.chat',
+    'nightly.revolt.chat',
+    'local.revolt.chat',
+];
+
 // Handler for code block copy.
 if (typeof window !== "undefined") {
     window.copycode = function (element: HTMLDivElement) {
@@ -172,7 +179,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                                 try {
                                     const url = new URL(href, location.href);
 
-                                    if (url.hostname === location.hostname) {
+                                    if (ALLOWED_ORIGINS.includes(url.hostname)) {
                                         internal = true;
                                         element.addEventListener(
                                             "click",
