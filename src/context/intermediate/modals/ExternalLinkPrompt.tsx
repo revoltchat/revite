@@ -17,6 +17,8 @@ export function ExternalLinkModal({ onClose, link }: Props) {
                 {
                     onClick: ()=>{window.open(link, "_blank");},
                     confirmation: true,
+                    contrast: true,
+                    accent: true,
                     children: "Continue",
                 },
                 {
