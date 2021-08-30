@@ -523,6 +523,69 @@
     }
 }
 
+.myBots {
+    .infoheader {
+        margin-bottom: 15px;
+        gap: 8px;
+        width: 100%;
+        padding: 6px 5px;
+        display: flex;
+        overflow: hidden;
+        align-items: center;
+        border-radius: var(--border-radius);
+
+        .container {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-direction: row;
+            width: 100%;
+        }
+
+        .userDetail {
+            display: flex;
+            flex-grow: 1;
+            gap: 2px;
+            flex-direction: column;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .userName {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .avatar {
+            cursor: pointer;
+            transition: 0.2s ease filter;
+
+            &:hover {
+                filter: brightness(80%);
+            }
+        }
+
+        .userid {
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--tertiary-foreground);
+
+            a {
+                color: inherit;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
 section {
     margin-bottom: 20px;
 }
