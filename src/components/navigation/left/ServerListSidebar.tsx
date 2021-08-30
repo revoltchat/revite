@@ -244,10 +244,11 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
             homeUnread = "unread";
             alertCount += x.alertCount ?? 0;
         }
+
         if (
             x.channel?.channel_type === "DirectMessage" &&
-            x.unread &&
-            x.unread.length > 0
+            x.channel.active &&
+            x.unread
         )
             alertCount++;
     }
