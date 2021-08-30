@@ -24,6 +24,7 @@ import { generateEmoji } from "../common/Emoji";
 
 import { emojiDictionary } from "../../assets/emojis";
 import { MarkdownProps } from "./Markdown";
+import {useIntermediate} from "../../context/intermediate/Intermediate";
 
 // TODO: global.d.ts file for defining globals
 declare global {
@@ -31,6 +32,13 @@ declare global {
         copycode: (element: HTMLDivElement) => void;
     }
 }
+
+const ALLOWED_ORIGINS = [
+    location.hostname,
+    'app.revolt.chat',
+    'nightly.revolt.chat',
+    'local.revolt.chat',
+];
 
 // Handler for code block copy.
 if (typeof window !== "undefined") {
@@ -90,6 +98,8 @@ const RE_CHANNELS = /<#([A-z0-9]{26})>/g;
 
 export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
     const client = useContext(AppContext);
+    const { openScreen } = useIntermediate();
+
     if (typeof content === "undefined") return null;
     if (content.length === 0) return null;
 
@@ -172,7 +182,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                                 try {
                                     const url = new URL(href, location.href);
 
-                                    if (url.hostname === location.hostname) {
+                                    if (ALLOWED_ORIGINS.includes(url.hostname)) {
                                         internal = true;
                                         element.addEventListener(
                                             "click",
@@ -191,6 +201,13 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
 
                             if (!internal) {
                                 element.setAttribute("target", "_blank");
+                                element.onclick = (ev) => {
+                                    ev.preventDefault();
+                                    openScreen({
+                                        id: "external_link_prompt",
+                                        link: href
+                                    })
+                                }
                             }
                         },
                     );

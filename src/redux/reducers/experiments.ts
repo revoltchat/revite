@@ -1,5 +1,5 @@
 export type Experiments = "search";
-export const AVAILABLE_EXPERIMENTS: Experiments[] = ["search"];
+export const AVAILABLE_EXPERIMENTS: Experiments[] = [];
 export const EXPERIMENTS: {
     [key in Experiments]: { title: string; description: string };
 } = {

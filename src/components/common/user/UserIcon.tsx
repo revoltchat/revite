@@ -12,8 +12,9 @@ import { AppContext, useClient } from "../../../context/revoltjs/RevoltClient";
 
 import IconBase, { IconBaseProps } from "../IconBase";
 import fallback from "../assets/user.png";
+import {VolumeMute} from "@styled-icons/boxicons-solid";
 
-type VoiceStatus = "muted";
+type VoiceStatus = "muted" | "deaf";
 interface Props extends IconBaseProps<User> {
     mask?: string;
     status?: boolean;
@@ -47,7 +48,7 @@ const VoiceIndicator = styled.div<{ status: VoiceStatus }>`
     }
 
     ${(props) =>
-        props.status === "muted" &&
+    (props.status === "muted" || props.status === "deaf") &&
         css`
             background: var(--error);
         `}
@@ -125,7 +126,9 @@ export default observer(
                 {props.voice && (
                     <foreignObject x="22" y="22" width="10" height="10">
                         <VoiceIndicator status={props.voice}>
-                            {props.voice === "muted" && (
+                            {props.voice === "deaf" && (
+                                <VolumeMute size={6} />
+                            ) ||props.voice === "muted" && (
                                 <MicrophoneOff size={6} />
                             )}
                         </VoiceIndicator>
