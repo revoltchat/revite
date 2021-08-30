@@ -22,7 +22,7 @@ jobs:
               id: meta
               uses: docker/metadata-action@v3
               with:
-                  images: name/app
+                  images: revoltchat/client
             - name: Login to DockerHub
               if: github.event_name != 'pull_request'
               uses: docker/login-action@v1
