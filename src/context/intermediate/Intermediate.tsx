@@ -24,6 +24,7 @@ export type Screen =
     | { id: "signed_out" }
     | { id: "error"; error: string }
     | { id: "clipboard"; text: string }
+    | { id: "token_reveal"; token: string; username: string }
     | { id: "external_link_prompt"; link: string }
     | {
           id: "_prompt";
