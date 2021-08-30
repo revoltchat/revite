@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { Profile as ProfileI } from "revolt-api/types/Users";
 
 import styles from "./Panes.module.scss";
@@ -20,7 +21,7 @@ import AutoComplete, {
 } from "../../../components/common/AutoComplete";
 import Button from "../../../components/ui/Button";
 
-export function Profile() {
+export const Profile = observer(() => {
     const status = useContext(StatusContext);
     const translate = useTranslation();
     const client = useClient();
@@ -169,4 +170,4 @@ export function Profile() {
             </p>
         </div>
     );
-}
+});
