@@ -316,7 +316,8 @@ export default observer(({ channel }: Props) => {
                 );
             }
         } catch (err) {
-            if (err?.message === "cancel") {
+            // eslint-disable-next-line
+            if ((err as any)?.message === "cancel") {
                 setUploadState({
                     type: "attached",
                     files,
