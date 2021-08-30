@@ -21,6 +21,8 @@
     --app-height: 100vh;
     --border-radius: 6px;
     --border-radius-half: 50%;
+    --border-radius-user-profile-picture: var(--border-radius-half);
+    --border-radius-server-icon: var(--border-radius-half);
 
     --input-border-width: 2px;
     --textarea-padding: 16px;

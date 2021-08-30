@@ -59,6 +59,7 @@ export default observer(
                 {...imgProps}
                 width={size}
                 height={size}
+                borderRadius="--border-radius-server-icon"
                 src={iconURL}
                 loading="lazy"
                 aria-hidden="true"
