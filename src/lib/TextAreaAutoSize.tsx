@@ -99,7 +99,9 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
         // ? it is a quick and dirty hack to fix
         // ? value not setting correctly
         // ? I have no clue what's going on
-        ref.current.value = value;
+        // ref.current.value = value;
+        // * commented out of 30-08-21
+        // * hopefully nothing breaks :v
 
         if (!autoFocus) return;
         function keyDown(e: KeyboardEvent) {

@@ -3,7 +3,7 @@ import Axios, { CancelTokenSource } from "axios";
 import { observer } from "mobx-react-lite";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
@@ -99,11 +99,13 @@ const Action = styled.div`
         padding: 12px;
     }
 
-    .mobile {
-        @media (pointer: fine) {
-            display: none;
-        }
-    }
+    ${() =>
+        !isTouchscreenDevice &&
+        css`
+            .mobile {
+                display: none;
+            }
+        `}
 `;
 
 // For sed replacement
@@ -316,7 +318,8 @@ export default observer(({ channel }: Props) => {
                 );
             }
         } catch (err) {
-            if (err?.message === "cancel") {
+            // eslint-disable-next-line
+            if ((err as any)?.message === "cancel") {
                 setUploadState({
                     type: "attached",
                     files,
@@ -502,6 +505,11 @@ export default observer(({ channel }: Props) => {
                     value={draft ?? ""}
                     padding="var(--message-box-padding)"
                     onKeyDown={(e) => {
+                        if (e.ctrlKey && e.key === "Enter") {
+                            e.preventDefault();
+                            return send();
+                        }
+
                         if (onKeyDown(e)) return;
 
                         if (

@@ -240,14 +240,17 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
     let homeUnread: "mention" | "unread" | undefined;
     let alertCount = 0;
     for (const x of channels) {
-        if (
-            (x.channel?.channel_type === "DirectMessage"
-                ? x.channel?.active
-                : x.channel?.channel_type === "Group") &&
-            x.unread
-        ) {
+        if (x.channel?.channel_type === "Group" && x.unread) {
             homeUnread = "unread";
             alertCount += x.alertCount ?? 0;
+        }
+
+        if (
+            x.channel?.channel_type === "DirectMessage" &&
+            x.channel.active &&
+            x.unread
+        ) {
+            alertCount++;
         }
     }
 

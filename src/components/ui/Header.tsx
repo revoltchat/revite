@@ -37,9 +37,11 @@ export default styled.div<Props>`
         padding: 0 12px;
     }*/
 
-    @media (pointer: coarse) {
-        height: 56px;
-    }
+    ${() =>
+        isTouchscreenDevice &&
+        css`
+            height: 56px;
+        `}
 
     ${(props) =>
         props.background &&
