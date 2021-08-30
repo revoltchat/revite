@@ -15,6 +15,7 @@ import {
     Flask,
     User,
     Megaphone,
+    Speaker,
 } from "@styled-icons/boxicons-solid";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { LIBRARY_VERSION } from "revolt.js";
@@ -37,6 +38,7 @@ import { APP_VERSION } from "../../version";
 import { GenericSettings } from "./GenericSettings";
 import { Account } from "./panes/Account";
 import { Appearance } from "./panes/Appearance";
+import { Audio } from "./panes/Audio";
 import { ExperimentsPage } from "./panes/Experiments";
 import { Feedback } from "./panes/Feedback";
 import { Languages } from "./panes/Languages";
@@ -85,6 +87,12 @@ export default function Settings() {
                     category: (
                         <Text id="app.settings.categories.client_settings" />
                     ),
+                    id: "audio",
+                    icon: <Speaker size={20} />,
+                    title: <Text id="app.settings.pages.audio.title" />,
+                },
+                {
+
                     id: "appearance",
                     icon: <Palette size={20} />,
                     title: <Text id="app.settings.pages.appearance.title" />,
@@ -140,6 +148,9 @@ export default function Settings() {
                     </Route>
                     <Route path="/settings/appearance">
                         <Appearance />
+                    </Route>
+                    <Route path="/settings/audio">
+                        <Audio />
                     </Route>
                     <Route path="/settings/notifications">
                         <Notifications />
