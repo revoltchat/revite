@@ -152,7 +152,7 @@ export function Form({ page, callback }: Props) {
                 onSubmit={
                     handleSubmit(
                         onSubmit,
-                    ) as JSX.GenericEventHandler<HTMLFormElement>
+                    ) as unknown as JSX.GenericEventHandler<HTMLFormElement>
                 }>
                 {page !== "reset" && (
                     <FormField

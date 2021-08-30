@@ -326,7 +326,8 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
         try {
             await this.signaling.stopProduce(type);
         } catch (error) {
-            if (error.error === WSErrorCode.ProducerNotFound) return;
+            // eslint-disable-next-line
+            if ((error as any).error === WSErrorCode.ProducerNotFound) return;
             throw error;
         }
     }
