@@ -12,6 +12,7 @@ import { sectionToggle, SectionToggleAction } from "./section_toggle";
 import { config, ConfigAction } from "./server_config";
 import { settings, SettingsAction } from "./settings";
 import { sync, SyncAction } from "./sync";
+import { trustedLinks, TrustedLinksAction } from "./trusted_links";
 import { unreads, UnreadsAction } from "./unreads";
 
 export default combineReducers({
@@ -27,6 +28,7 @@ export default combineReducers({
     lastOpened,
     notifications,
     sectionToggle,
+    trustedLinks,
 });
 
 export type Action =
@@ -42,4 +44,5 @@ export type Action =
     | LastOpenedAction
     | NotificationsAction
     | SectionToggleAction
+    | TrustedLinksAction
     | { type: "__INIT"; state: State };
