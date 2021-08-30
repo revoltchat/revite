@@ -1,6 +1,7 @@
 node_modules
 .DS_Store
 dist
+dist_injected
 dist-ssr
 *.local
 *.log

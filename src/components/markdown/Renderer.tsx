@@ -24,6 +24,7 @@ import { generateEmoji } from "../common/Emoji";
 
 import { emojiDictionary } from "../../assets/emojis";
 import { MarkdownProps } from "./Markdown";
+import {useIntermediate} from "../../context/intermediate/Intermediate";
 
 // TODO: global.d.ts file for defining globals
 declare global {
@@ -97,6 +98,8 @@ const RE_CHANNELS = /<#([A-z0-9]{26})>/g;
 
 export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
     const client = useContext(AppContext);
+    const { openScreen } = useIntermediate();
+
     if (typeof content === "undefined") return null;
     if (content.length === 0) return null;
 
@@ -198,6 +201,13 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
 
                             if (!internal) {
                                 element.setAttribute("target", "_blank");
+                                element.onclick = (ev) => {
+                                    ev.preventDefault();
+                                    openScreen({
+                                        id: "external_link_prompt",
+                                        link: href
+                                    })
+                                }
                             }
                         },
                     );

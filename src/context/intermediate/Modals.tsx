@@ -9,6 +9,7 @@ import { InputModal } from "./modals/Input";
 import { OnboardingModal } from "./modals/Onboarding";
 import { PromptModal } from "./modals/Prompt";
 import { SignedOutModal } from "./modals/SignedOut";
+import {ExternalLinkModal} from "./modals/ExternalLinkPrompt";
 
 export interface Props {
     screen: Screen;
@@ -34,6 +35,8 @@ export default function Modals({ screen, openScreen }: Props) {
             return <ClipboardModal onClose={onClose} {...screen} />;
         case "onboarding":
             return <OnboardingModal onClose={onClose} {...screen} />;
+        case "external_link_prompt":
+            return <ExternalLinkModal onClose={onClose} {...screen} />;
     }
 
     return null;

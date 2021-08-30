@@ -24,6 +24,7 @@ export type Screen =
     | { id: "signed_out" }
     | { id: "error"; error: string }
     | { id: "clipboard"; text: string }
+    | { id: "external_link_prompt"; link: string }
     | {
           id: "_prompt";
           question: Children;
@@ -78,16 +79,16 @@ export type Screen =
       }
 
     // Pop-overs
-    | { id: "image_viewer"; attachment?: Attachment; embed?: EmbedImage }
-    | { id: "modify_account"; field: "username" | "email" | "password" }
     | { id: "profile"; user_id: string }
-    | { id: "channel_info"; channel: Channel }
-    | { id: "pending_requests"; users: User[] }
     | {
           id: "user_picker";
           omit?: string[];
           callback: (users: string[]) => Promise<void>;
       }
+    | { id: "image_viewer"; attachment?: Attachment; embed?: EmbedImage }
+    | { id: "channel_info"; channel: Channel }
+    | { id: "pending_requests"; users: User[] }
+    | { id: "modify_account"; field: "username" | "email" | "password" }
     | {
           id: "server_identity";
           server: Server;

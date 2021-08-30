@@ -29,14 +29,16 @@ It is also recommended to run `git submodule update` after you pull from upstrea
 
 ## CLI Commands
 
-| Command          | Description                                  |
-| ---------------- | -------------------------------------------- |
-| `yarn dev`       | Start the Revolt client in development mode. |
-| `yarn build`     | Build the Revolt client.                     |
-| `yarn preview`   | Start a local server with the built client.  |
-| `yarn lint`      | Run ESLint on the client.                    |
-| `yarn fmt`       | Run Prettier on the client.                  |
-| `yarn typecheck` | Run TypeScript type checking on the client.  |
+| Command             | Description                                  |
+| ------------------- | -------------------------------------------- |
+| `yarn dev`          | Start the Revolt client in development mode. |
+| `yarn build`        | Build the Revolt client.                     |
+| `yarn preview`      | Start a local server with the built client.  |
+| `yarn lint`         | Run ESLint on the client.                    |
+| `yarn fmt`          | Run Prettier on the client.                  |
+| `yarn typecheck`    | Run TypeScript type checking on the client.  |
+| `yarn start`        | Start a local sirv server with built client. |
+| `yarn start:inject` | Inject a given API URL and start server.     |
 
 ## License
 
