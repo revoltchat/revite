@@ -15,7 +15,10 @@ export function ExternalLinkModal({ onClose, link }: Props) {
             title={<Text id={"app.special.modals.external_links.title"} />}
             actions={[
                 {
-                    onClick: ()=>{window.open(link, "_blank");},
+                    onClick: () => {
+                        window.open(link, "_blank");
+                        onClose();
+                    },
                     confirmation: true,
                     contrast: true,
                     accent: true,
