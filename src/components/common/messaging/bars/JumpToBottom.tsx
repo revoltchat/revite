@@ -1,10 +1,11 @@
 import { DownArrowAlt } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
 
+import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 const Bar = styled.div`
@@ -42,11 +43,13 @@ const Bar = styled.div`
             transform: translateY(1px);
         }
 
-        @media (pointer: coarse) {
-            height: 34px;
-            top: -32px;
-            padding: 0 12px;
-        }
+        ${() =>
+            isTouchscreenDevice &&
+            css`
+                height: 34px;
+                top: -32px;
+                padding: 0 12px;
+            `}
     }
 `;
 
