@@ -18,13 +18,15 @@ import { useCallback, useContext } from "preact/hooks";
 
 import { internalEmit } from "../../lib/eventEmitter";
 
+import { getState } from "../../redux";
+
+import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
 import { generateEmoji } from "../common/Emoji";
 
 import { emojiDictionary } from "../../assets/emojis";
 import { MarkdownProps } from "./Markdown";
-import {useIntermediate} from "../../context/intermediate/Intermediate";
 
 // TODO: global.d.ts file for defining globals
 declare global {
@@ -35,9 +37,9 @@ declare global {
 
 const ALLOWED_ORIGINS = [
     location.hostname,
-    'app.revolt.chat',
-    'nightly.revolt.chat',
-    'local.revolt.chat',
+    "app.revolt.chat",
+    "nightly.revolt.chat",
+    "local.revolt.chat",
 ];
 
 // Handler for code block copy.
@@ -176,13 +178,16 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                             element.removeAttribute("data-type");
                             element.removeAttribute("target");
 
-                            let internal;
+                            let internal,
+                                url: URL | null = null;
                             const href = element.href;
                             if (href) {
                                 try {
-                                    const url = new URL(href, location.href);
+                                    url = new URL(href, location.href);
 
-                                    if (ALLOWED_ORIGINS.includes(url.hostname)) {
+                                    if (
+                                        ALLOWED_ORIGINS.includes(url.hostname)
+                                    ) {
                                         internal = true;
                                         element.addEventListener(
                                             "click",
@@ -202,12 +207,20 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                             if (!internal) {
                                 element.setAttribute("target", "_blank");
                                 element.onclick = (ev) => {
-                                    ev.preventDefault();
-                                    openScreen({
-                                        id: "external_link_prompt",
-                                        link: href
-                                    })
-                                }
+                                    const { trustedLinks } = getState();
+                                    if (
+                                        !url ||
+                                        !trustedLinks.domains?.includes(
+                                            url.hostname,
+                                        )
+                                    ) {
+                                        ev.preventDefault();
+                                        openScreen({
+                                            id: "external_link_prompt",
+                                            link: href,
+                                        });
+                                    }
+                                };
                             }
                         },
                     );
