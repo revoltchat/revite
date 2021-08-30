@@ -584,6 +584,13 @@
             }
         }
     }
+
+    .buttonRow {
+        margin-top: 2em;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
 }
 
 section {

@@ -51,7 +51,7 @@ const CheckboxDescription = styled.span`
     color: var(--secondary-foreground);
 `;
 
-const Checkmark = styled.div<{ checked: boolean }>`
+const Checkmark = styled.div<{ checked: boolean; contrast?: boolean }>`
     margin: 4px;
     width: 24px;
     height: 24px;
@@ -67,6 +67,16 @@ const Checkmark = styled.div<{ checked: boolean }>`
     }
 
     ${(props) =>
+        props.contrast &&
+        css`
+            background: var(--primary-background);
+
+            svg {
+                color: var(--primary-background);
+            }
+        `}
+
+    ${(props) =>
         props.checked &&
         css`
             background: var(--accent) !important;
@@ -76,6 +86,7 @@ const Checkmark = styled.div<{ checked: boolean }>`
 export interface CheckboxProps {
     checked: boolean;
     disabled?: boolean;
+    contrast?: boolean;
     className?: string;
     children: Children;
     description?: Children;
@@ -100,7 +111,7 @@ export default function Checkbox(props: CheckboxProps) {
                     !props.disabled && props.onChange(!props.checked)
                 }
             />
-            <Checkmark checked={props.checked} className="check">
+            <Checkmark checked={props.checked} contrast={props.contrast} className="check">
                 <Check size={20} />
             </Checkmark>
         </CheckboxBase>
