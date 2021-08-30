@@ -24,6 +24,7 @@ import MessageBase, {
 import Attachment from "./attachments/Attachment";
 import { MessageReply } from "./attachments/MessageReply";
 import Embed from "./embed/Embed";
+import EmbedInvite from "./embed/EmbedInvite";
 
 interface Props {
     attachContext?: boolean;
@@ -35,6 +36,7 @@ interface Props {
     head?: boolean;
     hideReply?: boolean;
 }
+
 
 const Message = observer(
     ({
@@ -142,6 +144,22 @@ const Message = observer(
                             </span>
                         )}
                         {replacement ?? <Markdown content={content} />}
+                        {(() => {
+                        	if (content.includes(".revolt.chat/invite/") || content.includes("rvlt.gg/")) {
+	                        	const inviteRegex = /(?:(?:app|nightly)\.revolt\.chat\/invite|rvlt.gg)\/([A-Za-z0-9]*)/g;
+	                        	if (inviteRegex.test(content)) {
+		                        	let results = [];
+		                        	let match;
+		                        	inviteRegex.lastIndex = 0;
+		                        	while ((match = inviteRegex.exec(content)) !== null) {
+		                        		if (!results.includes(match[1])) {
+		                        	    	results.push(match[1]);
+		                        	    }
+		                        	}
+		                        	return results.map(code => <EmbedInvite code={code} />);
+	                        	}
+                        	}
+                        })()}
                         {queued?.error && (
                             <Overline type="error" error={queued.error} />
                         )}
