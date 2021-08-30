@@ -21,12 +21,20 @@ import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
+import { User } from "revolt.js/dist/maps/Users";
 
 interface Data {
     _id: string;
     username: string;
     public: boolean;
     interactions_url?: string;
+}
+
+interface Changes {
+    name?: string;
+    public?: boolean;
+    interactions_url?: string;
+    remove?: "InteractionsURL";
 }
 
 const BotBadge = styled.div`
@@ -44,50 +52,212 @@ const BotBadge = styled.div`
     border-radius: calc(var(--border-radius) / 2);
 `;
 
-function BotEditor({ bot }: { bot: Data }) {
-    const client = useClient();
-    const [data, setData] = useState<Data>(bot);
+interface Props {
+    bot: Bot;
+    user: User;
+    onDelete(): Promise<void>;
+    onUpdate(changes: Changes): Promise<void>;
+}
 
-    function save() {
-        const changes: Record<string, string | boolean | undefined> = {};
-        if (data.username !== bot.username) changes.name = data.username;
+function BotCard({ bot, user, onDelete, onUpdate }: Props) {
+    const [data, setData] = useState<Data>({
+        _id: bot._id,
+        username: user!.username,
+        public: bot.public,
+        interactions_url: bot.interactions_url,
+    });
+    const [saving, setSaving] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [usernameRef, setUsernameRef] = useState<HTMLInputElement | null>(
+        null,
+    );
+    const [interactionsRef, setInteractionsRef] =
+        useState<HTMLInputElement | null>(null);
+    const { writeClipboard, openScreen } = useIntermediate();
+
+    async function save() {
+        const changes: Changes = {};
+        if (data.username !== user!.username) changes.name = data.username;
         if (data.public !== bot.public) changes.public = data.public;
-        if (data.interactions_url !== bot.interactions_url)
+        if (data.interactions_url === '')
+            changes.remove = 'InteractionsURL';
+        else if (data.interactions_url !== bot.interactions_url)
             changes.interactions_url = data.interactions_url;
-
-        client.bots.edit(bot._id, changes);
+        setSaving(true);
+        try {
+            await onUpdate(changes);
+            setEditMode(false);
+        } catch (e) {
+            // TODO error handling
+        }
+        setSaving(false);
     }
 
     return (
-        <div>
-            <p>
-                <InputBox
-                    value={data.username}
-                    onChange={(e) =>
-                        setData({ ...data, username: e.currentTarget.value })
+        <div
+            key={bot._id}
+            style={{
+                background: "var(--secondary-background)",
+                margin: "8px 0",
+                padding: "12px",
+            }}>
+            <div className={styles.infoheader}>
+                <div className={styles.container}>
+                    <UserIcon
+                        className={styles.avatar}
+                        target={user!}
+                        size={48}
+                        onClick={() =>
+                            openScreen({
+                                id: "profile",
+                                user_id: user!._id,
+                            })
+                        }
+                    />
+                    {!editMode ? (
+                        <div className={styles.userDetail}>
+                            <div className={styles.userName}>
+                                {user!.username}{" "}
+                                <BotBadge>
+                                    <Text id="app.main.channel.bot" />
+                                </BotBadge>
+                            </div>
+
+                            <div className={styles.userid}>
+                                <Tooltip
+                                    content={<Text id="app.special.copy" />}>
+                                    <a
+                                        onClick={() =>
+                                            writeClipboard(user!._id)
+                                        }>
+                                        {user!._id}
+                                    </a>
+                                </Tooltip>
+                            </div>
+                        </div>
+                    ) : (
+                        <InputBox
+                            ref={setUsernameRef}
+                            value={data.username}
+                            disabled={saving}
+                            onChange={(e) =>
+                                setData({
+                                    ...data,
+                                    username: e.currentTarget.value,
+                                })
+                            }
+                        />
+                    )}
+                </div>
+
+                {!editMode && (
+                    <Tooltip
+                        content={
+                            bot.public
+                                ? "Bot is public. Anyone can invite it."
+                                : "Bot is private. Only you can invite it."
+                        }>
+                        {bot.public ? (
+                            <Globe size={24} />
+                        ) : (
+                            <LockAlt size={24} />
+                        )}
+                    </Tooltip>
+                )}
+                <Button
+                    onClick={() => {
+                        if (editMode) {
+                            setData({
+                                _id: bot._id,
+                                username: user!.username,
+                                public: bot.public,
+                                interactions_url: bot.interactions_url,
+                            });
+                            usernameRef!.value = user!.username;
+                            interactionsRef!.value = bot.interactions_url || "";
+                            setEditMode(false);
+                        } else setEditMode(true);
+                    }}
+                    contrast>
+                    {editMode ? "Cancel" : "Edit"}
+                </Button>
+            </div>
+            {!editMode && (
+                <CategoryButton
+                    account
+                    icon={<Key size={24} />}
+                    onClick={() => writeClipboard(bot.token)}
+                    description={
+                        <>
+                            {"••••••••••••••••••••••••••••••••••••"}{" "}
+                            <a
+                                onClick={(ev) =>
+                                    stopPropagation(
+                                        ev,
+                                        openScreen({
+                                            id: "token_reveal",
+                                            token: bot.token,
+                                            username: user!.username,
+                                        }),
+                                    )
+                                }>
+                                <Text id="app.special.modals.actions.reveal" />
+                            </a>
+                        </>
                     }
-                />
-            </p>
-            <p>
-                <Checkbox
-                    checked={data.public}
-                    onChange={(v) => setData({ ...data, public: v })}>
-                    is public
-                </Checkbox>
-            </p>
-            <p>interactions url: (reserved for the future)</p>
-            <p>
-                <InputBox
-                    value={data.interactions_url}
-                    onChange={(e) =>
-                        setData({
-                            ...data,
-                            interactions_url: e.currentTarget.value,
-                        })
-                    }
-                />
-            </p>
-            <Button onClick={save}>save</Button>
+                    action={<Clipboard size={18} />}>
+                    Token
+                </CategoryButton>
+            )}
+            {editMode && (
+                <>
+                    <Checkbox
+                        checked={data.public}
+                        disabled={saving}
+                        contrast
+                        description="Whether to allow other users to invite this bot."
+                        onChange={(v) => setData({ ...data, public: v })}>
+                        Public Bot
+                    </Checkbox>
+                    <h3>Interactions URL</h3>
+                    <h5>This field is reserved for the future.</h5>
+                    <InputBox
+                        ref={setInteractionsRef}
+                        value={data.interactions_url}
+                        disabled={saving}
+                        onChange={(e) =>
+                            setData({
+                                ...data,
+                                interactions_url:
+                                    e.currentTarget.value,
+                            })
+                        }
+                    />
+                </>
+            )}
+
+            <div className={styles.buttonRow}>
+                {editMode && (
+                    <>
+                        <Button accent onClick={save}>
+                            Save
+                        </Button>
+                        <Button
+                            error
+                            onClick={onDelete}>
+                            Delete
+                        </Button>
+                    </>
+                )}
+                {!editMode && (
+                    <Button
+                        onClick={() =>
+                            writeClipboard(`${window.origin}/bot/${bot._id}`)
+                        }>
+                        Copy Invite Link
+                    </Button>
+                )}
+            </div>
         </div>
     );
 }
@@ -102,8 +272,6 @@ export const MyBots = observer(() => {
     }, []);
 
     const [name, setName] = useState("");
-    const [editMode, setEditMode] = useState(false);
-    const { writeClipboard, openScreen } = useIntermediate();
 
     return (
         <div className={styles.myBots}>
@@ -132,116 +300,31 @@ export const MyBots = observer(() => {
             </p>
             <Overline>my bots</Overline>
             {bots?.map((bot) => {
-                const user = client.users.get(bot._id);
+                const user = client.users.get(bot._id)!;
                 return (
-                    <div
+                    <BotCard
                         key={bot._id}
-                        style={{
-                            background: "var(--secondary-background)",
-                            margin: "8px 0",
-                            padding: "12px",
-                        }}>
-                        <div className={styles.infoheader}>
-                            <div className={styles.container}>
-                                <UserIcon
-                                    className={styles.avatar}
-                                    target={user!}
-                                    size={48}
-                                    onClick={() =>
-                                        openScreen({
-                                            id: "profile",
-                                            user_id: user!._id,
-                                        })
-                                    }
-                                />
-                                <div className={styles.userDetail}>
-                                    <div className={styles.userName}>
-                                        {user!.username}{" "}
-                                        <BotBadge>
-                                            <Text id="app.main.channel.bot" />
-                                        </BotBadge>
-                                    </div>
-
-                                    <div className={styles.userid}>
-                                        <Tooltip
-                                            content={
-                                                <Text id="app.special.copy" />
-                                            }>
-                                            <a
-                                                onClick={() =>
-                                                    writeClipboard(
-                                                        client.user!._id,
-                                                    )
-                                                }>
-                                                {client.user!._id}
-                                            </a>
-                                        </Tooltip>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <Tooltip content={bot.public ? "Bot is public. Anyone can invite it." : "Bot is private. Only you can invite it."}>
-                                {bot.public ? <Globe size={24} /> : <LockAlt size={24} />}
-                            </Tooltip>
-                            {/* <Button onClick={() => switchPage("profile")} contrast>
-                                <Text id="app.settings.pages.profile.edit_profile" />
-                            </Button> */}
-                        </div>
-                        <CategoryButton
-                            account
-                            icon={<Key size={24} />}
-                            onClick={() => writeClipboard(bot.token)}
-                            description={
-                                <>
-                                    {"••••••••••••••••••••••••••••••••••••"}{" "}
-                                    <a
-                                        onClick={(ev) =>
-                                            stopPropagation(
-                                                ev,
-                                                openScreen({
-                                                    id: "token_reveal",
-                                                    token: bot.token,
-                                                    username: user!.username,
-                                                }),
-                                            )
-                                        }>
-                                        <Text id="app.special.modals.actions.reveal" />
-                                    </a>
-                                </>
-                            }
-                            action={<Clipboard size={18} />}>
-                            Token
-                        </CategoryButton>
-                        <BotEditor
-                            bot={{
-                                ...bot,
-                                username: user!.username,
-                            }}
-                        />
-                        <Button
-                            error
-                            onClick={() =>
-                                client.bots
+                        bot={bot}
+                        user={user}
+                        onDelete={() =>
+                            client.bots
                                     .delete(bot._id)
-                                    .then(() =>
-                                        setBots(
-                                            bots.filter(
-                                                (x) => x._id !== bot._id,
-                                            ),
-                                        ),
-                                    )
-                            }>
-                            delete
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                writeClipboard(
-                                    `${window.origin}/bot/${bot._id}`,
-                                )
-                            }>
-                            copy invite link
-                        </Button>
-                    </div>
+                                    .then(() => setBots(bots.filter((x) => x._id !== bot._id)))
+                            
+                        }
+                        onUpdate={(changes: Changes) =>
+                            client.bots.edit(bot._id, changes).then(() => setBots(
+                                bots.map((x) => {
+                                    if (x._id === bot._id) {
+                                        if ('public' in changes && typeof changes.public === 'boolean') x.public = changes.public;
+                                        if ('interactions_url' in changes) x.interactions_url = changes.interactions_url;
+                                        if (changes.remove === 'InteractionsURL') x.interactions_url = undefined;
+                                    }
+                                    return x;
+                                }),
+                            ))
+                        }
+                    />
                 );
             })}
         </div>
