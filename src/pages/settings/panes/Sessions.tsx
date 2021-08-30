@@ -32,7 +32,8 @@ interface Session {
 
 export function Sessions() {
     const client = useContext(AppContext);
-    const deviceId = client.session?.id;
+    const deviceId =
+        typeof client.session === "object" ? client.session.id : undefined;
 
     const [sessions, setSessions] = useState<Session[] | undefined>(undefined);
     const [attemptingDelete, setDelete] = useState<string[]>([]);

@@ -15,6 +15,7 @@ import { Children } from "../../types/Preact";
 import { useIntermediate } from "../intermediate/Intermediate";
 import { registerEvents, setReconnectDisallowed } from "./events";
 import { takeError } from "./util";
+import { Session } from "revolt-api/types/Auth";
 
 export enum ClientStatus {
     INIT,
@@ -79,7 +80,7 @@ function Context({ auth, children }: Props) {
                     const login = () =>
                         dispatch({
                             type: "LOGIN",
-                            session: client.session!, // This [null assertion] is ok, we should have a session by now. - insert's words
+                            session: client.session as Session,
                         });
 
                     if (onboarding) {
