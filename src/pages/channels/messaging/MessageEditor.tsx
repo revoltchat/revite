@@ -96,7 +96,7 @@ export default function MessageEditor({ message, finish }: Props) {
             <AutoComplete detached {...autoCompleteProps} />
             <TextAreaAutoSize
                 forceFocus
-                maxRows={3}
+                maxRows={10}
                 value={content}
                 maxLength={2000}
                 padding="var(--message-box-padding)"
