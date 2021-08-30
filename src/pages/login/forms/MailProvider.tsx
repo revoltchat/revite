@@ -16,10 +16,12 @@ function mapMailProvider(email?: string): [string, string] | undefined {
     const domain = match[1];
     switch (domain) {
         case "gmail.com":
+        case "googlemail.com":
             return ["Gmail", "https://gmail.com"];
         case "tuta.io":
             return ["Tutanota", "https://mail.tutanota.com"];
         case "outlook.com":
+        case "hotmail.com":
             return ["Outlook", "https://outlook.live.com"];
         case "yahoo.com":
             return ["Yahoo", "https://mail.yahoo.com"];
@@ -27,11 +29,24 @@ function mapMailProvider(email?: string): [string, string] | undefined {
             return ["WP Poczta", "https://poczta.wp.pl"];
         case "protonmail.com":
         case "protonmail.ch":
+        case "pm.me":
             return ["ProtonMail", "https://mail.protonmail.com"];
         case "seznam.cz":
         case "email.cz":
         case "post.cz":
             return ["Seznam", "https://email.seznam.cz"];
+        case "zoho.com":
+            return ["Zoho Mail", "https://mail.zoho.com/zm/"];
+        case "aol.com":
+        case "aim.com":
+            return ["AOL Mail", "https://mail.aol.com/"];
+        case "icloud.com":
+            return ["iCloud Mail", "https://mail.aol.com/"];
+        case "mail.com":
+        case "email.com":
+            return ["mail.com", "https://www.mail.com/mail/"];
+        case "yandex.com":
+            return ["Yandex Mail", "https://mail.yandex.com/"];
         default:
             return [domain, `https://${domain}`];
     }
