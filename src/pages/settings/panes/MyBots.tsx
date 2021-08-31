@@ -23,6 +23,7 @@ import Checkbox from "../../../components/ui/Checkbox";
 import InputBox from "../../../components/ui/InputBox";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
+import type { AxiosError } from "axios";
 
 interface Data {
     _id: string;
@@ -92,16 +93,17 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
             onUpdate(changes);
             setEditMode(false);
         } catch (e) {
-            if (e.isAxiosError && e.response.data?.type) {
-                switch (e.response.data.type) {
+            const err = e as AxiosError;
+            if (err.isAxiosError && err.response?.data?.type) {
+                switch (err.response.data.type) {
                     case "UsernameTaken":
                         setError("That username is taken!");
                         break;
                     default:
-                        setError(`Error: ${e.response.data.type}`);
+                        setError(`Error: ${err.response.data.type}`);
                         break;
                 }
-            } else setError(e.toString());
+            } else setError(err.toString());
         }
         setSaving(false);
     }
