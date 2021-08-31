@@ -74,13 +74,22 @@ export default function EmbedInvite(props: Props) {
     }, [client, code, invite, status]);
     
     if (typeof invite === "undefined") {
-        return <EmbedInviteBase>
-            {error ? (
-                <Overline type="error" error={error} />
-            ) : (
+        return error ? (
+            <EmbedInviteBase>
+                <ServerIcon
+                    size={55}
+                />
+                <EmbedInviteDetails>
+                    <EmbedInviteName>
+                        Invalid invite!
+                    </EmbedInviteName>
+                </EmbedInviteDetails>
+            </EmbedInviteBase>
+        ) : (
+            <EmbedInviteBase>
                 <Preloader type="ring" />
-            )}
-        </EmbedInviteBase>
+            </EmbedInviteBase>
+        )
     }
     
     return <EmbedInviteBase>
