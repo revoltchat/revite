@@ -16,6 +16,7 @@ import { Action } from "../../components/ui/Modal";
 
 import { Children } from "../../types/Preact";
 import Modals from "./Modals";
+import { Bot } from "revolt-api/types/Bots";
 
 export type Screen =
     | { id: "none" }
@@ -90,6 +91,7 @@ export type Screen =
     | { id: "channel_info"; channel: Channel }
     | { id: "pending_requests"; users: User[] }
     | { id: "modify_account"; field: "username" | "email" | "password" }
+    | { id: "create_bot"; onCreate: (bot: Bot) => void }
     | {
           id: "server_identity";
           server: Server;

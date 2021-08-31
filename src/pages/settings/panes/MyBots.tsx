@@ -1,4 +1,4 @@
-import { Key, Clipboard, Globe } from "@styled-icons/boxicons-regular";
+import { Key, Clipboard, Globe, Plus } from "@styled-icons/boxicons-regular";
 import { LockAlt } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Bot } from "revolt-api/types/Bots";
@@ -21,7 +21,6 @@ import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 import InputBox from "../../../components/ui/InputBox";
-import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
@@ -349,34 +348,25 @@ export const MyBots = observer(() => {
         // eslint-disable-next-line
     }, []);
 
-    const [name, setName] = useState("");
+    const { openScreen } = useIntermediate();
 
     return (
         <div className={styles.myBots}>
             <Tip warning hideSeparator>
                 This section is under construction.
             </Tip>
-            <Overline>create a new bot</Overline>
-            <p>
-                <InputBox
-                    value={name}
-                    contrast
-                    onChange={(e) => setName(e.currentTarget.value)}
-                />
-            </p>
-            <p>
-                <Button
-                    contrast
-                    onClick={() =>
-                        name.length > 0 &&
-                        client.bots
-                            .create({ name })
-                            .then(({ bot }) => setBots([...(bots ?? []), bot]))
-                    }>
-                    create
-                </Button>
-            </p>
-            <Overline>my bots</Overline>
+            <CategoryButton
+                account
+                icon={<Plus size={24} />}
+                onClick={() =>
+                    openScreen({
+                        id: "create_bot",
+                        onCreate: (bot) => setBots([...(bots ?? []), bot]),
+                    })
+                }
+                action="chevron">
+                Create a Bot
+            </CategoryButton>
             {bots?.map((bot) => {
                 return (
                     <BotCard
