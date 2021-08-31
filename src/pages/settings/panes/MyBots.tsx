@@ -2,6 +2,7 @@ import { Key, Clipboard, Globe } from "@styled-icons/boxicons-regular";
 import { LockAlt } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Bot } from "revolt-api/types/Bots";
+import { User } from "revolt.js/dist/maps/Users";
 import styled from "styled-components";
 
 import styles from "./Panes.module.scss";
@@ -9,6 +10,7 @@ import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import { stopPropagation } from "../../../lib/stopPropagation";
+import { internalEmit } from "../../../lib/eventEmitter";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -22,7 +24,6 @@ import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
-import { User } from "revolt.js/dist/maps/Users";
 
 interface Data {
     _id: string;
@@ -297,12 +298,27 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                     </>
                 )}
                 {!editMode && (
-                    <Button
-                        onClick={() =>
-                            writeClipboard(`${window.origin}/bot/${bot._id}`)
-                        }>
-                        Copy Invite Link
-                    </Button>
+                    <>
+                        <Button
+                            onClick={() =>
+                                writeClipboard(
+                                    `${window.origin}/bot/${bot._id}`,
+                                )
+                            }>
+                            Copy Invite Link
+                        </Button>
+                        <Button
+                            accent
+                            onClick={() =>
+                                internalEmit(
+                                    "Intermediate",
+                                    "navigate",
+                                    `/bot/${bot._id}`,
+                                )
+                            }>
+                            Add Bot
+                        </Button>
+                    </>
                 )}
             </div>
         </div>
