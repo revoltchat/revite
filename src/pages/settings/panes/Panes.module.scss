@@ -524,8 +524,25 @@
 }
 
 .myBots {
+
+    .botCard {
+        background: var(--secondary-background);
+        margin: 8px 0;
+        padding: 12px;
+
+        h5 { margin-bottom: 1em }
+    }
+
+    .botSection {
+        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        label { margin-top: 0 }
+    }
+
     .infoheader {
-        margin-bottom: 15px;
         gap: 8px;
         width: 100%;
         padding: 6px 5px;
@@ -586,7 +603,6 @@
     }
 
     .buttonRow {
-        margin-top: 2em;
         display: flex;
         flex-direction: row;
         gap: 10px;

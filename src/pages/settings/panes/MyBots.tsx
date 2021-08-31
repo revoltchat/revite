@@ -9,8 +9,8 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { stopPropagation } from "../../../lib/stopPropagation";
 import { internalEmit } from "../../../lib/eventEmitter";
+import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -69,6 +69,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
         public: bot.public,
         interactions_url: bot.interactions_url,
     });
+    const [error, setError] = useState<string | JSX.Element>("");
     const [saving, setSaving] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [usernameRef, setUsernameRef] = useState<HTMLInputElement | null>(
@@ -86,18 +87,29 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
         else if (data.interactions_url !== bot.interactions_url)
             changes.interactions_url = data.interactions_url;
         setSaving(true);
+        setError("");
         try {
             await client.bots.edit(bot._id, changes);
             onUpdate(changes);
             setEditMode(false);
         } catch (e) {
-            // TODO error handling
+            if (e.isAxiosError && e.response.data?.type) {
+                switch (e.response.data.type) {
+                    case "UsernameTaken":
+                        setError("That username is taken!");
+                        break;
+                    default:
+                        setError(`Error: ${e.response.data.type}`);
+                        break;
+                }
+            } else setError(e.toString());
         }
         setSaving(false);
     }
 
     async function editBotAvatar(avatar?: string) {
         setSaving(true);
+        setError("");
         await client.request("PATCH", "/users/id", {
             headers: { "x-bot-token": bot.token },
             transformRequest: (data, headers) => {
@@ -116,13 +128,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
     }
 
     return (
-        <div
-            key={bot._id}
-            style={{
-                background: "var(--secondary-background)",
-                margin: "8px 0",
-                padding: "12px",
-            }}>
+        <div key={bot._id} className={styles.botCard}>
             <div className={styles.infoheader}>
                 <div className={styles.container}>
                     {!editMode ? (
@@ -220,6 +226,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                             });
                             usernameRef!.value = user!.username;
                             interactionsRef!.value = bot.interactions_url || "";
+                            setError("");
                             setEditMode(false);
                         } else setEditMode(true);
                     }}
@@ -255,7 +262,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                 </CategoryButton>
             )}
             {editMode && (
-                <>
+                <div className={styles.botSection}>
                     <Checkbox
                         checked={data.public}
                         disabled={saving}
@@ -277,7 +284,15 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                             })
                         }
                     />
-                </>
+                </div>
+            )}
+
+            {error && (
+                <div className={styles.botSection}>
+                    <Tip error hideSeparator>
+                        {error}
+                    </Tip>
+                </div>
             )}
 
             <div className={styles.buttonRow}>
