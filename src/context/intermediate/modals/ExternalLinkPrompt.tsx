@@ -43,10 +43,10 @@ export function ExternalLinkModal({ onClose, link }: Props) {
                         onClose();
                     },
                     plain: true,
-                    children: "Trust this domain",
+                    children: <Text id="app.special.modals.external_links.trust_domain" />,
                 }
             ]}>
-            <Text id={"app.special.modals.external_links.short"} /> <br />
+            <Text id="app.special.modals.external_links.short" /> <br />
             <a>{link}</a>
         </Modal>
     );
