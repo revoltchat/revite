@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import { autorun } from "mobx";
 import { useHistory } from "react-router-dom";
+import { RetrievedInvite } from "revolt-api/types/Invites";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
@@ -28,7 +29,7 @@ const EmbedInviteBase = styled.div`
     width: 400px;
     height: 80px;
     background-color: var(--secondary-background);
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     display: flex;
     align-items: center;
     padding: 0 12px;
@@ -45,8 +46,11 @@ const EmbedInviteMemberCount = styled.div`
     font-size: 0.8em;
 `;
 
+type Props = {
+    code: string
+}
 
-export default function EmbedInvite(props) {
+export default function EmbedInvite(props: Props) {
     const history = useHistory();
     const client = useContext(AppContext);
     const status = useContext(StatusContext);
