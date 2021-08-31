@@ -352,9 +352,6 @@ export const MyBots = observer(() => {
 
     return (
         <div className={styles.myBots}>
-            <Tip warning hideSeparator>
-                This section is under construction.
-            </Tip>
             <CategoryButton
                 account
                 icon={<Plus size={24} />}
