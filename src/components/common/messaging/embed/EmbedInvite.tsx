@@ -106,49 +106,56 @@ export default function EmbedInvite(props: Props) {
                 {invite.member_count} members
             </EmbedInviteMemberCount>
         </EmbedInviteDetails>
-        <Button onClick={async () => {
-            try {
-                setProcessing(true);
+        {processing ? (
+            <div>
+                <Preloader type="ring" />
+            </div>
+        ) : (
+            <Button onClick={async () => {
+                try {
+                    setProcessing(true);
 
-                if (invite.type === "Server") {
-                    if (
-                        client.servers.get(invite.server_id)
-                    ) {
-                        history.push(
-                            `/server/${invite.server_id}/channel/${invite.channel_id}`,
-                        );
+                    if (invite.type === "Server") {
+                        if (
+                            client.servers.get(invite.server_id)
+                        ) {
+                            history.push(
+                                `/server/${invite.server_id}/channel/${invite.channel_id}`,
+                            );
+                        }
+
+                        const dispose = autorun(() => {
+                            const server = client.servers.get(
+                                invite.server_id,
+                            );
+
+                            defer(() => {
+                                if (server) {
+                                    dispatch({
+                                        type: "UNREADS_MARK_MULTIPLE_READ",
+                                        channels:
+                                            server.channel_ids,
+                                    });
+
+                                    history.push(
+                                        `/server/${server._id}/channel/${invite.channel_id}`,
+                                    );
+                                }
+                            });
+
+                            dispose();
+                        });
                     }
 
-                    const dispose = autorun(() => {
-                        const server = client.servers.get(
-                            invite.server_id,
-                        );
-
-                        defer(() => {
-                            if (server) {
-                                dispatch({
-                                    type: "UNREADS_MARK_MULTIPLE_READ",
-                                    channels:
-                                        server.channel_ids,
-                                });
-
-                                history.push(
-                                    `/server/${server._id}/channel/${invite.channel_id}`,
-                                );
-                            }
-                        });
-
-                        dispose();
-                    });
+                    await client.joinInvite(code);
+                    setProcessing(false);
+                } catch (err) {
+                    setError(takeError(err));
+                    setProcessing(false);
                 }
-
-                await client.joinInvite(code);
-            } catch (err) {
-                setError(takeError(err));
-                setProcessing(false);
-            }
-        }}>
-            {client.servers.get(invite.server_id) ? "Joined" : "Join"}
-        </Button>
+            }}>
+                {client.servers.get(invite.server_id) ? "Joined" : "Join"}
+            </Button>
+        )}
     </EmbedInviteBase>
 }
