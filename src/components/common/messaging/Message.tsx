@@ -26,6 +26,14 @@ import { MessageReply } from "./attachments/MessageReply";
 import Embed from "./embed/Embed";
 import EmbedInvite from "./embed/EmbedInvite";
 
+const INVITE_PATHS = [
+	location.hostname + "/invite", 
+	"app.revolt.chat/invite", 
+	"nightly.revolt.chat/invite", 
+	"local.revolt.chat/invite",
+	"rvlt.gg"
+]
+
 interface Props {
     attachContext?: boolean;
     queued?: QueuedMessage;
@@ -36,7 +44,6 @@ interface Props {
     head?: boolean;
     hideReply?: boolean;
 }
-
 
 const Message = observer(
     ({
@@ -145,15 +152,21 @@ const Message = observer(
                         )}
                         {replacement ?? <Markdown content={content} />}
                         {(() => {
-                        	if (content.includes(".revolt.chat/invite/") || content.includes("rvlt.gg/")) {
-	                        	const inviteRegex = /(?:(?:app|nightly)\.revolt\.chat\/invite|rvlt.gg)\/([A-Za-z0-9]*)/g;
+                            let isInvite = false;
+                            INVITE_PATHS.forEach(path => {
+                                if (content.includes(path)) {
+                                    isInvite = true;
+                                }
+                            })
+                        	if (isInvite) {
+	                        	const inviteRegex = new RegExp("(?:" + INVITE_PATHS.map((path, index) => path.split(".").join("\\.") + (index !== INVITE_PATHS.length - 1 ? "|" : "")).join("") + ")/([A-Za-z0-9]*)", "g");
 	                        	if (inviteRegex.test(content)) {
-		                        	let results = [];
-		                        	let match;
+		                        	let results: string[] = [];
+		                        	let match: RegExpExecArray | null;
 		                        	inviteRegex.lastIndex = 0;
 		                        	while ((match = inviteRegex.exec(content)) !== null) {
-		                        		if (!results.includes(match[1])) {
-		                        	    	results.push(match[1]);
+		                        		if (!results.includes(match[match.length - 1])) {
+		                        	    	results.push(match[match.length - 1]);
 		                        	    }
 		                        	}
 		                        	return results.map(code => <EmbedInvite code={code} />);
