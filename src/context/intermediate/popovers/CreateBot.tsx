@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Bot } from "revolt-api/types/Bots";
 
+import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
 import Modal from "../../../components/ui/Modal";
@@ -45,12 +46,12 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
                     contrast: true,
                     accent: true,
                     onClick: handleSubmit(onSubmit),
-                    children: "Create",
+                    children: <Text id="app.special.modals.actions.create" />,
                 },
                 {
                     plain: true,
                     onClick: onClose,
-                    children: "Cancel",
+                    children: <Text id="app.special.modals.actions.cancel" />,
                 },
             ]}>
             {/* Preact / React typing incompatabilities */}
