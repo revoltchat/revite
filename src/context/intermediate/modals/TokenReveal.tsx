@@ -8,12 +8,17 @@ interface Props {
     username: string;
 }
 
-export function TokenRevealModal({ onClose, token,username }: Props) {
+export function TokenRevealModal({ onClose, token, username }: Props) {
     return (
         <Modal
             visible={true}
             onClose={onClose}
-            title={`${username}'s Token`}
+            title={
+                <Text
+                    id={"app.special.modals.token_reveal"}
+                    fields={{ name: username }}
+                />
+            }
             actions={[
                 {
                     onClick: onClose,

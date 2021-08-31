@@ -39,7 +39,7 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
         <Modal
             visible={true}
             onClose={onClose}
-            title="Create a new Bot"
+            title={<Text id="app.special.popovers.create_bot.title" />}
             actions={[
                 {
                     confirmation: true,
@@ -72,7 +72,7 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
                 />
                 {error && (
                     <Overline type="error" error={error}>
-                        Failed to create a bot!
+                        <Text id="app.special.popovers.create_bot.error" />
                     </Overline>
                 )}
             </form>

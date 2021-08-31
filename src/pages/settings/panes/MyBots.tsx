@@ -203,10 +203,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
 
                 {!editMode && (
                     <Tooltip
-                        content={
-                            bot.public
-                                ? "Bot is public. Anyone can invite it."
-                                : "Bot is private. Only you can invite it."
+                        content={<Text id={`app.settings.pages.bots.${bot.public ? 'public' : 'private'}_bot_tip`} />
                         }>
                         {bot.public ? (
                             <Globe size={24} />
@@ -232,7 +229,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         } else setEditMode(true);
                     }}
                     contrast>
-                    {editMode ? <Text id="app.special.modals.actions.cancel" /> : "Edit"}
+                    <Text id={`app.special.modals.actions.${editMode ? 'cancel' : 'edit'}`} />
                 </Button>
             </div>
             {!editMode && (
@@ -259,7 +256,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         </>
                     }
                     action={<Clipboard size={18} />}>
-                    Token
+                    <Text id="app.settings.pages.bots.token" />
                 </CategoryButton>
             )}
             {editMode && (
@@ -268,12 +265,12 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         checked={data.public}
                         disabled={saving}
                         contrast
-                        description="Whether to allow other users to invite this bot."
+                        description={<Text id="app.settings.pages.bots.public_bot_desc" />}
                         onChange={(v) => setData({ ...data, public: v })}>
-                        Public Bot
+                        <Text id="app.settings.pages.bots.public_bot" />
                     </Checkbox>
-                    <h3>Interactions URL</h3>
-                    <h5>This field is reserved for the future.</h5>
+                    <h3><Text id="app.settings.pages.bots.interactions_url" /></h3>
+                    <h5><Text id="app.settings.pages.bots.reserved" /></h5>
                     <InputBox
                         ref={setInteractionsRef}
                         value={data.interactions_url}
@@ -321,7 +318,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                     `${window.origin}/bot/${bot._id}`,
                                 )
                             }>
-                            Copy Invite Link
+                            <Text id="app.settings.pages.bots.copy_invite" />
                         </Button>
                         <Button
                             accent
@@ -332,7 +329,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                     `/bot/${bot._id}`,
                                 )
                             }>
-                            Add Bot
+                            <Text id="app.settings.pages.bots.add_bot" />
                         </Button>
                     </>
                 )}
@@ -364,7 +361,7 @@ export const MyBots = observer(() => {
                     })
                 }
                 action="chevron">
-                Create a Bot
+                <Text id="app.settings.pages.bots.create_bot" />
             </CategoryButton>
             {bots?.map((bot) => {
                 return (
