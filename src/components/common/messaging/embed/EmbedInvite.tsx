@@ -74,29 +74,29 @@ export default function EmbedInvite(props: Props) {
     }, [client, code, invite, status]);
     
     if (typeof invite === "undefined") {
-		return <EmbedInviteBase>
-	        {error ? (
-	            <Overline type="error" error={error} />
-	        ) : (
-	            <Preloader type="ring" />
-	        )}
-		</EmbedInviteBase>
+        return <EmbedInviteBase>
+            {error ? (
+                <Overline type="error" error={error} />
+            ) : (
+                <Preloader type="ring" />
+            )}
+        </EmbedInviteBase>
     }
-	
-	return <EmbedInviteBase>
+    
+    return <EmbedInviteBase>
         <ServerIcon
             attachment={invite.server_icon}
             server_name={invite.server_name}
             size={55}
         />
-		<EmbedInviteDetails>
-			<EmbedInviteName>
-				{invite.server_name}
-			</EmbedInviteName>
-			<EmbedInviteMemberCount>
-				{invite.member_count} members
-			</EmbedInviteMemberCount>
-		</EmbedInviteDetails>
+        <EmbedInviteDetails>
+            <EmbedInviteName>
+                {invite.server_name}
+            </EmbedInviteName>
+            <EmbedInviteMemberCount>
+                {invite.member_count} members
+            </EmbedInviteMemberCount>
+        </EmbedInviteDetails>
         <Button onClick={async () => {
             try {
                 setProcessing(true);
@@ -139,7 +139,7 @@ export default function EmbedInvite(props: Props) {
                 setProcessing(false);
             }
         }}>
-			{client.servers.get(invite.server_id) ? "Joined" : "Join"}
-		</Button>
-	</EmbedInviteBase>
+            {client.servers.get(invite.server_id) ? "Joined" : "Join"}
+        </Button>
+    </EmbedInviteBase>
 }
