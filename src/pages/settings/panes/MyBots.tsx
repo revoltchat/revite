@@ -230,7 +230,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         } else setEditMode(true);
                     }}
                     contrast>
-                    {editMode ? "Cancel" : "Edit"}
+                    {editMode ? <Text id="app.special.modals.actions.cancel" /> : "Edit"}
                 </Button>
             </div>
             {!editMode && (
@@ -298,7 +298,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                 {editMode && (
                     <>
                         <Button accent onClick={save}>
-                            Save
+                            <Text id="app.special.modals.actions.save" />
                         </Button>
                         <Button
                             error
@@ -307,7 +307,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                 await client.bots.delete(bot._id);
                                 onDelete();
                             }}>
-                            Delete
+                            <Text id="app.special.modals.actions.delete" />
                         </Button>
                     </>
                 )}
