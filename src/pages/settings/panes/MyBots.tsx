@@ -11,6 +11,7 @@ import { useEffect, useState } from "preact/hooks";
 import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Tooltip from "../../../components/common/Tooltip";
@@ -54,15 +55,16 @@ const BotBadge = styled.div`
 
 interface Props {
     bot: Bot;
-    user: User;
-    onDelete(): Promise<void>;
-    onUpdate(changes: Changes): Promise<void>;
+    onDelete(): void;
+    onUpdate(changes: Changes): void;
 }
 
-function BotCard({ bot, user, onDelete, onUpdate }: Props) {
+function BotCard({ bot, onDelete, onUpdate }: Props) {
+    const client = useClient();
+    const [user, setUser] = useState<User>(client.users.get(bot._id)!);
     const [data, setData] = useState<Data>({
         _id: bot._id,
-        username: user!.username,
+        username: user.username,
         public: bot.public,
         interactions_url: bot.interactions_url,
     });
@@ -79,17 +81,36 @@ function BotCard({ bot, user, onDelete, onUpdate }: Props) {
         const changes: Changes = {};
         if (data.username !== user!.username) changes.name = data.username;
         if (data.public !== bot.public) changes.public = data.public;
-        if (data.interactions_url === '')
-            changes.remove = 'InteractionsURL';
+        if (data.interactions_url === "") changes.remove = "InteractionsURL";
         else if (data.interactions_url !== bot.interactions_url)
             changes.interactions_url = data.interactions_url;
         setSaving(true);
         try {
-            await onUpdate(changes);
+            await client.bots.edit(bot._id, changes);
+            onUpdate(changes);
             setEditMode(false);
         } catch (e) {
             // TODO error handling
         }
+        setSaving(false);
+    }
+
+    async function editBotAvatar(avatar?: string) {
+        setSaving(true);
+        await client.request("PATCH", "/users/id", {
+            headers: { "x-bot-token": bot.token },
+            transformRequest: (data, headers) => {
+                // Remove user headers for this request
+                delete headers["x-user-id"];
+                delete headers["x-session-token"];
+                return data;
+            },
+            data: JSON.stringify(avatar ? { avatar } : { remove: "Avatar" }),
+        });
+
+        const res = await client.bots.fetch(bot._id);
+        if (!avatar) res.user.update({}, "Avatar");
+        setUser(res.user);
         setSaving(false);
     }
 
@@ -103,17 +124,39 @@ function BotCard({ bot, user, onDelete, onUpdate }: Props) {
             }}>
             <div className={styles.infoheader}>
                 <div className={styles.container}>
-                    <UserIcon
-                        className={styles.avatar}
-                        target={user!}
-                        size={48}
-                        onClick={() =>
-                            openScreen({
-                                id: "profile",
-                                user_id: user!._id,
-                            })
-                        }
-                    />
+                    {!editMode ? (
+                        <UserIcon
+                            className={styles.avatar}
+                            target={user}
+                            size={48}
+                            onClick={() =>
+                                openScreen({
+                                    id: "profile",
+                                    user_id: user._id,
+                                })
+                            }
+                        />
+                    ) : (
+                        <FileUploader
+                            width={64}
+                            height={64}
+                            style="icon"
+                            fileType="avatars"
+                            behaviour="upload"
+                            maxFileSize={4_000_000}
+                            onUpload={(avatar) => editBotAvatar(avatar)}
+                            remove={() => editBotAvatar()}
+                            defaultPreview={user.generateAvatarURL(
+                                { max_side: 256 },
+                                true,
+                            )}
+                            previewURL={user.generateAvatarURL(
+                                { max_side: 256 },
+                                true,
+                            )}
+                        />
+                    )}
+
                     {!editMode ? (
                         <div className={styles.userDetail}>
                             <div className={styles.userName}>
@@ -165,6 +208,7 @@ function BotCard({ bot, user, onDelete, onUpdate }: Props) {
                     </Tooltip>
                 )}
                 <Button
+                    disabled={saving}
                     onClick={() => {
                         if (editMode) {
                             setData({
@@ -228,8 +272,7 @@ function BotCard({ bot, user, onDelete, onUpdate }: Props) {
                         onChange={(e) =>
                             setData({
                                 ...data,
-                                interactions_url:
-                                    e.currentTarget.value,
+                                interactions_url: e.currentTarget.value,
                             })
                         }
                     />
@@ -244,7 +287,11 @@ function BotCard({ bot, user, onDelete, onUpdate }: Props) {
                         </Button>
                         <Button
                             error
-                            onClick={onDelete}>
+                            onClick={async () => {
+                                setSaving(true);
+                                await client.bots.delete(bot._id);
+                                onDelete();
+                            }}>
                             Delete
                         </Button>
                     </>
@@ -300,29 +347,33 @@ export const MyBots = observer(() => {
             </p>
             <Overline>my bots</Overline>
             {bots?.map((bot) => {
-                const user = client.users.get(bot._id)!;
                 return (
                     <BotCard
                         key={bot._id}
                         bot={bot}
-                        user={user}
                         onDelete={() =>
-                            client.bots
-                                    .delete(bot._id)
-                                    .then(() => setBots(bots.filter((x) => x._id !== bot._id)))
-                            
+                            setBots(bots.filter((x) => x._id !== bot._id))
                         }
                         onUpdate={(changes: Changes) =>
-                            client.bots.edit(bot._id, changes).then(() => setBots(
+                            setBots(
                                 bots.map((x) => {
                                     if (x._id === bot._id) {
-                                        if ('public' in changes && typeof changes.public === 'boolean') x.public = changes.public;
-                                        if ('interactions_url' in changes) x.interactions_url = changes.interactions_url;
-                                        if (changes.remove === 'InteractionsURL') x.interactions_url = undefined;
+                                        if (
+                                            "public" in changes &&
+                                            typeof changes.public === "boolean"
+                                        )
+                                            x.public = changes.public;
+                                        if ("interactions_url" in changes)
+                                            x.interactions_url =
+                                                changes.interactions_url;
+                                        if (
+                                            changes.remove === "InteractionsURL"
+                                        )
+                                            x.interactions_url = undefined;
                                     }
                                     return x;
                                 }),
-                            ))
+                            )
                         }
                     />
                 );
