@@ -70,6 +70,7 @@ function BotEditor({ bot }: { bot: Data }) {
 
 export const MyBots = observer(() => {
     const client = useClient();
+    const { openScreen } = useIntermediate();
     const [bots, setBots] = useState<Bot[] | undefined>(undefined);
 
     useEffect(() => {
@@ -101,6 +102,11 @@ export const MyBots = observer(() => {
                         client.bots
                             .create({ name })
                             .then(({ bot }) => setBots([...(bots ?? []), bot]))
+                            .catch(() => {
+                                if (name.length < 2) return openScreen({ id: "error", error: "Username must be at least 2 characters long" });
+                                else if (name.length > 32) return openScreen({ id: "error", error: "Username must be no longer than 32 characters" });
+                                openScreen({ id: "error", error: "Username already taken" });
+                            })
                     }>
                     create
                 </Button>
