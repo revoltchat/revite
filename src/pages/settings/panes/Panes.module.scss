@@ -91,6 +91,7 @@
         display: grid;
         place-items: center;
         grid-template-columns: minmax(auto, 100%);
+        padding-bottom: 30px;
 
         > div {
             width: 100%;
