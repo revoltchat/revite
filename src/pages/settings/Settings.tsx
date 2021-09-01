@@ -184,7 +184,7 @@ export default function Settings() {
             custom={
                 <>
                     <a
-                        href="https://gitlab.insrt.uk/revolt"
+                        href="https://github.com/revoltchat"
                         target="_blank"
                         rel="noreferrer">
                         <ButtonItem compact>
@@ -221,7 +221,7 @@ export default function Settings() {
                             <a
                                 href={
                                     GIT_BRANCH !== "DETACHED"
-                                        ? `https://gitlab.insrt.uk/revolt/client/-/tree/${GIT_BRANCH}`
+                                        ? `hhttps://github.com/revoltchat/revite/commit/${GIT_BRANCH}`
                                         : undefined
                                 }
                                 target="_blank"
