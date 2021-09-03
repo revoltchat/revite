@@ -62,10 +62,11 @@ export default function Invite() {
                                 height: "100%",
                             }}>
                             <div className={styles.details}>
-                                <h1>Invalid invite!</h1>
+                                <h1>
+                                    <Text id="app.special.invite.invalid" />
+                                </h1>
                                 <h2>
-                                    The invite may not exist or you don't have
-                                    permission to join.
+                                    <Text id="app.special.invite.invalid_desc" />
                                 </h2>
                                 <div style="cursor: pointer;">
                                     <Button contrast>
@@ -85,7 +86,6 @@ export default function Invite() {
         );
     }
 
-    // ! FIXME: add i18n translations
     return (
         <div
             className={styles.invite}
