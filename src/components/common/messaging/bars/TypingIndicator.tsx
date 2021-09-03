@@ -23,7 +23,7 @@ const Base = styled.div`
         user-select: none;
         align-items: center;
         flex-direction: row;
-        width: calc(100% - 3px);
+        width: calc(100% - var(--scrollbar-thickness));
         color: var(--secondary-foreground);
         background: var(--secondary-background);
     }

@@ -21,6 +21,8 @@
     --app-height: 100vh;
     --border-radius: 6px;
     --border-radius-half: 50%;
+    --scrollbar-thickness: 3px;
+    --scrollbar-thickness-ff: thin;
 
     --input-border-width: 2px;
     --textarea-padding: 16px;
@@ -33,17 +35,4 @@
     --attachment-max-text-width: 800px;
 
     --bottom-navigation-height: 50px;
-
-    /**
-     * Experimental
-     */
-    --background-rgb: (
-        25,
-        25,
-        25
-    ); //THIS IS SO THAT WE CAN HAVE CUSTOM BACKGROUNDS FOR THE CLIENT, CONVERTS THE HEX TO AN RGB VALUE FROM --background
-    --background-rgba: rgba(
-        var(--background-rgb),
-        0.8
-    ); //make the opacity also customizable
 }
