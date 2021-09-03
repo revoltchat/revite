@@ -17,6 +17,7 @@ import styles from "./Markdown.module.scss";
 import { useCallback, useContext } from "preact/hooks";
 
 import { internalEmit } from "../../lib/eventEmitter";
+import { determineLink } from "../../lib/links";
 
 import { getState } from "../../redux";
 
@@ -34,13 +35,6 @@ declare global {
         copycode: (element: HTMLDivElement) => void;
     }
 }
-
-const ALLOWED_ORIGINS = [
-    location.hostname,
-    "app.revolt.chat",
-    "nightly.revolt.chat",
-    "local.revolt.chat",
-];
 
 // Handler for code block copy.
 if (typeof window !== "undefined") {
@@ -100,7 +94,7 @@ const RE_CHANNELS = /<#([A-z0-9]{26})>/g;
 
 export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
     const client = useContext(AppContext);
-    const { openScreen } = useIntermediate();
+    const { openLink } = useIntermediate();
 
     if (typeof content === "undefined") return null;
     if (content.length === 0) return null;
@@ -142,24 +136,15 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
         }
     }, []);
 
-    const handleLink = useCallback((ev: MouseEvent) => {
-        if (ev.currentTarget) {
-            const element = ev.currentTarget as HTMLAnchorElement;
-            const url = new URL(element.href, location.href);
-            const pathname = url.pathname;
-
-            if (pathname.startsWith("/@")) {
-                const id = pathname.substr(2);
-                if (/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/.test(id)) {
-                    ev.preventDefault();
-                    internalEmit("Intermediate", "openProfile", id);
-                }
-            } else {
-                ev.preventDefault();
-                internalEmit("Intermediate", "navigate", pathname);
+    const handleLink = useCallback(
+        (ev: MouseEvent) => {
+            if (ev.currentTarget) {
+                const element = ev.currentTarget as HTMLAnchorElement;
+                if (openLink(element.href)) ev.preventDefault();
             }
-        }
-    }, []);
+        },
+        [openLink],
+    );
 
     return (
         <span
@@ -175,52 +160,23 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                     el.querySelectorAll<HTMLAnchorElement>("a").forEach(
                         (element) => {
                             element.removeEventListener("click", handleLink);
+                            element.addEventListener("click", handleLink);
                             element.removeAttribute("data-type");
                             element.removeAttribute("target");
 
-                            let internal,
-                                url: URL | null = null;
-                            const href = element.href;
-                            if (href) {
-                                try {
-                                    url = new URL(href, location.href);
-
-                                    if (
-                                        ALLOWED_ORIGINS.includes(url.hostname)
-                                    ) {
-                                        internal = true;
-                                        element.addEventListener(
-                                            "click",
-                                            handleLink,
-                                        );
-
-                                        if (url.pathname.startsWith("/@")) {
-                                            element.setAttribute(
-                                                "data-type",
-                                                "mention",
-                                            );
-                                        }
-                                    }
-                                } catch (err) {}
-                            }
-
-                            if (!internal) {
-                                element.setAttribute("target", "_blank");
-                                element.onclick = (ev) => {
-                                    const { trustedLinks } = getState();
-                                    if (
-                                        !url ||
-                                        !trustedLinks.domains?.includes(
-                                            url.hostname,
-                                        )
-                                    ) {
-                                        ev.preventDefault();
-                                        openScreen({
-                                            id: "external_link_prompt",
-                                            link: href,
-                                        });
-                                    }
-                                };
+                            const link = determineLink(element.href);
+                            switch (link.type) {
+                                case "profile": {
+                                    element.setAttribute(
+                                        "data-type",
+                                        "mention",
+                                    );
+                                    break;
+                                }
+                                case "external": {
+                                    element.setAttribute("target", "_blank");
+                                    break;
+                                }
                             }
                         },
                     );

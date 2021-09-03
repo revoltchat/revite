@@ -1,6 +1,7 @@
 import { Prompt } from "react-router";
 import { useHistory } from "react-router-dom";
 import type { Attachment } from "revolt-api/types/Autumn";
+import { Bot } from "revolt-api/types/Bots";
 import type { EmbedImage } from "revolt-api/types/January";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
@@ -11,12 +12,14 @@ import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
+import { determineLink } from "../../lib/links";
+
+import { getState } from "../../redux";
 
 import { Action } from "../../components/ui/Modal";
 
 import { Children } from "../../types/Preact";
 import Modals from "./Modals";
-import { Bot } from "revolt-api/types/Bots";
 
 export type Screen =
     | { id: "none" }
@@ -103,9 +106,11 @@ export const IntermediateContext = createContext({
 });
 
 export const IntermediateActionsContext = createContext<{
+    openLink: (href?: string) => boolean;
     openScreen: (screen: Screen) => void;
     writeClipboard: (text: string) => void;
 }>({
+    openLink: null!,
     openScreen: null!,
     writeClipboard: null!,
 });
@@ -125,6 +130,37 @@ export default function Intermediate(props: Props) {
 
     const actions = useMemo(() => {
         return {
+            openLink: (href?: string) => {
+                const link = determineLink(href);
+
+                switch (link.type) {
+                    case "profile": {
+                        openScreen({ id: "profile", user_id: link.id });
+                        return true;
+                    }
+                    case "navigate": {
+                        history.push(link.path);
+                        return true;
+                    }
+                    case "external": {
+                        const { trustedLinks } = getState();
+                        if (
+                            !trustedLinks.domains?.includes(link.url.hostname)
+                        ) {
+                            openScreen({
+                                id: "external_link_prompt",
+                                link: link.href,
+                            });
+                            return true;
+                        }
+
+                        return false;
+                    }
+                    default: {
+                        return true;
+                    }
+                }
+            },
             openScreen: (screen: Screen) => openScreen(screen),
             writeClipboard: (text: string) => {
                 if (navigator.clipboard) {
@@ -134,6 +170,7 @@ export default function Intermediate(props: Props) {
                 }
             },
         };
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {

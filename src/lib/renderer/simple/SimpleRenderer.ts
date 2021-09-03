@@ -73,7 +73,6 @@ export const SimpleRenderer: RendererRoutines = {
         });
     },
     edit: async (renderer) => {
-        console.log("EDIT!!");
         renderer.emitScroll({
             type: "StayAtBottom",
             smooth: false,
