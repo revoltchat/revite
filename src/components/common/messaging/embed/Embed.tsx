@@ -22,7 +22,7 @@ const MAX_PREVIEW_SIZE = 150;
 export default function Embed({ embed }: Props) {
     const client = useClient();
 
-    const { openScreen } = useIntermediate();
+    const { openScreen, openLink } = useIntermediate();
     const maxWidth = Math.min(
         useContext(MessageAreaWidthContext) - CONTAINER_PADDING,
         MAX_EMBED_WIDTH,
@@ -111,6 +111,10 @@ export default function Embed({ embed }: Props) {
                         {embed.title && (
                             <span>
                                 <a
+                                    onClick={(e) =>
+                                        openLink(e.currentTarget.href) &&
+                                        e.preventDefault()
+                                    }
                                     href={embed.url}
                                     target={"_blank"}
                                     className={styles.title}
