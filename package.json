@@ -133,7 +133,7 @@
     },
     "name": "client",
     "main": "index.js",
-    "repository": "https://gitlab.insrt.uk/revolt/revite.git",
+    "repository": "https://github.com/revoltchat/revite.git",
     "author": "Paul <paulmakles@gmail.com>",
     "license": "MIT"
 }
