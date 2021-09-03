@@ -40,6 +40,8 @@
         }
     },
     "dependencies": {
+        "fs-extra": "^10.0.0",
+        "klaw": "^3.0.0",
         "vite": "npm:@insertish/vite@2.4.0-beta.3-dynamic-import-css-3c1466b"
     },
     "devDependencies": {
@@ -92,7 +94,6 @@
         "eslint-config-preact": "^1.1.4",
         "eventemitter3": "^4.0.7",
         "highlight.js": "^11.0.1",
-        "klaw": "^3.0.0",
         "localforage": "^1.9.0",
         "lodash.defaultsdeep": "^4.6.1",
         "lodash.isequal": "^4.5.0",
