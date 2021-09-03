@@ -24,6 +24,15 @@ import MessageBase, {
 import Attachment from "./attachments/Attachment";
 import { MessageReply } from "./attachments/MessageReply";
 import Embed from "./embed/Embed";
+import EmbedInvite from "./embed/EmbedInvite";
+
+const INVITE_PATHS = [
+	location.hostname + "/invite", 
+	"app.revolt.chat/invite", 
+	"nightly.revolt.chat/invite", 
+	"local.revolt.chat/invite",
+	"rvlt.gg"
+]
 
 interface Props {
     attachContext?: boolean;
@@ -142,6 +151,28 @@ const Message = observer(
                             </span>
                         )}
                         {replacement ?? <Markdown content={content} />}
+                        {(() => {
+                            let isInvite = false;
+                            INVITE_PATHS.forEach(path => {
+                                if (content.includes(path)) {
+                                    isInvite = true;
+                                }
+                            })
+                            if (isInvite) {
+                                const inviteRegex = new RegExp("(?:" + INVITE_PATHS.map((path, index) => path.split(".").join("\\.") + (index !== INVITE_PATHS.length - 1 ? "|" : "")).join("") + ")/([A-Za-z0-9]*)", "g");
+                                if (inviteRegex.test(content)) {
+                                    let results: string[] = [];
+                                    let match: RegExpExecArray | null;
+                                    inviteRegex.lastIndex = 0;
+                                    while ((match = inviteRegex.exec(content)) !== null) {
+                                        if (!results.includes(match[match.length - 1])) {
+                                            results.push(match[match.length - 1]);
+                                        }
+                                    }
+                                    return results.map(code => <EmbedInvite code={code} />);
+                                }
+                            }
+                        })()}
                         {queued?.error && (
                             <Overline type="error" error={queued.error} />
                         )}
