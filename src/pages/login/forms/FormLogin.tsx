@@ -1,7 +1,11 @@
-import { Form } from "./Form";
 import { detect } from "detect-browser";
+import { useHistory } from "react-router-dom";
+
 import { useContext } from "preact/hooks";
+
 import { OperationsContext } from "../../../context/revoltjs/RevoltClient";
+
+import { Form } from "./Form";
 
 export function FormLogin() {
     const { login } = useContext(OperationsContext);
@@ -10,7 +14,7 @@ export function FormLogin() {
     return (
         <Form
             page="login"
-            callback={async data => {
+            callback={async (data) => {
                 const browser = detect();
                 let device_name;
                 if (browser) {
@@ -19,12 +23,12 @@ export function FormLogin() {
                     if (window.isNative) {
                         device_name = `Revolt Desktop on ${os}`;
                     } else {
-                      if(name === "ios") {
-                          name = "safari";
-                      }else if(name === "fxios") {
-                          name = "firefox";
-                      }
-                      device_name = `${name} on ${os}`;
+                        if (name === "ios") {
+                            name = "safari";
+                        } else if (name === "fxios") {
+                            name = "firefox";
+                        }
+                        device_name = `${name} on ${os}`;
                     }
                 } else {
                     device_name = "Unknown Device";

@@ -619,7 +619,14 @@ function ContextMenus(props: Props) {
                                     break;
                                 case RelationshipStatus.None:
                                 default:
-                                    actions = ["add_friend", "block_user"];
+                                    if (
+                                        (user.flags && 2) ||
+                                        (user.flags && 4)
+                                    ) {
+                                        actions = ["block_user"];
+                                    } else {
+                                        actions = ["add_friend", "block_user"];
+                                    }
                             }
 
                             if (userPermissions & UserPermission.ViewProfile) {
