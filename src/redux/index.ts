@@ -14,6 +14,7 @@ import { QueuedMessage } from "./reducers/queue";
 import { SectionToggle } from "./reducers/section_toggle";
 import { Settings } from "./reducers/settings";
 import { SyncOptions } from "./reducers/sync";
+import { TrustedLinks } from "./reducers/trusted_links";
 import { Unreads } from "./reducers/unreads";
 
 export type State = {
@@ -29,6 +30,7 @@ export type State = {
     lastOpened: LastOpened;
     notifications: Notifications;
     sectionToggle: SectionToggle;
+    trustedLinks: TrustedLinks;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,6 +61,7 @@ store.subscribe(() => {
         lastOpened,
         notifications,
         sectionToggle,
+        trustedLinks,
     } = store.getState() as State;
 
     localForage.setItem("state", {
@@ -74,6 +77,7 @@ store.subscribe(() => {
         lastOpened,
         notifications,
         sectionToggle,
+        trustedLinks,
     });
 });
 
