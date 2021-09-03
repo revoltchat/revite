@@ -1,4 +1,5 @@
 import { MicrophoneOff } from "@styled-icons/boxicons-regular";
+import { VolumeMute } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Presence } from "revolt-api/types/Users";
@@ -12,7 +13,6 @@ import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import IconBase, { IconBaseProps } from "../IconBase";
 import fallback from "../assets/user.png";
-import {VolumeMute} from "@styled-icons/boxicons-solid";
 
 type VoiceStatus = "muted" | "deaf";
 interface Props extends IconBaseProps<User> {
@@ -48,7 +48,7 @@ const VoiceIndicator = styled.div<{ status: VoiceStatus }>`
     }
 
     ${(props) =>
-    (props.status === "muted" || props.status === "deaf") &&
+        (props.status === "muted" || props.status === "deaf") &&
         css`
             background: var(--error);
         `}
@@ -104,7 +104,7 @@ export default observer(
                 width={size}
                 height={size}
                 hover={hover}
-                borderRadius="--border-radius-user-profile-picture"
+                borderRadius="--border-radius-user-icon"
                 aria-hidden="true"
                 viewBox="0 0 32 32">
                 <foreignObject
@@ -127,11 +127,12 @@ export default observer(
                 {props.voice && (
                     <foreignObject x="22" y="22" width="10" height="10">
                         <VoiceIndicator status={props.voice}>
-                            {props.voice === "deaf" && (
+                            {(props.voice === "deaf" && (
                                 <VolumeMute size={6} />
-                            ) ||props.voice === "muted" && (
-                                <MicrophoneOff size={6} />
-                            )}
+                            )) ||
+                                (props.voice === "muted" && (
+                                    <MicrophoneOff size={6} />
+                                ))}
                         </VoiceIndicator>
                     </foreignObject>
                 )}

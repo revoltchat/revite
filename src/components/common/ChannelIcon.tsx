@@ -52,9 +52,9 @@ export default observer(
         }
 
         // The border radius of the channel icon, if it's a server-channel it should be square (undefined).
-        let borderRadius;
-        if (!isServerChannel) {
-            borderRadius = "--border-radius-half";
+        let borderRadius: string | undefined = "--border-radius-channel-icon";
+        if (isServerChannel) {
+            borderRadius = undefined;
         }
 
         return (
@@ -65,7 +65,7 @@ export default observer(
                 height={size}
                 loading="lazy"
                 aria-hidden="true"
-                {...borderRadius}
+                borderRadius={borderRadius}
                 src={iconURL ?? fallback}
             />
         );
