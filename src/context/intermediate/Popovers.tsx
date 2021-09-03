@@ -8,6 +8,7 @@ import { IntermediateContext, useIntermediate } from "./Intermediate";
 import { SpecialInputModal } from "./modals/Input";
 import { SpecialPromptModal } from "./modals/Prompt";
 import { ChannelInfo } from "./popovers/ChannelInfo";
+import { CreateBotModal } from "./popovers/CreateBot";
 import { ImageViewer } from "./popovers/ImageViewer";
 import { ModifyAccountModal } from "./popovers/ModifyAccount";
 import { PendingRequests } from "./popovers/PendingRequests";
@@ -42,6 +43,9 @@ export default function Popovers() {
         case "modify_account":
             // @ts-expect-error someone figure this out :)
             return <ModifyAccountModal onClose={onClose} {...screen} />;
+        case "create_bot":
+            // @ts-expect-error someone figure this out :)
+            return <CreateBotModal onClose={onClose} {...screen} />;
         case "special_prompt":
             // @ts-expect-error someone figure this out :)
             return <SpecialPromptModal onClose={onClose} {...screen} />;
