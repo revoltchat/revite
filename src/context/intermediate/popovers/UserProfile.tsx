@@ -319,6 +319,9 @@ export const UserProfile = observer(
                                                 }>
                                                 <img
                                                     src="/assets/badges/translator.svg"
+                                                    style={{
+                                                        cursor: "pointer",
+                                                    }}
                                                     onClick={() => {
                                                         window.open(
                                                             "https://weblate.insrt.uk/projects/revolt/web-app/",
@@ -348,6 +351,9 @@ export const UserProfile = observer(
                                                 <Money
                                                     size={32}
                                                     color="#efab44"
+                                                    style={{
+                                                        cursor: "pointer",
+                                                    }}
                                                     onClick={() => {
                                                         window.open(
                                                             "https://insrt.uk/donate",
