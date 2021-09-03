@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./ServerIdentityModal.module.scss";
+import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import Button from "../../../components/ui/Button";
@@ -36,11 +37,18 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
     return (
         <Modal
             visible={true}
-            title={`Change Identity on ${server.name}`}
+            title={
+                <Text
+                    id={"app.special.popovers.server_identity.title"}
+                    fields={{ server: server.name }}
+                />
+            }
             onClose={onClose}>
             <div className={styles.identityMain}>
                 <div>
-                    <Overline type="subtle">Avatar</Overline>
+                    <Overline type="subtle">
+                        <Text id="app.special.popovers.server_identity.avatar" />
+                    </Overline>
                     <FileUploader
                         width={80}
                         height={80}
@@ -63,7 +71,9 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
                     />
                 </div>
                 <div>
-                    <Overline type="subtle">Nickname</Overline>
+                    <Overline type="subtle">
+                        <Text id="app.special.popovers.server_identity.nickname" />
+                    </Overline>
                     <InputBox
                         value={nickname}
                         placeholder={client.user!.username}
@@ -73,7 +83,7 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
                         <Button
                             disabled={nickname === currentNickname}
                             onClick={() => member.edit({ nickname })}>
-                            Save
+                            <Text id="app.special.modals.actions.save" />
                         </Button>
                         {currentNickname !== "" && (
                             <Button
@@ -81,7 +91,7 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
                                 onClick={() =>
                                     member.edit({ remove: "Nickname" })
                                 }>
-                                Remove
+                                <Text id="app.special.modals.actions.remove" />
                             </Button>
                         )}
                     </div>
