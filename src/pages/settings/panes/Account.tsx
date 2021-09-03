@@ -160,10 +160,10 @@ export const Account = observer(() => {
                 Two-factor authentication is currently work-in-progress, see{" "}
                 {` `}
                 <a
-                    href="https://gitlab.insrt.uk/insert/rauth/-/issues/2"
+                    href="https://github.com/insertish/rauth/milestone/1"
                     target="_blank"
                     rel="noreferrer">
-                    tracking issue here
+                    v1 milestone here
                 </a>
                 .
             </h5>
