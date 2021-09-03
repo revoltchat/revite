@@ -72,7 +72,7 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
                 />
                 {error && (
                     <Overline type="error" error={error}>
-                        <Text id="app.special.popovers.create_bot.error" />
+                        <Text id="app.special.popovers.create_bot.failed" />
                     </Overline>
                 )}
             </form>
