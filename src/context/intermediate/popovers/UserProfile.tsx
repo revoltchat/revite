@@ -196,6 +196,8 @@ export const UserProfile = observer(
                             </IconButton>
                         )}
                         {!user.bot &&
+                            flags != 2 &&
+                            flags != 4 &&
                             (user.relationship ===
                                 RelationshipStatus.Incoming ||
                                 user.relationship ===
@@ -315,10 +317,17 @@ export const UserProfile = observer(
                                                 content={
                                                     <Text id="app.special.popovers.user_profile.badges.translator" />
                                                 }>
-                                                <img src="/assets/badges/translator.svg" 
-                                                     onClick={() => {
-                                                        window.open("https://weblate.insrt.uk/projects/revolt/web-app/", "_blank")
-                                                     }} 
+                                                <img
+                                                    src="/assets/badges/translator.svg"
+                                                    style={{
+                                                        cursor: "pointer",
+                                                    }}
+                                                    onClick={() => {
+                                                        window.open(
+                                                            "https://weblate.insrt.uk/projects/revolt/web-app/",
+                                                            "_blank",
+                                                        );
+                                                    }}
                                                 />
                                             </Tooltip>
                                         ) : (
@@ -342,8 +351,14 @@ export const UserProfile = observer(
                                                 <Money
                                                     size={32}
                                                     color="#efab44"
+                                                    style={{
+                                                        cursor: "pointer",
+                                                    }}
                                                     onClick={() => {
-                                                        window.open("https://insrt.uk/donate", "_blank")
+                                                        window.open(
+                                                            "https://insrt.uk/donate",
+                                                            "_blank",
+                                                        );
                                                     }}
                                                 />
                                             </Tooltip>

@@ -1,10 +1,10 @@
 * {
-	text-rendering: optimizeLegibility !important;
+    text-rendering: optimizeLegibility !important;
     -webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+    -moz-osx-font-smoothing: grayscale;
 
-    scrollbar-width: thin;
     box-sizing: border-box;
+    scrollbar-width: var(--scrollbar-thickness-ff);
 }
 
 html {

@@ -18,10 +18,16 @@ export function FormLogin() {
                 const browser = detect();
                 let device_name;
                 if (browser) {
-                    const { name, os } = browser;
+                    let { name } = browser;
+                    const { os } = browser;
                     if (window.isNative) {
                         device_name = `Revolt Desktop on ${os}`;
                     } else {
+                        if (name === "ios") {
+                            name = "safari";
+                        } else if (name === "fxios") {
+                            name = "firefox";
+                        }
                         device_name = `${name} on ${os}`;
                     }
                 } else {

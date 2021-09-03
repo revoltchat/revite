@@ -1,4 +1,4 @@
-import { Gitlab } from "@styled-icons/boxicons-logos";
+import { Github } from "@styled-icons/boxicons-logos";
 import {
     Sync as SyncIcon,
     Globe,
@@ -92,7 +92,6 @@ export default function Settings() {
                     title: <Text id="app.settings.pages.audio.title" />,
                 },
                 {
-
                     id: "appearance",
                     icon: <Palette size={20} />,
                     title: <Text id="app.settings.pages.appearance.title" />,
@@ -184,11 +183,11 @@ export default function Settings() {
             custom={
                 <>
                     <a
-                        href="https://gitlab.insrt.uk/revolt"
+                        href="https://github.com/revoltchat"
                         target="_blank"
                         rel="noreferrer">
                         <ButtonItem compact>
-                            <Gitlab size={20} />
+                            <Github size={20} />
                             <Text id="app.settings.pages.source_code" />
                         </ButtonItem>
                     </a>
@@ -221,7 +220,7 @@ export default function Settings() {
                             <a
                                 href={
                                     GIT_BRANCH !== "DETACHED"
-                                        ? `https://gitlab.insrt.uk/revolt/client/-/tree/${GIT_BRANCH}`
+                                        ? `https://github.com/revoltchat/revite/tree/${GIT_BRANCH}`
                                         : undefined
                                 }
                                 target="_blank"
