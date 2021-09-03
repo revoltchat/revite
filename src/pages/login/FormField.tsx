@@ -67,7 +67,16 @@ export default function FormField({
                                   },
                               }
                             : type === "username"
-                            ? { required: "RequiredField" }
+                            ? {
+                                  validate: (value: string) =>
+                                      value.length === 0
+                                          ? "RequiredField"
+                                          : value.length < 2
+                                          ? "TooShort"
+                                          : value.length > 32
+                                          ? "TooLong"
+                                          : undefined,
+                              }
                             : { required: "RequiredField" },
                     )}
                 />
