@@ -1,5 +1,6 @@
 import { Key, Clipboard, Globe, Plus } from "@styled-icons/boxicons-regular";
 import { LockAlt } from "@styled-icons/boxicons-solid";
+import type { AxiosError } from "axios";
 import { observer } from "mobx-react-lite";
 import { Bot } from "revolt-api/types/Bots";
 import { User } from "revolt.js/dist/maps/Users";
@@ -23,7 +24,6 @@ import Checkbox from "../../../components/ui/Checkbox";
 import InputBox from "../../../components/ui/InputBox";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
-import type { AxiosError } from "axios";
 
 interface Data {
     _id: string;
@@ -203,7 +203,12 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
 
                 {!editMode && (
                     <Tooltip
-                        content={<Text id={`app.settings.pages.bots.${bot.public ? 'public' : 'private'}_bot_tip`} />
+                        content={
+                            <Text
+                                id={`app.settings.pages.bots.${
+                                    bot.public ? "public" : "private"
+                                }_bot_tip`}
+                            />
                         }>
                         {bot.public ? (
                             <Globe size={24} />
@@ -229,7 +234,11 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         } else setEditMode(true);
                     }}
                     contrast>
-                    <Text id={`app.special.modals.actions.${editMode ? 'cancel' : 'edit'}`} />
+                    <Text
+                        id={`app.special.modals.actions.${
+                            editMode ? "cancel" : "edit"
+                        }`}
+                    />
                 </Button>
             </div>
             {!editMode && (
@@ -265,12 +274,18 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         checked={data.public}
                         disabled={saving}
                         contrast
-                        description={<Text id="app.settings.pages.bots.public_bot_desc" />}
+                        description={
+                            <Text id="app.settings.pages.bots.public_bot_desc" />
+                        }
                         onChange={(v) => setData({ ...data, public: v })}>
                         <Text id="app.settings.pages.bots.public_bot" />
                     </Checkbox>
-                    <h3><Text id="app.settings.pages.bots.interactions_url" /></h3>
-                    <h5><Text id="app.settings.pages.bots.reserved" /></h5>
+                    <h3>
+                        <Text id="app.settings.pages.bots.interactions_url" />
+                    </h3>
+                    <h5>
+                        <Text id="app.settings.pages.bots.reserved" />
+                    </h5>
                     <InputBox
                         ref={setInteractionsRef}
                         value={data.interactions_url}
@@ -321,7 +336,6 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                             <Text id="app.settings.pages.bots.copy_invite" />
                         </Button>
                         <Button
-                            accent
                             onClick={() =>
                                 internalEmit(
                                     "Intermediate",
@@ -329,7 +343,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                     `/bot/${bot._id}`,
                                 )
                             }>
-                            <Text id="app.settings.pages.bots.add_bot" />
+                            <Text id="app.settings.pages.bots.add" />
                         </Button>
                     </>
                 )}
