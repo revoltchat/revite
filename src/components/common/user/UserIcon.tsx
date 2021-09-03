@@ -8,7 +8,7 @@ import styled, { css } from "styled-components";
 import { useContext } from "preact/hooks";
 
 import { ThemeContext } from "../../../context/Theme";
-import { AppContext, useClient } from "../../../context/revoltjs/RevoltClient";
+import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import IconBase, { IconBaseProps } from "../IconBase";
 import fallback from "../assets/user.png";
@@ -104,6 +104,7 @@ export default observer(
                 width={size}
                 height={size}
                 hover={hover}
+                borderRadius="--border-radius-user-profile-picture"
                 aria-hidden="true"
                 viewBox="0 0 32 32">
                 <foreignObject

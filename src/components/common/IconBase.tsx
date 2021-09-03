@@ -11,7 +11,10 @@ export interface IconBaseProps<T> {
 }
 
 interface IconModifiers {
-    square?: boolean;
+    /**
+     * If this is undefined or null then the icon defaults to square, else uses the CSS variable given.
+     */
+    borderRadius?: string;
     hover?: boolean;
 }
 
@@ -24,9 +27,9 @@ export default styled.svg<IconModifiers>`
         object-fit: cover;
 
         ${(props) =>
-            !props.square &&
+            props.borderRadius &&
             css`
-                border-radius: var(--border-radius-half);
+                border-radius: var(${props.borderRadius});
             `}
     }
 
@@ -44,9 +47,9 @@ export const ImageIconBase = styled.img<IconModifiers>`
     object-fit: cover;
 
     ${(props) =>
-        !props.square &&
+        props.borderRadius &&
         css`
-            border-radius: var(--border-radius-half);
+            border-radius: var(${props.borderRadius});
         `}
 
     ${(props) =>
