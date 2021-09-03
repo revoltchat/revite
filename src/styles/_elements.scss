@@ -4,8 +4,8 @@
 }
 
 ::-webkit-scrollbar {
-    width: 3px;
-    height: 3px;
+    width: var(--scrollbar-thickness);
+    height: var(--scrollbar-thickness);
 }
 
 ::-webkit-scrollbar-track {
