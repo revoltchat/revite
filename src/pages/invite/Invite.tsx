@@ -54,7 +54,29 @@ export default function Invite() {
             <div className={styles.preloader}>
                 <RequiresOnline>
                     {error ? (
-                        <Overline type="error" error={error} />
+                        <div
+                            className={styles.invite}
+                            style={{
+                                backgroundImage: `url('https://autumn.revolt.chat/banners/yMurJiXf45VJpbal0X2zQkm4vaXsXGaRtoPUIcvPcH')`,
+                                width: "100%",
+                                height: "100%",
+                            }}>
+                            <div className={styles.details}>
+                                <h1>Invalid invite!</h1>
+                                <h2>
+                                    The invite may not exist or you don't have
+                                    permission to join.
+                                </h2>
+                                <div style="cursor: pointer;">
+                                    <Button contrast>
+                                        <ArrowBack
+                                            size={32}
+                                            onClick={() => history.push("/")}
+                                        />
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
                     ) : (
                         <Preloader type="spinner" />
                     )}

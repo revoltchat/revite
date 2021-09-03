@@ -11,10 +11,19 @@ precacheAndRoute(self.__WB_MANIFEST);
 
 self.addEventListener("push", (event) => {
     async function process() {
-        if (event.data === null) return;
-        // Need to write notification generator on server.
-    }
+        if (event.data) {
+            const data = event.data.json();
+            await self.registration.showNotification(data.author, {
+                icon: data.icon,
+                image: data.image,
+                body: data.body,
+                timestamp: data.timestamp,
+                tag: data.tag,
+                badge: "https://app.revolt.chat/assets/icons/android-chrome-512x512.png"
+            });
+        }
 
+    }
     event.waitUntil(process());
 });
 
