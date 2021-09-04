@@ -7,6 +7,7 @@ import {
     Linux,
     Macos,
     Opera,
+    Samsung,
 } from "@styled-icons/simple-icons";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useHistory } from "react-router-dom";
@@ -74,6 +75,8 @@ export function Sessions() {
                 return <Microsoftedge size={32} />;
             case /opera/i.test(name):
                 return <Opera size={32} />;
+            case /samsung/i.test(name):
+                return <Samsung size={32} />;
             case /desktop/i.test(name):
                 return <Desktop size={32} />;
             default:
