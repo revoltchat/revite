@@ -67,6 +67,7 @@ export enum Language {
     BOTTOM = "bottom",
     LEET = "leet",
     PIGLATIN = "piglatin",
+    ENCHANTMENT_TABLE = "enchantment",
 }
 
 export interface LanguageEntry {
@@ -146,7 +147,7 @@ export const Languages: { [key in Language]: LanguageEntry } = {
 
     owo: {
         display: "OwO",
-        emoji: "🐱",
+        emoji: "😸",
         i18n: "owo",
         dayjs: "en-gb",
         cat: "alt",
@@ -169,6 +170,13 @@ export const Languages: { [key in Language]: LanguageEntry } = {
         display: "1337",
         emoji: "💾",
         i18n: "leet",
+        dayjs: "en-gb",
+        cat: "alt",
+    },
+    enchantment: {
+        display: "Enchantment Table",
+        emoji: "🪄",
+        i18n: "enchantment",
         dayjs: "en-gb",
         cat: "alt",
     },
