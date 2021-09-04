@@ -7,7 +7,7 @@ module.exports = {
         "/(lib)",
         "/(redux|mobx)",
         "/(context)",
-        "/(ui|common)|.svg$",
+        "/(ui|common)|.svg|.webp$",
         "^[./]",
     ],
     importOrderSeparation: true,
