@@ -1,5 +1,6 @@
 import { useEffect, useState } from "preact/hooks"
 import styled from "styled-components"
+import Tip from "../../../components/ui/Tip"
 import { Theme, generateVariables } from '../../../context/Theme'
 import { dispatch } from "../../../redux"
 
@@ -132,7 +133,8 @@ export function ThemeShop() {
     })
   }, [themeList])
 
-  return (
+  return (<div>
+    <Tip warning>This section is under construction.</Tip>
     <ThemeList>
       {themeList?.map(([slug, theme]) => {
         return <ThemeInfo key={slug} data-loaded={Reflect.has(themeData, slug)}>
@@ -156,5 +158,5 @@ export function ThemeShop() {
         </ThemeInfo>
       })}
     </ThemeList>
-  )
+  </div>)
 }
