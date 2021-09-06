@@ -5,10 +5,11 @@ import { Theme, generateVariables } from '../../../context/Theme'
 import { dispatch } from "../../../redux"
 
 export const fetchManifest = (): Promise<Manifest> =>
-  fetch(`//bree.dev/revolt-themes/manifest.json`).then(res => res.json())
+  fetch(`${import.meta.env.VITE_THEMES_URL}/manifest.json`).then(res => res.json())
 
 export const fetchTheme = (slug: string): Promise<Theme> =>
-  fetch(`//bree.dev/revolt-themes/theme_${slug}.json`).then(res => res.json())
+  fetch(`${import.meta.env.VITE_THEMES_URL}/theme_${slug}.json`).then(res => res.json())
+
 
 interface ThemeMetadata {
   name: string,
