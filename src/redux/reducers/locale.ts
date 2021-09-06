@@ -1,4 +1,4 @@
-import { Language } from "../../context/Locale";
+import { Language, Languages } from "../../context/Locale";
 
 import type { SyncUpdateAction } from "./sync";
 
@@ -25,6 +25,10 @@ export function findLanguage(lang?: string): Language {
     const values = [];
     for (const key in Language) {
         const value = Language[key as keyof typeof Language];
+
+        // Skip alternative/joke languages
+        if (Languages[value].cat === "alt") continue;
+
         values.push(value);
         if (value.startsWith(code)) {
             return value as Language;
