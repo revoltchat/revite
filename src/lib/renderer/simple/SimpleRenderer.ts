@@ -102,10 +102,6 @@ export const SimpleRenderer: RendererRoutines = {
 
                 if (replyIndex > -1){
                     m.reply_ids[replyIndex] = "0";
-
-                    runInAction(() => {
-                        renderer.emitScroll({ type: "StayAtBottom" });
-                    });
                 }
             }
         });
