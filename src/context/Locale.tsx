@@ -104,7 +104,7 @@ export const Languages: { [key in Language]: LanguageEntry } = {
     hu: { display: "Magyar", emoji: "🇭🇺", i18n: "hu" },
     id: { display: "bahasa Indonesia", emoji: "🇮🇩", i18n: "id" },
     it: { display: "Italiano", emoji: "🇮🇹", i18n: "it" },
-    ja: { display: "日本", emoji: "🇯🇵", i18n: "ja" },
+    ja: { display: "日本語", emoji: "🇯🇵", i18n: "ja" },
     ko: { display: "한국어", emoji: "🇰🇷", i18n: "ko" },
     lb: { display: "Lëtzebuergesch", emoji: "🇱🇺", i18n: "lb" },
     lt: { display: "Lietuvių", emoji: "🇱🇹", i18n: "lt" },
