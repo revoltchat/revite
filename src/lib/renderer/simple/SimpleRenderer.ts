@@ -1,4 +1,5 @@
 import { runInAction } from "mobx";
+import { decodeTime } from "ulid";
 
 import { noopAsync } from "../../js";
 import { SMOOTH_SCROLL_ON_RECEIVE } from "../Singleton";
@@ -84,6 +85,7 @@ export const SimpleRenderer: RendererRoutines = {
         if (renderer.state !== "RENDER") return;
 
         const index = renderer.messages.findIndex((x) => x._id === id);
+        const origId = renderer.messages[index]._id;
 
         if (index > -1) {
             runInAction(() => {
@@ -91,6 +93,22 @@ export const SimpleRenderer: RendererRoutines = {
                 renderer.emitScroll({ type: "StayAtBottom" });
             });
         }
+
+        renderer.messages.forEach((m) => {
+            if (decodeTime(m._id) < decodeTime(origId)) return;
+
+            if (m.reply_ids){
+                const replyIndex = m.reply_ids.findIndex((x) => x == id);
+
+                if (replyIndex > -1){
+                    m.reply_ids[replyIndex] = "0";
+
+                    runInAction(() => {
+                        renderer.emitScroll({ type: "StayAtBottom" });
+                    });
+                }
+            }
+        });
     },
     loadTop: async (renderer, generateScroll) => {
         const channel = renderer.channel;
