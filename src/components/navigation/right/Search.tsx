@@ -5,12 +5,14 @@ import styled from "styled-components";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
+import { useTranslation } from "../../../lib/i18n";
+
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
+import ComboBox from "../../../components/ui/ComboBox";
 import Message from "../../common/messaging/Message";
 import Button from "../../ui/Button";
 import InputBox from "../../ui/InputBox";
-import Overline from "../../ui/Overline";
 import Preloader from "../../ui/Preloader";
 
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
@@ -76,6 +78,7 @@ interface Props {
 }
 
 export function SearchSidebar({ close }: Props) {
+    const translate = useTranslation();
     const channel = useClient().channels.get(
         useParams<{ channel: string }>().channel,
     )!;
@@ -102,29 +105,27 @@ export function SearchSidebar({ close }: Props) {
         <GenericSidebarBase>
             <GenericSidebarList>
                 <SearchBase>
-                    <Overline type="error" onClick={close} block>
-                        « back to members
-                    </Overline>
-                    <Overline type="subtle" block>
-                        <Text id="app.main.channel.search.title" />
-                    </Overline>
                     <InputBox
+                        placeholder={translate("app.main.channel.search.title")}
                         value={query}
                         onKeyDown={(e) => e.key === "Enter" && search()}
                         onChange={(e) => setQuery(e.currentTarget.value)}
                     />
                     <div class="sort">
-                        {["Latest", "Oldest", "Relevance"].map((key) => (
-                            <Button
-                                key={key}
-                                compact
-                                error={sort === key}
-                                onClick={() => setSort(key as Sort)}>
-                                <Text
-                                    id={`app.main.channel.search.sort.${key.toLowerCase()}`}
-                                />
-                            </Button>
-                        ))}
+                        <Button accent onClick={close}>
+                            <Text id="app.main.channel.search.back" />
+                        </Button>
+                        <ComboBox
+                            value={sort}
+                            onChange={(e) =>
+                                setSort(e.currentTarget.value as Sort)
+                            }>
+                            {["Latest", "Oldest", "Relevance"].map((key) => (
+                                <option value={key} key={key}>
+                                    {key}
+                                </option>
+                            ))}
+                        </ComboBox>
                     </div>
                     {state.type === "loading" && <Preloader type="ring" />}
                     {state.type === "results" && (
