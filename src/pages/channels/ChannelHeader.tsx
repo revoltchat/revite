@@ -20,6 +20,7 @@ import HeaderActions from "./actions/HeaderActions";
 export interface ChannelHeaderProps {
     channel: Channel;
     toggleSidebar?: () => void;
+    toggleChannelSidebar?: () => void;
 }
 
 const Info = styled.div`
@@ -64,7 +65,16 @@ const Info = styled.div`
     }
 `;
 
-export default observer(({ channel, toggleSidebar }: ChannelHeaderProps) => {
+const IconConainer = styled.div`
+    cursor: pointer;
+    color: var(--secondary-foreground);
+
+    &:hover {
+        color: var(--foreground);
+    }
+`
+
+export default observer(({ channel, toggleSidebar, toggleChannelSidebar }: ChannelHeaderProps) => {
     const { openScreen } = useIntermediate();
 
     const name = getChannelName(channel);
@@ -88,7 +98,7 @@ export default observer(({ channel, toggleSidebar }: ChannelHeaderProps) => {
     return (
         <Header placement="primary">
             <HamburgerAction />
-            {icon}
+            <IconConainer onClick={toggleChannelSidebar}>{icon}</IconConainer>
             <Info>
                 <span className="name">{name}</span>
                 {isTouchscreenDevice &&

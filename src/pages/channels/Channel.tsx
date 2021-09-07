@@ -49,9 +49,13 @@ export function Channel({ id }: { id: string }) {
 }
 
 const MEMBERS_SIDEBAR_KEY = "sidebar_members";
+const CHANNELS_SIDEBAR_KEY = "sidebar_channels";
 const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
     const [showMembers, setMembers] = useState(
         getState().sectionToggle[MEMBERS_SIDEBAR_KEY] ?? true,
+    );
+    const [showChannels, setChannels] = useState(
+        getState().sectionToggle[CHANNELS_SIDEBAR_KEY] ?? true,
     );
 
     const id = channel._id;
@@ -81,6 +85,22 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                         dispatch({
                             type: "SECTION_TOGGLE_UNSET",
                             id: MEMBERS_SIDEBAR_KEY,
+                        });
+                    }
+                }}
+                toggleChannelSidebar={() => {
+                    setChannels(!showChannels);
+
+                    if (showChannels) {
+                        dispatch({
+                            type: "SECTION_TOGGLE_SET",
+                            id: CHANNELS_SIDEBAR_KEY,
+                            state: false,
+                        });
+                    } else {
+                        dispatch({
+                            type: "SECTION_TOGGLE_UNSET",
+                            id: CHANNELS_SIDEBAR_KEY,
                         });
                     }
                 }}
