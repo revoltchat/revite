@@ -63,7 +63,7 @@ const BotBadge = styled.div`
 
 export const UserProfile = observer(
     ({ user_id, onClose, dummy, dummyProfile }: Props) => {
-        const { openScreen, writeClipboard } = useIntermediate();
+        const { openScreen } = useIntermediate();
 
         const [profile, setProfile] = useState<undefined | null | Profile>(
             undefined,
