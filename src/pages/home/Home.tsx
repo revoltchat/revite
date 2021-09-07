@@ -11,7 +11,8 @@ import Header from "../../components/ui/Header";
 import CategoryButton from "../../components/ui/fluent/CategoryButton";
 import { dispatch, getState } from "../../redux";
 import { useState } from "preact/hooks";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 const CHANNELS_SIDEBAR_KEY = "sidebar_channels";
 
@@ -19,9 +20,11 @@ const IconConainer = styled.div`
     cursor: pointer;
     color: var(--secondary-foreground);
 
-    &:hover {
-        color: var(--foreground);
-    }
+    ${!isTouchscreenDevice && css`
+        &:hover {
+            color: var(--foreground);
+        }
+    `}
 `
 
 export default function Home() {
@@ -30,6 +33,10 @@ export default function Home() {
     );
 
     const toggleChannelSidebar = () => {
+        if (isTouchscreenDevice) {
+            return
+        }
+
         setChannels(!showChannels);
 
         if (showChannels) {
