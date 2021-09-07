@@ -327,6 +327,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                         </ConditionalLink>
                     );
                 })}
+
                 <IconButton
                     onClick={() =>
                         openScreen({
@@ -334,7 +335,11 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                             type: "create_server",
                         })
                     }>
-                    <Plus size={36} />
+                    <Tooltip
+                        content={<Text id="app.context_menu.create_server" />}
+                        placement="right">
+                        <Plus size={36} />
+                    </Tooltip>
                 </IconButton>
                 <PaintCounter small />
             </ServerList>
