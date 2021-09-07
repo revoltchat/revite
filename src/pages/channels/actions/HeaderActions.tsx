@@ -9,12 +9,15 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
 
+import { Text } from "preact-i18n";
+
 import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
+import Tooltip from "../../../components/common/Tooltip";
 import UpdateIndicator from "../../../components/common/UpdateIndicator";
 import IconButton from "../../../components/ui/IconButton";
 
@@ -77,13 +80,21 @@ export default function HeaderActions({
                         internalEmit("RightSidebar", "open", "search");
                         openRightSidebar();
                     }}>
-                    <Search size={25} />
+                    <Tooltip
+                        content={<Text id="app.context_menu.open_search" />}>
+                        <Search size={25} />
+                    </Tooltip>
                 </IconButton>
             )}
             {(channel.channel_type === "Group" ||
                 channel.channel_type === "TextChannel") && (
                 <IconButton onClick={openSidebar}>
-                    <Group size={25} />
+                    <Tooltip
+                        content={
+                            <Text id="app.context_menu.open_members_list" />
+                        }>
+                        <Group size={25} />
+                    </Tooltip>
                 </IconButton>
             )}
         </>
