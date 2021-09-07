@@ -29,12 +29,16 @@ export default function HeaderActions({
 }: ChannelHeaderProps) {
     const { openScreen } = useIntermediate();
     const history = useHistory();
+    let openedDrawer = false;
 
     function openRightSidebar() {
+        openedDrawer = !openedDrawer;
         const panels = document.querySelector("#app > div > div");
         panels?.scrollTo({
             behavior: "smooth",
-            left: panels.clientWidth * 3,
+            left: openedDrawer
+                ? panels.clientWidth * 1
+                : panels.clientWidth * 3,
         });
     }
 

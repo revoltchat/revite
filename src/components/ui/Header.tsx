@@ -75,11 +75,15 @@ export default styled.div<Props>`
 
 export function HamburgerAction() {
     if (!isTouchscreenDevice) return null;
+    let openedDrawer = false;
 
     function openSidebar() {
-        document
-            .querySelector("#app > div > div")
-            ?.scrollTo({ behavior: "smooth", left: 0 });
+        openedDrawer = !openedDrawer;
+        const panels = document.querySelector("#app > div > div");
+        panels?.scrollTo({
+            behavior: "smooth",
+            left: openedDrawer ? panels.clientWidth * 1 : 0,
+        });
     }
 
     return (
