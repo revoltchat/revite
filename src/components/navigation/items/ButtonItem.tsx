@@ -100,6 +100,18 @@ export const UserButton = observer((props: UserProps) => {
                             </Tooltip>
                         </Localizer>
                     )}
+                {context?.server &&
+                    ["TextChannel", "VoiceChannel"].includes(
+                        context.channel_type,
+                    ) &&
+                    context.server.owner === user._id && (
+                        <Localizer>
+                            <Tooltip
+                                content={<Text id="app.main.servers.owner" />}>
+                                <Crown size={20} />
+                            </Tooltip>
+                        </Localizer>
+                    )}
                 {alert && (
                     <div className={styles.alert} data-style={alert}>
                         {alertCount}
