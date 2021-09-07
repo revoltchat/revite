@@ -44,7 +44,7 @@ if (typeof window !== "undefined") {
             if (code) {
                 navigator.clipboard.writeText(code.textContent?.trim() ?? "");
             }
-        } catch (e) {}
+        } catch (e) { }
     };
 }
 
@@ -140,7 +140,18 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
         (ev: MouseEvent) => {
             if (ev.currentTarget) {
                 const element = ev.currentTarget as HTMLAnchorElement;
-                if (openLink(element.href)) ev.preventDefault();
+                if (element.dataset.type === 'mention' && ev.shiftKey) {
+                    internalEmit(
+                        "MessageBox",
+                        "append",
+                        `<@${element.dataset.mentionId}>`,
+                        "mention",
+                    );
+
+                    ev.preventDefault()
+                } else if (openLink(element.href)) {
+                    ev.preventDefault();
+                }
             }
         },
         [openLink],
@@ -162,6 +173,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                             element.removeEventListener("click", handleLink);
                             element.addEventListener("click", handleLink);
                             element.removeAttribute("data-type");
+                            element.removeAttribute("data-mention-id");
                             element.removeAttribute("target");
 
                             const link = determineLink(element.href);
@@ -171,6 +183,10 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                                         "data-type",
                                         "mention",
                                     );
+                                    element.setAttribute(
+                                        "data-mention-id",
+                                        link.id
+                                    )
                                     break;
                                 }
                                 case "external": {
