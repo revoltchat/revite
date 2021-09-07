@@ -63,17 +63,29 @@ export default function HeaderActions({
                                 },
                             })
                         }>
-                        <UserPlus size={27} />
+                        <Tooltip
+                            content={
+                                <Text id="app.context_menu.add_user_group" />
+                            }>
+                            <UserPlus size={27} />
+                        </Tooltip>
                     </IconButton>
                     <IconButton
                         onClick={() =>
                             history.push(`/channel/${channel._id}/settings`)
                         }>
-                        <Cog size={24} />
+                        <Tooltip
+                            content={
+                                <Text id="app.context_menu.open_group_settings" />
+                            }>
+                            <Cog size={24} />
+                        </Tooltip>
                     </IconButton>
                 </>
             )}
-            <VoiceActions channel={channel} />
+            <Tooltip content={<Text id="app.context_menu.start_voicecall" />}>
+                <VoiceActions channel={channel} />
+            </Tooltip>
             {channel.channel_type !== "VoiceChannel" && (
                 <IconButton
                     onClick={() => {
