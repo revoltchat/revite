@@ -45,23 +45,25 @@ const ThemeInfo = styled.article`
     grid-area: preview;
     aspect-ratio: 323 / 202;
     
-    display: grid;
-    grid: 1fr / 1fr;
-
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    cursor: pointer;
-    
     background-color: var(--secondary-background);
     border-radius: calc(var(--border-radius) /  2);
-    box-shadow: 0 0 0 1px var(--tertiary-foreground);
+    
+    // prep style for later
+    outline: 3px solid transparent;
 
+    // hide random svg parts, crop border on firefox
     overflow: hidden;
     
+    // hide until loaded
     opacity: 0;
-    transition: 0.25s opacity;
-
+    
+    // style button
+    border: 0;
+    margin: 0;
+    padding: 0;
+    
+    transition: 0.25s opacity, 0.25s outline;
+    
     > * {
       grid-area: 1 / 1;
     }
@@ -70,6 +72,10 @@ const ThemeInfo = styled.article`
       height: 100%;
       width: 100%;
       object-fit: contain;
+    }
+    
+    &:hover, &:active, &:focus-visible {
+      outline: 3px solid var(--tertiary-background);
     }
   }
 
@@ -107,7 +113,7 @@ type ThemePreviewProps = Omit<JSX.HTMLAttributes<SVGSVGElement>, "as"> & {
 };
 
 const ThemePreview = ({ theme, ...props }: ThemePreviewProps) => {
-  return <ThemedSVG {...props} theme={theme} width="24" height="24" aria-hidden="true" data-loaded={!!theme}>
+  return <ThemedSVG {...props} theme={theme} width="323" height="202" aria-hidden="true" data-loaded={!!theme}>
     <use href={`${previewPath}#preview`} width="100%" height="100%" />
   </ThemedSVG >
 }
@@ -151,19 +157,20 @@ export function ThemeShop() {
           {/* Maybe id's of the users should be included as well / instead? */}
           <div class="creator">by {theme.creator}</div>
           <div class="description">{theme.description}</div>
-          <div class="preview">
+          <button
+            class="preview"
+            onClick={() => dispatch({
+              type: "SETTINGS_SET_THEME",
+              theme: {
+                custom: themeData[slug],
+              }
+            })}
+          >
             <ThemePreview
               slug={slug}
               theme={themeData[slug]}
-              // todo: add option to set or override the current theme
-              onClick={() => dispatch({
-                type: "SETTINGS_SET_THEME",
-                theme: {
-                  custom: themeData[slug],
-                }
-              })}
             />
-          </div>
+          </button>
         </ThemeInfo>
       ))}
     </ThemeList>
