@@ -7,6 +7,7 @@ import {
     AVAILABLE_EXPERIMENTS,
     ExperimentOptions,
     EXPERIMENTS,
+    isExperimentEnabled,
 } from "../../../redux/reducers/experiments";
 
 import Checkbox from "../../../components/ui/Checkbox";
@@ -24,7 +25,7 @@ export function Component(props: Props) {
             {AVAILABLE_EXPERIMENTS.map((key) => (
                 <Checkbox
                     key={key}
-                    checked={(props.options?.enabled ?? []).indexOf(key) > -1}
+                    checked={isExperimentEnabled(key, props.options)}
                     onChange={(enabled) =>
                         dispatch({
                             type: enabled

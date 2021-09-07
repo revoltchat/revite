@@ -47,6 +47,7 @@ import notoSVG from "../assets/noto_emoji.svg";
 import openmojiSVG from "../assets/openmoji_emoji.svg";
 import twemojiSVG from "../assets/twemoji_emoji.svg";
 import { Link } from "react-router-dom";
+import { isExperimentEnabled } from "../../../redux/reducers/experiments";
 
 interface Props {
     settings: Settings;
@@ -137,11 +138,11 @@ export function Component(props: Props) {
                 </div>
             </div>
 
-            <Link to="/settings/theme_shop">
+            {isExperimentEnabled('theme_shop') && <Link to="/settings/theme_shop">
                 <CategoryButton icon={<Store size={24} />} action="chevron" hover>
                     <Text id="app.settings.pages.theme_shop.title" />
                 </CategoryButton>
-            </Link>
+            </Link>}
 
             <h3>
                 <Text id="app.settings.pages.appearance.accent_selector" />
