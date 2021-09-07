@@ -1,10 +1,11 @@
 import { Money } from "@styled-icons/boxicons-regular";
-import { Envelope, Edit, UserPlus, Shield } from "@styled-icons/boxicons-solid";
+import { Edit, UserPlus, Shield } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
 import { Profile, RelationshipStatus } from "revolt-api/types/Users";
 import { UserPermission } from "revolt.js/dist/api/permissions";
 import { Route } from "revolt.js/dist/api/routes";
+import styled from "styled-components";
 
 import styles from "./UserProfile.module.scss";
 import { Localizer, Text } from "preact-i18n";
@@ -16,6 +17,7 @@ import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
+import Button from "../../../components/ui/Button";
 import IconButton from "../../../components/ui/IconButton";
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
@@ -43,6 +45,21 @@ enum Badges {
     ResponsibleDisclosure = 8,
     EarlyAdopter = 256,
 }
+
+const BotBadge = styled.div`
+    display: inline-block;
+
+    height: 1.4em;
+    padding: 0 4px;
+    font-size: 0.6em;
+    user-select: none;
+    margin-inline-start: 0.625rem;
+    text-transform: uppercase;
+
+    color: var(--foreground);
+    background: var(--accent);
+    border-radius: calc(var(--border-radius) / 2);
+`;
 
 export const UserProfile = observer(
     ({ user_id, onClose, dummy, dummyProfile }: Props) => {
@@ -155,12 +172,13 @@ export const UserProfile = observer(
                         />
                         <div className={styles.details}>
                             <Localizer>
-                                <span
-                                    className={styles.username}
-                                    onClick={() =>
-                                        writeClipboard(user.username)
-                                    }>
+                                <span className={styles.username}>
                                     @{user.username}
+                                    {user.bot && (
+                                        <BotBadge>
+                                            <Text id="app.main.channel.bot" />
+                                        </BotBadge>
+                                    )}
                                 </span>
                             </Localizer>
                             {user.status?.text && (
@@ -171,18 +189,9 @@ export const UserProfile = observer(
                         </div>
                         {user.relationship === RelationshipStatus.Friend && (
                             <Localizer>
-                                <Tooltip
-                                    content={
-                                        <Text id="app.context_menu.message_user" />
-                                    }>
-                                    <IconButton
-                                        onClick={() => {
-                                            onClose?.();
-                                            history.push(`/open/${user_id}`);
-                                        }}>
-                                        <Envelope size={30} />
-                                    </IconButton>
-                                </Tooltip>
+                                <Button compact>
+                                    <Text id="app.context_menu.message_user" />
+                                </Button>
                             </Localizer>
                         )}
                         {user.relationship === RelationshipStatus.User && (
