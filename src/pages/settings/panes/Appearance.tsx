@@ -365,11 +365,21 @@ export function Component(props: Props) {
                                 <input
                                     type="color"
                                     value={theme[x]}
-                                    onChange={(v) =>
-                                        setOverride({
-                                            [x]: v.currentTarget.value,
-                                        })
-                                    }
+                                    onChange={(v) => {
+                                        if (x === "secondary-background") {
+                                            setOverride({
+                                                [x]: v.currentTarget.value,
+                                                "secondary-background-rgba":
+                                                    hexToRGB(
+                                                        v.currentTarget.value,
+                                                    ),
+                                            });
+                                        } else {
+                                            setOverride({
+                                                [x]: v.currentTarget.value,
+                                            });
+                                        }
+                                    }}
                                 />
                             </div>
                             <span
@@ -393,11 +403,21 @@ export function Component(props: Props) {
                                     type="text"
                                     className={styles.text}
                                     value={theme[x]}
-                                    onChange={(y) =>
-                                        setOverride({
-                                            [x]: y.currentTarget.value,
-                                        })
-                                    }
+                                    onChange={(y) => {
+                                        if (x === "secondary-background") {
+                                            setOverride({
+                                                [x]: y.currentTarget.value,
+                                                "secondary-background-rgba":
+                                                    hexToRGB(
+                                                        y.currentTarget.value,
+                                                    ),
+                                            });
+                                        } else {
+                                            setOverride({
+                                                [x]: y.currentTarget.value,
+                                            });
+                                        }
+                                    }}
                                 />
                             </div>
                         </div>
@@ -461,4 +481,12 @@ function getContrastingColour(hex: string, fallback: string): string {
     if (isNaN(r) || isNaN(g) || isNaN(b) || isNaN(cc))
         return getContrastingColour(fallback, "#fffff");
     return cc >= 175 ? "black" : "white";
+}
+
+function hexToRGB(hex: string) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+
+    return `${r}, ${g}, ${b}`;
 }

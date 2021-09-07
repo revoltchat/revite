@@ -22,7 +22,7 @@ export default function Open() {
 
     if (status !== ClientStatus.ONLINE) {
         return (
-            <Header placement="primary">
+            <Header placement="primary" padding={true}>
                 <Text id="general.loading" />
             </Header>
         );

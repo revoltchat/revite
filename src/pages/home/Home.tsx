@@ -13,7 +13,7 @@ import CategoryButton from "../../components/ui/fluent/CategoryButton";
 export default function Home() {
     return (
         <div className={styles.home}>
-            <Header placement="primary">
+            <Header placement="primary" padding={true}>
                 <HomeIcon size={24} />
                 <Text id="app.navigation.tabs.home" />
             </Header>

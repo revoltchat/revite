@@ -86,7 +86,7 @@ export default observer(({ channel, toggleSidebar }: ChannelHeaderProps) => {
     }
 
     return (
-        <Header placement="primary">
+        <Header placement="primary" padding={true}>
             <HamburgerAction />
             {icon}
             <Info>

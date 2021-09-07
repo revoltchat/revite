@@ -72,7 +72,7 @@ export default observer(() => {
     const isEmpty = lists.reduce((p: number, n) => p + n.length, 0) === 0;
     return (
         <>
-            <Header placement="primary">
+            <Header placement="primary" padding={true}>
                 {!isTouchscreenDevice && <UserDetail size={24} />}
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />

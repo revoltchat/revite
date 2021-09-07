@@ -52,7 +52,7 @@ export default observer(({ user }: Props) => {
     const { writeClipboard } = useIntermediate();
 
     return (
-        <Header borders placement="secondary">
+        <Header padding={true} borders placement="secondary">
             <HeaderBase>
                 <Localizer>
                     <Tooltip content={<Text id="app.special.copy_username" />}>

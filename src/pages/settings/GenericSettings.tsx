@@ -92,7 +92,7 @@ export function GenericSettings({
                 />
             </Helmet>
             {isTouchscreenDevice && (
-                <Header placement="primary">
+                <Header placement="primary" padding={true}>
                     {typeof page === "undefined" ? (
                         <>
                             {showExitButton && (

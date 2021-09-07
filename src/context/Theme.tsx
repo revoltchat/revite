@@ -24,6 +24,7 @@ export type Variables =
     | "primary-background"
     | "primary-header"
     | "secondary-background"
+    | "secondary-background-rgba"
     | "secondary-foreground"
     | "secondary-header"
     | "tertiary-background"
@@ -236,6 +237,7 @@ export const PRESETS: Record<string, Theme> = {
         "primary-background": "#FFFFFF",
         "primary-header": "#F1F1F1",
         "secondary-background": "#F1F1F1",
+        "secondary-background-rgba": "241,241,241",
         "secondary-foreground": "#1f1f1f",
         "secondary-header": "#F1F1F1",
         "tertiary-background": "#4D4D4D",
@@ -263,6 +265,7 @@ export const PRESETS: Record<string, Theme> = {
         "primary-background": "#242424",
         "primary-header": "#363636",
         "secondary-background": "#1E1E1E",
+        "secondary-background-rgba": "30,30,30",
         "secondary-foreground": "#C8C8C8",
         "secondary-header": "#2D2D2D",
         "tertiary-background": "#4D4D4D",

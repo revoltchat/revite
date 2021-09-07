@@ -20,6 +20,21 @@ const ServerName = styled.div`
     flex-grow: 1;
 `;
 
+const GradientHeader = styled.div`
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    padding: 15px;
+    background: linear-gradient(
+        0deg,
+        rgba(var(--secondary-background-rgba), 1) 0%,
+        rgba(var(--secondary-background-rgba), 0.8) 40%,
+        rgba(var(--secondary-background-rgba), 0) 100%
+    );
+`;
+
 export default observer(({ server }: Props) => {
     const bannerURL = server.generateBannerURL({ width: 480 });
 
@@ -52,17 +67,24 @@ export default observer(({ server }: Props) => {
                     </svg>
                 </Tooltip>
             ) : undefined}
-
-            <ServerName>{server.name}</ServerName>
-            {(server.permission & ServerPermission.ManageServer) > 0 && (
-                <div className="actions">
-                    <Link to={`/server/${server._id}/settings`}>
-                        <IconButton>
-                            <Cog size={24} />
-                        </IconButton>
-                    </Link>
-                </div>
-            )}
+            <GradientHeader>
+                <ServerName>{server.name}</ServerName>
+                {(server.permission & ServerPermission.ManageServer) > 0 && (
+                    <div className="actions">
+                        <Link to={`/server/${server._id}/settings`}>
+                            <IconButton>
+                                <Tooltip
+                                    content={
+                                        <Text id="app.context_menu.open_server_settings" />
+                                    }
+                                    placement="right">
+                                    <Cog size={24} />
+                                </Tooltip>
+                            </IconButton>
+                        </Link>
+                    </div>
+                )}
+            </GradientHeader>
         </Header>
     );
 });

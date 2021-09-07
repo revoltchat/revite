@@ -16,7 +16,7 @@ export default function Developer() {
 
     return (
         <div>
-            <Header placement="primary">
+            <Header placement="primary" padding={true}>
                 <Wrench size="24" />
                 Developer Tab
             </Header>

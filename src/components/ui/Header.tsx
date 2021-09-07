@@ -7,6 +7,7 @@ interface Props {
     borders?: boolean;
     background?: boolean;
     placement: "primary" | "secondary";
+    padding?: boolean;
 }
 
 export default styled.div<Props>`
@@ -15,7 +16,6 @@ export default styled.div<Props>`
     flex: 0 auto;
     display: flex;
     flex-shrink: 0;
-    padding: 0 16px;
     font-weight: 600;
     user-select: none;
     align-items: center;
@@ -33,9 +33,15 @@ export default styled.div<Props>`
         color: var(--secondary-foreground);
     }
 
-    /*@media only screen and (max-width: 768px) {
-        padding: 0 12px;
-    }*/
+    ${(props) =>
+        props.padding &&
+        css`
+            padding: 0 16px;
+
+            /*@media only screen and (max-width: 768px) {
+                padding: 0 12px;
+            }*/
+        `}
 
     ${() =>
         isTouchscreenDevice &&
@@ -53,6 +59,7 @@ export default styled.div<Props>`
         `}
 
     ${(props) =>
+        props.padding &&
         props.placement === "secondary" &&
         css`
             background-color: var(--secondary-header);
