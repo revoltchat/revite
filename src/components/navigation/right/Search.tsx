@@ -113,7 +113,7 @@ export function SearchSidebar({ close }: Props) {
                         onChange={(e) => setQuery(e.currentTarget.value)}
                     />
                     <div class="sort">
-                        <Button accent onClick={close}>
+                        <Button compact onClick={close}>
                             <Text id="app.main.channel.search.back" />
                         </Button>
                         <ComboBox
