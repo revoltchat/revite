@@ -12,6 +12,7 @@ import {
 } from "../../../context/intermediate/Intermediate";
 
 import { UserButton } from "../items/ButtonItem";
+import { internalEmit } from "../../../lib/eventEmitter";
 
 export type MemberListGroup = {
     type: "online" | "offline" | "role";
@@ -53,12 +54,21 @@ const ItemContent = memo(
             user={item}
             margin
             context={context}
-            onClick={() =>
-                openScreen({
-                    id: "profile",
-                    user_id: item._id,
-                })
-            }
+            onClick={e => {
+                if (e.shiftKey) {
+                    internalEmit(
+                        "MessageBox",
+                        "append",
+                        `<@${item._id}>`,
+                        "mention",
+                    );
+                } else[
+                    openScreen({
+                        id: "profile",
+                        user_id: item._id,
+                    })
+                ]
+            }}
         />
     ),
 );
