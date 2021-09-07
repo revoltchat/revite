@@ -9,9 +9,9 @@ import { AppContext } from "../../../../context/revoltjs/RevoltClient";
 
 import AttachmentActions from "./AttachmentActions";
 import { SizedGrid } from "./Grid";
+import ImageFile from "./ImageFile";
 import Spoiler from "./Spoiler";
 import TextFile from "./TextFile";
-import ImageFile from "./ImageFile";
 
 interface Props {
     attachment: AttachmentI;
@@ -35,8 +35,8 @@ export default function Attachment({ attachment, hasContent }: Props) {
         case "Image": {
             return (
                 <SizedGrid
-                    width={metadata.width}
-                    height={metadata.height}
+                    width={metadata.width / 2}
+                    height={metadata.height / 2}
                     className={classNames({
                         [styles.margin]: hasContent,
                         spoiler,
@@ -56,8 +56,8 @@ export default function Attachment({ attachment, hasContent }: Props) {
                     style={{ "--width": `${metadata.width}px` }}>
                     <AttachmentActions attachment={attachment} />
                     <SizedGrid
-                        width={metadata.width}
-                        height={metadata.height}
+                        width={metadata.width / 2}
+                        height={metadata.height / 2}
                         className={classNames({ spoiler })}>
                         <video
                             src={url}
