@@ -23,7 +23,7 @@ type Manifest = {
 }
 
 // TODO: ability to preview / display the settings set like in the appearance pane
-const ThemeInfo = styled.div`
+const ThemeInfo = styled.article`
   display: grid;
   grid: 
     "preview name creator" min-content
@@ -31,7 +31,7 @@ const ThemeInfo = styled.div`
     / 200px 1fr 1fr;
     
   gap: 0.5rem 1rem;
-  padding: 0.5rem;
+  padding: 1rem;
   border-radius: var(--border-radius);
   background: var(--secondary-background);
 
@@ -54,7 +54,8 @@ const ThemeInfo = styled.div`
     cursor: pointer;
     
     background-color: var(--secondary-background);
-    border-radius: var(--border-radius);
+    border-radius: calc(var(--border-radius) /  2);
+    box-shadow: 0 0 0 1px var(--tertiary-foreground);
 
     overflow: hidden;
     
@@ -74,11 +75,13 @@ const ThemeInfo = styled.div`
 
   .name {
     grid-area: name;
+    margin: 0;
   }
 
   .creator {
     grid-area: creator;
     justify-self: end;
+    font-size: 0.75rem;
   }
 
   .description {
@@ -109,6 +112,11 @@ const ThemePreview = ({ theme, ...props }: ThemePreviewProps) => {
   </ThemedSVG >
 }
 
+const ThemeShopRoot = styled.div`
+  display: grid;
+  gap: 1rem;
+`
+
 export function ThemeShop() {
   // setThemeList is for adding more / lazy loading in the future
   const [themeList, setThemeList] = useState<[string, ThemeMetadata][] | null>(null);
@@ -134,14 +142,14 @@ export function ThemeShop() {
     })
   }, [themeList])
 
-  return (<div>
+  return (<ThemeShopRoot>
     <Tip warning>This section is under construction.</Tip>
     <ThemeList>
-      {themeList?.map(([slug, theme]) => {
-        return <ThemeInfo key={slug} data-loaded={Reflect.has(themeData, slug)}>
-          <div class="name">{theme.name}</div>
+      {themeList?.map(([slug, theme]) => (
+        <ThemeInfo key={slug} data-loaded={Reflect.has(themeData, slug)}>
+          <h2 class="name">{theme.name}</h2>
           {/* Maybe id's of the users should be included as well / instead? */}
-          <div class="creator">@{theme.creator}</div>
+          <div class="creator">by {theme.creator}</div>
           <div class="description">{theme.description}</div>
           <div class="preview">
             <ThemePreview
@@ -157,7 +165,7 @@ export function ThemeShop() {
             />
           </div>
         </ThemeInfo>
-      })}
+      ))}
     </ThemeList>
-  </div>)
+  </ThemeShopRoot>)
 }
