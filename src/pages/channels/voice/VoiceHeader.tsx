@@ -1,16 +1,4 @@
 import { BarChart } from "@styled-icons/boxicons-regular";
-import { observer } from "mobx-react-lite";
-import styled from "styled-components";
-
-import { Text } from "preact-i18n";
-import { useMemo } from "preact/hooks";
-
-import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
-
-import { useClient } from "../../../context/revoltjs/RevoltClient";
-
-import UserIcon from "../../../components/common/user/UserIcon";
-import Button from "../../../components/ui/Button";
 import {
     Megaphone,
     Microphone,
@@ -18,26 +6,37 @@ import {
     PhoneOff,
     Speaker,
     VolumeFull,
-    VolumeMute
+    VolumeMute,
 } from "@styled-icons/boxicons-solid";
-import Tooltip from "../../../components/common/Tooltip";
-import {Hashnode, Speakerdeck, Teamspeak} from "@styled-icons/simple-icons";
+import { Hashnode, Speakerdeck, Teamspeak } from "@styled-icons/simple-icons";
+import { observer } from "mobx-react-lite";
+import styled from "styled-components";
+
+import { Text } from "preact-i18n";
+import { useMemo } from "preact/hooks";
+
 import VoiceClient from "../../../lib/vortex/VoiceClient";
+import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
+
+import { useClient } from "../../../context/revoltjs/RevoltClient";
+
+import Tooltip from "../../../components/common/Tooltip";
+import UserIcon from "../../../components/common/user/UserIcon";
+import Button from "../../../components/ui/Button";
 
 interface Props {
     id: string;
 }
 
 const VoiceBase = styled.div`
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
     background: var(--secondary-background);
 
     .status {
-        flex: 1 0;
-        display: flex;
-        position: absolute;
-        align-items: center;
-
+        width: max-content;
         padding: 10px;
         font-size: 14px;
         font-weight: 600;
@@ -63,6 +62,9 @@ const VoiceBase = styled.div`
         user-select: none;
         display: flex;
         gap: 16px;
+        height: 100%;
+        display: flex;
+        align-items: center;
 
         .disconnected {
             opacity: 0.5;
@@ -90,6 +92,12 @@ export default observer(({ id }: Props) => {
 
     return (
         <VoiceBase>
+            <div className="status">
+                <BarChart size={20} />
+                {voiceState.status === VoiceStatus.CONNECTED && (
+                    <Text id="app.main.channel.voice.connected" />
+                )}
+            </div>
             <div className="participants">
                 {users && users.length !== 0
                     ? users.map((user, index) => {
@@ -101,9 +109,11 @@ export default observer(({ id }: Props) => {
                                       target={user}
                                       status={false}
                                       voice={
-                                          client.user?._id === id && voiceState.isDeaf()?"deaf"
+                                          client.user?._id === id &&
+                                          voiceState.isDeaf()
+                                              ? "deaf"
                                               : voiceState.participants!.get(id)
-                                              ?.audio
+                                                    ?.audio
                                               ? undefined
                                               : "muted"
                                       }
@@ -121,12 +131,6 @@ export default observer(({ id }: Props) => {
                           </div>
                       )}
             </div>
-            <div className="status">
-                <BarChart size={20} />
-                {voiceState.status === VoiceStatus.CONNECTED && (
-                    <Text id="app.main.channel.voice.connected" />
-                )}
-            </div>
             <div className="actions">
                 <Tooltip content={"Leave call"} placement={"bottom"}>
                     <Button error onClick={voiceState.disconnect}>
@@ -134,14 +138,16 @@ export default observer(({ id }: Props) => {
                     </Button>
                 </Tooltip>
                 {voiceState.isProducing("audio") ? (
-                        <Tooltip content={"Mute microphone"} placement={"bottom"}>
-                            <Button onClick={() => voiceState.stopProducing("audio")}>
-                                <Microphone width={25} />
-                            </Button>
-                        </Tooltip>
+                    <Tooltip content={"Mute microphone"} placement={"bottom"}>
+                        <Button
+                            onClick={() => voiceState.stopProducing("audio")}>
+                            <Microphone width={25} />
+                        </Button>
+                    </Tooltip>
                 ) : (
                     <Tooltip content={"Unmute microphone"} placement={"bottom"}>
-                        <Button onClick={() => voiceState.startProducing("audio")}>
+                        <Button
+                            onClick={() => voiceState.startProducing("audio")}>
                             <MicrophoneOff width={25} />
                         </Button>
                     </Tooltip>
@@ -152,14 +158,13 @@ export default observer(({ id }: Props) => {
                             <VolumeMute width={25} />
                         </Button>
                     </Tooltip>
-                ): (
+                ) : (
                     <Tooltip content={"Deafen"} placement={"bottom"}>
                         <Button onClick={() => voiceState.startDeafen()}>
                             <VolumeFull width={25} />
                         </Button>
                     </Tooltip>
-                )
-                }
+                )}
             </div>
         </VoiceBase>
     );
