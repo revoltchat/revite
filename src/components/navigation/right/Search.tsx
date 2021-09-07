@@ -13,6 +13,7 @@ import ComboBox from "../../../components/ui/ComboBox";
 import Message from "../../common/messaging/Message";
 import Button from "../../ui/Button";
 import InputBox from "../../ui/InputBox";
+import Overline from "../../ui/Overline";
 import Preloader from "../../ui/Preloader";
 
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
@@ -128,6 +129,15 @@ export function SearchSidebar({ close }: Props) {
                         </ComboBox>
                     </div>
                     {state.type === "loading" && <Preloader type="ring" />}
+                    {state.type === "results" && state.results.length > 0 && (
+                        <Overline type="default" block>
+                            <Text
+                                id="app.main.channel.search.total_results"
+                                plural={state.results!.length}
+                                fields={{ count: state.results!.length }}
+                            />
+                        </Overline>
+                    )}
                     {state.type === "results" && (
                         <div class="list">
                             {state.results.map((message) => {
