@@ -23,7 +23,8 @@ import Button from "../../../../components/ui/Button";
 import Preloader from "../../../ui/Preloader";
 
 const EmbedInviteBase = styled.div`
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     height: 80px;
     background-color: var(--secondary-background);
     border-radius: var(--border-radius);
