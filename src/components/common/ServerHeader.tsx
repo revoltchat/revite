@@ -18,6 +18,9 @@ interface Props {
 
 const ServerName = styled.div`
     flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 const GradientHeader = styled.div`
