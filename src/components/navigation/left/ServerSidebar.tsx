@@ -93,7 +93,7 @@ const ServerSidebar = observer((props: Props) => {
                             "MessageBox",
                             "append",
                             `<#${entry._id}>`,
-                            "mention",
+                            "channel_mention",
                         );
                         e.preventDefault()
                     }
