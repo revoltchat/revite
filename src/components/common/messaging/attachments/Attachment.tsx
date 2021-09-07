@@ -107,11 +107,17 @@ export default function Attachment({ attachment, hasContent }: Props) {
                                     <LiveIndicator />
                                     <ScrubberControl />
                                     <ControlGroup>
-                                        <PlaybackControl tooltipDirection="right" />
-                                        <MuteControl />
+                                        <PlaybackControl
+                                            tooltipDirection="right"
+                                            keys={undefined}
+                                        />
+                                        <MuteControl keys={undefined} />
                                         <TimeProgress />
                                         <ControlSpacer />
-                                        <FullscreenControl tooltipDirection="left" />
+                                        <FullscreenControl
+                                            tooltipDirection="left"
+                                            keys={undefined}
+                                        />
                                     </ControlGroup>
                                 </Controls>
                             </Ui>
