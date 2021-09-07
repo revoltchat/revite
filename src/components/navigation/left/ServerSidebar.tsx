@@ -22,6 +22,7 @@ import { mapChannelWithUnread, useUnreads } from "./common";
 
 import { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
+import { internalEmit } from "../../../lib/eventEmitter";
 
 interface Props {
     unreads: Unreads;
@@ -86,6 +87,17 @@ const ServerSidebar = observer((props: Props) => {
 
         return (
             <ConditionalLink
+                onClick={e => {
+                    if (e.shiftKey) {
+                        internalEmit(
+                            "MessageBox",
+                            "append",
+                            `<#${entry._id}>`,
+                            "mention",
+                        );
+                        e.preventDefault()
+                    }
+                }}
                 key={entry._id}
                 active={active}
                 to={`/server/${server!._id}/channel/${entry._id}`}>
