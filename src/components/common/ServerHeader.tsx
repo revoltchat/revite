@@ -46,28 +46,30 @@ export default observer(({ server }: Props) => {
             style={{
                 background: bannerURL ? `url('${bannerURL}')` : undefined,
             }}>
-            {server.owner === "01EX2NCWQ0CHS3QJF0FEQS1GR4" ? (
-                <Tooltip content={"Official Server"} placement={"bottom-start"}>
-                    <svg width="20" height="20">
-                        <image
-                            xlinkHref="/assets/badges/verified.svg"
-                            height="20"
-                            width="20"
-                        />
-                        <image
-                            xlinkHref="/assets/badges/revolt_r.svg"
-                            height="15"
-                            width="15"
-                            x="2"
-                            y="3"
-                            style={
-                                "justify-content: center; align-items: center; filter: brightness(0);"
-                            }
-                        />
-                    </svg>
-                </Tooltip>
-            ) : undefined}
             <GradientHeader>
+                {server.owner === "01EX2NCWQ0CHS3QJF0FEQS1GR4" ? (
+                    <Tooltip
+                        content={"Official Server"}
+                        placement={"bottom-start"}>
+                        <svg width="20" height="20" style={{ marginRight: 5 }}>
+                            <image
+                                xlinkHref="/assets/badges/verified.svg"
+                                height="20"
+                                width="20"
+                            />
+                            <image
+                                xlinkHref="/assets/badges/revolt_r.svg"
+                                height="15"
+                                width="15"
+                                x="2"
+                                y="3"
+                                style={
+                                    "justify-content: center; align-items: center; filter: brightness(0);"
+                                }
+                            />
+                        </svg>
+                    </Tooltip>
+                ) : undefined}
                 <ServerName>{server.name}</ServerName>
                 {(server.permission & ServerPermission.ManageServer) > 0 && (
                     <div className="actions">
