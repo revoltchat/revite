@@ -3,7 +3,7 @@ import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -69,9 +69,11 @@ const IconConainer = styled.div`
     cursor: pointer;
     color: var(--secondary-foreground);
 
-    &:hover {
-        color: var(--foreground);
-    }
+    ${!isTouchscreenDevice && css`
+        &:hover {
+            color: var(--foreground);
+        }
+    `}
 `
 
 export default observer(({ channel, toggleSidebar, toggleChannelSidebar }: ChannelHeaderProps) => {

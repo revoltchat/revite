@@ -89,6 +89,10 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                     }
                 }}
                 toggleChannelSidebar={() => {
+                    if (isTouchscreenDevice) {
+                        return
+                    }
+
                     setChannels(!showChannels);
 
                     if (showChannels) {
