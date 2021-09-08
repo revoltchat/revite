@@ -1,31 +1,30 @@
-import {Attachment} from "revolt-api/types/Autumn";
+import { Attachment } from "revolt-api/types/Autumn";
 
 import styles from "./Attachment.module.scss";
 import classNames from "classnames";
-import {useContext, useState} from "preact/hooks";
+import { useContext, useState } from "preact/hooks";
 
-import {useIntermediate} from "../../../../context/intermediate/Intermediate";
-import {AppContext} from "../../../../context/revoltjs/RevoltClient";
+import { useIntermediate } from "../../../../context/intermediate/Intermediate";
+import { AppContext } from "../../../../context/revoltjs/RevoltClient";
 
-enum ImageLoadingState
-{
+enum ImageLoadingState {
     Loading,
     Loaded,
     Error
 }
 
-interface Props {
+type Props = JSX.HTMLAttributes<HTMLImageElement> & {
     attachment: Attachment;
 }
 
-export default function ImageFile({ attachment }: Props)
-{
+export default function ImageFile({ attachment, ...props }: Props) {
     const [loading, setLoading] = useState(ImageLoadingState.Loading);
     const client = useContext(AppContext);
     const { openScreen } = useIntermediate();
     const url = client.generateFileURL(attachment)!;
 
     return <img
+        {...props}
         src={url}
         alt={attachment.filename}
         loading="lazy"
@@ -33,7 +32,7 @@ export default function ImageFile({ attachment }: Props)
             [styles.loading]: loading !== ImageLoadingState.Loaded
         })}
         onClick={() =>
-            openScreen({id: "image_viewer", attachment})
+            openScreen({ id: "image_viewer", attachment })
         }
         onMouseDown={(ev) =>
             ev.button === 1 && window.open(url, "_blank")
@@ -44,6 +43,5 @@ export default function ImageFile({ attachment }: Props)
         onError={() =>
             setLoading(ImageLoadingState.Error)
         }
-
     />
 }
