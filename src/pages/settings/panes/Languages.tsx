@@ -13,6 +13,7 @@ import {
 import Emoji from "../../../components/common/Emoji";
 import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
+import enchantingTableWEBP from "../assets/enchanting_table.webp";
 import tokiponaSVG from "../assets/toki_pona.svg";
 
 type Props = {
@@ -38,6 +39,12 @@ function Entry({ entry: [x, lang], locale }: { entry: Key } & Props) {
             <div className={styles.flag}>
                 {lang.emoji === "🙂" ? (
                     <img src={tokiponaSVG} width={42} />
+                ) : lang.emoji === "🪄" ? (
+                    <img
+                        src={enchantingTableWEBP}
+                        width={42}
+                        style={{ objectFit: "contain" }}
+                    />
                 ) : (
                     <Emoji size={42} emoji={lang.emoji} />
                 )}
