@@ -1,6 +1,6 @@
 import { ArrowBack } from "@styled-icons/boxicons-regular";
 import { autorun } from "mobx";
-import { useHistory, useParams } from "react-router-dom";
+import { Redirect, useHistory, useParams } from "react-router-dom";
 import { RetrievedInvite } from "revolt-api/types/Invites";
 
 import styles from "./Invite.module.scss";
@@ -48,6 +48,8 @@ export default function Invite() {
                 .catch((err) => setError(takeError(err)));
         }
     }, [client, code, invite, status]);
+
+    if (code === undefined) return <Redirect to="/" />;
 
     if (typeof invite === "undefined") {
         return (
