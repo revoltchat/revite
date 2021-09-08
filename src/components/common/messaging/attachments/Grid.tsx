@@ -3,16 +3,14 @@ import styled from "styled-components";
 import { Children } from "../../../../types/Preact";
 
 const Grid = styled.div<{ width: number; height: number }>`
+    --width: ${props => props.width}px;
+    --height: ${props => props.height}px;
+
     display: grid;
     aspect-ratio: ${(props) => props.width} / ${(props) => props.height};
 
-    max-width: min(
-        100%,
-        ${(props) => props.width}px,
-        var(--attachment-max-width)
-    );
-
-    max-height: min(${(props) => props.height}px, var(--attachment-max-height));
+    max-width: min(var(--width), var(--attachment-max-width));
+    max-height: min(var(--height), var(--attachment-max-height));
 
     // This is a hack for browsers not supporting aspect-ratio.
     // Stolen from https://codepen.io/una/pen/BazyaOM.
@@ -44,6 +42,9 @@ const Grid = styled.div<{ width: number; height: number }>`
         overflow: hidden;
 
         object-fit: contain;
+        
+        // It's something
+        object-position: left;
     }
 
     video {
