@@ -1,7 +1,12 @@
 type LinkType =
     | { type: "profile"; id: string }
     | { type: "navigate"; path: string; navigation_type?: null }
-    | { type: "navigate"; path: string; navigation_type: 'channel'; channel_id: string }
+    | {
+          type: "navigate";
+          path: string;
+          navigation_type: "channel";
+          channel_id: string;
+      }
     | { type: "external"; href: string; url: URL }
     | { type: "none" };
 
@@ -12,7 +17,8 @@ const ALLOWED_ORIGINS = [
     "local.revolt.chat",
 ];
 
-const CHANNEL_PATH_RE = /^\/server\/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}\/channel\/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$/
+const CHANNEL_PATH_RE =
+    /^\/server\/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}\/channel\/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$/;
 
 export function determineLink(href?: string): LinkType {
     let internal,
@@ -30,9 +36,13 @@ export function determineLink(href?: string): LinkType {
                         return { type: "profile", id };
                     }
                 } else {
-                    console.log(path)
-                    if(CHANNEL_PATH_RE.test(path)) {
-                        return { type: 'navigate', path, navigation_type: 'channel', channel_id: path.slice(43) }
+                    if (CHANNEL_PATH_RE.test(path)) {
+                        return {
+                            type: "navigate",
+                            path,
+                            navigation_type: "channel",
+                            channel_id: path.slice(43),
+                        };
                     }
                     return { type: "navigate", path };
                 }
