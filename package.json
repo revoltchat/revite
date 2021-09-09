@@ -40,7 +40,6 @@
         }
     },
     "dependencies": {
-        "@vime/react": "^5.0.33",
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
         "sirv-cli": "^1.0.14",

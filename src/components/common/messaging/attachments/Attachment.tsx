@@ -1,22 +1,3 @@
-import "@vime/core/themes/default.css";
-import {
-    Player,
-    Video,
-    Ui,
-    DblClickFullscreen,
-    Controls,
-    PlaybackControl,
-    FullscreenControl,
-    TimeProgress,
-    LiveIndicator,
-    ScrubberControl,
-    ControlGroup,
-    ControlSpacer,
-    MuteControl,
-    Skeleton,
-    Scrim,
-    Spinner,
-} from "@vime/react";
 import { Attachment as AttachmentI } from "revolt-api/types/Autumn";
 
 import styles from "./Attachment.module.scss";
@@ -41,7 +22,7 @@ const MAX_ATTACHMENT_WIDTH = 480;
 
 export default function Attachment({ attachment, hasContent }: Props) {
     const client = useContext(AppContext);
-    const { filename, metadata, content_type } = attachment;
+    const { filename, metadata } = attachment;
     const [spoiler, setSpoiler] = useState(filename.startsWith("SPOILER_"));
 
     const url = client.generateFileURL(
@@ -54,13 +35,13 @@ export default function Attachment({ attachment, hasContent }: Props) {
         case "Image": {
             return (
                 <SizedGrid
-                    width={metadata.width / 2}
-                    height={metadata.height / 2}
+                    width={metadata.width}
+                    height={metadata.height}
                     className={classNames({
                         [styles.margin]: hasContent,
                         spoiler,
                     })}>
-                    <ImageFile attachment={attachment} width={metadata.width} height={metadata.height} />
+                    <ImageFile attachment={attachment} />
                     {spoiler && <Spoiler set={setSpoiler} />}
                 </SizedGrid>
             );
@@ -78,51 +59,17 @@ export default function Attachment({ attachment, hasContent }: Props) {
                         width={metadata.width}
                         height={metadata.height}
                         className={classNames({ spoiler })}>
-                        <Player
-                            mediaTitle={filename}
-                            theme="dark"
-                            style={
-                                {
-                                    "--vm-player-theme": "var(--accent)",
-                                } as React.CSSProperties
-                            }>
-                            <Video>
-                                <source data-src={url} type={content_type} />
-                            </Video>
-                            <Ui>
-                                <DblClickFullscreen />
-                                <Skeleton
-                                    style={
-                                        {
-                                            "--vm-skeleton-color":
-                                                "var(--secondary-background)",
-                                            "--vm-skeleton-sheen-color":
-                                                "var(--tertiary-background)",
-                                        } as React.CSSProperties
-                                    }
-                                />
-                                <Scrim gradient="up" />
-                                <Spinner />
-                                <Controls>
-                                    <LiveIndicator />
-                                    <ScrubberControl />
-                                    <ControlGroup>
-                                        <PlaybackControl
-                                            tooltipDirection="right"
-                                            keys={undefined}
-                                        />
-                                        <MuteControl keys={undefined} />
-                                        <TimeProgress />
-                                        <ControlSpacer />
-                                        <FullscreenControl
-                                            tooltipDirection="left"
-                                            keys={undefined}
-                                        />
-                                    </ControlGroup>
-                                </Controls>
-                            </Ui>
-                        </Player>
-
+                        <video
+                            src={url}
+                            alt={filename}
+                            controls
+                            loading="lazy"
+                            width={metadata.width}
+                            height={metadata.height}
+                            onMouseDown={(ev) =>
+                                ev.button === 1 && window.open(url, "_blank")
+                            }
+                        />
                         {spoiler && <Spoiler set={setSpoiler} />}
                     </SizedGrid>
                 </div>
