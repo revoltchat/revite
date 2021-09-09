@@ -44,7 +44,7 @@ if (typeof window !== "undefined") {
             if (code) {
                 navigator.clipboard.writeText(code.textContent?.trim() ?? "");
             }
-        } catch (e) { }
+        } catch (e) {}
     };
 }
 
@@ -150,8 +150,8 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                                 `<@${element.dataset.mentionId}>`,
                                 "mention",
                             );
-                            ev.preventDefault()
-                            return
+                            ev.preventDefault();
+                            return;
                         }
                         case "channel_mention": {
                             internalEmit(
@@ -160,8 +160,8 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                                 `<#${element.dataset.mentionId}>`,
                                 "channel_mention",
                             );
-                            ev.preventDefault()
-                            return
+                            ev.preventDefault();
+                            return;
                         }
                     }
                 }
@@ -194,7 +194,6 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                             element.removeAttribute("target");
 
                             const link = determineLink(element.href);
-                            console.log(link)
                             switch (link.type) {
                                 case "profile": {
                                     element.setAttribute(
@@ -203,20 +202,20 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                                     );
                                     element.setAttribute(
                                         "data-mention-id",
-                                        link.id
-                                    )
+                                        link.id,
+                                    );
                                     break;
                                 }
                                 case "navigate": {
-                                    if (link.navigation_type === 'channel') {
+                                    if (link.navigation_type === "channel") {
                                         element.setAttribute(
                                             "data-type",
                                             "channel_mention",
                                         );
                                         element.setAttribute(
                                             "data-mention-id",
-                                            link.channel_id
-                                        )
+                                            link.channel_id,
+                                        );
                                     }
                                     break;
                                 }
