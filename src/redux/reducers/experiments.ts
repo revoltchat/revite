@@ -1,11 +1,19 @@
-export type Experiments = "search";
-export const AVAILABLE_EXPERIMENTS: Experiments[] = [];
+import { getState } from "..";
+
+export type Experiments = "search" | "theme_shop";
+
+export const AVAILABLE_EXPERIMENTS: Experiments[] = ["theme_shop"];
+
 export const EXPERIMENTS: {
     [key in Experiments]: { title: string; description: string };
 } = {
     search: {
         title: "Search",
         description: "Allows you to search for messages in channels.",
+    },
+    theme_shop: {
+        title: "Theme Shop",
+        description: "Allows you to access and set user submitted themes.",
     },
 };
 
@@ -49,4 +57,11 @@ export function experiments(
         default:
             return state;
     }
+}
+
+export function isExperimentEnabled(
+    name: Experiments,
+    experiments: ExperimentOptions = getState().experiments,
+) {
+    return experiments.enabled?.includes(name) ?? false;
 }
