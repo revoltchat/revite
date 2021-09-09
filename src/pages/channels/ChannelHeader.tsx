@@ -3,7 +3,7 @@ import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -20,6 +20,7 @@ import HeaderActions from "./actions/HeaderActions";
 export interface ChannelHeaderProps {
     channel: Channel;
     toggleSidebar?: () => void;
+    toggleChannelSidebar?: () => void;
 }
 
 const Info = styled.div`
@@ -64,7 +65,18 @@ const Info = styled.div`
     }
 `;
 
-export default observer(({ channel, toggleSidebar }: ChannelHeaderProps) => {
+const IconConainer = styled.div`
+    cursor: pointer;
+    color: var(--secondary-foreground);
+
+    ${!isTouchscreenDevice && css`
+        &:hover {
+            color: var(--foreground);
+        }
+    `}
+`
+
+export default observer(({ channel, toggleSidebar, toggleChannelSidebar }: ChannelHeaderProps) => {
     const { openScreen } = useIntermediate();
 
     const name = getChannelName(channel);
@@ -88,7 +100,7 @@ export default observer(({ channel, toggleSidebar }: ChannelHeaderProps) => {
     return (
         <Header placement="primary">
             <HamburgerAction />
-            {icon}
+            <IconConainer onClick={toggleChannelSidebar}>{icon}</IconConainer>
             <Info>
                 <span className="name">{name}</span>
                 {isTouchscreenDevice &&

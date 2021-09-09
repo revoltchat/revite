@@ -9,12 +9,54 @@ import Emoji from "../../components/common/Emoji";
 import Tooltip from "../../components/common/Tooltip";
 import Header from "../../components/ui/Header";
 import CategoryButton from "../../components/ui/fluent/CategoryButton";
+import { dispatch, getState } from "../../redux";
+import { useState } from "preact/hooks";
+import styled, { css } from "styled-components";
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+
+const CHANNELS_SIDEBAR_KEY = "sidebar_channels";
+
+const IconConainer = styled.div`
+    cursor: pointer;
+    color: var(--secondary-foreground);
+
+    ${!isTouchscreenDevice && css`
+        &:hover {
+            color: var(--foreground);
+        }
+    `}
+`
 
 export default function Home() {
+    const [showChannels, setChannels] = useState(
+        getState().sectionToggle[CHANNELS_SIDEBAR_KEY] ?? true,
+    );
+
+    const toggleChannelSidebar = () => {
+        if (isTouchscreenDevice) {
+            return
+        }
+
+        setChannels(!showChannels);
+
+        if (showChannels) {
+            dispatch({
+                type: "SECTION_TOGGLE_SET",
+                id: CHANNELS_SIDEBAR_KEY,
+                state: false,
+            });
+        } else {
+            dispatch({
+                type: "SECTION_TOGGLE_UNSET",
+                id: CHANNELS_SIDEBAR_KEY,
+            });
+        }
+    }
+
     return (
         <div className={styles.home}>
             <Header placement="primary">
-                <HomeIcon size={24} />
+                <IconConainer onClick={toggleChannelSidebar} ><HomeIcon size={24} /></IconConainer>
                 <Text id="app.navigation.tabs.home" />
             </Header>
             <h3>
