@@ -9,7 +9,7 @@ const CategoryBase = styled.div<Pick<Props, "variant">>`
     text-transform: uppercase;
 
     margin-top: 4px;
-    padding: 6px 0;
+    padding: 6px 0 6px 8px;
     margin-bottom: 4px;
     white-space: nowrap;
 
