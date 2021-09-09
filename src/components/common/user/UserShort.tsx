@@ -9,6 +9,7 @@ import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import UserIcon from "./UserIcon";
+import { internalEmit } from "../../../lib/eventEmitter";
 
 const BotBadge = styled.div`
     display: inline-block;
@@ -25,17 +26,18 @@ const BotBadge = styled.div`
     border-radius: calc(var(--border-radius) / 2);
 `;
 
+type UsernameProps = JSX.HTMLAttributes<HTMLElement> & {
+    user?: User;
+    prefixAt?: boolean;
+    showServerIdentity?: boolean;
+}
 export const Username = observer(
     ({
         user,
         prefixAt,
         showServerIdentity,
         ...otherProps
-    }: {
-        user?: User;
-        prefixAt?: boolean;
-        showServerIdentity?: boolean;
-    } & JSX.HTMLAttributes<HTMLElement>) => {
+    }: UsernameProps) => {
         let username = user?.username;
         let color;
 
@@ -108,18 +110,32 @@ export default function UserShort({
     const openProfile = () =>
         user && openScreen({ id: "profile", user_id: user._id });
 
+    const handleUserClick = (e: MouseEvent) => {
+        if (e.shiftKey && user?._id) {
+            e.preventDefault()
+            internalEmit(
+                "MessageBox",
+                "append",
+                `<@${user?._id}>`,
+                "mention",
+            );
+        } else {
+            openProfile()
+        }
+    }
+
     return (
         <>
             <UserIcon
                 size={size ?? 24}
                 target={user}
-                onClick={openProfile}
+                onClick={handleUserClick}
                 showServerIdentity={showServerIdentity}
             />
             <Username
                 user={user}
                 showServerIdentity={showServerIdentity}
-                onClick={openProfile}
+                onClick={handleUserClick}
                 prefixAt={prefixAt}
             />
         </>

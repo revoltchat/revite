@@ -44,7 +44,7 @@ if (typeof window !== "undefined") {
             if (code) {
                 navigator.clipboard.writeText(code.textContent?.trim() ?? "");
             }
-        } catch (e) {}
+        } catch (e) { }
     };
 }
 
@@ -140,7 +140,35 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
         (ev: MouseEvent) => {
             if (ev.currentTarget) {
                 const element = ev.currentTarget as HTMLAnchorElement;
-                if (openLink(element.href)) ev.preventDefault();
+
+                if (ev.shiftKey) {
+                    switch (element.dataset.type) {
+                        case "mention": {
+                            internalEmit(
+                                "MessageBox",
+                                "append",
+                                `<@${element.dataset.mentionId}>`,
+                                "mention",
+                            );
+                            ev.preventDefault()
+                            return
+                        }
+                        case "channel_mention": {
+                            internalEmit(
+                                "MessageBox",
+                                "append",
+                                `<#${element.dataset.mentionId}>`,
+                                "channel_mention",
+                            );
+                            ev.preventDefault()
+                            return
+                        }
+                    }
+                }
+
+                if (openLink(element.href)) {
+                    ev.preventDefault();
+                }
             }
         },
         [openLink],
@@ -162,15 +190,34 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                             element.removeEventListener("click", handleLink);
                             element.addEventListener("click", handleLink);
                             element.removeAttribute("data-type");
+                            element.removeAttribute("data-mention-id");
                             element.removeAttribute("target");
 
                             const link = determineLink(element.href);
+                            console.log(link)
                             switch (link.type) {
                                 case "profile": {
                                     element.setAttribute(
                                         "data-type",
                                         "mention",
                                     );
+                                    element.setAttribute(
+                                        "data-mention-id",
+                                        link.id
+                                    )
+                                    break;
+                                }
+                                case "navigate": {
+                                    if (link.navigation_type === 'channel') {
+                                        element.setAttribute(
+                                            "data-type",
+                                            "channel_mention",
+                                        );
+                                        element.setAttribute(
+                                            "data-mention-id",
+                                            link.channel_id
+                                        )
+                                    }
                                     break;
                                 }
                                 case "external": {

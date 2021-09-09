@@ -25,6 +25,7 @@ import Attachment from "./attachments/Attachment";
 import { MessageReply } from "./attachments/MessageReply";
 import Embed from "./embed/Embed";
 import InviteList from "./embed/EmbedInvite";
+import { internalEmit } from "../../../lib/eventEmitter";
 
 interface Props {
     attachContext?: boolean;
@@ -61,14 +62,27 @@ const Message = observer(
         // bree: Fatal please...
         const userContext = attachContext
             ? (attachContextMenu("Menu", {
-                  user: message.author_id,
-                  contextualChannel: message.channel_id,
-                  // eslint-disable-next-line
-              }) as any)
+                user: message.author_id,
+                contextualChannel: message.channel_id,
+                // eslint-disable-next-line
+            }) as any)
             : undefined;
 
         const openProfile = () =>
             openScreen({ id: "profile", user_id: message.author_id });
+
+        const handleUserClick = (e: MouseEvent) => {
+            if (e.shiftKey && user?._id) {
+                internalEmit(
+                    "MessageBox",
+                    "append",
+                    `<@${user._id}>`,
+                    "mention",
+                );
+            } else {
+                openProfile()
+            }
+        }
 
         // ! FIXME(?): animate on hover
         const [animate, setAnimate] = useState(false);
@@ -91,11 +105,11 @@ const Message = observer(
                         hideReply
                             ? false
                             : (head &&
-                                  !(
-                                      message.reply_ids &&
-                                      message.reply_ids.length > 0
-                                  )) ??
-                              false
+                                !(
+                                    message.reply_ids &&
+                                    message.reply_ids.length > 0
+                                )) ??
+                            false
                     }
                     contrast={contrast}
                     sending={typeof queued !== "undefined"}
@@ -104,10 +118,10 @@ const Message = observer(
                     onContextMenu={
                         attachContext
                             ? attachContextMenu("Menu", {
-                                  message,
-                                  contextualChannel: message.channel_id,
-                                  queued,
-                              })
+                                message,
+                                contextualChannel: message.channel_id,
+                                queued,
+                            })
                             : undefined
                     }
                     onMouseEnter={() => setAnimate(true)}
@@ -118,7 +132,7 @@ const Message = observer(
                                 target={user}
                                 size={36}
                                 onContextMenu={userContext}
-                                onClick={openProfile}
+                                onClick={handleUserClick}
                                 animate={animate}
                                 showServerIdentity
                             />
@@ -133,7 +147,7 @@ const Message = observer(
                                     className="author"
                                     user={user}
                                     onContextMenu={userContext}
-                                    onClick={openProfile}
+                                    onClick={handleUserClick}
                                     showServerIdentity
                                 />
                                 <MessageDetail
