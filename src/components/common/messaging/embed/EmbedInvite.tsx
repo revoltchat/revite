@@ -99,7 +99,7 @@ export function EmbedInvite(props: Props) {
             <EmbedInviteDetails>
                 <EmbedInviteName>{invite.server_name}</EmbedInviteName>
                 <EmbedInviteMemberCount>
-                    {invite.member_count} members
+                    {invite.member_count.toLocaleString()} members
                 </EmbedInviteMemberCount>
             </EmbedInviteDetails>
             {processing ? (

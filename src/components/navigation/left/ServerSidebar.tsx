@@ -22,6 +22,7 @@ import { mapChannelWithUnread, useUnreads } from "./common";
 
 import { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
+import { internalEmit } from "../../../lib/eventEmitter";
 
 interface Props {
     unreads: Unreads;
@@ -62,7 +63,11 @@ const ServerSidebar = observer((props: Props) => {
     if (!server) return <Redirect to="/" />;
 
     const channel = channel_id ? client.channels.get(channel_id) : undefined;
+
+    // The user selected no channel, let's see if there's a channel available
+    if (!channel && server.channel_ids.length > 0) return <Redirect to={`/server/${server_id}/channel/${server.channel_ids[0]}`} />;
     if (channel_id && !channel) return <Redirect to={`/server/${server_id}`} />;
+
     if (channel) useUnreads({ ...props, channel });
 
     useEffect(() => {
@@ -86,6 +91,17 @@ const ServerSidebar = observer((props: Props) => {
 
         return (
             <ConditionalLink
+                onClick={e => {
+                    if (e.shiftKey) {
+                        internalEmit(
+                            "MessageBox",
+                            "append",
+                            `<#${entry._id}>`,
+                            "channel_mention",
+                        );
+                        e.preventDefault()
+                    }
+                }}
                 key={entry._id}
                 active={active}
                 to={`/server/${server!._id}/channel/${entry._id}`}>

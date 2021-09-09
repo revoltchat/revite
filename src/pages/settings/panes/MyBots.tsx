@@ -1,22 +1,29 @@
 import { Key, Clipboard, Globe, Plus } from "@styled-icons/boxicons-regular";
-import { LockAlt } from "@styled-icons/boxicons-solid";
+import { LockAlt, HelpCircle } from "@styled-icons/boxicons-solid";
 import type { AxiosError } from "axios";
 import { observer } from "mobx-react-lite";
 import { Bot } from "revolt-api/types/Bots";
+import { Profile as ProfileI } from "revolt-api/types/Users";
 import { User } from "revolt.js/dist/maps/Users";
 import styled from "styled-components";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 
+import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { internalEmit } from "../../../lib/eventEmitter";
+import { useTranslation } from "../../../lib/i18n";
 import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
+import AutoComplete, {
+    useAutoComplete,
+} from "../../../components/common/AutoComplete";
+import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
 import Button from "../../../components/ui/Button";
@@ -62,6 +69,7 @@ interface Props {
 
 function BotCard({ bot, onDelete, onUpdate }: Props) {
     const client = useClient();
+    const translate = useTranslation();
     const [user, setUser] = useState<User>(client.users.get(bot._id)!);
     const [data, setData] = useState<Data>({
         _id: bot._id,
@@ -79,6 +87,37 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
         useState<HTMLInputElement | null>(null);
     const { writeClipboard, openScreen } = useIntermediate();
 
+    const [profile, setProfile] = useState<undefined | ProfileI>(undefined);
+
+    const refreshProfile = useCallback(() => {
+        client
+            .request(
+                "GET",
+                `/users/${bot._id}/profile` as "/users/id/profile",
+                {
+                    headers: { "x-bot-token": bot.token },
+                    transformRequest: (data, headers) => {
+                        // Remove user headers for this request
+                        delete headers["x-user-id"];
+                        delete headers["x-session-token"];
+                        return data;
+                    },
+                },
+            )
+            .then((profile) => setProfile(profile ?? {}));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user, setProfile]);
+
+    useEffect(() => {
+        if (profile === undefined && editMode) refreshProfile();
+    }, [profile, editMode, refreshProfile]);
+
+    const [changed, setChanged] = useState(false);
+    function setContent(content?: string) {
+        setProfile({ ...profile, content });
+        if (!changed) setChanged(true);
+    }
+
     async function save() {
         const changes: Changes = {};
         if (data.username !== user!.username) changes.name = data.username;
@@ -90,7 +129,9 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
         setError("");
         try {
             await client.bots.edit(bot._id, changes);
+            if (changed) await editBotContent(profile?.content);
             onUpdate(changes);
+            setChanged(false);
             setEditMode(false);
         } catch (e) {
             const err = e as AxiosError;
@@ -127,6 +168,63 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
         setUser(res.user);
         setSaving(false);
     }
+
+    async function editBotBackground(background?: string) {
+        setSaving(true);
+        setError("");
+        await client.request("PATCH", "/users/id", {
+            headers: { "x-bot-token": bot.token },
+            transformRequest: (data, headers) => {
+                // Remove user headers for this request
+                delete headers["x-user-id"];
+                delete headers["x-session-token"];
+                return data;
+            },
+            data: JSON.stringify(
+                background
+                    ? { profile: { background } }
+                    : { remove: "ProfileBackground" },
+            ),
+        });
+
+        if (!background) setProfile({ ...profile, background: undefined });
+        else refreshProfile();
+        setSaving(false);
+    }
+
+    async function editBotContent(content?: string) {
+        setSaving(true);
+        setError("");
+        await client.request("PATCH", "/users/id", {
+            headers: { "x-bot-token": bot.token },
+            transformRequest: (data, headers) => {
+                // Remove user headers for this request
+                delete headers["x-user-id"];
+                delete headers["x-session-token"];
+                return data;
+            },
+            data: JSON.stringify(
+                content
+                    ? { profile: { content } }
+                    : { remove: "ProfileContent" },
+            ),
+        });
+
+        if (!content) setProfile({ ...profile, content: undefined });
+        else refreshProfile();
+        setSaving(false);
+    }
+
+    const {
+        onChange,
+        onKeyUp,
+        onKeyDown,
+        onFocus,
+        onBlur,
+        ...autoCompleteProps
+    } = useAutoComplete(setContent, {
+        users: { type: "all" },
+    });
 
     return (
         <div key={bot._id} className={styles.botCard}>
@@ -175,6 +273,12 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                             </div>
 
                             <div className={styles.userid}>
+                                <Tooltip
+                                    content={
+                                        <Text id="app.settings.pages.bots.unique_id" />
+                                    }>
+                                    <HelpCircle size={16} />
+                                </Tooltip>
                                 <Tooltip
                                     content={<Text id="app.special.copy" />}>
                                     <a
@@ -270,6 +374,60 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
             )}
             {editMode && (
                 <div className={styles.botSection}>
+                    <CollapsibleSection
+                        defaultValue={false}
+                        id={`bot_profile_${bot._id}`}
+                        summary="Profile">
+                        <h3>
+                            <Text id="app.settings.pages.profile.custom_background" />
+                        </h3>
+                        <FileUploader
+                            height={92}
+                            style="banner"
+                            behaviour="upload"
+                            fileType="backgrounds"
+                            maxFileSize={6_000_000}
+                            onUpload={(background) =>
+                                editBotBackground(background)
+                            }
+                            remove={() => editBotBackground()}
+                            previewURL={
+                                profile?.background
+                                    ? client.generateFileURL(
+                                          profile.background,
+                                          { width: 1000 },
+                                          true,
+                                      )
+                                    : undefined
+                            }
+                        />
+                        <h3>
+                            <Text id="app.settings.pages.profile.info" />
+                        </h3>
+                        <AutoComplete detached {...autoCompleteProps} />
+                        <TextAreaAutoSize
+                            maxRows={10}
+                            minHeight={200}
+                            maxLength={2000}
+                            value={profile?.content ?? ""}
+                            disabled={typeof profile === "undefined"}
+                            onChange={(ev) => {
+                                onChange(ev);
+                                setContent(ev.currentTarget.value);
+                            }}
+                            placeholder={translate(
+                                `app.settings.pages.profile.${
+                                    typeof profile === "undefined"
+                                        ? "fetching"
+                                        : "placeholder"
+                                }`,
+                            )}
+                            onKeyUp={onKeyUp}
+                            onKeyDown={onKeyDown}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
+                        />
+                    </CollapsibleSection>
                     <Checkbox
                         checked={data.public}
                         disabled={saving}

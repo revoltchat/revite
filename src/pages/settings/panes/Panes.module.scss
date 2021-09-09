@@ -263,7 +263,7 @@
             min-width: 0;
             flex-grow: 1;
             padding: 8px;
-            font-family: var(--codeblock-font);
+            font-family: var(--monospace-font);
             border-radius: var(--border-radius);
             background: var(--secondary-background);
 
@@ -525,15 +525,11 @@
 }
 
 .myBots {
-
     .botCard {
         background: var(--secondary-background);
         margin: 8px 0;
         padding: 12px;
-        border-radius: var(--border-radius);    
-
-        h5 { margin-bottom: 1em }
-        h3 { margin-bottom: 0 }
+        border-radius: var(--border-radius);
     }
 
     .botSection {
@@ -542,7 +538,17 @@
         flex-direction: column;
         gap: 5px;
 
-        label { margin-top: 0 }
+        > h5 {
+            margin-bottom: 1em;
+        }
+        > h3 {
+            margin-bottom: 0;
+        }
+
+        details,
+        label {
+            margin-top: 0;
+        }
     }
 
     .infoheader {

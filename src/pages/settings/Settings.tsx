@@ -16,6 +16,7 @@ import {
     User,
     Megaphone,
     Speaker,
+    Store,
 } from "@styled-icons/boxicons-solid";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { LIBRARY_VERSION } from "revolt.js";
@@ -48,6 +49,8 @@ import { Notifications } from "./panes/Notifications";
 import { Profile } from "./panes/Profile";
 import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
+import { ThemeShop } from "./panes/ThemeShop";
+import { isExperimentEnabled } from "../../redux/reducers/experiments";
 
 export default function Settings() {
     const history = useHistory();
@@ -123,11 +126,18 @@ export default function Settings() {
                     title: <Text id="app.settings.pages.experiments.title" />,
                 },
                 {
-                    divider: true,
+                    divider: !isExperimentEnabled('theme_shop'),
                     category: "revolt",
                     id: "bots",
                     icon: <Bot size={20} />,
                     title: <Text id="app.settings.pages.bots.title" />,
+                },
+                {
+                    hidden: !isExperimentEnabled('theme_shop'),
+                    divider: true,
+                    id: "theme_shop",
+                    icon: <Store size={20} />,
+                    title: <Text id="app.settings.pages.theme_shop.title" />,
                 },
                 {
                     id: "feedback",
@@ -169,6 +179,9 @@ export default function Settings() {
                     <Route path="/settings/bots">
                         <MyBots />
                     </Route>
+                    {isExperimentEnabled('theme_shop') && <Route path="/settings/theme_shop">
+                        <ThemeShop />
+                    </Route>}
                     <Route path="/settings/feedback">
                         <Feedback />
                     </Route>

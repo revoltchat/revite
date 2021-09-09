@@ -60,7 +60,7 @@ export default function Attachment({ attachment, hasContent }: Props) {
                         [styles.margin]: hasContent,
                         spoiler,
                     })}>
-                    <ImageFile attachment={attachment} />
+                    <ImageFile attachment={attachment} width={metadata.width} height={metadata.height} />
                     {spoiler && <Spoiler set={setSpoiler} />}
                 </SizedGrid>
             );

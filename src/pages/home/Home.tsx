@@ -19,6 +19,7 @@ const CHANNELS_SIDEBAR_KEY = "sidebar_channels";
 const IconConainer = styled.div`
     cursor: pointer;
     color: var(--secondary-foreground);
+
     ${!isTouchscreenDevice && css`
         &:hover {
             color: var(--foreground);

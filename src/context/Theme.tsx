@@ -281,13 +281,17 @@ export const PRESETS: Record<string, Theme> = {
 const keys = Object.keys(PRESETS.dark);
 const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 :root {
-	${(props) =>
-        (Object.keys(props.theme) as Variables[]).map((key) => {
-            if (!keys.includes(key)) return;
-            return `--${key}: ${props.theme[key]};`;
-        })}
+	${(props) => generateVariables(props.theme)}
 }
 `;
+
+export const generateVariables = (theme: Theme) => {
+    const mergedTheme = { ...PRESETS[theme.light ? 'light' : 'dark'], ...theme }
+    return (Object.keys(mergedTheme) as Variables[]).map((key) => {
+        if (!keys.includes(key)) return;
+        return `--${key}: ${mergedTheme[key]};`;
+    })
+}
 
 // Load the default default them and apply extras later
 export const ThemeContext = createContext<Theme>(PRESETS["dark"]);
