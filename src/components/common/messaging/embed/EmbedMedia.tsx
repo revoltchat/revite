@@ -18,15 +18,22 @@ export default function EmbedMedia({ embed, width, height }: Props) {
     const client = useClient();
 
     switch (embed.special?.type) {
-        case "YouTube":
+        case "YouTube": {
+            let timestamp = "";
+
+            if (embed.special.timestamp) {
+                timestamp = `&start=${embed.special.timestamp}`;
+            }
+
             return (
                 <iframe
                     loading="lazy"
-                    src={`https://www.youtube-nocookie.com/embed/${embed.special.id}?modestbranding=1`}
+                    src={`https://www.youtube-nocookie.com/embed/${embed.special.id}?modestbranding=1${timestamp}`}
                     allowFullScreen
                     style={{ height }}
                 />
             );
+        }
         case "Twitch":
             return (
                 <iframe
