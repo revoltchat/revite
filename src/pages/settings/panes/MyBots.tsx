@@ -1,5 +1,5 @@
 import { Key, Clipboard, Globe, Plus } from "@styled-icons/boxicons-regular";
-import { LockAlt } from "@styled-icons/boxicons-solid";
+import { LockAlt, HelpCircle } from "@styled-icons/boxicons-solid";
 import type { AxiosError } from "axios";
 import { observer } from "mobx-react-lite";
 import { Bot } from "revolt-api/types/Bots";
@@ -273,6 +273,12 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                             </div>
 
                             <div className={styles.userid}>
+                                <Tooltip
+                                    content={
+                                        <Text id="app.settings.pages.bots.unique_id" />
+                                    }>
+                                    <HelpCircle size={16} />
+                                </Tooltip>
                                 <Tooltip
                                     content={<Text id="app.special.copy" />}>
                                     <a
