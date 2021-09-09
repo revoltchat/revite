@@ -5,6 +5,8 @@ import { ServerPermission } from "revolt.js/dist/api/permissions";
 import { Server } from "revolt.js/dist/maps/Servers";
 import styled from "styled-components";
 
+import { Text } from "preact-i18n";
+
 import Header from "../ui/Header";
 import IconButton from "../ui/IconButton";
 
