@@ -3654,10 +3654,10 @@ reusify@^1.0.4:
   resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
   integrity sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
 
-revolt-api@0.5.2-alpha.2:
-  version "0.5.2-alpha.2"
-  resolved "https://registry.yarnpkg.com/revolt-api/-/revolt-api-0.5.2-alpha.2.tgz#a083b918c239d0b8967f8a2c7f10d6466d30d3d5"
-  integrity sha512-Sm6YL7vjyt5fpq1kQCp1OtKdjmaH7lgeWON4YDOycb5Bc1hKc9vgRHS4FhGlie2ilrk9Sox3CdY0tCQ0ENcDSw==
+revolt-api@0.5.2-alpha.3:
+  version "0.5.2-alpha.3"
+  resolved "https://registry.yarnpkg.com/revolt-api/-/revolt-api-0.5.2-alpha.3.tgz#f980014f6cd1bef4fb3605fe56af0e829e43c6d9"
+  integrity sha512-eIjJtUGkm83mbm1i6OxhWav2m/Xf9FJAFEA2e8YhpC1kd8vXwm/mWbPbuyTX5LNxPT9EEW0Fgx+7xt9zl5lzAw==
 
 revolt.js@5.0.1-alpha.6-patch.2:
   version "5.0.1-alpha.6-patch.2"
