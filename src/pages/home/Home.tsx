@@ -17,10 +17,10 @@ import Header from "../../components/ui/Header";
 import CategoryButton from "../../components/ui/fluent/CategoryButton";
 
 const CHANNELS_SIDEBAR_KEY = "sidebar_channels";
+
 const IconConainer = styled.div`
     cursor: pointer;
     color: var(--secondary-foreground);
-
     ${!isTouchscreenDevice &&
     css`
         &:hover {
@@ -57,7 +57,7 @@ export default function Home() {
 
     return (
         <div className={styles.home}>
-            <Header placement="primary">
+            <Header placement="primary" padding={true}>
                 <IconConainer onClick={toggleChannelSidebar}>
                     <HomeIcon size={24} />
                 </IconConainer>
