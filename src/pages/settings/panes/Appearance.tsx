@@ -1,5 +1,6 @@
 import { Reset, Import } from "@styled-icons/boxicons-regular";
 import { Pencil, Store } from "@styled-icons/boxicons-solid";
+import { Link } from "react-router-dom";
 // @ts-expect-error shade-blend-color does not have typings.
 import pSBC from "shade-blend-color";
 
@@ -8,15 +9,12 @@ import { Text } from "preact-i18n";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
-
-
 import { debounce } from "../../../lib/debounce";
 
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
+import { isExperimentEnabled } from "../../../redux/reducers/experiments";
 import { EmojiPacks, Settings } from "../../../redux/reducers/settings";
-
 
 import {
     DEFAULT_FONT,
@@ -40,14 +38,13 @@ import Checkbox from "../../../components/ui/Checkbox";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
 import ComboBox from "../../../components/ui/ComboBox";
 import InputBox from "../../../components/ui/InputBox";
+import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 import darkSVG from "../assets/dark.svg";
 import lightSVG from "../assets/light.svg";
 import mutantSVG from "../assets/mutant_emoji.svg";
 import notoSVG from "../assets/noto_emoji.svg";
 import openmojiSVG from "../assets/openmoji_emoji.svg";
 import twemojiSVG from "../assets/twemoji_emoji.svg";
-import { Link } from "react-router-dom";
-import { isExperimentEnabled } from "../../../redux/reducers/experiments";
 
 interface Props {
     settings: Settings;
@@ -113,7 +110,13 @@ export function Component(props: Props) {
                         data-active={selected === "light"}
                         onClick={() =>
                             selected !== "light" &&
-                            setTheme({ preset: "light" })
+                            dispatch({
+                                type: "SETTINGS_SET_THEME",
+                                theme: {
+                                    preset: "light",
+                                    custom: {},
+                                },
+                            })
                         }
                         onContextMenu={(e) => e.preventDefault()}
                     />
@@ -128,7 +131,14 @@ export function Component(props: Props) {
                         draggable={false}
                         data-active={selected === "dark"}
                         onClick={() =>
-                            selected !== "dark" && setTheme({ preset: "dark" })
+                            selected !== "dark" &&
+                            dispatch({
+                                type: "SETTINGS_SET_THEME",
+                                theme: {
+                                    preset: "dark",
+                                    custom: {},
+                                },
+                            })
                         }
                         onContextMenu={(e) => e.preventDefault()}
                     />
@@ -138,11 +148,16 @@ export function Component(props: Props) {
                 </div>
             </div>
 
-            {isExperimentEnabled('theme_shop') && <Link to="/settings/theme_shop">
-                <CategoryButton icon={<Store size={24} />} action="chevron" hover>
-                    <Text id="app.settings.pages.theme_shop.title" />
-                </CategoryButton>
-            </Link>}
+            {isExperimentEnabled("theme_shop") && (
+                <Link to="/settings/theme_shop">
+                    <CategoryButton
+                        icon={<Store size={24} />}
+                        action="chevron"
+                        hover>
+                        <Text id="app.settings.pages.theme_shop.title" />
+                    </CategoryButton>
+                </Link>
+            )}
 
             <h3>
                 <Text id="app.settings.pages.appearance.accent_selector" />

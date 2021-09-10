@@ -189,14 +189,19 @@ export function ThemeShop() {
                         <div class="description">{theme.description}</div>
                         <button
                             class="preview"
-                            onClick={() =>
+                            onClick={() => {
+                                themeData[slug]["secondary-background-rgba"] =
+                                    hexToRGB(
+                                        themeData[slug]["secondary-background"],
+                                    );
+
                                 dispatch({
                                     type: "SETTINGS_SET_THEME",
                                     theme: {
                                         custom: themeData[slug],
                                     },
-                                })
-                            }>
+                                });
+                            }}>
                             <ThemePreview slug={slug} theme={themeData[slug]} />
                         </button>
                     </ThemeInfo>
@@ -204,4 +209,14 @@ export function ThemeShop() {
             </ThemeList>
         </ThemeShopRoot>
     );
+}
+
+function hexToRGB(hex: string) {
+    if (!hex.startsWith("#")) return "transparent";
+
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+
+    return `${r}, ${g}, ${b}`;
 }
