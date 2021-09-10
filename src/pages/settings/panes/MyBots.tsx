@@ -352,7 +352,6 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                     onClick={() => writeClipboard(bot.token)}
                     description={
                         <>
-                            {"••••••••••••••••••••••••••••••••••••"}{" "}
                             <a
                                 onClick={(ev) =>
                                     stopPropagation(
