@@ -27,7 +27,7 @@ jobs:
             # - run: yarn check
 
             - name: build
-              run: yarn build
+              run: yarn build --base "/revite/${{ github.ref }}/"
 
             - name: publish preview
               uses: JamesIves/github-pages-deploy-action@4.1.5

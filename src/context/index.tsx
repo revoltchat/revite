@@ -11,7 +11,7 @@ import Client from "./revoltjs/RevoltClient";
 
 export default function Context({ children }: { children: Children }) {
     return (
-        <Router>
+        <Router basename={import.meta.env.BASE_URL}>
             <State>
                 <Theme>
                     <Settings>
