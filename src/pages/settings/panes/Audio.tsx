@@ -27,11 +27,11 @@ export function Component() {
 
     const askOrGetPermission = async () => {
         try {
-            const mediaStream = await navigator.mediaDevices.getUserMedia(
+            const result = await navigator.mediaDevices.getUserMedia(
                 constraints,
             );
 
-            setMediaStream(mediaStream);
+            setMediaStream(result);
         } catch (err) {
             // The user has blocked the permission
             setError(err as DOMException);
@@ -54,6 +54,17 @@ export function Component() {
     useEffect(() => {
         askOrGetPermission();
     }, []);
+
+    useEffect(() => {
+        return () => {
+            if (mediaStream) {
+                // close microphone access on unmount
+                mediaStream.getTracks().forEach(track => {
+                    track.stop()
+                })
+            }
+        }
+    }, [mediaStream]);
 
     useEffect(() => {
         if (!mediaStream) {
