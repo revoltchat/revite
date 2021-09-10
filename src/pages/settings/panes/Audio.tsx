@@ -40,14 +40,14 @@ export function Component() {
         try {
             const { state } = await navigator.permissions.query({
                 // eslint-disable-next-line
-                // @ts-ignore
+                // @ts-ignore: very few browsers accept this `PermissionName`, but it has been drafted in https://www.w3.org/TR/permissions/#powerful-features-registry
                 name: "microphone",
             });
 
             setPermission(state);
         } catch (err) {
-            // the browser might not support `query` functionnality
-            setError(err as DOMException);
+            // the browser might not support `query` functionnality or `PermissionName`
+            // nothing to do
         }
     };
 
