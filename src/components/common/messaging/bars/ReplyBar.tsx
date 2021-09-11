@@ -47,11 +47,13 @@ const Base = styled.div`
     }
 
     .toggle {
-        gap: 4px;
+        gap: 2px;
         display: flex;
         font-size: 12px;
         align-items: center;
         font-weight: 600;
+        text-transform: uppercase;
+        min-width: 6ch;
     }
 
     .username {
@@ -150,7 +152,7 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                     </>
                                 )}
                                 {message.author_id ===
-                                "00000000000000000000000000" ? (
+                                    "00000000000000000000000000" ? (
                                     <SystemMessage message={message} hideInfo />
                                 ) : (
                                     <Markdown
@@ -188,8 +190,8 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                         });
                                     }}>
                                     <span class="toggle">
-                                        <At size={16} />{" "}
-                                        {reply.mention ? "ON" : "OFF"}
+                                        <At size={15} />
+                                        <Text id={reply.mention ? 'general.on' : 'general.off'} />
                                     </span>
                                 </IconButton>
                             )}
