@@ -32,9 +32,10 @@ jobs:
             - name: publish preview
               uses: JamesIves/github-pages-deploy-action@4.1.5
               with:
-                  branch: build-previews
                   folder: dist
+                  branch: build-previews
                   target-folder: ${{ github.ref }}
+                  single-commit: true
 
             - name: send comment
               uses: marocchino/sticky-pull-request-comment@v2
@@ -42,6 +43,6 @@ jobs:
                   header: Preview environment
                   message: |
                       ## Preview environment
-                      https://${{ github.repository_owner }}.github.io/revite/${{ github.ref }}/index.html
+                      https://${{ github.repository_owner }}.github.io/revite/${{ github.ref }}/
 
                       This link will remain active until the `use-preview` label is removed.
