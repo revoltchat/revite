@@ -39,15 +39,15 @@ export function ModifyAccountModal({ onClose, field }: Props) {
     }) => {
         try {
             if (field === "email") {
-                await client.req("POST", "/auth/change/email", {
-                    password,
-                    new_email,
+                await client.req("POST", "/auth/account/change/email", {
+                    current_password: password,
+                    email: new_email,
                 });
                 onClose();
             } else if (field === "password") {
-                await client.req("POST", "/auth/change/password", {
-                    password,
-                    new_password,
+                await client.req("POST", "/auth/account/change/password", {
+                    current_password: password,
+                    password: new_password,
                 });
                 onClose();
             } else if (field === "username") {
