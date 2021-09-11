@@ -42,6 +42,10 @@
             filter: brightness(0.8);
         }
 
+        &.desaturate {
+            filter: brightness(0.7) sepia(50%) grayscale(90%);
+        }
+
         .edit {
             opacity: 0;
             width: 100%;
