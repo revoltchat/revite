@@ -12,6 +12,7 @@ import Overline from "../../../components/ui/Overline";
 
 import { FileUploader } from "../../revoltjs/FileUploads";
 import { useClient } from "../../revoltjs/RevoltClient";
+import styled, { css } from "styled-components";
 
 interface Props {
     server: Server;
@@ -58,16 +59,15 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
                         maxFileSize={4_000_000}
                         onUpload={(avatar) => member.edit({ avatar })}
                         remove={() => member.edit({ remove: "Avatar" })}
-                        defaultPreview={client.generateFileURL(
-                            member.avatar ?? undefined,
-                            { max_side: 256 },
-                            true,
-                        )}
+                        defaultPreview={client.user?.generateAvatarURL({
+                            max_side: 256,
+                        }, false)}
                         previewURL={client.generateFileURL(
                             member.avatar ?? undefined,
                             { max_side: 256 },
                             true,
                         )}
+                        desaturateDefault
                     />
                 </div>
                 <div>
