@@ -16,8 +16,8 @@ import { APP_VERSION } from "../../version";
 import background from "./background.jpg";
 import { FormCreate } from "./forms/FormCreate";
 import { FormLogin } from "./forms/FormLogin";
-import { FormResend } from "./forms/FormResend";
 import { FormReset, FormSendReset } from "./forms/FormReset";
+import { FormResend, FormVerify } from "./forms/FormVerify";
 
 export default function Login() {
     const theme = useContext(ThemeContext);
@@ -51,6 +51,9 @@ export default function Login() {
                             </Route>
                             <Route path="/login/resend">
                                 <FormResend />
+                            </Route>
+                            <Route path="/login/verify/:token">
+                                <FormVerify />
                             </Route>
                             <Route path="/login/reset/:token">
                                 <FormReset />

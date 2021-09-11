@@ -9,7 +9,10 @@ export function takeError(error: any): string {
     const type = error?.response?.data?.type;
     const id = type;
     if (!type) {
-        if (error?.response?.status === 403) {
+        if (
+            error?.response?.status === 401 ||
+            error?.response?.status === 403
+        ) {
             return "Unauthorized";
         } else if (error && !!error.isAxiosError && !error.response) {
             return "NetworkError";

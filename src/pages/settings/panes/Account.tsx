@@ -46,7 +46,7 @@ export const Account = observer(() => {
     useEffect(() => {
         if (email === "..." && status === ClientStatus.ONLINE) {
             client
-                .req("GET", "/auth/user")
+                .req("GET", "/auth/account")
                 .then((account) => setEmail(account.email));
         }
 

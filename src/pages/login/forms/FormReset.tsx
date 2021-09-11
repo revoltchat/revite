@@ -13,7 +13,7 @@ export function FormSendReset() {
         <Form
             page="send_reset"
             callback={async (data) => {
-                await client.req("POST", "/auth/send_reset", data);
+                await client.req("POST", "/auth/account/reset_password", data);
             }}
         />
     );
@@ -28,7 +28,7 @@ export function FormReset() {
         <Form
             page="reset"
             callback={async (data) => {
-                await client.req("POST", "/auth/reset", {
+                await client.req("PATCH", "/auth/account/reset_password", {
                     token,
                     ...data,
                 });
