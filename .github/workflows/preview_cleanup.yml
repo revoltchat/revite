@@ -26,6 +26,7 @@ jobs:
               with:
                   folder: .
                   branch: build-previews
+                  single-commit: true
 
             - name: send comment
               uses: marocchino/sticky-pull-request-comment@v2
