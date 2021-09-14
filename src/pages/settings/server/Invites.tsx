@@ -11,6 +11,7 @@ import { useClient } from "../../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../../context/revoltjs/util";
 
 import UserIcon from "../../../components/common/user/UserIcon";
+import Button from "../../../components/ui/Button";
 import IconButton from "../../../components/ui/IconButton";
 import Preloader from "../../../components/ui/Preloader";
 
@@ -60,7 +61,16 @@ export const Invites = observer(({ server }: Props) => {
                         key={invite._id}
                         className={styles.invite}
                         data-deleting={deleting.indexOf(invite._id) > -1}>
+                        <Button
+                            onClick={() => {
+                                navigator.clipboard.writeText(
+                                    `https://app.revolt.chat/invite/${invite._id}`,
+                                );
+                            }}>
+                            Copy Link
+                        </Button>
                         <code>{invite._id}</code>
+
                         <span>
                             <UserIcon target={creator} size={24} />{" "}
                             {creator?.username ?? (
