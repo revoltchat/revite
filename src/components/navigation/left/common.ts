@@ -1,7 +1,7 @@
 import { reaction } from "mobx";
 import { Channel } from "revolt.js/dist/maps/Channels";
 
-import { useLayoutEffect } from "preact/hooks";
+import { useLayoutEffect, useRef } from "preact/hooks";
 
 import { dispatch } from "../../../redux";
 import { Unreads } from "../../../redux/reducers/unreads";
@@ -12,6 +12,7 @@ type UnreadProps = {
 };
 
 export function useUnreads({ channel, unreads }: UnreadProps) {
+    const firstLoad = useRef(true);
     useLayoutEffect(() => {
         function checkUnread(target: Channel) {
             if (!target) return;
@@ -35,7 +36,8 @@ export function useUnreads({ channel, unreads }: UnreadProps) {
                         message,
                     });
 
-                    channel.ack(message);
+                    channel.ack(message, firstLoad.current);
+                    firstLoad.current = false;
                 }
             }
         }

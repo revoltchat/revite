@@ -170,18 +170,13 @@ function ContextMenus(props: Props) {
                         )
                             return;
 
-                        const message =
-                            typeof data.channel.last_message === "string"
-                                ? data.channel.last_message
-                                : data.channel.last_message!._id;
-
                         dispatch({
                             type: "UNREADS_MARK_READ",
                             channel: data.channel._id,
-                            message,
+                            message: data.channel.last_message_id!,
                         });
 
-                        data.channel.ack(message);
+                        data.channel.ack(undefined, true);
                     }
                     break;
                 case "mark_server_as_read":
