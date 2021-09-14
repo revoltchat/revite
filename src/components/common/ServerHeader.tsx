@@ -6,6 +6,8 @@ import { ServerPermission } from "revolt.js/dist/api/permissions";
 import { Server } from "revolt.js/dist/maps/Servers";
 import styled from "styled-components";
 
+import { Text } from "preact-i18n";
+
 import Header from "../ui/Header";
 import IconButton from "../ui/IconButton";
 
@@ -31,7 +33,9 @@ export default observer(({ server }: Props) => {
                 background: bannerURL ? `url('${bannerURL}')` : undefined,
             }}>
             {server.flags && server.flags & 1 ? (
-                <Tooltip content={<Text id="app.special.server-badges.official" />} placement={"bottom-start"}>
+                <Tooltip
+                    content={<Text id="app.special.server-badges.official" />}
+                    placement={"bottom-start"}>
                     <svg width="20" height="20">
                         <image
                             xlinkHref="/assets/badges/verified.svg"
