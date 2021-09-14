@@ -28,5 +28,6 @@ runs:
               BUILD_FOLDER: ${{ inputs.folder }}
               BASE: ${{ inputs.base }}
           run: |
+              cd "$BUILD_FOLDER"
               yarn install
               yarn build --base "$BASE"
