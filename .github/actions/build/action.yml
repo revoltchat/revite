@@ -1,0 +1,34 @@
+name: Build
+description: Builds a project instance, assuming all the correct project files are in the build folder
+
+inputs:
+    base:
+        name: Base path
+        description: The path to use as a base for linking
+        required: true
+        default: /
+    folder:
+        name: Build Folder
+        description: The folder to try to build from
+        required: true
+        default: .
+
+runs:
+    using: composite
+    steps:
+        - name: Setup Node
+          uses: actions/setup-node@v2
+          with:
+              node-version: 15
+              cache: "yarn"
+
+        - run: yarn install
+        # - run: yarn check
+
+        - name: build
+          env:
+              BUILD_FOLDER: ${{ inputs.folder }}
+              BASE: ${{ inputs.base }}
+          run: |
+              cd "$BUILD_FOLDER"
+              yarn build --base "$BASE"
