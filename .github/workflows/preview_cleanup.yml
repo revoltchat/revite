@@ -12,7 +12,7 @@ jobs:
         runs-on: ubuntu-latest
         if: github.event.label.name == 'use-preview'
         env:
-            BASE: ./refs/pull/${{ github.event.pull_request.number }}
+            BASE: refs/pull/${{ github.event.pull_request.number }}
 
         steps:
             - uses: actions/checkout@v2
@@ -28,7 +28,6 @@ jobs:
               with:
                   folder: .
                   branch: build-previews
-                  single-commit: true
 
             - name: send comment
               uses: marocchino/sticky-pull-request-comment@v2
