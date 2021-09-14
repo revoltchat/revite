@@ -27,7 +27,7 @@ jobs:
                   submodules: recursive
 
             - name: build
-              uses: ./.github/actions/build_preview
+              uses: ./.github/actions/build
               with:
                   base: /${{ env.REPO }}/${{ env.BASE }}/
                   folder: pull
