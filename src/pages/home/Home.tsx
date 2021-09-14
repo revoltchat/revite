@@ -72,7 +72,7 @@ export default function Home() {
                         <Text id="app.home.join-testers" />
                     </CategoryButton>
                 </Link>
-                <a
+                <a>
                     <CategoryButton
                         action="external"
                         icon={<Emoji emoji="💷" size={32} />}>
