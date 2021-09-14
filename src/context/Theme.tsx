@@ -7,6 +7,8 @@ import { useEffect } from "preact/hooks";
 import { connectState } from "../redux/connector";
 
 import { Children } from "../types/Preact";
+import { fetchManifest, fetchTheme } from "../pages/settings/panes/ThemeShop";
+import { getState } from "../redux";
 
 export type Variables =
     | "accent"
@@ -72,7 +74,7 @@ export type Theme = {
 };
 
 export interface ThemeOptions {
-    preset?: string;
+    base?: string;
     ligatures?: boolean;
     custom?: Partial<Theme>;
 }
@@ -275,6 +277,27 @@ export const PRESETS: Record<string, Theme> = {
     },
 };
 
+// todo: store used themes locally
+export function getBaseTheme(name: string): Theme {
+    if (name in PRESETS) {
+        return PRESETS[name]
+    }
+
+    const themes = getState().themes
+
+    if (name in themes) {
+        const { theme } = themes[name];
+
+        return {
+            ...PRESETS[theme.light ? 'light' : 'dark'],
+            ...theme
+        }
+    }
+
+    // how did we get here
+    return PRESETS['dark']
+}
+
 const keys = Object.keys(PRESETS.dark);
 const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 :root {
@@ -283,10 +306,9 @@ const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 `;
 
 export const generateVariables = (theme: Theme) => {
-    const mergedTheme = { ...PRESETS[theme.light ? 'light' : 'dark'], ...theme }
-    return (Object.keys(mergedTheme) as Variables[]).map((key) => {
+    return (Object.keys(theme) as Variables[]).map((key) => {
         if (!keys.includes(key)) return;
-        return `--${key}: ${mergedTheme[key]};`;
+        return `--${key}: ${theme[key]};`;
     })
 }
 
@@ -300,8 +322,7 @@ interface Props {
 
 function Theme({ children, options }: Props) {
     const theme: Theme = {
-        ...PRESETS["dark"],
-        ...PRESETS[options?.preset ?? ""],
+        ...getBaseTheme(options?.base ?? 'dark'),
         ...options?.custom,
     };
 

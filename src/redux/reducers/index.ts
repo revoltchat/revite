@@ -12,6 +12,7 @@ import { sectionToggle, SectionToggleAction } from "./section_toggle";
 import { config, ConfigAction } from "./server_config";
 import { settings, SettingsAction } from "./settings";
 import { sync, SyncAction } from "./sync";
+import { themes, ThemesAction } from "./themes";
 import { trustedLinks, TrustedLinksAction } from "./trusted_links";
 import { unreads, UnreadsAction } from "./unreads";
 
@@ -29,6 +30,7 @@ export default combineReducers({
     notifications,
     sectionToggle,
     trustedLinks,
+    themes,
 });
 
 export type Action =
@@ -45,4 +47,5 @@ export type Action =
     | NotificationsAction
     | SectionToggleAction
     | TrustedLinksAction
+    | ThemesAction
     | { type: "__INIT"; state: State };

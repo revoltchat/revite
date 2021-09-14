@@ -98,7 +98,7 @@ export function Component(props: Props) {
 
     useEffect(() => setOverride({ css }), [setOverride, css]);
 
-    const selected = props.settings.theme?.preset ?? "dark";
+    const selected = props.settings.theme?.base ?? "dark";
     return (
         <div className={styles.appearance}>
             <h3>
@@ -113,7 +113,7 @@ export function Component(props: Props) {
                         data-active={selected === "light"}
                         onClick={() =>
                             selected !== "light" &&
-                            setTheme({ preset: "light" })
+                            setTheme({ base: "light" })
                         }
                         onContextMenu={(e) => e.preventDefault()}
                     />
@@ -128,7 +128,7 @@ export function Component(props: Props) {
                         draggable={false}
                         data-active={selected === "dark"}
                         onClick={() =>
-                            selected !== "dark" && setTheme({ preset: "dark" })
+                            selected !== "dark" && setTheme({ base: "dark" })
                         }
                         onContextMenu={(e) => e.preventDefault()}
                     />
