@@ -22,15 +22,11 @@ runs:
               node-version: 15
               cache: "yarn"
 
-        - name: install dependencies
+        - name: Install Dependencies and Build
           shell: bash -l {0}
-          run: yarn install
-
-        - name: build
           env:
               BUILD_FOLDER: ${{ inputs.folder }}
               BASE: ${{ inputs.base }}
-          shell: bash -l {0}
           run: |
-              cd "$BUILD_FOLDER"
+              yarn install
               yarn build --base "$BASE"
