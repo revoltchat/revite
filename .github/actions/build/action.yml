@@ -13,10 +13,6 @@ inputs:
         required: true
         default: .
 
-env:
-    BUILD_FOLDER: ${{ inputs.folder }}
-    BASE: ${{ inputs.base }}
-
 runs:
     using: composite
     steps:
@@ -31,6 +27,9 @@ runs:
           run: yarn install
 
         - name: build
+          env:
+              BUILD_FOLDER: ${{ inputs.folder }}
+              BASE: ${{ inputs.base }}
           shell: bash -l {0}
           run: |
               cd "$BUILD_FOLDER"
