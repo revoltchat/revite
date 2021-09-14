@@ -4,7 +4,7 @@ import { useEffect, useState } from "preact/hooks";
 
 import { dispatch } from "../../../redux";
 
-import { Theme, generateVariables } from "../../../context/Theme";
+import { Theme, generateVariables, ThemeOptions } from "../../../context/Theme";
 
 import Tip from "../../../components/ui/Tip";
 import previewPath from "../assets/preview.svg";
@@ -21,14 +21,14 @@ export const fetchTheme = (slug: string): Promise<Theme> =>
         res.json(),
     );
 
-interface ThemeMetadata {
+export interface ThemeMetadata {
     name: string;
     creator: string;
     commit?: string;
     description: string;
 }
 
-type Manifest = {
+export type Manifest = {
     generated: string;
     themes: Record<string, ThemeMetadata>;
 };
@@ -189,14 +189,21 @@ export function ThemeShop() {
                         <div class="description">{theme.description}</div>
                         <button
                             class="preview"
-                            onClick={() =>
+                            onClick={() => {
+                                dispatch({
+                                    type: "THEMES_SET_THEME",
+                                    theme: {
+                                        slug,
+                                        meta: theme,
+                                        theme: themeData[slug]
+                                    }
+                                })
+
                                 dispatch({
                                     type: "SETTINGS_SET_THEME",
-                                    theme: {
-                                        custom: themeData[slug],
-                                    },
-                                })
-                            }>
+                                    theme: { base: slug },
+                                });
+                            }}>
                             <ThemePreview slug={slug} theme={themeData[slug]} />
                         </button>
                     </ThemeInfo>
