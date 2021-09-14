@@ -41,7 +41,7 @@ export default function InviteBot() {
                     <ComboBox
                         value={server}
                         onChange={(e) => setServer(e.currentTarget.value)}>
-                        <option value="none">un selected</option>
+                        <option value="none">Select a server</option>
                         {[...client.servers.values()].map((server) => (
                             <option value={server._id} key={server._id}>
                                 {server.name}
@@ -60,7 +60,7 @@ export default function InviteBot() {
                     <ComboBox
                         value={group}
                         onChange={(e) => setGroup(e.currentTarget.value)}>
-                        <option value="none">un selected</option>
+                        <option value="none">Select a group</option>
                         {[...client.channels.values()]
                             .filter((x) => x.channel_type === "Group")
                             .map((channel) => (
