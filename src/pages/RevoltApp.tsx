@@ -111,7 +111,7 @@ export default function App() {
                             path="/server/:server/channel/:channel"
                             component={Channel}
                         />
-                        <Route path="/server/:server" />
+                        <Route path="/server/:server" component={Channel} />
                         <Route path="/channel/:channel" component={Channel} />
 
                         <Route path="/settings/:page" component={Settings} />
