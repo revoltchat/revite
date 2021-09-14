@@ -35,7 +35,7 @@ jobs:
             - name: publish preview
               uses: JamesIves/github-pages-deploy-action@4.1.5
               with:
-                  folder: dist
+                  folder: pull/dist
                   branch: build-previews
                   target-folder: ${{ env.BASE }}
                   single-commit: true
