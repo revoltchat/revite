@@ -49,22 +49,7 @@ export function useUnreads({ channel, unreads }: UnreadProps) {
 }
 
 export function mapChannelWithUnread(channel: Channel, unreads: Unreads) {
-    let last_message_id;
-    if (
-        channel.channel_type === "DirectMessage" ||
-        channel.channel_type === "Group"
-    ) {
-        last_message_id = (channel.last_message as { _id: string })?._id;
-    } else if (channel.channel_type === "TextChannel") {
-        last_message_id = channel.last_message as string;
-    } else {
-        return {
-            channel,
-            unread: undefined,
-            alertCount: undefined,
-            timestamp: channel._id,
-        };
-    }
+    const last_message_id = channel.last_message_id;
 
     let unread: "mention" | "unread" | undefined;
     let alertCount: undefined | number;

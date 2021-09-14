@@ -82,8 +82,9 @@ export const UserButton = observer((props: UserProps) => {
                 </div>
                 {
                     <div className={styles.subText}>
-                        {channel?.last_message && alert ? (
-                            (channel.last_message as { short: string }).short
+                        {typeof channel?.last_message?.content === "string" &&
+                        alert ? (
+                            channel.last_message.content.slice(0, 32)
                         ) : (
                             <UserStatus user={user} />
                         )}
@@ -162,8 +163,9 @@ export const ChannelButton = observer((props: ChannelProps) => {
                 <div>{channel.name}</div>
                 {channel.channel_type === "Group" && (
                     <div className={styles.subText}>
-                        {channel.last_message && alert ? (
-                            (channel.last_message as { short: string }).short
+                        {typeof channel.last_message?.content === "string" &&
+                        alert ? (
+                            channel.last_message.content.slice(0, 32)
                         ) : (
                             <Text
                                 id="quantities.members"
