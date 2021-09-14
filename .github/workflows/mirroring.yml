@@ -5,7 +5,7 @@ on: [push, delete]
 jobs:
     to_gitlab:
         runs-on: ubuntu-18.04
-        if: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
+        if: secrets.GITLAB_SSH_PRIVATE_KEY
         steps:
             - uses: actions/checkout@v1
             - uses: pixta-dev/repository-mirroring-action@v1
