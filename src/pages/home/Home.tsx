@@ -69,32 +69,29 @@ export default function Home() {
                     <CategoryButton
                         action="chevron"
                         icon={<Emoji emoji="😁" size={32} />}>
-                        Join testers server
+                        <Text id="app.home.join-testers" />
                     </CategoryButton>
                 </Link>
                 <a
-                    href="https://insrt.uk/donate"
-                    target="_blank"
-                    rel="noreferrer">
                     <CategoryButton
                         action="external"
                         icon={<Emoji emoji="💷" size={32} />}>
-                        Donate to Revolt
+                        <Text id="app.home.donate" />
                     </CategoryButton>
                 </a>
                 <Link to="/settings/feedback">
                     <CategoryButton
                         action="chevron"
                         icon={<Emoji emoji="🎉" size={32} />}>
-                        Give feedback
+                        <Text id="app.home.feedback" />
                     </CategoryButton>
                 </Link>
-                <Tooltip content="You can also right-click the user icon in the top left, or left click it if you're already home.">
+                <Tooltip content={<Text id="app.home.settings-tooltip" />}>
                     <Link to="/settings">
                         <CategoryButton
                             action="chevron"
                             icon={<Emoji emoji="🔧" size={32} />}>
-                            Settings
+                            <Text id="app.home.settings" />
                         </CategoryButton>
                     </Link>
                 </Tooltip>

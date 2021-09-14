@@ -31,7 +31,7 @@ export default observer(({ server }: Props) => {
                 background: bannerURL ? `url('${bannerURL}')` : undefined,
             }}>
             {server.flags && server.flags & 1 ? (
-                <Tooltip content={"Official Server"} placement={"bottom-start"}>
+                <Tooltip content={<Text id="app.special.server-badges.official" />} placement={"bottom-start"}>
                     <svg width="20" height="20">
                         <image
                             xlinkHref="/assets/badges/verified.svg"
