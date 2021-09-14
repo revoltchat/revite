@@ -89,6 +89,16 @@ export default function Home() {
                         Give feedback
                     </CategoryButton>
                 </Link>
+                <a
+                    href="https://revolt.social"
+                    target="_blank"
+                    rel="noreferrer">
+                    <CategoryButton
+                        action="external"
+                        icon={<Emoji emoji="🧭" size={32} />}>
+                        Explore Servers & Bots
+                    </CategoryButton>
+                </a>
                 <Tooltip content="You can also right-click the user icon in the top left, or left click it if you're already home.">
                     <Link to="/settings">
                         <CategoryButton
