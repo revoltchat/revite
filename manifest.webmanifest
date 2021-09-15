@@ -1,0 +1,24 @@
+{
+  "name": "Revolt Chat",
+  "short_name": "Revolt",
+  "description": "The Revolt project originally started back in 2019 by a group of three students from the United Kingdom and the Czech Republic, looking for an alternative to the already emerging, closed-source chat platforms.",
+  "icons": [
+    {
+      "src": "public/assets/icons/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "public/assets/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "index.html",
+  "display": "fullscreen",
+  "theme_color": "#ff4654",
+  "background_color": "#101823"
+}
+

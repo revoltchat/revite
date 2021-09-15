@@ -11,6 +11,10 @@
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
 
+	<link rel="manifest" href="manifest.webmanifest">
+
+	<script>if ('serviceWorker' in navigator) {navigator.serviceWorker.register('service-worker.js');}</script>
+
         <!--App Icons-->
         <link
             rel="apple-touch-icon"
