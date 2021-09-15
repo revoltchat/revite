@@ -4,11 +4,13 @@ import styled, { css } from "styled-components";
 
 import styles from "./Home.module.scss";
 import { Text } from "preact-i18n";
-import { useState } from "preact/hooks";
+import { useContext, useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { dispatch, getState } from "../../redux";
+
+import { AppContext } from "../../context/revoltjs/RevoltClient";
 
 import wideSVG from "../../assets/wide.svg";
 import Emoji from "../../components/common/Emoji";
@@ -31,6 +33,7 @@ const IconConainer = styled.div`
 `;
 
 export default function Home() {
+    const client = useContext(AppContext);
     const [showChannels, setChannels] = useState(
         getState().sectionToggle[CHANNELS_SIDEBAR_KEY] ?? true,
     );
@@ -74,10 +77,17 @@ export default function Home() {
                     <CategoryButton
                         action="chevron"
                         icon={<Emoji emoji="😁" size={32} />}>
-                        <Text id="app.home.join-testers" />
+                        {client.servers.get("01F7ZSBSFHQ8TA81725KQCSDDP") ? (
+                            <Text id="app.home.goto-testers" />
+                        ) : (
+                            <Text id="app.home.join-testers" />
+                        )}
                     </CategoryButton>
                 </Link>
-                <a>
+                <a
+                    href="https://insrt.uk/donate"
+                    target="_blank"
+                    rel="noreferrer">
                     <CategoryButton
                         action="external"
                         icon={<Emoji emoji="💷" size={32} />}>
