@@ -1,18 +1,20 @@
 import { Home as HomeIcon } from "@styled-icons/boxicons-solid";
 import { Link } from "react-router-dom";
+import styled, { css } from "styled-components";
 
 import styles from "./Home.module.scss";
 import { Text } from "preact-i18n";
+import { useState } from "preact/hooks";
+
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+
+import { dispatch, getState } from "../../redux";
 
 import wideSVG from "../../assets/wide.svg";
 import Emoji from "../../components/common/Emoji";
 import Tooltip from "../../components/common/Tooltip";
 import Header from "../../components/ui/Header";
 import CategoryButton from "../../components/ui/fluent/CategoryButton";
-import { dispatch, getState } from "../../redux";
-import { useState } from "preact/hooks";
-import styled, { css } from "styled-components";
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 const CHANNELS_SIDEBAR_KEY = "sidebar_channels";
 
@@ -20,12 +22,13 @@ const IconConainer = styled.div`
     cursor: pointer;
     color: var(--secondary-foreground);
 
-    ${!isTouchscreenDevice && css`
+    ${!isTouchscreenDevice &&
+    css`
         &:hover {
             color: var(--foreground);
         }
     `}
-`
+`;
 
 export default function Home() {
     const [showChannels, setChannels] = useState(
@@ -34,7 +37,7 @@ export default function Home() {
 
     const toggleChannelSidebar = () => {
         if (isTouchscreenDevice) {
-            return
+            return;
         }
 
         setChannels(!showChannels);
@@ -51,12 +54,14 @@ export default function Home() {
                 id: CHANNELS_SIDEBAR_KEY,
             });
         }
-    }
+    };
 
     return (
         <div className={styles.home}>
             <Header placement="primary">
-                <IconConainer onClick={toggleChannelSidebar} ><HomeIcon size={24} /></IconConainer>
+                <IconConainer onClick={toggleChannelSidebar}>
+                    <HomeIcon size={24} />
+                </IconConainer>
                 <Text id="app.navigation.tabs.home" />
             </Header>
             <h3>
@@ -96,7 +101,7 @@ export default function Home() {
                     <CategoryButton
                         action="external"
                         icon={<Emoji emoji="🧭" size={32} />}>
-                        Explore Servers & Bots
+                        Find Servers & Bots
                     </CategoryButton>
                 </a>
                 <Tooltip content="You can also right-click the user icon in the top left, or left click it if you're already home.">
