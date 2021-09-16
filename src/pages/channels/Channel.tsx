@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
+import { Text } from "preact-i18n";
+
 import { useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
@@ -11,10 +13,14 @@ import { dispatch, getState } from "../../redux";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
+import { Hash } from "@styled-icons/boxicons-regular";
+import { Ghost } from "@styled-icons/boxicons-solid";
+
 import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
+import Header from "../../components/ui/Header";
 
 import RightSidebar from "../../components/navigation/RightSidebar";
 import ChannelHeader from "./ChannelHeader";
@@ -36,10 +42,40 @@ const ChannelContent = styled.div`
     flex-direction: column;
 `;
 
+const PlaceholderBase = styled.div`
+    flex-grow: 1;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+
+    .placeholder {
+        justify-content: center;
+        text-align: center;
+        margin: auto;
+    
+        .primary {
+            color: var(--secondary-foreground);
+            font-weight: 700;
+            font-size: 22px;
+            margin: 0 0 5px 0;
+        }
+    
+        .secondary {
+            color: var(--tertiary-foreground);
+            font-weight: 400;
+        }
+    
+        svg {
+            margin: 2em auto;
+            fill-opacity: 0.8;
+        }
+    }
+`;
+
 export function Channel({ id }: { id: string }) {
     const client = useClient();
     const channel = client.channels.get(id);
-    if (!channel) return null;
+    if (!channel) return <ChannelPlaceholder />;
 
     if (channel.channel_type === "VoiceChannel") {
         return <VoiceChannel channel={channel} />;
@@ -129,6 +165,23 @@ function VoiceChannel({ channel }: { channel: ChannelI }) {
             <ChannelHeader channel={channel} />
             <VoiceHeader id={channel._id} />
         </>
+    );
+}
+
+function ChannelPlaceholder() {
+    return (
+        <PlaceholderBase>
+            <Header placement="primary">
+                <Hash size={24} />
+                <span className="name"><Text id="app.main.channel.errors.nochannel" /></span>
+            </Header>
+
+            <div className="placeholder">
+                <Ghost width={80} />
+                <div className="primary"><Text id="app.main.channel.errors.title" /></div>
+                <div className="secondary"><Text id="app.main.channel.errors.nochannels" /></div>
+            </div>
+        </PlaceholderBase>
     );
 }
 

@@ -95,7 +95,10 @@ class VoiceStateReference {
         try {
             const call = await channel.joinCall();
 
-            await this.client.connect("wss://voso.revolt.chat/ws", channel._id);
+            await this.client.connect(
+                channel.client.configuration!.features.voso.ws,
+                channel._id,
+            );
 
             runInAction(() => {
                 this.status = VoiceStatus.AUTHENTICATING;
@@ -144,30 +147,27 @@ class VoiceStateReference {
     }
 
     isDeaf() {
-        if(!this.client)
-            return false;
+        if (!this.client) return false;
 
         return this.client.isDeaf;
     }
 
     async startDeafen() {
-        if(!this.client)
-            return console.log("No client object"); // ! TODO: let the user know
+        if (!this.client) return console.log("No client object"); // ! TODO: let the user know
 
         this.client.isDeaf = true;
 
-        this.client?.consumers.forEach(consumer => {
+        this.client?.consumers.forEach((consumer) => {
             consumer.audio?.pause();
-        })
+        });
     }
     async stopDeafen() {
-        if(!this.client)
-            return console.log("No client object"); // ! TODO: let the user know
+        if (!this.client) return console.log("No client object"); // ! TODO: let the user know
 
         this.client.isDeaf = false;
-        this.client?.consumers.forEach(consumer => {
+        this.client?.consumers.forEach((consumer) => {
             consumer.audio?.resume();
-        })
+        });
     }
 
     async startProducing(type: ProduceType) {
@@ -179,10 +179,11 @@ class VoiceStateReference {
                 if (navigator.mediaDevices === undefined)
                     return console.log("No media devices."); // ! TODO: let the user know
 
-                const mediaDevice = window.localStorage.getItem("audioInputDevice");
+                const mediaDevice =
+                    window.localStorage.getItem("audioInputDevice");
 
                 const mediaStream = await navigator.mediaDevices.getUserMedia({
-                    audio: mediaDevice?{deviceId: mediaDevice}:true
+                    audio: mediaDevice ? { deviceId: mediaDevice } : true,
                 });
 
                 await this.client?.startProduce(

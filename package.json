@@ -121,7 +121,7 @@
         "react-virtuoso": "^1.10.4",
         "redux": "^4.1.0",
         "revolt-api": "0.5.3-alpha.0-patch.0",
-        "revolt.js": "5.1.0-alpha.0-patch.1",
+        "revolt.js": "5.1.0-alpha.4",
         "rimraf": "^3.0.2",
         "sass": "^1.35.1",
         "shade-blend-color": "^1.0.0",
