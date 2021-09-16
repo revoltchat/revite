@@ -28,6 +28,7 @@ jobs:
               with:
                   folder: .
                   branch: build-previews
+                  commit-message: "Cleaning up build result for #${{ github.event.pull_request.number }}"
 
             - name: send comment
               uses: marocchino/sticky-pull-request-comment@v2
