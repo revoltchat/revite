@@ -39,6 +39,7 @@ jobs:
                   branch: build-previews
                   target-folder: ${{ env.BASE }}
                   single-commit: true
+                  commit-message: "Publishing build result from #${{ github.event.pull_request.number }}"
 
             - name: send comment
               uses: marocchino/sticky-pull-request-comment@v2
