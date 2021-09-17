@@ -1,8 +1,8 @@
 name: Clean Preview
 
 #! Safety:
-#! this workflow should not execute any code at all
-#! see githubs docs on pull_request_target for more
+#! this workflow should not execute any untrusted input at all
+#! see the docs on `pull_request_target` for more
 on:
     pull_request_target:
         types: [unlabeled]
@@ -11,6 +11,8 @@ jobs:
     clean:
         runs-on: ubuntu-latest
         if: github.event.label.name == 'use-preview'
+        env:
+            BASE: refs/pull/${{ github.event.pull_request.number }}
 
         steps:
             - uses: actions/checkout@v2
@@ -19,14 +21,14 @@ jobs:
                   persist-credentials: false
 
             - name: clean previews
-              run: 'rm -rf "./refs/pull/${{ github.event.pull_request.number }}"'
+              run: rm -rf "$BASE"
 
             - name: publish cleaned previews
               uses: JamesIves/github-pages-deploy-action@4.1.5
               with:
                   folder: .
                   branch: build-previews
-                  single-commit: true
+                  commit-message: "Cleaning up build result for #${{ github.event.pull_request.number }}"
 
             - name: send comment
               uses: marocchino/sticky-pull-request-comment@v2

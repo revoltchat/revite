@@ -9,6 +9,7 @@ on:
         paths-ignore:
             - ".github/**"
             - "!.github/workflows/docker.yml"
+            - "!.github/workflows/preview_*.yml"
             - ".vscode/**"
             - ".gitignore"
             - ".gitlab-ci.yml"
@@ -17,14 +18,23 @@ on:
     pull_request:
         branches:
             - "master"
+        paths-ignore:
+            - ".github/**"
+            - "!.github/workflows/docker.yml"
+            - "!.github/workflows/preview_*.yml"
+            - ".vscode/**"
+            - ".gitignore"
+            - ".gitlab-ci.yml"
+            - "LICENSE"
+            - "README"
     workflow_dispatch:
 
 jobs:
     test:
         runs-on: ubuntu-latest
         strategy:
-          matrix:
-            architecture: [linux/amd64]
+            matrix:
+                architecture: [linux/amd64]
         steps:
             - name: Checkout
               uses: actions/checkout@v2
@@ -37,8 +47,8 @@ jobs:
             - name: Cache Docker layers
               uses: actions/cache@v2
               with:
-                path: /tmp/.buildx-cache/${{ matrix.architecture }}
-                key: ${{ runner.os }}-buildx-${{ matrix.architecture }}-${{ github.sha }}
+                  path: /tmp/.buildx-cache/${{ matrix.architecture }}
+                  key: ${{ runner.os }}-buildx-${{ matrix.architecture }}-${{ github.sha }}
             - name: Build
               uses: docker/build-push-action@v2
               with:
@@ -48,8 +58,8 @@ jobs:
                   cache-to: type=local,dest=/tmp/.buildx-cache-new/${{ matrix.architecture }},mode=max
             - name: Move cache
               run: |
-                rm -rf /tmp/.buildx-cache/${{ matrix.architecture }}
-                mv /tmp/.buildx-cache-new/${{ matrix.architecture }} /tmp/.buildx-cache/${{ matrix.architecture }}
+                  rm -rf /tmp/.buildx-cache/${{ matrix.architecture }}
+                  mv /tmp/.buildx-cache-new/${{ matrix.architecture }} /tmp/.buildx-cache/${{ matrix.architecture }}
 
     publish:
         needs: [test]
@@ -67,8 +77,8 @@ jobs:
             - name: Cache amd64 Docker layers
               uses: actions/cache@v2
               with:
-                path: /tmp/.buildx-cache/linux/amd64
-                key: ${{ runner.os }}-buildx-linux/amd64-${{ github.sha }}
+                  path: /tmp/.buildx-cache/linux/amd64
+                  key: ${{ runner.os }}-buildx-linux/amd64-${{ github.sha }}
             - name: Docker meta
               id: meta
               uses: docker/metadata-action@v3
@@ -97,5 +107,5 @@ jobs:
                   cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
             - name: Move cache
               run: |
-               rm -rf /tmp/.buildx-cache
-               mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+                  rm -rf /tmp/.buildx-cache
+                  mv /tmp/.buildx-cache-new /tmp/.buildx-cache
