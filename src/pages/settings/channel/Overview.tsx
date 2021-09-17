@@ -118,17 +118,19 @@ export default observer(({ channel }: Props) => {
                     if (!changed) setChanged(true);
                 }}
             />
-            <Checkbox
-                checked={nsfw ?? false}
-                onChange={
-                    (nsfwchange) => { 
-                        setNSFW(nsfwchange);
-                        if (!changed) setChanged(true);
+            {channel.channel_type === "VoiceChannel" ? '' : (
+                <Checkbox
+                    checked={nsfw ?? false}
+                    onChange={
+                        (nsfwchange) => { 
+                            setNSFW(nsfwchange);
+                            if (!changed) setChanged(true);
+                        }
                     }
-                }
-                description="Set this channel to NSFW.">
-                NSFW
-            </Checkbox>
+                    description="Set this channel to NSFW.">
+                    NSFW
+                </Checkbox>
+            )}
             <p>
                 <Button onClick={save} contrast disabled={!changed}>
                     <Text id="app.special.modals.actions.save" />
