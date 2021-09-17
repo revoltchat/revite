@@ -1,24 +1,23 @@
-import {
-    InfoCircle,
-    UserPlus,
-    UserMinus,
-    ArrowToRight,
-    ArrowToLeft,
-    UserX,
-    ShieldX,
-    EditAlt,
-    Edit,
-    MessageSquareEdit,
-} from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
+import { attachContextMenu } from "preact-context-menu";
 import { SystemMessage as SystemMessageI } from "revolt-api/types/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 
-import { attachContextMenu } from "preact-context-menu";
+import {
+    ArrowToLeft,
+    ArrowToRight,
+    Edit,
+    EditAlt,
+    InfoCircle,
+    MessageSquareEdit,
+    ShieldX,
+    UserMinus,
+    UserPlus,
+    UserX,
+} from "@styled-icons/boxicons-solid";
 
 import { TextReact } from "../../../lib/i18n";
-
 import UserShort from "../user/UserShort";
 import MessageBase, { MessageDetail, MessageInfo } from "./MessageBase";
 
