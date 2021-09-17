@@ -288,7 +288,8 @@ export function getBaseTheme(name: string): Theme {
         return PRESETS[name]
     }
 
-    const themes = getState().themes
+    // TODO: properly initialize `themes` in state instead of letting it be undefined
+    const themes = getState().themes ?? {}
 
     if (name in themes) {
         const { theme } = themes[name];
