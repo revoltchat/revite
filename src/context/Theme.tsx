@@ -62,7 +62,8 @@ export type MonospaceFonts =
     | "Roboto Mono"
     | "Source Code Pro"
     | "Space Mono"
-    | "Ubuntu Mono";
+    | "Ubuntu Mono"
+    | "Jetbrains Mono";
 
 export type Theme = {
     [variable in Variables]: string;
@@ -210,6 +211,10 @@ export const MONOSPACE_FONTS: Record<
     "Ubuntu Mono": {
         name: "Ubuntu Mono",
         load: () => import("@fontsource/ubuntu-mono/400.css"),
+    },
+    "Jetbrains Mono": {
+        name: "Jetbrains Mono",
+        load: () => import("@fontsource/jetbrains-mono/400.css"),
     },
 };
 
