@@ -53,7 +53,7 @@ export function Feedback() {
                 </CategoryButton>
             </a>
             <Link to="/invite/Testers">
-                <a target="_blank" rel="noreferrer">
+                <a>
                     <CategoryButton
                         hover
                         action="chevron"

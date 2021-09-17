@@ -151,15 +151,15 @@ export default function Intermediate(props: Props) {
                                 id: "external_link_prompt",
                                 link: link.href,
                             });
+
                             return true;
                         }
 
                         return false;
                     }
-                    default: {
-                        return true;
-                    }
                 }
+
+                return true;
             },
             openScreen: (screen: Screen) => openScreen(screen),
             writeClipboard: (text: string) => {

@@ -19,8 +19,6 @@ import { useCallback, useContext } from "preact/hooks";
 import { internalEmit } from "../../lib/eventEmitter";
 import { determineLink } from "../../lib/links";
 
-import { getState } from "../../redux";
-
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
@@ -221,6 +219,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                                 }
                                 case "external": {
                                     element.setAttribute("target", "_blank");
+                                    element.setAttribute("rel", "noreferrer");
                                     break;
                                 }
                             }
