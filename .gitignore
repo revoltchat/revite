@@ -5,3 +5,4 @@ dist_injected
 dist-ssr
 *.local
 *.log
+/.idea
