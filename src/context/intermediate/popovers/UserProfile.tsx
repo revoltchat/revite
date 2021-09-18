@@ -1,5 +1,5 @@
 import { Money } from "@styled-icons/boxicons-regular";
-import { Envelope, Edit, UserPlus, Shield } from "@styled-icons/boxicons-solid";
+import { Envelope, Edit, UserPlus, Shield, Gavel } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
 import { Profile, RelationshipStatus } from "revolt-api/types/Users";
@@ -41,6 +41,7 @@ enum Badges {
     Translator = 2,
     Supporter = 4,
     ResponsibleDisclosure = 8,
+    TrustSafetyStaff = 16,
     EarlyAdopter = 256,
 }
 
@@ -302,6 +303,19 @@ export const UserProfile = observer(
                             {badges > 0 && (
                                 <div className={styles.badges}>
                                     <Localizer>
+                                        {badges & Badges.TrustSafetyStaff ? (
+                                            <Tooltip
+                                                content={
+                                                    <Text id="app.special.popovers.user_profile.badges.trust_safety_staff" />
+                                                }>
+                                                <Gavel
+                                                    size={32}
+                                                    color="#ff4747"
+                                                />
+                                            </Tooltip>
+                                        ) : (
+                                            <></>
+                                        )}
                                         {badges & Badges.Developer ? (
                                             <Tooltip
                                                 content={
