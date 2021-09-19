@@ -193,7 +193,7 @@ export const Account = observer(() => {
                 <CategoryButton
                     icon={<Trash size={24} color="var(--error)" />}
                     description={
-                        "Delete your account, including all of your data."
+                        "Delete your account, including all of your data. (sends an email to contact@revolt.chat)"
                     }
                     hover
                     action="external">
