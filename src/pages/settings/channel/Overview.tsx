@@ -47,7 +47,7 @@ export default observer(({ channel }: Props) => {
 
     const [changed, setChanged] = useState(false);
     function save() {
-        const changes: Record<string, string | undefined> = {};
+        const changes: Record<string, string | boolean | undefined> = {};
         if (name !== channel.name) changes.name = name;
         if (description !== channel.description)
             changes.description = description;
