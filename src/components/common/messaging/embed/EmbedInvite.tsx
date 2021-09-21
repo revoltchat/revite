@@ -8,6 +8,7 @@ import styled, { css } from "styled-components";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { defer } from "../../../../lib/defer";
+import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 
 import { dispatch } from "../../../../redux";
 
@@ -20,9 +21,9 @@ import { takeError } from "../../../../context/revoltjs/util";
 
 import ServerIcon from "../../../../components/common/ServerIcon";
 import Button from "../../../../components/ui/Button";
-import Preloader from "../../../ui/Preloader";
-import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import Overline from "../../../ui/Overline";
+import Preloader from "../../../ui/Preloader";
+
 const EmbedInviteBase = styled.div`
     width: 400px;
     height: 80px;
