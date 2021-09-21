@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { RetrievedInvite } from "revolt-api/types/Invites";
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
@@ -21,7 +21,8 @@ import { takeError } from "../../../../context/revoltjs/util";
 import ServerIcon from "../../../../components/common/ServerIcon";
 import Button from "../../../../components/ui/Button";
 import Preloader from "../../../ui/Preloader";
-
+import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
+import Overline from "../../../ui/Overline";
 const EmbedInviteBase = styled.div`
     width: 400px;
     height: 80px;
@@ -31,15 +32,37 @@ const EmbedInviteBase = styled.div`
     align-items: center;
     padding: 0 12px;
     margin-top: 2px;
+    ${() => 
+        isTouchscreenDevice &&
+        css`
+            flex-wrap: wrap;
+            height: 130px;
+            padding-top: 8px;
+            padding-bottom: 10px;
+            width: 100%;
+            > button {
+                width: 100%;
+            }
+        `
+    }
 `;
 
 const EmbedInviteDetails = styled.div`
     flex-grow: 1;
     padding-left: 12px;
+    ${() => 
+        isTouchscreenDevice &&
+        css`
+            width: calc(100% - 55px);
+        `
+    }
 `;
 
 const EmbedInviteName = styled.div`
     font-weight: bold;
+    line-height: 1rem;
+    max-height: 2rem;
+    overflow: hidden;
 `;
 
 const EmbedInviteMemberCount = styled.div`
@@ -57,6 +80,7 @@ export function EmbedInvite(props: Props) {
     const code = props.code;
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
+    const [joinError, setJoinError] = useState<string | undefined>(undefined);
     const [invite, setInvite] = useState<RetrievedInvite | undefined>(
         undefined,
     );
@@ -89,68 +113,70 @@ export function EmbedInvite(props: Props) {
     }
 
     return (
-        <EmbedInviteBase>
-            <ServerIcon
-                attachment={invite.server_icon}
-                server_name={invite.server_name}
-                size={55}
-            />
-            <EmbedInviteDetails>
-                <EmbedInviteName>{invite.server_name}</EmbedInviteName>
-                <EmbedInviteMemberCount>
-                    {invite.member_count.toLocaleString()} members
-                </EmbedInviteMemberCount>
-            </EmbedInviteDetails>
-            {processing ? (
-                <div>
-                    <Preloader type="ring" />
-                </div>
-            ) : (
-                <Button
-                    onClick={async () => {
-                        try {
-                            setProcessing(true);
+        <>
+            <EmbedInviteBase>
+                <ServerIcon
+                    attachment={invite.server_icon}
+                    server_name={invite.server_name}
+                    size={55}
+                />
+                <EmbedInviteDetails>
+                    <EmbedInviteName>{invite.server_name}</EmbedInviteName>
+                    <EmbedInviteMemberCount>
+                        {invite.member_count.toLocaleString()} members
+                    </EmbedInviteMemberCount>
+                </EmbedInviteDetails>
+                {processing ? (
+                    <div>
+                        <Preloader type="ring" />
+                    </div>
+                ) : (
+                    <Button
+                        onClick={async () => {
+                            try {
+                                setProcessing(true);
 
-                            if (invite.type === "Server") {
-                                if (client.servers.get(invite.server_id)) {
-                                    history.push(
-                                        `/server/${invite.server_id}/channel/${invite.channel_id}`,
-                                    );
+                                if (invite.type === "Server") {
+                                    if (client.servers.get(invite.server_id)) {
+                                        history.push(
+                                            `/server/${invite.server_id}/channel/${invite.channel_id}`,
+                                        );
+                                    }
+
+                                    const dispose = autorun(() => {
+                                        const server = client.servers.get(
+                                            invite.server_id,
+                                        );
+
+                                        defer(() => {
+                                            if (server) {
+                                                dispatch({
+                                                    type: "UNREADS_MARK_MULTIPLE_READ",
+                                                    channels: server.channel_ids,
+                                                });
+
+                                                history.push(
+                                                    `/server/${server._id}/channel/${invite.channel_id}`,
+                                                );
+                                            }
+                                        });
+
+                                        dispose();
+                                    });
                                 }
 
-                                const dispose = autorun(() => {
-                                    const server = client.servers.get(
-                                        invite.server_id,
-                                    );
-
-                                    defer(() => {
-                                        if (server) {
-                                            dispatch({
-                                                type: "UNREADS_MARK_MULTIPLE_READ",
-                                                channels: server.channel_ids,
-                                            });
-
-                                            history.push(
-                                                `/server/${server._id}/channel/${invite.channel_id}`,
-                                            );
-                                        }
-                                    });
-
-                                    dispose();
-                                });
+                                await client.joinInvite(code);
+                            } catch (err) {
+                                setJoinError(takeError(err));
+                                setProcessing(false);
                             }
-
-                            await client.joinInvite(code);
-                            setProcessing(false);
-                        } catch (err) {
-                            setError(takeError(err));
-                            setProcessing(false);
-                        }
-                    }}>
-                    {client.servers.get(invite.server_id) ? "Joined" : "Join"}
-                </Button>
-            )}
-        </EmbedInviteBase>
+                        }}>
+                        {client.servers.get(invite.server_id) ? "Joined" : "Join"}
+                    </Button>
+                )}
+            </EmbedInviteBase>
+            {joinError && <Overline type="error" error={joinError} />}
+        </>
     );
 }
 
