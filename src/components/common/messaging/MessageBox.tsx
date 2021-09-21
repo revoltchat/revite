@@ -1,6 +1,7 @@
 import { Send, ShieldX } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
 import { observer } from "mobx-react-lite";
+import { isSafari, isDesktop } from "react-device-detect";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import styled, { css } from "styled-components";
@@ -126,6 +127,8 @@ export default observer(({ channel }: Props) => {
     const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
     const translate = useTranslation();
+    const [composed, setComposed] = useState<boolean>(false);
+    const isDesktopSafari = isSafari && !isMobile;
 
     const renderer = getRenderer(channel);
 
@@ -185,12 +188,20 @@ export default observer(({ channel }: Props) => {
             }
         }
 
+        const textBox = document.getElementById("message");
+        textBox?.addEventListener("compositionstart", () => {
+            setComposed(false);
+        });
+        textBox?.addEventListener("compositionend", () => {
+            setComposed(true);
+        });
+
         return internalSubscribe(
             "MessageBox",
             "append",
             append as (...args: unknown[]) => void,
         );
-    }, [draft, setMessage]);
+    }, [draft, setMessage, composed]);
 
     async function send() {
         if (uploadState.type === "uploading" || uploadState.type === "sending")
@@ -523,9 +534,14 @@ export default observer(({ channel }: Props) => {
 
                         if (
                             !e.shiftKey &&
+                            !e.isComposing &&
                             e.key === "Enter" &&
                             !isTouchscreenDevice
                         ) {
+                            if (isDesktopSafari && composed) {
+                                setComposed(false);
+                                return;
+                            }
                             e.preventDefault();
                             return send();
                         }
