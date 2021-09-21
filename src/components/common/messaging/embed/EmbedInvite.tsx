@@ -124,7 +124,7 @@ export function EmbedInvite(props: Props) {
                 <EmbedInviteDetails>
                     <EmbedInviteName>{invite.server_name}</EmbedInviteName>
                     <EmbedInviteMemberCount>
-                        {invite.member_count.toLocaleString()} members
+                        {invite.member_count.toLocaleString()} {invite.member_count === 1 ? "member" : "members"}
                     </EmbedInviteMemberCount>
                 </EmbedInviteDetails>
                 {processing ? (
