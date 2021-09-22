@@ -30,7 +30,13 @@ export default observer(({ channel }: Props) => {
         <StartBase>
             <h1>{getChannelName(channel, true)}</h1>
             <h4>
-                <Text id="app.main.channel.start.group" />
+                <Text
+                    id={
+                        channel.channel_type === "SavedMessages"
+                            ? "app.main.channel.start.saved"
+                            : "app.main.channel.start.group"
+                    }
+                />
             </h4>
         </StartBase>
     );
