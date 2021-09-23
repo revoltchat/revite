@@ -1,16 +1,29 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { Children } from "../../../../types/Preact";
 
 const Grid = styled.div<{ width: number; height: number }>`
-    --width: ${props => props.width}px;
-    --height: ${props => props.height}px;
-
+    --width: ${props => props.width};
+    --height: ${props => props.height};
+    --width-px: calc(var(--width) * 1px);
+    --height-px: calc(var(--height) * 1px);
+    --fixed-width-px: min(var(--width-px), var(--attachment-max-width));
+    --fixed-height-px: min(var(--height-px), var(--attachment-max-height));
+    --aspect: calc(var(--width) / var(--height));
+    --aspect-width-px: calc(var(--fixed-height-px) * var(--aspect));
+    --aspect-height-px: calc(var(--fixed-width-px) * var(--aspect));
+    
+    aspect-ratio: var(--width) / var(--height);
+    
+    ${props => props.width > props.height && css`width: var(--fixed-width-px)`};
+    ${props => props.width <= props.height && css`
+        width: var(--aspect-width-px);
+        height: var(--fixed-height-px);
+    `};
+  
+    max-width: 100%;
+    
     display: grid;
-    aspect-ratio: ${(props) => props.width} / ${(props) => props.height};
-
-    max-width: min(var(--width), var(--attachment-max-width));
-    max-height: min(var(--height), var(--attachment-max-height));
 
     // This is a hack for browsers not supporting aspect-ratio.
     // Stolen from https://codepen.io/una/pen/BazyaOM.
