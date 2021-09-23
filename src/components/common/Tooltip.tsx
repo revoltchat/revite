@@ -8,16 +8,26 @@ import { Children } from "../../types/Preact";
 type Props = Omit<TippyProps, "children"> & {
     children: Children;
     content: Children;
+    flex?: boolean;
+    className?: string;
 };
 
 export default function Tooltip(props: Props) {
-    const { children, content, ...tippyProps } = props;
+    const { children, content, flex, className, ...tippyProps } = props;
 
     return (
         <Tippy content={content} {...tippyProps}>
             {/*
             // @ts-expect-error Type mis-match. */}
-            <div style={`display: flex;`}>{children}</div>
+            <div
+                style={
+                    flex === null || flex === true
+                        ? `display: flex;`
+                        : `display: inline-block;`
+                }
+                className={className}>
+                {children}
+            </div>
         </Tippy>
     );
 }
