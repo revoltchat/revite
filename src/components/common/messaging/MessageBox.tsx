@@ -48,11 +48,11 @@ export type UploadState =
     | { type: "none" }
     | { type: "attached"; files: File[] }
     | {
-          type: "uploading";
-          files: File[];
-          percent: number;
-          cancel: CancelTokenSource;
-      }
+        type: "uploading";
+        files: File[];
+        percent: number;
+        cancel: CancelTokenSource;
+    }
     | { type: "sending"; files: File[] }
     | { type: "failed"; files: File[]; error: string };
 
@@ -173,9 +173,9 @@ export default observer(({ channel }: Props) => {
             const text =
                 action === "quote"
                     ? `${content
-                          .split("\n")
-                          .map((x) => `> ${x}`)
-                          .join("\n")}\n\n`
+                        .split("\n")
+                        .map((x) => `> ${x}`)
+                        .join("\n")}\n\n`
                     : `${content} `;
 
             if (!draft || draft.length === 0) {
@@ -225,8 +225,8 @@ export default observer(({ channel }: Props) => {
                     toReplace == ""
                         ? msg.content.toString() + newText
                         : msg.content
-                              .toString()
-                              .replace(new RegExp(toReplace, flags), newText);
+                            .toString()
+                            .replace(new RegExp(toReplace, flags), newText);
 
                 if (newContent != msg.content) {
                     if (newContent.length == 0) {
@@ -305,10 +305,10 @@ export default observer(({ channel }: Props) => {
                                     files,
                                     percent: Math.round(
                                         (i * 100 + (100 * e.loaded) / e.total) /
-                                            Math.min(
-                                                files.length,
-                                                CAN_UPLOAD_AT_ONCE,
-                                            ),
+                                        Math.min(
+                                            files.length,
+                                            CAN_UPLOAD_AT_ONCE,
+                                        ),
                                     ),
                                     cancel,
                                 }),
@@ -523,6 +523,7 @@ export default observer(({ channel }: Props) => {
 
                         if (
                             !e.shiftKey &&
+                            !e.isComposing &&
                             e.key === "Enter" &&
                             !isTouchscreenDevice
                         ) {
@@ -552,13 +553,13 @@ export default observer(({ channel }: Props) => {
                     placeholder={
                         channel.channel_type === "DirectMessage"
                             ? translate("app.main.channel.message_who", {
-                                  person: channel.recipient?.username,
-                              })
+                                person: channel.recipient?.username,
+                            })
                             : channel.channel_type === "SavedMessages"
-                            ? translate("app.main.channel.message_saved")
-                            : translate("app.main.channel.message_where", {
-                                  channel_name: channel.name ?? undefined,
-                              })
+                                ? translate("app.main.channel.message_saved")
+                                : translate("app.main.channel.message_where", {
+                                    channel_name: channel.name ?? undefined,
+                                })
                     }
                     disabled={
                         uploadState.type === "uploading" ||
