@@ -164,11 +164,9 @@ export const UserProfile = observer(
                                 </span>
                             </Localizer>
                             {user.status?.text && (
-                                <UserStatus
-                                    className={styles.status}
-                                    user={user}
-                                    tooltip
-                                />
+                                <span className={styles.status}>
+                                    <UserStatus user={user} tooltip />
+                                </span>
                             )}
                         </div>
                         {user.relationship === RelationshipStatus.Friend && (
@@ -187,17 +185,16 @@ export const UserProfile = observer(
                                 </Tooltip>
                             </Localizer>
                         )}
-                        {user.relationship === RelationshipStatus.User &&
-                            !dummy && (
-                                <IconButton
-                                    onClick={() => {
-                                        onClose?.();
-                                        if (dummy) return;
-                                        history.push(`/settings/profile`);
-                                    }}>
-                                    <Edit size={28} />
-                                </IconButton>
-                            )}
+                        {user.relationship === RelationshipStatus.User && (
+                            <IconButton
+                                onClick={() => {
+                                    onClose?.();
+                                    if (dummy) return;
+                                    history.push(`/settings/profile`);
+                                }}>
+                                <Edit size={28} />
+                            </IconButton>
+                        )}
                         {!user.bot &&
                             flags != 2 &&
                             flags != 4 &&

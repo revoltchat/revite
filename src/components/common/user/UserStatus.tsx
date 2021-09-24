@@ -9,29 +9,20 @@ import Tooltip from "../Tooltip";
 interface Props {
     user?: User;
     tooltip?: boolean;
-    className?: string;
 }
 
-export default observer(({ user, tooltip, className }: Props) => {
+export default observer(({ user, tooltip }: Props) => {
     if (user?.online) {
         if (user.status?.text) {
             if (tooltip) {
                 return (
-                    <Tooltip
-                        flex={false}
-                        arrow={undefined}
-                        content={user.status.text}
-                        className={className}>
+                    <Tooltip arrow={undefined} content={user.status.text}>
                         {user.status.text}
                     </Tooltip>
                 );
             }
 
-            return (
-                <span style={{ display: "inline-block" }} className={className}>
-                    {user.status.text}
-                </span>
-            );
+            return <>{user.status.text}</>;
         }
 
         if (user.status?.presence === Presence.Busy) {
