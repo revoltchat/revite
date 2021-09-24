@@ -7,8 +7,8 @@ const Grid = styled.div<{ width: number; height: number }>`
     --height: ${props => props.height};
     --width-px: calc(var(--width) * 1px);
     --height-px: calc(var(--height) * 1px);
-    --fixed-width-px: min(var(--width-px), var(--attachment-max-width));
-    --fixed-height-px: min(var(--height-px), var(--attachment-max-height));
+    --fixed-width-px: min(var(--width-px), var(--attachment-max-width), 100%);
+    --fixed-height-px: min(var(--height-px), var(--attachment-max-height), 100%);
     --aspect: calc(var(--width) / var(--height));
     --aspect-width-px: calc(var(--fixed-height-px) * var(--aspect));
     --aspect-height-px: calc(var(--fixed-width-px) * var(--aspect));
