@@ -503,7 +503,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     content={
                         <>
                             <Overline block type="subtle">
-                                <Text id="app.main.servers.channel_name" />
+                                <Text id="app.main.servers.category_name" />
                             </Overline>
                             <InputBox
                                 value={name}
