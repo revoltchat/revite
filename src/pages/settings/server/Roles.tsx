@@ -6,9 +6,16 @@ import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import {useCallback, useContext, useEffect, useMemo, useState} from "preact/hooks";
+import {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from "preact/hooks";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
@@ -17,7 +24,6 @@ import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
 
 import ButtonItem from "../../../components/navigation/items/ButtonItem";
-import {AppContext} from "../../../context/revoltjs/RevoltClient";
 
 interface Props {
     server: Server;
@@ -30,7 +36,7 @@ export const Roles = observer(({ server }: Props) => {
     const client = useContext(AppContext);
     const [role, setRole] = useState("default");
     const { openScreen } = useIntermediate();
-    const roles = useMemo(() => server.roles ?? {}, [server]);
+    const roles = server.roles || {};
 
     if (role !== "default" && typeof roles[role] === "undefined") {
         useEffect(() => setRole("default"), [role]);
@@ -123,26 +129,25 @@ export const Roles = observer(({ server }: Props) => {
                         }
                     />
                 </div>
-                {["default", ...Object.keys(roles)].map((id) => {
-                    if (id === "default") {
-                        return (
-                            <ButtonItem
-                                active={role === "default"}
-                                onClick={() => setRole("default")}>
-                                <Text id="app.settings.permissions.default_role" />
-                            </ButtonItem>
-                        );
-                    }
-                    return (
+                {["default", ...Object.keys(roles)].map((id) =>
+                    id === "default" ? (
+                        <ButtonItem
+                            active={role === "default"}
+                            onClick={() => setRole("default")}>
+                            <Text id="app.settings.permissions.default_role" />
+                        </ButtonItem>
+                    ) : (
                         <ButtonItem
                             key={id}
                             active={role === id}
                             onClick={() => setRole(id)}
-                            style={{ color: roles[id].colour }}>
+                            style={{
+                                color: roles[id].colour,
+                            }}>
                             {roles[id].name}
                         </ButtonItem>
-                    );
-                })}
+                    ),
+                )}
             </div>
             <div className={styles.permissions}>
                 <div className={styles.title}>
@@ -238,7 +243,10 @@ export const Roles = observer(({ server }: Props) => {
                                 onChange={() =>
                                     setPerm([perm[0], perm[1] ^ value])
                                 }
-                                disabled={key === "View" || (!(clientPermissions & value))}
+                                disabled={
+                                    key === "View" ||
+                                    !(clientPermissions & value)
+                                }
                                 description={
                                     <Text id={`permissions.channel.${key}.d`} />
                                 }>
