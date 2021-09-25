@@ -151,11 +151,9 @@ export default function Intermediate(props: Props) {
                                 id: "external_link_prompt",
                                 link: link.href,
                             });
-
-                            return true;
+                        } else {
+                            window.open(link.href, "_blank", "noreferrer");
                         }
-
-                        return false;
                     }
                 }
 

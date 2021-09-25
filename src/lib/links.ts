@@ -52,7 +52,9 @@ export function determineLink(href?: string): LinkType {
         } catch (err) {}
 
         if (!internal && url) {
-            return { type: "external", href, url };
+            if (url.protocol !== "javascript") {
+                return { type: "external", href, url };
+            }
         }
     }
 
