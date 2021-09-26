@@ -5,11 +5,12 @@ import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 
+import { internalEmit } from "../../../lib/eventEmitter";
+
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import UserIcon from "./UserIcon";
-import { internalEmit } from "../../../lib/eventEmitter";
 
 const BotBadge = styled.div`
     display: inline-block;
@@ -29,15 +30,10 @@ const BotBadge = styled.div`
 type UsernameProps = JSX.HTMLAttributes<HTMLElement> & {
     user?: User;
     prefixAt?: boolean;
-    showServerIdentity?: boolean;
-}
+    showServerIdentity?: boolean | "both";
+};
 export const Username = observer(
-    ({
-        user,
-        prefixAt,
-        showServerIdentity,
-        ...otherProps
-    }: UsernameProps) => {
+    ({ user, prefixAt, showServerIdentity, ...otherProps }: UsernameProps) => {
         let username = user?.username;
         let color;
 
@@ -52,7 +48,11 @@ export const Username = observer(
 
                 if (member) {
                     if (member.nickname) {
-                        username = member.nickname;
+                        if (showServerIdentity === "both") {
+                            username = `${member.nickname} (${username})`;
+                        } else {
+                            username = member.nickname;
+                        }
                     }
 
                     if (member.roles && member.roles.length > 0) {
@@ -112,17 +112,12 @@ export default function UserShort({
 
     const handleUserClick = (e: MouseEvent) => {
         if (e.shiftKey && user?._id) {
-            e.preventDefault()
-            internalEmit(
-                "MessageBox",
-                "append",
-                `<@${user?._id}>`,
-                "mention",
-            );
+            e.preventDefault();
+            internalEmit("MessageBox", "append", `<@${user?._id}>`, "mention");
         } else {
-            openProfile()
+            openProfile();
         }
-    }
+    };
 
     return (
         <>

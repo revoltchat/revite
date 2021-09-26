@@ -1,33 +1,59 @@
 import { XCircle } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
-import { ServerInvite } from "revolt-api/types/Invites";
+import { Virtuoso } from "react-virtuoso";
+import { Invite, ServerInvite } from "revolt-api/types/Invites";
 import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { useClient } from "../../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../../context/revoltjs/util";
 
 import UserIcon from "../../../components/common/user/UserIcon";
+import { Username } from "../../../components/common/user/UserShort";
 import IconButton from "../../../components/ui/IconButton";
 import Preloader from "../../../components/ui/Preloader";
+
+interface InnerProps {
+    invite: Invite;
+    server: Server;
+    removeSelf: () => void;
+}
+
+const Inner = observer(({ invite, server, removeSelf }: InnerProps) => {
+    const [deleting, setDelete] = useState(false);
+
+    const user = server.client.users.get(invite.creator);
+    const channel = server.client.channels.get(invite.channel);
+
+    return (
+        <div className={styles.invite} data-deleting={deleting}>
+            <code>{invite._id}</code>
+            <span>
+                <UserIcon target={user} size={24} />{" "}
+                <Username user={user} showServerIdentity="both" />
+            </span>
+            <span>{channel ? getChannelName(channel, true) : "#??"}</span>
+            <IconButton
+                onClick={() => {
+                    setDelete(true);
+                    server.client.deleteInvite(invite._id).then(removeSelf);
+                }}
+                disabled={deleting}>
+                <XCircle size={24} />
+            </IconButton>
+        </div>
+    );
+});
 
 interface Props {
     server: Server;
 }
 
-export const Invites = observer(({ server }: Props) => {
-    const [deleting, setDelete] = useState<string[]>([]);
+export const Invites = ({ server }: Props) => {
     const [invites, setInvites] = useState<ServerInvite[] | undefined>(
         undefined,
-    );
-
-    const client = useClient();
-    const users = invites?.map((invite) => client.users.get(invite.creator));
-    const channels = invites?.map((invite) =>
-        client.channels.get(invite.channel),
     );
 
     useEffect(() => {
@@ -51,45 +77,27 @@ export const Invites = observer(({ server }: Props) => {
                 </span>
             </div>
             {typeof invites === "undefined" && <Preloader type="ring" />}
-            {invites?.map((invite, index) => {
-                const creator = users![index];
-                const channel = channels![index];
-
-                return (
-                    <div
-                        key={invite._id}
-                        className={styles.invite}
-                        data-deleting={deleting.indexOf(invite._id) > -1}>
-                        <code>{invite._id}</code>
-                        <span>
-                            <UserIcon target={creator} size={24} />{" "}
-                            {creator?.username ?? (
-                                <Text id="app.main.channel.unknown_user" />
-                            )}
-                        </span>
-                        <span>
-                            {channel && creator
-                                ? getChannelName(channel, true)
-                                : "#??"}
-                        </span>
-                        <IconButton
-                            onClick={async () => {
-                                setDelete([...deleting, invite._id]);
-
-                                await client.deleteInvite(invite._id);
-
-                                setInvites(
-                                    invites?.filter(
-                                        (x) => x._id !== invite._id,
-                                    ),
-                                );
-                            }}
-                            disabled={deleting.indexOf(invite._id) > -1}>
-                            <XCircle size={24} />
-                        </IconButton>
-                    </div>
-                );
-            })}
+            {invites && (
+                <div className={styles.virtual}>
+                    <Virtuoso
+                        totalCount={invites.length}
+                        itemContent={(index) => (
+                            <Inner
+                                key={invites[index]._id}
+                                invite={invites[index]}
+                                server={server}
+                                removeSelf={() =>
+                                    setInvites(
+                                        invites.filter(
+                                            (x) => x._id !== invites[index]._id,
+                                        ),
+                                    )
+                                }
+                            />
+                        )}
+                    />
+                </div>
+            )}
         </div>
     );
-});
+};

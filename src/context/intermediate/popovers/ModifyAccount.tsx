@@ -28,6 +28,7 @@ interface FormInputs {
 
 export function ModifyAccountModal({ onClose, field }: Props) {
     const client = useContext(AppContext);
+    const [processing, setProcessing] = useState(false);
     const { handleSubmit, register, errors } = useForm<FormInputs>();
     const [error, setError] = useState<string | undefined>(undefined);
 
@@ -37,6 +38,8 @@ export function ModifyAccountModal({ onClose, field }: Props) {
         new_email,
         new_password,
     }) => {
+        setProcessing(true);
+
         try {
             if (field === "email") {
                 await client.req("PATCH", "/auth/account/change/email", {
@@ -59,6 +62,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
             }
         } catch (err) {
             setError(takeError(err));
+            setProcessing(false);
         }
     };
 
@@ -67,6 +71,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
             visible={true}
             onClose={onClose}
             title={<Text id={`app.special.modals.account.change.${field}`} />}
+            disabled={processing}
             actions={[
                 {
                     confirmation: true,
