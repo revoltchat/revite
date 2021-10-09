@@ -113,6 +113,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                         register={register}
                         showOverline
                         error={errors.new_password?.message}
+                        autoComplete="new-password"
                     />
                 )}
                 {field === "username" && (
@@ -129,6 +130,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                     register={register}
                     showOverline
                     error={errors.current_password?.message}
+                    autoComplete="current-password"
                 />
                 {error && (
                     <Overline type="error" error={error}>
