@@ -22,7 +22,7 @@ export function ExternalLinkModal({ onClose, link }: Props) {
             actions={[
                 {
                     onClick: () => {
-                        openLink(link);
+                        openLink(link, true);
                         onClose();
                     },
                     confirmation: true,
