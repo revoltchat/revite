@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { Category } from "revolt-api/types/Servers";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
 import { Server } from "revolt.js/dist/maps/Servers";
@@ -61,6 +60,7 @@ type SpecialProps = { onClose: () => void } & (
     | { type: "leave_server"; target: Server }
     | { type: "delete_server"; target: Server }
     | { type: "delete_channel"; target: Channel }
+    | { type: "delete_bot"; target: string; name: string; cb: () => void }
     | { type: "delete_message"; target: MessageI }
     | {
           type: "create_invite";
@@ -86,12 +86,14 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
         case "leave_server":
         case "delete_server":
         case "delete_channel":
+        case "delete_bot":
         case "unfriend_user":
         case "block_user": {
             const EVENTS = {
                 close_dm: ["confirm_close_dm", "close"],
                 delete_server: ["confirm_delete", "delete"],
                 delete_channel: ["confirm_delete", "delete"],
+                delete_bot: ["confirm_delete", "delete"],
                 leave_group: ["confirm_leave", "leave"],
                 leave_server: ["confirm_leave", "leave"],
                 unfriend_user: ["unfriend_user", "remove"],
@@ -107,6 +109,9 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     break;
                 case "close_dm":
                     name = props.target.recipient?.username;
+                    break;
+                case "delete_bot":
+                    name = props.name;
                     break;
                 default:
                     name = props.target.name;
@@ -150,6 +155,10 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                         case "leave_server":
                                         case "delete_server":
                                             props.target.delete();
+                                            break;
+                                        case "delete_bot":
+                                            client.bots.delete(props.target);
+                                            props.cb();
                                             break;
                                     }
 
@@ -481,9 +490,13 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                 try {
                                     props.target.edit({
                                         categories: [
-                                            ...props.target.categories ?? [],
-                                            { id: ulid(), title: name, channels: [] }
-                                        ]
+                                            ...(props.target.categories ?? []),
+                                            {
+                                                id: ulid(),
+                                                title: name,
+                                                channels: [],
+                                            },
+                                        ],
                                     });
                                     onClose();
                                     setProcessing(false);
