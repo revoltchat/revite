@@ -27,7 +27,8 @@ export default observer(({ channel }: Props) => {
         for (const b of Object.keys(a)) {
             roles[b] = {
                 name: a[b].name,
-                permissions: a[b].permissions[1],
+                permissions:
+                    channel.role_permissions?.[b] ?? a[b].permissions[1],
             };
         }
     }
