@@ -38,6 +38,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
         new_email,
         new_password,
     }) => {
+        if (processing) return;
         setProcessing(true);
 
         try {
@@ -74,6 +75,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
             disabled={processing}
             actions={[
                 {
+                    disabled: processing,
                     confirmation: true,
                     onClick: handleSubmit(onSubmit),
                     children:
@@ -104,6 +106,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                         register={register}
                         showOverline
                         error={errors.new_email?.message}
+                        disabled={processing}
                     />
                 )}
                 {field === "password" && (
@@ -114,6 +117,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                         showOverline
                         error={errors.new_password?.message}
                         autoComplete="new-password"
+                        disabled={processing}
                     />
                 )}
                 {field === "username" && (
@@ -123,6 +127,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                         register={register}
                         showOverline
                         error={errors.new_username?.message}
+                        disabled={processing}
                     />
                 )}
                 <FormField
@@ -131,6 +136,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                     showOverline
                     error={errors.current_password?.message}
                     autoComplete="current-password"
+                    disabled={processing}
                 />
                 {error && (
                     <Overline type="error" error={error}>
