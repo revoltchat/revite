@@ -47,6 +47,8 @@ function mapMailProvider(email?: string): [string, string] | undefined {
             return ["mail.com", "https://www.mail.com/mail/"];
         case "yandex.com":
             return ["Yandex Mail", "https://mail.yandex.com/"];
+        case "hey.com":
+            return ["HEY", "https://app.hey.com/"];
         default:
             return [domain, `https://${domain}`];
     }
