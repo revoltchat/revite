@@ -106,7 +106,7 @@ export const IntermediateContext = createContext({
 });
 
 export const IntermediateActionsContext = createContext<{
-    openLink: (href?: string) => boolean;
+    openLink: (href?: string, trusted?: boolean) => boolean;
     openScreen: (screen: Screen) => void;
     writeClipboard: (text: string) => void;
 }>({
@@ -130,7 +130,7 @@ export default function Intermediate(props: Props) {
 
     const actions = useMemo(() => {
         return {
-            openLink: (href?: string) => {
+            openLink: (href?: string, trusted?: boolean) => {
                 const link = determineLink(href);
 
                 switch (link.type) {
@@ -145,6 +145,7 @@ export default function Intermediate(props: Props) {
                     case "external": {
                         const { trustedLinks } = getState();
                         if (
+                            !trusted &&
                             !trustedLinks.domains?.includes(link.url.hostname)
                         ) {
                             openScreen({
