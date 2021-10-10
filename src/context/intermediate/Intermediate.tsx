@@ -42,6 +42,7 @@ export type Screen =
           | { type: "leave_server"; target: Server }
           | { type: "delete_server"; target: Server }
           | { type: "delete_channel"; target: Channel }
+          | { type: "delete_bot"; target: string; name: string; cb: () => void }
           | { type: "delete_message"; target: Message }
           | {
                 type: "create_invite";

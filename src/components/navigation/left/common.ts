@@ -12,7 +12,7 @@ type UnreadProps = {
 };
 
 export function useUnreads({ channel, unreads }: UnreadProps) {
-    const firstLoad = useRef(true);
+    // const firstLoad = useRef(true);
     useLayoutEffect(() => {
         function checkUnread(target: Channel) {
             if (!target) return;
@@ -24,20 +24,18 @@ export function useUnreads({ channel, unreads }: UnreadProps) {
                 return;
 
             const unread = unreads[channel._id]?.last_id;
-            if (target.last_message) {
-                const message =
-                    typeof target.last_message === "string"
-                        ? target.last_message
-                        : target.last_message._id;
-                if (!unread || (unread && message.localeCompare(unread) > 0)) {
+            if (target.last_message_id) {
+                if (
+                    !unread ||
+                    (unread && target.last_message_id.localeCompare(unread) > 0)
+                ) {
                     dispatch({
                         type: "UNREADS_MARK_READ",
                         channel: channel._id,
-                        message,
+                        message: target.last_message_id,
                     });
 
-                    channel.ack(message, firstLoad.current);
-                    firstLoad.current = false;
+                    channel.ack(target.last_message_id);
                 }
             }
         }
