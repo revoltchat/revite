@@ -21,6 +21,7 @@ import { EmojiPacks, Settings } from "../../../redux/reducers/settings";
 import {
     DEFAULT_FONT,
     DEFAULT_MONO_FONT,
+    DEFAULT_TEXT_SIZE,
     Fonts,
     FONTS,
     FONT_KEYS,
@@ -185,7 +186,19 @@ export function Component(props: Props) {
                     </option>
                 ))}
             </ComboBox>
-            {/* TOFIX: Only show when a font with ligature support is selected, i.e.: Inter.*/}
+            <h3>
+                <Text id="app.settings.pages.appearance.text_size" />
+            </h3>
+            <InputBox
+                value={props.settings.theme?.textSize ?? DEFAULT_TEXT_SIZE}
+                type="number"
+                onChange={(e) => {
+                    setTheme({
+                        textSize: e.currentTarget.value as number
+                    });
+                }}
+            />
+        {/* TOFIX: Only show when a font with ligature support is selected, i.e.: Inter.*/}
             <p>
                 <Checkbox
                     checked={props.settings.theme?.ligatures === true}

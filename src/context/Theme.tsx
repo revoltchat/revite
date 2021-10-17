@@ -39,6 +39,7 @@ export type Variables =
 // While this isn't used, it'd be good to keep this up to date as a reference or for future use
 export type HiddenVariables =
     | "font"
+    | "text-size"
     | "ligatures"
     | "app-height"
     | "sidebar-active"
@@ -69,6 +70,7 @@ export type Theme = {
 } & {
     light?: boolean;
     font?: Fonts;
+    textSize?: number;
     css?: string;
     monospaceFont?: MonospaceFonts;
 };
@@ -219,6 +221,8 @@ export const MONOSPACE_FONT_KEYS = Object.keys(MONOSPACE_FONTS).sort();
 export const DEFAULT_FONT = "Open Sans";
 export const DEFAULT_MONO_FONT = "Fira Code";
 
+export const DEFAULT_TEXT_SIZE = 14;
+
 // Generated from https://gitlab.insrt.uk/revolt/community/themes
 export const PRESETS: Record<string, Theme> = {
     light: {
@@ -339,6 +343,10 @@ function Theme({ children, options }: Props) {
         root.setProperty("--monospace-font", `"${font}"`);
         MONOSPACE_FONTS[font].load();
     }, [root, theme.monospaceFont]);
+
+    useEffect(() => {
+        root.setProperty("--text-size", `${options?.textSize ?? DEFAULT_TEXT_SIZE}px`);
+    }, [root, options?.textSize, DEFAULT_TEXT_SIZE]);
 
     useEffect(() => {
         root.setProperty("--ligatures", options?.ligatures ? "normal" : "none");
