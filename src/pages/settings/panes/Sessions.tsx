@@ -19,6 +19,7 @@ import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { dayjs } from "../../../context/Locale";
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import Button from "../../../components/ui/Button";
@@ -37,6 +38,8 @@ export function Sessions() {
     );
     const [attemptingDelete, setDelete] = useState<string[]>([]);
     const history = useHistory();
+
+    const { openScreen } = useIntermediate();
 
     function switchPage(to: string) {
         history.replace(`/settings/${to}`);
@@ -210,24 +213,32 @@ export function Sessions() {
             <Button
                 error
                 onClick={async () => {
-                    // ! FIXME: add to rAuth
-                    const del: string[] = [];
-                    render.forEach((session) => {
-                        if (deviceId !== session._id) {
-                            del.push(session._id);
-                        }
+                    openScreen({
+                        id: "special_prompt",
+                        type: "confirm_delete_all_sessions",
+                        cb: async () => {
+                            // ! FIXME: add to rAuth
+                            const del: string[] = [];
+                            render.forEach((session) => {
+                                if (deviceId !== session._id) {
+                                    del.push(session._id);
+                                }
+                            });
+
+                            setDelete(del);
+
+                            for (const id of del) {
+                                await client.req(
+                                    "DELETE",
+                                    `/auth/session/${id}` as "/auth/session/id",
+                                );
+                            }
+
+                            setSessions(
+                                sessions.filter((x) => x._id === deviceId),
+                            );
+                        },
                     });
-
-                    setDelete(del);
-
-                    for (const id of del) {
-                        await client.req(
-                            "DELETE",
-                            `/auth/session/${id}` as "/auth/session/id",
-                        );
-                    }
-
-                    setSessions(sessions.filter((x) => x._id === deviceId));
                 }}>
                 <Text id="app.settings.pages.sessions.logout" />
             </Button>

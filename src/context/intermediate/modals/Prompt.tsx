@@ -60,6 +60,7 @@ type SpecialProps = { onClose: () => void } & (
     | { type: "leave_server"; target: Server }
     | { type: "delete_server"; target: Server }
     | { type: "delete_channel"; target: Channel }
+    | { type: "confirm_delete_all_sessions"; cb: () => void }
     | { type: "delete_bot"; target: string; name: string; cb: () => void }
     | { type: "delete_message"; target: MessageI }
     | {
@@ -98,6 +99,10 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                 leave_server: ["confirm_leave", "leave"],
                 unfriend_user: ["unfriend_user", "remove"],
                 block_user: ["block_user", "block"],
+                confirm_delete_all_sessions: [
+                    "confirm_delete_all_sessions",
+                    "log_out",
+                ],
             };
 
             const event = EVENTS[props.type];
@@ -524,6 +529,49 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                             />
                         </>
                     }
+                    disabled={processing}
+                    error={error}
+                />
+            );
+        }
+        case "confirm_delete_all_sessions": {
+            return (
+                <PromptModal
+                    onClose={onClose}
+                    question={
+                        <Text
+                            id={`app.special.modals.prompt.confirm_delete_all_sessions`}
+                        />
+                    }
+                    actions={[
+                        {
+                            confirmation: true,
+                            contrast: true,
+                            error: true,
+                            children: (
+                                <Text
+                                    id={`app.special.modals.actions.log_out`}
+                                />
+                            ),
+                            onClick: async () => {
+                                setProcessing(true);
+                                try {
+                                    props.cb();
+
+                                    onClose();
+                                } catch (err) {
+                                    setError(takeError(err));
+                                    setProcessing(false);
+                                }
+                            },
+                        },
+                        {
+                            children: (
+                                <Text id="app.special.modals.actions.cancel" />
+                            ),
+                            onClick: onClose,
+                        },
+                    ]}
                     disabled={processing}
                     error={error}
                 />
