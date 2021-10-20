@@ -60,7 +60,7 @@ type SpecialProps = { onClose: () => void } & (
     | { type: "leave_server"; target: Server }
     | { type: "delete_server"; target: Server }
     | { type: "delete_channel"; target: Channel }
-    | { type: "confirm_delete_all_sessions"; cb: () => void }
+    | { type: "confirm_log_out_other_sessions"; cb: () => void }
     | { type: "delete_bot"; target: string; name: string; cb: () => void }
     | { type: "delete_message"; target: MessageI }
     | {
@@ -99,8 +99,8 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                 leave_server: ["confirm_leave", "leave"],
                 unfriend_user: ["unfriend_user", "remove"],
                 block_user: ["block_user", "block"],
-                confirm_delete_all_sessions: [
-                    "confirm_delete_all_sessions",
+                confirm_log_out_other_sessions: [
+                    "confirm_log_out_other_sessions",
                     "log_out",
                 ],
             };
@@ -534,13 +534,13 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                 />
             );
         }
-        case "confirm_delete_all_sessions": {
+        case "confirm_log_out_other_sessions": {
             return (
                 <PromptModal
                     onClose={onClose}
                     question={
                         <Text
-                            id={`app.special.modals.prompt.confirm_delete_all_sessions`}
+                            id={`app.special.modals.prompt.confirm_log_out_other_sessions`}
                         />
                     }
                     actions={[

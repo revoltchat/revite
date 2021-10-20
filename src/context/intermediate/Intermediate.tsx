@@ -54,7 +54,7 @@ export type Screen =
           | { type: "block_user"; target: User }
           | { type: "create_channel"; target: Server }
           | { type: "create_category"; target: Server }
-          | { type: "confirm_delete_all_sessions"; cb: () => void }
+          | { type: "confirm_log_out_other_sessions"; cb: () => void }
       ))
     | ({ id: "special_input" } & (
           | {

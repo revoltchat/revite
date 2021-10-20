@@ -215,7 +215,7 @@ export function Sessions() {
                 onClick={async () => {
                     openScreen({
                         id: "special_prompt",
-                        type: "confirm_delete_all_sessions",
+                        type: "confirm_log_out_other_sessions",
                         cb: async () => {
                             // ! FIXME: add to rAuth
                             const del: string[] = [];
