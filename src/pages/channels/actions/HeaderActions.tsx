@@ -7,6 +7,7 @@ import {
     PhoneOff,
     Group,
 } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 
 import { internalEmit } from "../../../lib/eventEmitter";
@@ -90,37 +91,39 @@ export default function HeaderActions({
     );
 }
 
-function VoiceActions({ channel }: Pick<ChannelHeaderProps, "channel">) {
-    if (
-        channel.channel_type === "SavedMessages" ||
-        channel.channel_type === "TextChannel"
-    )
-        return null;
+const VoiceActions = observer(
+    ({ channel }: Pick<ChannelHeaderProps, "channel">) => {
+        if (
+            channel.channel_type === "SavedMessages" ||
+            channel.channel_type === "TextChannel"
+        )
+            return null;
 
-    if (voiceState.status >= VoiceStatus.READY) {
-        if (voiceState.roomId === channel._id) {
+        if (voiceState.status >= VoiceStatus.READY) {
+            if (voiceState.roomId === channel._id) {
+                return (
+                    <IconButton onClick={voiceState.disconnect}>
+                        <PhoneOff size={22} />
+                    </IconButton>
+                );
+            }
+
             return (
-                <IconButton onClick={voiceState.disconnect}>
-                    <PhoneOff size={22} />
+                <IconButton
+                    onClick={async () => {
+                        await voiceState.loadVoice();
+                        voiceState.disconnect();
+                        voiceState.connect(channel);
+                    }}>
+                    <PhoneCall size={24} />
                 </IconButton>
             );
         }
 
         return (
-            <IconButton
-                onClick={async () => {
-                    await voiceState.loadVoice();
-                    voiceState.disconnect();
-                    voiceState.connect(channel);
-                }}>
-                <PhoneCall size={24} />
+            <IconButton>
+                <PhoneCall size={24} /** ! FIXME: TEMP */ color="red" />
             </IconButton>
         );
-    }
-
-    return (
-        <IconButton>
-            <PhoneCall size={24} /** ! FIXME: TEMP */ color="red" />
-        </IconButton>
-    );
-}
+    },
+);
