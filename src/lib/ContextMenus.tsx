@@ -63,6 +63,7 @@ interface ContextMenuData {
     server_list?: string;
     channel?: string;
     message?: Message;
+    attachment?: Attachment;
 
     unread?: boolean;
     queued?: QueuedMessage;
@@ -468,6 +469,7 @@ function ContextMenus(props: Props) {
                     channel: cid,
                     server: sid,
                     message,
+                    attachment,
                     server_list,
                     queued,
                     unread,
@@ -740,7 +742,10 @@ function ContextMenus(props: Props) {
                             });
                         }
 
-                        if (message.attachments) {
+                        if (
+                            message.attachments &&
+                            message.attachments.length == 1 // if there are multiple attachments, the individual ones have to be clicked
+                        ) {
                             pushDivider();
                             const { metadata } = message.attachments[0];
                             const { type } = metadata;
@@ -787,6 +792,44 @@ function ContextMenus(props: Props) {
                                 generateAction({ action: "copy_link", link });
                             }
                         }
+                    }
+
+                    if (attachment) {
+                        pushDivider();
+                        const { metadata } = attachment;
+                        const { type } = metadata;
+
+                        generateAction(
+                            {
+                                action: "open_file",
+                                attachment,
+                            },
+                            type === "Image"
+                                ? "open_image"
+                                : type === "Video"
+                                ? "open_video"
+                                : "open_file",
+                        );
+
+                        generateAction(
+                            {
+                                action: "save_file",
+                                attachment,
+                            },
+                            type === "Image"
+                                ? "save_image"
+                                : type === "Video"
+                                ? "save_video"
+                                : "save_file",
+                        );
+
+                        generateAction(
+                            {
+                                action: "copy_file_link",
+                                attachment,
+                            },
+                            "copy_link",
+                        );
                     }
 
                     const id = sid ?? cid ?? uid ?? message?._id;
