@@ -1041,10 +1041,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/roboto-mono/-/roboto-mono-4.5.0.tgz#27e44fbb1d86a9ef14501493a37eef1d73e60d02"
   integrity sha512-/6Gm6fJjBHZiFNyvzIKGJkVuyifoc1aoTel+pkzdhxNh7yNhFyokCoChdbbqZEpGKpqs5uld74G5TJthUVFyjw==
 
-"@fontsource/roboto@^4.4.5":
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-4.5.0.tgz#d6f925668ba6af46707f1040c43aff498ba204bb"
-  integrity sha512-ja4XYw/9kNRFM5Ndk9vwzHWsdBMXczyBazFkTXJQ74QQBnT0BbSsHn0pF60AU0Iznig1Wt9x3rADfG8LANvMpw==
+"@fontsource/roboto@^4.5.1":
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-4.5.1.tgz#63f7b783f755d8f6727eb60198627e7e1be3ac20"
+  integrity sha512-3mhfL+eNPG/woMNqwD/OHaW5qMpeGEBsDwzmhFmjB1yUV+M+M9P0NhP/AyHvnGz3DrqkvZ7CPzNMa+UkVLeELg==
 
 "@fontsource/source-code-pro@^4.4.5":
   version "4.5.0"
