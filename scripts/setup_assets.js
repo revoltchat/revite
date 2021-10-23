@@ -30,7 +30,7 @@ function exec(command) {
     } catch (err) {}
 
     if (target) {
-        let arg = branch ? `-b ${branch}` : "";
+        let arg = branch ? `-b ${branch} ` : "";
         await exec(`git clone ${arg}${target} ${OUT_DIRECTORY}`);
         await exec(`rm -rf ${resolve(OUT_DIRECTORY, ".git")}`);
     } else {
