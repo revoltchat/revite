@@ -4,6 +4,7 @@ const { exec: cexec } = require("child_process");
 const { resolve } = require("path");
 
 let target = process.env.REVOLT_SASS;
+let branch = process.env.REVOLT_SASS_BRANCH;
 let DEFAULT_DIRECTORY = "public/assets_default";
 let OUT_DIRECTORY = "public/assets";
 
@@ -29,7 +30,8 @@ function exec(command) {
     } catch (err) {}
 
     if (target) {
-        await exec(`git clone ${target} ${OUT_DIRECTORY}`);
+        let arg = branch ? `-b ${branch}` : "";
+        await exec(`git clone ${arg}${target} ${OUT_DIRECTORY}`);
         await exec(`rm -rf ${resolve(OUT_DIRECTORY, ".git")}`);
     } else {
         await copy(DEFAULT_DIRECTORY, OUT_DIRECTORY);
