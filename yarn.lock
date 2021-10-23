@@ -1016,10 +1016,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/montserrat/-/montserrat-4.5.1.tgz#64a33ffdb77bbc63484c0321710bed272cc5b16f"
   integrity sha512-xdMkzsnFlzDt5Vj9+AWuUp4Vd9F3hYN2I0GTZZYscWN/bQ20wVOGtdWLO8Okfv7SZ9t/z39/EayAAt+f/8tAvw==
 
-"@fontsource/noto-sans@^4.4.5":
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans/-/noto-sans-4.5.0.tgz#179c71178678bf17e6018919c33b48ea895a86dd"
-  integrity sha512-pYg1hJtdRJFVPkp8zCVuk5Gy42PTEeQUZSqYZHac412qV3MgOnvregHVa8Og38Z16rM61ZYwxDpuseJqS08Ifw==
+"@fontsource/noto-sans@^4.5.1":
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans/-/noto-sans-4.5.1.tgz#b0674a0b903adccb2cdafcc61b7a7f48805b826f"
+  integrity sha512-2Piw8UHz4XNomZgIUdurkv7cLcDOQvzZ8lagHF+Q7faYTukVCXZhdRLcVJ7qXMcsgYxg0wYYUYrF5sdnh6CzSQ==
 
 "@fontsource/open-sans@^4.4.5":
   version "4.5.0"
