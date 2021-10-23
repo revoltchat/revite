@@ -64,7 +64,7 @@
         "@fontsource/ubuntu": "^4.4.5",
         "@fontsource/ubuntu-mono": "^4.4.5",
         "@hcaptcha/react-hcaptcha": "^0.3.6",
-        "@preact/preset-vite": "^2.0.0",
+        "@preact/preset-vite": "^2.1.5",
         "@rollup/plugin-replace": "^2.4.2",
         "@styled-icons/boxicons-logos": "^10.34.0",
         "@styled-icons/boxicons-regular": "^10.34.0",
