@@ -4,7 +4,6 @@ import styles from "./Onboarding.module.scss";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import wideSVG from "../../../assets/wide.svg";
 import Button from "../../../components/ui/Button";
 import Preloader from "../../../components/ui/Preloader";
 
@@ -41,7 +40,7 @@ export function OnboardingModal({ onClose, callback }: Props) {
                 <h1>
                     <Text id="app.special.modals.onboarding.welcome" />
                     <br />
-                    <img src={wideSVG} loading="eager" />
+                    <img src={"/assets/wide.svg"} loading="eager" />
                 </h1>
             </div>
             <div className={styles.form}>
