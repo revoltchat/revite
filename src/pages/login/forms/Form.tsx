@@ -9,6 +9,7 @@ import { useContext, useState } from "preact/hooks";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
+import wideSVG from "../../../../public/assets/wide.svg";
 import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
@@ -145,7 +146,7 @@ export function Form({ page, callback }: Props) {
 
     return (
         <div className={styles.form}>
-            <img src={"/assets/svg/wide.svg"} />
+            <img src={wideSVG} />
             {/* Preact / React typing incompatabilities */}
             <form
                 onSubmit={
