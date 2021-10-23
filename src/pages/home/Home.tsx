@@ -10,6 +10,7 @@ import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { dispatch, getState } from "../../redux";
 
+import wideSVG from "../../../../public/assets/wide.svg";
 import Emoji from "../../components/common/Emoji";
 import Tooltip from "../../components/common/Tooltip";
 import Header from "../../components/ui/Header";
@@ -66,7 +67,7 @@ export default function Home() {
             <h3>
                 <Text id="app.special.modals.onboarding.welcome" />
                 <br />
-                <img src={"/assets/svg/wide.svg"} />
+                <img src={wideSVG} />
             </h3>
             <div className={styles.actions}>
                 <Link to="/invite/Testers">
