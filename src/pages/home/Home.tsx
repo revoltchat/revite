@@ -10,7 +10,7 @@ import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { dispatch, getState } from "../../redux";
 
-import wideSVG from "../../../../public/assets/wide.svg";
+import wideSVG from "../../../public/assets/wide.svg";
 import Emoji from "../../components/common/Emoji";
 import Tooltip from "../../components/common/Tooltip";
 import Header from "../../components/ui/Header";
