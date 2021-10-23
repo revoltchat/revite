@@ -1,8 +1,9 @@
 {
     "version": "0.0.0",
     "scripts": {
-        "dev": "vite",
-        "build": "rimraf build && vite build",
+        "dev": "node scripts/setup_assets.js --check && vite",
+        "pull": "node scripts/setup_assets.js",
+        "build": "rimraf build && node scripts/setup_assets.js --check && vite build",
         "preview": "vite preview",
         "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
         "fmt": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
