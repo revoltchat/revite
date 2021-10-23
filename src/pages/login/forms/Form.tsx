@@ -145,7 +145,7 @@ export function Form({ page, callback }: Props) {
 
     return (
         <div className={styles.form}>
-            <img src={"/assets/wide.svg"} />
+            <img src={"/assets/svg/wide.svg"} />
             {/* Preact / React typing incompatabilities */}
             <form
                 onSubmit={

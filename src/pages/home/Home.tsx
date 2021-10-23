@@ -66,7 +66,7 @@ export default function Home() {
             <h3>
                 <Text id="app.special.modals.onboarding.welcome" />
                 <br />
-                <img src={"/assets/wide.svg"} />
+                <img src={"/assets/svg/wide.svg"} />
             </h3>
             <div className={styles.actions}>
                 <Link to="/invite/Testers">
