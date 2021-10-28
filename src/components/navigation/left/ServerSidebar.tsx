@@ -9,6 +9,8 @@ import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
+import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
+
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import { Unreads } from "../../../redux/reducers/unreads";
@@ -108,6 +110,7 @@ const ServerSidebar = observer((props: Props) => {
                 <ChannelButton
                     channel={entry}
                     active={active}
+                    voice={voiceState.roomId === entry._id}
                     // ! FIXME: pull it out directly
                     alert={mapChannelWithUnread(entry, props.unreads).unread}
                     compact
