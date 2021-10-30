@@ -50,6 +50,7 @@ export default observer(() => {
                     title: (
                         <Text id="app.settings.server_pages.categories.title" />
                     ),
+                    hideTitle: true,
                 },
                 {
                     id: "members",
