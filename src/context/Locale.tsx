@@ -22,6 +22,7 @@ export enum Language {
 
     ARABIC = "ar",
     AZERBAIJANI = "az",
+    BELARUSIAN = "be",
     BULGARIAN = "bg",
     CZECH = "cs",
     GERMAN = "de",
@@ -89,6 +90,7 @@ export const Languages: { [key in Language]: LanguageEntry } = {
 
     ar: { display: "عربي", emoji: "🇸🇦", i18n: "ar", rtl: true },
     az: { display: "Azərbaycan dili", emoji: "🇦🇿", i18n: "az" },
+    be: { display: "беларуская", emoji: "🇧🇾", i18n: "be" },
     bg: { display: "български", emoji: "🇧🇬", i18n: "bg" },
     cs: { display: "Čeština", emoji: "🇨🇿", i18n: "cs" },
     de: { display: "Deutsch", emoji: "🇩🇪", i18n: "de" },
