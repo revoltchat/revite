@@ -31,6 +31,7 @@ type CommonProps = Omit<
     alert?: "unread" | "mention";
     alertCount?: number;
     margin?: boolean;
+    muted?: boolean;
 };
 
 type UserProps = CommonProps & {
@@ -39,6 +40,7 @@ type UserProps = CommonProps & {
     channel?: Channel;
 };
 
+// TODO: Gray out blocked names.
 export const UserButton = observer((props: UserProps) => {
     const {
         active,
@@ -132,8 +134,16 @@ type ChannelProps = CommonProps & {
 };
 
 export const ChannelButton = observer((props: ChannelProps) => {
-    const { active, alert, alertCount, channel, user, compact, ...divProps } =
-        props;
+    const {
+        active,
+        alert,
+        alertCount,
+        channel,
+        user,
+        compact,
+        muted,
+        ...divProps
+    } = props;
 
     if (channel.channel_type === "SavedMessages") throw "Invalid channel type.";
     if (channel.channel_type === "DirectMessage") {
@@ -147,12 +157,13 @@ export const ChannelButton = observer((props: ChannelProps) => {
         <div
             {...divProps}
             data-active={active}
-            data-alert={typeof alert === "string"}
+            data-alert={typeof alert === "string" && !muted}
+            data-muted={muted}
             aria-label={channel.name}
             className={classNames(styles.item, { [styles.compact]: compact })}
             onContextMenu={attachContextMenu("Menu", {
                 channel: channel._id,
-                unread: typeof alert !== "undefined",
+                unread: !!alert,
             })}>
             <ChannelIcon
                 className={styles.avatar}
@@ -164,7 +175,8 @@ export const ChannelButton = observer((props: ChannelProps) => {
                 {channel.channel_type === "Group" && (
                     <div className={styles.subText}>
                         {typeof channel.last_message?.content === "string" &&
-                        alert ? (
+                        alert &&
+                        !muted ? (
                             channel.last_message.content.slice(0, 32)
                         ) : (
                             <Text
@@ -177,7 +189,7 @@ export const ChannelButton = observer((props: ChannelProps) => {
                 )}
             </div>
             <div className={styles.button}>
-                {alert && (
+                {alert && !muted && (
                     <div className={styles.alert} data-style={alert}>
                         {alertCount}
                     </div>
