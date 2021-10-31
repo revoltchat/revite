@@ -41,7 +41,7 @@ function mapMailProvider(email?: string): [string, string] | undefined {
         case "aim.com":
             return ["AOL Mail", "https://mail.aol.com/"];
         case "icloud.com":
-            return ["iCloud Mail", "https://mail.aol.com/"];
+            return ["iCloud Mail", "https://mail.icloud.com/"];
         case "mail.com":
         case "email.com":
             return ["mail.com", "https://www.mail.com/mail/"];
