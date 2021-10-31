@@ -111,14 +111,11 @@ export default function Embed({ embed }: Props) {
                         {embed.title && (
                             <span>
                                 <a
-                                    onClick={(e) =>
-                                        openLink(e.currentTarget.href) &&
-                                        e.preventDefault()
+                                    onMouseDown={(ev) =>
+                                        (ev.button === 0 || ev.button === 1) &&
+                                        openLink(embed.url)
                                     }
-                                    href={embed.url}
-                                    target={"_blank"}
-                                    className={styles.title}
-                                    rel="noreferrer">
+                                    className={styles.title}>
                                     {embed.title}
                                 </a>
                             </span>
@@ -159,9 +156,7 @@ export default function Embed({ embed }: Props) {
                     frameBorder="0"
                     loading="lazy"
                     onClick={() => openScreen({ id: "image_viewer", embed })}
-                    onMouseDown={(ev) =>
-                        ev.button === 1 && window.open(embed.url, "_blank")
-                    }
+                    onMouseDown={(ev) => ev.button === 1 && openLink(embed.url)}
                 />
             );
         }

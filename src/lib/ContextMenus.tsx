@@ -63,6 +63,7 @@ interface ContextMenuData {
     server_list?: string;
     channel?: string;
     message?: Message;
+    attachment?: Attachment;
 
     unread?: boolean;
     queued?: QueuedMessage;
@@ -104,14 +105,14 @@ type Action =
     | { action: "create_channel"; target: Server }
     | { action: "create_category"; target: Server }
     | {
-          action: "create_invite";
-          target: Channel;
-      }
+        action: "create_invite";
+        target: Channel;
+    }
     | { action: "leave_group"; target: Channel }
     | {
-          action: "delete_channel";
-          target: Channel;
-      }
+        action: "delete_channel";
+        target: Channel;
+    }
     | { action: "close_dm"; target: Channel }
     | { action: "leave_server"; target: Server }
     | { action: "delete_server"; target: Server }
@@ -122,10 +123,10 @@ type Action =
     | { action: "open_server_settings"; id: string }
     | { action: "open_server_channel_settings"; server: string; id: string }
     | {
-          action: "set_notification_state";
-          key: string;
-          state?: NotificationState;
-      };
+        action: "set_notification_state";
+        key: string;
+        state?: NotificationState;
+    };
 
 type Props = {
     notifications: Notifications;
@@ -170,18 +171,13 @@ function ContextMenus(props: Props) {
                         )
                             return;
 
-                        const message =
-                            typeof data.channel.last_message === "string"
-                                ? data.channel.last_message
-                                : data.channel.last_message!._id;
-
                         dispatch({
                             type: "UNREADS_MARK_READ",
                             channel: data.channel._id,
-                            message,
+                            message: data.channel.last_message_id!,
                         });
 
-                        data.channel.ack(message);
+                        data.channel.ack(undefined, true);
                     }
                     break;
                 case "mark_server_as_read":
@@ -473,6 +469,7 @@ function ContextMenus(props: Props) {
                     channel: cid,
                     server: sid,
                     message,
+                    attachment,
                     server_list,
                     queued,
                     unread,
@@ -491,9 +488,8 @@ function ContextMenus(props: Props) {
                         elements.push(
                             <MenuItem data={action} disabled={disabled}>
                                 <Text
-                                    id={`app.context_menu.${
-                                        locale ?? action.action
-                                    }`}
+                                    id={`app.context_menu.${locale ?? action.action
+                                        }`}
                                 />
                                 {tip && <div className="tip">{tip}</div>}
                             </MenuItem>,
@@ -549,8 +545,8 @@ function ContextMenus(props: Props) {
                     const user = uid ? client.users.get(uid) : undefined;
                     const serverChannel =
                         targetChannel &&
-                        (targetChannel.channel_type === "TextChannel" ||
-                            targetChannel.channel_type === "VoiceChannel")
+                            (targetChannel.channel_type === "TextChannel" ||
+                                targetChannel.channel_type === "VoiceChannel")
                             ? targetChannel
                             : undefined;
 
@@ -562,8 +558,8 @@ function ContextMenus(props: Props) {
                         (server
                             ? server.permission
                             : serverChannel
-                            ? serverChannel.server?.permission
-                            : 0) || 0;
+                                ? serverChannel.server?.permission
+                                : 0) || 0;
                     const userPermissions = (user ? user.permission : 0) || 0;
 
                     if (unread) {
@@ -707,19 +703,27 @@ function ContextMenus(props: Props) {
                     }
 
                     if (message && !queued) {
-                        generateAction({
-                            action: "reply_message",
-                            target: message,
-                        });
+                        const sendPermission =
+                            message.channel &&
+                            message.channel.permission & ChannelPermission.SendMessage
+
+                        if (sendPermission) {
+                            generateAction({
+                                action: "reply_message",
+                                target: message,
+                            });
+                        }
 
                         if (
                             typeof message.content === "string" &&
                             message.content.length > 0
                         ) {
-                            generateAction({
-                                action: "quote_message",
-                                content: message.content,
-                            });
+                            if (sendPermission) {
+                                generateAction({
+                                    action: "quote_message",
+                                    content: message.content,
+                                });
+                            }
 
                             generateAction({
                                 action: "copy_text",
@@ -737,7 +741,7 @@ function ContextMenus(props: Props) {
                         if (
                             message.author_id === userId ||
                             channelPermissions &
-                                ChannelPermission.ManageMessages
+                            ChannelPermission.ManageMessages
                         ) {
                             generateAction({
                                 action: "delete_message",
@@ -745,7 +749,10 @@ function ContextMenus(props: Props) {
                             });
                         }
 
-                        if (message.attachments) {
+                        if (
+                            message.attachments &&
+                            message.attachments.length == 1 // if there are multiple attachments, the individual ones have to be clicked
+                        ) {
                             pushDivider();
                             const { metadata } = message.attachments[0];
                             const { type } = metadata;
@@ -758,8 +765,8 @@ function ContextMenus(props: Props) {
                                 type === "Image"
                                     ? "open_image"
                                     : type === "Video"
-                                    ? "open_video"
-                                    : "open_file",
+                                        ? "open_video"
+                                        : "open_file",
                             );
 
                             generateAction(
@@ -770,8 +777,8 @@ function ContextMenus(props: Props) {
                                 type === "Image"
                                     ? "save_image"
                                     : type === "Video"
-                                    ? "save_video"
-                                    : "save_file",
+                                        ? "save_video"
+                                        : "save_file",
                             );
 
                             generateAction(
@@ -792,6 +799,44 @@ function ContextMenus(props: Props) {
                                 generateAction({ action: "copy_link", link });
                             }
                         }
+                    }
+
+                    if (attachment) {
+                        pushDivider();
+                        const { metadata } = attachment;
+                        const { type } = metadata;
+
+                        generateAction(
+                            {
+                                action: "open_file",
+                                attachment,
+                            },
+                            type === "Image"
+                                ? "open_image"
+                                : type === "Video"
+                                ? "open_video"
+                                : "open_file",
+                        );
+
+                        generateAction(
+                            {
+                                action: "save_file",
+                                attachment,
+                            },
+                            type === "Image"
+                                ? "save_image"
+                                : type === "Video"
+                                ? "save_video"
+                                : "save_file",
+                        );
+
+                        generateAction(
+                            {
+                                action: "copy_file_link",
+                                attachment,
+                            },
+                            "copy_link",
+                        );
                     }
 
                     const id = sid ?? cid ?? uid ?? message?._id;
@@ -885,9 +930,9 @@ function ContextMenus(props: Props) {
 
                             if (
                                 serverPermissions &
-                                    ServerPermission.ChangeNickname ||
+                                ServerPermission.ChangeNickname ||
                                 serverPermissions &
-                                    ServerPermission.ChangeAvatar
+                                ServerPermission.ChangeAvatar
                             )
                                 generateAction(
                                     { action: "edit_identity", target: server },
@@ -931,10 +976,10 @@ function ContextMenus(props: Props) {
                             sid
                                 ? "copy_sid"
                                 : cid
-                                ? "copy_cid"
-                                : message
-                                ? "copy_mid"
-                                : "copy_uid",
+                                    ? "copy_cid"
+                                    : message
+                                        ? "copy_mid"
+                                        : "copy_uid",
                         );
                     }
 

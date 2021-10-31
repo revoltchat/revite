@@ -1,6 +1,6 @@
 import { Wrench } from "@styled-icons/boxicons-solid";
 
-import { useContext } from "preact/hooks";
+import { useContext, useState } from "preact/hooks";
 
 import PaintCounter from "../../lib/PaintCounter";
 import { TextReact } from "../../lib/i18n";
@@ -11,8 +11,15 @@ import Header from "../../components/ui/Header";
 
 export default function Developer() {
     // const voice = useContext(VoiceContext);
+
     const client = useContext(AppContext);
     const userPermission = client.user!.permission;
+    const [ping, setPing] = useState<undefined | number>(client.websocket.ping);
+
+    setInterval(
+        () => setPing(client.websocket.ping),
+        client.options.heartbeat * 1e3,
+    );
 
     return (
         <div>
@@ -24,6 +31,8 @@ export default function Developer() {
                 <PaintCounter always />
             </div>
             <div style={{ padding: "16px" }}>
+                <b>Server Ping:</b> {ping ?? "?"}ms
+                <br />
                 <b>User ID:</b> {client.user!._id} <br />
                 <b>Permission against self:</b> {userPermission} <br />
             </div>

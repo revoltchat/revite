@@ -1,7 +1,10 @@
 import { Text } from "preact-i18n";
 
-import Modal from "../../../components/ui/Modal";
 import { dispatch } from "../../../redux";
+
+import Modal from "../../../components/ui/Modal";
+
+import { useIntermediate } from "../Intermediate";
 
 interface Props {
     onClose: () => void;
@@ -9,6 +12,8 @@ interface Props {
 }
 
 export function ExternalLinkModal({ onClose, link }: Props) {
+    const { openLink } = useIntermediate();
+
     return (
         <Modal
             visible={true}
@@ -17,7 +22,7 @@ export function ExternalLinkModal({ onClose, link }: Props) {
             actions={[
                 {
                     onClick: () => {
-                        window.open(link, "_blank");
+                        openLink(link, true);
                         onClose();
                     },
                     confirmation: true,
@@ -36,15 +41,18 @@ export function ExternalLinkModal({ onClose, link }: Props) {
                             const url = new URL(link);
                             dispatch({
                                 type: "TRUSTED_LINKS_ADD_DOMAIN",
-                                domain: url.hostname
+                                domain: url.hostname,
                             });
-                        } catch(e) {}
-                        window.open(link, "_blank");
+                        } catch (e) {}
+
+                        openLink(link);
                         onClose();
                     },
                     plain: true,
-                    children: <Text id="app.special.modals.external_links.trust_domain" />,
-                }
+                    children: (
+                        <Text id="app.special.modals.external_links.trust_domain" />
+                    ),
+                },
             ]}>
             <Text id="app.special.modals.external_links.short" /> <br />
             <a>{link}</a>

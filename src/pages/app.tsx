@@ -8,6 +8,8 @@ import { CheckAuth } from "../context/revoltjs/CheckAuth";
 import Masks from "../components/ui/Masks";
 import Preloader from "../components/ui/Preloader";
 
+import Invite from "./invite/Invite";
+
 const Login = lazy(() => import("./login/Login"));
 const RevoltApp = lazy(() => import("./RevoltApp"));
 
@@ -19,6 +21,15 @@ export function App() {
             // @ts-expect-error typings mis-match between preact... and preact? */}
             <Suspense fallback={<Preloader type="spinner" />}>
                 <Switch>
+                    <Route path="/login/verify/:token">
+                        <Login />
+                    </Route>
+                    <Route path="/login/reset/:token">
+                        <Login />
+                    </Route>
+                    <Route path="/invite/:code">
+                        <Invite />
+                    </Route>
                     <Route path="/login">
                         <CheckAuth>
                             <Login />

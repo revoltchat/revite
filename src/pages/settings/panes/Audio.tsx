@@ -1,3 +1,4 @@
+import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
@@ -7,6 +8,7 @@ import { voiceState } from "../../../lib/vortex/VoiceState";
 
 import { connectState } from "../../../redux/connector";
 
+import Button from "../../../components/ui/Button";
 import ComboBox from "../../../components/ui/ComboBox";
 import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
@@ -52,10 +54,6 @@ export function Component() {
     };
 
     useEffect(() => {
-        askOrGetPermission();
-    }, []);
-
-    useEffect(() => {
         return () => {
             if (mediaStream) {
                 // close microphone access on unmount
@@ -82,7 +80,7 @@ export function Component() {
     }, [mediaStream]);
 
     const handleAskForPermission = (
-        ev: JSX.TargetedMouseEvent<HTMLAnchorElement>,
+        ev: JSX.TargetedMouseEvent<HTMLElement>,
     ) => {
         stopPropagation(ev);
         setError(undefined);
@@ -91,10 +89,25 @@ export function Component() {
 
     return (
         <>
-            <div>
+            <div class={styles.audio}>
                 <h3>
                     <Text id="app.settings.pages.audio.input_device" />
                 </h3>
+
+                {!permission && (
+                    <div className={styles.grant_permission}>
+                        <span className={styles.description}>
+                            <Text id="app.settings.pages.audio.tip_grant_permission" />
+                        </span>
+                        <Button
+                            compact
+                            onClick={(e) => handleAskForPermission(e)}
+                            error>
+                            <Text id="app.settings.pages.audio.button_grant" />
+                        </Button>
+                    </div>
+                )}
+
                 <ComboBox
                     value={window.localStorage.getItem("audioInputDevice") ?? 0}
                     onChange={(e) =>

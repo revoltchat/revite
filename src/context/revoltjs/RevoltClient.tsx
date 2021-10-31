@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { Session } from "revolt-api/types/Auth";
 import { Client } from "revolt.js";
 import { Route } from "revolt.js/dist/api/routes";
 
@@ -15,7 +16,6 @@ import { Children } from "../../types/Preact";
 import { useIntermediate } from "../intermediate/Intermediate";
 import { registerEvents, setReconnectDisallowed } from "./events";
 import { takeError } from "./util";
-import { Session } from "revolt-api/types/Auth";
 
 export enum ClientStatus {
     INIT,
@@ -29,7 +29,9 @@ export enum ClientStatus {
 }
 
 export interface ClientOperations {
-    login: (data: Route<"POST", "/auth/login">["data"]) => Promise<void>;
+    login: (
+        data: Route<"POST", "/auth/session/login">["data"],
+    ) => Promise<void>;
     logout: (shouldRequest?: boolean) => Promise<void>;
     loggedIn: () => boolean;
     ready: () => boolean;

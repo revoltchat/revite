@@ -7,10 +7,12 @@ import { useEffect } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
+import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
+import { Notifications } from "../../../redux/reducers/notifications";
 import { Unreads } from "../../../redux/reducers/unreads";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
@@ -22,10 +24,10 @@ import { mapChannelWithUnread, useUnreads } from "./common";
 
 import { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
-import { internalEmit } from "../../../lib/eventEmitter";
 
 interface Props {
     unreads: Unreads;
+    notifications: Notifications;
 }
 
 const ServerBase = styled.div`
@@ -65,7 +67,12 @@ const ServerSidebar = observer((props: Props) => {
     const channel = channel_id ? client.channels.get(channel_id) : undefined;
 
     // The user selected no channel, let's see if there's a channel available
-    if (!channel && server.channel_ids.length > 0) return <Redirect to={`/server/${server_id}/channel/${server.channel_ids[0]}`} />;
+    if (!channel && server.channel_ids.length > 0)
+        return (
+            <Redirect
+                to={`/server/${server_id}/channel/${server.channel_ids[0]}`}
+            />
+        );
     if (channel_id && !channel) return <Redirect to={`/server/${server_id}`} />;
 
     if (channel) useUnreads({ ...props, channel });
@@ -88,10 +95,11 @@ const ServerSidebar = observer((props: Props) => {
         if (!entry) return;
 
         const active = channel?._id === entry._id;
+        const muted = props.notifications[id] === "muted";
 
         return (
             <ConditionalLink
-                onClick={e => {
+                onClick={(e) => {
                     if (e.shiftKey) {
                         internalEmit(
                             "MessageBox",
@@ -99,7 +107,7 @@ const ServerSidebar = observer((props: Props) => {
                             `<#${entry._id}>`,
                             "channel_mention",
                         );
-                        e.preventDefault()
+                        e.preventDefault();
                     }
                 }}
                 key={entry._id}
@@ -111,6 +119,7 @@ const ServerSidebar = observer((props: Props) => {
                     // ! FIXME: pull it out directly
                     alert={mapChannelWithUnread(entry, props.unreads).unread}
                     compact
+                    muted={muted}
                 />
             </ConditionalLink>
         );
@@ -157,5 +166,6 @@ const ServerSidebar = observer((props: Props) => {
 export default connectState(ServerSidebar, (state) => {
     return {
         unreads: state.unreads,
+        notifications: state.notifications,
     };
 });

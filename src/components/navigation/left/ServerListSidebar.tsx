@@ -66,7 +66,7 @@ function Icon({
                         text-anchor="middle"
                         fontSize={"7.5"}
                         alignmentBaseline={"middle"}
-                        dominantBaseline={"middle"}>
+                        dominant-baseline={"middle"}>
                         {count < 10 ? count : "9+"}
                     </text>
                 </>

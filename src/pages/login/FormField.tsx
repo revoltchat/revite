@@ -5,8 +5,10 @@ import { Text, Localizer } from "preact-i18n";
 import InputBox from "../../components/ui/InputBox";
 import Overline from "../../components/ui/Overline";
 
-interface Props {
-    type: "email" | "username" | "password" | "invite" | "current_password";
+type FieldType = "email" | "username" | "password" | "invite" | "current_password";
+
+type Props = Omit<JSX.HTMLAttributes<HTMLInputElement>, "children" | "as"> & {
+    type: FieldType;
     showOverline?: boolean;
     register: UseFormMethods["register"];
     error?: string;
@@ -19,6 +21,7 @@ export default function FormField({
     showOverline,
     error,
     name,
+    ...props
 }: Props) {
     return (
         <>
@@ -41,44 +44,45 @@ export default function FormField({
                         type === "invite" || type === "username"
                             ? "text"
                             : type === "current_password"
-                            ? "password"
-                            : type
+                                ? "password"
+                                : type
                     }
                     // See https://github.com/mozilla/contain-facebook/issues/783
                     className="fbc-has-badge"
                     ref={register(
                         type === "password" || type === "current_password"
                             ? {
-                                  validate: (value: string) =>
-                                      value.length === 0
-                                          ? "RequiredField"
-                                          : value.length < 8
-                                          ? "TooShort"
-                                          : value.length > 1024
-                                          ? "TooLong"
-                                          : undefined,
-                              }
+                                validate: (value: string) =>
+                                    value.length === 0
+                                        ? "RequiredField"
+                                        : value.length < 8
+                                            ? "TooShort"
+                                            : value.length > 1024
+                                                ? "TooLong"
+                                                : undefined,
+                            }
                             : type === "email"
-                            ? {
-                                  required: "RequiredField",
-                                  pattern: {
-                                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                      message: "InvalidEmail",
-                                  },
-                              }
-                            : type === "username"
-                            ? {
-                                  validate: (value: string) =>
-                                      value.length === 0
-                                          ? "RequiredField"
-                                          : value.length < 2
-                                          ? "TooShort"
-                                          : value.length > 32
-                                          ? "TooLong"
-                                          : undefined,
-                              }
-                            : { required: "RequiredField" },
+                                ? {
+                                    required: "RequiredField",
+                                    pattern: {
+                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                        message: "InvalidEmail",
+                                    },
+                                }
+                                : type === "username"
+                                    ? {
+                                        validate: (value: string) =>
+                                            value.length === 0
+                                                ? "RequiredField"
+                                                : value.length < 2
+                                                    ? "TooShort"
+                                                    : value.length > 32
+                                                        ? "TooLong"
+                                                        : undefined,
+                                    }
+                                    : { required: "RequiredField" },
                     )}
+                    {...props}
                 />
             </Localizer>
         </>

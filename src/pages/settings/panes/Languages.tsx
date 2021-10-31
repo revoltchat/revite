@@ -14,6 +14,7 @@ import Emoji from "../../../components/common/Emoji";
 import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
 import enchantingTableWEBP from "../assets/enchanting_table.webp";
+import tamilFlagPNG from "../assets/tamil_nadu_flag.png";
 import tokiponaSVG from "../assets/toki_pona.svg";
 
 type Props = {
@@ -37,7 +38,13 @@ function Entry({ entry: [x, lang], locale }: { entry: Key } & Props) {
                 }
             }}>
             <div className={styles.flag}>
-                {lang.emoji === "🙂" ? (
+                {lang.i18n === "ta" ? (
+                    <img
+                        src={tamilFlagPNG}
+                        width={42}
+                        style={{ objectFit: "contain" }}
+                    />
+                ) : lang.emoji === "🙂" ? (
                     <img src={tokiponaSVG} width={42} />
                 ) : lang.emoji === "🪄" ? (
                     <img

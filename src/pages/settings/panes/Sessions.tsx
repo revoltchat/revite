@@ -11,6 +11,7 @@ import {
 } from "@styled-icons/simple-icons";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useHistory } from "react-router-dom";
+import { SessionInfo } from "revolt-api/types/Auth";
 import { decodeTime } from "ulid";
 
 import styles from "./Panes.module.scss";
@@ -26,17 +27,14 @@ import Tip from "../../../components/ui/Tip";
 
 dayjs.extend(relativeTime);
 
-interface Session {
-    id: string;
-    friendly_name: string;
-}
-
 export function Sessions() {
     const client = useContext(AppContext);
     const deviceId =
-        typeof client.session === "object" ? client.session.id : undefined;
+        typeof client.session === "object" ? client.session._id : undefined;
 
-    const [sessions, setSessions] = useState<Session[] | undefined>(undefined);
+    const [sessions, setSessions] = useState<SessionInfo[] | undefined>(
+        undefined,
+    );
     const [attemptingDelete, setDelete] = useState<string[]>([]);
     const history = useHistory();
 
@@ -45,10 +43,10 @@ export function Sessions() {
     }
 
     useEffect(() => {
-        client.req("GET", "/auth/sessions").then((data) => {
+        client.req("GET", "/auth/session/all").then((data) => {
             data.sort(
                 (a, b) =>
-                    (b.id === deviceId ? 1 : 0) - (a.id === deviceId ? 1 : 0),
+                    (b._id === deviceId ? 1 : 0) - (a._id === deviceId ? 1 : 0),
             );
             setSessions(data);
         });
@@ -62,8 +60,8 @@ export function Sessions() {
         );
     }
 
-    function getIcon(session: Session) {
-        const name = session.friendly_name;
+    function getIcon(session: SessionInfo) {
+        const name = session.name;
         switch (true) {
             case /firefox/i.test(name):
                 return <Firefoxbrowser size={32} />;
@@ -84,8 +82,8 @@ export function Sessions() {
         }
     }
 
-    function getSystemIcon(session: Session) {
-        const name = session.friendly_name;
+    function getSystemIcon(session: SessionInfo) {
+        const name = session.name;
         switch (true) {
             case /linux/i.test(name):
                 return <Linux size={14} />;
@@ -105,12 +103,12 @@ export function Sessions() {
     const mapped = sessions.map((session) => {
         return {
             ...session,
-            timestamp: decodeTime(session.id),
+            timestamp: decodeTime(session._id),
         };
     });
 
     mapped.sort((a, b) => b.timestamp - a.timestamp);
-    const id = mapped.findIndex((x) => x.id === deviceId);
+    const id = mapped.findIndex((x) => x._id === deviceId);
 
     const render = [
         mapped[id],
@@ -127,13 +125,13 @@ export function Sessions() {
                 const systemIcon = getSystemIcon(session);
                 return (
                     <div
-                        key={session.id}
+                        key={session._id}
                         className={styles.entry}
-                        data-active={session.id === deviceId}
+                        data-active={session._id === deviceId}
                         data-deleting={
-                            attemptingDelete.indexOf(session.id) > -1
+                            attemptingDelete.indexOf(session._id) > -1
                         }>
-                        {deviceId === session.id && (
+                        {deviceId === session._id && (
                             <span className={styles.label}>
                                 <Text id="app.settings.pages.sessions.this_device" />{" "}
                             </span>
@@ -165,7 +163,7 @@ export function Sessions() {
                                     <input
                                         type="text"
                                         className={styles.name}
-                                        value={session.friendly_name}
+                                        value={session.name}
                                         autocomplete="off"
                                         style={{ pointerEvents: "none" }}
                                     />
@@ -181,25 +179,25 @@ export function Sessions() {
                                     </span>
                                 </div>
                             </div>
-                            {deviceId !== session.id && (
+                            {deviceId !== session._id && (
                                 <Button
                                     onClick={async () => {
                                         setDelete([
                                             ...attemptingDelete,
-                                            session.id,
+                                            session._id,
                                         ]);
                                         await client.req(
                                             "DELETE",
-                                            `/auth/sessions/${session.id}` as "/auth/sessions",
+                                            `/auth/session/${session._id}` as "/auth/session/id",
                                         );
                                         setSessions(
                                             sessions?.filter(
-                                                (x) => x.id !== session.id,
+                                                (x) => x._id !== session._id,
                                             ),
                                         );
                                     }}
                                     disabled={
-                                        attemptingDelete.indexOf(session.id) >
+                                        attemptingDelete.indexOf(session._id) >
                                         -1
                                     }>
                                     <Text id="app.settings.pages.logOut" />
@@ -215,8 +213,8 @@ export function Sessions() {
                     // ! FIXME: add to rAuth
                     const del: string[] = [];
                     render.forEach((session) => {
-                        if (deviceId !== session.id) {
-                            del.push(session.id);
+                        if (deviceId !== session._id) {
+                            del.push(session._id);
                         }
                     });
 
@@ -225,11 +223,11 @@ export function Sessions() {
                     for (const id of del) {
                         await client.req(
                             "DELETE",
-                            `/auth/sessions/${id}` as "/auth/sessions",
+                            `/auth/session/${id}` as "/auth/session/id",
                         );
                     }
 
-                    setSessions(sessions.filter((x) => x.id === deviceId));
+                    setSessions(sessions.filter((x) => x._id === deviceId));
                 }}>
                 <Text id="app.settings.pages.sessions.logout" />
             </Button>

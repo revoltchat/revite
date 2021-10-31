@@ -1,7 +1,7 @@
 import { reaction } from "mobx";
 import { Channel } from "revolt.js/dist/maps/Channels";
 
-import { useLayoutEffect } from "preact/hooks";
+import { useLayoutEffect, useRef } from "preact/hooks";
 
 import { dispatch } from "../../../redux";
 import { Unreads } from "../../../redux/reducers/unreads";
@@ -12,6 +12,7 @@ type UnreadProps = {
 };
 
 export function useUnreads({ channel, unreads }: UnreadProps) {
+    // const firstLoad = useRef(true);
     useLayoutEffect(() => {
         function checkUnread(target: Channel) {
             if (!target) return;
@@ -23,19 +24,18 @@ export function useUnreads({ channel, unreads }: UnreadProps) {
                 return;
 
             const unread = unreads[channel._id]?.last_id;
-            if (target.last_message) {
-                const message =
-                    typeof target.last_message === "string"
-                        ? target.last_message
-                        : target.last_message._id;
-                if (!unread || (unread && message.localeCompare(unread) > 0)) {
+            if (target.last_message_id) {
+                if (
+                    !unread ||
+                    (unread && target.last_message_id.localeCompare(unread) > 0)
+                ) {
                     dispatch({
                         type: "UNREADS_MARK_READ",
                         channel: channel._id,
-                        message,
+                        message: target.last_message_id,
                     });
 
-                    channel.ack(message);
+                    channel.ack(target.last_message_id);
                 }
             }
         }
@@ -49,22 +49,7 @@ export function useUnreads({ channel, unreads }: UnreadProps) {
 }
 
 export function mapChannelWithUnread(channel: Channel, unreads: Unreads) {
-    let last_message_id;
-    if (
-        channel.channel_type === "DirectMessage" ||
-        channel.channel_type === "Group"
-    ) {
-        last_message_id = (channel.last_message as { _id: string })?._id;
-    } else if (channel.channel_type === "TextChannel") {
-        last_message_id = channel.last_message as string;
-    } else {
-        return {
-            channel,
-            unread: undefined,
-            alertCount: undefined,
-            timestamp: channel._id,
-        };
-    }
+    const last_message_id = channel.last_message_id;
 
     let unread: "mention" | "unread" | undefined;
     let alertCount: undefined | number;

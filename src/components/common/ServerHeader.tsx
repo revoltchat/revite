@@ -1,3 +1,4 @@
+import { Check } from "@styled-icons/boxicons-regular";
 import { Cog } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
@@ -29,7 +30,7 @@ export default observer(({ server }: Props) => {
             style={{
                 background: bannerURL ? `url('${bannerURL}')` : undefined,
             }}>
-            {server.owner === "01EX2NCWQ0CHS3QJF0FEQS1GR4" ? (
+            {server.flags && server.flags & 1 ? (
                 <Tooltip content={"Official Server"} placement={"bottom-start"}>
                     <svg width="20" height="20">
                         <image
@@ -47,6 +48,20 @@ export default observer(({ server }: Props) => {
                                 "justify-content: center; align-items: center; filter: brightness(0);"
                             }
                         />
+                    </svg>
+                </Tooltip>
+            ) : undefined}
+            {server.flags && server.flags & 2 ? (
+                <Tooltip content={"Verified Server"} placement={"bottom-start"}>
+                    <svg width="20" height="20">
+                        <image
+                            xlinkHref="/assets/badges/verified.svg"
+                            height="20"
+                            width="20"
+                        />
+                        <foreignObject x="2" y="2" width="15" height="15">
+                            <Check size={15} color="black" strokeWidth={8} />
+                        </foreignObject>
                     </svg>
                 </Tooltip>
             ) : undefined}

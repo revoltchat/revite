@@ -16,25 +16,25 @@ export function FormLogin() {
             page="login"
             callback={async (data) => {
                 const browser = detect();
-                let device_name;
+                let friendly_name;
                 if (browser) {
                     let { name } = browser;
                     const { os } = browser;
                     if (window.isNative) {
-                        device_name = `Revolt Desktop on ${os}`;
+                        friendly_name = `Revolt Desktop on ${os}`;
                     } else {
                         if (name === "ios") {
                             name = "safari";
                         } else if (name === "fxios") {
                             name = "firefox";
                         }
-                        device_name = `${name} on ${os}`;
+                        friendly_name = `${name} on ${os}`;
                     }
                 } else {
-                    device_name = "Unknown Device";
+                    friendly_name = "Unknown Device";
                 }
 
-                await login({ ...data, device_name });
+                await login({ ...data, friendly_name });
                 history.push("/");
             }}
         />
