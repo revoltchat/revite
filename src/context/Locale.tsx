@@ -125,7 +125,7 @@ export const Languages: { [key in Language]: LanguageEntry } = {
     sl: { display: "Slovenščina", emoji: "🇸🇮", i18n: "sl" },
     sr: { display: "Српски", emoji: "🇷🇸", i18n: "sr" },
     sv: { display: "Svenska", emoji: "🇸🇪", i18n: "sv" },
-    ta: { display: "தமிழ்", emoji: "🇱🇰", i18n: "ta" },
+    ta: { display: "தமிழ்", emoji: "🇮🇳", i18n: "ta" },
     th: { display: "ไทย", emoji: "🇹🇭", i18n: "th" },
     tr: { display: "Türkçe", emoji: "🇹🇷", i18n: "tr" },
     uk: { display: "Українська", emoji: "🇺🇦", i18n: "uk" },
