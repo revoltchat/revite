@@ -61,7 +61,7 @@ type SpecialProps = { onClose: () => void } & (
     | { type: "delete_server"; target: Server }
     | { type: "delete_channel"; target: Channel }
     | { type: "confirm_log_out_other_sessions"; cb: () => void }
-    | { type: "delete_bot"; target: string; name: string; cb: () => void }
+    | { type: "delete_bot"; target: string; name: string; cb?: () => void }
     | { type: "delete_message"; target: MessageI }
     | {
           type: "create_invite";
