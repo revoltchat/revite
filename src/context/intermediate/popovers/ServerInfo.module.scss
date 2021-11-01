@@ -1,0 +1,101 @@
+.modal {
+    height: 460px;
+    display: flex;
+    padding: 0 !important;
+    flex-direction: column;
+}
+
+.header {
+    background-size: cover;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    background-position: center;
+    background-color: var(--secondary-background);
+
+    &[data-force="light"] {
+        color: white;
+    }
+
+    &[data-force="dark"] {
+        color: black;
+    }
+}
+
+.profile {
+    gap: 16px;
+    width: 560px;
+    display: flex;
+    padding: 20px;
+    max-width: 100%;
+    align-items: center;
+    flex-direction: row;
+
+    .details {
+        flex-grow: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+
+        * {
+            min-width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .username {
+            font-size: 22px;
+            font-weight: 600;
+        }
+    }
+}
+
+.content {
+    gap: 8px;
+    height: 100%;
+    display: flex;
+    padding: 1em 1.5em;
+
+    max-width: 560px;
+    max-height: 240px;
+
+    overflow-y: auto;
+    flex-direction: column;
+    background: var(--primary-background);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+
+    .empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .category {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--tertiary-foreground);
+        margin-bottom: 8px;
+
+        &:not(:first-child) {
+            margin-top: 8px;
+        }
+    }
+
+    > div {
+        > span {
+            font-size: 15px;
+        }
+    }
+}
+
+.badges {
+    gap: 8px;
+    display: flex;
+    margin-top: 4px;
+    flex-direction: row;
+
+    img {
+        width: 32px;
+        height: 32px;
+    }
+}
