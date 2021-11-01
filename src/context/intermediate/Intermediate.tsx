@@ -106,10 +106,8 @@ export type Screen =
     | { id: "pending_requests"; users: User[] }
     | { id: "modify_account"; field: "username" | "email" | "password" }
     | { id: "create_bot"; onCreate: (bot: Bot) => void }
-    | {
-          id: "server_identity";
-          server: Server;
-      };
+    | { id: "server_identity"; server: Server }
+    | { id: "server_info"; server: Server };
 
 export const IntermediateContext = createContext({
     screen: { id: "none" },
@@ -223,6 +221,7 @@ export default function Intermediate(props: Props) {
                         "image_viewer",
                         "profile",
                         "channel_info",
+                        "server_info",
                         "pending_requests",
                         "user_picker",
                     ].includes(screen.id)}

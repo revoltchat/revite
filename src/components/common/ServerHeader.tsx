@@ -8,6 +8,8 @@ import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 
+import { useIntermediate } from "../../context/intermediate/Intermediate";
+
 import Header from "../ui/Header";
 import IconButton from "../ui/IconButton";
 
@@ -22,6 +24,7 @@ const ServerName = styled.div`
 `;
 
 export default observer(({ server }: Props) => {
+    const { openScreen } = useIntermediate();
     const bannerURL = server.generateBannerURL({ width: 480 });
 
     return (
@@ -72,7 +75,17 @@ export default observer(({ server }: Props) => {
                 </Tooltip>
             ) : undefined}
 
-            <ServerName>{server.name}</ServerName>
+            <span
+                className="desc"
+                onClick={() =>
+                    openScreen({
+                        id: "server_info",
+                        server,
+                    })
+                }
+                style="cursor: pointer">
+                <ServerName>{server.name}</ServerName>
+            </span>
             {(server.permission & ServerPermission.ManageServer) > 0 && (
                 <div className="actions">
                     <Link to={`/server/${server._id}/settings`}>

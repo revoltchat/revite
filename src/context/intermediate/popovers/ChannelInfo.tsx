@@ -15,10 +15,7 @@ interface Props {
 }
 
 export const ChannelInfo = observer(({ channel, onClose }: Props) => {
-    if (
-        channel.channel_type === "DirectMessage" ||
-        channel.channel_type === "SavedMessages"
-    ) {
+    if (channel.channel_type === ("DirectMessage" || "SavedMessages")) {
         onClose();
         return null;
     }

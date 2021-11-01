@@ -13,6 +13,7 @@ import { ImageViewer } from "./popovers/ImageViewer";
 import { ModifyAccountModal } from "./popovers/ModifyAccount";
 import { PendingRequests } from "./popovers/PendingRequests";
 import { ServerIdentityModal } from "./popovers/ServerIdentityModal";
+import { ServerInfo } from "./popovers/ServerInfo";
 import { UserPicker } from "./popovers/UserPicker";
 import { UserProfile } from "./popovers/UserProfile";
 
@@ -55,6 +56,9 @@ export default function Popovers() {
         case "server_identity":
             // @ts-expect-error someone figure this out :)
             return <ServerIdentityModal onClose={onClose} {...screen} />;
+        case "server_info":
+            // @ts-expect-error someone figure this out :)
+            return <ServerInfo {...screen} onClose={onClose} />;
     }
 
     return null;
