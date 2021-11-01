@@ -170,7 +170,6 @@ export const ServerInfo = observer(
                                 "*This server does not have a description.*"
                             }
                         />
-                        {/*<div className={styles.category}><Text id="app.special.popovers.user_profile.sub.connections" /></div>*/}
                     </div>
                 </div>
             </Modal>
