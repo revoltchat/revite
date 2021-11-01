@@ -134,6 +134,21 @@
     }
 }
 
+.audio {
+    .grant_permission {
+        margin-bottom: 18px;
+        .description {
+            font-weight: 400;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+    }
+}
+
 .appearance {
     .theme {
         min-width: 0;

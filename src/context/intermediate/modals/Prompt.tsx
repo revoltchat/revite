@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
+import { TextChannel, VoiceChannel } from "revolt-api/types/Channels";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
 import { Server } from "revolt.js/dist/maps/Servers";
@@ -71,7 +72,11 @@ type SpecialProps = { onClose: () => void } & (
     | { type: "ban_member"; target: Server; user: User }
     | { type: "unfriend_user"; target: User }
     | { type: "block_user"; target: User }
-    | { type: "create_channel"; target: Server }
+    | {
+          type: "create_channel";
+          target: Server;
+          cb?: (channel: TextChannel | VoiceChannel) => void;
+      }
     | { type: "create_category"; target: Server }
 );
 
@@ -163,7 +168,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                             break;
                                         case "delete_bot":
                                             client.bots.delete(props.target);
-                                            props.cb();
+                                            props.cb?.();
                                             break;
                                     }
 
@@ -429,9 +434,14 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                             nonce: ulid(),
                                         });
 
-                                    history.push(
-                                        `/server/${props.target._id}/channel/${channel._id}`,
-                                    );
+                                    if (props.cb) {
+                                        props.cb(channel);
+                                    } else {
+                                        history.push(
+                                            `/server/${props.target._id}/channel/${channel._id}`,
+                                        );
+                                    }
+
                                     onClose();
                                 } catch (err) {
                                     setError(takeError(err));
@@ -477,7 +487,6 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
         }
         case "create_category": {
             const [name, setName] = useState("");
-            const history = useHistory();
 
             return (
                 <PromptModal
@@ -521,7 +530,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     content={
                         <>
                             <Overline block type="subtle">
-                                <Text id="app.main.servers.channel_name" />
+                                <Text id="app.main.servers.category_name" />
                             </Overline>
                             <InputBox
                                 value={name}

@@ -31,6 +31,7 @@ It is also recommended to run `git submodule update` after you pull from upstrea
 
 | Command             | Description                                  |
 | ------------------- | -------------------------------------------- |
+| `yarn pull`         | Setup assets required for Revite.            |
 | `yarn dev`          | Start the Revolt client in development mode. |
 | `yarn build`        | Build the Revolt client.                     |
 | `yarn preview`      | Start a local server with the built client.  |

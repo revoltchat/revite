@@ -9,7 +9,7 @@ import { useContext, useState } from "preact/hooks";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
-import wideSVG from "../../../assets/wide.svg";
+import wideSVG from "../../../../public/assets/wide.svg";
 import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
