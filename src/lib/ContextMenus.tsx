@@ -41,7 +41,6 @@ import {
 } from "../redux/reducers/notifications";
 import { QueuedMessage } from "../redux/reducers/queue";
 
-import { ThemeContext } from "../context/Theme";
 import { Screen, useIntermediate } from "../context/intermediate/Intermediate";
 import {
     AppContext,
@@ -141,7 +140,6 @@ function ContextMenus(props: Props) {
     const status = useContext(StatusContext);
     const isOnline = status === ClientStatus.ONLINE;
     const history = useHistory();
-    const theme = useContext(ThemeContext);
 
     function contextClick(data?: Action) {
         if (typeof data === "undefined") return;
@@ -688,7 +686,7 @@ function ContextMenus(props: Props) {
                                     undefined, // this is needed because generateAction uses positional, not named parameters
                                     undefined,
                                     null,
-                                    theme.error, // the only relevant part really
+                                    "var(--error)", // the only relevant part really
                                 );
 
                             if (serverPermissions & ServerPermission.BanMembers)
@@ -701,7 +699,7 @@ function ContextMenus(props: Props) {
                                     undefined,
                                     undefined,
                                     null,
-                                    theme.error,
+                                    "var(--error)",
                                 );
                         }
                     }
