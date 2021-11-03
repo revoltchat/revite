@@ -84,7 +84,7 @@ export const ServerInfo = observer(
                                 <span
                                     className={styles.username}
                                     onClick={() => writeClipboard(server.name)}>
-                                    @{server.name}
+                                    {server.name}
                                 </span>
                             </Localizer>
                         </div>
