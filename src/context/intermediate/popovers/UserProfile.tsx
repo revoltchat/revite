@@ -187,13 +187,22 @@ export const UserProfile = observer(
                         )}
                         {user.relationship === RelationshipStatus.User &&
                             !dummy && (
-                                <IconButton
-                                    onClick={() => {
-                                        onClose?.();
-                                        history.push(`/settings/profile`);
-                                    }}>
-                                    <Edit size={28} />
-                                </IconButton>
+                                <Localizer>
+                                    <Tooltip
+                                        content={
+                                            <Text id="app.settings.pages.profile.edit_profile" />
+                                        }>
+                                        <IconButton
+                                            onClick={() => {
+                                                onClose?.();
+                                                history.push(
+                                                    `/settings/profile`,
+                                                );
+                                            }}>
+                                            <Edit size={30} />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Localizer>
                             )}
                         {!user.bot &&
                             flags != 2 &&
@@ -202,9 +211,17 @@ export const UserProfile = observer(
                                 RelationshipStatus.Incoming ||
                                 user.relationship ===
                                     RelationshipStatus.None) && (
-                                <IconButton onClick={() => user.addFriend()}>
-                                    <UserPlus size={28} />
-                                </IconButton>
+                                <Localizer>
+                                    <Tooltip
+                                        content={
+                                            <Text id="app.context_menu.add_friend" />
+                                        }>
+                                        <IconButton
+                                            onClick={() => user.addFriend()}>
+                                            <UserPlus size={30} />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Localizer>
                             )}
                     </div>
                     <div className={styles.tabs}>
