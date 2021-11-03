@@ -1,15 +1,24 @@
-import { ListUl, ListCheck, ListMinus } from "@styled-icons/boxicons-regular";
+import {
+    ListUl,
+    ListCheck,
+    ListMinus,
+    Trash,
+} from "@styled-icons/boxicons-regular";
 import { XSquare, Share, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
 
+import styles from "./Settings.module.scss";
 import { Text } from "preact-i18n";
 
+import { useIntermediate } from "../../context/intermediate/Intermediate";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import Category from "../../components/ui/Category";
+import LineDivider from "../../components/ui/LineDivider";
 
+import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { GenericSettings } from "./GenericSettings";
 import { Bans } from "./server/Bans";
 import { Categories } from "./server/Categories";
@@ -19,11 +28,13 @@ import { Overview } from "./server/Overview";
 import { Roles } from "./server/Roles";
 
 export default observer(() => {
+    const { openScreen } = useIntermediate();
     const { server: sid } = useParams<{ server: string }>();
     const client = useClient();
     const server = client.servers.get(sid);
     if (!server) return null;
 
+    const owner = server.owner === client.user?._id;
     const history = useHistory();
     function switchPage(to?: string) {
         if (to) {
@@ -111,6 +122,26 @@ export default observer(() => {
             category="server_pages"
             switchPage={switchPage}
             defaultPage="overview"
+            custom={
+                owner ? (
+                    <>
+                        <LineDivider />
+                        <ButtonItem
+                            onClick={() =>
+                                openScreen({
+                                    id: "special_prompt",
+                                    type: "delete_server",
+                                    target: server,
+                                })
+                            }
+                            className={styles.logOut}
+                            compact>
+                            <Trash size={20} />
+                            <Text id="app.context_menu.delete_server" />
+                        </ButtonItem>
+                    </>
+                ) : undefined
+            }
             showExitButton
         />
     );
