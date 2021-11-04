@@ -48,6 +48,7 @@ if (typeof window !== "undefined") {
 
 export const md: MarkdownIt = MarkdownIt({
     breaks: true,
+    linkify: true,
     highlight: (str, lang) => {
         const v = Prism.languages[lang];
         if (v) {
@@ -72,6 +73,8 @@ export const md: MarkdownIt = MarkdownIt({
         strict: false,
         errorColor: "var(--error)",
     });
+
+md.linkify.set({ fuzzyLink: false });
 
 // TODO: global.d.ts file for defining globals
 declare global {
