@@ -48,7 +48,6 @@ if (typeof window !== "undefined") {
 
 export const md: MarkdownIt = MarkdownIt({
     breaks: true,
-    linkify: true,
     highlight: (str, lang) => {
         const v = Prism.languages[lang];
         if (v) {
