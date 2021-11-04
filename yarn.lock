@@ -3647,15 +3647,15 @@ reusify@^1.0.4:
   resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
   integrity sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
 
-revolt-api@0.5.3-alpha.0-patch.0:
-  version "0.5.3-alpha.0-patch.0"
-  resolved "https://registry.yarnpkg.com/revolt-api/-/revolt-api-0.5.3-alpha.0-patch.0.tgz#158556832843bb06cb06a4df50ffca24ab64be3b"
-  integrity sha512-76l+kGyrUy6uGMSIziyAHE27r9gD97OEh5gSzb2OJRsQM55TN0NurAsfFIEiB9hUzDDlwsXchtJiqdS4UVAwQw==
+revolt-api@^0.5.3-alpha.8-patch.0:
+  version "0.5.3-alpha.8-patch.0"
+  resolved "https://registry.yarnpkg.com/revolt-api/-/revolt-api-0.5.3-alpha.8-patch.0.tgz#3c9f981f8100a89aec1299bc110453cf01c51f89"
+  integrity sha512-ghupcB1nJS7fCiD41L4u+QudFoBWGE381uW4s8cuHsQS3bFXgzAH1lgtjYNoFgrVUekqQAcHWote8Kn2sOABAQ==
 
-revolt.js@5.1.0-alpha.6:
-  version "5.1.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.1.0-alpha.6.tgz#bdd1c9f3bdd7e0f45e309a3e1fa5239138e1cb1a"
-  integrity sha512-XqdP24tGc+En9M8ccWkk74z/v2DBtH7OboTbFQBQTjWIT4fLMP/ox+GLdDVWSF7Zg6M/xPrMbg4oL/nP+xqZHQ==
+revolt.js@^5.1.0-alpha.7:
+  version "5.1.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.1.0-alpha.7.tgz#20fe8d3390b95f351361e5bc70e8a1b31467ae69"
+  integrity sha512-4FLh4MEql0kt83h6++jmQ2F4KGNer3odKkRs7avliu4wEJpQDmUD21anChO41Uv1gHBZMXIFdrYt5OCK384pSg==
   dependencies:
     axios "^0.21.4"
     eventemitter3 "^4.0.7"

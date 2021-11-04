@@ -29,11 +29,19 @@ const BotBadge = styled.div`
 
 type UsernameProps = JSX.HTMLAttributes<HTMLElement> & {
     user?: User;
+    override?: string;
     prefixAt?: boolean;
     showServerIdentity?: boolean | "both";
 };
+
 export const Username = observer(
-    ({ user, prefixAt, showServerIdentity, ...otherProps }: UsernameProps) => {
+    ({
+        user,
+        override,
+        prefixAt,
+        showServerIdentity,
+        ...otherProps
+    }: UsernameProps) => {
         let username = user?.username;
         let color;
 
@@ -75,7 +83,7 @@ export const Username = observer(
             return (
                 <>
                     <span {...otherProps} style={{ color }}>
-                        {username ?? (
+                        {override ?? username ?? (
                             <Text id="app.main.channel.unknown_user" />
                         )}
                     </span>
@@ -89,7 +97,9 @@ export const Username = observer(
         return (
             <span {...otherProps} style={{ color }}>
                 {prefixAt ? "@" : undefined}
-                {username ?? <Text id="app.main.channel.unknown_user" />}
+                {override ?? username ?? (
+                    <Text id="app.main.channel.unknown_user" />
+                )}
             </span>
         );
     },
