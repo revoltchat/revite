@@ -95,7 +95,7 @@ const ServerSidebar = observer((props: Props) => {
         if (!entry) return;
 
         const active = channel?._id === entry._id;
-        const muted = props.notifications[id] === "muted";
+        const muted = props.notifications[id] === "none";
 
         return (
             <ConditionalLink
