@@ -20,6 +20,7 @@ export function ExternalLinkModal({ onClose, link }: Props) {
             visible={true}
             onClose={onClose}
             title={<Text id={"app.special.modals.external_links.title"} />}
+            limitWidth={true}
             actions={[
                 {
                     onClick: () => {

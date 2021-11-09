@@ -61,7 +61,9 @@ const ModalBase = styled.div`
     }
 `;
 
-const ModalContainer = styled.div`
+const ModalContainer = styled.div<{
+    limitWidth?: boolean;
+}>`
     overflow: hidden;
     max-width: calc(100vw - 20px);
     border-radius: var(--border-radius);
@@ -69,13 +71,22 @@ const ModalContainer = styled.div`
     animation-name: ${zoomIn};
     animation-duration: 0.25s;
     animation-timing-function: cubic-bezier(0.3, 0.3, 0.18, 1.1);
+
+    ${(props) =>
+        props.limitWidth &&
+        css`
+            max-width: 50%;
+        `}
 `;
 
 const ModalContent = styled.div<
-    { [key in "attachment" | "noBackground" | "border" | "padding"]?: boolean }
+    {
+        [key in "attachment" | "noBackground" | "border" | "padding"]?: boolean;
+    }
 >`
     text-overflow: ellipsis;
     border-radius: var(--border-radius);
+    word-break: break-word;
 
     h3 {
         font-size: 14px;
@@ -154,6 +165,7 @@ interface Props {
     noBackground?: boolean;
     dontModal?: boolean;
     padding?: boolean;
+    limitWidth?: boolean;
 
     onClose?: () => void;
     actions?: Action[];
@@ -229,7 +241,9 @@ export default function Modal(props: Props) {
         <ModalBase
             className={animateClose ? "closing" : undefined}
             onClick={(!props.disallowClosing && props.onClose) || undefined}>
-            <ModalContainer onClick={(e) => (e.cancelBubble = true)}>
+            <ModalContainer
+                onClick={(e) => (e.cancelBubble = true)}
+                limitWidth={props.limitWidth}>
                 {content}
                 {props.actions && (
                     <ModalActions>
