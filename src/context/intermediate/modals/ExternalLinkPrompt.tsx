@@ -1,3 +1,5 @@
+import styled from "styled-components";
+
 import { Text } from "preact-i18n";
 
 import { useApplicationState } from "../../../mobx/State";
@@ -5,6 +7,12 @@ import { useApplicationState } from "../../../mobx/State";
 import Modal from "../../../components/ui/Modal";
 
 import { useIntermediate } from "../Intermediate";
+
+const UrlText = styled.div`
+    overflow-y: scroll;
+    max-height: calc(100vh - 250px);
+    word-break: break-all;
+`;
 
 interface Props {
     onClose: () => void;
@@ -53,8 +61,12 @@ export function ExternalLinkModal({ onClose, link }: Props) {
                     ),
                 },
             ]}>
-            <Text id="app.special.modals.external_links.short" /> <br />
-            <a>{link}</a>
+            <h4>
+                <Text id="app.special.modals.external_links.short" /> <br />
+            </h4>
+            <UrlText>
+                <a>{link}</a>
+            </UrlText>
         </Modal>
     );
 }

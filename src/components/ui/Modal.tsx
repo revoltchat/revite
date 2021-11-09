@@ -75,7 +75,9 @@ const ModalContainer = styled.div<{
     ${(props) =>
         props.limitWidth &&
         css`
-            max-width: 50%;
+            @media only screen and (min-width: 900px) {
+                max-width: 50%;
+            }
         `}
 `;
 
