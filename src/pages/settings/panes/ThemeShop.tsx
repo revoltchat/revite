@@ -1,10 +1,13 @@
 import styled from "styled-components";
 
+import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
+
+import { TextReact } from "../../../lib/i18n";
 
 import { dispatch } from "../../../redux";
 
-import { Theme, generateVariables, ThemeOptions } from "../../../context/Theme";
+import { Theme, generateVariables } from "../../../context/Theme";
 
 import Tip from "../../../components/ui/Tip";
 import previewPath from "../assets/preview.svg";
@@ -176,7 +179,7 @@ export function ThemeShop() {
     return (
         <ThemeShopRoot>
             <Tip warning hideSeparator>
-                This section is under construction.
+                <Text id="app.settings.pages.theme_shop.under_construction_warning" />
             </Tip>
             <ThemeList>
                 {themeList?.map(([slug, theme]) => (
@@ -185,7 +188,12 @@ export function ThemeShop() {
                         data-loaded={Reflect.has(themeData, slug)}>
                         <h2 class="name">{theme.name}</h2>
                         {/* Maybe id's of the users should be included as well / instead? */}
-                        <div class="creator">by {theme.creator}</div>
+                        <div class="creator">
+                            <TextReact
+                                id="app.settings.pages.theme_shop.creator"
+                                fields={{ creator: theme.creator }}
+                            />
+                        </div>
                         <div class="description">{theme.description}</div>
                         <button
                             class="preview"
@@ -195,9 +203,9 @@ export function ThemeShop() {
                                     theme: {
                                         slug,
                                         meta: theme,
-                                        theme: themeData[slug]
-                                    }
-                                })
+                                        theme: themeData[slug],
+                                    },
+                                });
 
                                 dispatch({
                                     type: "SETTINGS_SET_THEME",
