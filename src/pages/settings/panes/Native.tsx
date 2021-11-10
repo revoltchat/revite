@@ -1,3 +1,4 @@
+import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import Button from "../../../components/ui/Button";
@@ -18,8 +19,12 @@ export function Native() {
 
     return (
         <div>
-            <h3>App Behavior</h3>
-            <h5>Some options might require a restart.</h5>
+            <h3>
+                <Text id="app.settings.pages.native.app_behavior" />
+            </h3>
+            <h5>
+                <Text id="app.settings.pages.native.tip_restart" />
+            </h5>
             <Checkbox
                 checked={autoStart ?? false}
                 disabled={typeof autoStart === "undefined"}
@@ -32,8 +37,10 @@ export function Native() {
 
                     setAutoStart(v);
                 }}
-                description="Launch Revolt when you log into your computer.">
-                Start with computer
+                description={
+                    <Text id="app.settings.pages.native.description.start_with_computer" />
+                }>
+                <Text id="app.settings.pages.native.option.start_with_computer" />
             </Checkbox>
 
             <Checkbox
@@ -45,8 +52,10 @@ export function Native() {
                         discordRPC,
                     });
                 }}
-                description="Rep Revolt on your Discord status.">
-                Enable Discord status
+                description={
+                    <Text id="app.settings.pages.native.description.discord_status" />
+                }>
+                <Text id="app.settings.pages.native.option.discord_status" />
             </Checkbox>
             <Checkbox
                 checked={config.build === "nightly"}
@@ -59,10 +68,14 @@ export function Native() {
                         build,
                     });
                 }}
-                description="Use the beta branch of Revolt.">
-                Revolt Nightly
+                description={
+                    <Text id="app.settings.pages.native.description.nightly" />
+                }>
+                <Text id="app.settings.pages.native.option.nightly" />
             </Checkbox>
-            <h3>Titlebar</h3>
+            <h3>
+                <Text id="app.settings.pages.native.titlebar" />
+            </h3>
             <Checkbox
                 checked={!config.frame}
                 onChange={(frame) => {
@@ -73,8 +86,10 @@ export function Native() {
                         frame: !frame,
                     });
                 }}
-                description={<>Let Revolt use its own window frame.</>}>
-                Custom window frame
+                description={
+                    <Text id="app.settings.pages.native.description.custom_window_frame" />
+                }>
+                <Text id="app.settings.pages.native.option.custom_window_frame" />
             </Checkbox>
             <Checkbox //FIXME: In Titlebar.tsx, enable .quick css
                 disabled={true}
@@ -87,10 +102,14 @@ export function Native() {
                         frame: !frame,
                     });
                 }}
-                description="Show mute/deafen buttons on the titlebar.">
-                Enable quick action buttons
+                description={
+                    <Text id="app.settings.pages.native.description.quick_action_btn" />
+                }>
+                <Text id="app.settings.pages.native.option.quick_action_btn" />
             </Checkbox>
-            <h3>Advanced</h3>
+            <h3>
+                <Text id="app.settings.pages.native.advanced" />
+            </h3>
             <Checkbox
                 checked={config.hardwareAcceleration}
                 onChange={async (hardwareAcceleration) => {
@@ -104,8 +123,10 @@ export function Native() {
                         hardwareAcceleration,
                     });
                 }}
-                description="Uses your GPU to render the app, disable if you run into visual issues.">
-                Hardware Acceleration
+                description={
+                    <Text id="app.settings.pages.native.description.hardware_accel" />
+                }>
+                <Text id="app.settings.pages.native.option.hardware_accel" />
             </Checkbox>
             <p style={{ display: "flex", gap: "8px" }}>
                 <Button
@@ -113,20 +134,24 @@ export function Native() {
                     compact
                     disabled={!hintReload}
                     onClick={window.native.reload}>
-                    Reload Page
+                    <Text id="app.settings.pages.native.reload_page" />
                 </Button>
                 <Button
                     contrast
                     compact
                     disabled={!hintRelaunch}
                     onClick={window.native.relaunch}>
-                    Reload App
+                    <Text id="app.settings.pages.native.reload_app" />
                 </Button>
             </p>
-            <h3 style={{ marginTop: "4em" }}>Local Development Mode</h3>
+            <h3 style={{ marginTop: "4em" }}>
+                <Text id="app.settings.pages.native.local_dev_mode" />
+            </h3>
             {config.build === "dev" ? (
                 <>
-                    <h5>Development mode is currently on.</h5>
+                    <h5>
+                        <Text id="app.settings.pages.native.dev_mode_currently_on" />
+                    </h5>
                     <Button
                         contrast
                         compact
@@ -134,7 +159,7 @@ export function Native() {
                             window.native.set("build", "stable");
                             window.native.reload();
                         }}>
-                        Exit Development Mode
+                        <Text id="app.settings.pages.native.exit_dev_mode" />
                     </Button>
                 </>
             ) : (
@@ -144,19 +169,17 @@ export function Native() {
                         onChange={setConfirmDev}
                         description={
                             <>
-                                This will change the app to the 'dev' branch,
-                                instead loading the app from a local server on
-                                your machine.
+                                <Text id="app.settings.pages.native.local_dev_option_description" />
                                 <br />
                                 <b>
-                                    Without a server running,{" "}
+                                    <Text id="app.settings.pages.native.local_dev_option_desc_without_running" />{" "}
                                     <span style={{ color: "var(--error)" }}>
-                                        the app will not load!
+                                        <Text id="app.settings.pages.native.local_dev_option_desc_wont_load" />
                                     </span>
                                 </b>
                             </>
                         }>
-                        I understand there's no going back.
+                        <Text id="app.settings.pages.native.local_dev_option_title" />
                     </Checkbox>
                     <p>
                         <Button
@@ -167,7 +190,7 @@ export function Native() {
                                 window.native.set("build", "dev");
                                 window.native.reload();
                             }}>
-                            Enter Development Mode
+                            <Text id="app.settings.pages.native.enter_dev_mode" />
                         </Button>
                     </p>
                 </>
