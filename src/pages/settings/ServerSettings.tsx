@@ -134,7 +134,7 @@ export default observer(() => {
                                     target: server,
                                 })
                             }
-                            className={styles.logOut}
+                            className={styles.deleteServer}
                             compact>
                             <Trash size={20} />
                             <Text id="app.context_menu.delete_server" />
