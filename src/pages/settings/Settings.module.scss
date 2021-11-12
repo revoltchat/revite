@@ -144,7 +144,9 @@
         .donate {
             color: goldenrod !important;
         }
-        .logOut {
+
+        .logOut,
+        .deleteServer {
             color: var(--error) !important;
         }
 
