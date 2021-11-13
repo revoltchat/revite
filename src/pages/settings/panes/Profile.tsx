@@ -62,7 +62,7 @@ export const Profile = observer(() => {
     return (
         <div className={styles.user}>
             <h3>
-                <Text id="app.special.modals.actions.preview" />
+                <Text id="app.settings.pages.profile.preview" />
             </h3>
             <div className={styles.preview}>
                 <UserProfile

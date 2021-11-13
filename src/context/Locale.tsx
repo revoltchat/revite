@@ -22,6 +22,7 @@ export enum Language {
 
     ARABIC = "ar",
     AZERBAIJANI = "az",
+    BELARUSIAN = "be",
     BULGARIAN = "bg",
     CZECH = "cs",
     GERMAN = "de",
@@ -89,6 +90,7 @@ export const Languages: { [key in Language]: LanguageEntry } = {
 
     ar: { display: "عربي", emoji: "🇸🇦", i18n: "ar", rtl: true },
     az: { display: "Azərbaycan dili", emoji: "🇦🇿", i18n: "az" },
+    be: { display: "беларуская", emoji: "🇧🇾", i18n: "be" },
     bg: { display: "български", emoji: "🇧🇬", i18n: "bg" },
     cs: { display: "Čeština", emoji: "🇨🇿", i18n: "cs" },
     de: { display: "Deutsch", emoji: "🇩🇪", i18n: "de" },
@@ -125,7 +127,7 @@ export const Languages: { [key in Language]: LanguageEntry } = {
     sl: { display: "Slovenščina", emoji: "🇸🇮", i18n: "sl" },
     sr: { display: "Српски", emoji: "🇷🇸", i18n: "sr" },
     sv: { display: "Svenska", emoji: "🇸🇪", i18n: "sv" },
-    ta: { display: "தமிழ்", emoji: "🇱🇰", i18n: "ta" },
+    ta: { display: "தமிழ்", emoji: "🇮🇳", i18n: "ta" },
     th: { display: "ไทย", emoji: "🇹🇭", i18n: "th" },
     tr: { display: "Türkçe", emoji: "🇹🇷", i18n: "tr" },
     uk: { display: "Українська", emoji: "🇺🇦", i18n: "uk" },

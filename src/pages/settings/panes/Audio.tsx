@@ -1,3 +1,4 @@
+import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
@@ -7,6 +8,7 @@ import { voiceState } from "../../../lib/vortex/VoiceState";
 
 import { connectState } from "../../../redux/connector";
 
+import Button from "../../../components/ui/Button";
 import ComboBox from "../../../components/ui/ComboBox";
 import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
@@ -27,11 +29,11 @@ export function Component() {
 
     const askOrGetPermission = async () => {
         try {
-            const mediaStream = await navigator.mediaDevices.getUserMedia(
+            const result = await navigator.mediaDevices.getUserMedia(
                 constraints,
             );
 
-            setMediaStream(mediaStream);
+            setMediaStream(result);
         } catch (err) {
             // The user has blocked the permission
             setError(err as DOMException);
@@ -40,20 +42,27 @@ export function Component() {
         try {
             const { state } = await navigator.permissions.query({
                 // eslint-disable-next-line
-                // @ts-ignore
+                // @ts-ignore: very few browsers accept this `PermissionName`, but it has been drafted in https://www.w3.org/TR/permissions/#powerful-features-registry
                 name: "microphone",
             });
 
             setPermission(state);
         } catch (err) {
-            // the browser might not support `query` functionnality
-            setError(err as DOMException);
+            // the browser might not support `query` functionnality or `PermissionName`
+            // nothing to do
         }
     };
 
     useEffect(() => {
-        askOrGetPermission();
-    }, []);
+        return () => {
+            if (mediaStream) {
+                // close microphone access on unmount
+                mediaStream.getTracks().forEach(track => {
+                    track.stop()
+                })
+            }
+        }
+    }, [mediaStream]);
 
     useEffect(() => {
         if (!mediaStream) {
@@ -71,7 +80,7 @@ export function Component() {
     }, [mediaStream]);
 
     const handleAskForPermission = (
-        ev: JSX.TargetedMouseEvent<HTMLAnchorElement>,
+        ev: JSX.TargetedMouseEvent<HTMLElement>,
     ) => {
         stopPropagation(ev);
         setError(undefined);
@@ -80,10 +89,25 @@ export function Component() {
 
     return (
         <>
-            <div>
+            <div class={styles.audio}>
                 <h3>
                     <Text id="app.settings.pages.audio.input_device" />
                 </h3>
+
+                {!permission && (
+                    <div className={styles.grant_permission}>
+                        <span className={styles.description}>
+                            <Text id="app.settings.pages.audio.tip_grant_permission" />
+                        </span>
+                        <Button
+                            compact
+                            onClick={(e) => handleAskForPermission(e)}
+                            error>
+                            <Text id="app.settings.pages.audio.button_grant" />
+                        </Button>
+                    </div>
+                )}
+
                 <ComboBox
                     value={window.localStorage.getItem("audioInputDevice") ?? 0}
                     onChange={(e) =>

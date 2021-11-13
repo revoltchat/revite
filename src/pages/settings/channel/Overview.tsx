@@ -11,6 +11,7 @@ import { FileUploader } from "../../../context/revoltjs/FileUploads";
 
 import Button from "../../../components/ui/Button";
 import InputBox from "../../../components/ui/InputBox";
+import Checkbox from "../../../components/ui/Checkbox";
 
 interface Props {
     channel: Channel;
@@ -32,19 +33,26 @@ const Row = styled.div`
 export default observer(({ channel }: Props) => {
     const [name, setName] = useState(channel.name ?? undefined);
     const [description, setDescription] = useState(channel.description ?? "");
+    const [nsfw, setNSFW] = useState(channel.nsfw ?? false);
 
     useEffect(() => setName(channel.name ?? undefined), [channel.name]);
     useEffect(
         () => setDescription(channel.description ?? ""),
         [channel.description],
     );
+    useEffect(
+        () => setNSFW(channel.nsfw ?? false),
+        [channel.nsfw],
+    );
 
     const [changed, setChanged] = useState(false);
     function save() {
-        const changes: Record<string, string | undefined> = {};
+        const changes: Record<string, string | boolean | undefined> = {};
         if (name !== channel.name) changes.name = name;
         if (description !== channel.description)
             changes.description = description;
+        if (nsfw !== channel.nsfw)
+            changes.nsfw = nsfw;
 
         channel.edit(changes);
         setChanged(false);
@@ -110,6 +118,19 @@ export default observer(({ channel }: Props) => {
                     if (!changed) setChanged(true);
                 }}
             />
+            {channel.channel_type === "VoiceChannel" ? '' : (
+                <Checkbox
+                    checked={nsfw ?? false}
+                    onChange={
+                        (nsfwchange) => { 
+                            setNSFW(nsfwchange);
+                            if (!changed) setChanged(true);
+                        }
+                    }
+                    description="Set this channel to NSFW.">
+                    NSFW
+                </Checkbox>
+            )}
             <p>
                 <Button onClick={save} contrast disabled={!changed}>
                     <Text id="app.special.modals.actions.save" />

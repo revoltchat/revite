@@ -138,7 +138,7 @@ export function Component(props: Props) {
                 </div>
             </div>
 
-            {isExperimentEnabled('theme_shop') && <Link to="/settings/theme_shop">
+            {isExperimentEnabled('theme_shop') && <Link to="/settings/theme_shop" replace>
                 <CategoryButton icon={<Store size={24} />} action="chevron" hover>
                     <Text id="app.settings.pages.theme_shop.title" />
                 </CategoryButton>

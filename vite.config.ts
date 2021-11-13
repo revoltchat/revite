@@ -11,11 +11,11 @@ function getGitRevision() {
         const rev = readFileSync(".git/HEAD").toString().trim();
         if (rev.indexOf(":") === -1) {
             return rev;
-        } else {
-            return readFileSync(".git/" + rev.substring(5))
-                .toString()
-                .trim();
         }
+
+        return readFileSync(`.git/${rev.substring(5)}`)
+            .toString()
+            .trim();
     } catch (err) {
         console.error("Failed to get Git revision.");
         return "?";
@@ -27,9 +27,9 @@ function getGitBranch() {
         const rev = readFileSync(".git/HEAD").toString().trim();
         if (rev.indexOf(":") === -1) {
             return "DETACHED";
-        } else {
-            return rev.split("/").pop();
         }
+
+        return rev.split("/").pop();
     } catch (err) {
         console.error("Failed to get Git branch.");
         return "?";
@@ -40,10 +40,6 @@ function getVersion() {
     return readFileSync("VERSION").toString();
 }
 
-const branch = getGitBranch();
-const isNightly = false; //branch !== 'production';
-const iconPrefix = isNightly ? "nightly-" : "";
-
 export default defineConfig({
     plugins: [
         preact(),
@@ -52,11 +48,9 @@ export default defineConfig({
             filename: "sw.ts",
             strategies: "injectManifest",
             manifest: {
-                name: isNightly ? "Revolt Nightly" : "Revolt",
+                name: "Revolt",
                 short_name: "Revolt",
-                description: isNightly
-                    ? "Early preview builds of Revolt."
-                    : "User-first, privacy-focused chat platform.",
+                description: "User-first, privacy-focused chat platform.",
                 categories: ["messaging"],
                 start_url: "/",
                 orientation: "portrait",
@@ -65,12 +59,12 @@ export default defineConfig({
                 theme_color: "#101823",
                 icons: [
                     {
-                        src: `/assets/icons/${iconPrefix}android-chrome-192x192.png`,
+                        src: `/assets/icons/android-chrome-192x192.png`,
                         type: "image/png",
                         sizes: "192x192",
                     },
                     {
-                        src: `/assets/icons/${iconPrefix}android-chrome-512x512.png`,
+                        src: `/assets/icons/android-chrome-512x512.png`,
                         type: "image/png",
                         sizes: "512x512",
                     },
