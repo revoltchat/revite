@@ -75,6 +75,16 @@ export default function UserBadges({ badges, uid }: Props) {
                 ) : (
                     <></>
                 )}
+                {badges & Badges.PlatformModeration ? (
+                    <Tooltip
+                        content={
+                            <Text id="app.special.popovers.user_profile.badges.moderation" />
+                        }>
+                        <img src="/assets/badges/moderation.svg" />
+                    </Tooltip>
+                ) : (
+                    <></>
+                )}
                 {badges & Badges.ResponsibleDisclosure ? (
                     <Tooltip
                         content={
