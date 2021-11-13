@@ -88,7 +88,7 @@
         "@types/react-router-dom": "^5.1.7",
         "@types/react-scroll": "^1.8.2",
         "@types/react-virtualized-auto-sizer": "^1.0.1",
-        "@types/styled-components": "^5.1.10",
+        "@types/styled-components": "^5.1.15",
         "@types/twemoji": "^12.1.1",
         "@typescript-eslint/eslint-plugin": "^4.27.0",
         "@typescript-eslint/parser": "^4.27.0",
