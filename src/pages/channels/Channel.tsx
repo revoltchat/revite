@@ -103,7 +103,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                 !!(
                     (channel.channel_type === "TextChannel" ||
                         channel.channel_type === "Group") &&
-                    channel.name?.includes("nsfw")
+                    channel.nsfw
                 )
             }>
             <ChannelHeader

@@ -1,139 +1,135 @@
 import { ChevronDown } from "@styled-icons/boxicons-regular";
 import { isEqual } from "lodash";
 import { observer } from "mobx-react-lite";
+import { Virtuoso } from "react-virtuoso";
 import { Member } from "revolt.js/dist/maps/Members";
 import { Server } from "revolt.js/dist/maps/Servers";
-import { User } from "revolt.js/dist/maps/Users";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useMemo, useState } from "preact/hooks";
 
 import UserIcon from "../../../components/common/user/UserIcon";
+import { Username } from "../../../components/common/user/UserShort";
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 import IconButton from "../../../components/ui/IconButton";
+import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
+
+interface InnerProps {
+    member: Member;
+}
+
+const Inner = observer(({ member }: InnerProps) => {
+    const [open, setOpen] = useState(false);
+    const [roles, setRoles] = useState<string[]>(member.roles ?? []);
+
+    useEffect(() => {
+        setRoles(member.roles ?? []);
+    }, [member.roles]);
+
+    const server_roles = member.server?.roles ?? {};
+    const user = member.user;
+    return (
+        <>
+            <div
+                className={styles.member}
+                data-open={open}
+                onClick={() => setOpen(!open)}>
+                <span>
+                    <UserIcon target={user} size={24} />{" "}
+                    <Username user={member.user} showServerIdentity="both" />
+                </span>
+                <IconButton className={styles.chevron}>
+                    <ChevronDown size={24} />
+                </IconButton>
+            </div>
+            {open && (
+                <div className={styles.memberView}>
+                    <Overline type="subtle">Roles</Overline>
+                    {Object.keys(server_roles).map((key) => {
+                        const role = server_roles[key];
+                        return (
+                            <Checkbox
+                                key={key}
+                                checked={roles.includes(key) ?? false}
+                                onChange={(v) => {
+                                    if (v) {
+                                        setRoles([...roles, key]);
+                                    } else {
+                                        setRoles(
+                                            roles.filter((x) => x !== key),
+                                        );
+                                    }
+                                }}>
+                                <span
+                                    style={{
+                                        color: role.colour,
+                                    }}>
+                                    {role.name}
+                                </span>
+                            </Checkbox>
+                        );
+                    })}
+                    <Button
+                        compact
+                        disabled={isEqual(member.roles ?? [], roles)}
+                        onClick={() =>
+                            member.edit({
+                                roles,
+                            })
+                        }>
+                        <Text id="app.special.modals.actions.save" />
+                    </Button>
+                </div>
+            )}
+        </>
+    );
+});
 
 interface Props {
     server: Server;
 }
 
-export const Members = observer(({ server }: Props) => {
-    const [selected, setSelected] = useState<undefined | string>();
-    const [data, setData] = useState<
-        { members: Member[]; users: User[] } | undefined
-    >(undefined);
+export const Members = ({ server }: Props) => {
+    const [data, setData] = useState<Member[] | undefined>(undefined);
+    const [query, setQuery] = useState("");
 
     useEffect(() => {
-        server.fetchMembers().then(setData);
+        server
+            .fetchMembers()
+            .then((data) => data.members)
+            .then(setData);
     }, [server, setData]);
 
-    const [roles, setRoles] = useState<string[]>([]);
-    useEffect(() => {
-        if (selected) {
-            setRoles(
-                data!.members.find((x) => x._id.user === selected)?.roles ?? [],
-            );
-        }
-    }, [setRoles, selected, data]);
+    const members = useMemo(
+        () =>
+            query
+                ? data?.filter((x) => x.user?.username.includes(query))
+                : data,
+        [data, query],
+    );
 
     return (
         <div className={styles.userList}>
-            <div className={styles.subtitle}>
-                {data?.members.length ?? 0} Members
-            </div>
-            {data &&
-                data.members.length > 0 &&
-                data.members
-                    .map((member) => {
-                        return {
-                            member,
-                            user: data.users.find(
-                                (x) => x._id === member._id.user,
-                            ),
-                        };
-                    })
-                    .map(({ member, user }) => (
-                        // @ts-expect-error brokey
-                        // eslint-disable-next-line react/jsx-no-undef
-                        <Fragment key={member._id.user}>
-                            <div
-                                className={styles.member}
-                                data-open={selected === member._id.user}
-                                onClick={() =>
-                                    setSelected(
-                                        selected === member._id.user
-                                            ? undefined
-                                            : member._id.user,
-                                    )
-                                }>
-                                <span>
-                                    <UserIcon target={user} size={24} />{" "}
-                                    {user?.username ?? (
-                                        <Text id="app.main.channel.unknown_user" />
-                                    )}
-                                </span>
-                                <IconButton className={styles.chevron}>
-                                    <ChevronDown size={24} />
-                                </IconButton>
-                            </div>
-                            {selected === member._id.user && (
-                                <div className={styles.memberView}>
-                                    <Overline type="subtle">Roles</Overline>
-                                    {Object.keys(server.roles ?? {}).map(
-                                        (key) => {
-                                            const role = server.roles![key];
-                                            return (
-                                                <Checkbox
-                                                    key={key}
-                                                    checked={
-                                                        roles.includes(key) ??
-                                                        false
-                                                    }
-                                                    onChange={(v) => {
-                                                        if (v) {
-                                                            setRoles([
-                                                                ...roles,
-                                                                key,
-                                                            ]);
-                                                        } else {
-                                                            setRoles(
-                                                                roles.filter(
-                                                                    (x) =>
-                                                                        x !==
-                                                                        key,
-                                                                ),
-                                                            );
-                                                        }
-                                                    }}>
-                                                    <span
-                                                        style={{
-                                                            color: role.colour,
-                                                        }}>
-                                                        {role.name}
-                                                    </span>
-                                                </Checkbox>
-                                            );
-                                        },
-                                    )}
-                                    <Button
-                                        compact
-                                        disabled={isEqual(
-                                            member.roles ?? [],
-                                            roles,
-                                        )}
-                                        onClick={() =>
-                                            member.edit({
-                                                roles,
-                                            })
-                                        }>
-                                        <Text id="app.special.modals.actions.save" />
-                                    </Button>
-                                </div>
-                            )}
-                        </Fragment>
-                    ))}
+            <InputBox
+                placeholder="Search for a specific user..."
+                value={query}
+                onChange={(e) => setQuery(e.currentTarget.value)}
+                contrast
+            />
+            <div className={styles.subtitle}>{data?.length ?? 0} Members</div>
+            {members && (
+                <div className={styles.virtual}>
+                    <Virtuoso
+                        totalCount={members.length}
+                        itemContent={(index) => (
+                            <Inner member={members[index]} />
+                        )}
+                    />
+                </div>
+            )}
         </div>
     );
-});
+};

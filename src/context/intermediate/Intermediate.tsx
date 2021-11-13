@@ -2,6 +2,7 @@ import { Prompt } from "react-router";
 import { useHistory } from "react-router-dom";
 import type { Attachment } from "revolt-api/types/Autumn";
 import { Bot } from "revolt-api/types/Bots";
+import { TextChannel, VoiceChannel } from "revolt-api/types/Channels";
 import type { EmbedImage } from "revolt-api/types/January";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
@@ -42,6 +43,12 @@ export type Screen =
           | { type: "leave_server"; target: Server }
           | { type: "delete_server"; target: Server }
           | { type: "delete_channel"; target: Channel }
+          | {
+                type: "delete_bot";
+                target: string;
+                name: string;
+                cb?: () => void;
+            }
           | { type: "delete_message"; target: Message }
           | {
                 type: "create_invite";
@@ -51,7 +58,11 @@ export type Screen =
           | { type: "ban_member"; target: Server; user: User }
           | { type: "unfriend_user"; target: User }
           | { type: "block_user"; target: User }
-          | { type: "create_channel"; target: Server }
+          | {
+                type: "create_channel";
+                target: Server;
+                cb?: (channel: TextChannel | VoiceChannel) => void;
+            }
           | { type: "create_category"; target: Server }
       ))
     | ({ id: "special_input" } & (
@@ -106,7 +117,7 @@ export const IntermediateContext = createContext({
 });
 
 export const IntermediateActionsContext = createContext<{
-    openLink: (href?: string) => boolean;
+    openLink: (href?: string, trusted?: boolean) => boolean;
     openScreen: (screen: Screen) => void;
     writeClipboard: (text: string) => void;
 }>({
@@ -130,7 +141,7 @@ export default function Intermediate(props: Props) {
 
     const actions = useMemo(() => {
         return {
-            openLink: (href?: string) => {
+            openLink: (href?: string, trusted?: boolean) => {
                 const link = determineLink(href);
 
                 switch (link.type) {
@@ -145,17 +156,16 @@ export default function Intermediate(props: Props) {
                     case "external": {
                         const { trustedLinks } = getState();
                         if (
+                            !trusted &&
                             !trustedLinks.domains?.includes(link.url.hostname)
                         ) {
                             openScreen({
                                 id: "external_link_prompt",
                                 link: link.href,
                             });
-
-                            return true;
+                        } else {
+                            window.open(link.href, "_blank", "noreferrer");
                         }
-
-                        return false;
                     }
                 }
 

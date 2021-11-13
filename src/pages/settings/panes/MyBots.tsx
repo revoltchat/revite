@@ -352,7 +352,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                     onClick={() => writeClipboard(bot.token)}
                     description={
                         <>
-                            {"••••••••••••••••••••••••••••••••••••"}{" "}
+                            {"••••• "}
                             <a
                                 onClick={(ev) =>
                                     stopPropagation(
@@ -469,15 +469,20 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
             <div className={styles.buttonRow}>
                 {editMode && (
                     <>
-                        <Button accent onClick={save}>
+                        <Button onClick={save}>
                             <Text id="app.special.modals.actions.save" />
                         </Button>
                         <Button
-                            error
+                            accent
                             onClick={async () => {
                                 setSaving(true);
-                                await client.bots.delete(bot._id);
-                                onDelete();
+                                openScreen({
+                                    id: "special_prompt",
+                                    type: "delete_bot",
+                                    target: bot._id,
+                                    name: user.username,
+                                    cb: onDelete,
+                                });
                             }}>
                             <Text id="app.special.modals.actions.delete" />
                         </Button>

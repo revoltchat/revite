@@ -11,8 +11,9 @@ import { useContext } from "preact/hooks";
 import { ThemeContext } from "../../../context/Theme";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
-import IconBase, { IconBaseProps } from "../IconBase";
 import fallback from "../assets/user.png";
+
+import IconBase, { IconBaseProps } from "../IconBase";
 
 type VoiceStatus = "muted" | "deaf";
 interface Props extends IconBaseProps<User> {
@@ -76,27 +77,30 @@ export default observer(
             ...svgProps
         } = props;
 
-        let override;
-        if (target && showServerIdentity) {
-            const { server } = useParams<{ server?: string }>();
-            if (server) {
-                const member = client.members.getKey({
-                    server,
-                    user: target._id,
-                });
+        let { url } = props;
+        if (!url) {
+            let override;
+            if (target && showServerIdentity) {
+                const { server } = useParams<{ server?: string }>();
+                if (server) {
+                    const member = client.members.getKey({
+                        server,
+                        user: target._id,
+                    });
 
-                if (member?.avatar) {
-                    override = member?.avatar;
+                    if (member?.avatar) {
+                        override = member?.avatar;
+                    }
                 }
             }
-        }
 
-        const iconURL =
-            client.generateFileURL(
-                override ?? target?.avatar ?? attachment,
-                { max_side: 256 },
-                animate,
-            ) ?? (target ? target.defaultAvatarURL : fallback);
+            url =
+                client.generateFileURL(
+                    override ?? target?.avatar ?? attachment,
+                    { max_side: 256 },
+                    animate,
+                ) ?? (target ? target.defaultAvatarURL : fallback);
+        }
 
         return (
             <IconBase
@@ -114,7 +118,7 @@ export default observer(
                     height="32"
                     class="icon"
                     mask={mask ?? (status ? "url(#user)" : undefined)}>
-                    {<img src={iconURL} draggable={false} loading="lazy" />}
+                    {<img src={url} draggable={false} loading="lazy" />}
                 </foreignObject>
                 {props.status && (
                     <circle

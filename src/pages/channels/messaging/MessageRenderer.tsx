@@ -1,8 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { X } from "@styled-icons/boxicons-regular";
+import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
+import { Masquerade } from "revolt-api/types/Channels";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
+import { Nullable } from "revolt.js/dist/util/null";
 import styled from "styled-components";
 import { decodeTime } from "ulid";
 
@@ -96,8 +99,10 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
     function compare(
         current: string,
         curAuthor: string,
+        currentMasq: Nullable<Masquerade>,
         previous: string,
         prevAuthor: string,
+        previousMasq: Nullable<Masquerade>,
     ) {
         const atime = decodeTime(current),
             adate = new Date(atime),
@@ -113,7 +118,10 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
             head = true;
         }
 
-        head = curAuthor !== prevAuthor || Math.abs(btime - atime) >= 420000;
+        head =
+            curAuthor !== prevAuthor ||
+            Math.abs(btime - atime) >= 420000 ||
+            !isEqual(currentMasq, previousMasq);
     }
 
     let blocked = 0;
@@ -135,8 +143,10 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
             compare(
                 message._id,
                 message.author_id,
+                message.masquerade,
                 previous._id,
                 previous.author_id,
+                previous.masquerade,
             );
         }
 
@@ -187,7 +197,14 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
             if (nonces.includes(msg.id)) continue;
 
             if (previous) {
-                compare(msg.id, userId!, previous._id, previous.author_id);
+                compare(
+                    msg.id,
+                    userId!,
+                    null,
+                    previous._id,
+                    previous.author_id,
+                    previous.masquerade,
+                );
 
                 previous = {
                     _id: msg.id,

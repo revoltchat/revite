@@ -4,13 +4,15 @@ import styled, { css } from "styled-components";
 
 import styles from "./Home.module.scss";
 import { Text } from "preact-i18n";
-import { useState } from "preact/hooks";
+import { useContext, useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { dispatch, getState } from "../../redux";
 
-import wideSVG from "../../assets/wide.svg";
+import { AppContext } from "../../context/revoltjs/RevoltClient";
+
+import wideSVG from "../../../public/assets/wide.svg";
 import Emoji from "../../components/common/Emoji";
 import Tooltip from "../../components/common/Tooltip";
 import Header from "../../components/ui/Header";
@@ -31,6 +33,7 @@ const IconConainer = styled.div`
 `;
 
 export default function Home() {
+    const client = useContext(AppContext);
     const [showChannels, setChannels] = useState(
         getState().sectionToggle[CHANNELS_SIDEBAR_KEY] ?? true,
     );
@@ -74,7 +77,11 @@ export default function Home() {
                     <CategoryButton
                         action="chevron"
                         icon={<Emoji emoji="😁" size={32} />}>
-                        Join testers server
+                        {client.servers.get("01F7ZSBSFHQ8TA81725KQCSDDP") ? (
+                            <Text id="app.home.goto-testers" />
+                        ) : (
+                            <Text id="app.home.join-testers" />
+                        )}
                     </CategoryButton>
                 </Link>
                 <a
@@ -84,14 +91,14 @@ export default function Home() {
                     <CategoryButton
                         action="external"
                         icon={<Emoji emoji="💷" size={32} />}>
-                        Donate to Revolt
+                        <Text id="app.home.donate" />
                     </CategoryButton>
                 </a>
                 <Link to="/settings/feedback">
                     <CategoryButton
                         action="chevron"
                         icon={<Emoji emoji="🎉" size={32} />}>
-                        Give feedback
+                        <Text id="app.home.feedback" />
                     </CategoryButton>
                 </Link>
                 <a
@@ -101,15 +108,15 @@ export default function Home() {
                     <CategoryButton
                         action="external"
                         icon={<Emoji emoji="🧭" size={32} />}>
-                        Find Servers & Bots
+                        <Text id="app.home.social" />
                     </CategoryButton>
                 </a>
-                <Tooltip content="You can also right-click the user icon in the top left, or left click it if you're already home.">
+                <Tooltip content={<Text id="app.home.settings-tooltip" />}>
                     <Link to="/settings">
                         <CategoryButton
                             action="chevron"
                             icon={<Emoji emoji="🔧" size={32} />}>
-                            Settings
+                            <Text id="app.home.settings" />
                         </CategoryButton>
                     </Link>
                 </Tooltip>

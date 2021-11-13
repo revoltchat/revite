@@ -5,6 +5,7 @@ import { Text } from "preact-i18n";
 import { Children } from "../../types/Preact";
 
 type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, "children" | "as"> & {
+    hoverEnabled?: boolean;
     error?: string;
     block?: boolean;
     spaced?: boolean;
@@ -15,6 +16,18 @@ type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, "children" | "as"> & {
 
 const OverlineBase = styled.div<Omit<Props, "children" | "error">>`
     display: inline;
+    transition: 0.2s ease filter;
+
+    ${(props) =>
+        props.hoverEnabled &&
+        css`
+            &:hover {
+                filter: brightness(1.2);
+                cursor: pointer;
+
+                transition: 0.2s ease filter;
+            }
+        `}
 
     ${(props) =>
         !props.noMargin &&

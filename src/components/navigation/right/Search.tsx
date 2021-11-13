@@ -102,7 +102,7 @@ export function SearchSidebar({ close }: Props) {
         <GenericSidebarBase>
             <GenericSidebarList>
                 <SearchBase>
-                    <Overline type="error" onClick={close} block>
+                    <Overline type="error" onClick={close} block hoverEnabled>
                         « back to members
                     </Overline>
                     <Overline type="subtle" block>

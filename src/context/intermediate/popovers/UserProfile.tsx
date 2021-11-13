@@ -186,16 +186,16 @@ export const UserProfile = observer(
                                 </Tooltip>
                             </Localizer>
                         )}
-                        {user.relationship === RelationshipStatus.User && (
-                            <IconButton
-                                onClick={() => {
-                                    onClose?.();
-                                    if (dummy) return;
-                                    history.push(`/settings/profile`);
-                                }}>
-                                <Edit size={28} />
-                            </IconButton>
-                        )}
+                        {user.relationship === RelationshipStatus.User &&
+                            !dummy && (
+                                <IconButton
+                                    onClick={() => {
+                                        onClose?.();
+                                        history.push(`/settings/profile`);
+                                    }}>
+                                    <Edit size={28} />
+                                </IconButton>
+                            )}
                         {!user.bot &&
                             flags != 2 &&
                             flags != 4 &&

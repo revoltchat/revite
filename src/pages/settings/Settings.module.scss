@@ -144,7 +144,9 @@
         .donate {
             color: goldenrod !important;
         }
-        .logOut {
+
+        .logOut,
+        .deleteServer {
             color: var(--error) !important;
         }
 
@@ -176,12 +178,12 @@
         .scrollbox {
             display: flex;
             flex-grow: 1;
+            align-items: stretch;
         }
 
         .contentcontainer {
             display: flex;
             gap: 13px;
-            height: fit-content;
             max-width: 740px;
             padding: 80px 32px;
             width: 100%;

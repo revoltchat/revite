@@ -116,6 +116,10 @@
         }
     }
 
+    &[data-muted="true"] {
+        color: var(--tertiary-foreground);
+    }
+
     &[data-alert="true"],
     &[data-active="true"],
     &:hover {

@@ -5,6 +5,8 @@ import { attachContextMenu } from "preact-context-menu";
 import { memo } from "preact/compat";
 import { useState } from "preact/hooks";
 
+import { internalEmit } from "../../../lib/eventEmitter";
+
 import { QueuedMessage } from "../../../redux/reducers/queue";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
@@ -25,7 +27,6 @@ import Attachment from "./attachments/Attachment";
 import { MessageReply } from "./attachments/MessageReply";
 import Embed from "./embed/Embed";
 import InviteList from "./embed/EmbedInvite";
-import { internalEmit } from "../../../lib/eventEmitter";
 
 interface Props {
     attachContext?: boolean;
@@ -62,10 +63,10 @@ const Message = observer(
         // bree: Fatal please...
         const userContext = attachContext
             ? (attachContextMenu("Menu", {
-                user: message.author_id,
-                contextualChannel: message.channel_id,
-                // eslint-disable-next-line
-            }) as any)
+                  user: message.author_id,
+                  contextualChannel: message.channel_id,
+                  // eslint-disable-next-line
+              }) as any)
             : undefined;
 
         const openProfile = () =>
@@ -80,9 +81,9 @@ const Message = observer(
                     "mention",
                 );
             } else {
-                openProfile()
+                openProfile();
             }
-        }
+        };
 
         // ! FIXME(?): animate on hover
         const [animate, setAnimate] = useState(false);
@@ -105,11 +106,11 @@ const Message = observer(
                         hideReply
                             ? false
                             : (head &&
-                                !(
-                                    message.reply_ids &&
-                                    message.reply_ids.length > 0
-                                )) ??
-                            false
+                                  !(
+                                      message.reply_ids &&
+                                      message.reply_ids.length > 0
+                                  )) ??
+                              false
                     }
                     contrast={contrast}
                     sending={typeof queued !== "undefined"}
@@ -118,10 +119,10 @@ const Message = observer(
                     onContextMenu={
                         attachContext
                             ? attachContextMenu("Menu", {
-                                message,
-                                contextualChannel: message.channel_id,
-                                queued,
-                            })
+                                  message,
+                                  contextualChannel: message.channel_id,
+                                  queued,
+                              })
                             : undefined
                     }
                     onMouseEnter={() => setAnimate(true)}
@@ -129,6 +130,7 @@ const Message = observer(
                     <MessageInfo>
                         {head ? (
                             <UserIcon
+                                url={message.generateMasqAvatarURL()}
                                 target={user}
                                 size={36}
                                 onContextMenu={userContext}
@@ -144,6 +146,7 @@ const Message = observer(
                         {head && (
                             <span className="detail">
                                 <Username
+                                    override={message.masquerade?.name}
                                     className="author"
                                     user={user}
                                     onContextMenu={userContext}

@@ -4,12 +4,16 @@ import { dispatch } from "../../../redux";
 
 import Modal from "../../../components/ui/Modal";
 
+import { useIntermediate } from "../Intermediate";
+
 interface Props {
     onClose: () => void;
     link: string;
 }
 
 export function ExternalLinkModal({ onClose, link }: Props) {
+    const { openLink } = useIntermediate();
+
     return (
         <Modal
             visible={true}
@@ -18,7 +22,7 @@ export function ExternalLinkModal({ onClose, link }: Props) {
             actions={[
                 {
                     onClick: () => {
-                        window.open(link, "_blank", "noreferrer");
+                        openLink(link, true);
                         onClose();
                     },
                     confirmation: true,
@@ -40,7 +44,8 @@ export function ExternalLinkModal({ onClose, link }: Props) {
                                 domain: url.hostname,
                             });
                         } catch (e) {}
-                        window.open(link, "_blank", "noreferrer");
+
+                        openLink(link);
                         onClose();
                     },
                     plain: true,

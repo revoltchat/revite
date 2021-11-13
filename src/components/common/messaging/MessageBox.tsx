@@ -398,6 +398,7 @@ export default observer(({ channel }: Props) => {
         }
     }
 
+    // TODO: change to useDebounceCallback
     // eslint-disable-next-line
     const debouncedStopTyping = useCallback(
         debounce(stopTyping as (...args: unknown[]) => void, 1000),
@@ -523,6 +524,7 @@ export default observer(({ channel }: Props) => {
 
                         if (
                             !e.shiftKey &&
+                            !e.isComposing &&
                             e.key === "Enter" &&
                             !isTouchscreenDevice
                         ) {
