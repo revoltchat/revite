@@ -179,7 +179,7 @@ export function ThemeShop() {
     return (
         <ThemeShopRoot>
             <Tip warning hideSeparator>
-                <Text id="app.settings.pages.theme_shop.under_construction_warning" />
+                This section is under construction.
             </Tip>
             <ThemeList>
                 {themeList?.map(([slug, theme]) => (
