@@ -124,7 +124,7 @@ export const Account = observer(() => {
                                     </>
                                 ) : (
                                     <>
-                                        •••••••••••@{value.split("@").pop()}{" "}
+                                        •••••••••••@••••••.•••{" "}
                                         <a
                                             onClick={(ev) =>
                                                 stopPropagation(
