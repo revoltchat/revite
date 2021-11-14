@@ -5,7 +5,13 @@ import { useHistory, useParams } from "react-router-dom";
 import styles from "./Settings.module.scss";
 import classNames from "classnames";
 import { Text } from "preact-i18n";
-import { useCallback, useContext, useEffect, useState } from "preact/hooks";
+import {
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -73,6 +79,8 @@ export function GenericSettings({
         document.body.addEventListener("keydown", keyDown);
         return () => document.body.removeEventListener("keydown", keyDown);
     }, [exitSettings]);
+
+    const pageRef = useRef<string>();
 
     return (
         <div
@@ -155,7 +163,17 @@ export function GenericSettings({
             )}
             {(!isTouchscreenDevice || typeof page === "string") && (
                 <div className={styles.content}>
-                    <div className={styles.scrollbox}>
+                    <div
+                        className={styles.scrollbox}
+                        ref={(ref) => {
+                            // Force scroll to top if page changes.
+                            if (ref) {
+                                if (pageRef.current !== page) {
+                                    ref.scrollTop = 0;
+                                    pageRef.current = page;
+                                }
+                            }
+                        }}>
                         <div className={styles.contentcontainer}>
                             {!isTouchscreenDevice &&
                                 !pages.find(
