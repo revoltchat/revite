@@ -65,6 +65,7 @@ const Base = styled.div`
 
     .message {
         display: flex;
+        max-height: 26px;
     }
 
     .actions {
@@ -152,7 +153,7 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                     </>
                                 )}
                                 {message.author_id ===
-                                    "00000000000000000000000000" ? (
+                                "00000000000000000000000000" ? (
                                     <SystemMessage message={message} hideInfo />
                                 ) : (
                                     <Markdown
@@ -191,7 +192,13 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                     }}>
                                     <span class="toggle">
                                         <At size={15} />
-                                        <Text id={reply.mention ? 'general.on' : 'general.off'} />
+                                        <Text
+                                            id={
+                                                reply.mention
+                                                    ? "general.on"
+                                                    : "general.off"
+                                            }
+                                        />
                                     </span>
                                 </IconButton>
                             )}

@@ -84,12 +84,16 @@ export const ReplyBase = styled.div<{
     }
 
     .content {
-        padding: 2px 0;
+        max-height: 32px;
+
         gap: 4px;
         display: flex;
+        padding: 2px 0;
         cursor: pointer;
+        overflow: hidden;
         align-items: center;
         flex-direction: row;
+
         transition: filter 1s ease-in-out;
         transition: transform ease-in-out 0.1s;
         filter: brightness(1);
