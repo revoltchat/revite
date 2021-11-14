@@ -5,13 +5,13 @@ import { Text } from "preact-i18n";
 import { Children } from "../../types/Preact";
 
 type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, "children" | "as"> & {
-    hoverEnabled?: boolean;
     error?: string;
+    hover?: boolean;
     block?: boolean;
     spaced?: boolean;
     noMargin?: boolean;
     children?: Children;
-    type?: "default" | "subtle" | "error";
+    type?: "default" | "subtle" | "error" | "accent";
 };
 
 const OverlineBase = styled.div<Omit<Props, "children" | "error">>`
@@ -19,13 +19,13 @@ const OverlineBase = styled.div<Omit<Props, "children" | "error">>`
     transition: 0.2s ease filter;
 
     ${(props) =>
-        props.hoverEnabled &&
+        props.hover &&
         css`
+            cursor: pointer;
+            transition: 0.2s ease filter;
+
             &:hover {
                 filter: brightness(1.2);
-                cursor: pointer;
-
-                transition: 0.2s ease filter;
             }
         `}
 
@@ -59,6 +59,14 @@ const OverlineBase = styled.div<Omit<Props, "children" | "error">>`
             font-size: 12px;
             font-weight: 400;
             color: var(--error);
+        `}
+
+    ${(props) =>
+        props.type === "accent" &&
+        css`
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--accent);
         `}
 
     ${(props) =>
