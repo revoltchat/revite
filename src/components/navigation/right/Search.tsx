@@ -102,8 +102,8 @@ export function SearchSidebar({ close }: Props) {
         <GenericSidebarBase>
             <GenericSidebarList>
                 <SearchBase>
-                    <Overline type="error" onClick={close} block hoverEnabled>
-                        « back to members
+                    <Overline type="accent" block hover>
+                        <a onClick={close}>« back to members</a>
                     </Overline>
                     <Overline type="subtle" block>
                         <Text id="app.main.channel.search.title" />
@@ -118,7 +118,7 @@ export function SearchSidebar({ close }: Props) {
                             <Button
                                 key={key}
                                 compact
-                                error={sort === key}
+                                accent={sort === key}
                                 onClick={() => setSort(key as Sort)}>
                                 <Text
                                     id={`app.main.channel.search.sort.${key.toLowerCase()}`}
