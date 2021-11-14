@@ -182,9 +182,10 @@ export const MessageReply = observer(
                             <>
                                 <div className="user">
                                     <UserShort
-                                        user={message.author}
                                         size={16}
                                         showServerIdentity
+                                        user={message.author}
+                                        masquerade={message.masquerade!}
                                         prefixAt={parent_mentions.includes(
                                             message.author_id,
                                         )}
