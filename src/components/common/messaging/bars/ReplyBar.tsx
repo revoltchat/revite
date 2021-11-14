@@ -9,12 +9,9 @@ import { Text } from "preact-i18n";
 import { StateUpdater, useEffect } from "preact/hooks";
 
 import { internalSubscribe } from "../../../../lib/eventEmitter";
-import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 import { dispatch, getState } from "../../../../redux";
 import { Reply } from "../../../../redux/reducers/queue";
-
-import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 import IconButton from "../../../ui/IconButton";
 
@@ -133,9 +130,10 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                             <ReplyIcon size={22} />
                             <div class="username">
                                 <UserShort
-                                    user={message.author}
                                     size={16}
                                     showServerIdentity
+                                    user={message.author}
+                                    masquerade={message.masquerade!}
                                 />
                             </div>
                             <div class="message">

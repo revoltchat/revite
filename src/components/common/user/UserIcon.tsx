@@ -2,8 +2,10 @@ import { MicrophoneOff } from "@styled-icons/boxicons-regular";
 import { VolumeMute } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
+import { Masquerade } from "revolt-api/types/Channels";
 import { Presence } from "revolt-api/types/Users";
 import { User } from "revolt.js/dist/maps/Users";
+import { Nullable } from "revolt.js/dist/util/null";
 import styled, { css } from "styled-components";
 
 import { useContext } from "preact/hooks";
@@ -17,9 +19,9 @@ import IconBase, { IconBaseProps } from "../IconBase";
 
 type VoiceStatus = "muted" | "deaf";
 interface Props extends IconBaseProps<User> {
-    mask?: string;
     status?: boolean;
     voice?: VoiceStatus;
+    masquerade?: Masquerade;
     showServerIdentity?: boolean;
 }
 
@@ -74,11 +76,14 @@ export default observer(
             mask,
             hover,
             showServerIdentity,
+            masquerade,
             ...svgProps
         } = props;
 
         let { url } = props;
-        if (!url) {
+        if (masquerade?.avatar) {
+            url = masquerade.avatar;
+        } else if (!url) {
             let override;
             if (target && showServerIdentity) {
                 const { server } = useParams<{ server?: string }>();

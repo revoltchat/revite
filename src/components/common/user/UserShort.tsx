@@ -1,6 +1,8 @@
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
+import { Masquerade } from "revolt-api/types/Channels";
 import { User } from "revolt.js/dist/maps/Users";
+import { Nullable } from "revolt.js/dist/util/null";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
@@ -29,16 +31,16 @@ const BotBadge = styled.div`
 
 type UsernameProps = JSX.HTMLAttributes<HTMLElement> & {
     user?: User;
-    override?: string;
     prefixAt?: boolean;
+    masquerade?: Masquerade;
     showServerIdentity?: boolean | "both";
 };
 
 export const Username = observer(
     ({
         user,
-        override,
         prefixAt,
+        masquerade,
         showServerIdentity,
         ...otherProps
     }: UsernameProps) => {
@@ -83,7 +85,7 @@ export const Username = observer(
             return (
                 <>
                     <span {...otherProps} style={{ color }}>
-                        {override ?? username ?? (
+                        {masquerade?.name ?? username ?? (
                             <Text id="app.main.channel.unknown_user" />
                         )}
                     </span>
@@ -97,7 +99,7 @@ export const Username = observer(
         return (
             <span {...otherProps} style={{ color }}>
                 {prefixAt ? "@" : undefined}
-                {override ?? username ?? (
+                {masquerade?.name ?? username ?? (
                     <Text id="app.main.channel.unknown_user" />
                 )}
             </span>
@@ -109,11 +111,13 @@ export default function UserShort({
     user,
     size,
     prefixAt,
+    masquerade,
     showServerIdentity,
 }: {
     user?: User;
     size?: number;
     prefixAt?: boolean;
+    masquerade?: Masquerade;
     showServerIdentity?: boolean;
 }) {
     const { openScreen } = useIntermediate();
@@ -132,16 +136,18 @@ export default function UserShort({
     return (
         <>
             <UserIcon
-                size={size ?? 24}
                 target={user}
+                size={size ?? 24}
+                masquerade={masquerade}
                 onClick={handleUserClick}
                 showServerIdentity={showServerIdentity}
             />
             <Username
                 user={user}
-                showServerIdentity={showServerIdentity}
-                onClick={handleUserClick}
                 prefixAt={prefixAt}
+                masquerade={masquerade}
+                onClick={handleUserClick}
+                showServerIdentity={showServerIdentity}
             />
         </>
     );

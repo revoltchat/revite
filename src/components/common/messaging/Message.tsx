@@ -146,12 +146,12 @@ const Message = observer(
                         {head && (
                             <span className="detail">
                                 <Username
-                                    override={message.masquerade?.name}
-                                    className="author"
                                     user={user}
-                                    onContextMenu={userContext}
-                                    onClick={handleUserClick}
+                                    className="author"
                                     showServerIdentity
+                                    onClick={handleUserClick}
+                                    onContextMenu={userContext}
+                                    masquerade={message.masquerade!}
                                 />
                                 <MessageDetail
                                     message={message}
