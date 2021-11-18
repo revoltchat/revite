@@ -1,6 +1,8 @@
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 
+import { useTranslation } from "../../../lib/i18n";
+
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import {
@@ -17,6 +19,8 @@ interface Props {
 }
 
 export function Component(props: Props) {
+    const translate = useTranslation();
+
     return (
         <div className={styles.experiments}>
             <h3>
@@ -34,8 +38,18 @@ export function Component(props: Props) {
                             key,
                         })
                     }
-                    description={EXPERIMENTS[key].description}>
-                    {EXPERIMENTS[key].title}
+                    description={translate(
+                        `app.settings.pages.experiments.${key}.description`,
+                        undefined,
+                        undefined,
+                        EXPERIMENTS[key].description,
+                    )}>
+                    {translate(
+                        `app.settings.pages.experiments.${key}.title`,
+                        undefined,
+                        undefined,
+                        EXPERIMENTS[key].title,
+                    )}
                 </Checkbox>
             ))}
             {AVAILABLE_EXPERIMENTS.length === 0 && (
