@@ -1,7 +1,7 @@
 name: Bug report
 description: File a bug report
-title: "[Bug]: "
-labels: ["bug", "triage"]
+title: "[Bug Report]"
+labels: ["bug"]
 assignees:
   - insertish
 body:
