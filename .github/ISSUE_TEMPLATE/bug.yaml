@@ -55,7 +55,7 @@ body:
   - type: checkboxes
     id: pwa
     attributes:
-      label: Desktop
+      label: PWA
       description: Is this bug specific to the PWA (i.e. "installing" the web app on iOS or Android)? (If not, leave this unchecked.)
       options:
         - label: Yes, this bug is specific to the PWA.
