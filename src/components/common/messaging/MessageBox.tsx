@@ -93,7 +93,7 @@ const Action = styled.div`
     display: flex;
     place-items: center;
 
-    > div {
+    > button {
         height: 48px;
         width: 48px;
         padding: 12px;

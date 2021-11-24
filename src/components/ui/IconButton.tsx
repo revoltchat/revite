@@ -8,7 +8,7 @@ interface Props {
 const normal = `var(--secondary-foreground)`;
 const hover = `var(--foreground)`;
 
-export default styled.div<Props>`
+export default styled.button<Props>`
     z-index: 1;
     display: grid;
     cursor: pointer;
@@ -18,6 +18,8 @@ export default styled.div<Props>`
 
     fill: ${normal};
     color: ${normal};
+    background: transparent;
+    border: 0;
 
     a {
         color: ${normal};

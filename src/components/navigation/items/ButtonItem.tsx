@@ -24,7 +24,7 @@ import IconButton from "../../ui/IconButton";
 import { Children } from "../../../types/Preact";
 
 type CommonProps = Omit<
-    JSX.HTMLAttributes<HTMLDivElement>,
+    JSX.HTMLAttributes<HTMLButtonElement>,
     "children" | "as"
 > & {
     active?: boolean;
@@ -50,13 +50,13 @@ export const UserButton = observer((props: UserProps) => {
         user,
         context,
         channel,
-        ...divProps
+        ...buttonProps
     } = props;
     const { openScreen } = useIntermediate();
 
     return (
-        <div
-            {...divProps}
+        <button
+            {...buttonProps}
             className={classNames(styles.item, styles.user)}
             data-active={active}
             data-margin={margin}
@@ -123,7 +123,7 @@ export const UserButton = observer((props: UserProps) => {
                     </IconButton>
                 )}
             </div>
-        </div>
+        </button>
     );
 });
 
@@ -142,7 +142,7 @@ export const ChannelButton = observer((props: ChannelProps) => {
         user,
         compact,
         muted,
-        ...divProps
+        ...buttonProps
     } = props;
 
     if (channel.channel_type === "SavedMessages") throw "Invalid channel type.";
@@ -154,8 +154,8 @@ export const ChannelButton = observer((props: ChannelProps) => {
     const { openScreen } = useIntermediate();
 
     return (
-        <div
-            {...divProps}
+        <button
+            {...buttonProps}
             data-active={active}
             data-alert={typeof alert === "string" && !muted}
             data-muted={muted}
@@ -164,7 +164,8 @@ export const ChannelButton = observer((props: ChannelProps) => {
             onContextMenu={attachContextMenu("Menu", {
                 channel: channel._id,
                 unread: !!alert,
-            })}>
+            })}
+            tabIndex={-1}>
             <ChannelIcon
                 className={styles.avatar}
                 target={channel}
@@ -208,7 +209,7 @@ export const ChannelButton = observer((props: ChannelProps) => {
                     </IconButton>
                 )}
             </div>
-        </div>
+        </button>
     );
 });
 
@@ -228,12 +229,12 @@ export default function ButtonItem(props: ButtonProps) {
         className,
         children,
         compact,
-        ...divProps
+        ...buttonProps
     } = props;
 
     return (
-        <div
-            {...divProps}
+        <button
+            {...buttonProps}
             className={classNames(
                 styles.item,
                 { [styles.compact]: compact, [styles.normal]: !compact },
@@ -248,6 +249,6 @@ export default function ButtonItem(props: ButtonProps) {
                     {alertCount}
                 </div>
             )}
-        </div>
+        </button>
     );
 }

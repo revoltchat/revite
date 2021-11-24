@@ -191,11 +191,11 @@ export function GenericSettings({
                         </div>
                         {!isTouchscreenDevice && (
                             <aside className={styles.action}>
-                                <div
+                                <button
                                     onClick={exitSettings}
                                     className={styles.closeButton}>
                                     <X size={28} />
-                                </div>
+                                </button>
                             </aside>
                         )}
                     </div>

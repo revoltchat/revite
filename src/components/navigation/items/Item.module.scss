@@ -1,5 +1,6 @@
 .item {
     height: 42px;
+    width: 100%;
     display: flex;
     padding: 0 8px;
     user-select: none;
@@ -12,9 +13,13 @@
 
     cursor: pointer;
     font-size: 16px;
+    text-align: left;
     transition: 0.1s ease-in-out background-color;
 
     color: var(--tertiary-foreground);
+    background-color: transparent;
+
+    border: 0;
 
     &.normal {
         height: 42px;

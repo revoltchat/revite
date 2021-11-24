@@ -34,6 +34,10 @@ body {
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
+button {
+    font-family: var(--font), sans-serif;
+}
+
 #app {
     position: fixed;
     top: 0;
