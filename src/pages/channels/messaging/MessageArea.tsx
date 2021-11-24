@@ -33,7 +33,7 @@ import Preloader from "../../../components/ui/Preloader";
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
 
-const Area = styled.div`
+const Area = styled.div.attrs({ role: "feed" })`
     height: 100%;
     flex-grow: 1;
     min-height: 0;

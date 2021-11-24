@@ -56,7 +56,7 @@ export type UploadState =
     | { type: "sending"; files: File[] }
     | { type: "failed"; files: File[]; error: string };
 
-const Base = styled.div`
+const Base = styled.div.attrs({ "aria-label": "Message Box" })`
     display: flex;
     align-items: flex-start;
     background: var(--message-box);

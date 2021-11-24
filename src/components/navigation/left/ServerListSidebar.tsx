@@ -106,7 +106,14 @@ const ServerList = styled.div`
     }
 `;
 
-const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
+interface ServerEntryProps {
+    active: boolean;
+    home?: boolean;
+}
+
+const ServerEntry = styled.div.attrs((props: ServerEntryProps) => ({
+    "aria-label": props.active ? "Selected" : undefined,
+}))<ServerEntryProps>`
     height: 58px;
     display: flex;
     align-items: center;

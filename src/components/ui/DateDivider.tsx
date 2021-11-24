@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 import { dayjs } from "../../context/Locale";
 
-const Base = styled.div<{ unread?: boolean }>`
+const Base = styled.div.attrs({ role: "separator" })<{ unread?: boolean }>`
     height: 0;
     display: flex;
     user-select: none;

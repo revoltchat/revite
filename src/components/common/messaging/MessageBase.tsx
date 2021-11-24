@@ -28,7 +28,9 @@ const highlight = keyframes`
     100% { background: transparent; }
 `;
 
-export default styled.article<BaseMessageProps>`
+export default styled.article.attrs((props: BaseMessageProps) => ({
+    role: props.mention ? "alert" : undefined,
+}))<BaseMessageProps>`
     display: flex;
     overflow: none;
     padding: 0.125rem;
