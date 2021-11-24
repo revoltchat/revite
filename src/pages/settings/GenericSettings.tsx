@@ -129,7 +129,7 @@ export function GenericSettings({
                 </Header>
             )}
             {(!isTouchscreenDevice || typeof page === "undefined") && (
-                <div className={styles.sidebar}>
+                <nav className={styles.sidebar}>
                     <div className={styles.scrollbox}>
                         <div className={styles.container}>
                             {pages.map((entry, i) =>
@@ -159,10 +159,10 @@ export function GenericSettings({
                             {custom}
                         </div>
                     </div>
-                </div>
+                </nav>
             )}
             {(!isTouchscreenDevice || typeof page === "string") && (
-                <div className={styles.content}>
+                <article className={styles.content}>
                     <div
                         className={styles.scrollbox}
                         ref={(ref) => {
@@ -190,16 +190,16 @@ export function GenericSettings({
                             {children}
                         </div>
                         {!isTouchscreenDevice && (
-                            <div className={styles.action}>
+                            <aside className={styles.action}>
                                 <div
                                     onClick={exitSettings}
                                     className={styles.closeButton}>
                                     <X size={28} />
                                 </div>
-                            </div>
+                            </aside>
                         )}
                     </div>
-                </div>
+                </article>
             )}
         </div>
     );

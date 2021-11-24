@@ -17,8 +17,10 @@ interface Props {
     server: Server;
 }
 
-const ServerName = styled.div`
+const ServerName = styled.h1`
     flex-grow: 1;
+    margin: 0;
+    font-size: inherit;
 `;
 
 export default observer(({ server }: Props) => {

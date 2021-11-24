@@ -9,7 +9,7 @@ interface Props {
     placement: "primary" | "secondary";
 }
 
-export default styled.div<Props>`
+export default styled.header<Props>`
     gap: 6px;
     height: 48px;
     flex: 0 auto;

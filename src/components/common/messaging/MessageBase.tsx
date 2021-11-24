@@ -28,7 +28,7 @@ const highlight = keyframes`
     100% { background: transparent; }
 `;
 
-export default styled.div<BaseMessageProps>`
+export default styled.article<BaseMessageProps>`
     display: flex;
     overflow: none;
     padding: 0.125rem;
