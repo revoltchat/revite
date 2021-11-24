@@ -10,7 +10,7 @@ import {
     Samsung,
 } from "@styled-icons/simple-icons";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { SessionInfo } from "revolt-api/types/Auth";
 import { decodeTime } from "ulid";
 
@@ -36,11 +36,6 @@ export function Sessions() {
         undefined,
     );
     const [attemptingDelete, setDelete] = useState<string[]>([]);
-    const history = useHistory();
-
-    function switchPage(to: string) {
-        history.replace(`/settings/${to}`);
-    }
 
     useEffect(() => {
         client.req("GET", "/auth/session/all").then((data) => {
@@ -235,9 +230,9 @@ export function Sessions() {
                 <span>
                     <Text id="app.settings.tips.sessions.a" />
                 </span>{" "}
-                <a onClick={() => switchPage("account")}>
+                <Link to="/settings/account">
                     <Text id="app.settings.tips.sessions.b" />
-                </a>
+                </Link>
             </Tip>
         </div>
     );

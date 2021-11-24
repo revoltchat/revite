@@ -6,7 +6,7 @@ import {
     Trash,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Profile } from "revolt-api/types/Users";
 
 import styles from "./Panes.module.scss";
@@ -61,12 +61,13 @@ export const Account = observer(() => {
         <div className={styles.user}>
             <div className={styles.banner}>
                 <div className={styles.container}>
-                    <UserIcon
-                        className={styles.avatar}
-                        target={client.user!}
-                        size={72}
-                        onClick={() => switchPage("profile")}
-                    />
+                    <Link to="/settings/profile">
+                        <UserIcon
+                            className={styles.avatar}
+                            target={client.user!}
+                            size={72}
+                        />
+                    </Link>
                     <div className={styles.userDetail}>
                         @{client.user!.username}
                         <div className={styles.userid}>
@@ -196,7 +197,8 @@ export const Account = observer(() => {
                         "Delete your account, including all of your data. (sends an email to contact@revolt.chat)"
                     }
                     hover
-                    action="external">
+                    action="external"
+                    tabIndex={-1}>
                     <Text id="app.settings.pages.account.manage.delete" />
                 </CategoryButton>
             </a>
@@ -204,9 +206,9 @@ export const Account = observer(() => {
                 <span>
                     <Text id="app.settings.tips.account.a" />
                 </span>{" "}
-                <a onClick={() => switchPage("profile")}>
+                <Link to="/settings/profile">
                     <Text id="app.settings.tips.account.b" />
-                </a>
+                </Link>
             </Tip>
         </div>
     );
