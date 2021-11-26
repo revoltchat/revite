@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { Presence } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
-import {ChannelPermission} from "revolt.js/dist/api/permissions";
+import { ChannelPermission } from "revolt.js/dist/api/permissions";
 
 import styles from "./Item.module.scss";
 import classNames from "classnames";
