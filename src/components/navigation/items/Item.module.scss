@@ -107,6 +107,22 @@
         }
     }
 
+    &.compact:hover {
+        div.button .alert {
+            display: none;
+        }
+
+        div.button {
+            display: flex;
+            flex-direction: row;
+        }
+
+        div.button svg {
+            opacity: 1;
+            display: block;
+        }
+    }
+
     &[data-active="true"] {
         cursor: default;
         background: var(--hover);

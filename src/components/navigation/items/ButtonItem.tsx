@@ -1,8 +1,9 @@
-import { X, Crown } from "@styled-icons/boxicons-regular";
+import { X, Crown, UserPlus } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { Presence } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
+import {ChannelPermission} from "revolt.js/dist/api/permissions";
 
 import styles from "./Item.module.scss";
 import classNames from "classnames";
@@ -207,6 +208,33 @@ export const ChannelButton = observer((props: ChannelProps) => {
                         <X size={24} />
                     </IconButton>
                 )}
+                {!isTouchscreenDevice && channel.channel_type === "TextChannel" && (channel.permission & ChannelPermission.InviteOthers) && (
+                    <IconButton
+                        className={styles.icon}
+                        onClick={() =>
+                            openScreen({
+                                id: "special_prompt",
+                                type: "create_invite",
+                                target: channel,
+                            })
+                        }>
+                        <UserPlus size={24} />
+                    </IconButton>
+                )}
+                {/*Currently I do not think there's a proper manage channel view. For now I have commented this out*/}
+                {/*TODO: Add proper manage channel view.*/}
+                {/*{!isTouchscreenDevice && channel.channel_type === "TextChannel" && (channel.permission & ChannelPermission.ManageChannel) && (*/}
+                {/*    <IconButton*/}
+                {/*        className={styles.icon}*/}
+                {/*        onClick={() =>*/}
+                {/*            openScreen({*/}
+                {/*                id: "channel_info",*/}
+                {/*                channel: channel,*/}
+                {/*            })*/}
+                {/*        }>*/}
+                {/*        <Cog size={24} />*/}
+                {/*    </IconButton>*/}
+                {/*)}*/}
             </div>
         </div>
     );
