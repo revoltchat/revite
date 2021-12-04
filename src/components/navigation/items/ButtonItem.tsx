@@ -222,20 +222,18 @@ export const ChannelButton = observer((props: ChannelProps) => {
                         <UserPlus size={24} />
                     </IconButton>
                 )}
-                {/*Currently I do not think there's a proper manage channel view. For now I have commented this out*/}
-                {/*TODO: Add proper manage channel view.*/}
-                {/*{!isTouchscreenDevice && channel.channel_type === "TextChannel" && (channel.permission & ChannelPermission.ManageChannel) && (*/}
-                {/*    <IconButton*/}
-                {/*        className={styles.icon}*/}
-                {/*        onClick={() =>*/}
-                {/*            openScreen({*/}
-                {/*                id: "channel_info",*/}
-                {/*                channel: channel,*/}
-                {/*            })*/}
-                {/*        }>*/}
-                {/*        <Cog size={24} />*/}
-                {/*    </IconButton>*/}
-                {/*)}*/}
+                {!isTouchscreenDevice &&
+                    channel.channel_type === "TextChannel" &&
+                    channel.permission & ChannelPermission.ManageChannel && (
+                        <div className="actions">
+                            <Link to={`/channel/${channel._id}/settings`}>
+                                <IconButton>
+                                    <Cog size={24} />
+                                </IconButton>
+                            </Link>
+                        </div>
+                    )
+                }
             </div>
         </div>
     );
