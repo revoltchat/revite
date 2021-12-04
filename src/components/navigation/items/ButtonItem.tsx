@@ -1,9 +1,10 @@
-import { X, Crown, UserPlus } from "@styled-icons/boxicons-regular";
+import { X, Crown, UserPlus, Cog } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
+import { Link } from "react-router-dom";
 import { Presence } from "revolt-api/types/Users";
+import { ChannelPermission } from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
-import { ChannelPermission } from "revolt.js/dist/api/permissions";
 
 import styles from "./Item.module.scss";
 import classNames from "classnames";
