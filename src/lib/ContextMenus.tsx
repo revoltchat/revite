@@ -517,7 +517,19 @@ export default function ContextMenus() {
                                     target: server,
                                 });
                             }
-                            if (permissions & ServerPermission.ManageServer)
+
+                            const shouldShowSettings = () => {
+                                for (const perm of [
+                                    ServerPermission.ManageServer,
+                                    ServerPermission.BanMembers,
+                                    ServerPermission.ManageRoles,
+                                    ServerPermission.ManageChannels,
+                                ]) {
+                                    if ((permissions & perm) > 0) return true;
+                                }
+                            };
+
+                            if (shouldShowSettings())
                                 generateAction({
                                     action: "open_server_settings",
                                     id: server_list,
@@ -968,10 +980,19 @@ export default function ContextMenus() {
                                     "edit_identity",
                                 );
 
-                            if (
-                                serverPermissions &
-                                ServerPermission.ManageServer
-                            )
+                            const shouldShowSettings = () => {
+                                for (const perm of [
+                                    ServerPermission.ManageServer,
+                                    ServerPermission.BanMembers,
+                                    ServerPermission.ManageRoles,
+                                    ServerPermission.ManageChannels,
+                                ]) {
+                                    if ((serverPermissions & perm) > 0)
+                                        return true;
+                                }
+                            };
+
+                            if (shouldShowSettings())
                                 generateAction(
                                     {
                                         action: "open_server_settings",
