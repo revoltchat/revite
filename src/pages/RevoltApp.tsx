@@ -25,7 +25,7 @@ import ChannelSettings from "./settings/ChannelSettings";
 import ServerSettings from "./settings/ServerSettings";
 import Settings from "./settings/Settings";
 
-const Routes = styled.main`
+const Routes = styled.main.attrs({ id: "main" })`
     min-width: 0;
     display: flex;
     overflow: hidden;

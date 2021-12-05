@@ -10,7 +10,9 @@ export default function ConditionalLink(props: Props) {
 
     if (active) {
         const ariaProps = Object.fromEntries(
-            Object.entries(linkProps).filter(([k]) => k.startsWith("aria-")),
+            Object.entries(linkProps).filter(
+                ([k]) => k === "role" || k.startsWith("aria-"),
+            ),
         );
 
         return (

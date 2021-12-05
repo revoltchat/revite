@@ -30,7 +30,7 @@ interface Props {
     notifications: Notifications;
 }
 
-const ServerBase = styled.div`
+const ServerBase = styled.div.attrs({ id: "serverSidebar" })`
     height: 100%;
     width: 240px;
     display: flex;
@@ -46,7 +46,10 @@ const ServerBase = styled.div`
     `}
 `;
 
-const ServerList = styled.div`
+const ServerList = styled.div.attrs({
+    "aria-role": "tablist",
+    "aria-orientation": "vertical",
+})`
     padding: 6px;
     flex-grow: 1;
     overflow-y: scroll;
@@ -98,8 +101,12 @@ const ServerSidebar = observer((props: Props) => {
         const muted = props.notifications[id] === "none";
 
         return (
+            // TODO: implement focus-switching with arrow keys (see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tab_role)
             <ConditionalLink
+                role="tab"
                 aria-selected={active}
+                aria-controls="main"
+                aria-label={entry.name ?? undefined} // typescript complains about entry.name being Nullable<string> without this
                 onClick={(e) => {
                     if (e.shiftKey) {
                         internalEmit(
@@ -154,6 +161,7 @@ const ServerSidebar = observer((props: Props) => {
             <ServerHeader server={server} />
             <ConnectionStatus />
             <ServerList
+                id="channelList"
                 onContextMenu={attachContextMenu("Menu", {
                     server_list: server._id,
                 })}>

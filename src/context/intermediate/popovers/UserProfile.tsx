@@ -207,26 +207,34 @@ export const UserProfile = observer(
                                 </IconButton>
                             )}
                     </div>
-                    <div className={styles.tabs}>
+                    <div className={styles.tabs} aria-role="tablist">
                         <div
+                            role="tab"
                             aria-selected={tab === "profile"}
+                            aria-controls="profileContent"
                             onClick={() => setTab("profile")}>
                             <Text id="app.special.popovers.user_profile.profile" />
                         </div>
                         {user.relationship !== RelationshipStatus.User && (
                             <>
                                 <div
+                                    role="tab"
                                     aria-selected={tab === "friends"}
+                                    aria-controls="profileContent"
                                     onClick={() => setTab("friends")}>
                                     <Text id="app.special.popovers.user_profile.mutual_friends" />
                                 </div>
                                 <div
+                                    role="tab"
                                     aria-selected={tab === "groups"}
+                                    aria-controls="profileContent"
                                     onClick={() => setTab("groups")}>
                                     <Text id="app.special.popovers.user_profile.mutual_groups" />
                                 </div>
                                 <div
+                                    role="tab"
                                     aria-selected={tab === "servers"}
+                                    aria-controls="profileContent"
                                     onClick={() => setTab("servers")}>
                                     <Text id="app.special.popovers.user_profile.mutual_servers" />
                                 </div>
@@ -234,7 +242,7 @@ export const UserProfile = observer(
                         )}
                     </div>
                 </div>
-                <div className={styles.content}>
+                <div id="profileContent" className={styles.content}>
                     {tab === "profile" && (
                         <div>
                             {!(
