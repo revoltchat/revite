@@ -34,6 +34,7 @@ interface Props {
         title: Children;
         hidden?: boolean;
         hideTitle?: boolean;
+        disabled?: boolean;
     }[];
     custom?: Children;
     children: Children;
@@ -152,7 +153,16 @@ export function GenericSettings({
                                                     !isTouchscreenDevice &&
                                                     typeof page === "undefined")
                                             }
-                                            onClick={() => switchPage(entry.id)}
+                                            onClick={() =>
+                                                !entry.disabled &&
+                                                switchPage(entry.id)
+                                            }
+                                            disabled={entry.disabled}
+                                            style={
+                                                entry.disabled
+                                                    ? "filter: grayscale(70%) brightness(70%);"
+                                                    : undefined
+                                            }
                                             compact>
                                             {entry.icon} {entry.title}
                                         </ButtonItem>
