@@ -44,6 +44,11 @@ enum Badges {
     EarlyAdopter = 256,
 }
 
+interface TabProps {
+    name: string;
+    text: string;
+}
+
 export const UserProfile = observer(
     ({ user_id, onClose, dummy, dummyProfile }: Props) => {
         const { openScreen, writeClipboard } = useIntermediate();
@@ -122,6 +127,17 @@ export const UserProfile = observer(
 
         const badges = user.badges ?? 0;
         const flags = user.flags ?? 0;
+
+        const Tab = ({ name, text }: TabProps) => (
+            // TODO: implement focus-switching with arrow keys (see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tab_role)
+            <button
+                role="tab"
+                aria-selected={tab === name}
+                aria-controls="profileContent"
+                onClick={() => setTab(name)}>
+                <Text id={text} />
+            </button>
+        );
 
         return (
             <Modal
@@ -208,36 +224,24 @@ export const UserProfile = observer(
                             )}
                     </div>
                     <div className={styles.tabs} aria-role="tablist">
-                        <div
-                            role="tab"
-                            aria-selected={tab === "profile"}
-                            aria-controls="profileContent"
-                            onClick={() => setTab("profile")}>
-                            <Text id="app.special.popovers.user_profile.profile" />
-                        </div>
+                        <Tab
+                            name="profile"
+                            text="app.special.popovers.user_profile.profile"
+                        />
                         {user.relationship !== RelationshipStatus.User && (
                             <>
-                                <div
-                                    role="tab"
-                                    aria-selected={tab === "friends"}
-                                    aria-controls="profileContent"
-                                    onClick={() => setTab("friends")}>
-                                    <Text id="app.special.popovers.user_profile.mutual_friends" />
-                                </div>
-                                <div
-                                    role="tab"
-                                    aria-selected={tab === "groups"}
-                                    aria-controls="profileContent"
-                                    onClick={() => setTab("groups")}>
-                                    <Text id="app.special.popovers.user_profile.mutual_groups" />
-                                </div>
-                                <div
-                                    role="tab"
-                                    aria-selected={tab === "servers"}
-                                    aria-controls="profileContent"
-                                    onClick={() => setTab("servers")}>
-                                    <Text id="app.special.popovers.user_profile.mutual_servers" />
-                                </div>
+                                <Tab
+                                    name="friends"
+                                    text="app.special.popovers.user_profile.mutual_friends"
+                                />
+                                <Tab
+                                    name="groups"
+                                    text="app.special.popovers.user_profile.mutual_groups"
+                                />
+                                <Tab
+                                    name="servers"
+                                    text="app.special.popovers.user_profile.mutual_servers"
+                                />
                             </>
                         )}
                     </div>
