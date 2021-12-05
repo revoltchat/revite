@@ -65,12 +65,12 @@
         border-bottom: 2px solid transparent;
         transition: border-bottom 0.3s;
 
-        &[data-active="true"] {
+        &[aria-selected="true"] {
             border-bottom: 2px solid var(--foreground);
             cursor: default;
         }
 
-        &:hover:not([data-active="true"]) {
+        &[aria-selected="false"]:hover {
             border-bottom: 2px solid var(--tertiary-foreground);
         }
     }

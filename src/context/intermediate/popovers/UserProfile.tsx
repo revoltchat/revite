@@ -209,24 +209,24 @@ export const UserProfile = observer(
                     </div>
                     <div className={styles.tabs}>
                         <div
-                            data-active={tab === "profile"}
+                            aria-selected={tab === "profile"}
                             onClick={() => setTab("profile")}>
                             <Text id="app.special.popovers.user_profile.profile" />
                         </div>
                         {user.relationship !== RelationshipStatus.User && (
                             <>
                                 <div
-                                    data-active={tab === "friends"}
+                                    aria-selected={tab === "friends"}
                                     onClick={() => setTab("friends")}>
                                     <Text id="app.special.popovers.user_profile.mutual_friends" />
                                 </div>
                                 <div
-                                    data-active={tab === "groups"}
+                                    aria-selected={tab === "groups"}
                                     onClick={() => setTab("groups")}>
                                     <Text id="app.special.popovers.user_profile.mutual_groups" />
                                 </div>
                                 <div
-                                    data-active={tab === "servers"}
+                                    aria-selected={tab === "servers"}
                                     onClick={() => setTab("servers")}>
                                     <Text id="app.special.popovers.user_profile.mutual_servers" />
                                 </div>
