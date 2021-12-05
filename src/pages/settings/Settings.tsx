@@ -202,7 +202,7 @@ export default function Settings() {
                         href="https://github.com/revoltchat"
                         target="_blank"
                         rel="noreferrer">
-                        <ButtonItem compact>
+                        <ButtonItem compact tabIndex={-1}>
                             <Github size={20} />
                             <Text id="app.settings.pages.source_code" />
                         </ButtonItem>
@@ -211,7 +211,10 @@ export default function Settings() {
                         href="https://insrt.uk/donate"
                         target="_blank"
                         rel="noreferrer">
-                        <ButtonItem className={styles.donate} compact>
+                        <ButtonItem
+                            className={styles.donate}
+                            compact
+                            tabIndex={-1}>
                             <Coffee size={20} />
                             <Text id="app.settings.pages.donate.title" />
                         </ButtonItem>
