@@ -9,7 +9,15 @@ export default function ConditionalLink(props: Props) {
     const { active, ...linkProps } = props;
 
     if (active) {
-        return <a onClick={linkProps.onClick}>{props.children}</a>;
+        const ariaProps = Object.fromEntries(
+            Object.entries(linkProps).filter(([k]) => k.startsWith("aria-")),
+        );
+
+        return (
+            <a onClick={linkProps.onClick} {...ariaProps}>
+                {props.children}
+            </a>
+        );
     }
     return <Link {...linkProps} />;
 }

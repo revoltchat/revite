@@ -112,7 +112,7 @@ interface ServerEntryProps {
 }
 
 const ServerEntry = styled.div.attrs((props: ServerEntryProps) => ({
-    "aria-label": props.active ? "Selected" : undefined,
+    "aria-selected": props.active,
 }))<ServerEntryProps>`
     height: 58px;
     display: flex;

@@ -156,7 +156,6 @@ export const ChannelButton = observer((props: ChannelProps) => {
     return (
         <button
             {...buttonProps}
-            data-active={active}
             data-alert={typeof alert === "string" && !muted}
             data-muted={muted}
             aria-label={channel.name}

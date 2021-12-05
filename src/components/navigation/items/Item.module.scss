@@ -112,7 +112,7 @@
         }
     }
 
-    &[data-active="true"] {
+    [aria-selected="true"] & {
         cursor: default;
         background: var(--hover);
 
@@ -126,7 +126,7 @@
     }
 
     &[data-alert="true"],
-    &[data-active="true"],
+    [aria-selected="true"] &,
     &:hover {
         color: var(--foreground);
 

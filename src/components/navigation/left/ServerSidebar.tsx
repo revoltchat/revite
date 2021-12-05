@@ -99,6 +99,7 @@ const ServerSidebar = observer((props: Props) => {
 
         return (
             <ConditionalLink
+                aria-selected={active}
                 onClick={(e) => {
                     if (e.shiftKey) {
                         internalEmit(
