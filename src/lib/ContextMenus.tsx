@@ -925,7 +925,9 @@ export default function ContextMenus() {
 
                                     if (
                                         serverPermissions &
-                                        ServerPermission.ManageServer
+                                            ServerPermission.ManageServer ||
+                                        channelPermissions &
+                                            ChannelPermission.ManageChannel
                                     )
                                         generateAction(
                                             {
@@ -938,7 +940,9 @@ export default function ContextMenus() {
 
                                     if (
                                         serverPermissions &
-                                        ServerPermission.ManageChannels
+                                            ServerPermission.ManageChannels ||
+                                        channelPermissions &
+                                            ChannelPermission.ManageChannel
                                     )
                                         generateAction({
                                             action: "delete_channel",
