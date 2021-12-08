@@ -1,0 +1,27 @@
+need to have a way to dump or sync to local storage
+need a way to rehydrate data stores
+split settings per account(?)
+multiple accounts need to be supported
+oop
+redux -> mobx migration (wipe existing redux data post-migration)
+look into talking with other tabs to detect multiple instances
+(also use this to tell the user to close all tabs before updating)
+
+write new settings data structures for server-side
+(deprecate existing API and replace with new endpoints?)
+alternatively: keep using current system and eventually migrate
+or: handle both incoming types of data and keep newer version
+need to document these data structures
+handle missing languages by falling back on en_GB
+
+provide state globally? perform all authentication from inside mobx
+mobx parent holds client information and prepares us for first render
+
+reasoning for global:
+
+-   we can't and won't have more than one of the application running in a single tab
+-   interactions become simpler
+-   all accounts will be managed from one place anyways
+
+things such as unreads can pass through this data store providing a host of
+information, such as whether there are any alerts on channels, etc
