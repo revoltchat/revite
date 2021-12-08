@@ -141,6 +141,17 @@ export default function ContextMenus() {
     const state = useApplicationState();
     const history = useHistory();
 
+    function shouldShowServerSettings(permissions: number) {
+        for (const perm of [
+            ServerPermission.ManageServer,
+            ServerPermission.BanMembers,
+            ServerPermission.ManageRoles,
+            ServerPermission.ManageChannels,
+        ]) {
+            if ((permissions & perm) > 0) return true;
+        }
+    }
+
     function contextClick(data?: Action) {
         if (typeof data === "undefined") return;
 
@@ -518,18 +529,7 @@ export default function ContextMenus() {
                                 });
                             }
 
-                            const shouldShowSettings = () => {
-                                for (const perm of [
-                                    ServerPermission.ManageServer,
-                                    ServerPermission.BanMembers,
-                                    ServerPermission.ManageRoles,
-                                    ServerPermission.ManageChannels,
-                                ]) {
-                                    if ((permissions & perm) > 0) return true;
-                                }
-                            };
-
-                            if (shouldShowSettings())
+                            if (shouldShowServerSettings(permissions))
                                 generateAction({
                                     action: "open_server_settings",
                                     id: server_list,
@@ -984,19 +984,7 @@ export default function ContextMenus() {
                                     "edit_identity",
                                 );
 
-                            const shouldShowSettings = () => {
-                                for (const perm of [
-                                    ServerPermission.ManageServer,
-                                    ServerPermission.BanMembers,
-                                    ServerPermission.ManageRoles,
-                                    ServerPermission.ManageChannels,
-                                ]) {
-                                    if ((serverPermissions & perm) > 0)
-                                        return true;
-                                }
-                            };
-
-                            if (shouldShowSettings())
+                            if (shouldShowServerSettings(serverPermissions))
                                 generateAction(
                                     {
                                         action: "open_server_settings",
