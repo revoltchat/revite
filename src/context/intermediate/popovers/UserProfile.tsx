@@ -1,5 +1,4 @@
-import { Money } from "@styled-icons/boxicons-regular";
-import { Envelope, Edit, UserPlus, Shield } from "@styled-icons/boxicons-solid";
+import { Envelope, Edit, UserPlus } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
 import { Profile, RelationshipStatus } from "revolt-api/types/Users";
@@ -13,6 +12,7 @@ import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 import ChannelIcon from "../../../components/common/ChannelIcon";
 import ServerIcon from "../../../components/common/ServerIcon";
 import Tooltip from "../../../components/common/Tooltip";
+import UserBadges from "../../../components/common/user/UserBadges";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
@@ -317,87 +317,7 @@ export const UserProfile = observer(
                                 </div>
                             )}
                             {badges > 0 && (
-                                <div className={styles.badges}>
-                                    <Localizer>
-                                        {badges & Badges.Developer ? (
-                                            <Tooltip
-                                                content={
-                                                    <Text id="app.navigation.tabs.dev" />
-                                                }>
-                                                <img src="/assets/badges/developer.svg" />
-                                            </Tooltip>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {badges & Badges.Translator ? (
-                                            <Tooltip
-                                                content={
-                                                    <Text id="app.special.popovers.user_profile.badges.translator" />
-                                                }>
-                                                <img
-                                                    src="/assets/badges/translator.svg"
-                                                    style={{
-                                                        cursor: "pointer",
-                                                    }}
-                                                    onClick={() => {
-                                                        window.open(
-                                                            "https://weblate.insrt.uk/projects/revolt/web-app/",
-                                                            "_blank",
-                                                        );
-                                                    }}
-                                                />
-                                            </Tooltip>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {badges & Badges.EarlyAdopter ? (
-                                            <Tooltip
-                                                content={
-                                                    <Text id="app.special.popovers.user_profile.badges.early_adopter" />
-                                                }>
-                                                <img src="/assets/badges/early_adopter.svg" />
-                                            </Tooltip>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {badges & Badges.Supporter ? (
-                                            <Tooltip
-                                                content={
-                                                    <Text id="app.special.popovers.user_profile.badges.supporter" />
-                                                }>
-                                                <Money
-                                                    size={32}
-                                                    color="#efab44"
-                                                    style={{
-                                                        cursor: "pointer",
-                                                    }}
-                                                    onClick={() => {
-                                                        window.open(
-                                                            "https://insrt.uk/donate",
-                                                            "_blank",
-                                                        );
-                                                    }}
-                                                />
-                                            </Tooltip>
-                                        ) : (
-                                            <></>
-                                        )}
-                                        {badges &
-                                        Badges.ResponsibleDisclosure ? (
-                                            <Tooltip
-                                                content={
-                                                    <Text id="app.special.popovers.user_profile.badges.responsible_disclosure" />
-                                                }>
-                                                <Shield
-                                                    size={32}
-                                                    color="gray"
-                                                />
-                                            </Tooltip>
-                                        ) : (
-                                            <></>
-                                        )}
-                                    </Localizer>
-                                </div>
+                                <UserBadges badges={badges} uid={user._id} />
                             )}
                             {profile?.content && (
                                 <div className={styles.category}>

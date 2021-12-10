@@ -155,8 +155,6 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                         case "leave_group":
                                         case "close_dm":
                                         case "delete_channel":
-                                            props.target.delete();
-                                            break;
                                         case "leave_server":
                                         case "delete_server":
                                             props.target.delete();

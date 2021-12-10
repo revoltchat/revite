@@ -45,7 +45,7 @@
         "klaw": "^3.0.0",
         "react-beautiful-dnd": "^13.1.0",
         "sirv-cli": "^1.0.14",
-        "vite": "npm:@insertish/vite@2.4.0-beta.3-dynamic-import-css-3c1466b"
+        "vite": "^2.6.14"
     },
     "devDependencies": {
         "@fontsource/atkinson-hyperlegible": "^4.4.5",
@@ -53,6 +53,7 @@
         "@fontsource/comic-neue": "^4.4.5",
         "@fontsource/fira-code": "^4.4.5",
         "@fontsource/inter": "^4.4.5",
+        "@fontsource/jetbrains-mono": "^4.4.5",
         "@fontsource/lato": "^4.4.5",
         "@fontsource/montserrat": "^4.4.5",
         "@fontsource/noto-sans": "^4.4.5",
@@ -65,7 +66,6 @@
         "@fontsource/space-mono": "^4.4.5",
         "@fontsource/ubuntu": "^4.4.5",
         "@fontsource/ubuntu-mono": "^4.4.5",
-        "@fontsource/jetbrains-mono": "^4.4.5",
         "@hcaptcha/react-hcaptcha": "^0.3.6",
         "@preact/preset-vite": "^2.0.0",
         "@rollup/plugin-replace": "^2.4.2",
@@ -124,8 +124,8 @@
         "react-virtualized-auto-sizer": "^1.0.5",
         "react-virtuoso": "^1.10.4",
         "redux": "^4.1.0",
-        "revolt-api": "0.5.3-alpha.0-patch.0",
-        "revolt.js": "5.1.0-alpha.6",
+        "revolt-api": "0.5.3-alpha.10",
+        "revolt.js": "^5.1.0-alpha.10",
         "rimraf": "^3.0.2",
         "sass": "^1.35.1",
         "shade-blend-color": "^1.0.0",

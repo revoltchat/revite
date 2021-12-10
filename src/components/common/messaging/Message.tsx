@@ -130,6 +130,7 @@ const Message = observer(
                     <MessageInfo>
                         {head ? (
                             <UserIcon
+                                url={message.generateMasqAvatarURL()}
                                 target={user}
                                 size={36}
                                 onContextMenu={userContext}
@@ -145,11 +146,12 @@ const Message = observer(
                         {head && (
                             <span className="detail">
                                 <Username
-                                    className="author"
                                     user={user}
-                                    onContextMenu={userContext}
-                                    onClick={handleUserClick}
+                                    className="author"
                                     showServerIdentity
+                                    onClick={handleUserClick}
+                                    onContextMenu={userContext}
+                                    masquerade={message.masquerade!}
                                 />
                                 <MessageDetail
                                     message={message}
