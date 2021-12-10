@@ -9,10 +9,10 @@ import styles from "./UserProfile.module.scss";
 import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 
+import BadgesContainer from "../../../components/common/BadgesContainer";
 import ChannelIcon from "../../../components/common/ChannelIcon";
 import ServerIcon from "../../../components/common/ServerIcon";
 import Tooltip from "../../../components/common/Tooltip";
-import UserBadges from "../../../components/common/user/UserBadges";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
@@ -317,7 +317,11 @@ export const UserProfile = observer(
                                 </div>
                             )}
                             {badges > 0 && (
-                                <UserBadges badges={badges} uid={user._id} />
+                                <BadgesContainer
+                                    badges={badges}
+                                    id={user._id}
+                                    type="user"
+                                />
                             )}
                             {profile?.content && (
                                 <div className={styles.category}>
