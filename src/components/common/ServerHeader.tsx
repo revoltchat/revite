@@ -75,7 +75,7 @@ export default observer(({ server }: Props) => {
                 </Tooltip>
             ) : undefined}
 
-            <span
+            <a
                 className="desc"
                 onClick={() =>
                     openScreen({
@@ -83,9 +83,9 @@ export default observer(({ server }: Props) => {
                         server,
                     })
                 }
-                style="cursor: pointer">
+                style="cursor: pointer; color: var(--foreground)">
                 <ServerName>{server.name}</ServerName>
-            </span>
+            </a>
             {(server.permission & ServerPermission.ManageServer) > 0 && (
                 <div className="actions">
                     <Link to={`/server/${server._id}/settings`}>
