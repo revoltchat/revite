@@ -6,6 +6,14 @@ import { useContext } from "preact/hooks";
 import Auth from "./stores/Auth";
 import Draft from "./stores/Draft";
 
+interface StoreDefinition {
+    id: string;
+    instance: Record<string, unknown>;
+    persistent: boolean;
+    synced: boolean;
+    global: boolean;
+}
+
 /**
  * Handles global application state.
  */
