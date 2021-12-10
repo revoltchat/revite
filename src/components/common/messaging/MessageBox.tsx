@@ -20,6 +20,7 @@ import {
     SMOOTH_SCROLL_ON_RECEIVE,
 } from "../../../lib/renderer/Singleton";
 
+import { useApplicationState } from "../../../mobx/State";
 import { dispatch, getState } from "../../../redux";
 import { Reply } from "../../../redux/reducers/queue";
 
@@ -115,7 +116,7 @@ const RE_SED = new RegExp("^s/([^])*/([^])*$");
 export const CAN_UPLOAD_AT_ONCE = 4;
 
 export default observer(({ channel }: Props) => {
-    const [draft, setDraft] = useState(getState().drafts[channel._id] ?? "");
+    const drafts = useApplicationState().draft;
 
     const [uploadState, setUploadState] = useState<UploadState>({
         type: "none",
@@ -150,7 +151,7 @@ export default observer(({ channel }: Props) => {
 
     const setMessage = useCallback(
         (content?: string) => {
-            setDraft(content ?? "");
+            drafts.set(channel._id, content);
 
             if (content) {
                 dispatch({
@@ -165,10 +166,15 @@ export default observer(({ channel }: Props) => {
                 });
             }
         },
-        [channel._id],
+        [drafts, channel._id],
     );
 
     useEffect(() => {
+        /**
+         *
+         * @param content
+         * @param action
+         */
         function append(content: string, action: "quote" | "mention") {
             const text =
                 action === "quote"
@@ -178,10 +184,10 @@ export default observer(({ channel }: Props) => {
                           .join("\n")}\n\n`
                     : `${content} `;
 
-            if (!draft || draft.length === 0) {
+            if (!drafts.has(channel._id)) {
                 setMessage(text);
             } else {
-                setMessage(`${draft}\n${text}`);
+                setMessage(`${drafts.get(channel._id)}\n${text}`);
             }
         }
 
@@ -190,13 +196,16 @@ export default observer(({ channel }: Props) => {
             "append",
             append as (...args: unknown[]) => void,
         );
-    }, [draft, setMessage]);
+    }, [drafts, channel._id, setMessage]);
 
+    /**
+     * Trigger send message.
+     */
     async function send() {
         if (uploadState.type === "uploading" || uploadState.type === "sending")
             return;
 
-        const content = draft?.trim() ?? "";
+        const content = drafts.get(channel._id)?.trim() ?? "";
         if (uploadState.type === "attached") return sendFile(content);
         if (content.length === 0) return;
 
@@ -281,6 +290,11 @@ export default observer(({ channel }: Props) => {
         }
     }
 
+    /**
+     *
+     * @param content
+     * @returns
+     */
     async function sendFile(content: string) {
         if (uploadState.type !== "attached") return;
         const attachments: string[] = [];
@@ -372,6 +386,10 @@ export default observer(({ channel }: Props) => {
         }
     }
 
+    /**
+     *
+     * @returns
+     */
     function startTyping() {
         if (typeof typing === "number" && +new Date() < typing) return;
 
@@ -385,6 +403,10 @@ export default observer(({ channel }: Props) => {
         }
     }
 
+    /**
+     *
+     * @param force
+     */
     function stopTyping(force?: boolean) {
         if (force || typing) {
             const ws = client.websocket;
@@ -503,7 +525,7 @@ export default observer(({ channel }: Props) => {
                     id="message"
                     maxLength={2000}
                     onKeyUp={onKeyUp}
-                    value={draft ?? ""}
+                    value={drafts.get(channel._id) ?? ""}
                     padding="var(--message-box-padding)"
                     onKeyDown={(e) => {
                         if (e.ctrlKey && e.key === "Enter") {
@@ -513,10 +535,7 @@ export default observer(({ channel }: Props) => {
 
                         if (onKeyDown(e)) return;
 
-                        if (
-                            e.key === "ArrowUp" &&
-                            (!draft || draft.length === 0)
-                        ) {
+                        if (e.key === "ArrowUp" && !drafts.has(channel._id)) {
                             e.preventDefault();
                             internalEmit("MessageRenderer", "edit_last");
                             return;
