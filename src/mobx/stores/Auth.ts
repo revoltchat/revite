@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, ObservableMap } from "mobx";
 import { Session } from "revolt-api/types/Auth";
 import { Nullable } from "revolt.js/dist/util/null";
 
@@ -15,14 +15,14 @@ interface Data {
  * accounts and their sessions.
  */
 export default class Auth implements Persistent<Data> {
-    private sessions: Record<string, Session>;
+    private sessions: ObservableMap<string, Session>;
     private current: Nullable<string>;
 
     /**
      * Construct new Auth store.
      */
     constructor() {
-        this.sessions = {};
+        this.sessions = new ObservableMap();
         this.current = null;
         makeAutoObservable(this);
     }
@@ -37,8 +37,11 @@ export default class Auth implements Persistent<Data> {
 
     // eslint-disable-next-line require-jsdoc
     hydrate(data: Data) {
-        this.sessions = data.sessions;
-        if (data.current && this.sessions[data.current]) {
+        Object.keys(data.sessions).forEach((id) =>
+            this.sessions.set(id, data.sessions[id]),
+        );
+
+        if (data.current && this.sessions.has(data.current)) {
             this.current = data.current;
         }
     }
@@ -48,11 +51,7 @@ export default class Auth implements Persistent<Data> {
      * @param session Session
      */
     setSession(session: Session) {
-        this.sessions = {
-            ...this.sessions,
-            [session.user_id]: session,
-        };
-
+        this.sessions.set(session.user_id, session);
         this.current = session.user_id;
     }
 
