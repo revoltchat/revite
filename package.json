@@ -5,7 +5,7 @@
         "pull": "node scripts/setup_assets.js",
         "build": "rimraf build && node scripts/setup_assets.js --check && vite build",
         "preview": "vite preview",
-        "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+        "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
         "fmt": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
         "typecheck": "tsc --noEmit",
         "start": "sirv dist --cors --single --host",
@@ -36,6 +36,18 @@
                 "warn",
                 {
                     "varsIgnorePattern": "^_"
+                }
+            ],
+            "require-jsdoc": [
+                "error",
+                {
+                    "require": {
+                        "FunctionDeclaration": true,
+                        "MethodDefinition": true,
+                        "ClassDeclaration": true,
+                        "ArrowFunctionExpression": false,
+                        "FunctionExpression": false
+                    }
                 }
             ]
         }
