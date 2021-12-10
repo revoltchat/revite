@@ -18,7 +18,7 @@ const BotBadge = styled.div`
     display: inline-block;
 
     height: 1.4em;
-    padding: 0 4px;
+    padding: 2px 4px;
     font-size: 0.6em;
     user-select: none;
     margin-inline-start: 2px;
