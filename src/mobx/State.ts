@@ -5,6 +5,7 @@ import { useContext } from "preact/hooks";
 
 import Auth from "./stores/Auth";
 import Draft from "./stores/Draft";
+import LocaleOptions from "./stores/LocaleOptions";
 
 interface StoreDefinition {
     id: string;
@@ -20,6 +21,7 @@ interface StoreDefinition {
 export default class State {
     auth: Auth;
     draft: Draft;
+    locale: LocaleOptions;
 
     /**
      * Construct new State.
@@ -27,6 +29,7 @@ export default class State {
     constructor() {
         this.auth = new Auth();
         this.draft = new Draft();
+        this.locale = new LocaleOptions();
 
         makeAutoObservable(this);
     }
