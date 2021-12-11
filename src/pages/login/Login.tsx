@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { Helmet } from "react-helmet";
 import { Route, Switch } from "react-router-dom";
 import { LIBRARY_VERSION } from "revolt.js";
@@ -6,22 +7,24 @@ import styles from "./Login.module.scss";
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
+import { useApplicationState } from "../../mobx/State";
+
 import { ThemeContext } from "../../context/Theme";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
 import LocaleSelector from "../../components/common/LocaleSelector";
+import background from "./background.jpg";
 
 import { Titlebar } from "../../components/native/Titlebar";
 import { APP_VERSION } from "../../version";
-import background from "./background.jpg";
 import { FormCreate } from "./forms/FormCreate";
 import { FormLogin } from "./forms/FormLogin";
 import { FormReset, FormSendReset } from "./forms/FormReset";
 import { FormResend, FormVerify } from "./forms/FormVerify";
 
-export default function Login() {
+export default observer(() => {
     const theme = useContext(ThemeContext);
-    const client = useContext(AppContext);
+    const configuration = useApplicationState().config.get();
 
     return (
         <>
@@ -35,8 +38,7 @@ export default function Login() {
                 <div className={styles.content}>
                     <div className={styles.attribution}>
                         <span>
-                            API:{" "}
-                            <code>{client.configuration?.revolt ?? "???"}</code>{" "}
+                            API: <code>{configuration?.revolt ?? "???"}</code>{" "}
                             &middot; revolt.js: <code>{LIBRARY_VERSION}</code>{" "}
                             &middot; App: <code>{APP_VERSION}</code>
                         </span>
@@ -80,4 +82,4 @@ export default function Login() {
             </div>
         </>
     );
-}
+});

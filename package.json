@@ -49,7 +49,10 @@
                         "FunctionExpression": false
                     },
                     "ignore": {
-                        "MethodDefinition": ["toJSON", "hydrate"]
+                        "MethodDefinition": [
+                            "toJSON",
+                            "hydrate"
+                        ]
                     }
                 }
             ]
@@ -140,7 +143,7 @@
         "react-virtuoso": "^1.10.4",
         "redux": "^4.1.0",
         "revolt-api": "0.5.3-alpha.10",
-        "revolt.js": "^5.1.0-alpha.10",
+        "revolt.js": "5.1.0-alpha.15",
         "rimraf": "^3.0.2",
         "sass": "^1.35.1",
         "shade-blend-color": "^1.0.0",

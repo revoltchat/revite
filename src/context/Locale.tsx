@@ -205,7 +205,6 @@ export const Languages: { [key in Language]: LanguageEntry } = {
 
 interface Props {
     children: JSX.Element | JSX.Element[];
-    locale: Language;
 }
 
 export interface Dictionary {

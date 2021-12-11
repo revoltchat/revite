@@ -1,12 +1,18 @@
-import { makeAutoObservable, ObservableMap } from "mobx";
+import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 import { Session } from "revolt-api/types/Auth";
 import { Nullable } from "revolt.js/dist/util/null";
+
+import { mapToRecord } from "../../lib/conversion";
 
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
+interface Account {
+    session: Session;
+}
+
 interface Data {
-    sessions: Record<string, Session>;
+    sessions: Record<string, Account> | [string, Account][];
     current?: string;
 }
 
@@ -15,7 +21,7 @@ interface Data {
  * accounts and their sessions.
  */
 export default class Auth implements Store, Persistent<Data> {
-    private sessions: ObservableMap<string, Session>;
+    private sessions: ObservableMap<string, Account>;
     private current: Nullable<string>;
 
     /**
@@ -31,17 +37,27 @@ export default class Auth implements Store, Persistent<Data> {
         return "auth";
     }
 
-    toJSON() {
+    @action toJSON() {
         return {
-            sessions: [...this.sessions],
+            sessions: JSON.parse(JSON.stringify(this.sessions)),
             current: this.current ?? undefined,
         };
     }
 
-    hydrate(data: Data) {
-        Object.keys(data.sessions).forEach((id) =>
-            this.sessions.set(id, data.sessions[id]),
-        );
+    @action hydrate(data: Data) {
+        if (Array.isArray(data.sessions)) {
+            data.sessions.forEach(([key, value]) =>
+                this.sessions.set(key, value),
+            );
+        } else if (
+            typeof data.sessions === "object" &&
+            data.sessions !== null
+        ) {
+            let v = data.sessions;
+            Object.keys(data.sessions).forEach((id) =>
+                this.sessions.set(id, v[id]),
+            );
+        }
 
         if (data.current && this.sessions.has(data.current)) {
             this.current = data.current;
@@ -52,8 +68,8 @@ export default class Auth implements Store, Persistent<Data> {
      * Add a new session to the auth manager.
      * @param session Session
      */
-    setSession(session: Session) {
-        this.sessions.set(session.user_id, session);
+    @action setSession(session: Session) {
+        this.sessions.set(session.user_id, { session });
         this.current = session.user_id;
     }
 
@@ -61,11 +77,28 @@ export default class Auth implements Store, Persistent<Data> {
      * Remove existing session by user ID.
      * @param user_id User ID tied to session
      */
-    removeSession(user_id: string) {
-        this.sessions.delete(user_id);
-
+    @action removeSession(user_id: string) {
         if (user_id == this.current) {
             this.current = null;
         }
+
+        this.sessions.delete(user_id);
+    }
+
+    @action logout() {
+        this.current && this.removeSession(this.current);
+    }
+
+    @computed getSession() {
+        if (!this.current) return;
+        return this.sessions.get(this.current)!.session;
+    }
+
+    /**
+     * Check whether we are currently logged in.
+     * @returns Whether we are logged in
+     */
+    @computed isLoggedIn() {
+        return this.current !== null;
     }
 }

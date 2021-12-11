@@ -29,10 +29,7 @@ import { useContext } from "preact/hooks";
 import { useApplicationState } from "../../mobx/State";
 
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
-import {
-    AppContext,
-    OperationsContext,
-} from "../../context/revoltjs/RevoltClient";
+import { AppContext, LogOutContext } from "../../context/revoltjs/RevoltClient";
 
 import LineDivider from "../../components/ui/LineDivider";
 
@@ -57,7 +54,7 @@ import { ThemeShop } from "./panes/ThemeShop";
 export default observer(() => {
     const history = useHistory();
     const client = useContext(AppContext);
-    const operations = useContext(OperationsContext);
+    const logout = useContext(LogOutContext);
     const experiments = useApplicationState().experiments;
 
     function switchPage(to?: string) {
@@ -220,7 +217,7 @@ export default observer(() => {
                     </a>
                     <LineDivider />
                     <ButtonItem
-                        onClick={() => operations.logout()}
+                        onClick={logout}
                         className={styles.logOut}
                         compact>
                         <LogOut size={20} />
