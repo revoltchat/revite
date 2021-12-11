@@ -22,14 +22,12 @@ export default class Experiments implements Persistent<Data> {
         makeAutoObservable(this);
     }
 
-    // eslint-disable-next-line require-jsdoc
     toJSON() {
         return {
             server: this.server,
         };
     }
 
-    // eslint-disable-next-line require-jsdoc
     @action hydrate(data: Data) {
         if (data.server) {
             Object.keys(data.server).forEach((key) =>

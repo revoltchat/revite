@@ -2,16 +2,25 @@ import { action, computed, makeAutoObservable, ObservableSet } from "mobx";
 
 import Persistent from "../Persistent";
 
-export type Experiment = "search" | "theme_shop";
+/**
+ * Union type of available experiments.
+ */
+export type Experiment = "dummy" | "theme_shop";
 
+/**
+ * Currently active experiments.
+ */
 export const AVAILABLE_EXPERIMENTS: Experiment[] = ["theme_shop"];
 
+/**
+ * Definitions for experiments listed by {@link Experiment}.
+ */
 export const EXPERIMENTS: {
     [key in Experiment]: { title: string; description: string };
 } = {
-    search: {
-        title: "Search",
-        description: "Allows you to search for messages in channels.",
+    dummy: {
+        title: "Dummy Experiment",
+        description: "This is a dummy experiment.",
     },
     theme_shop: {
         title: "Theme Shop",
@@ -37,14 +46,12 @@ export default class Experiments implements Persistent<Data> {
         makeAutoObservable(this);
     }
 
-    // eslint-disable-next-line require-jsdoc
     toJSON() {
         return {
             enabled: this.enabled,
         };
     }
 
-    // eslint-disable-next-line require-jsdoc
     @action hydrate(data: Data) {
         if (data.enabled) {
             for (const experiment of data.enabled) {

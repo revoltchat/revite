@@ -63,14 +63,12 @@ export default class LocaleOptions implements Persistent<Data> {
         makeAutoObservable(this);
     }
 
-    // eslint-disable-next-line require-jsdoc
     toJSON() {
         return {
             lang: this.lang,
         };
     }
 
-    // eslint-disable-next-line require-jsdoc
     @action hydrate(data: Data) {
         this.setLanguage(data.lang);
     }

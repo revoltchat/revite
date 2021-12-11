@@ -47,6 +47,9 @@
                         "ClassDeclaration": true,
                         "ArrowFunctionExpression": false,
                         "FunctionExpression": false
+                    },
+                    "ignore": {
+                        "MethodDefinition": ["toJSON", "hydrate"]
                     }
                 }
             ]

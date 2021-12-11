@@ -20,14 +20,12 @@ export default class Draft implements Persistent<Data> {
         makeAutoObservable(this);
     }
 
-    // eslint-disable-next-line require-jsdoc
     toJSON() {
         return {
             drafts: this.drafts,
         };
     }
 
-    // eslint-disable-next-line require-jsdoc
     @action hydrate(data: Data) {
         Object.keys(data.drafts).forEach((key) =>
             this.drafts.set(key, data.drafts[key]),
