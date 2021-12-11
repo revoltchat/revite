@@ -1,6 +1,6 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 
-import Persistent from "../Persistent";
+import Persistent from "../interfaces/Persistent";
 
 interface Data {
     drafts: Record<string, string>;

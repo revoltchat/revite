@@ -2,7 +2,7 @@ import { action, computed, makeAutoObservable } from "mobx";
 
 import { Language, Languages } from "../../context/Locale";
 
-import Persistent from "../Persistent";
+import Persistent from "../interfaces/Persistent";
 
 interface Data {
     lang: Language;
