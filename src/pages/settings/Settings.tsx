@@ -18,6 +18,7 @@ import {
     Speaker,
     Store,
 } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { LIBRARY_VERSION } from "revolt.js";
 
@@ -25,7 +26,7 @@ import styles from "./Settings.module.scss";
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
-import { isExperimentEnabled } from "../../redux/reducers/experiments";
+import { useApplicationState } from "../../mobx/State";
 
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import {
@@ -53,10 +54,11 @@ import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
 import { ThemeShop } from "./panes/ThemeShop";
 
-export default function Settings() {
+export default observer(() => {
     const history = useHistory();
     const client = useContext(AppContext);
     const operations = useContext(OperationsContext);
+    const experiments = useApplicationState().experiments;
 
     function switchPage(to?: string) {
         if (to) {
@@ -127,14 +129,14 @@ export default function Settings() {
                     title: <Text id="app.settings.pages.experiments.title" />,
                 },
                 {
-                    divider: !isExperimentEnabled("theme_shop"),
+                    divider: !experiments.isEnabled("theme_shop"),
                     category: "revolt",
                     id: "bots",
                     icon: <Bot size={20} />,
                     title: <Text id="app.settings.pages.bots.title" />,
                 },
                 {
-                    hidden: !isExperimentEnabled("theme_shop"),
+                    hidden: !experiments.isEnabled("theme_shop"),
                     divider: true,
                     id: "theme_shop",
                     icon: <Store size={20} />,
@@ -180,7 +182,7 @@ export default function Settings() {
                     <Route path="/settings/bots">
                         <MyBots />
                     </Route>
-                    {isExperimentEnabled("theme_shop") && (
+                    {experiments.isEnabled("theme_shop") && (
                         <Route path="/settings/theme_shop">
                             <ThemeShop />
                         </Route>
@@ -260,4 +262,4 @@ export default function Settings() {
             }
         />
     );
-}
+});

@@ -10,7 +10,7 @@ export type Experiment = "dummy" | "theme_shop";
 /**
  * Currently active experiments.
  */
-export const AVAILABLE_EXPERIMENTS: Experiment[] = ["theme_shop"];
+export const AVAILABLE_EXPERIMENTS: Experiment[] = ["dummy", "theme_shop"];
 
 /**
  * Definitions for experiments listed by {@link Experiment}.
@@ -82,6 +82,19 @@ export default class Experiments implements Persistent<Data> {
      */
     @action disable(experiment: Experiment) {
         this.enabled.delete(experiment);
+    }
+
+    /**
+     * Set the state of an experiment.
+     * @param key Experiment
+     * @param enabled Whether this experiment is enabled.
+     */
+    @computed setEnabled(key: Experiment, enabled: boolean): void {
+        if (enabled) {
+            this.enable(key);
+        } else {
+            this.disable(key);
+        }
     }
 
     /**
