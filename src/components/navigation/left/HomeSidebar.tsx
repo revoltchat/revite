@@ -15,6 +15,7 @@ import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
+import { useApplicationState } from "../../../mobx/State";
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import { Unreads } from "../../../redux/reducers/unreads";
@@ -37,6 +38,7 @@ type Props = {
 const HomeSidebar = observer((props: Props) => {
     const { pathname } = useLocation();
     const client = useContext(AppContext);
+    const layout = useApplicationState().layout;
     const { channel } = useParams<{ channel: string }>();
     const { openScreen } = useIntermediate();
 
@@ -52,15 +54,8 @@ const HomeSidebar = observer((props: Props) => {
     if (channel && !obj) return <Redirect to="/" />;
     if (obj) useUnreads({ ...props, channel: obj });
 
-    useEffect(() => {
-        if (!channel) return;
-
-        dispatch({
-            type: "LAST_OPENED_SET",
-            parent: "home",
-            child: channel,
-        });
-    }, [channel]);
+    // Track what page the user was last on (in home page).
+    useEffect(() => layout.setLastHomePath(pathname), [pathname]);
 
     channels.sort((b, a) => a.timestamp.localeCompare(b.timestamp));
 

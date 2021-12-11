@@ -6,6 +6,7 @@ import { useContext } from "preact/hooks";
 import Auth from "./stores/Auth";
 import Draft from "./stores/Draft";
 import Experiments from "./stores/Experiments";
+import Layout from "./stores/Layout";
 import LocaleOptions from "./stores/LocaleOptions";
 
 interface StoreDefinition {
@@ -24,6 +25,7 @@ export default class State {
     draft: Draft;
     locale: LocaleOptions;
     experiments: Experiments;
+    layout: Layout;
 
     /**
      * Construct new State.
@@ -33,6 +35,7 @@ export default class State {
         this.draft = new Draft();
         this.locale = new LocaleOptions();
         this.experiments = new Experiments();
+        this.layout = new Layout();
 
         makeAutoObservable(this);
     }
