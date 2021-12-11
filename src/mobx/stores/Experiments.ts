@@ -1,6 +1,13 @@
-import { action, computed, makeAutoObservable, ObservableSet } from "mobx";
+import {
+    action,
+    autorun,
+    computed,
+    makeAutoObservable,
+    ObservableSet,
+} from "mobx";
 
 import Persistent from "../interfaces/Persistent";
+import Store from "../interfaces/Store";
 
 /**
  * Union type of available experiments.
@@ -35,7 +42,7 @@ interface Data {
 /**
  * Handles enabling and disabling client experiments.
  */
-export default class Experiments implements Persistent<Data> {
+export default class Experiments implements Store, Persistent<Data> {
     private enabled: ObservableSet<Experiment>;
 
     /**
@@ -43,12 +50,17 @@ export default class Experiments implements Persistent<Data> {
      */
     constructor() {
         this.enabled = new ObservableSet();
+
         makeAutoObservable(this);
+    }
+
+    get id() {
+        return "experiments";
     }
 
     toJSON() {
         return {
-            enabled: this.enabled,
+            enabled: [...this.enabled],
         };
     }
 

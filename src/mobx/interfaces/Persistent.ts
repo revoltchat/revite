@@ -1,10 +1,11 @@
+import Store from "./Store";
+
 /**
  * A data store which is persistent and should cache its data locally.
  */
-export default interface Persistent<T> {
+export default interface Persistent<T> extends Store {
     /**
-     * Override toJSON to serialise this data store.
-     * This will also force all subclasses to implement this method.
+     * Serialise this data store.
      */
     toJSON(): unknown;
 

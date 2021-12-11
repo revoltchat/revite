@@ -1,7 +1,10 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 import { Channel } from "revolt-api/types/Channels";
 
+import { mapToRecord } from "../../lib/conversion";
+
 import Persistent from "../interfaces/Persistent";
+import Store from "../interfaces/Store";
 
 /**
  * Possible notification states.
@@ -31,7 +34,7 @@ interface Data {
 /**
  * Manages the user's notification preferences.
  */
-export default class NotificationOptions implements Persistent<Data> {
+export default class NotificationOptions implements Store, Persistent<Data> {
     private server: ObservableMap<string, string>;
     private channel: ObservableMap<string, string>;
 
@@ -44,10 +47,14 @@ export default class NotificationOptions implements Persistent<Data> {
         makeAutoObservable(this);
     }
 
+    get id() {
+        return "notifications";
+    }
+
     toJSON() {
         return {
-            server: this.server,
-            channel: this.channel,
+            server: mapToRecord(this.server),
+            channel: mapToRecord(this.channel),
         };
     }
 
