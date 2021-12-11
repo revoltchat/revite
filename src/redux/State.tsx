@@ -1,7 +1,7 @@
 import localForage from "localforage";
 import { Provider } from "react-redux";
 
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 
 import MobXState, { StateContextProvider } from "../mobx/State";
 
@@ -18,7 +18,12 @@ interface Props {
  */
 export default function StateLoader(props: Props) {
     const [loaded, setLoaded] = useState(false);
-    const [state] = useState(new MobXState());
+    const { current: state } = useRef(new MobXState());
+
+    // Globally expose the application state.
+    useEffect(() => {
+        (window as unknown as Record<string, unknown>).state = state;
+    }, [state]);
 
     useEffect(() => {
         localForage.getItem("state").then((state) => {
