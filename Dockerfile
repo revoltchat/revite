@@ -7,6 +7,7 @@ RUN yarn --no-cache
 
 COPY . .
 COPY .env.build .env
+RUN yarn add --dev @babel/plugin-proposal-decorators
 RUN yarn typecheck
 RUN yarn build
 RUN npm prune --production
