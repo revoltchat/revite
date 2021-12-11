@@ -72,13 +72,21 @@ export default class LocaleOptions implements Persistent<Data> {
 
     // eslint-disable-next-line require-jsdoc
     @action hydrate(data: Data) {
-        this.lang = data.lang;
+        this.setLanguage(data.lang);
     }
 
     /**
      * Get current language.
      */
-    @computed getLang() {
+    @computed getLanguage() {
         return this.lang;
+    }
+
+    /**
+     * Set current language.
+     */
+    @action setLanguage(language: Language) {
+        if (typeof Languages[language] === "undefined") return;
+        this.lang = language;
     }
 }
