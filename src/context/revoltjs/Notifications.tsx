@@ -8,6 +8,7 @@ import { useCallback, useContext, useEffect } from "preact/hooks";
 
 import { useTranslation } from "../../lib/i18n";
 
+import { useApplicationState } from "../../mobx/State";
 import { connectState } from "../../redux/connector";
 import {
     getNotificationState,
@@ -21,7 +22,6 @@ import { AppContext } from "./RevoltClient";
 
 interface Props {
     options?: NotificationOptions;
-    notifs: Notifications;
 }
 
 const notifications: { [key: string]: Notification } = {};
@@ -38,9 +38,10 @@ async function createNotification(
     }
 }
 
-function Notifier({ options, notifs }: Props) {
+function Notifier({ options }: Props) {
     const translate = useTranslation();
     const showNotification = options?.desktopEnabled ?? false;
+    const notifs = useApplicationState().notifications;
 
     const client = useContext(AppContext);
     const { guild: guild_id, channel: channel_id } = useParams<{
@@ -57,8 +58,7 @@ function Notifier({ options, notifs }: Props) {
             if (client.user!.status?.presence === Presence.Busy) return;
             if (msg.author?.relationship === RelationshipStatus.Blocked) return;
 
-            const notifState = getNotificationState(notifs, msg.channel!);
-            if (!shouldNotify(notifState, msg, client.user!._id)) return;
+            if (!notifs.shouldNotify(msg)) return;
 
             playSound("message");
             if (!showNotification) return;
@@ -294,7 +294,6 @@ const NotifierComponent = connectState(
     (state) => {
         return {
             options: state.settings.notification,
-            notifs: state.notifications,
         };
     },
     true,

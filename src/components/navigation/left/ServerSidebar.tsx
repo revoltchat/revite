@@ -28,7 +28,6 @@ import ConnectionStatus from "../items/ConnectionStatus";
 
 interface Props {
     unreads: Unreads;
-    notifications: Notifications;
 }
 
 const ServerBase = styled.div`
@@ -59,7 +58,7 @@ const ServerList = styled.div`
 
 const ServerSidebar = observer((props: Props) => {
     const client = useClient();
-    const layout = useApplicationState().layout;
+    const state = useApplicationState();
     const { server: server_id, channel: channel_id } =
         useParams<{ server: string; channel?: string }>();
 
@@ -85,7 +84,7 @@ const ServerSidebar = observer((props: Props) => {
         if (!channel_id) return;
         if (!server_id) return;
 
-        layout.setLastOpened(server_id, channel_id);
+        state.layout.setLastOpened(server_id, channel_id);
     }, [channel_id, server_id]);
 
     const uncategorised = new Set(server.channel_ids);
@@ -96,7 +95,6 @@ const ServerSidebar = observer((props: Props) => {
         if (!entry) return;
 
         const active = channel?._id === entry._id;
-        const muted = props.notifications[id] === "none";
 
         return (
             <ConditionalLink
@@ -120,7 +118,7 @@ const ServerSidebar = observer((props: Props) => {
                     // ! FIXME: pull it out directly
                     alert={mapChannelWithUnread(entry, props.unreads).unread}
                     compact
-                    muted={muted}
+                    muted={state.notifications.isMuted(entry)}
                 />
             </ConditionalLink>
         );

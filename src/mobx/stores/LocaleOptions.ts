@@ -49,9 +49,7 @@ export function findLanguage(lang?: string): Language {
 }
 
 /**
- * Keeps track of the last open channels, tabs, etc.
- * Handles providing good UX experience on navigating
- * back and forth between different parts of the app.
+ * Keeps track of user's language settings.
  */
 export default class LocaleOptions implements Store, Persistent<Data> {
     private lang: Language;

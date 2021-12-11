@@ -199,7 +199,7 @@ interface Props {
 
 export const ServerListSidebar = observer(({ unreads }: Props) => {
     const client = useClient();
-    const layout = useApplicationState().layout;
+    const state = useApplicationState();
 
     const { server: server_id } = useParams<{ server?: string }>();
     const server = server_id ? client.servers.get(server_id) : undefined;
@@ -210,6 +210,7 @@ export const ServerListSidebar = observer(({ unreads }: Props) => {
 
     const unreadChannels = channels
         .filter((x) => x.unread)
+        .filter((x) => !state.notifications.isMuted(x.channel))
         .map((x) => x.channel?._id);
 
     const servers = activeServers.map((server) => {
@@ -268,7 +269,7 @@ export const ServerListSidebar = observer(({ unreads }: Props) => {
             <ServerList>
                 <ConditionalLink
                     active={homeActive}
-                    to={layout.getLastHomePath()}>
+                    to={state.layout.getLastHomePath()}>
                     <ServerEntry home active={homeActive}>
                         <Swoosh />
                         <div
@@ -300,7 +301,7 @@ export const ServerListSidebar = observer(({ unreads }: Props) => {
                         <ConditionalLink
                             key={entry.server._id}
                             active={active}
-                            to={layout.getServerPath(entry.server._id)}>
+                            to={state.layout.getServerPath(entry.server._id)}>
                             <ServerEntry
                                 active={active}
                                 onContextMenu={attachContextMenu("Menu", {

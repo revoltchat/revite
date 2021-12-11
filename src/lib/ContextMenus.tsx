@@ -48,6 +48,7 @@ import {
     StatusContext,
 } from "../context/revoltjs/RevoltClient";
 import { takeError } from "../context/revoltjs/util";
+import CMNotifications from "./contextmenu/CMNotifications";
 
 import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
@@ -117,7 +118,11 @@ type Action =
     | { action: "leave_server"; target: Server }
     | { action: "delete_server"; target: Server }
     | { action: "edit_identity"; target: Server }
-    | { action: "open_notification_options"; channel: Channel }
+    | {
+          action: "open_notification_options";
+          channel?: Channel;
+          server?: Server;
+      }
     | { action: "open_settings" }
     | { action: "open_channel_settings"; id: string }
     | { action: "open_server_settings"; id: string }
@@ -128,13 +133,9 @@ type Action =
           state?: NotificationState;
       };
 
-type Props = {
-    notifications: Notifications;
-};
-
 // ! FIXME: I dare someone to re-write this
 // Tip: This should just be split into separate context menus per logical area.
-function ContextMenus(props: Props) {
+export default function ContextMenus() {
     const { openScreen, writeClipboard } = useIntermediate();
     const client = useContext(AppContext);
     const userId = client.user!._id;
@@ -427,6 +428,7 @@ function ContextMenus(props: Props) {
                 case "open_notification_options": {
                     openContextMenu("NotificationOptions", {
                         channel: data.channel,
+                        server: data.server,
                     });
                     break;
                 }
@@ -921,6 +923,16 @@ function ContextMenus(props: Props) {
                         }
 
                         if (sid && server) {
+                            generateAction(
+                                {
+                                    action: "open_notification_options",
+                                    server,
+                                },
+                                undefined,
+                                undefined,
+                                <ChevronRight size={24} />,
+                            );
+
                             if (server.channels[0] !== undefined)
                                 generateAction(
                                     {
@@ -1085,76 +1097,7 @@ function ContextMenus(props: Props) {
                     );
                 }}
             </ContextMenuWithData>
-            <ContextMenuWithData
-                id="NotificationOptions"
-                onClose={contextClick}>
-                {({ channel }: { channel: Channel }) => {
-                    const state = props.notifications[channel._id];
-                    const actual = getNotificationState(
-                        props.notifications,
-                        channel,
-                    );
-
-                    const elements: Children[] = [
-                        <MenuItem
-                            key="notif"
-                            data={{
-                                action: "set_notification_state",
-                                key: channel._id,
-                            }}>
-                            <Text
-                                id={`app.main.channel.notifications.default`}
-                            />
-                            <div className="tip">
-                                {state !== undefined && <Square size={20} />}
-                                {state === undefined && (
-                                    <CheckSquare size={20} />
-                                )}
-                            </div>
-                        </MenuItem>,
-                    ];
-
-                    function generate(key: string, icon: Children) {
-                        elements.push(
-                            <MenuItem
-                                key={key}
-                                data={{
-                                    action: "set_notification_state",
-                                    key: channel._id,
-                                    state: key,
-                                }}>
-                                {icon}
-                                <Text
-                                    id={`app.main.channel.notifications.${key}`}
-                                />
-                                {state === undefined && actual === key && (
-                                    <div className="tip">
-                                        <LeftArrowAlt size={20} />
-                                    </div>
-                                )}
-                                {state === key && (
-                                    <div className="tip">
-                                        <Check size={20} />
-                                    </div>
-                                )}
-                            </MenuItem>,
-                        );
-                    }
-
-                    generate("all", <Bell size={24} />);
-                    generate("mention", <At size={24} />);
-                    generate("muted", <BellOff size={24} />);
-                    generate("none", <Block size={24} />);
-
-                    return elements;
-                }}
-            </ContextMenuWithData>
+            <CMNotifications />
         </>
     );
 }
-
-export default connectState(ContextMenus, (state) => {
-    return {
-        notifications: state.notifications,
-    };
-});

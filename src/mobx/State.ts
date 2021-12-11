@@ -10,6 +10,7 @@ import Draft from "./stores/Draft";
 import Experiments from "./stores/Experiments";
 import Layout from "./stores/Layout";
 import LocaleOptions from "./stores/LocaleOptions";
+import NotificationOptions from "./stores/NotificationOptions";
 import ServerConfig from "./stores/ServerConfig";
 
 /**
@@ -22,6 +23,7 @@ export default class State {
     experiments: Experiments;
     layout: Layout;
     config: ServerConfig;
+    notifications: NotificationOptions;
 
     private persistent: [string, Persistent<unknown>][] = [];
 
@@ -35,6 +37,7 @@ export default class State {
         this.experiments = new Experiments();
         this.layout = new Layout();
         this.config = new ServerConfig();
+        this.notifications = new NotificationOptions();
 
         makeAutoObservable(this);
         this.registerListeners = this.registerListeners.bind(this);

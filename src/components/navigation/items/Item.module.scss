@@ -117,7 +117,7 @@
     }
 
     &[data-muted="true"] {
-        color: var(--tertiary-foreground);
+        opacity: 0.4;
     }
 
     &[data-alert="true"],
