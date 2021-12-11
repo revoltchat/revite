@@ -3,7 +3,6 @@ import { Session } from "revolt-api/types/Auth";
 import { Nullable } from "revolt.js/dist/util/null";
 
 import Persistent from "../Persistent";
-import { deleteKey } from "../objectUtil";
 
 interface Data {
     sessions: Record<string, Session>;
@@ -60,7 +59,7 @@ export default class Auth implements Persistent<Data> {
      * @param user_id User ID tied to session
      */
     removeSession(user_id: string) {
-        this.sessions = deleteKey(this.sessions, user_id);
+        this.sessions.delete(user_id);
 
         if (user_id == this.current) {
             this.current = null;
