@@ -152,6 +152,6 @@ export default connectState(SyncManager, (state) => {
     };
 });*/
 
-function SyncManager() {
+export default function SyncManager() {
     return <></>;
 }
