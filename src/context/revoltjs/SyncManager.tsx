@@ -21,7 +21,7 @@ import {
 import { Language } from "../Locale";
 import { AppContext, ClientStatus, StatusContext } from "./RevoltClient";
 
-type Props = {
+/*type Props = {
     settings: Settings;
     locale: Language;
     sync: SyncOptions;
@@ -150,4 +150,8 @@ export default connectState(SyncManager, (state) => {
         sync: state.sync,
         notifications: state.notifications,
     };
-});
+});*/
+
+function SyncManager() {
+    return <></>;
+}

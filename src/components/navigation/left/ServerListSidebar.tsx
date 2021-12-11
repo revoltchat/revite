@@ -276,13 +276,13 @@ export const ServerListSidebar = observer(({ unreads }: Props) => {
                             onClick={() =>
                                 homeActive && history.push("/settings")
                             }>
-                            <UserHover user={client.user}>
+                            <UserHover user={client.user ?? undefined}>
                                 <Icon
                                     size={42}
                                     unread={homeUnread}
                                     count={alertCount}>
                                     <UserIcon
-                                        target={client.user}
+                                        target={client.user ?? undefined}
                                         size={32}
                                         status
                                         hover
