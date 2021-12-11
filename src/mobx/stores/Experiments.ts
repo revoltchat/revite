@@ -1,6 +1,6 @@
 import { action, computed, makeAutoObservable, ObservableSet } from "mobx";
 
-import Persistent from "../Persistent";
+import Persistent from "../interfaces/Persistent";
 
 /**
  * Union type of available experiments.

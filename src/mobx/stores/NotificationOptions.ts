@@ -1,7 +1,7 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 import { Channel } from "revolt-api/types/Channels";
 
-import Persistent from "../Persistent";
+import Persistent from "../interfaces/Persistent";
 
 /**
  * Possible notification states.

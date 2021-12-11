@@ -2,7 +2,7 @@ import { makeAutoObservable, ObservableMap } from "mobx";
 import { Session } from "revolt-api/types/Auth";
 import { Nullable } from "revolt.js/dist/util/null";
 
-import Persistent from "../Persistent";
+import Persistent from "../interfaces/Persistent";
 
 interface Data {
     sessions: Record<string, Session>;
