@@ -10,6 +10,7 @@ import PaintCounter from "../../../lib/PaintCounter";
 import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
+import { useApplicationState } from "../../../mobx/State";
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
 import { Notifications } from "../../../redux/reducers/notifications";
@@ -58,6 +59,7 @@ const ServerList = styled.div`
 
 const ServerSidebar = observer((props: Props) => {
     const client = useClient();
+    const layout = useApplicationState().layout;
     const { server: server_id, channel: channel_id } =
         useParams<{ server: string; channel?: string }>();
 
@@ -75,16 +77,15 @@ const ServerSidebar = observer((props: Props) => {
         );
     if (channel_id && !channel) return <Redirect to={`/server/${server_id}`} />;
 
+    // Handle unreads; FIXME: should definitely not be here
     if (channel) useUnreads({ ...props, channel });
 
+    // Track which channel the user was last on.
     useEffect(() => {
         if (!channel_id) return;
+        if (!server_id) return;
 
-        dispatch({
-            type: "LAST_OPENED_SET",
-            parent: server_id!,
-            child: channel_id!,
-        });
+        layout.setLastOpened(server_id, channel_id);
     }, [channel_id, server_id]);
 
     const uncategorised = new Set(server.channel_ids);

@@ -1,20 +1,19 @@
+import { Hash } from "@styled-icons/boxicons-regular";
+import { Ghost } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
-
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
+import { useApplicationState } from "../../mobx/State";
 import { dispatch, getState } from "../../redux";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
-
-import { Hash } from "@styled-icons/boxicons-regular";
-import { Ghost } from "@styled-icons/boxicons-solid";
 
 import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
@@ -52,19 +51,19 @@ const PlaceholderBase = styled.div`
         justify-content: center;
         text-align: center;
         margin: auto;
-    
+
         .primary {
             color: var(--secondary-foreground);
             font-weight: 700;
             font-size: 22px;
             margin: 0 0 5px 0;
         }
-    
+
         .secondary {
             color: var(--tertiary-foreground);
             font-weight: 400;
         }
-    
+
         svg {
             margin: 2em auto;
             fill-opacity: 0.8;
@@ -94,7 +93,6 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
         getState().sectionToggle[CHANNELS_SIDEBAR_KEY] ?? true,
     );
 
-    const id = channel._id;
     return (
         <AgeGate
             type="channel"
@@ -126,7 +124,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                 }}
                 toggleChannelSidebar={() => {
                     if (isTouchscreenDevice) {
-                        return
+                        return;
                     }
 
                     setChannels(!showChannels);
@@ -147,7 +145,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
             />
             <ChannelMain>
                 <ChannelContent>
-                    <VoiceHeader id={id} />
+                    <VoiceHeader id={channel._id} />
                     <MessageArea channel={channel} />
                     <TypingIndicator channel={channel} />
                     <JumpToBottom channel={channel} />
@@ -173,13 +171,19 @@ function ChannelPlaceholder() {
         <PlaceholderBase>
             <Header placement="primary">
                 <Hash size={24} />
-                <span className="name"><Text id="app.main.channel.errors.nochannel" /></span>
+                <span className="name">
+                    <Text id="app.main.channel.errors.nochannel" />
+                </span>
             </Header>
 
             <div className="placeholder">
                 <Ghost width={80} />
-                <div className="primary"><Text id="app.main.channel.errors.title" /></div>
-                <div className="secondary"><Text id="app.main.channel.errors.nochannels" /></div>
+                <div className="primary">
+                    <Text id="app.main.channel.errors.title" />
+                </div>
+                <div className="secondary">
+                    <Text id="app.main.channel.errors.nochannels" />
+                </div>
             </div>
         </PlaceholderBase>
     );

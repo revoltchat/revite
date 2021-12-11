@@ -12,8 +12,8 @@ import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
+import { useApplicationState } from "../../../mobx/State";
 import { connectState } from "../../../redux/connector";
-import { LastOpened } from "../../../redux/reducers/last_opened";
 import { Unreads } from "../../../redux/reducers/unreads";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
@@ -195,11 +195,11 @@ function Swoosh() {
 
 interface Props {
     unreads: Unreads;
-    lastOpened: LastOpened;
 }
 
-export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
+export const ServerListSidebar = observer(({ unreads }: Props) => {
     const client = useClient();
+    const layout = useApplicationState().layout;
 
     const { server: server_id } = useParams<{ server?: string }>();
     const server = server_id ? client.servers.get(server_id) : undefined;
@@ -268,7 +268,7 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
             <ServerList>
                 <ConditionalLink
                     active={homeActive}
-                    to={lastOpened.home ? `/channel/${lastOpened.home}` : "/"}>
+                    to={layout.getLastHomePath()}>
                     <ServerEntry home active={homeActive}>
                         <Swoosh />
                         <div
@@ -295,15 +295,12 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
                 <LineDivider />
                 {servers.map((entry) => {
                     const active = entry.server._id === server?._id;
-                    const id = lastOpened[entry.server._id];
 
                     return (
                         <ConditionalLink
                             key={entry.server._id}
                             active={active}
-                            to={`/server/${entry.server._id}${
-                                id ? `/channel/${id}` : ""
-                            }`}>
+                            to={layout.getServerPath(entry.server._id)}>
                             <ServerEntry
                                 active={active}
                                 onContextMenu={attachContextMenu("Menu", {
@@ -359,6 +356,5 @@ export const ServerListSidebar = observer(({ unreads, lastOpened }: Props) => {
 export default connectState(ServerListSidebar, (state) => {
     return {
         unreads: state.unreads,
-        lastOpened: state.lastOpened,
     };
 });
