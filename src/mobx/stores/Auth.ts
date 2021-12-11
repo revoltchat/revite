@@ -26,7 +26,6 @@ export default class Auth implements Persistent<Data> {
         makeAutoObservable(this);
     }
 
-    // eslint-disable-next-line require-jsdoc
     toJSON() {
         return {
             sessions: this.sessions,
@@ -34,7 +33,6 @@ export default class Auth implements Persistent<Data> {
         };
     }
 
-    // eslint-disable-next-line require-jsdoc
     hydrate(data: Data) {
         Object.keys(data.sessions).forEach((id) =>
             this.sessions.set(id, data.sessions[id]),
