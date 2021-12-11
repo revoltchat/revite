@@ -3,6 +3,7 @@ import { Session } from "revolt-api/types/Auth";
 import { Nullable } from "revolt.js/dist/util/null";
 
 import Persistent from "../interfaces/Persistent";
+import Store from "../interfaces/Store";
 
 interface Data {
     sessions: Record<string, Session>;
@@ -13,7 +14,7 @@ interface Data {
  * Handles account authentication, managing multiple
  * accounts and their sessions.
  */
-export default class Auth implements Persistent<Data> {
+export default class Auth implements Store, Persistent<Data> {
     private sessions: ObservableMap<string, Session>;
     private current: Nullable<string>;
 
@@ -26,10 +27,14 @@ export default class Auth implements Persistent<Data> {
         makeAutoObservable(this);
     }
 
+    get id() {
+        return "auth";
+    }
+
     toJSON() {
         return {
-            sessions: this.sessions,
-            current: this.current,
+            sessions: [...this.sessions],
+            current: this.current ?? undefined,
         };
     }
 

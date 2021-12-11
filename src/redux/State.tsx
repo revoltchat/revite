@@ -26,16 +26,19 @@ export default function StateLoader(props: Props) {
     }, [state]);
 
     useEffect(() => {
-        localForage.getItem("state").then((state) => {
-            if (state !== null) {
-                dispatch({ type: "__INIT", state: state as State });
+        localForage.getItem("state").then((s) => {
+            if (s !== null) {
+                dispatch({ type: "__INIT", state: s as State });
             }
 
-            setLoaded(true);
+            state.hydrate().then(() => setLoaded(true));
         });
     }, []);
 
     if (!loaded) return null;
+
+    useEffect(state.registerListeners);
+
     return (
         <Provider store={store}>
             <StateContextProvider value={state}>

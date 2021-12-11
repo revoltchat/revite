@@ -1,6 +1,9 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 
+import { mapToRecord } from "../../lib/conversion";
+
 import Persistent from "../interfaces/Persistent";
+import Store from "../interfaces/Store";
 
 interface Data {
     drafts: Record<string, string>;
@@ -9,7 +12,7 @@ interface Data {
 /**
  * Handles storing draft (currently being written) messages.
  */
-export default class Draft implements Persistent<Data> {
+export default class Draft implements Store, Persistent<Data> {
     private drafts: ObservableMap<string, string>;
 
     /**
@@ -20,9 +23,13 @@ export default class Draft implements Persistent<Data> {
         makeAutoObservable(this);
     }
 
+    get id() {
+        return "draft";
+    }
+
     toJSON() {
         return {
-            drafts: this.drafts,
+            drafts: mapToRecord(this.drafts),
         };
     }
 

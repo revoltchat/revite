@@ -3,6 +3,7 @@ import { action, computed, makeAutoObservable } from "mobx";
 import { Language, Languages } from "../../context/Locale";
 
 import Persistent from "../interfaces/Persistent";
+import Store from "../interfaces/Store";
 
 interface Data {
     lang: Language;
@@ -52,7 +53,7 @@ export function findLanguage(lang?: string): Language {
  * Handles providing good UX experience on navigating
  * back and forth between different parts of the app.
  */
-export default class LocaleOptions implements Persistent<Data> {
+export default class LocaleOptions implements Store, Persistent<Data> {
     private lang: Language;
 
     /**
@@ -61,6 +62,10 @@ export default class LocaleOptions implements Persistent<Data> {
     constructor() {
         this.lang = findLanguage();
         makeAutoObservable(this);
+    }
+
+    get id() {
+        return "locale";
     }
 
     toJSON() {

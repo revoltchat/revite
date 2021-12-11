@@ -1,6 +1,9 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 
+import { mapToRecord } from "../../lib/conversion";
+
 import Persistent from "../interfaces/Persistent";
+import Store from "../interfaces/Store";
 
 interface Data {
     lastSection?: "home" | "server";
@@ -14,7 +17,7 @@ interface Data {
  * Handles providing good UX experience on navigating
  * back and forth between different parts of the app.
  */
-export default class Layout implements Persistent<Data> {
+export default class Layout implements Store, Persistent<Data> {
     /**
      * The last 'major section' that the user had open.
      * This is either the home tab or a channel ID (for a server channel).
@@ -47,12 +50,16 @@ export default class Layout implements Persistent<Data> {
         makeAutoObservable(this);
     }
 
+    get id() {
+        return "layout";
+    }
+
     toJSON() {
         return {
             lastSection: this.lastSection,
             lastHomePath: this.lastHomePath,
-            lastOpened: this.lastOpened,
-            openSections: this.openSections,
+            lastOpened: mapToRecord(this.lastOpened),
+            openSections: mapToRecord(this.openSections),
         };
     }
 
