@@ -53,11 +53,7 @@ function Notifier({ options }: Props) {
 
     const message = useCallback(
         async (msg: Message) => {
-            if (msg.author_id === client.user!._id) return;
             if (msg.channel_id === channel_id && document.hasFocus()) return;
-            if (client.user!.status?.presence === Presence.Busy) return;
-            if (msg.author?.relationship === RelationshipStatus.Blocked) return;
-
             if (!notifs.shouldNotify(msg)) return;
 
             playSound("message");
