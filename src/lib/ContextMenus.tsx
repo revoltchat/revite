@@ -32,6 +32,7 @@ import {
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
+import { useApplicationState } from "../mobx/State";
 import { dispatch } from "../redux";
 import { connectState } from "../redux/connector";
 import {
@@ -141,6 +142,7 @@ export default function ContextMenus() {
     const userId = client.user!._id;
     const status = useContext(StatusContext);
     const isOnline = status === ClientStatus.ONLINE;
+    const state = useApplicationState();
     const history = useHistory();
 
     function contextClick(data?: Action) {
@@ -196,11 +198,7 @@ export default function ContextMenus() {
                     {
                         const nonce = data.message.id;
                         const fail = (error: string) =>
-                            dispatch({
-                                type: "QUEUE_FAIL",
-                                nonce,
-                                error,
-                            });
+                            state.queue.fail(nonce, error);
 
                         client.channels
                             .get(data.message.channel)!
@@ -211,19 +209,13 @@ export default function ContextMenus() {
                             })
                             .catch(fail);
 
-                        dispatch({
-                            type: "QUEUE_START",
-                            nonce,
-                        });
+                        state.queue.start(nonce);
                     }
                     break;
 
                 case "cancel_message":
                     {
-                        dispatch({
-                            type: "QUEUE_REMOVE",
-                            nonce: data.message.id,
-                        });
+                        state.queue.remove(data.message.id);
                     }
                     break;
 

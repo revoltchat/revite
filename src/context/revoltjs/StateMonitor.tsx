@@ -5,7 +5,7 @@ import { Message } from "revolt.js/dist/maps/Messages";
 
 import { useContext, useEffect } from "preact/hooks";
 
-import { dispatch } from "../../redux";
+import { useApplicationState } from "../../mobx/State";
 import { connectState } from "../../redux/connector";
 import { QueuedMessage } from "../../redux/reducers/queue";
 
@@ -17,22 +17,13 @@ type Props = {
 
 function StateMonitor(props: Props) {
     const client = useContext(AppContext);
-
-    useEffect(() => {
-        dispatch({
-            type: "QUEUE_DROP_ALL",
-        });
-    }, []);
+    const state = useApplicationState();
 
     useEffect(() => {
         function add(msg: Message) {
             if (!msg.nonce) return;
             if (!props.messages.find((x) => x.id === msg.nonce)) return;
-
-            dispatch({
-                type: "QUEUE_REMOVE",
-                nonce: msg.nonce,
-            });
+            state.queue.remove(msg.nonce);
         }
 
         client.addListener("message", add);

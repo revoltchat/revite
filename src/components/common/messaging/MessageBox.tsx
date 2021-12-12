@@ -116,7 +116,7 @@ const RE_SED = new RegExp("^s/([^])*/([^])*$");
 export const CAN_UPLOAD_AT_ONCE = 4;
 
 export default observer(({ channel }: Props) => {
-    const drafts = useApplicationState().draft;
+    const state = useApplicationState();
 
     const [uploadState, setUploadState] = useState<UploadState>({
         type: "none",
@@ -149,24 +149,10 @@ export default observer(({ channel }: Props) => {
         );
     }
 
+    // Push message content to draft.
     const setMessage = useCallback(
-        (content?: string) => {
-            drafts.set(channel._id, content);
-
-            if (content) {
-                dispatch({
-                    type: "SET_DRAFT",
-                    channel: channel._id,
-                    content,
-                });
-            } else {
-                dispatch({
-                    type: "CLEAR_DRAFT",
-                    channel: channel._id,
-                });
-            }
-        },
-        [drafts, channel._id],
+        (content?: string) => state.draft.set(channel._id, content),
+        [state.draft, channel._id],
     );
 
     useEffect(() => {
@@ -184,10 +170,10 @@ export default observer(({ channel }: Props) => {
                           .join("\n")}\n\n`
                     : `${content} `;
 
-            if (!drafts.has(channel._id)) {
+            if (!state.draft.has(channel._id)) {
                 setMessage(text);
             } else {
-                setMessage(`${drafts.get(channel._id)}\n${text}`);
+                setMessage(`${state.draft.get(channel._id)}\n${text}`);
             }
         }
 
@@ -196,7 +182,7 @@ export default observer(({ channel }: Props) => {
             "append",
             append as (...args: unknown[]) => void,
         );
-    }, [drafts, channel._id, setMessage]);
+    }, [state.draft, channel._id, setMessage]);
 
     /**
      * Trigger send message.
@@ -205,7 +191,7 @@ export default observer(({ channel }: Props) => {
         if (uploadState.type === "uploading" || uploadState.type === "sending")
             return;
 
-        const content = drafts.get(channel._id)?.trim() ?? "";
+        const content = state.draft.get(channel._id)?.trim() ?? "";
         if (uploadState.type === "attached") return sendFile(content);
         if (content.length === 0) return;
 
@@ -258,18 +244,13 @@ export default observer(({ channel }: Props) => {
         } else {
             playSound("outbound");
 
-            dispatch({
-                type: "QUEUE_ADD",
-                nonce,
+            state.queue.add(nonce, channel._id, {
+                _id: nonce,
                 channel: channel._id,
-                message: {
-                    _id: nonce,
-                    channel: channel._id,
-                    author: client.user!._id,
+                author: client.user!._id,
 
-                    content,
-                    replies,
-                },
+                content,
+                replies,
             });
 
             defer(() => renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE));
@@ -281,11 +262,7 @@ export default observer(({ channel }: Props) => {
                     replies,
                 });
             } catch (error) {
-                dispatch({
-                    type: "QUEUE_FAIL",
-                    error: takeError(error),
-                    nonce,
-                });
+                state.queue.fail(nonce, takeError(error));
             }
         }
     }
@@ -525,7 +502,7 @@ export default observer(({ channel }: Props) => {
                     id="message"
                     maxLength={2000}
                     onKeyUp={onKeyUp}
-                    value={drafts.get(channel._id) ?? ""}
+                    value={state.draft.get(channel._id) ?? ""}
                     padding="var(--message-box-padding)"
                     onKeyDown={(e) => {
                         if (e.ctrlKey && e.key === "Enter") {
@@ -535,7 +512,10 @@ export default observer(({ channel }: Props) => {
 
                         if (onKeyDown(e)) return;
 
-                        if (e.key === "ArrowUp" && !drafts.has(channel._id)) {
+                        if (
+                            e.key === "ArrowUp" &&
+                            !state.draft.has(channel._id)
+                        ) {
                             e.preventDefault();
                             internalEmit("MessageRenderer", "edit_last");
                             return;

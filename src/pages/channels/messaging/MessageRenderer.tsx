@@ -16,6 +16,7 @@ import { useEffect, useState } from "preact/hooks";
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { ChannelRenderer } from "../../../lib/renderer/Singleton";
 
+import { useApplicationState } from "../../../mobx/State";
 import { connectState } from "../../../redux/connector";
 import { QueuedMessage } from "../../../redux/reducers/queue";
 
@@ -33,7 +34,6 @@ import MessageEditor from "./MessageEditor";
 
 interface Props {
     highlight?: string;
-    queue: QueuedMessage[];
     renderer: ChannelRenderer;
 }
 
@@ -48,9 +48,10 @@ const BlockedMessage = styled.div`
     }
 `;
 
-const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
+export default observer(({ renderer, highlight }: Props) => {
     const client = useClient();
     const userId = client.user!._id;
+    const queue = useApplicationState().queue;
 
     const [editing, setEditing] = useState<string | undefined>(undefined);
     const stopEditing = () => {
@@ -192,8 +193,7 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
 
     const nonces = renderer.messages.map((x) => x.nonce);
     if (renderer.atBottom) {
-        for (const msg of queue) {
-            if (msg.channel !== renderer.channel._id) continue;
+        for (const msg of queue.get(renderer.channel._id)) {
             if (nonces.includes(msg.id)) continue;
 
             if (previous) {
@@ -237,11 +237,3 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
 
     return <>{render}</>;
 });
-
-export default memo(
-    connectState<Omit<Props, "queue">>(MessageRenderer, (state) => {
-        return {
-            queue: state.queue,
-        };
-    }),
-);
