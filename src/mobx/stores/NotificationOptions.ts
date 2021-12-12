@@ -1,4 +1,5 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
+import { Presence, RelationshipStatus } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
 import { Server } from "revolt.js/dist/maps/Servers";
@@ -79,6 +80,11 @@ export default class NotificationOptions implements Store, Persistent<Data> {
         }
     }
 
+    /**
+     * Compute the actual notification state for a given Channel.
+     * @param channel Channel
+     * @returns Notification state
+     */
     computeForChannel(channel: Channel) {
         if (this.channel.has(channel._id)) {
             return this.channel.get(channel._id);
@@ -91,21 +97,46 @@ export default class NotificationOptions implements Store, Persistent<Data> {
         return DEFAULT_STATES[channel.channel_type];
     }
 
+    /**
+     * Check whether an incoming message should notify the user.
+     * @param message Message
+     * @returns Whether it should notify the user
+     */
     shouldNotify(message: Message) {
-        const state = this.computeForChannel(message.channel!);
+        // Make sure the author is not blocked.
+        if (message.author?.relationship === RelationshipStatus.Blocked) {
+            return false;
+        }
 
-        switch (state) {
+        // Check if the message was sent by us.
+        const user = message.client.user!;
+        if (message.author_id === user._id) {
+            return false;
+        }
+
+        // Check whether we are busy.
+        if (user.status?.presence === Presence.Busy) {
+            return false;
+        }
+
+        switch (this.computeForChannel(message.channel!)) {
             case "muted":
             case "none":
+                // Ignore if muted.
                 return false;
             case "mention":
-                if (!message.mention_ids?.includes(message.client.user!._id))
-                    return false;
+                // Ignore if it doesn't mention us.
+                if (!message.mention_ids?.includes(user._id)) return false;
         }
 
         return true;
     }
 
+    /**
+     * Compute the notification state for a given server.
+     * @param server_id Server ID
+     * @returns Notification state
+     */
     computeForServer(server_id: string) {
         if (this.server.has(server_id)) {
             return this.server.get(server_id);
@@ -114,10 +145,20 @@ export default class NotificationOptions implements Store, Persistent<Data> {
         return DEFAULT_SERVER_STATE;
     }
 
+    /**
+     * Get the notification state of a channel.
+     * @param channel_id Channel ID
+     * @returns Notification state
+     */
     getChannelState(channel_id: string) {
         return this.channel.get(channel_id);
     }
 
+    /**
+     * Set the notification state of a channel.
+     * @param channel_id Channel ID
+     * @param state Notification state
+     */
     setChannelState(channel_id: string, state?: NotificationState) {
         if (state) {
             this.channel.set(channel_id, state);
@@ -126,10 +167,20 @@ export default class NotificationOptions implements Store, Persistent<Data> {
         }
     }
 
+    /**
+     * Get the notification state of a server.
+     * @param server_id Server ID
+     * @returns Notification state
+     */
     getServerState(server_id: string) {
         return this.server.get(server_id);
     }
 
+    /**
+     * Set the notification state of a server.
+     * @param server_id Server ID
+     * @param state Notification state
+     */
     setServerState(server_id: string, state?: NotificationState) {
         if (state) {
             this.server.set(server_id, state);
@@ -138,6 +189,11 @@ export default class NotificationOptions implements Store, Persistent<Data> {
         }
     }
 
+    /**
+     * Check whether a Channel or Server is muted.
+     * @param target Channel or Server
+     * @returns Whether this object is muted
+     */
     isMuted(target?: Channel | Server) {
         if (target instanceof Channel) {
             return this.computeForChannel(target) === "muted";
