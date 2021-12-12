@@ -4,11 +4,11 @@ import { createGlobalStyle } from "styled-components";
 import { createContext } from "preact";
 import { useEffect } from "preact/hooks";
 
+import { useApplicationState } from "../mobx/State";
+import { getState } from "../redux";
 import { connectState } from "../redux/connector";
 
 import { Children } from "../types/Preact";
-import { fetchManifest, fetchTheme } from "../pages/settings/panes/ThemeShop";
-import { getState } from "../redux";
 
 export type Variables =
     | "accent"
@@ -57,6 +57,7 @@ export type Fonts =
     | "Raleway"
     | "Ubuntu"
     | "Comic Neue";
+
 export type MonospaceFonts =
     | "Fira Code"
     | "Roboto Mono"
@@ -285,23 +286,23 @@ export const PRESETS: Record<string, Theme> = {
 // todo: store used themes locally
 export function getBaseTheme(name: string): Theme {
     if (name in PRESETS) {
-        return PRESETS[name]
+        return PRESETS[name];
     }
 
     // TODO: properly initialize `themes` in state instead of letting it be undefined
-    const themes = getState().themes ?? {}
+    const themes = getState().themes ?? {};
 
     if (name in themes) {
         const { theme } = themes[name];
 
         return {
-            ...PRESETS[theme.light ? 'light' : 'dark'],
-            ...theme
-        }
+            ...PRESETS[theme.light ? "light" : "dark"],
+            ...theme,
+        };
     }
 
     // how did we get here
-    return PRESETS['dark']
+    return PRESETS["dark"];
 }
 
 const keys = Object.keys(PRESETS.dark);
@@ -315,21 +316,22 @@ export const generateVariables = (theme: Theme) => {
     return (Object.keys(theme) as Variables[]).map((key) => {
         if (!keys.includes(key)) return;
         return `--${key}: ${theme[key]};`;
-    })
-}
+    });
+};
 
 // Load the default default them and apply extras later
 export const ThemeContext = createContext<Theme>(PRESETS["dark"]);
 
 interface Props {
     children: Children;
-    options?: ThemeOptions;
 }
 
-function Theme({ children, options }: Props) {
+export default function Theme({ children }: Props) {
+    const settings = useApplicationState().settings;
+
     const theme: Theme = {
-        ...getBaseTheme(options?.base ?? 'dark'),
-        ...options?.custom,
+        ...getBaseTheme(settings.get("appearance:theme:base") ?? "dark"),
+        ...settings.get("appearance:theme:custom"),
     };
 
     const root = document.documentElement.style;
@@ -346,8 +348,11 @@ function Theme({ children, options }: Props) {
     }, [root, theme.monospaceFont]);
 
     useEffect(() => {
-        root.setProperty("--ligatures", options?.ligatures ? "normal" : "none");
-    }, [root, options?.ligatures]);
+        root.setProperty(
+            "--ligatures",
+            settings.get("appearance:ligatures") ? "normal" : "none",
+        );
+    }, [root, settings.get("appearance:ligatures")]);
 
     useEffect(() => {
         const resize = () =>
@@ -371,9 +376,3 @@ function Theme({ children, options }: Props) {
         </ThemeContext.Provider>
     );
 }
-
-export default connectState<{ children: Children }>(Theme, (state) => {
-    return {
-        options: state.settings.theme,
-    };
-});

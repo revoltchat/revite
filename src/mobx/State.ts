@@ -13,6 +13,7 @@ import LocaleOptions from "./stores/LocaleOptions";
 import MessageQueue from "./stores/MessageQueue";
 import NotificationOptions from "./stores/NotificationOptions";
 import ServerConfig from "./stores/ServerConfig";
+import Settings from "./stores/Settings";
 
 /**
  * Handles global application state.
@@ -26,6 +27,7 @@ export default class State {
     config: ServerConfig;
     notifications: NotificationOptions;
     queue: MessageQueue;
+    settings: Settings;
 
     private persistent: [string, Persistent<unknown>][] = [];
 
@@ -41,6 +43,7 @@ export default class State {
         this.config = new ServerConfig();
         this.notifications = new NotificationOptions();
         this.queue = new MessageQueue();
+        this.settings = new Settings();
 
         makeAutoObservable(this);
         this.registerListeners = this.registerListeners.bind(this);
