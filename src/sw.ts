@@ -19,10 +19,10 @@ self.addEventListener("push", (event) => {
                 body: data.body,
                 timestamp: data.timestamp,
                 tag: data.tag,
-                badge: "https://app.revolt.chat/assets/icons/android-chrome-512x512.png"
+                badge: "https://app.revolt.chat/assets/icons/android-chrome-512x512.png",
+                data: data.url,
             });
         }
-
     }
     event.waitUntil(process());
 });

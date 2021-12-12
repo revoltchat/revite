@@ -25,6 +25,8 @@ import styles from "./Settings.module.scss";
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
+import { isExperimentEnabled } from "../../redux/reducers/experiments";
+
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import {
     AppContext,
@@ -50,7 +52,6 @@ import { Profile } from "./panes/Profile";
 import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
 import { ThemeShop } from "./panes/ThemeShop";
-import { isExperimentEnabled } from "../../redux/reducers/experiments";
 
 export default function Settings() {
     const history = useHistory();
@@ -126,14 +127,14 @@ export default function Settings() {
                     title: <Text id="app.settings.pages.experiments.title" />,
                 },
                 {
-                    divider: !isExperimentEnabled('theme_shop'),
+                    divider: !isExperimentEnabled("theme_shop"),
                     category: "revolt",
                     id: "bots",
                     icon: <Bot size={20} />,
                     title: <Text id="app.settings.pages.bots.title" />,
                 },
                 {
-                    hidden: !isExperimentEnabled('theme_shop'),
+                    hidden: !isExperimentEnabled("theme_shop"),
                     divider: true,
                     id: "theme_shop",
                     icon: <Store size={20} />,
@@ -179,9 +180,11 @@ export default function Settings() {
                     <Route path="/settings/bots">
                         <MyBots />
                     </Route>
-                    {isExperimentEnabled('theme_shop') && <Route path="/settings/theme_shop">
-                        <ThemeShop />
-                    </Route>}
+                    {isExperimentEnabled("theme_shop") && (
+                        <Route path="/settings/theme_shop">
+                            <ThemeShop />
+                        </Route>
+                    )}
                     <Route path="/settings/feedback">
                         <Feedback />
                     </Route>

@@ -9,12 +9,9 @@ import { Text } from "preact-i18n";
 import { StateUpdater, useEffect } from "preact/hooks";
 
 import { internalSubscribe } from "../../../../lib/eventEmitter";
-import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 import { dispatch, getState } from "../../../../redux";
 import { Reply } from "../../../../redux/reducers/queue";
-
-import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 import IconButton from "../../../ui/IconButton";
 
@@ -65,6 +62,7 @@ const Base = styled.div`
 
     .message {
         display: flex;
+        max-height: 26px;
     }
 
     .actions {
@@ -80,10 +78,11 @@ const Base = styled.div`
 `;
 
 // ! FIXME: Move to global config
-const MAX_REPLIES = 4;
+const MAX_REPLIES = 5;
 export default observer(({ channel, replies, setReplies }: Props) => {
-    const client = useClient();
+    const client = channel.client;
 
+    // Event listener for adding new messages to reply bar.
     useEffect(() => {
         return internalSubscribe("ReplyBar", "add", (_message) => {
             const message = _message as Message;
@@ -106,26 +105,24 @@ export default observer(({ channel, replies, setReplies }: Props) => {
         });
     }, [replies, setReplies, client.user]);
 
-    const renderer = getRenderer(channel);
-    if (renderer.state !== "RENDER") return null;
+    // Map all the replies to messages we are aware of.
+    const messages = replies.map((x) => client.messages.get(x.id));
 
-    const ids = replies.map((x) => x.id);
-    const messages = renderer.messages.filter((x) => ids.includes(x._id));
+    // Remove any replies which don't resolve to valid messages.
+    useEffect(() => {
+        if (messages.includes(undefined)) {
+            setReplies(
+                replies.filter((_, i) => typeof messages[i] !== "undefined"),
+            );
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [messages, replies, setReplies]);
 
     return (
         <div>
             {replies.map((reply, index) => {
-                const message = messages.find((x) => reply.id === x._id);
-                // ! FIXME: better solution would be to
-                // ! have a hook for resolving messages from
-                // ! render state along with relevant users
-                // -> which then fetches any unknown messages
-                if (!message)
-                    return (
-                        <span>
-                            <Text id="app.main.channel.misc.failed_load" />
-                        </span>
-                    );
+                const message = messages[index];
+                if (!message) return null;
 
                 return (
                     <Base key={reply.id}>
@@ -133,9 +130,10 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                             <ReplyIcon size={22} />
                             <div class="username">
                                 <UserShort
-                                    user={message.author}
                                     size={16}
                                     showServerIdentity
+                                    user={message.author}
+                                    masquerade={message.masquerade!}
                                 />
                             </div>
                             <div class="message">
@@ -152,7 +150,7 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                     </>
                                 )}
                                 {message.author_id ===
-                                    "00000000000000000000000000" ? (
+                                "00000000000000000000000000" ? (
                                     <SystemMessage message={message} hideInfo />
                                 ) : (
                                     <Markdown
@@ -191,7 +189,13 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                     }}>
                                     <span class="toggle">
                                         <At size={15} />
-                                        <Text id={reply.mention ? 'general.on' : 'general.off'} />
+                                        <Text
+                                            id={
+                                                reply.mention
+                                                    ? "general.on"
+                                                    : "general.off"
+                                            }
+                                        />
                                     </span>
                                 </IconButton>
                             )}

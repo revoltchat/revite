@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 
 export interface IconBaseProps<T> {
     target?: T;
+    url?: string;
     attachment?: Attachment;
 
     size: number;

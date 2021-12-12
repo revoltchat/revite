@@ -4,6 +4,9 @@ import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 
 export function Native() {
+    if (typeof window.native === "undefined") return null;
+    /* eslint-disable react-hooks/rules-of-hooks */
+
     const [config, setConfig] = useState(window.native.getConfig());
     const [autoStart, setAutoStart] = useState<boolean | undefined>();
     const fetchValue = () => window.native.getAutoStart().then(setAutoStart);

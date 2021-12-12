@@ -53,6 +53,7 @@ const ModalBase = styled.div`
 
     &.closing {
         animation-name: ${close};
+        animation-fill-mode: forwards;
     }
 
     &.closing > div {
