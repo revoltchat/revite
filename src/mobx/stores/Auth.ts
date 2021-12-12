@@ -2,8 +2,6 @@ import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 import { Session } from "revolt-api/types/Auth";
 import { Nullable } from "revolt.js/dist/util/null";
 
-import { mapToRecord } from "../../lib/conversion";
-
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
@@ -85,10 +83,17 @@ export default class Auth implements Store, Persistent<Data> {
         this.sessions.delete(user_id);
     }
 
+    /**
+     * Remove current session.
+     */
     @action logout() {
         this.current && this.removeSession(this.current);
     }
 
+    /**
+     * Get current session.
+     * @returns Current session
+     */
     @computed getSession() {
         if (!this.current) return;
         return this.sessions.get(this.current)!.session;
