@@ -1,4 +1,4 @@
-import { makeAutoObservable, computed } from "mobx";
+import { makeAutoObservable, computed, action } from "mobx";
 
 import {
     Theme,
@@ -6,6 +6,8 @@ import {
     Variables,
     DEFAULT_FONT,
     DEFAULT_MONO_FONT,
+    Fonts,
+    MonospaceFonts,
 } from "../../../context/Theme";
 
 import Settings from "../Settings";
@@ -23,6 +25,7 @@ export default class STheme {
     constructor(settings: Settings) {
         this.settings = settings;
         makeAutoObservable(this);
+        this.setBase = this.setBase.bind(this);
     }
 
     /**
@@ -56,6 +59,13 @@ export default class STheme {
         };
     }
 
+    @action setVariable(key: Variables, value: string) {
+        this.settings.set("appearance:theme:overrides", {
+            ...this.settings.get("appearance:theme:overrides"),
+            [key]: value,
+        });
+    }
+
     /**
      * Get a specific value of a variable by its key.
      * @param key Variable
@@ -66,12 +76,20 @@ export default class STheme {
             PRESETS[this.getBase()])[key]!;
     }
 
+    @action setFont(font: Fonts) {
+        this.settings.set("appearance:theme:font", font);
+    }
+
     /**
      * Get the current applied font.
      * @returns Current font
      */
     @computed getFont() {
         return this.settings.get("appearance:theme:font") ?? DEFAULT_FONT;
+    }
+
+    @action setMonospaceFont(font: MonospaceFonts) {
+        this.settings.set("appearance:theme:monoFont", font);
     }
 
     /**
@@ -84,11 +102,27 @@ export default class STheme {
         );
     }
 
+    @action setCSS(value: string) {
+        if (value.length > 0) {
+            this.settings.set("appearance:theme:css", value);
+        } else {
+            this.settings.remove("appearance:theme:css");
+        }
+    }
+
     /**
      * Get the currently applied CSS snippet.
      * @returns CSS string
      */
     @computed getCSS() {
         return this.settings.get("appearance:theme:css");
+    }
+
+    @action setBase(base?: "light" | "dark") {
+        if (base) {
+            this.settings.set("appearance:theme:base", base);
+        } else {
+            this.settings.remove("appearance:theme:base");
+        }
     }
 }

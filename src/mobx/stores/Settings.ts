@@ -80,6 +80,10 @@ export default class Settings implements Store, Persistent<ISettings> {
         return this.data.get(key) as ISettings[T] | undefined;
     }
 
+    @action remove<T extends keyof ISettings>(key: T) {
+        this.data.delete(key);
+    }
+
     /**
      * Set a value in settings without type-checking.
      * @param key Colon-divided key
