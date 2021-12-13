@@ -1,7 +1,7 @@
+import { observer } from "mobx-react-lite";
 import { Helmet } from "react-helmet";
 import { createGlobalStyle } from "styled-components";
 
-import { createContext } from "preact";
 import { useEffect } from "preact/hooks";
 
 import { useApplicationState } from "../mobx/State";
@@ -316,7 +316,7 @@ export const generateVariables = (theme: Theme) => {
     });
 };
 
-export default function Theme() {
+export default observer(() => {
     const settings = useApplicationState().settings;
     const theme = settings.theme;
 
@@ -359,4 +359,4 @@ export default function Theme() {
             <style dangerouslySetInnerHTML={{ __html: theme.getCSS() ?? "" }} />
         </>
     );
-}
+});

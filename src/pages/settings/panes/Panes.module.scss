@@ -150,38 +150,6 @@
 }
 
 .appearance {
-    .theme {
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .themes {
-        gap: 8px;
-        display: flex;
-        width: 100%;
-
-        img {
-            cursor: pointer;
-            border-radius: var(--border-radius);
-            transition: border 0.3s;
-            border: 3px solid transparent;
-            width: 100%;
-
-            &[data-active="true"] {
-                cursor: default;
-                border: 3px solid var(--accent);
-                &:hover {
-                    border: 3px solid var(--accent);
-                }
-            }
-
-            &:hover {
-                border: 3px solid var(--tertiary-background);
-            }
-        }
-    }
-
     details {
         summary {
             font-size: 0.8125rem;
