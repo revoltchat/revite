@@ -5,12 +5,8 @@ import { LIBRARY_VERSION } from "revolt.js";
 
 import styles from "./Login.module.scss";
 import { Text } from "preact-i18n";
-import { useContext } from "preact/hooks";
 
 import { useApplicationState } from "../../mobx/State";
-
-import { ThemeContext } from "../../context/Theme";
-import { AppContext } from "../../context/revoltjs/RevoltClient";
 
 import LocaleSelector from "../../components/common/LocaleSelector";
 import background from "./background.jpg";
@@ -23,8 +19,9 @@ import { FormReset, FormSendReset } from "./forms/FormReset";
 import { FormResend, FormVerify } from "./forms/FormVerify";
 
 export default observer(() => {
-    const theme = useContext(ThemeContext);
-    const configuration = useApplicationState().config.get();
+    const state = useApplicationState();
+    const theme = state.settings.theme;
+    const configuration = state.config.get();
 
     return (
         <>
@@ -33,7 +30,10 @@ export default observer(() => {
             )}
             <div className={styles.login}>
                 <Helmet>
-                    <meta name="theme-color" content={theme.background} />
+                    <meta
+                        name="theme-color"
+                        content={theme.getVariable("background")}
+                    />
                 </Helmet>
                 <div className={styles.content}>
                     <div className={styles.attribution}>

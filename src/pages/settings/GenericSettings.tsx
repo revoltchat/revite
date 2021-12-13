@@ -15,7 +15,7 @@ import {
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { ThemeContext } from "../../context/Theme";
+import { useApplicationState } from "../../mobx/State";
 
 import Category from "../../components/ui/Category";
 import Header from "../../components/ui/Header";
@@ -53,7 +53,7 @@ export function GenericSettings({
     showExitButton,
 }: Props) {
     const history = useHistory();
-    const theme = useContext(ThemeContext);
+    const theme = useApplicationState().settings.theme;
     const { page } = useParams<{ page: string }>();
 
     const [closing, setClosing] = useState(false);
@@ -94,8 +94,8 @@ export function GenericSettings({
                     name="theme-color"
                     content={
                         isTouchscreenDevice
-                            ? theme["background"]
-                            : theme["secondary-background"]
+                            ? theme.getVariable("background")
+                            : theme.getVariable("secondary-background")
                     }
                 />
             </Helmet>

@@ -1,5 +1,6 @@
 import { Reset, Import } from "@styled-icons/boxicons-regular";
 import { Pencil, Store } from "@styled-icons/boxicons-solid";
+import { Link } from "react-router-dom";
 // @ts-expect-error shade-blend-color does not have typings.
 import pSBC from "shade-blend-color";
 
@@ -8,15 +9,13 @@ import { Text } from "preact-i18n";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
-
-
 import { debounce } from "../../../lib/debounce";
 
+import { useApplicationState } from "../../../mobx/State";
 import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
+import { isExperimentEnabled } from "../../../redux/reducers/experiments";
 import { EmojiPacks, Settings } from "../../../redux/reducers/settings";
-
 
 import {
     DEFAULT_FONT,
@@ -28,7 +27,6 @@ import {
     MONOSPACE_FONTS,
     MONOSPACE_FONT_KEYS,
     Theme,
-    ThemeContext,
     ThemeOptions,
 } from "../../../context/Theme";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
@@ -40,14 +38,13 @@ import Checkbox from "../../../components/ui/Checkbox";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
 import ComboBox from "../../../components/ui/ComboBox";
 import InputBox from "../../../components/ui/InputBox";
+import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 import darkSVG from "../assets/dark.svg";
 import lightSVG from "../assets/light.svg";
 import mutantSVG from "../assets/mutant_emoji.svg";
 import notoSVG from "../assets/noto_emoji.svg";
 import openmojiSVG from "../assets/openmoji_emoji.svg";
 import twemojiSVG from "../assets/twemoji_emoji.svg";
-import { Link } from "react-router-dom";
-import { isExperimentEnabled } from "../../../redux/reducers/experiments";
 
 interface Props {
     settings: Settings;
@@ -55,7 +52,7 @@ interface Props {
 
 // ! FIXME: code needs to be rewritten to fix jittering
 export function Component(props: Props) {
-    const theme = useContext(ThemeContext);
+    const theme = useApplicationState().settings.theme;
     const { writeClipboard, openScreen } = useIntermediate();
 
     function setTheme(theme: ThemeOptions) {
@@ -112,8 +109,7 @@ export function Component(props: Props) {
                         draggable={false}
                         data-active={selected === "light"}
                         onClick={() =>
-                            selected !== "light" &&
-                            setTheme({ base: "light" })
+                            selected !== "light" && setTheme({ base: "light" })
                         }
                         onContextMenu={(e) => e.preventDefault()}
                     />
@@ -138,16 +134,24 @@ export function Component(props: Props) {
                 </div>
             </div>
 
-            {isExperimentEnabled('theme_shop') && <Link to="/settings/theme_shop" replace>
-                <CategoryButton icon={<Store size={24} />} action="chevron" hover>
-                    <Text id="app.settings.pages.theme_shop.title" />
-                </CategoryButton>
-            </Link>}
+            {isExperimentEnabled("theme_shop") && (
+                <Link to="/settings/theme_shop" replace>
+                    <CategoryButton
+                        icon={<Store size={24} />}
+                        action="chevron"
+                        hover>
+                        <Text id="app.settings.pages.theme_shop.title" />
+                    </CategoryButton>
+                </Link>
+            )}
 
             <h3>
                 <Text id="app.settings.pages.appearance.accent_selector" />
             </h3>
-            <ColourSwatches value={theme.accent} onChange={setAccent} />
+            <ColourSwatches
+                value={theme.getVariable("accent")}
+                onChange={setAccent}
+            />
 
             {/*<h3>
                 <Text id="app.settings.pages.appearance.message_display" />
@@ -175,7 +179,7 @@ export function Component(props: Props) {
                 <Text id="app.settings.pages.appearance.font" />
             </h3>
             <ComboBox
-                value={theme.font ?? DEFAULT_FONT}
+                value={theme.getFont()}
                 onChange={(e) =>
                     pushOverride({ font: e.currentTarget.value as Fonts })
                 }>
@@ -363,11 +367,11 @@ export function Component(props: Props) {
                         <div
                             className={styles.entry}
                             key={x}
-                            style={{ backgroundColor: theme[x] }}>
+                            style={{ backgroundColor: theme.getVariable(x) }}>
                             <div className={styles.input}>
                                 <input
                                     type="color"
-                                    value={theme[x]}
+                                    value={theme.getVariable(x)}
                                     onChange={(v) =>
                                         setOverride({
                                             [x]: v.currentTarget.value,
@@ -377,8 +381,8 @@ export function Component(props: Props) {
                             </div>
                             <span
                                 style={`color: ${getContrastingColour(
-                                    theme[x],
-                                    theme["primary-background"],
+                                    theme.getVariable(x),
+                                    theme.getVariable("primary-background"),
                                 )}`}>
                                 {x}
                             </span>
@@ -395,7 +399,7 @@ export function Component(props: Props) {
                                 <InputBox
                                     type="text"
                                     className={styles.text}
-                                    value={theme[x]}
+                                    value={theme.getVariable(x)}
                                     onChange={(y) =>
                                         setOverride({
                                             [x]: y.currentTarget.value,
@@ -416,7 +420,7 @@ export function Component(props: Props) {
                     <Text id="app.settings.pages.appearance.mono_font" />
                 </h3>
                 <ComboBox
-                    value={theme.monospaceFont ?? DEFAULT_MONO_FONT}
+                    value={theme.getMonospaceFont()}
                     onChange={(e) =>
                         pushOverride({
                             monospaceFont: e.currentTarget

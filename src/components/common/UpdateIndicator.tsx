@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Download, CloudDownload } from "@styled-icons/boxicons-regular";
 
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
 
-import { ThemeContext } from "../../context/Theme";
+import { useApplicationState } from "../../mobx/State";
 
 import IconButton from "../ui/IconButton";
 
@@ -27,7 +27,7 @@ export default function UpdateIndicator({ style }: Props) {
     });
 
     if (!pending) return null;
-    const theme = useContext(ThemeContext);
+    const theme = useApplicationState().settings.theme;
 
     if (style === "titlebar") {
         return (
@@ -36,7 +36,10 @@ export default function UpdateIndicator({ style }: Props) {
                     content="A new update is available!"
                     placement="bottom">
                     <div onClick={() => updateSW(true)}>
-                        <CloudDownload size={22} color={theme.success} />
+                        <CloudDownload
+                            size={22}
+                            color={theme.getVariable("success")}
+                        />
                     </div>
                 </Tooltip>
             </div>
@@ -47,7 +50,7 @@ export default function UpdateIndicator({ style }: Props) {
 
     return (
         <IconButton onClick={() => updateSW(true)}>
-            <Download size={22} color={theme.success} />
+            <Download size={22} color={theme.getVariable("success")} />
         </IconButton>
     );
 }

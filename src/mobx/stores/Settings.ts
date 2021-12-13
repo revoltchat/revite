@@ -2,11 +2,12 @@ import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 
 import { mapToRecord } from "../../lib/conversion";
 
-import { Theme } from "../../context/Theme";
+import { Fonts, MonospaceFonts, Overrides, Theme } from "../../context/Theme";
 
 import { Sounds } from "../../assets/sounds/Audio";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
+import STheme from "./helpers/STheme";
 
 export type SoundOptions = {
     [key in Sounds]?: boolean;
@@ -20,26 +21,14 @@ interface ISettings {
 
     "appearance:emoji": EmojiPack;
     "appearance:ligatures": boolean;
-    "appearance:theme:base": string;
-    "appearance:theme:custom": Partial<Theme>;
+
+    "appearance:theme:base": "dark" | "light";
+    "appearance:theme:overrides": Partial<Overrides>;
+    "appearance:theme:light": boolean;
+    "appearance:theme:font": Fonts;
+    "appearance:theme:monoFont": MonospaceFonts;
+    "appearance:theme:css": string;
 }
-
-/*const Schema: {
-    [key in keyof ISettings]:
-        | "string"
-        | "number"
-        | "boolean"
-        | "object"
-        | "function";
-} = {
-    "notifications:desktop": "boolean",
-    "notifications:sounds": "object",
-
-    "appearance:emoji": "string",
-    "appearance:ligatures": "boolean",
-    "appearance:theme:base": "string",
-    "appearance:theme:custom": "object",
-};*/
 
 /**
  * Manages user settings.
@@ -47,16 +36,20 @@ interface ISettings {
 export default class Settings implements Store, Persistent<ISettings> {
     private data: ObservableMap<string, unknown>;
 
+    theme: STheme;
+
     /**
-     * Construct new Layout store.
+     * Construct new Settings store.
      */
     constructor() {
         this.data = new ObservableMap();
         makeAutoObservable(this);
+
+        this.theme = new STheme(this);
     }
 
     get id() {
-        return "layout";
+        return "settings";
     }
 
     toJSON() {
@@ -69,18 +62,38 @@ export default class Settings implements Store, Persistent<ISettings> {
         );
     }
 
+    /**
+     * Set a settings key.
+     * @param key Colon-divided key
+     * @param value Value
+     */
     @action set<T extends keyof ISettings>(key: T, value: ISettings[T]) {
-        return this.data.set(key, value);
+        this.data.set(key, value);
     }
 
+    /**
+     * Get a settings key.
+     * @param key Colon-divided key
+     * @returns Value at key
+     */
     @computed get<T extends keyof ISettings>(key: T) {
         return this.data.get(key) as ISettings[T] | undefined;
     }
 
+    /**
+     * Set a value in settings without type-checking.
+     * @param key Colon-divided key
+     * @param value Value
+     */
     @action setUnchecked(key: string, value: unknown) {
-        return this.data.set(key, value);
+        this.data.set(key, value);
     }
 
+    /**
+     * Get a settings key with unknown type.
+     * @param key Colon-divided key
+     * @returns Value at key
+     */
     @computed getUnchecked(key: string) {
         return this.data.get(key);
     }

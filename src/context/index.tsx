@@ -17,15 +17,14 @@ export default function Context({ children }: { children: Children }) {
     return (
         <Router basename={import.meta.env.BASE_URL}>
             <State>
-                <Theme>
-                    <Settings>
-                        <Locale>
-                            <Intermediate>
-                                <Client>{children}</Client>
-                            </Intermediate>
-                        </Locale>
-                    </Settings>
-                </Theme>
+                <Settings>
+                    <Locale>
+                        <Intermediate>
+                            <Client>{children}</Client>
+                        </Intermediate>
+                    </Locale>
+                </Settings>
+                <Theme />
             </State>
         </Router>
     );
