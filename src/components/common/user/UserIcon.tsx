@@ -5,12 +5,10 @@ import { useParams } from "react-router-dom";
 import { Masquerade } from "revolt-api/types/Channels";
 import { Presence } from "revolt-api/types/Users";
 import { User } from "revolt.js/dist/maps/Users";
-import { Nullable } from "revolt.js/dist/util/null";
 import styled, { css } from "styled-components";
 
-import { useContext } from "preact/hooks";
+import { useApplicationState } from "../../../mobx/State";
 
-import { ThemeContext } from "../../../context/Theme";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import fallback from "../assets/user.png";
@@ -26,15 +24,15 @@ interface Props extends IconBaseProps<User> {
 }
 
 export function useStatusColour(user?: User) {
-    const theme = useContext(ThemeContext);
+    const theme = useApplicationState().settings.theme;
 
     return user?.online && user?.status?.presence !== Presence.Invisible
         ? user?.status?.presence === Presence.Idle
-            ? theme["status-away"]
+            ? theme.getVariable("status-away")
             : user?.status?.presence === Presence.Busy
-            ? theme["status-busy"]
-            : theme["status-online"]
-        : theme["status-invisible"];
+            ? theme.getVariable("status-busy")
+            : theme.getVariable("status-online")
+        : theme.getVariable("status-invisible");
 }
 
 const VoiceIndicator = styled.div<{ status: VoiceStatus }>`
