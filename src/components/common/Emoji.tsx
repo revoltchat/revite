@@ -3,7 +3,7 @@ import { EmojiPacks } from "../../redux/reducers/settings";
 let EMOJI_PACK = "mutant";
 const REVISION = 3;
 
-export function setEmojiPack(pack: EmojiPacks) {
+export function setGlobalEmojiPack(pack: EmojiPacks) {
     EMOJI_PACK = pack;
 }
 

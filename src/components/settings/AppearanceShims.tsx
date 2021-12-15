@@ -1,13 +1,14 @@
 import { Store } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
+// @ts-expect-error shade-blend-color does not have typings.
+import pSBC from "shade-blend-color";
 
 import { Text } from "preact-i18n";
 
 import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
 
 import { useApplicationState } from "../../mobx/State";
-import { EmojiPack } from "../../mobx/stores/Settings";
 
 import {
     Fonts,
@@ -23,13 +24,13 @@ import ColourSwatches from "../ui/ColourSwatches";
 import ComboBox from "../ui/ComboBox";
 import Radio from "../ui/Radio";
 import CategoryButton from "../ui/fluent/CategoryButton";
-import mutantSVG from "./mutant_emoji.svg";
-import notoSVG from "./noto_emoji.svg";
-import openmojiSVG from "./openmoji_emoji.svg";
-import twemojiSVG from "./twemoji_emoji.svg";
 
+import { EmojiSelector } from "./appearance/EmojiSelector";
 import { ThemeBaseSelector } from "./appearance/ThemeBaseSelector";
 
+/**
+ * Component providing a way to switch the base theme being used.
+ */
 export const ThemeBaseSelectorShim = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
@@ -37,6 +38,11 @@ export const ThemeBaseSelectorShim = observer(() => {
     );
 });
 
+/**
+ * Component providing a link to the theme shop.
+ * Only appears if experiment is enabled.
+ * TODO: stabilise
+ */
 export const ThemeShopShim = () => {
     if (!useApplicationState().experiments.isEnabled("theme_shop")) return null;
 
@@ -49,6 +55,9 @@ export const ThemeShopShim = () => {
     );
 };
 
+/**
+ * Component providing a way to change current accent colour.
+ */
 export const ThemeAccentShim = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
@@ -58,12 +67,18 @@ export const ThemeAccentShim = observer(() => {
             </h3>
             <ColourSwatches
                 value={theme.getVariable("accent")}
-                onChange={(colour) => theme.setVariable("accent", colour)}
+                onChange={(colour) => {
+                    theme.setVariable("accent", colour as string);
+                    theme.setVariable("scrollbar-thumb", pSBC(-0.2, colour));
+                }}
             />
         </>
     );
 });
 
+/**
+ * Component providing a way to edit custom CSS.
+ */
 export const ThemeCustomCSSShim = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
@@ -82,7 +97,15 @@ export const ThemeCustomCSSShim = observer(() => {
     );
 });
 
+export const ThemeImporterShim = observer(() => {
+    return <a></a>;
+});
+
+/**
+ * Component providing a way to switch between compact and normal message view.
+ */
 export const DisplayCompactShim = () => {
+    // TODO: WIP feature
     return (
         <>
             <h3>
@@ -108,6 +131,9 @@ export const DisplayCompactShim = () => {
     );
 };
 
+/**
+ * Component providing a way to change primary text font.
+ */
 export const DisplayFontShim = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
@@ -128,6 +154,9 @@ export const DisplayFontShim = observer(() => {
     );
 });
 
+/**
+ * Component providing a way to change secondary, monospace text font.
+ */
 export const DisplayMonospaceFontShim = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
@@ -155,6 +184,9 @@ export const DisplayMonospaceFontShim = observer(() => {
     );
 });
 
+/**
+ * Component providing a way to toggle font ligatures.
+ */
 export const DisplayLigaturesShim = observer(() => {
     const settings = useApplicationState().settings;
     if (settings.theme.getFont() !== "Inter") return null;
@@ -173,86 +205,15 @@ export const DisplayLigaturesShim = observer(() => {
     );
 });
 
+/**
+ * Component providing a way to change emoji pack.
+ */
 export const DisplayEmojiShim = observer(() => {
     const settings = useApplicationState().settings;
-    const emojiPack = settings.get("appearance:emoji");
-    const setPack = (v: EmojiPack) => () => settings.set("appearance:emoji", v);
-
     return (
-        <>
-            <h3>
-                <Text id="app.settings.pages.appearance.emoji_pack" />
-            </h3>
-            <div /* className={styles.emojiPack} */>
-                <div /* className={styles.row} */>
-                    <div>
-                        <div
-                            /* className={styles.button} */
-                            onClick={setPack("mutant")}
-                            data-active={emojiPack === "mutant"}>
-                            <img
-                                loading="eager"
-                                src={mutantSVG}
-                                draggable={false}
-                                onContextMenu={(e) => e.preventDefault()}
-                            />
-                        </div>
-                        <h4>
-                            Mutant Remix{" "}
-                            <a
-                                href="https://mutant.revolt.chat"
-                                target="_blank"
-                                rel="noreferrer">
-                                (by Revolt)
-                            </a>
-                        </h4>
-                    </div>
-                    <div>
-                        <div
-                            /* className={styles.button} */
-                            onClick={setPack("twemoji")}
-                            data-active={emojiPack === "twemoji"}>
-                            <img
-                                loading="eager"
-                                src={twemojiSVG}
-                                draggable={false}
-                                onContextMenu={(e) => e.preventDefault()}
-                            />
-                        </div>
-                        <h4>Twemoji</h4>
-                    </div>
-                </div>
-                <div /* className={styles.row} */>
-                    <div>
-                        <div
-                            /* className={styles.button} */
-                            onClick={setPack("openmoji")}
-                            data-active={emojiPack === "openmoji"}>
-                            <img
-                                loading="eager"
-                                src={openmojiSVG}
-                                draggable={false}
-                                onContextMenu={(e) => e.preventDefault()}
-                            />
-                        </div>
-                        <h4>Openmoji</h4>
-                    </div>
-                    <div>
-                        <div
-                            /* className={styles.button} */
-                            onClick={setPack("noto")}
-                            data-active={emojiPack === "noto"}>
-                            <img
-                                loading="eager"
-                                src={notoSVG}
-                                draggable={false}
-                                onContextMenu={(e) => e.preventDefault()}
-                            />
-                        </div>
-                        <h4>Noto Emoji</h4>
-                    </div>
-                </div>
-            </div>
-        </>
+        <EmojiSelector
+            value={settings.get("appearance:emoji")}
+            setValue={(v) => settings.set("appearance:emoji", v)}
+        />
     );
 });

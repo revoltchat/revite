@@ -58,7 +58,7 @@ export function ThemeBaseSelector({ value, setValue }: Props) {
                         src={lightSVG}
                         draggable={false}
                         data-active={value === "light"}
-                        onClick={() => value !== "light" && setValue("light")}
+                        onClick={() => setValue("light")}
                         onContextMenu={(e) => e.preventDefault()}
                     />
                     <h4>
@@ -71,7 +71,7 @@ export function ThemeBaseSelector({ value, setValue }: Props) {
                         src={darkSVG}
                         draggable={false}
                         data-active={value === "dark"}
-                        onClick={() => value !== "dark" && setValue("dark")}
+                        onClick={() => setValue("dark")}
                         onContextMenu={(e) => e.preventDefault()}
                     />
                     <h4>

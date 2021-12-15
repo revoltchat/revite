@@ -15,6 +15,8 @@ import Tip from "../../../components/ui/Tip";
 
 const constraints = { audio: true };
 
+// TODO: do not rewrite this code until voice is rewritten!
+
 export function Component() {
     const [mediaStream, setMediaStream] = useState<MediaStream | undefined>(
         undefined,
@@ -57,11 +59,11 @@ export function Component() {
         return () => {
             if (mediaStream) {
                 // close microphone access on unmount
-                mediaStream.getTracks().forEach(track => {
-                    track.stop()
-                })
+                mediaStream.getTracks().forEach((track) => {
+                    track.stop();
+                });
             }
-        }
+        };
     }, [mediaStream]);
 
     useEffect(() => {

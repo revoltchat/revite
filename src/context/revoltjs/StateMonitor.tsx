@@ -9,6 +9,8 @@ import { useApplicationState } from "../../mobx/State";
 import { connectState } from "../../redux/connector";
 import { QueuedMessage } from "../../redux/reducers/queue";
 
+import { setGlobalEmojiPack } from "../../components/common/Emoji";
+
 import { AppContext } from "./RevoltClient";
 
 type Props = {
@@ -29,6 +31,12 @@ function StateMonitor(props: Props) {
         client.addListener("message", add);
         return () => client.removeListener("message", add);
     }, [client, props.messages]);
+
+    // Set global emoji pack.
+    useEffect(() => {
+        const v = state.settings.get("appearance:emoji");
+        v && setGlobalEmojiPack(v);
+    }, [state.settings.get("appearance:emoji")]);
 
     return null;
 }

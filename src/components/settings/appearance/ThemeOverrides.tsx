@@ -1,0 +1,181 @@
+import { Pencil } from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
+import styled from "styled-components";
+
+import { useDebounceCallback } from "../../../lib/debounce";
+
+import { useApplicationState } from "../../../mobx/State";
+
+import { Variables } from "../../../context/Theme";
+
+import InputBox from "../../ui/InputBox";
+
+const Container = styled.div`
+    row-gap: 8px;
+    display: grid;
+    column-gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    margin-bottom: 20px;
+
+    .entry {
+        padding: 12px;
+        margin-top: 8px;
+        border: 1px solid black;
+        border-radius: var(--border-radius);
+
+        span {
+            flex: 1;
+            display: block;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 8px;
+            text-transform: capitalize;
+
+            background: inherit;
+            background-clip: text;
+            -webkit-background-clip: text;
+        }
+
+        .override {
+            gap: 8px;
+            display: flex;
+
+            .picker {
+                width: 38px;
+                height: 38px;
+                display: grid;
+                cursor: pointer;
+                place-items: center;
+                border-radius: var(--border-radius);
+                background: var(--primary-background);
+            }
+
+            input[type="text"] {
+                width: 0;
+                min-width: 0;
+                flex-grow: 1;
+            }
+        }
+
+        .input {
+            width: 0;
+            height: 0;
+            position: relative;
+
+            input {
+                opacity: 0;
+                border: none;
+                display: block;
+                cursor: pointer;
+                position: relative;
+
+                top: 48px;
+            }
+        }
+    }
+`;
+
+export default observer(() => {
+    const theme = useApplicationState().settings.theme;
+    const setVariable = useDebounceCallback(
+        (data) => {
+            const { key, value } = data as { key: Variables; value: string };
+            theme.setVariable(key, value);
+        },
+        [theme],
+        100,
+    );
+
+    return (
+        <Container>
+            {(
+                [
+                    "accent",
+                    "background",
+                    "foreground",
+                    "primary-background",
+                    "primary-header",
+                    "secondary-background",
+                    "secondary-foreground",
+                    "secondary-header",
+                    "tertiary-background",
+                    "tertiary-foreground",
+                    "block",
+                    "message-box",
+                    "mention",
+                    "scrollbar-thumb",
+                    "scrollbar-track",
+                    "status-online",
+                    "status-away",
+                    "status-busy",
+                    "status-streaming",
+                    "status-invisible",
+                    "success",
+                    "warning",
+                    "error",
+                    "hover",
+                ] as const
+            ).map((key) => (
+                <div
+                    class="entry"
+                    key={key}
+                    style={{ backgroundColor: theme.getVariable(key) }}>
+                    <div class="input">
+                        <input
+                            type="color"
+                            value={theme.getVariable(key)}
+                            onChange={(el) =>
+                                setVariable({
+                                    key,
+                                    value: el.currentTarget.value,
+                                })
+                            }
+                        />
+                    </div>
+                    <span
+                        style={{
+                            color: getContrastingColour(
+                                theme.getVariable(key),
+                                theme.getVariable("primary-background"),
+                            ),
+                        }}>
+                        {key}
+                    </span>
+                    <div class="override">
+                        <div
+                            class="picker"
+                            onClick={(e) =>
+                                e.currentTarget.parentElement?.parentElement
+                                    ?.querySelector("input")
+                                    ?.click()
+                            }>
+                            <Pencil size={24} />
+                        </div>
+                        <InputBox
+                            type="text"
+                            class="text"
+                            value={theme.getVariable(key)}
+                            onChange={(el) =>
+                                setVariable({
+                                    key,
+                                    value: el.currentTarget.value,
+                                })
+                            }
+                        />
+                    </div>
+                </div>
+            ))}
+        </Container>
+    );
+});
+
+function getContrastingColour(hex: string, fallback: string): string {
+    hex = hex.replace("#", "");
+    const r = parseInt(hex.substr(0, 2), 16);
+    const g = parseInt(hex.substr(2, 2), 16);
+    const b = parseInt(hex.substr(4, 2), 16);
+    const cc = (r * 299 + g * 587 + b * 114) / 1000;
+    if (isNaN(r) || isNaN(g) || isNaN(b) || isNaN(cc))
+        return getContrastingColour(fallback, "#fffff");
+    return cc >= 175 ? "black" : "white";
+}
