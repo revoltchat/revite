@@ -25,7 +25,42 @@ export default class STheme {
     constructor(settings: Settings) {
         this.settings = settings;
         makeAutoObservable(this);
+
         this.setBase = this.setBase.bind(this);
+        this.reset = this.reset.bind(this);
+    }
+
+    @computed toJSON() {
+        return JSON.parse(
+            JSON.stringify({
+                ...this.getVariables(),
+                css: this.getCSS(),
+                font: this.getFont(),
+                monospaceFont: this.getMonospaceFont(),
+            }),
+        );
+    }
+
+    @action hydrate(data: Partial<Theme>) {
+        for (const key of Object.keys(data)) {
+            const value = data[key as keyof Theme] as string;
+            switch (key) {
+                case "css": {
+                    this.setCSS(value);
+                    break;
+                }
+                case "font": {
+                    this.setFont(value as Fonts);
+                    break;
+                }
+                case "monospaceFont": {
+                    this.setMonospaceFont(value as MonospaceFonts);
+                    break;
+                }
+                default:
+                    this.setVariable(key as Variables, value);
+            }
+        }
     }
 
     /**
@@ -72,8 +107,8 @@ export default class STheme {
      * @returns Value of variable
      */
     @computed getVariable(key: Variables) {
-        return (this.settings.get("appearance:theme:overrides") ??
-            PRESETS[this.getBase()])[key]!;
+        return (this.settings.get("appearance:theme:overrides")?.[key] ??
+            PRESETS[this.getBase()]?.[key])!;
     }
 
     @action setFont(font: Fonts) {
@@ -124,5 +159,10 @@ export default class STheme {
         } else {
             this.settings.remove("appearance:theme:base");
         }
+    }
+
+    @action reset() {
+        this.settings.remove("appearance:theme:overrides");
+        this.settings.remove("appearance:theme:css");
     }
 }

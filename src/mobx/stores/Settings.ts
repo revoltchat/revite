@@ -2,7 +2,7 @@ import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 
 import { mapToRecord } from "../../lib/conversion";
 
-import { Fonts, MonospaceFonts, Overrides, Theme } from "../../context/Theme";
+import { Fonts, MonospaceFonts, Overrides } from "../../context/Theme";
 
 import { Sounds } from "../../assets/sounds/Audio";
 import Persistent from "../interfaces/Persistent";

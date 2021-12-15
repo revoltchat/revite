@@ -1,6 +1,6 @@
 import type { Theme, ThemeOptions } from "../../context/Theme";
 
-import { setEmojiPack } from "../../components/common/Emoji";
+import { setGlobalEmojiPack } from "../../components/common/Emoji";
 
 import type { Sounds } from "../../assets/sounds/Audio";
 import type { SyncUpdateAction } from "./sync";
@@ -59,7 +59,7 @@ export function settings(
     state = {} as Settings,
     action: SettingsAction,
 ): Settings {
-    setEmojiPack(state.appearance?.emojiPack ?? "mutant");
+    // setGlobalEmojiPack(state.appearance?.emojiPack ?? "mutant");
 
     switch (action.type) {
         case "SETTINGS_SET_THEME":
