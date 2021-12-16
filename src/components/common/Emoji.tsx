@@ -1,9 +1,9 @@
-import { EmojiPacks } from "../../redux/reducers/settings";
+export type EmojiPack = "mutant" | "twemoji" | "noto" | "openmoji";
 
-let EMOJI_PACK = "mutant";
+let EMOJI_PACK: EmojiPack = "mutant";
 const REVISION = 3;
 
-export function setGlobalEmojiPack(pack: EmojiPacks) {
+export function setGlobalEmojiPack(pack: EmojiPack) {
     EMOJI_PACK = pack;
 }
 

@@ -2,8 +2,9 @@ import type { Theme, ThemeOptions } from "../../context/Theme";
 
 import { setGlobalEmojiPack } from "../../components/common/Emoji";
 
-import type { Sounds } from "../../assets/sounds/Audio";
 import type { SyncUpdateAction } from "./sync";
+
+type Sounds = "message" | "outbound" | "call_join" | "call_leave";
 
 export type SoundOptions = {
     [key in Sounds]?: boolean;

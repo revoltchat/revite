@@ -4,16 +4,12 @@ import { mapToRecord } from "../../lib/conversion";
 
 import { Fonts, MonospaceFonts, Overrides } from "../../context/Theme";
 
-import { Sounds } from "../../assets/sounds/Audio";
+import { EmojiPack } from "../../components/common/Emoji";
+
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
+import SAudio, { SoundOptions } from "./helpers/SAudio";
 import STheme from "./helpers/STheme";
-
-export type SoundOptions = {
-    [key in Sounds]?: boolean;
-};
-
-export type EmojiPack = "mutant" | "twemoji" | "noto" | "openmoji";
 
 interface ISettings {
     "notifications:desktop": boolean;
@@ -37,6 +33,7 @@ export default class Settings implements Store, Persistent<ISettings> {
     private data: ObservableMap<string, unknown>;
 
     theme: STheme;
+    sounds: SAudio;
 
     /**
      * Construct new Settings store.
@@ -46,6 +43,7 @@ export default class Settings implements Store, Persistent<ISettings> {
         makeAutoObservable(this);
 
         this.theme = new STheme(this);
+        this.sounds = new SAudio(this);
     }
 
     get id() {

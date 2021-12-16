@@ -21,10 +21,8 @@ import {
 } from "../../../lib/renderer/Singleton";
 
 import { useApplicationState } from "../../../mobx/State";
-import { dispatch, getState } from "../../../redux";
 import { Reply } from "../../../redux/reducers/queue";
 
-import { SoundContext } from "../../../context/Settings";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
     FileUploader,
@@ -123,7 +121,6 @@ export default observer(({ channel }: Props) => {
     });
     const [typing, setTyping] = useState<boolean | number>(false);
     const [replies, setReplies] = useState<Reply[]>([]);
-    const playSound = useContext(SoundContext);
     const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
     const translate = useTranslation();
@@ -242,7 +239,7 @@ export default observer(({ channel }: Props) => {
                 }
             }
         } else {
-            playSound("outbound");
+            state.settings.sounds.playSound("outbound");
 
             state.queue.add(nonce, channel._id, {
                 _id: nonce,
@@ -351,7 +348,7 @@ export default observer(({ channel }: Props) => {
 
         setMessage();
         setReplies([]);
-        playSound("outbound");
+        state.settings.sounds.playSound("outbound");
 
         if (files.length > CAN_UPLOAD_AT_ONCE) {
             setUploadState({
