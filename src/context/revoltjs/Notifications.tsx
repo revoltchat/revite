@@ -9,20 +9,8 @@ import { useCallback, useContext, useEffect } from "preact/hooks";
 import { useTranslation } from "../../lib/i18n";
 
 import { useApplicationState } from "../../mobx/State";
-import { connectState } from "../../redux/connector";
-import {
-    getNotificationState,
-    Notifications,
-    shouldNotify,
-} from "../../redux/reducers/notifications";
-import { NotificationOptions } from "../../redux/reducers/settings";
 
-import { SoundContext } from "../Settings";
 import { AppContext } from "./RevoltClient";
-
-interface Props {
-    options?: NotificationOptions;
-}
 
 const notifications: { [key: string]: Notification } = {};
 
@@ -38,10 +26,11 @@ async function createNotification(
     }
 }
 
-function Notifier({ options }: Props) {
+function Notifier() {
     const translate = useTranslation();
-    const showNotification = options?.desktopEnabled ?? false;
-    const notifs = useApplicationState().notifications;
+    const state = useApplicationState();
+    const notifs = state.notifications;
+    const showNotification = state.settings.get("notifications:desktop");
 
     const client = useContext(AppContext);
     const { guild: guild_id, channel: channel_id } = useParams<{
@@ -49,14 +38,13 @@ function Notifier({ options }: Props) {
         channel: string;
     }>();
     const history = useHistory();
-    const playSound = useContext(SoundContext);
 
     const message = useCallback(
         async (msg: Message) => {
             if (msg.channel_id === channel_id && document.hasFocus()) return;
             if (!notifs.shouldNotify(msg)) return;
 
-            playSound("message");
+            state.settings.sounds.playSound("message");
             if (!showNotification) return;
 
             let title;
@@ -209,7 +197,7 @@ function Notifier({ options }: Props) {
             channel_id,
             client,
             notifs,
-            playSound,
+            state,
         ],
     );
 
@@ -257,7 +245,7 @@ function Notifier({ options }: Props) {
         };
     }, [
         client,
-        playSound,
+        state,
         guild_id,
         channel_id,
         showNotification,
@@ -285,27 +273,17 @@ function Notifier({ options }: Props) {
     return null;
 }
 
-const NotifierComponent = connectState(
-    Notifier,
-    (state) => {
-        return {
-            options: state.settings.notification,
-        };
-    },
-    true,
-);
-
 export default function NotificationsComponent() {
     return (
         <Switch>
             <Route path="/server/:server/channel/:channel">
-                <NotifierComponent />
+                <Notifier />
             </Route>
             <Route path="/channel/:channel">
-                <NotifierComponent />
+                <Notifier />
             </Route>
             <Route path="/">
-                <NotifierComponent />
+                <Notifier />
             </Route>
         </Switch>
     );

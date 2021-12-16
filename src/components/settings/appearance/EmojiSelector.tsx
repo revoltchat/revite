@@ -2,8 +2,7 @@ import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 
-import { EmojiPack } from "../../../mobx/stores/Settings";
-
+import { EmojiPack } from "../../common/Emoji";
 import mutantSVG from "./mutant_emoji.svg";
 import notoSVG from "./noto_emoji.svg";
 import openmojiSVG from "./openmoji_emoji.svg";
