@@ -15,7 +15,7 @@ import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import { internalSubscribe } from "../../lib/eventEmitter";
 import { determineLink } from "../../lib/links";
 
-import { getState } from "../../redux";
+import { useApplicationState } from "../../mobx/State";
 
 import { Action } from "../../components/ui/Modal";
 
@@ -132,6 +132,7 @@ interface Props {
 
 export default function Intermediate(props: Props) {
     const [screen, openScreen] = useState<Screen>({ id: "none" });
+    const settings = useApplicationState().settings;
     const history = useHistory();
 
     const value = {
@@ -154,10 +155,11 @@ export default function Intermediate(props: Props) {
                         return true;
                     }
                     case "external": {
-                        const { trustedLinks } = getState();
                         if (
                             !trusted &&
-                            !trustedLinks.domains?.includes(link.url.hostname)
+                            !settings.security.isTrustedOrigin(
+                                link.url.hostname,
+                            )
                         ) {
                             openScreen({
                                 id: "external_link_prompt",

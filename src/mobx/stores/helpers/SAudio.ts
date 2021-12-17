@@ -1,10 +1,10 @@
 import { makeAutoObservable, computed, action } from "mobx";
 
+import call_join from "../../../assets/sounds/call_join.mp3";
+import call_leave from "../../../assets/sounds/call_leave.mp3";
+import message from "../../../assets/sounds/message.mp3";
+import outbound from "../../../assets/sounds/outbound.mp3";
 import Settings from "../Settings";
-import call_join from "./call_join.mp3";
-import call_leave from "./call_leave.mp3";
-import message from "./message.mp3";
-import outbound from "./outbound.mp3";
 
 export type Sounds = "message" | "outbound" | "call_join" | "call_leave";
 

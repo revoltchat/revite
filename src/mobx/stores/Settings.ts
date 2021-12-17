@@ -9,6 +9,7 @@ import { EmojiPack } from "../../components/common/Emoji";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 import SAudio, { SoundOptions } from "./helpers/SAudio";
+import SSecurity from "./helpers/SSecurity";
 import STheme from "./helpers/STheme";
 
 interface ISettings {
@@ -24,6 +25,8 @@ interface ISettings {
     "appearance:theme:font": Fonts;
     "appearance:theme:monoFont": MonospaceFonts;
     "appearance:theme:css": string;
+
+    "security:trustedOrigins": string[];
 }
 
 /**
@@ -34,6 +37,7 @@ export default class Settings implements Store, Persistent<ISettings> {
 
     theme: STheme;
     sounds: SAudio;
+    security: SSecurity;
 
     /**
      * Construct new Settings store.
@@ -44,6 +48,7 @@ export default class Settings implements Store, Persistent<ISettings> {
 
         this.theme = new STheme(this);
         this.sounds = new SAudio(this);
+        this.security = new SSecurity(this);
     }
 
     get id() {
