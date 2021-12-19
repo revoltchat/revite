@@ -20,6 +20,9 @@
         }
 
         .username {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
@@ -71,6 +74,18 @@
         }
     }
 
+    @media only screen and (max-width: 600px) {
+        .avatar {
+            display: none;
+        }
+    }
+
+    @media only screen and (min-width: 600px) {
+        .tinyavatar {
+            display: none;
+        }
+    }
+
     .details {
         display: flex;
         padding: 1em 0;
@@ -117,12 +132,12 @@
             width: 100%;
             max-width: 560px;
         }
+    }
 
-        @media only screen and (max-width: 800px) {
-            .preview {
-                padding: none;
-                margin-bottom: none;
-            }
+    @media only screen and (max-width: 600px) {
+        .preview {
+            background: none;
+            padding: 0;
         }
     }
 

@@ -473,7 +473,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                             <Text id="app.special.modals.actions.save" />
                         </Button>
                         <Button
-                            accent
+                            error
                             onClick={async () => {
                                 setSaving(true);
                                 openScreen({

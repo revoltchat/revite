@@ -69,12 +69,12 @@ export const Account = observer(() => {
                     />
                     <div className={styles.userDetail}>
                         <div className={styles.username}>
-                            {/*<UserIcon
-                                className={styles.avatar}
+                            <UserIcon
+                                className={styles.tinyavatar}
                                 target={client.user!}
-                                size={24}
+                                size={25}
                                 onClick={() => switchPage("profile")}
-                            />*/}
+                            />
                             @{client.user!.username}
                         </div>
                         <div className={styles.userid}>
