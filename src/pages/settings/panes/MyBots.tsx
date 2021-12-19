@@ -48,7 +48,7 @@ interface Changes {
 
 const BotBadge = styled.div`
     display: inline-block;
-
+    flex-shrink: 0;
     height: 1.3em;
     padding: 0px 4px;
     font-size: 0.7em;
@@ -234,7 +234,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         <UserIcon
                             className={styles.avatar}
                             target={user}
-                            size={48}
+                            size={42}
                             onClick={() =>
                                 openScreen({
                                     id: "profile",
@@ -244,8 +244,8 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         />
                     ) : (
                         <FileUploader
-                            width={64}
-                            height={64}
+                            width={42}
+                            height={42}
                             style="icon"
                             fileType="avatars"
                             behaviour="upload"
@@ -377,7 +377,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                     <CollapsibleSection
                         defaultValue={false}
                         id={`bot_profile_${bot._id}`}
-                        summary="Profile">
+                        summary="Bot Profile">
                         <h3>
                             <Text id="app.settings.pages.profile.custom_background" />
                         </h3>
@@ -540,6 +540,16 @@ export const MyBots = observer(() => {
                 action="chevron">
                 <Text id="app.settings.pages.bots.create_bot" />
             </CategoryButton>
+            <h5>
+                By creating a bot, you are agreeing to the {` `}
+                <a
+                    href="https://revolt.chat/aup"
+                    target="_blank"
+                    rel="noreferrer">
+                    Acceptable Usage Policy
+                </a>
+                .
+            </h5>
             {bots?.map((bot) => {
                 return (
                     <BotCard

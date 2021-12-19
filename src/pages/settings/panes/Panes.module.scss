@@ -586,6 +586,9 @@
 
 .myBots {
     .botCard {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         background: var(--secondary-background);
         margin: 8px 0;
         padding: 12px;
