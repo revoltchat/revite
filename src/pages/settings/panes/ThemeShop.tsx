@@ -126,7 +126,6 @@ const ThemeInfo = styled.article`
             position: absolute;
             background: rgba(0, 0, 0, 0.5);
             cursor: pointer;
-
             transition: opacity 0.2s ease-in-out;
 
             &:hover {
