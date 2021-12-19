@@ -68,7 +68,15 @@ export const Account = observer(() => {
                         onClick={() => switchPage("profile")}
                     />
                     <div className={styles.userDetail}>
-                        @{client.user!.username}
+                        <div className={styles.username}>
+                            {/*<UserIcon
+                                className={styles.avatar}
+                                target={client.user!}
+                                size={24}
+                                onClick={() => switchPage("profile")}
+                            />*/}
+                            @{client.user!.username}
+                        </div>
                         <div className={styles.userid}>
                             <Tooltip
                                 content={

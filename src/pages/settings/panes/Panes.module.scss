@@ -19,6 +19,12 @@
             width: 100%;
         }
 
+        .username {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
         .userDetail {
             display: flex;
             flex-grow: 1;
@@ -48,9 +54,19 @@
             gap: 4px;
             color: var(--tertiary-foreground);
 
+            > :nth-child(2) {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+
             a {
                 color: inherit;
                 cursor: pointer;
+
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
             }
         }
     }
@@ -87,15 +103,26 @@
     }
 
     .preview {
+        background: var(--background);
+        border-radius: var(--border-radius);
         width: 100%;
+        display: flex;
         display: grid;
         place-items: center;
         grid-template-columns: minmax(auto, 100%);
-        padding-bottom: 30px;
+        padding: 20px;
+        margin-bottom: 30px;
 
         > div {
             width: 100%;
             max-width: 560px;
+        }
+
+        @media only screen and (max-width: 800px) {
+            .preview {
+                padding: none;
+                margin-bottom: none;
+            }
         }
     }
 
@@ -135,6 +162,12 @@
 }
 
 .audio {
+    .audioBox {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+    }
     .grant_permission {
         margin-bottom: 18px;
         .description {
@@ -145,6 +178,17 @@
             overflow: hidden;
             font-size: 12px;
             margin-bottom: 8px;
+        }
+    }
+
+    @media only screen and (max-width: 800px) {
+        .audioBox {
+            display: flex;
+            flex-direction: column;
+
+            > button {
+                width: 100%;
+            }
         }
     }
 }
@@ -160,6 +204,7 @@
         gap: 8px;
         display: flex;
         width: 100%;
+        margin-bottom: 15px;
 
         img {
             cursor: pointer;

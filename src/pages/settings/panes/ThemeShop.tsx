@@ -1,3 +1,4 @@
+import { Plus } from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
 
 import { useEffect, useState } from "preact/hooks";
@@ -35,13 +36,9 @@ export type Manifest = {
 
 // TODO: ability to preview / display the settings set like in the appearance pane
 const ThemeInfo = styled.article`
-    display: grid;
-    grid:
-        "preview name creator" min-content
-        "preview desc desc" 1fr
-        / 200px 1fr 1fr;
-
-    gap: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     padding: 1rem;
     border-radius: var(--border-radius);
     background: var(--secondary-background);
@@ -93,6 +90,7 @@ const ThemeInfo = styled.article`
     }
 
     .name {
+        margin-top: 5px !important;
         grid-area: name;
         margin: 0;
     }
@@ -104,13 +102,53 @@ const ThemeInfo = styled.article`
     }
 
     .description {
+        margin-bottom: 5px;
         grid-area: desc;
+    }
+
+    .previewBox {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        font-family: inherit;
+
+        .hover {
+            opacity: 0;
+            font-family: inherit;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            height: 100%;
+            width: 100%;
+            z-index: 10;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+
+            transition: opacity 0.2s ease-in-out;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        > svg {
+            height: 100%;
+        }
     }
 `;
 
 const ThemeList = styled.div`
     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;
+`;
+
+const Banner = styled.div`
+    display: flex;
+    flex-direction: column;
 `;
 
 const ThemedSVG = styled.svg<{ theme: Theme }>`
@@ -140,6 +178,10 @@ const ThemePreview = ({ theme, ...props }: ThemePreviewProps) => {
 const ThemeShopRoot = styled.div`
     display: grid;
     gap: 1rem;
+
+    h5 {
+        margin-bottom: 0;
+    }
 `;
 
 export function ThemeShop() {
@@ -175,6 +217,9 @@ export function ThemeShop() {
 
     return (
         <ThemeShopRoot>
+            <h5>
+                Browse hundreds of themes, created and curated by the community.
+            </h5>
             <Tip warning hideSeparator>
                 This section is under construction.
             </Tip>
@@ -183,10 +228,6 @@ export function ThemeShop() {
                     <ThemeInfo
                         key={slug}
                         data-loaded={Reflect.has(themeData, slug)}>
-                        <h2 class="name">{theme.name}</h2>
-                        {/* Maybe id's of the users should be included as well / instead? */}
-                        <div class="creator">by {theme.creator}</div>
-                        <div class="description">{theme.description}</div>
                         <button
                             class="preview"
                             onClick={() => {
@@ -195,17 +236,27 @@ export function ThemeShop() {
                                     theme: {
                                         slug,
                                         meta: theme,
-                                        theme: themeData[slug]
-                                    }
-                                })
+                                        theme: themeData[slug],
+                                    },
+                                });
 
                                 dispatch({
                                     type: "SETTINGS_SET_THEME",
                                     theme: { base: slug },
                                 });
                             }}>
-                            <ThemePreview slug={slug} theme={themeData[slug]} />
+                            <div class="previewBox">
+                                <div class="hover">Use theme</div>
+                                <ThemePreview
+                                    slug={slug}
+                                    theme={themeData[slug]}
+                                />
+                            </div>
                         </button>
+                        <h1 class="name">{theme.name}</h1>
+                        {/* Maybe id's of the users should be included as well / instead? */}
+                        <div class="creator">by {theme.creator}</div>
+                        <h5 class="description">{theme.description}</h5>
                     </ThemeInfo>
                 ))}
             </ThemeList>

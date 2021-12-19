@@ -57,11 +57,11 @@ export function Component() {
         return () => {
             if (mediaStream) {
                 // close microphone access on unmount
-                mediaStream.getTracks().forEach(track => {
-                    track.stop()
-                })
+                mediaStream.getTracks().forEach((track) => {
+                    track.stop();
+                });
             }
-        }
+        };
     }, [mediaStream]);
 
     useEffect(() => {
@@ -94,39 +94,43 @@ export function Component() {
                     <Text id="app.settings.pages.audio.input_device" />
                 </h3>
 
+                <div class={styles.audioBox}>
+                    <ComboBox
+                        value={
+                            window.localStorage.getItem("audioInputDevice") ?? 0
+                        }
+                        onChange={(e) =>
+                            changeAudioDevice(e.currentTarget.value, "input")
+                        }>
+                        {mediaDevices
+                            ?.filter((device) => device.kind === "audioinput")
+                            .map((device) => {
+                                return (
+                                    <option
+                                        value={device.deviceId}
+                                        key={device.deviceId}>
+                                        {device.label || (
+                                            <Text id="app.settings.pages.audio.device_label_NA" />
+                                        )}
+                                    </option>
+                                );
+                            })}
+                    </ComboBox>
+                    <Button
+                        compact
+                        onClick={(e) => handleAskForPermission(e)}
+                        error>
+                        <Text id="app.settings.pages.audio.button_grant" />
+                    </Button>
+                </div>
                 {!permission && (
                     <div className={styles.grant_permission}>
                         <span className={styles.description}>
                             <Text id="app.settings.pages.audio.tip_grant_permission" />
                         </span>
-                        <Button
-                            compact
-                            onClick={(e) => handleAskForPermission(e)}
-                            error>
-                            <Text id="app.settings.pages.audio.button_grant" />
-                        </Button>
                     </div>
                 )}
 
-                <ComboBox
-                    value={window.localStorage.getItem("audioInputDevice") ?? 0}
-                    onChange={(e) =>
-                        changeAudioDevice(e.currentTarget.value, "input")
-                    }>
-                    {mediaDevices
-                        ?.filter((device) => device.kind === "audioinput")
-                        .map((device) => {
-                            return (
-                                <option
-                                    value={device.deviceId}
-                                    key={device.deviceId}>
-                                    {device.label || (
-                                        <Text id="app.settings.pages.audio.device_label_NA" />
-                                    )}
-                                </option>
-                            );
-                        })}
-                </ComboBox>
                 {error && error.name === "NotAllowedError" && (
                     <Overline error="AudioPermissionBlock" type="error" block />
                 )}
