@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import { useEffect, useState } from "preact/hooks";
 
+import { useApplicationState } from "../../../mobx/State";
 import { dispatch } from "../../../redux";
 
 import { Theme, generateVariables, ThemeOptions } from "../../../context/Theme";
@@ -149,6 +150,8 @@ export function ThemeShop() {
     >(null);
     const [themeData, setThemeData] = useState<Record<string, Theme>>({});
 
+    const themes = useApplicationState().settings.theme;
+
     async function fetchThemeList() {
         const manifest = await fetchManifest();
         setThemeList(
@@ -190,19 +193,7 @@ export function ThemeShop() {
                         <button
                             class="preview"
                             onClick={() => {
-                                dispatch({
-                                    type: "THEMES_SET_THEME",
-                                    theme: {
-                                        slug,
-                                        meta: theme,
-                                        theme: themeData[slug]
-                                    }
-                                })
-
-                                dispatch({
-                                    type: "SETTINGS_SET_THEME",
-                                    theme: { base: slug },
-                                });
+                                themes.hydrate(themeData[slug], true);
                             }}>
                             <ThemePreview slug={slug} theme={themeData[slug]} />
                         </button>

@@ -34,7 +34,13 @@ import { ThemeBaseSelector } from "./appearance/ThemeBaseSelector";
 export const ThemeBaseSelectorShim = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
-        <ThemeBaseSelector value={theme.getBase()} setValue={theme.setBase} />
+        <ThemeBaseSelector
+            value={theme.isModified() ? undefined : theme.getBase()}
+            setValue={(base) => {
+                theme.setBase(base);
+                theme.reset();
+            }}
+        />
     );
 });
 
@@ -95,10 +101,6 @@ export const ThemeCustomCSSShim = observer(() => {
             />
         </>
     );
-});
-
-export const ThemeImporterShim = observer(() => {
-    return <a></a>;
 });
 
 /**

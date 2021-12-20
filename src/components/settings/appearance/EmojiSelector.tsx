@@ -92,7 +92,7 @@ export function EmojiSelector({ value, setValue }: Props) {
                         <div
                             class="button"
                             onClick={() => setValue("mutant")}
-                            data-active={value === "mutant"}>
+                            data-active={!value || value === "mutant"}>
                             <img
                                 loading="eager"
                                 src={mutantSVG}

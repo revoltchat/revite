@@ -41,7 +41,9 @@ export default class STheme {
         );
     }
 
-    @action hydrate(data: Partial<Theme>) {
+    @action hydrate(data: Partial<Theme>, resetCSS = false) {
+        if (resetCSS) this.setCSS();
+
         for (const key of Object.keys(data)) {
             const value = data[key as keyof Theme] as string;
             switch (key) {
@@ -137,8 +139,8 @@ export default class STheme {
         );
     }
 
-    @action setCSS(value: string) {
-        if (value.length > 0) {
+    @action setCSS(value?: string) {
+        if (value && value.length > 0) {
             this.settings.set("appearance:theme:css", value);
         } else {
             this.settings.remove("appearance:theme:css");
@@ -151,6 +153,13 @@ export default class STheme {
      */
     @computed getCSS() {
         return this.settings.get("appearance:theme:css");
+    }
+
+    @computed isModified() {
+        return (
+            Object.keys(this.settings.get("appearance:theme:overrides") ?? {})
+                .length > 0
+        );
     }
 
     @action setBase(base?: "light" | "dark") {
