@@ -554,38 +554,46 @@ export const MyBots = observer(() => {
                 </a>
                 .
             </h5>
-            {bots?.map((bot) => {
-                return (
-                    <BotCard
-                        key={bot._id}
-                        bot={bot}
-                        onDelete={() =>
-                            setBots(bots.filter((x) => x._id !== bot._id))
-                        }
-                        onUpdate={(changes: Changes) =>
-                            setBots(
-                                bots.map((x) => {
-                                    if (x._id === bot._id) {
-                                        if (
-                                            "public" in changes &&
-                                            typeof changes.public === "boolean"
-                                        )
-                                            x.public = changes.public;
-                                        if ("interactions_url" in changes)
-                                            x.interactions_url =
-                                                changes.interactions_url;
-                                        if (
-                                            changes.remove === "InteractionsURL"
-                                        )
-                                            x.interactions_url = undefined;
-                                    }
-                                    return x;
-                                }),
-                            )
-                        }
-                    />
-                );
-            })}
+            <hr />
+            <h3>
+                <Text id="app.settings.pages.bots.title" />
+            </h3>
+            <div className={styles.botList}>
+                {bots?.map((bot) => {
+                    return (
+                        <BotCard
+                            key={bot._id}
+                            bot={bot}
+                            onDelete={() =>
+                                setBots(bots.filter((x) => x._id !== bot._id))
+                            }
+                            onUpdate={(changes: Changes) =>
+                                setBots(
+                                    bots.map((x) => {
+                                        if (x._id === bot._id) {
+                                            if (
+                                                "public" in changes &&
+                                                typeof changes.public ===
+                                                    "boolean"
+                                            )
+                                                x.public = changes.public;
+                                            if ("interactions_url" in changes)
+                                                x.interactions_url =
+                                                    changes.interactions_url;
+                                            if (
+                                                changes.remove ===
+                                                "InteractionsURL"
+                                            )
+                                                x.interactions_url = undefined;
+                                        }
+                                        return x;
+                                    }),
+                                )
+                            }
+                        />
+                    );
+                })}
+            </div>
         </div>
     );
 });

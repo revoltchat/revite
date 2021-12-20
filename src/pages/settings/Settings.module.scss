@@ -193,6 +193,7 @@
             padding: 80px 32px;
             width: 100%;
             flex-direction: column;
+            height: fit-content;
         }
 
         details {
@@ -204,6 +205,14 @@
                 text-decoration: underline;
             }
         }*/
+
+        hr {
+            height: 1px;
+            width: calc(100% - 10px);
+            background: var(--secondary-header);
+            margin: 18px auto;
+            flex-grow: 0;
+        }
 
         h1 {
             margin: 0;

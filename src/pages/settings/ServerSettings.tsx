@@ -1,10 +1,12 @@
+import { ListUl } from "@styled-icons/boxicons-regular";
 import {
-    ListUl,
-    ListCheck,
-    ListMinus,
+    InfoCircle,
+    Group,
+    FlagAlt,
+    Envelope,
+    UserX,
     Trash,
-} from "@styled-icons/boxicons-regular";
-import { XSquare, Share, Group } from "@styled-icons/boxicons-solid";
+} from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
 
@@ -50,14 +52,14 @@ export default observer(() => {
                 {
                     category: <Category variant="uniform" text={server.name} />,
                     id: "overview",
-                    icon: <ListUl size={20} />,
+                    icon: <InfoCircle size={20} />,
                     title: (
                         <Text id="app.settings.server_pages.overview.title" />
                     ),
                 },
                 {
                     id: "categories",
-                    icon: <ListMinus size={20} />,
+                    icon: <ListUl size={20} />,
                     title: (
                         <Text id="app.settings.server_pages.categories.title" />
                     ),
@@ -72,19 +74,19 @@ export default observer(() => {
                 },
                 {
                     id: "invites",
-                    icon: <Share size={20} />,
+                    icon: <Envelope size={20} />,
                     title: (
                         <Text id="app.settings.server_pages.invites.title" />
                     ),
                 },
                 {
                     id: "bans",
-                    icon: <XSquare size={20} />,
+                    icon: <UserX size={20} />,
                     title: <Text id="app.settings.server_pages.bans.title" />,
                 },
                 {
                     id: "roles",
-                    icon: <ListCheck size={20} />,
+                    icon: <FlagAlt size={20} />,
                     title: <Text id="app.settings.server_pages.roles.title" />,
                     hideTitle: true,
                 },

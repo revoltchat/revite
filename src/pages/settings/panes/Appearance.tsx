@@ -1,5 +1,16 @@
-import { Reset, Import } from "@styled-icons/boxicons-regular";
-import { Pencil, Store } from "@styled-icons/boxicons-solid";
+import {
+    Reset,
+    Import,
+    FontFamily,
+    CodeAlt,
+} from "@styled-icons/boxicons-regular";
+import {
+    Pencil,
+    Store,
+    Palette,
+    HappyBeaming,
+    QuoteLeft,
+} from "@styled-icons/boxicons-solid";
 import { Link } from "react-router-dom";
 // @ts-expect-error shade-blend-color does not have typings.
 import pSBC from "shade-blend-color";
@@ -175,7 +186,39 @@ export function Component(props: Props) {
                     <Text id="app.settings.pages.appearance.display.compact" />
                 </Radio>
             </div>*/}
+            <hr />
 
+            {/*<CategoryButton
+                icon={<Palette size={24} />}
+                description={"Customize the look of your app using themes."}
+                action="chevron">
+                Themes
+            </CategoryButton>
+            <CategoryButton
+                icon={<FontFamily size={24} />}
+                description={"Change the font and size used in the app."}
+                action="chevron">
+                {`Font & text size`}
+            </CategoryButton>
+            <CategoryButton
+                icon={<QuoteLeft size={24} />}
+                description={"Change the look of your messages."}
+                action="chevron">
+                Message Display
+            </CategoryButton>
+            <CategoryButton
+                icon={<HappyBeaming size={24} />}
+                description={"Personalize your client with an emoji pack."}
+                action="chevron">
+                Emoji Packs
+            </CategoryButton>
+            <h3>Advanced</h3>
+            <CategoryButton
+                icon={<CodeAlt size={24} />}
+                description={"Customize the client CSS to your heart's content"}
+                action="chevron">
+                Custom CSS
+            </CategoryButton>*/}
             <h3>
                 <Text id="app.settings.pages.appearance.font" />
             </h3>
@@ -191,20 +234,19 @@ export function Component(props: Props) {
                 ))}
             </ComboBox>
             {/* TOFIX: Only show when a font with ligature support is selected, i.e.: Inter.*/}
-            <p>
-                <Checkbox
-                    checked={props.settings.theme?.ligatures === true}
-                    onChange={() =>
-                        setTheme({
-                            ligatures: !props.settings.theme?.ligatures,
-                        })
-                    }
-                    description={
-                        <Text id="app.settings.pages.appearance.ligatures_desc" />
-                    }>
-                    <Text id="app.settings.pages.appearance.ligatures" />
-                </Checkbox>
-            </p>
+            <Checkbox
+                checked={props.settings.theme?.ligatures === true}
+                onChange={() =>
+                    setTheme({
+                        ligatures: !props.settings.theme?.ligatures,
+                    })
+                }
+                description={
+                    <Text id="app.settings.pages.appearance.ligatures_desc" />
+                }>
+                <Text id="app.settings.pages.appearance.ligatures" />
+            </Checkbox>
+            <hr />
 
             <h3>
                 <Text id="app.settings.pages.appearance.emoji_pack" />
@@ -279,7 +321,7 @@ export function Component(props: Props) {
                     </div>
                 </div>
             </div>
-
+            <hr />
             <CollapsibleSection
                 defaultValue={false}
                 id="settings_overrides"
