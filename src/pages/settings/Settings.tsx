@@ -20,6 +20,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { LIBRARY_VERSION } from "revolt.js";
+import styled from "styled-components";
 
 import styles from "./Settings.module.scss";
 import { Text } from "preact-i18n";
@@ -52,6 +53,8 @@ import { Profile } from "./panes/Profile";
 import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
 import { ThemeShop } from "./panes/ThemeShop";
+
+const IndexHeader = styled.div``;
 
 export default function Settings() {
     const history = useHistory();
@@ -258,6 +261,7 @@ export default function Settings() {
                     </div>
                 </>
             }
+            indexHeader={<IndexHeader>{/**/}</IndexHeader>}
         />
     );
 }
