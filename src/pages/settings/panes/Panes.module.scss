@@ -196,6 +196,14 @@
         margin-top: 8px;
         gap: 4px;
 
+        svg {
+            flex-shrink: 0;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
         h5 {
             margin: 0;
         }
@@ -229,8 +237,11 @@
 }
 
 .audio {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     .audioRow {
-        margin-top: 20px;
         display: flex;
         gap: 20px;
 
@@ -242,10 +253,11 @@
     .audioBox {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        /*gap: 15px;*/
         align-items: center;
 
         > button {
+            margin-top: 20px;
             width: 100%;
         }
     }
@@ -258,6 +270,36 @@
                 width: 100%;
             }
         }
+    }
+}
+
+.opus {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    opacity: 0.5;
+    margin-top: -12px;
+
+    > img {
+        height: 24px;
+    }
+}
+
+.notches {
+    margin: 10px 2px 0;
+    display: flex;
+    width: 100%;
+    border-radius: 60px;
+    overflow: hidden;
+    justify-content: space-between;
+    gap: 5px;
+
+    > div {
+        height: 8px;
+        width: 24px;
+        background: var(--secondary-background);
+        border-radius: 2px;
     }
 }
 
@@ -653,12 +695,19 @@
 }
 
 .myBots {
+    margin-top: 10px;
+    .botList {
+        display: flex;
+        flex-direction: column;
+        margin-top: 8px;
+        gap: 16px;
+    }
+
     .botCard {
         display: flex;
         flex-direction: column;
         gap: 10px;
         background: var(--secondary-background);
-        margin: 8px 0;
         padding: 12px;
         border-radius: var(--border-radius);
     }

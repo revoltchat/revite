@@ -175,7 +175,7 @@ export function Component(props: Props) {
                     <Text id="app.settings.pages.appearance.display.compact" />
                 </Radio>
             </div>*/}
-
+            <hr />
             <h3>
                 <Text id="app.settings.pages.appearance.font" />
             </h3>
@@ -191,20 +191,19 @@ export function Component(props: Props) {
                 ))}
             </ComboBox>
             {/* TOFIX: Only show when a font with ligature support is selected, i.e.: Inter.*/}
-            <p>
-                <Checkbox
-                    checked={props.settings.theme?.ligatures === true}
-                    onChange={() =>
-                        setTheme({
-                            ligatures: !props.settings.theme?.ligatures,
-                        })
-                    }
-                    description={
-                        <Text id="app.settings.pages.appearance.ligatures_desc" />
-                    }>
-                    <Text id="app.settings.pages.appearance.ligatures" />
-                </Checkbox>
-            </p>
+            <Checkbox
+                checked={props.settings.theme?.ligatures === true}
+                onChange={() =>
+                    setTheme({
+                        ligatures: !props.settings.theme?.ligatures,
+                    })
+                }
+                description={
+                    <Text id="app.settings.pages.appearance.ligatures_desc" />
+                }>
+                <Text id="app.settings.pages.appearance.ligatures" />
+            </Checkbox>
+            <hr />
 
             <h3>
                 <Text id="app.settings.pages.appearance.emoji_pack" />
@@ -279,7 +278,7 @@ export function Component(props: Props) {
                     </div>
                 </div>
             </div>
-
+            <hr />
             <CollapsibleSection
                 defaultValue={false}
                 id="settings_overrides"
