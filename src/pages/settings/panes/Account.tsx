@@ -4,6 +4,7 @@ import {
     HelpCircle,
     Lock,
     Trash,
+    Pencil,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
@@ -153,7 +154,7 @@ export const Account = observer(() => {
                             )
                         }
                         account
-                        action="chevron"
+                        action={<Pencil size={20} />}
                         onClick={() =>
                             openScreen({
                                 id: "modify_account",
@@ -181,7 +182,7 @@ export const Account = observer(() => {
             </h5>
             <CategoryButton
                 icon={<Lock size={24} color="var(--error)" />}
-                description={"Set up 2FA Authentication on your account."}
+                description={"Set up 2FA on your account."}
                 disabled
                 action="chevron">
                 Set up Two-factor authentication

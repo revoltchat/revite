@@ -12,6 +12,11 @@ import Button from "../../../components/ui/Button";
 import ComboBox from "../../../components/ui/ComboBox";
 import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
+import opusSVG from "../assets/opus_logo.svg";
+
+{
+    /*import OpusSVG from "../assets/opus_logo.svg";*/
+}
 
 const constraints = { audio: true };
 
@@ -141,6 +146,19 @@ export function Component() {
                                         );
                                     })}
                             </ComboBox>
+                            {/*TOFIX: add logic to sound notches*/}
+                            {/*<div className={styles.notches}>
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                            </div>*/}
                             {!permission && (
                                 <Button
                                     compact
@@ -191,8 +209,25 @@ export function Component() {
                                     );
                                 })}
                         </ComboBox>
+                        {/*<div className={styles.notches}>
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                        </div>*/}
                     </div>
                 </div>
+            </div>
+            <hr />
+            <div className={styles.opus}>
+                <img height="20" src={opusSVG} draggable={false} />
+                Audio codec powered by Opus
             </div>
         </>
     );

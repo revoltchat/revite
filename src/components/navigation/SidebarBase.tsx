@@ -18,8 +18,12 @@ export const GenericSidebarBase = styled.div<{
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
-    border-end-start-radius: 8px;
+    /*border-end-start-radius: 8px;*/
     background: var(--secondary-background);
+
+    > :nth-child(1) {
+        border-end-start-radius: 8px;
+    }
 
     ${(props) =>
         props.mobilePadding &&

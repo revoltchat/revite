@@ -98,6 +98,8 @@
         background: var(--block);
         border-radius: var(--border-radius);
         font-family: var(--monospace-font), monospace;
+        border-radius: 3px;
+        -webkit-box-decoration-break: clone;
     }
 
     input[type="checkbox"] {
