@@ -1,3 +1,10 @@
+import { Plus, Check } from "@styled-icons/boxicons-regular";
+import {
+    Star,
+    BarChartAlt2,
+    Brush,
+    Bookmark,
+} from "@styled-icons/boxicons-solid";
 import styled from "styled-components";
 
 import { useEffect, useState } from "preact/hooks";
@@ -6,6 +13,7 @@ import { dispatch } from "../../../redux";
 
 import { Theme, generateVariables, ThemeOptions } from "../../../context/Theme";
 
+import InputBox from "../../../components/ui/InputBox";
 import Tip from "../../../components/ui/Tip";
 import previewPath from "../assets/preview.svg";
 
@@ -35,13 +43,9 @@ export type Manifest = {
 
 // TODO: ability to preview / display the settings set like in the appearance pane
 const ThemeInfo = styled.article`
-    display: grid;
-    grid:
-        "preview name creator" min-content
-        "preview desc desc" 1fr
-        / 200px 1fr 1fr;
-
-    gap: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     padding: 1rem;
     border-radius: var(--border-radius);
     background: var(--secondary-background);
@@ -93,6 +97,7 @@ const ThemeInfo = styled.article`
     }
 
     .name {
+        margin-top: 5px !important;
         grid-area: name;
         margin: 0;
     }
@@ -104,13 +109,113 @@ const ThemeInfo = styled.article`
     }
 
     .description {
+        margin-bottom: 5px;
         grid-area: desc;
+    }
+
+    .previewBox {
+        position: relative;
+        height: 100%;
+        width: 100%;
+
+        .hover {
+            opacity: 0;
+            font-family: var(--font), sans-serif;
+            font-variant-ligatures: var(--ligatures);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            height: 100%;
+            width: 100%;
+            z-index: 10;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: opacity 0.2s ease-in-out;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        > svg {
+            height: 100%;
+        }
     }
 `;
 
 const ThemeList = styled.div`
     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;
+`;
+
+const Banner = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const Category = styled.div`
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    .title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-grow: 1;
+    }
+
+    .view {
+        font-size: 12px;
+    }
+`;
+
+const ActiveTheme = styled.div`
+    display: flex;
+    flex-direction: column;
+    background: var(--secondary-background);
+    padding: 0;
+    border-radius: var(--border-radius);
+    gap: 8px;
+    overflow: hidden;
+
+    .active-indicator {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        background: var(--accent);
+        width: 100%;
+        padding: 5px 10px;
+        font-size: 13px;
+        font-weight: 400;
+        color: white;
+    }
+    .title {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .author {
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .theme {
+        width: 124px;
+        height: 80px;
+        background: var(--tertiary-background);
+        border-radius: 4px;
+    }
+
+    .container {
+        display: flex;
+        gap: 16px;
+        padding: 10px 16px 16px;
+    }
 `;
 
 const ThemedSVG = styled.svg<{ theme: Theme }>`
@@ -140,6 +245,10 @@ const ThemePreview = ({ theme, ...props }: ThemePreviewProps) => {
 const ThemeShopRoot = styled.div`
     display: grid;
     gap: 1rem;
+
+    h5 {
+        margin-bottom: 0;
+    }
 `;
 
 export function ThemeShop() {
@@ -175,18 +284,71 @@ export function ThemeShop() {
 
     return (
         <ThemeShopRoot>
+            <h5>
+                Browse hundreds of themes, created and curated by the community.
+            </h5>
+            {/*<LoadFail>
+                <h5>
+                    Oops! Couldn't load the theme shop. Make sure you're
+                    connected to the internet and try again.
+                </h5>
+            </LoadFail>*/}
             <Tip warning hideSeparator>
-                This section is under construction.
+                The Theme Shop is currently under construction.
             </Tip>
+            {/* FIXME INTEGRATE WITH MOBX */}
+            {/*<ActiveTheme>
+                <div class="active-indicator">
+                    <Check size="16" />
+                    Currently active
+                </div>
+                <div class="container">
+                    <div class="theme">theme svg goes here</div>
+                    <div class="info">
+                        <div class="title">Theme Title</div>
+                        <div class="author">by Author</div>
+                        <h5>This is a theme description.</h5>
+                    </div>
+                </div>
+            </ActiveTheme>
+            <InputBox placeholder="Search themes..." contrast />
+            <Category>
+                <div class="title">
+                    <Bookmark size={16} />
+                    Saved
+                </div>
+                <a class="view">Manage installed</a>
+            </Category>
+
+            <Category>
+                <div class="title">
+                    <Star size={16} />
+                    New this week
+                </div>
+                <a class="view">View all</a>
+            </Category>
+
+            <Category>
+                <div class="title">
+                    <Brush size={16} />
+                    Default themes
+                </div>
+                <a class="view">View all</a>
+            </Category>
+
+            <Category>
+                <div class="title">
+                    <BarChartAlt2 size={16} />
+                    Highest rated
+                </div>
+                <a class="view">View all</a>
+            </Category>*/}
+
             <ThemeList>
                 {themeList?.map(([slug, theme]) => (
                     <ThemeInfo
                         key={slug}
                         data-loaded={Reflect.has(themeData, slug)}>
-                        <h2 class="name">{theme.name}</h2>
-                        {/* Maybe id's of the users should be included as well / instead? */}
-                        <div class="creator">by {theme.creator}</div>
-                        <div class="description">{theme.description}</div>
                         <button
                             class="preview"
                             onClick={() => {
@@ -195,17 +357,27 @@ export function ThemeShop() {
                                     theme: {
                                         slug,
                                         meta: theme,
-                                        theme: themeData[slug]
-                                    }
-                                })
+                                        theme: themeData[slug],
+                                    },
+                                });
 
                                 dispatch({
                                     type: "SETTINGS_SET_THEME",
                                     theme: { base: slug },
                                 });
                             }}>
-                            <ThemePreview slug={slug} theme={themeData[slug]} />
+                            <div class="previewBox">
+                                <div class="hover">Use theme</div>
+                                <ThemePreview
+                                    slug={slug}
+                                    theme={themeData[slug]}
+                                />
+                            </div>
                         </button>
+                        <h1 class="name">{theme.name}</h1>
+                        {/* Maybe id's of the users should be included as well / instead? */}
+                        <div class="creator">by {theme.creator}</div>
+                        <h5 class="description">{theme.description}</h5>
                     </ThemeInfo>
                 ))}
             </ThemeList>

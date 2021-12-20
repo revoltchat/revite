@@ -14,6 +14,10 @@ interface Props {
 export function Component(props: Props) {
     return (
         <div className={styles.notifications}>
+            {/*<h3>
+                <Text id="app.settings.pages.sync.options" />
+            </h3>
+            <h5>Sync items automatically</h5>*/}
             <h3>
                 <Text id="app.settings.pages.sync.categories" />
             </h3>
@@ -46,6 +50,9 @@ export function Component(props: Props) {
                     <Text id={`app.settings.pages.${title}`} />
                 </Checkbox>
             ))}
+            {/*<h5 style={{ marginTop: "20px", color: "grey" }}>
+                Last sync at 12:00
+                </h5>*/}
         </div>
     );
 }

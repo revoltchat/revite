@@ -58,7 +58,7 @@ export default function App() {
                 leftPanel={
                     inSpecial
                         ? undefined
-                        : { width: 292, component: <LeftSidebar /> }
+                        : { width: 288, component: <LeftSidebar /> }
                 }
                 rightPanel={
                     !inSpecial && inChannel
