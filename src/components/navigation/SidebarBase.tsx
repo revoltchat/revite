@@ -14,7 +14,7 @@ export const GenericSidebarBase = styled.div<{
     mobilePadding?: boolean;
 }>`
     height: 100%;
-    width: 240px;
+    width: 236px;
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
