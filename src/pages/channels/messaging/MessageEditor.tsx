@@ -88,7 +88,11 @@ export default function MessageEditor({ message, finish }: Props) {
         onBlur,
         ...autoCompleteProps
     } = useAutoComplete((v) => setContent(v ?? ""), {
-        users: { type: "all" },
+        users: { type: "channel", id: message.channel!._id },
+        channels:
+            message.channel!.channel_type === "TextChannel"
+                ? { server: message.channel!.server_id! }
+                : undefined,
     });
 
     return (
