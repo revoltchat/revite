@@ -50,7 +50,6 @@ export default class Experiments implements Store, Persistent<Data> {
      */
     constructor() {
         this.enabled = new ObservableSet();
-
         makeAutoObservable(this);
     }
 
