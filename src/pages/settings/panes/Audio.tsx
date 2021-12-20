@@ -141,12 +141,14 @@ export function Component() {
                                         );
                                     })}
                             </ComboBox>
-                            <Button
-                                compact
-                                onClick={(e) => handleAskForPermission(e)}
-                                error>
-                                <Text id="app.settings.pages.audio.button_grant" />
-                            </Button>
+                            {!permission && (
+                                <Button
+                                    compact
+                                    onClick={(e) => handleAskForPermission(e)}
+                                    error>
+                                    <Text id="app.settings.pages.audio.button_grant" />
+                                </Button>
+                            )}
                             {error && error.name === "NotAllowedError" && (
                                 <Overline
                                     error="AudioPermissionBlock"
