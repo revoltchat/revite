@@ -32,7 +32,7 @@ interface Props {
 
 const ServerBase = styled.div`
     height: 100%;
-    width: 236px;
+    width: 232px;
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
