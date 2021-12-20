@@ -19,13 +19,19 @@
             width: 100%;
         }
 
-        .username {
+        .userContainer {
             display: flex;
             align-items: center;
             gap: 8px;
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
+
+            .username {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
         }
 
         .userDetail {
@@ -74,13 +80,13 @@
         }
     }
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 300px) {
         .avatar {
             display: none;
         }
     }
 
-    @media only screen and (min-width: 600px) {
+    @media only screen and (min-width: 300px) {
         .tinyavatar {
             display: none;
         }
@@ -141,18 +147,64 @@
         }
     }
 
+    .badgePicker {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        .check {
+            cursor: pointer;
+            height: 50px;
+            width: 50px;
+            background: var(--secondary-background);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:nth-child(2) {
+                border: 3px solid var(--accent);
+            }
+
+            &:nth-child(1) {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+    }
+
     .row {
         gap: 20px;
         display: flex;
 
         .pfp {
             display: flex;
+            flex-shrink: 0;
             align-items: center;
             flex-direction: column;
         }
 
         .background {
             flex-grow: 1;
+            width: 100%;
+        }
+    }
+
+    .markdown {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+        gap: 4px;
+
+        h5 {
+            margin: 0;
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        .row {
+            align-items: flex-start;
+            flex-direction: column;
         }
     }
 
@@ -177,31 +229,32 @@
 }
 
 .audio {
+    .audioRow {
+        margin-top: 20px;
+        display: flex;
+        gap: 20px;
+
+        .select {
+            flex-direction: column;
+            width: 50%;
+        }
+    }
     .audioBox {
         display: flex;
-        flex-direction: row;
-        gap: 10px;
+        flex-direction: column;
+        gap: 15px;
         align-items: center;
-    }
-    .grant_permission {
-        margin-bottom: 18px;
-        .description {
-            font-weight: 400;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 3;
-            overflow: hidden;
-            font-size: 12px;
-            margin-bottom: 8px;
+
+        > button {
+            width: 100%;
         }
     }
 
     @media only screen and (max-width: 800px) {
-        .audioBox {
-            display: flex;
+        .audioRow {
             flex-direction: column;
 
-            > button {
+            .select {
                 width: 100%;
             }
         }
@@ -629,6 +682,13 @@
         }
     }
 
+    .infocontainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+
     .infoheader {
         gap: 8px;
         width: 100%;
@@ -644,6 +704,10 @@
             align-items: center;
             flex-direction: row;
             width: 100%;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         .userDetail {
@@ -656,9 +720,13 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
-        .userName {
+        .username {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -682,9 +750,23 @@
             gap: 4px;
             color: var(--tertiary-foreground);
 
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+
+            > :nth-child(2) {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+
             a {
                 color: inherit;
                 cursor: pointer;
+
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
             }
         }
     }
@@ -693,6 +775,20 @@
         display: flex;
         flex-direction: row;
         gap: 10px;
+    }
+
+    @media only screen and (max-width: 800px) {
+        .infocontainer {
+            flex-direction: column;
+
+            > button {
+                width: 100%;
+            }
+        }
+
+        .buttonRow {
+            flex-direction: column;
+        }
     }
 }
 

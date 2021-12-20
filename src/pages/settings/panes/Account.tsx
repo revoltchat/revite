@@ -68,14 +68,16 @@ export const Account = observer(() => {
                         onClick={() => switchPage("profile")}
                     />
                     <div className={styles.userDetail}>
-                        <div className={styles.username}>
+                        <div className={styles.userContainer}>
                             <UserIcon
                                 className={styles.tinyavatar}
                                 target={client.user!}
                                 size={25}
                                 onClick={() => switchPage("profile")}
                             />
-                            @{client.user!.username}
+                            <div className={styles.username}>
+                                @{client.user!.username}
+                            </div>
                         </div>
                         <div className={styles.userid}>
                             <Tooltip
@@ -121,6 +123,7 @@ export const Account = observer(() => {
                                     <>
                                         {value}{" "}
                                         <a
+                                            style={{ fontSize: "13px" }}
                                             onClick={(ev) =>
                                                 stopPropagation(
                                                     ev,
@@ -134,6 +137,7 @@ export const Account = observer(() => {
                                     <>
                                         •••••••••••@••••••.•••{" "}
                                         <a
+                                            style={{ fontSize: "13px" }}
                                             onClick={(ev) =>
                                                 stopPropagation(
                                                     ev,
