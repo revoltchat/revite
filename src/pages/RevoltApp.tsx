@@ -62,7 +62,7 @@ export default function App() {
                 }
                 rightPanel={
                     !inSpecial && inChannel
-                        ? { width: 240, component: <RightSidebar /> }
+                        ? { width: 236, component: <RightSidebar /> }
                         : undefined
                 }
                 bottomNav={{
