@@ -147,7 +147,7 @@ export function Component() {
                                     })}
                             </ComboBox>
                             {/*TOFIX: add logic to sound notches*/}
-                            <div className={styles.notches}>
+                            {/*<div className={styles.notches}>
                                 <div />
                                 <div />
                                 <div />
@@ -158,7 +158,7 @@ export function Component() {
                                 <div />
                                 <div />
                                 <div />
-                            </div>
+                            </div>*/}
                             {!permission && (
                                 <Button
                                     compact
@@ -209,7 +209,7 @@ export function Component() {
                                     );
                                 })}
                         </ComboBox>
-                        <div className={styles.notches}>
+                        {/*<div className={styles.notches}>
                             <div />
                             <div />
                             <div />
@@ -220,7 +220,7 @@ export function Component() {
                             <div />
                             <div />
                             <div />
-                        </div>
+                        </div>*/}
                     </div>
                 </div>
             </div>
