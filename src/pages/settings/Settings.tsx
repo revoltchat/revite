@@ -4,7 +4,6 @@ import {
     Globe,
     LogOut,
     Desktop,
-    Bot,
 } from "@styled-icons/boxicons-regular";
 import {
     Bell,
@@ -17,6 +16,7 @@ import {
     Megaphone,
     Speaker,
     Store,
+    Bot,
 } from "@styled-icons/boxicons-solid";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { LIBRARY_VERSION } from "revolt.js";

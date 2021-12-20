@@ -24,6 +24,7 @@ export default styled.button<Props>`
     font-size: 0.875rem;
     font-family: inherit;
     font-weight: 500;
+    flex-shrink: 0;
 
     transition: 0.2s ease opacity;
     transition: 0.2s ease background-color;

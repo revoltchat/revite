@@ -29,6 +29,10 @@
     align-items: center;
     flex-direction: row;
 
+    > svg {
+        cursor: pointer;
+    }
+
     .details {
         flex-grow: 1;
         min-width: 0;

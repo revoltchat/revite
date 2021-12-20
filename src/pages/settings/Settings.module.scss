@@ -130,11 +130,16 @@
 
         .container {
             min-width: 218px;
-            max-width: 300px;
             padding: 80px 8px;
             display: flex;
             gap: 2px;
             flex-direction: column;
+        }
+
+        @media only screen and (min-width: 800px) {
+            .container {
+                max-width: 300px;
+            }
         }
 
         .divider {
@@ -222,6 +227,11 @@
             margin-top: 0;
             font-size: 0.75rem;
             font-weight: 400;
+        }
+
+        h6 {
+            font-size: 1rem;
+            font-weight: 600;
         }
 
         .footer {
