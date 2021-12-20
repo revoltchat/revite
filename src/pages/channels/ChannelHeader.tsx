@@ -110,7 +110,7 @@ export default observer(
             <Header placement="primary">
                 <HamburgerAction />
                 <IconContainer onClick={toggleChannelSidebar}>
-                    {!isTouchscreenDevice && <ChevronLeft size={18} />}
+                    {/*isTouchscreenDevice && <ChevronLeft size={18} /> FIXME: requires mobx merge */}
                     {icon}
                 </IconContainer>
                 <Info>

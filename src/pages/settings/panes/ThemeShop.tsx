@@ -296,7 +296,8 @@ export function ThemeShop() {
             <Tip warning hideSeparator>
                 The Theme Shop is currently under construction.
             </Tip>
-            <ActiveTheme>
+            {/* FIXME INTEGRATE WITH MOBX */}
+            {/*<ActiveTheme>
                 <div class="active-indicator">
                     <Check size="16" />
                     Currently active
@@ -341,7 +342,7 @@ export function ThemeShop() {
                     Highest rated
                 </div>
                 <a class="view">View all</a>
-            </Category>
+            </Category>*/}
 
             <ThemeList>
                 {themeList?.map(([slug, theme]) => (
