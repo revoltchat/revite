@@ -63,22 +63,24 @@ function Notifier({ options, notifs }: Props) {
             playSound("message");
             if (!showNotification) return;
 
+            const effectiveName = msg.masquerade?.name ?? msg.author?.username;
+
             let title;
             switch (msg.channel?.channel_type) {
                 case "SavedMessages":
                     return;
                 case "DirectMessage":
-                    title = `@${msg.author?.username}`;
+                    title = `@${effectiveName}`;
                     break;
                 case "Group":
                     if (msg.author?._id === "00000000000000000000000000") {
                         title = msg.channel.name;
                     } else {
-                        title = `@${msg.author?.username} - ${msg.channel.name}`;
+                        title = `@${effectiveName} - ${msg.channel.name}`;
                     }
                     break;
                 case "TextChannel":
-                    title = `@${msg.author?.username} (#${msg.channel.name}, ${msg.channel.server?.name})`;
+                    title = `@${effectiveName} (#${msg.channel.name}, ${msg.channel.server?.name})`;
                     break;
                 default:
                     title = msg.channel?._id;
@@ -100,7 +102,12 @@ function Notifier({ options, notifs }: Props) {
             let body, icon;
             if (typeof msg.content === "string") {
                 body = client.markdownToText(msg.content);
-                icon = msg.author?.generateAvatarURL({ max_side: 256 });
+
+                if (msg.masquerade?.avatar) {
+                    icon = client.proxyFile(msg.masquerade.avatar);
+                } else {
+                    icon = msg.author?.generateAvatarURL({ max_side: 256 });
+                }
             } else {
                 const users = client.users;
                 switch (msg.content.type) {
