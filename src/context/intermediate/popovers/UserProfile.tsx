@@ -9,6 +9,8 @@ import styles from "./UserProfile.module.scss";
 import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 
+import { noop } from "../../../lib/js";
+
 import ChannelIcon from "../../../components/common/ChannelIcon";
 import ServerIcon from "../../../components/common/ServerIcon";
 import Tooltip from "../../../components/common/Tooltip";
@@ -16,6 +18,7 @@ import UserBadges from "../../../components/common/user/UserBadges";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
+import Button from "../../../components/ui/Button";
 import IconButton from "../../../components/ui/IconButton";
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
@@ -36,14 +39,6 @@ interface Props {
     dummyProfile?: Profile;
 }
 
-enum Badges {
-    Developer = 1,
-    Translator = 2,
-    Supporter = 4,
-    ResponsibleDisclosure = 8,
-    EarlyAdopter = 256,
-}
-
 export const UserProfile = observer(
     ({ user_id, onClose, dummy, dummyProfile }: Props) => {
         const { openScreen, writeClipboard } = useIntermediate();
@@ -54,6 +49,9 @@ export const UserProfile = observer(
         const [mutual, setMutual] = useState<
             undefined | null | Route<"GET", "/users/id/mutual">["response"]
         >(undefined);
+        const [isPublicBot, setIsPublicBot] = useState<
+            undefined | null | boolean
+        >();
 
         const history = useHistory();
         const client = useClient();
@@ -82,6 +80,7 @@ export const UserProfile = observer(
             if (!user_id) return;
             if (typeof profile !== "undefined") setProfile(undefined);
             if (typeof mutual !== "undefined") setMutual(undefined);
+            if (typeof isPublicBot !== "undefined") setIsPublicBot(undefined);
             // eslint-disable-next-line
         }, [user_id]);
 
@@ -111,10 +110,24 @@ export const UserProfile = observer(
                 setProfile(null);
 
                 if (user.permission & UserPermission.ViewProfile) {
-                    user.fetchProfile().then(setProfile);
+                    user.fetchProfile().then(setProfile).catch(noop);
                 }
             }
         }, [profile, status, dummy, user]);
+
+        useEffect(() => {
+            if (
+                status === ClientStatus.ONLINE &&
+                user.bot &&
+                typeof isPublicBot === "undefined"
+            ) {
+                setIsPublicBot(null);
+                client.bots
+                    .fetchPublic(user._id)
+                    .then(() => setIsPublicBot(true))
+                    .catch(noop);
+            }
+        }, [isPublicBot, status, user, client.bots]);
 
         const backgroundURL =
             profile &&
@@ -169,6 +182,13 @@ export const UserProfile = observer(
                                 </span>
                             )}
                         </div>
+                        {isPublicBot && (
+                            <Link to={`/bot/${user._id}`}>
+                                <Button accent compact onClick={onClose}>
+                                    Add to server
+                                </Button>
+                            </Link>
+                        )}
                         {user.relationship === RelationshipStatus.Friend && (
                             <Localizer>
                                 <Tooltip
