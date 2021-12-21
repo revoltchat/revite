@@ -5,7 +5,7 @@ import { Language, Languages } from "../../context/Locale";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
-interface Data {
+export interface Data {
     lang: Language;
 }
 

@@ -34,7 +34,7 @@ export const DEFAULT_STATES: {
  */
 export const DEFAULT_SERVER_STATE: NotificationState = "mention";
 
-interface Data {
+export interface Data {
     server?: Record<string, NotificationState>;
     channel?: Record<string, NotificationState>;
 }

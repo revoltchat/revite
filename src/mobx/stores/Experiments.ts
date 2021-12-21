@@ -35,7 +35,7 @@ export const EXPERIMENTS: {
     },
 };
 
-interface Data {
+export interface Data {
     enabled?: Experiment[];
 }
 

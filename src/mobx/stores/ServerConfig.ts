@@ -6,10 +6,6 @@ import { Nullable } from "revolt.js/dist/util/null";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
-interface Data {
-    config?: RevoltConfiguration;
-}
-
 /**
  * Stores server configuration data.
  */
