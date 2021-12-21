@@ -2,6 +2,8 @@ import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 import { Session } from "revolt-api/types/Auth";
 import { Nullable } from "revolt.js/dist/util/null";
 
+import { mapToRecord } from "../../lib/conversion";
+
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
@@ -9,8 +11,8 @@ interface Account {
     session: Session;
 }
 
-interface Data {
-    sessions: Record<string, Account> | [string, Account][];
+export interface Data {
+    sessions: Record<string, Account>;
     current?: string;
 }
 
@@ -37,7 +39,7 @@ export default class Auth implements Store, Persistent<Data> {
 
     @action toJSON() {
         return {
-            sessions: JSON.parse(JSON.stringify(this.sessions)),
+            sessions: JSON.parse(JSON.stringify(mapToRecord(this.sessions))),
             current: this.current ?? undefined,
         };
     }

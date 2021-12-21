@@ -5,7 +5,7 @@ import { mapToRecord } from "../../lib/conversion";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
-interface Data {
+export interface Data {
     drafts: Record<string, string>;
 }
 

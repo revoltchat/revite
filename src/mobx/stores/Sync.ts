@@ -21,7 +21,7 @@ export const SYNC_KEYS: SyncKeys[] = [
     "notifications",
 ];
 
-interface Data {
+export interface Data {
     disabled: SyncKeys[];
 }
 

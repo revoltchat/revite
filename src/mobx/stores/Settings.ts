@@ -12,7 +12,7 @@ import SAudio, { SoundOptions } from "./helpers/SAudio";
 import SSecurity from "./helpers/SSecurity";
 import STheme from "./helpers/STheme";
 
-interface ISettings {
+export interface ISettings {
     "notifications:desktop": boolean;
     "notifications:sounds": SoundOptions;
 
@@ -60,8 +60,9 @@ export default class Settings implements Store, Persistent<ISettings> {
     }
 
     @action hydrate(data: ISettings) {
-        Object.keys(data).forEach((key) =>
-            this.data.set(key, (data as any)[key]),
+        Object.keys(data).forEach(
+            (key) =>
+                (data as any)[key] && this.data.set(key, (data as any)[key]),
         );
     }
 
