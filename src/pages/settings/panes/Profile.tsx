@@ -72,12 +72,12 @@ export const Profile = observer(() => {
                     dummyProfile={profile}
                 />
             </div>
-            <h3>Badges</h3>
+            {/*<h3>Badges</h3>
             <div className={styles.badgePicker}>
                 <div className={styles.check}>a</div>
                 <div className={styles.check}>b</div>
                 <div className={styles.check}>c</div>
-            </div>
+            </div>*/}
             <div className={styles.row}>
                 <div className={styles.pfp}>
                     <h3>
