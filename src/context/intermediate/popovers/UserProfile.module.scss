@@ -53,6 +53,10 @@
 
         .status {
             font-size: 13px;
+
+            > div {
+                display: inline !important;
+            }
         }
     }
 }
