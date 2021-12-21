@@ -1,4 +1,11 @@
-import { Envelope, Edit, UserPlus } from "@styled-icons/boxicons-solid";
+import { ListUl } from "@styled-icons/boxicons-regular";
+import {
+    Envelope,
+    Edit,
+    UserPlus,
+    Group,
+    InfoCircle,
+} from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
 import { Profile, RelationshipStatus } from "revolt-api/types/Users";
@@ -150,6 +157,7 @@ export const UserProfile = observer(
                         backgroundImage:
                             backgroundURL &&
                             `linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url('${backgroundURL}')`,
+                        paddingBottom: "1px",
                     }}>
                     <div className={styles.profile}>
                         <UserIcon
@@ -255,91 +263,94 @@ export const UserProfile = observer(
                     </div>
                 </div>
                 <div className={styles.content}>
-                    {tab === "profile" && (
-                        <div>
-                            {!(
-                                profile?.content ||
-                                badges > 0 ||
-                                flags > 0 ||
-                                user.bot
-                            ) && (
-                                <div className={styles.empty}>
-                                    <Text id="app.special.popovers.user_profile.empty" />
-                                </div>
-                            )}
-                            {flags & 1 ? (
-                                /** ! FIXME: i18n this area */
-                                <Overline type="error" block>
-                                    User is suspended
-                                </Overline>
-                            ) : undefined}
-                            {flags & 2 ? (
-                                <Overline type="error" block>
-                                    User deleted their account
-                                </Overline>
-                            ) : undefined}
-                            {flags & 4 ? (
-                                <Overline type="error" block>
-                                    User is banned
-                                </Overline>
-                            ) : undefined}
-                            {user.bot ? (
-                                <>
-                                    <div className={styles.category}>
-                                        bot owner
-                                    </div>
-                                    <div
-                                        onClick={() =>
-                                            user.bot &&
-                                            openScreen({
-                                                id: "profile",
-                                                user_id: user.bot.owner,
-                                            })
-                                        }
-                                        className={styles.entry}
-                                        key={user.bot.owner}>
-                                        <UserIcon
-                                            size={32}
-                                            target={client.users.get(
-                                                user.bot.owner,
-                                            )}
-                                        />
-                                        <span>
-                                            <Username
-                                                user={client.users.get(
+                    {tab === "profile" &&
+                        (profile?.content ||
+                        badges > 0 ||
+                        flags > 0 ||
+                        user.bot ? (
+                            <div>
+                                {flags & 1 ? (
+                                    /** ! FIXME: i18n this area */
+                                    <Overline type="error" block>
+                                        User is suspended
+                                    </Overline>
+                                ) : undefined}
+                                {flags & 2 ? (
+                                    <Overline type="error" block>
+                                        User deleted their account
+                                    </Overline>
+                                ) : undefined}
+                                {flags & 4 ? (
+                                    <Overline type="error" block>
+                                        User is banned
+                                    </Overline>
+                                ) : undefined}
+                                {user.bot ? (
+                                    <>
+                                        <div className={styles.category}>
+                                            bot owner
+                                        </div>
+                                        <div
+                                            onClick={() =>
+                                                user.bot &&
+                                                openScreen({
+                                                    id: "profile",
+                                                    user_id: user.bot.owner,
+                                                })
+                                            }
+                                            className={styles.entry}
+                                            key={user.bot.owner}>
+                                            <UserIcon
+                                                size={32}
+                                                target={client.users.get(
                                                     user.bot.owner,
                                                 )}
                                             />
-                                        </span>
+                                            <span>
+                                                <Username
+                                                    user={client.users.get(
+                                                        user.bot.owner,
+                                                    )}
+                                                />
+                                            </span>
+                                        </div>
+                                    </>
+                                ) : undefined}
+                                {badges > 0 && (
+                                    <div className={styles.category}>
+                                        <Text id="app.special.popovers.user_profile.sub.badges" />
                                     </div>
-                                </>
-                            ) : undefined}
-                            {badges > 0 && (
-                                <div className={styles.category}>
-                                    <Text id="app.special.popovers.user_profile.sub.badges" />
-                                </div>
-                            )}
-                            {badges > 0 && (
-                                <UserBadges badges={badges} uid={user._id} />
-                            )}
-                            {profile?.content && (
-                                <div className={styles.category}>
-                                    <Text id="app.special.popovers.user_profile.sub.information" />
-                                </div>
-                            )}
-                            <Markdown content={profile?.content} />
-                            {/*<div className={styles.category}><Text id="app.special.popovers.user_profile.sub.connections" /></div>*/}
-                        </div>
-                    )}
+                                )}
+                                {badges > 0 && (
+                                    <UserBadges
+                                        badges={badges}
+                                        uid={user._id}
+                                    />
+                                )}
+                                {profile?.content && (
+                                    <div className={styles.category}>
+                                        <Text id="app.special.popovers.user_profile.sub.information" />
+                                    </div>
+                                )}
+                                <Markdown content={profile?.content} />
+                                {/*<div className={styles.category}><Text id="app.special.popovers.user_profile.sub.connections" /></div>*/}
+                            </div>
+                        ) : (
+                            <div className={styles.empty}>
+                                <InfoCircle size={72} />
+                                <Text id="app.special.popovers.user_profile.empty" />
+                            </div>
+                        ))}
                     {tab === "friends" &&
                         (users ? (
-                            <div className={styles.entries}>
-                                {users.length === 0 ? (
-                                    <div className={styles.empty}>
-                                        <Text id="app.special.popovers.user_profile.no_users" />
-                                    </div>
-                                ) : (
-                                    users.map(
+                            users.length === 0 ? (
+                                <div className={styles.empty}>
+                                    <UserPlus size={72} />
+                                    <Text id="app.special.popovers.user_profile.no_users" />
+                                </div>
+                            ) : (
+                                <div className={styles.entries}>
+                                    {users.map(
                                         (x) =>
                                             x && (
                                                 <div
@@ -358,20 +369,21 @@ export const UserProfile = observer(
                                                     <span>{x.username}</span>
                                                 </div>
                                             ),
-                                    )
-                                )}
-                            </div>
+                                    )}
+                                </div>
+                            )
                         ) : (
                             <Preloader type="ring" />
                         ))}
-                    {tab === "groups" && (
-                        <div className={styles.entries}>
-                            {mutualGroups.length === 0 ? (
-                                <div className={styles.empty}>
-                                    <Text id="app.special.popovers.user_profile.no_groups" />
-                                </div>
-                            ) : (
-                                mutualGroups.map(
+                    {tab === "groups" &&
+                        (mutualGroups.length === 0 ? (
+                            <div className={styles.empty}>
+                                <Group size="72" />
+                                <Text id="app.special.popovers.user_profile.no_groups" />
+                            </div>
+                        ) : (
+                            <div className={styles.entries}>
+                                {mutualGroups.map(
                                     (x) =>
                                         x?.channel_type === "Group" && (
                                             <Link to={`/channel/${x._id}`}>
@@ -386,18 +398,18 @@ export const UserProfile = observer(
                                                 </div>
                                             </Link>
                                         ),
-                                )
-                            )}
-                        </div>
-                    )}
-                    {tab === "servers" && (
-                        <div className={styles.entries}>
-                            {!mutualServers || mutualServers.length === 0 ? (
-                                <div className={styles.empty}>
-                                    <Text id="app.special.popovers.user_profile.no_servers" />
-                                </div>
-                            ) : (
-                                mutualServers.map(
+                                )}
+                            </div>
+                        ))}
+                    {tab === "servers" &&
+                        (!mutualServers || mutualServers.length === 0 ? (
+                            <div className={styles.empty}>
+                                <ListUl size="72" />
+                                <Text id="app.special.popovers.user_profile.no_servers" />
+                            </div>
+                        ) : (
+                            <div className={styles.entries}>
+                                {mutualServers.map(
                                     (x) =>
                                         x && (
                                             <Link to={`/server/${x._id}`}>
@@ -412,10 +424,9 @@ export const UserProfile = observer(
                                                 </div>
                                             </Link>
                                         ),
-                                )
-                            )}
-                        </div>
-                    )}
+                                )}
+                            </div>
+                        ))}
                 </div>
             </Modal>
         );
