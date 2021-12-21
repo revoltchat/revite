@@ -51,6 +51,12 @@ export const ServerInfo = observer(
             invChannel &&
             (invChannel.permission & ChannelPermission.InviteOthers) > 0;
 
+        // grab the member count from cache - mixed reliability
+        let memberCount = 0;
+        client.members.forEach((member) => {
+            if (member.server === server) memberCount += 1;
+        });
+
         return (
             <Modal
                 visible
@@ -86,6 +92,10 @@ export const ServerInfo = observer(
                                     className={styles.username}
                                     onClick={() => writeClipboard(server.name)}>
                                     {server.name}
+                                </span>
+                                <span className={styles.status}>
+                                    {memberCount}{" "}
+                                    {memberCount === 1 ? "member" : "members"}
                                 </span>
                             </Localizer>
                         </div>
