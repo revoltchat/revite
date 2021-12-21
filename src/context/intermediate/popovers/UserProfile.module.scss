@@ -123,6 +123,29 @@
         }
     }
 
+    .botStats {
+        background: var(--secondary-background);
+        border-radius: var(--border-radius);
+        padding: 10px;
+
+        font-size: 12px;
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            opacity: 0.5;
+
+            &:nth-child(1) {
+                opacity: 1;
+
+                > svg {
+                    color: var(--accent);
+                }
+            }
+        }
+    }
+
     > div {
         > span {
             font-size: 15px;
@@ -152,6 +175,10 @@
     border-radius: var(--border-radius);
     background-color: var(--secondary-background);
 
+    .info {
+        flex-grow: 1;
+    }
+
     &:hover {
         background-color: var(--primary-background);
     }
@@ -167,5 +194,19 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        font-size: 14px;
+    }
+}
+
+.botContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+
+    .owner {
+        text-transform: uppercase;
+        font-size: 10px;
+        font-weight: 600;
     }
 }

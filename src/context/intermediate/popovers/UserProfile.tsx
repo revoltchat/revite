@@ -1,10 +1,17 @@
-import { ListUl } from "@styled-icons/boxicons-regular";
+import {
+    ListUl,
+    DotsVerticalRounded,
+    ChevronRight,
+} from "@styled-icons/boxicons-regular";
 import {
     Envelope,
     Edit,
     UserPlus,
     Group,
     InfoCircle,
+    BadgeCheck,
+    Cog,
+    TimeFive,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
@@ -157,7 +164,6 @@ export const UserProfile = observer(
                         backgroundImage:
                             backgroundURL &&
                             `linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url('${backgroundURL}')`,
-                        paddingBottom: "1px",
                     }}>
                     <div className={styles.profile}>
                         <UserIcon
@@ -234,6 +240,9 @@ export const UserProfile = observer(
                                     <UserPlus size={28} />
                                 </IconButton>
                             )}
+                        {/*<IconButton onClick={() => user.addFriend()}>
+                            <DotsVerticalRounded size={26} />
+                        </IconButton>*/}
                     </div>
                     <div className={styles.tabs}>
                         <div
@@ -288,31 +297,59 @@ export const UserProfile = observer(
                                 {user.bot ? (
                                     <>
                                         <div className={styles.category}>
-                                            bot owner
+                                            Bot information
                                         </div>
-                                        <div
-                                            onClick={() =>
-                                                user.bot &&
-                                                openScreen({
-                                                    id: "profile",
-                                                    user_id: user.bot.owner,
-                                                })
-                                            }
-                                            className={styles.entry}
-                                            key={user.bot.owner}>
-                                            <UserIcon
-                                                size={32}
-                                                target={client.users.get(
-                                                    user.bot.owner,
-                                                )}
-                                            />
-                                            <span>
-                                                <Username
-                                                    user={client.users.get(
+                                        <div className={styles.botContainer}>
+                                            <div className={styles.botStats}>
+                                                <div className={styles.stat}>
+                                                    <BadgeCheck size="15" />
+                                                    <b>
+                                                        This bot has been
+                                                        officially verified by
+                                                        Revolt
+                                                    </b>
+                                                </div>
+                                                <div className={styles.stat}>
+                                                    <Cog size="15" />
+                                                    Used in <b>456 servers</b>
+                                                </div>
+                                                <div className={styles.stat}>
+                                                    <TimeFive size="14" />
+                                                    Bot active since{" "}
+                                                    <b>Apr 15, 2019</b>
+                                                </div>
+                                            </div>
+                                            <div
+                                                onClick={() =>
+                                                    user.bot &&
+                                                    openScreen({
+                                                        id: "profile",
+                                                        user_id: user.bot.owner,
+                                                    })
+                                                }
+                                                className={styles.entry}
+                                                key={user.bot.owner}>
+                                                <UserIcon
+                                                    size={32}
+                                                    target={client.users.get(
                                                         user.bot.owner,
                                                     )}
                                                 />
-                                            </span>
+                                                <div className={styles.info}>
+                                                    <Username
+                                                        user={client.users.get(
+                                                            user.bot.owner,
+                                                        )}
+                                                    />
+                                                    <div
+                                                        className={
+                                                            styles.owner
+                                                        }>
+                                                        Bot owner
+                                                    </div>
+                                                </div>
+                                                <ChevronRight size="24" />
+                                            </div>
                                         </div>
                                     </>
                                 ) : undefined}
