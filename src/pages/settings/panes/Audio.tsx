@@ -12,6 +12,11 @@ import Button from "../../../components/ui/Button";
 import ComboBox from "../../../components/ui/ComboBox";
 import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
+import opusSVG from "../assets/opus_logo.svg";
+
+{
+    /*import OpusSVG from "../assets/opus_logo.svg";*/
+}
 
 const constraints = { audio: true };
 
@@ -57,11 +62,11 @@ export function Component() {
         return () => {
             if (mediaStream) {
                 // close microphone access on unmount
-                mediaStream.getTracks().forEach(track => {
-                    track.stop()
-                })
+                mediaStream.getTracks().forEach((track) => {
+                    track.stop();
+                });
             }
-        }
+        };
     }, [mediaStream]);
 
     useEffect(() => {
@@ -90,61 +95,139 @@ export function Component() {
     return (
         <>
             <div class={styles.audio}>
-                <h3>
-                    <Text id="app.settings.pages.audio.input_device" />
-                </h3>
-
                 {!permission && (
-                    <div className={styles.grant_permission}>
-                        <span className={styles.description}>
-                            <Text id="app.settings.pages.audio.tip_grant_permission" />
-                        </span>
-                        <Button
-                            compact
-                            onClick={(e) => handleAskForPermission(e)}
-                            error>
-                            <Text id="app.settings.pages.audio.button_grant" />
-                        </Button>
-                    </div>
-                )}
-
-                <ComboBox
-                    value={window.localStorage.getItem("audioInputDevice") ?? 0}
-                    onChange={(e) =>
-                        changeAudioDevice(e.currentTarget.value, "input")
-                    }>
-                    {mediaDevices
-                        ?.filter((device) => device.kind === "audioinput")
-                        .map((device) => {
-                            return (
-                                <option
-                                    value={device.deviceId}
-                                    key={device.deviceId}>
-                                    {device.label || (
-                                        <Text id="app.settings.pages.audio.device_label_NA" />
-                                    )}
-                                </option>
-                            );
-                        })}
-                </ComboBox>
-                {error && error.name === "NotAllowedError" && (
-                    <Overline error="AudioPermissionBlock" type="error" block />
+                    <Tip error hideSeparator>
+                        <Text id="app.settings.pages.audio.tip_grant_permission" />
+                    </Tip>
                 )}
 
                 {error && permission === "prompt" && (
-                    <Tip>
-                        <TextReact
-                            id="app.settings.pages.audio.tip_retry"
-                            fields={{
-                                retryBtn: (
-                                    <a onClick={handleAskForPermission}>
-                                        <Text id="app.settings.pages.audio.button_retry" />
-                                    </a>
-                                ),
-                            }}
-                        />
+                    <Tip error hideSeparator>
+                        <Text id="app.settings.pages.audio.tip_retry" />
+                        <a onClick={handleAskForPermission}>
+                            <Text id="app.settings.pages.audio.button_retry" />
+                        </a>
+                        .
                     </Tip>
                 )}
+
+                <div className={styles.audioRow}>
+                    <div className={styles.select}>
+                        <h3>
+                            <Text id="app.settings.pages.audio.input_device" />
+                        </h3>
+                        <div class={styles.audioBox}>
+                            <ComboBox
+                                value={
+                                    window.localStorage.getItem(
+                                        "audioInputDevice",
+                                    ) ?? 0
+                                }
+                                onChange={(e) =>
+                                    changeAudioDevice(
+                                        e.currentTarget.value,
+                                        "input",
+                                    )
+                                }>
+                                {mediaDevices
+                                    ?.filter(
+                                        (device) =>
+                                            device.kind === "audioinput",
+                                    )
+                                    .map((device) => {
+                                        return (
+                                            <option
+                                                value={device.deviceId}
+                                                key={device.deviceId}>
+                                                {device.label || (
+                                                    <Text id="app.settings.pages.audio.device_label_NA" />
+                                                )}
+                                            </option>
+                                        );
+                                    })}
+                            </ComboBox>
+                            {/*TOFIX: add logic to sound notches*/}
+                            {/*<div className={styles.notches}>
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                            </div>*/}
+                            {!permission && (
+                                <Button
+                                    compact
+                                    onClick={(e) => handleAskForPermission(e)}
+                                    error>
+                                    <Text id="app.settings.pages.audio.button_grant" />
+                                </Button>
+                            )}
+                            {error && error.name === "NotAllowedError" && (
+                                <Overline
+                                    error="AudioPermissionBlock"
+                                    type="error"
+                                    block
+                                />
+                            )}
+                        </div>
+                    </div>
+                    <div className={styles.select}>
+                        <h3>
+                            <Text id="app.settings.pages.audio.output_device" />
+                        </h3>
+                        {/* TOFIX: create audio output combobox*/}
+                        <ComboBox
+                            value={
+                                window.localStorage.getItem(
+                                    "audioOutputDevice",
+                                ) ?? 0
+                            }
+                            onChange={(e) =>
+                                changeAudioDevice(
+                                    e.currentTarget.value,
+                                    "output",
+                                )
+                            }>
+                            {mediaDevices
+                                ?.filter(
+                                    (device) => device.kind === "audiooutput",
+                                )
+                                .map((device) => {
+                                    return (
+                                        <option
+                                            value={device.deviceId}
+                                            key={device.deviceId}>
+                                            {device.label || (
+                                                <Text id="app.settings.pages.audio.device_label_NA" />
+                                            )}
+                                        </option>
+                                    );
+                                })}
+                        </ComboBox>
+                        {/*<div className={styles.notches}>
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                            <div />
+                        </div>*/}
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div className={styles.opus}>
+                <img height="20" src={opusSVG} draggable={false} />
+                Audio codec powered by Opus
             </div>
         </>
     );

@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default styled.div<Props>`
-    gap: 6px;
+    gap: 10px;
     height: 48px;
     flex: 0 auto;
     display: flex;

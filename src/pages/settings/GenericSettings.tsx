@@ -41,6 +41,7 @@ interface Props {
     showExitButton?: boolean;
     switchPage: (to?: string) => void;
     category: "pages" | "channel_pages" | "server_pages";
+    indexHeader?: Children;
 }
 
 export function GenericSettings({
@@ -51,6 +52,7 @@ export function GenericSettings({
     children,
     defaultPage,
     showExitButton,
+    indexHeader,
 }: Props) {
     const history = useHistory();
     const theme = useContext(ThemeContext);
@@ -132,6 +134,7 @@ export function GenericSettings({
                 <div className={styles.sidebar}>
                     <div className={styles.scrollbox}>
                         <div className={styles.container}>
+                            {indexHeader}
                             {pages.map((entry, i) =>
                                 entry.hidden ? undefined : (
                                     <>

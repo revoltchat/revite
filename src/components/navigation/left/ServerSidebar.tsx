@@ -32,12 +32,13 @@ interface Props {
 
 const ServerBase = styled.div`
     height: 100%;
-    width: 240px;
+    width: 232px;
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
     background: var(--secondary-background);
     border-start-start-radius: 8px;
+    border-end-start-radius: 8px;
     overflow: hidden;
 
     ${isTouchscreenDevice &&
