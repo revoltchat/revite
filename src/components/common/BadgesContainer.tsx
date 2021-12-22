@@ -20,17 +20,14 @@ const BadgeContainer = styled.div`
     }
 `;
 
-type Props = { badges: number } & (
-    | { object: Server; type: "server" }
-    | { object: User; type: "user" }
-);
+type Props = { object: Server | User };
 
-export default function BadgesContainer({ badges, object, type }: Props) {
+export default function BadgesContainer({ object }: Props) {
     return (
         <Localizer>
-            {type === "user" ? (
+            {object instanceof User ? (
                 <BadgeContainer>
-                    {badges & UserBadges.Founder ? (
+                    {object.badges! & UserBadges.Founder ? (
                         <Tooltip
                             content={
                                 <Text id="app.special.popovers.user_profile.badges.founder" />
@@ -40,7 +37,7 @@ export default function BadgesContainer({ badges, object, type }: Props) {
                     ) : (
                         <></>
                     )}
-                    {badges & UserBadges.Developer ? (
+                    {object.badges! & UserBadges.Developer ? (
                         <Tooltip
                             content={<Text id="app.navigation.tabs.dev" />}>
                             <img src="/assets/badges/developer.svg" />
@@ -48,7 +45,7 @@ export default function BadgesContainer({ badges, object, type }: Props) {
                     ) : (
                         <></>
                     )}
-                    {badges & UserBadges.Translator ? (
+                    {object.badges! & UserBadges.Translator ? (
                         <Tooltip
                             content={
                                 <Text id="app.special.popovers.user_profile.badges.translator" />
@@ -69,7 +66,7 @@ export default function BadgesContainer({ badges, object, type }: Props) {
                     ) : (
                         <></>
                     )}
-                    {badges & UserBadges.EarlyAdopter ? (
+                    {object.badges! & UserBadges.EarlyAdopter ? (
                         <Tooltip
                             content={
                                 <Text id="app.special.popovers.user_profile.badges.early_adopter" />
@@ -79,7 +76,7 @@ export default function BadgesContainer({ badges, object, type }: Props) {
                     ) : (
                         <></>
                     )}
-                    {badges & UserBadges.PlatformModeration ? (
+                    {object.badges! & UserBadges.PlatformModeration ? (
                         <Tooltip
                             content={
                                 <Text id="app.special.popovers.user_profile.badges.moderation" />
@@ -89,7 +86,7 @@ export default function BadgesContainer({ badges, object, type }: Props) {
                     ) : (
                         <></>
                     )}
-                    {badges & UserBadges.ResponsibleDisclosure ? (
+                    {object.badges! & UserBadges.ResponsibleDisclosure ? (
                         <Tooltip
                             content={
                                 <Text id="app.special.popovers.user_profile.badges.responsible_disclosure" />
@@ -99,7 +96,7 @@ export default function BadgesContainer({ badges, object, type }: Props) {
                     ) : (
                         <></>
                     )}
-                    {badges & UserBadges.Supporter ? (
+                    {object.badges! & UserBadges.Supporter ? (
                         <Tooltip
                             content={
                                 <Text id="app.special.popovers.user_profile.badges.supporter" />
@@ -120,14 +117,14 @@ export default function BadgesContainer({ badges, object, type }: Props) {
                     ) : (
                         <></>
                     )}
-                    {badges & UserBadges.ReservedRelevantJokeBadge1 ? (
+                    {object.badges! & UserBadges.ReservedRelevantJokeBadge1 ? (
                         <Tooltip content="sus">
                             <img src="/assets/badges/amog.svg" />
                         </Tooltip>
                     ) : (
                         <></>
                     )}
-                    {badges & UserBadges.Paw ? (
+                    {object.badges! & UserBadges.Paw ? (
                         <Tooltip content="🦊">
                             <img src="/assets/badges/paw.svg" />
                         </Tooltip>
@@ -144,7 +141,7 @@ export default function BadgesContainer({ badges, object, type }: Props) {
                 </BadgeContainer>
             ) : (
                 <BadgeContainer>
-                    {badges === 1 ? (
+                    {object.flags! === 1 ? (
                         <Tooltip
                             content={
                                 <Text id="app.special.server-badges.official" />
@@ -172,7 +169,7 @@ export default function BadgesContainer({ badges, object, type }: Props) {
                         <></>
                     )}
 
-                    {badges === 2 ? (
+                    {object.flags! === 2 ? (
                         <Tooltip
                             content={
                                 <Text id="app.special.server-badges.verified" />

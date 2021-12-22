@@ -338,11 +338,7 @@ export const UserProfile = observer(
                                         <div className={styles.category}>
                                             <Text id="app.special.popovers.user_profile.sub.badges" />
                                         </div>
-                                        <BadgesContainer
-                                            badges={badges}
-                                            object={user}
-                                            type="user"
-                                        />
+                                        <BadgesContainer object={user} />
                                     </>
                                 )}
                                 {profile?.content && (

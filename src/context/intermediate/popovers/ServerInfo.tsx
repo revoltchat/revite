@@ -148,11 +148,7 @@ export const ServerInfo = observer(
                         {server.flags ? (
                             <>
                                 <div className={styles.category}>Badges</div>
-                                <BadgesContainer
-                                    badges={server.flags}
-                                    object={server}
-                                    type="server"
-                                />
+                                <BadgesContainer object={server} />
                             </>
                         ) : undefined}
                         <div className={styles.category}>description</div>
