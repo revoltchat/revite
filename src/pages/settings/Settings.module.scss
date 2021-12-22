@@ -193,7 +193,9 @@
             padding: 80px 32px;
             width: 100%;
             flex-direction: column;
-            height: fit-content;
+
+            // This prevents members, invites and ban list from being able to properly display.
+            // height: fit-content;
         }
 
         details {
