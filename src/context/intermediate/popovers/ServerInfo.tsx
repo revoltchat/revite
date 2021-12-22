@@ -150,7 +150,7 @@ export const ServerInfo = observer(
                                 <div className={styles.category}>Badges</div>
                                 <BadgesContainer
                                     badges={server.flags}
-                                    id={server._id}
+                                    object={server}
                                     type="server"
                                 />
                             </>

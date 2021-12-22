@@ -340,7 +340,7 @@ export const UserProfile = observer(
                                         </div>
                                         <BadgesContainer
                                             badges={badges}
-                                            id={user._id}
+                                            object={user}
                                             type="user"
                                         />
                                     </>

@@ -1,5 +1,7 @@
 import { Check, Shield } from "@styled-icons/boxicons-regular";
 import { Badges as UserBadges } from "revolt-api/types/Users";
+import { Server } from "revolt.js/dist/maps/Servers";
+import { User } from "revolt.js/dist/maps/Users";
 import styled from "styled-components";
 
 import { Localizer, Text } from "preact-i18n";
@@ -18,13 +20,12 @@ const BadgeContainer = styled.div`
     }
 `;
 
-interface Props {
-    badges: number;
-    id?: string;
-    type: "server" | "user";
-}
+type Props = { badges: number } & (
+    | { object: Server; type: "server" }
+    | { object: User; type: "user" }
+);
 
-export default function BadgesContainer({ badges, id, type }: Props) {
+export default function BadgesContainer({ badges, object, type }: Props) {
     return (
         <Localizer>
             {type === "user" ? (
@@ -133,7 +134,7 @@ export default function BadgesContainer({ badges, id, type }: Props) {
                     ) : (
                         <></>
                     )}
-                    {id === "01EX2NCWQ0CHS3QJF0FEQS1GR4" ? (
+                    {object._id === "01EX2NCWQ0CHS3QJF0FEQS1GR4" ? (
                         <Tooltip content="🦝">
                             <img src="/assets/badges/raccoon.svg" />
                         </Tooltip>
