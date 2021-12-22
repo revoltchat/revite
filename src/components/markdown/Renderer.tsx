@@ -9,8 +9,6 @@ import MarkdownEmoji from "markdown-it-emoji/dist/markdown-it-emoji-bare";
 import MarkdownSub from "markdown-it-sub";
 // @ts-expect-error No typings.
 import MarkdownSup from "markdown-it-sup";
-import Prism from "prismjs";
-import "prismjs/themes/prism-tomorrow.css";
 import { RE_MENTIONS } from "revolt.js";
 
 import styles from "./Markdown.module.scss";
@@ -26,6 +24,7 @@ import { generateEmoji } from "../common/Emoji";
 
 import { emojiDictionary } from "../../assets/emojis";
 import { MarkdownProps } from "./Markdown";
+import Prism from "./prism";
 
 // TODO: global.d.ts file for defining globals
 declare global {
