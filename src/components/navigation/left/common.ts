@@ -1,7 +1,7 @@
 import { reaction } from "mobx";
 import { Channel } from "revolt.js/dist/maps/Channels";
 
-import { useLayoutEffect, useRef } from "preact/hooks";
+import { useLayoutEffect } from "preact/hooks";
 
 import { dispatch } from "../../../redux";
 import { Unreads } from "../../../redux/reducers/unreads";

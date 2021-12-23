@@ -1,5 +1,6 @@
 import { Hash } from "@styled-icons/boxicons-regular";
 import { Ghost } from "@styled-icons/boxicons-solid";
+import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
@@ -10,7 +11,6 @@ import { useEffect, useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { useApplicationState } from "../../mobx/State";
 import { dispatch, getState } from "../../redux";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
@@ -92,6 +92,23 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
     const [showChannels, setChannels] = useState(
         getState().sectionToggle[CHANNELS_SIDEBAR_KEY] ?? true,
     );
+
+    // Mark channel as read.
+    useEffect(() => {
+        const checkUnread = () =>
+            channel.unread &&
+            channel.client.unreads!.markRead(
+                channel._id,
+                channel.last_message_id!,
+                true,
+            );
+
+        checkUnread();
+        return reaction(
+            () => channel.last_message_id,
+            () => checkUnread(),
+        );
+    }, [channel]);
 
     return (
         <AgeGate

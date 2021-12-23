@@ -41,6 +41,7 @@ export default class ServerConfig
      */
     createClient() {
         const client = new Client({
+            unreads: true,
             autoReconnect: false,
             apiURL: import.meta.env.VITE_API_URL,
             debug: import.meta.env.DEV,
