@@ -11,24 +11,16 @@ import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
-import { dispatch } from "../../../redux";
 import { connectState } from "../../../redux/connector";
-import { Notifications } from "../../../redux/reducers/notifications";
-import { Unreads } from "../../../redux/reducers/unreads";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import CollapsibleSection from "../../common/CollapsibleSection";
 import ServerHeader from "../../common/ServerHeader";
 import Category from "../../ui/Category";
-import { mapChannelWithUnread, useUnreads } from "./common";
 
 import { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
-
-interface Props {
-    unreads: Unreads;
-}
 
 const ServerBase = styled.div`
     height: 100%;
@@ -56,7 +48,7 @@ const ServerList = styled.div`
     }
 `;
 
-const ServerSidebar = observer((props: Props) => {
+export default observer(() => {
     const client = useClient();
     const state = useApplicationState();
     const { server: server_id, channel: channel_id } =
@@ -76,9 +68,7 @@ const ServerSidebar = observer((props: Props) => {
         );
     if (channel_id && !channel) return <Redirect to={`/server/${server_id}`} />;
 
-    // Handle unreads; FIXME: should definitely not be here
-    if (channel) useUnreads({ ...props, channel });
-
+    // ! FIXME: move this globally
     // Track which channel the user was last on.
     useEffect(() => {
         if (!channel_id) return;
@@ -95,6 +85,8 @@ const ServerSidebar = observer((props: Props) => {
         if (!entry) return;
 
         const active = channel?._id === entry._id;
+        const isUnread = entry.isUnread(state.notifications);
+        const mentionCount = entry.getMentions(state.notifications);
 
         return (
             <ConditionalLink
@@ -115,8 +107,13 @@ const ServerSidebar = observer((props: Props) => {
                 <ChannelButton
                     channel={entry}
                     active={active}
-                    // ! FIXME: pull it out directly
-                    alert={mapChannelWithUnread(entry, props.unreads).unread}
+                    alert={
+                        mentionCount.length > 0
+                            ? "mention"
+                            : isUnread
+                            ? "unread"
+                            : undefined
+                    }
                     compact
                     muted={state.notifications.isMuted(entry)}
                 />
@@ -160,11 +157,4 @@ const ServerSidebar = observer((props: Props) => {
             <PaintCounter small />
         </ServerBase>
     );
-});
-
-export default connectState(ServerSidebar, (state) => {
-    return {
-        unreads: state.unreads,
-        notifications: state.notifications,
-    };
 });

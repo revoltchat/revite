@@ -5,7 +5,7 @@ import {
     Notepad,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Link, Redirect, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 
 import { Text } from "preact-i18n";
@@ -16,48 +16,37 @@ import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
-import { dispatch } from "../../../redux";
-import { connectState } from "../../../redux/connector";
-import { Unreads } from "../../../redux/reducers/unreads";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import Category from "../../ui/Category";
 import placeholderSVG from "../items/placeholder.svg";
-import { mapChannelWithUnread, useUnreads } from "./common";
 
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 import ButtonItem, { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
 
-type Props = {
-    unreads: Unreads;
-};
-
-const HomeSidebar = observer((props: Props) => {
+export default observer(() => {
     const { pathname } = useLocation();
     const client = useContext(AppContext);
-    const layout = useApplicationState().layout;
-    const { channel } = useParams<{ channel: string }>();
+    const state = useApplicationState();
+    const { channel: currentChannel } = useParams<{ channel: string }>();
     const { openScreen } = useIntermediate();
 
-    const channels = [...client.channels.values()]
-        .filter(
-            (x) =>
-                x.channel_type === "DirectMessage" ||
-                x.channel_type === "Group",
-        )
-        .map((x) => mapChannelWithUnread(x, props.unreads));
+    const channels = [...client.channels.values()].filter(
+        (x) => x.channel_type === "DirectMessage" || x.channel_type === "Group",
+    );
 
-    const obj = client.channels.get(channel);
-    if (channel && !obj) return <Redirect to="/" />;
-    if (obj) useUnreads({ ...props, channel: obj });
+    const obj = client.channels.get(currentChannel);
 
+    // ! FIXME: move this globally
     // Track what page the user was last on (in home page).
-    useEffect(() => layout.setLastHomePath(pathname), [pathname]);
+    useEffect(() => state.layout.setLastHomePath(pathname), [pathname]);
 
-    channels.sort((b, a) => a.timestamp.localeCompare(b.timestamp));
+    channels.sort((b, a) =>
+        a.last_message_id_or_past.localeCompare(b.last_message_id_or_past),
+    );
 
     return (
         <GenericSidebarBase mobilePadding>
@@ -127,31 +116,37 @@ const HomeSidebar = observer((props: Props) => {
                 {channels.length === 0 && (
                     <img src={placeholderSVG} loading="eager" />
                 )}
-                {channels.map((x) => {
+                {channels.map((channel) => {
                     let user;
-                    if (x.channel.channel_type === "DirectMessage") {
-                        if (!x.channel.active) return null;
-                        user = x.channel.recipient;
+                    if (channel.channel_type === "DirectMessage") {
+                        if (!channel.active) return null;
+                        user = channel.recipient;
 
-                        if (!user) {
-                            console.warn(
-                                `Skipped DM ${x.channel._id} because user was missing.`,
-                            );
-                            return null;
-                        }
+                        if (!user) return null;
                     }
+
+                    const isUnread = channel.isUnread(state.notifications);
+                    const mentionCount = channel.getMentions(
+                        state.notifications,
+                    ).length;
 
                     return (
                         <ConditionalLink
-                            key={x.channel._id}
-                            active={x.channel._id === channel}
-                            to={`/channel/${x.channel._id}`}>
+                            key={channel._id}
+                            active={channel._id === currentChannel}
+                            to={`/channel/${channel._id}`}>
                             <ChannelButton
                                 user={user}
-                                channel={x.channel}
-                                alert={x.unread}
-                                alertCount={x.alertCount}
-                                active={x.channel._id === channel}
+                                channel={channel}
+                                alert={
+                                    mentionCount > 0
+                                        ? "mention"
+                                        : isUnread
+                                        ? "unread"
+                                        : undefined
+                                }
+                                alertCount={mentionCount}
+                                active={channel._id === currentChannel}
                             />
                         </ConditionalLink>
                     );
@@ -161,13 +156,3 @@ const HomeSidebar = observer((props: Props) => {
         </GenericSidebarBase>
     );
 });
-
-export default connectState(
-    HomeSidebar,
-    (state) => {
-        return {
-            unreads: state.unreads,
-        };
-    },
-    true,
-);

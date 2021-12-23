@@ -13,8 +13,6 @@ import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
-import { connectState } from "../../../redux/connector";
-import { Unreads } from "../../../redux/reducers/unreads";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
@@ -25,7 +23,6 @@ import UserHover from "../../common/user/UserHover";
 import UserIcon from "../../common/user/UserIcon";
 import IconButton from "../../ui/IconButton";
 import LineDivider from "../../ui/LineDivider";
-import { mapChannelWithUnread } from "./common";
 
 import { Children } from "../../../types/Preact";
 
@@ -193,47 +190,14 @@ function Swoosh() {
     );
 }
 
-interface Props {
-    unreads: Unreads;
-}
-
-export const ServerListSidebar = observer(({ unreads }: Props) => {
+export default observer(() => {
     const client = useClient();
     const state = useApplicationState();
 
     const { server: server_id } = useParams<{ server?: string }>();
     const server = server_id ? client.servers.get(server_id) : undefined;
-    const activeServers = [...client.servers.values()];
-    const channels = [...client.channels.values()].map((x) =>
-        mapChannelWithUnread(x, unreads),
-    );
-
-    const unreadChannels = channels
-        .filter((x) => x.unread)
-        .filter((x) => !state.notifications.isMuted(x.channel))
-        .map((x) => x.channel?._id);
-
-    const servers = activeServers.map((server) => {
-        let alertCount = 0;
-        for (const id of server.channel_ids) {
-            const channel = channels.find((x) => x.channel?._id === id);
-            if (channel?.alertCount) {
-                alertCount += channel.alertCount;
-            }
-        }
-
-        return {
-            server,
-            unread: (typeof server.channel_ids.find((x) =>
-                unreadChannels.includes(x),
-            ) !== "undefined"
-                ? alertCount > 0
-                    ? "mention"
-                    : "unread"
-                : undefined) as "mention" | "unread" | undefined,
-            alertCount,
-        };
-    });
+    const servers = [...client.servers.values()];
+    const channels = [...client.channels.values()];
 
     const history = useHistory();
     const path = useLocation().pathname;
@@ -241,16 +205,16 @@ export const ServerListSidebar = observer(({ unreads }: Props) => {
 
     let homeUnread: "mention" | "unread" | undefined;
     let alertCount = 0;
-    for (const x of channels) {
-        if (x.channel?.channel_type === "Group" && x.unread) {
+    for (const channel of channels) {
+        if (channel?.channel_type === "Group" && channel.unread) {
             homeUnread = "unread";
-            alertCount += x.alertCount ?? 0;
+            alertCount += channel.mentions.length;
         }
 
         if (
-            x.channel?.channel_type === "DirectMessage" &&
-            x.channel.active &&
-            x.unread
+            channel.channel_type === "DirectMessage" &&
+            channel.active &&
+            channel.unread
         ) {
             alertCount++;
         }
@@ -294,32 +258,40 @@ export const ServerListSidebar = observer(({ unreads }: Props) => {
                     </ServerEntry>
                 </ConditionalLink>
                 <LineDivider />
-                {servers.map((entry) => {
-                    const active = entry.server._id === server?._id;
+                {servers.map((server) => {
+                    const active = server._id === server_id;
+
+                    const isUnread = server.isUnread(state.notifications);
+                    const mentionCount = server.getMentions(
+                        state.notifications,
+                    ).length;
 
                     return (
                         <ConditionalLink
-                            key={entry.server._id}
+                            key={server._id}
                             active={active}
-                            to={state.layout.getServerPath(entry.server._id)}>
+                            to={state.layout.getServerPath(server._id)}>
                             <ServerEntry
                                 active={active}
                                 onContextMenu={attachContextMenu("Menu", {
-                                    server: entry.server._id,
-                                    unread: entry.unread,
+                                    server: server._id,
+                                    unread: isUnread,
                                 })}>
                                 <Swoosh />
                                 <Tooltip
-                                    content={entry.server.name}
+                                    content={server.name}
                                     placement="right">
                                     <Icon
                                         size={42}
-                                        unread={entry.unread}
-                                        count={entry.alertCount}>
-                                        <ServerIcon
-                                            size={32}
-                                            target={entry.server}
-                                        />
+                                        unread={
+                                            mentionCount > 0
+                                                ? "mention"
+                                                : isUnread
+                                                ? "unread"
+                                                : undefined
+                                        }
+                                        count={mentionCount}>
+                                        <ServerIcon size={32} target={server} />
                                     </Icon>
                                 </Tooltip>
                             </ServerEntry>
@@ -352,10 +324,4 @@ export const ServerListSidebar = observer(({ unreads }: Props) => {
             )}
         </ServersBase>
     );
-});
-
-export default connectState(ServerListSidebar, (state) => {
-    return {
-        unreads: state.unreads,
-    };
 });

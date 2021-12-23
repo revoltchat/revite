@@ -3088,6 +3088,11 @@ lodash.defaultsdeep@^4.6.1:
   resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.1.tgz#512e9bd721d272d94e3d3a63653fa17516741ca6"
   integrity sha512-3j8wdDzYuWO3lM3Reg03MuQR957t287Rpcxp1njpEa8oDrikb+FwGdW3n+FELh/A6qib6yPit0j/pv9G/yeAqA==
 
+lodash.flatten@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
+  integrity sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=
+
 lodash.isequal@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
@@ -3765,16 +3770,17 @@ revolt-api@^0.5.3-alpha.9:
   resolved "https://registry.yarnpkg.com/revolt-api/-/revolt-api-0.5.3-alpha.9.tgz#46e75b7d8f9c6702df39039b829dddbb7897f237"
   integrity sha512-L8K9uPV3ME8bLdtWm8L9iPQvFM0GghA+5LzmWFjd6Gbn56u22ZYub2lABi4iHrWgeA2X41dGSsuSBgHSlts9Og==
 
-revolt.js@5.1.0-alpha.15:
-  version "5.1.0-alpha.15"
-  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.1.0-alpha.15.tgz#a2be1f29de93f1ec18f0e502ecb65ade55c0070d"
-  integrity sha512-1gGcGDv1+J5NlmnX099XafKugCebACg9ke0NA754I4hLTNMMwkZyphyvYWWWkI394qn2mA3NG7WgEmrIoZUtgw==
+revolt.js@5.2.0-patch.0:
+  version "5.2.0-patch.0"
+  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.2.0-patch.0.tgz#af6afc402399e5394b50b2e7d1573ff490fd3906"
+  integrity sha512-PnHKqRpEvrBFm1xtLA/lGG5FIsp5kW4eB8sYiejjQCA1DWi7Xg6MNvyOjjha6jKftPXF8roivfZWEnM7sY1bnA==
   dependencies:
     axios "^0.21.4"
     eventemitter3 "^4.0.7"
     exponential-backoff "^3.1.0"
     isomorphic-ws "^4.0.1"
     lodash.defaultsdeep "^4.6.1"
+    lodash.flatten "^4.4.0"
     lodash.isequal "^4.5.0"
     mobx "^6.3.2"
     revolt-api "^0.5.3-alpha.9"

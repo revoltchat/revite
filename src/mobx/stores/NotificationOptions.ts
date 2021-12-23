@@ -195,12 +195,17 @@ export default class NotificationOptions implements Store, Persistent<Data> {
      * @returns Whether this object is muted
      */
     isMuted(target?: Channel | Server) {
+        var value: NotificationState | undefined;
         if (target instanceof Channel) {
-            return this.computeForChannel(target) === "muted";
+            value = this.computeForChannel(target);
         } else if (target instanceof Server) {
-            return this.computeForServer(target._id) === "muted";
-        } else {
-            return false;
+            value = this.computeForServer(target._id);
         }
+
+        if (value === "muted") {
+            return true;
+        }
+
+        return false;
     }
 }
