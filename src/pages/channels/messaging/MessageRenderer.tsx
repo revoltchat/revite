@@ -10,15 +10,12 @@ import styled from "styled-components";
 import { decodeTime } from "ulid";
 
 import { Text } from "preact-i18n";
-import { memo } from "preact/compat";
 import { useEffect, useState } from "preact/hooks";
 
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { ChannelRenderer } from "../../../lib/renderer/Singleton";
 
 import { useApplicationState } from "../../../mobx/State";
-import { connectState } from "../../../redux/connector";
-import { QueuedMessage } from "../../../redux/reducers/queue";
 
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
 import { useClient } from "../../../context/revoltjs/RevoltClient";

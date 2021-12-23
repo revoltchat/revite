@@ -5,7 +5,6 @@ import { createGlobalStyle } from "styled-components";
 import { useEffect } from "preact/hooks";
 
 import { useApplicationState } from "../mobx/State";
-import { getState } from "../redux";
 
 export type Variables =
     | "accent"
@@ -279,28 +278,6 @@ export const PRESETS: Record<string, Theme> = {
         "status-invisible": "#A5A5A5",
     },
 };
-
-// todo: store used themes locally
-export function getBaseTheme(name: string): Theme {
-    if (name in PRESETS) {
-        return PRESETS[name];
-    }
-
-    // TODO: properly initialize `themes` in state instead of letting it be undefined
-    const themes = getState().themes ?? {};
-
-    if (name in themes) {
-        const { theme } = themes[name];
-
-        return {
-            ...PRESETS[theme.light ? "light" : "dark"],
-            ...theme,
-        };
-    }
-
-    // how did we get here
-    return PRESETS["dark"];
-}
 
 const keys = Object.keys(PRESETS.dark);
 const GlobalTheme = createGlobalStyle<{ theme: Theme }>`

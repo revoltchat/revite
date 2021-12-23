@@ -21,7 +21,7 @@ import {
 } from "../../../lib/renderer/Singleton";
 
 import { useApplicationState } from "../../../mobx/State";
-import { Reply } from "../../../redux/reducers/queue";
+import { Reply } from "../../../mobx/stores/MessageQueue";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
@@ -111,7 +111,7 @@ const Action = styled.div`
 const RE_SED = new RegExp("^s/([^])*/([^])*$");
 
 // ! FIXME: add to app config and load from app config
-export const CAN_UPLOAD_AT_ONCE = 4;
+export const CAN_UPLOAD_AT_ONCE = 5;
 
 export default observer(({ channel }: Props) => {
     const state = useApplicationState();

@@ -33,14 +33,8 @@ import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
 import { useApplicationState } from "../mobx/State";
-import { dispatch } from "../redux";
-import { connectState } from "../redux/connector";
-import {
-    getNotificationState,
-    Notifications,
-    NotificationState,
-} from "../redux/reducers/notifications";
-import { QueuedMessage } from "../redux/reducers/queue";
+import { QueuedMessage } from "../mobx/stores/MessageQueue";
+import { NotificationState } from "../mobx/stores/NotificationOptions";
 
 import { Screen, useIntermediate } from "../context/intermediate/Intermediate";
 import {
@@ -174,21 +168,19 @@ export default function ContextMenus() {
                         )
                             return;
 
-                        dispatch({
-                            type: "UNREADS_MARK_READ",
-                            channel: data.channel._id,
-                            message: data.channel.last_message_id!,
-                        });
-
-                        data.channel.ack(undefined, true);
+                        client.unreads!.markRead(
+                            data.channel._id,
+                            data.channel.last_message_id!,
+                            true,
+                            true,
+                        );
                     }
                     break;
                 case "mark_server_as_read":
                     {
-                        dispatch({
-                            type: "UNREADS_MARK_MULTIPLE_READ",
-                            channels: data.server.channel_ids,
-                        });
+                        client.unreads!.markMultipleRead(
+                            data.server.channel_ids,
+                        );
 
                         data.server.ack();
                     }
@@ -439,16 +431,6 @@ export default function ContextMenus() {
                 case "open_server_settings":
                     history.push(`/server/${data.id}/settings`);
                     break;
-
-                case "set_notification_state": {
-                    const { key, state } = data;
-                    if (state) {
-                        dispatch({ type: "NOTIFICATIONS_SET", key, state });
-                    } else {
-                        dispatch({ type: "NOTIFICATIONS_REMOVE", key });
-                    }
-                    break;
-                }
             }
         })().catch((err) => {
             openScreen({ id: "error", error: takeError(err) });

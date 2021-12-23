@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { useEffect, useState } from "preact/hooks";
 
 import { useApplicationState } from "../../../mobx/State";
-import { dispatch } from "../../../redux";
 
-import { Theme, generateVariables, ThemeOptions } from "../../../context/Theme";
+import { Theme, generateVariables } from "../../../context/Theme";
 
 import Tip from "../../../components/ui/Tip";
 import previewPath from "../assets/preview.svg";

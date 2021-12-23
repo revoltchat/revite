@@ -7,11 +7,12 @@ import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { dispatch, getState } from "../../redux";
+import { useApplicationState } from "../../mobx/State";
+import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
@@ -83,15 +84,8 @@ export function Channel({ id }: { id: string }) {
     return <TextChannel channel={channel} />;
 }
 
-const MEMBERS_SIDEBAR_KEY = "sidebar_members";
-const CHANNELS_SIDEBAR_KEY = "sidebar_channels";
 const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
-    const [showMembers, setMembers] = useState(
-        getState().sectionToggle[MEMBERS_SIDEBAR_KEY] ?? true,
-    );
-    const [showChannels, setChannels] = useState(
-        getState().sectionToggle[CHANNELS_SIDEBAR_KEY] ?? true,
-    );
+    const layout = useApplicationState().layout;
 
     // Mark channel as read.
     useEffect(() => {
@@ -121,45 +115,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                     channel.nsfw
                 )
             }>
-            <ChannelHeader
-                channel={channel}
-                toggleSidebar={() => {
-                    setMembers(!showMembers);
-
-                    if (showMembers) {
-                        dispatch({
-                            type: "SECTION_TOGGLE_SET",
-                            id: MEMBERS_SIDEBAR_KEY,
-                            state: false,
-                        });
-                    } else {
-                        dispatch({
-                            type: "SECTION_TOGGLE_UNSET",
-                            id: MEMBERS_SIDEBAR_KEY,
-                        });
-                    }
-                }}
-                toggleChannelSidebar={() => {
-                    if (isTouchscreenDevice) {
-                        return;
-                    }
-
-                    setChannels(!showChannels);
-
-                    if (showChannels) {
-                        dispatch({
-                            type: "SECTION_TOGGLE_SET",
-                            id: CHANNELS_SIDEBAR_KEY,
-                            state: false,
-                        });
-                    } else {
-                        dispatch({
-                            type: "SECTION_TOGGLE_UNSET",
-                            id: CHANNELS_SIDEBAR_KEY,
-                        });
-                    }
-                }}
-            />
+            <ChannelHeader channel={channel} />
             <ChannelMain>
                 <ChannelContent>
                     <VoiceHeader id={channel._id} />
@@ -168,7 +124,10 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                     <JumpToBottom channel={channel} />
                     <MessageBox channel={channel} />
                 </ChannelContent>
-                {!isTouchscreenDevice && showMembers && <RightSidebar />}
+                {!isTouchscreenDevice &&
+                    layout.getSectionState(SIDEBAR_MEMBERS, true) && (
+                        <RightSidebar />
+                    )}
             </ChannelMain>
         </AgeGate>
     );

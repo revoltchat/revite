@@ -12,6 +12,11 @@ export interface Data {
     openSections?: Record<string, boolean>;
 }
 
+export const SIDEBAR_MEMBERS = "sidebar_members";
+export const SIDEBAR_CHANNELS = "sidebar_channels";
+export const SECTION_MENTION = "mention";
+export const SECTION_NSFW = "nsfw";
+
 /**
  * Keeps track of the last open channels, tabs, etc.
  * Handles providing good UX experience on navigating
@@ -164,5 +169,14 @@ export default class Layout implements Store, Persistent<Data> {
         } else {
             this.openSections.set(id, value);
         }
+    }
+
+    /**
+     * Toggle state of a section.
+     * @param id Section ID
+     * @param def Default state value
+     */
+    @action toggleSectionState(id: string, def?: boolean) {
+        this.setSectionState(id, !this.getSectionState(id, def));
     }
 }

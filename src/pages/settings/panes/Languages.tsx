@@ -4,12 +4,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useMemo } from "preact/hooks";
 
-import PaintCounter from "../../../lib/PaintCounter";
-
 import { useApplicationState } from "../../../mobx/State";
-import LocaleOptions from "../../../mobx/stores/LocaleOptions";
-import { dispatch } from "../../../redux";
-import { connectState } from "../../../redux/connector";
 
 import {
     Language,

@@ -6,8 +6,6 @@ import { TextReact } from "../../../lib/i18n";
 import { stopPropagation } from "../../../lib/stopPropagation";
 import { voiceState } from "../../../lib/vortex/VoiceState";
 
-import { connectState } from "../../../redux/connector";
-
 import Button from "../../../components/ui/Button";
 import ComboBox from "../../../components/ui/ComboBox";
 import Overline from "../../../components/ui/Overline";
@@ -17,7 +15,7 @@ const constraints = { audio: true };
 
 // TODO: do not rewrite this code until voice is rewritten!
 
-export function Component() {
+export function Audio() {
     const [mediaStream, setMediaStream] = useState<MediaStream | undefined>(
         undefined,
     );
@@ -163,7 +161,3 @@ function changeAudioDevice(deviceId: string, deviceType: string) {
         window.localStorage.setItem("audioOutputDevice", deviceId);
     }
 }
-
-export const Audio = connectState(Component, () => {
-    return;
-});
