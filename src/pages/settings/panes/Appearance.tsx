@@ -165,6 +165,20 @@ export function Component(props: Props) {
             </h3>
             <ColourSwatches value={theme.accent} onChange={setAccent} />
 
+            {/* TOFIX: Chane this checkbox to turn off the seasonal home page animations*/}
+            <Checkbox
+                checked={props.settings.theme?.ligatures === true}
+                onChange={() =>
+                    setTheme({
+                        ligatures: !props.settings.theme?.ligatures,
+                    })
+                }
+                description={
+                    "Displays effects in the home tab during holiday seasons."
+                }>
+                Seasonal theme
+            </Checkbox>
+
             {/*<h3>
                 <Text id="app.settings.pages.appearance.message_display" />
             </h3>
