@@ -1,4 +1,4 @@
-import { At, Key, Block } from "@styled-icons/boxicons-regular";
+import { At, Key, Block, ListOl } from "@styled-icons/boxicons-regular";
 import {
     Envelope,
     HelpCircle,
@@ -165,6 +165,7 @@ export const Account = observer(() => {
                     </CategoryButton>
                 ))}
             </div>
+            <hr />
             <h3>
                 <Text id="app.settings.pages.account.2fa.title" />
             </h3>
@@ -184,9 +185,17 @@ export const Account = observer(() => {
                 icon={<Lock size={24} color="var(--error)" />}
                 description={"Set up 2FA on your account."}
                 disabled
-                action="chevron">
+                action={<Text id="general.unavailable" />}>
                 Set up Two-factor authentication
             </CategoryButton>
+            {/*<CategoryButton
+                icon={<ListOl size={24} />}
+                description={"View and download your 2FA backup codes."}
+                disabled
+                action="chevron">
+                View my backup codes
+            </CategoryButton>*/}
+            <hr />
             <h3>
                 <Text id="app.settings.pages.account.manage.title" />
             </h3>
