@@ -23,6 +23,9 @@ export const SYNC_KEYS: SyncKeys[] = [
 
 export interface Data {
     disabled: SyncKeys[];
+    revision: {
+        [key: string]: number;
+    };
 }
 
 /**
@@ -30,12 +33,14 @@ export interface Data {
  */
 export default class Sync implements Store, Persistent<Data> {
     private disabled: ObservableSet<SyncKeys>;
+    private revision: ObservableMap<SyncKeys, number>;
 
     /**
      * Construct new Sync store.
      */
     constructor() {
         this.disabled = new ObservableSet();
+        this.revision = new ObservableMap();
         makeAutoObservable(this);
         this.isEnabled = this.isEnabled.bind(this);
     }
@@ -47,6 +52,7 @@ export default class Sync implements Store, Persistent<Data> {
     toJSON() {
         return {
             enabled: [...this.disabled],
+            revision: mapToRecord(this.revision),
         };
     }
 
@@ -55,6 +61,22 @@ export default class Sync implements Store, Persistent<Data> {
             for (const key of data.disabled) {
                 this.disabled.add(key as SyncKeys);
             }
+        }
+    }
+
+    @action enable(key: SyncKeys) {
+        this.disabled.delete(key);
+    }
+
+    @action disable(key: SyncKeys) {
+        this.disabled.add(key);
+    }
+
+    @action toggle(key: SyncKeys) {
+        if (this.isEnabled(key)) {
+            this.disable(key);
+        } else {
+            this.enable(key);
         }
     }
 

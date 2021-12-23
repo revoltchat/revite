@@ -1,4 +1,4 @@
-import { At, Hash, Menu } from "@styled-icons/boxicons-regular";
+import { At, Hash } from "@styled-icons/boxicons-regular";
 import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js/dist/maps/Channels";
@@ -6,6 +6,9 @@ import { User } from "revolt.js/dist/maps/Users";
 import styled, { css } from "styled-components";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+
+import { useApplicationState } from "../../mobx/State";
+import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { getChannelName } from "../../context/revoltjs/util";
@@ -69,14 +72,16 @@ const IconConainer = styled.div`
     cursor: pointer;
     color: var(--secondary-foreground);
 
-    ${!isTouchscreenDevice && css`
+    ${!isTouchscreenDevice &&
+    css`
         &:hover {
             color: var(--foreground);
         }
     `}
-`
+`;
 
-export default observer(({ channel, toggleSidebar, toggleChannelSidebar }: ChannelHeaderProps) => {
+export default observer(({ channel }: ChannelHeaderProps) => {
+    const layout = useApplicationState().layout;
     const { openScreen } = useIntermediate();
 
     const name = getChannelName(channel);
@@ -100,7 +105,12 @@ export default observer(({ channel, toggleSidebar, toggleChannelSidebar }: Chann
     return (
         <Header placement="primary">
             <HamburgerAction />
-            <IconConainer onClick={toggleChannelSidebar}>{icon}</IconConainer>
+            <IconConainer
+                onClick={() =>
+                    layout.toggleSectionState(SIDEBAR_MEMBERS, true)
+                }>
+                {icon}
+            </IconConainer>
             <Info>
                 <span className="name">{name}</span>
                 {isTouchscreenDevice &&
@@ -143,7 +153,7 @@ export default observer(({ channel, toggleSidebar, toggleChannelSidebar }: Chann
                         </>
                     )}
             </Info>
-            <HeaderActions channel={channel} toggleSidebar={toggleSidebar} />
+            <HeaderActions channel={channel} />
         </Header>
     );
 });

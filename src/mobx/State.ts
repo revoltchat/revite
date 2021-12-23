@@ -14,6 +14,7 @@ import MessageQueue from "./stores/MessageQueue";
 import NotificationOptions from "./stores/NotificationOptions";
 import ServerConfig from "./stores/ServerConfig";
 import Settings from "./stores/Settings";
+import Sync from "./stores/Sync";
 
 /**
  * Handles global application state.
@@ -28,6 +29,7 @@ export default class State {
     notifications: NotificationOptions;
     queue: MessageQueue;
     settings: Settings;
+    sync: Sync;
 
     private persistent: [string, Persistent<unknown>][] = [];
 
@@ -44,6 +46,7 @@ export default class State {
         this.notifications = new NotificationOptions();
         this.queue = new MessageQueue();
         this.settings = new Settings();
+        this.sync = new Sync();
 
         makeAutoObservable(this);
         this.registerListeners = this.registerListeners.bind(this);
@@ -116,14 +119,25 @@ export default class State {
     }
 }
 
-const StateContext = createContext<State>(null!);
-
-export const StateContextProvider = StateContext.Provider;
+var state: State;
 
 /**
  * Get the application state
  * @returns Application state
  */
 export function useApplicationState() {
-    return useContext(StateContext);
+    if (!state) state = new State();
+    return state;
 }
+
+/**
+ * 
+ * Redux hydration:
+ * localForage.getItem("state").then((s) => {
+            if (s !== null) {
+                dispatch({ type: "__INIT", state: s as State });
+            }
+
+            state.hydrate().then(() => setLoaded(true));
+        });
+ */

@@ -78,10 +78,14 @@ export default class Settings implements Store, Persistent<ISettings> {
     /**
      * Get a settings key.
      * @param key Colon-divided key
+     * @param defaultValue Default value if not present
      * @returns Value at key
      */
-    @computed get<T extends keyof ISettings>(key: T) {
-        return this.data.get(key) as ISettings[T] | undefined;
+    @computed get<T extends keyof ISettings>(
+        key: T,
+        defaultValue?: ISettings[T],
+    ) {
+        return (this.data.get(key) as ISettings[T] | undefined) ?? defaultValue;
     }
 
     @action remove<T extends keyof ISettings>(key: T) {

@@ -4,11 +4,12 @@ import styled, { css } from "styled-components";
 
 import styles from "./Home.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useState } from "preact/hooks";
+import { useContext } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { dispatch, getState } from "../../redux";
+import { useApplicationState } from "../../mobx/State";
+import { SIDEBAR_CHANNELS } from "../../mobx/stores/Layout";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
@@ -17,8 +18,6 @@ import Emoji from "../../components/common/Emoji";
 import Tooltip from "../../components/common/Tooltip";
 import Header from "../../components/ui/Header";
 import CategoryButton from "../../components/ui/fluent/CategoryButton";
-
-const CHANNELS_SIDEBAR_KEY = "sidebar_channels";
 
 const IconConainer = styled.div`
     cursor: pointer;
@@ -34,29 +33,14 @@ const IconConainer = styled.div`
 
 export default function Home() {
     const client = useContext(AppContext);
-    const [showChannels, setChannels] = useState(
-        getState().sectionToggle[CHANNELS_SIDEBAR_KEY] ?? true,
-    );
+    const layout = useApplicationState().layout;
 
     const toggleChannelSidebar = () => {
         if (isTouchscreenDevice) {
             return;
         }
 
-        setChannels(!showChannels);
-
-        if (showChannels) {
-            dispatch({
-                type: "SECTION_TOGGLE_SET",
-                id: CHANNELS_SIDEBAR_KEY,
-                state: false,
-            });
-        } else {
-            dispatch({
-                type: "SECTION_TOGGLE_UNSET",
-                id: CHANNELS_SIDEBAR_KEY,
-            });
-        }
+        layout.toggleSectionState(SIDEBAR_CHANNELS, true);
     };
 
     return (

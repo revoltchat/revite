@@ -1,4 +1,4 @@
-import { AuthState } from "../../redux/reducers/auth";
+import { Session } from "revolt-api/types/Auth";
 
 import { Language } from "../../context/Locale";
 import { Fonts, MonospaceFonts, Overrides } from "../../context/Theme";
@@ -7,6 +7,7 @@ import { Data as DataAuth } from "../stores/Auth";
 import { Data as DataLocaleOptions } from "../stores/LocaleOptions";
 import { Data as DataNotificationOptions } from "../stores/NotificationOptions";
 import { ISettings } from "../stores/Settings";
+import { Data as DataSync } from "../stores/Sync";
 
 export type LegacyTheme = Overrides & {
     light?: boolean;
@@ -39,7 +40,29 @@ export interface LegacySyncData {
     notifications?: LegacyNotifications;
 }
 
-function legacyMigrateAuth(auth: AuthState): DataAuth {
+export type LegacySyncKeys =
+    | "theme"
+    | "appearance"
+    | "locale"
+    | "notifications";
+
+export interface LegacySyncOptions {
+    disabled?: LegacySyncKeys[];
+    revision?: {
+        [key: string]: number;
+    };
+}
+
+export interface LegacyAuthState {
+    accounts: {
+        [key: string]: {
+            session: Session;
+        };
+    };
+    active?: string;
+}
+
+function legacyMigrateAuth(auth: LegacyAuthState): DataAuth {
     return {
         current: auth.active,
         sessions: auth.accounts,
@@ -80,5 +103,14 @@ function legacyMigrateNotification(
 ): DataNotificationOptions {
     return {
         channel,
+    };
+}
+
+function legacyMigrateSync(sync: LegacySyncOptions): DataSync {
+    return {
+        disabled: sync.disabled ?? [],
+        revision: {
+            ...sync.revision,
+        },
     };
 }

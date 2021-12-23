@@ -5,7 +5,6 @@ import { ClientboundNotification } from "revolt.js/dist/websocket/notifications"
 import { StateUpdater } from "preact/hooks";
 
 import Auth from "../../mobx/stores/Auth";
-import { dispatch } from "../../redux";
 
 import { ClientStatus } from "./RevoltClient";
 
@@ -44,29 +43,6 @@ export function registerEvents(
         dropped: () => {
             setStatus(ClientStatus.DISCONNECTED);
             attemptReconnect();
-        },
-
-        packet: (packet: ClientboundNotification) => {
-            switch (packet.type) {
-                case "ChannelAck": {
-                    dispatch({
-                        type: "UNREADS_MARK_READ",
-                        channel: packet.id,
-                        message: packet.message_id,
-                    });
-                    break;
-                }
-            }
-        },
-
-        message: (message: Message) => {
-            if (message.mention_ids?.includes(client.user!._id)) {
-                dispatch({
-                    type: "UNREADS_MENTION",
-                    channel: message.channel_id,
-                    message: message._id,
-                });
-            }
         },
 
         ready: () => setStatus(ClientStatus.ONLINE),

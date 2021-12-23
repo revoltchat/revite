@@ -1,7 +1,6 @@
 import { Text } from "preact-i18n";
 
 import { useApplicationState } from "../../../mobx/State";
-import { dispatch } from "../../../redux";
 
 import Modal from "../../../components/ui/Modal";
 

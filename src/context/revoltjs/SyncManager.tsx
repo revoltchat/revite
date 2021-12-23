@@ -1,25 +1,6 @@
 /**
  * This file monitors changes to settings and syncs them to the server.
  */
-import isEqual from "lodash.isequal";
-import { UserSettings } from "revolt-api/types/Sync";
-import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
-
-import { useCallback, useContext, useEffect, useMemo } from "preact/hooks";
-
-import { dispatch } from "../../redux";
-import { connectState } from "../../redux/connector";
-import { Notifications } from "../../redux/reducers/notifications";
-import { Settings } from "../../redux/reducers/settings";
-import {
-    DEFAULT_ENABLED_SYNC,
-    SyncData,
-    SyncKeys,
-    SyncOptions,
-} from "../../redux/reducers/sync";
-
-import { Language } from "../Locale";
-import { AppContext, ClientStatus, StatusContext } from "./RevoltClient";
 
 /*type Props = {
     settings: Settings;

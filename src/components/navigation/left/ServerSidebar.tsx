@@ -11,7 +11,6 @@ import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
-import { connectState } from "../../../redux/connector";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
