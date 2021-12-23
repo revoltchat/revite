@@ -34,6 +34,7 @@ import {
     OperationsContext,
 } from "../../context/revoltjs/RevoltClient";
 
+import UserIcon from "../../components/common/user/UserIcon";
 import LineDivider from "../../components/ui/LineDivider";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
@@ -54,7 +55,14 @@ import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
 import { ThemeShop } from "./panes/ThemeShop";
 
-const IndexHeader = styled.div``;
+const IndexHeader = styled.div`
+    display: flex;
+    background: var(--secondary-background);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    align-items: center;
+    gap: 10px;
+`;
 
 export default function Settings() {
     const history = useHistory();
@@ -261,7 +269,12 @@ export default function Settings() {
                     </div>
                 </>
             }
-            indexHeader={<IndexHeader>{/**/}</IndexHeader>}
+            indexHeader={
+                <IndexHeader>
+                    <UserIcon size={64} />
+                    Username
+                </IndexHeader>
+            }
         />
     );
 }
