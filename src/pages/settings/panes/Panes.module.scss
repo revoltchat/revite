@@ -149,11 +149,21 @@
 
     .badgePicker {
         display: flex;
-        gap: 10px;
         margin-bottom: 20px;
+
+        //padding-bottom: 8px;
+        position: relative;
+
+        .container {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+        }
 
         .check {
             cursor: pointer;
+
+            flex-shrink: 0;
             height: 50px;
             width: 50px;
             background: var(--secondary-background);
@@ -173,9 +183,41 @@
         }
     }
 
+    // TOFIX: need to merge overlay 1 and 2 later
+
+    .overlay {
+        position: absolute;
+        flex-shrink: 0;
+        width: 8px;
+        background: red;
+        height: 100%;
+
+        background: linear-gradient(
+            to right,
+            var(--primary-background),
+            transparent
+        );
+    }
+
+    .overlay2 {
+        position: absolute;
+        right: 0;
+        flex-shrink: 0;
+        width: 8px;
+        background: red;
+        height: 100%;
+
+        background: linear-gradient(
+            to left,
+            var(--primary-background),
+            transparent
+        );
+    }
+
     .row {
         gap: 20px;
         display: flex;
+        margin-bottom: 30px;
 
         .pfp {
             display: flex;

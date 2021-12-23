@@ -74,10 +74,15 @@ export const Profile = observer(() => {
             </div>
             {/*<h3>Badges</h3>
             <div className={styles.badgePicker}>
-                <div className={styles.check}>a</div>
-                <div className={styles.check}>b</div>
-                <div className={styles.check}>c</div>
+                <div className={styles.overlay} />
+                <div className={styles.container}>
+                    <div className={styles.check}>a</div>
+                    <div className={styles.check}>b</div>
+                    <div className={styles.check}>c</div>
+                </div>
+                <div className={styles.overlay2} />
             </div>*/}
+            <hr />
             <div className={styles.row}>
                 <div className={styles.pfp}>
                     <h3>
