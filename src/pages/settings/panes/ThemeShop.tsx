@@ -296,6 +296,7 @@ export function ThemeShop() {
             <Tip warning hideSeparator>
                 The Theme Shop is currently under construction.
             </Tip>
+            <hr />
             {/* FIXME INTEGRATE WITH MOBX */}
             {/*<ActiveTheme>
                 <div class="active-indicator">

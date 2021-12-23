@@ -1,4 +1,13 @@
-import { Home as HomeIcon } from "@styled-icons/boxicons-solid";
+import { Money } from "@styled-icons/boxicons-regular";
+import {
+    Home as HomeIcon,
+    PlusCircle,
+    Compass,
+    Megaphone,
+    Group,
+    Cog,
+    RightArrowCircle,
+} from "@styled-icons/boxicons-solid";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
@@ -103,72 +112,110 @@ export default function Home() {
                         </div>
                     ))}
                 </div>
-                <div class="content">
+                <div className="content">
                     <Header placement="primary">
                         <IconConainer onClick={toggleChannelSidebar}>
                             <HomeIcon size={24} />
                         </IconConainer>
                         <Text id="app.navigation.tabs.home" />
                     </Header>
-                    <h3>
-                        <Text id="app.special.modals.onboarding.welcome" />
-                        <br />
-                        <img src={wideSVG} />
-                    </h3>
-                    <div className={styles.actions}>
-                        <Link to="/invite/Testers">
-                            <CategoryButton
-                                action="chevron"
-                                icon={<Emoji emoji="😁" size={32} />}>
-                                {client.servers.get(
-                                    "01F7ZSBSFHQ8TA81725KQCSDDP",
-                                ) ? (
-                                    <Text id="app.home.goto-testers" />
-                                ) : (
-                                    <Text id="app.home.join-testers" />
-                                )}
-                            </CategoryButton>
-                        </Link>
-                        <a
-                            href="https://insrt.uk/donate"
-                            target="_blank"
-                            rel="noreferrer">
-                            <CategoryButton
-                                action="external"
-                                icon={<Emoji emoji="💷" size={32} />}>
-                                <Text id="app.home.donate" />
-                            </CategoryButton>
-                        </a>
-                        <Link to="/settings/feedback">
-                            <CategoryButton
-                                action="chevron"
-                                icon={<Emoji emoji="🎉" size={32} />}>
-                                <Text id="app.home.feedback" />
-                            </CategoryButton>
-                        </Link>
-                        <a
-                            href="https://revolt.social"
-                            target="_blank"
-                            rel="noreferrer">
-                            <CategoryButton
-                                action="external"
-                                icon={<Emoji emoji="🧭" size={32} />}>
-                                <Text id="app.home.social" />
-                            </CategoryButton>
-                        </a>
-                        <Tooltip
-                            content={<Text id="app.home.settings-tooltip" />}>
+                    <div className={styles.homeScreen}>
+                        <h3>
+                            <Text id="app.special.modals.onboarding.welcome" />
+                            <br />
+                            <img src={wideSVG} />
+                        </h3>
+                        <div className={styles.actions}>
                             <Link to="/settings">
                                 <CategoryButton
                                     action="chevron"
-                                    icon={<Emoji emoji="🔧" size={32} />}>
-                                    <Text id="app.home.settings" />
+                                    icon={<PlusCircle size={32} />}
+                                    description={
+                                        "Invite all of your friends, some cool bots, and throw a big party."
+                                    }>
+                                    Create a group
                                 </CategoryButton>
                             </Link>
-                        </Tooltip>
+                            <a
+                                href="https://revolt.social"
+                                target="_blank"
+                                rel="noreferrer">
+                                <CategoryButton
+                                    action="external"
+                                    icon={<Compass size={32} />}
+                                    description={
+                                        "Find a community based on your hobbies or interests."
+                                    }>
+                                    Join a community
+                                </CategoryButton>
+                            </a>
+
+                            {client.servers.get(
+                                "01F7ZSBSFHQ8TA81725KQCSDDP",
+                            ) ? (
+                                <Link to="/server/01F7ZSBSFHQ8TA81725KQCSDDP">
+                                    <CategoryButton
+                                        action="chevron"
+                                        icon={<RightArrowCircle size={32} />}
+                                        description={
+                                            "You can report issues and discuss improvements with us directly here."
+                                        }>
+                                        <Text id="app.home.goto-testers" />
+                                    </CategoryButton>
+                                </Link>
+                            ) : (
+                                <Link to="/invite/Testers">
+                                    <CategoryButton
+                                        action="chevron"
+                                        icon={<Group size={32} />}
+                                        description={
+                                            "You can report issues and discuss improvements with us directly here."
+                                        }>
+                                        <Text id="app.home.join-testers" />
+                                    </CategoryButton>
+                                </Link>
+                            )}
+
+                            <Link to="/settings/feedback">
+                                <CategoryButton
+                                    action="chevron"
+                                    icon={<Megaphone size={32} />}
+                                    description={
+                                        "Let us know how we can improve our app by giving us feedback."
+                                    }>
+                                    <Text id="app.home.feedback" />
+                                </CategoryButton>
+                            </Link>
+                            <a
+                                href="https://insrt.uk/donate"
+                                target="_blank"
+                                rel="noreferrer">
+                                <CategoryButton
+                                    action="external"
+                                    icon={<Money size={32} />}>
+                                    <Text id="app.home.donate" />
+                                </CategoryButton>
+                            </a>
+
+                            <Tooltip
+                                content={
+                                    <Text id="app.home.settings-tooltip" />
+                                }>
+                                <Link to="/settings">
+                                    <CategoryButton
+                                        action="chevron"
+                                        icon={<Cog size={32} />}>
+                                        <Text id="app.home.settings" />
+                                    </CategoryButton>
+                                </Link>
+                            </Tooltip>
+                        </div>
+                        <Link to="/settings/appearance">
+                            <a>Turn off homescreen effects</a>
+                        </Link>
                     </div>
                 </div>
-            </Overlay>
+            </Overlay>{" "}
         </div>
     );
 }

@@ -98,6 +98,12 @@ export const ReplyBase = styled.div<{
         transition: transform ease-in-out 0.1s;
         filter: brightness(1);
 
+        > span > p {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
         &:hover {
             filter: brightness(2);
         }
