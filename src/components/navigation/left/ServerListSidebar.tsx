@@ -18,6 +18,7 @@ import { SIDEBAR_CHANNELS } from "../../../mobx/stores/Layout";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
+import ChannelIcon from "../../common/ChannelIcon";
 import ServerIcon from "../../common/ServerIcon";
 import Tooltip from "../../common/Tooltip";
 import UserHover from "../../common/user/UserHover";
@@ -214,28 +215,10 @@ export default observer(() => {
     const path = useLocation().pathname;
     const { openScreen } = useIntermediate();
 
-    let homeUnread: "mention" | "unread" | undefined;
-    let alertCount = 0;
-    for (const channel of channels) {
-        if (channel?.channel_type === "Group" && channel.unread) {
-            homeUnread = "unread";
-            alertCount += channel.mentions.length;
-        }
-
-        if (
-            channel.channel_type === "DirectMessage" &&
-            channel.active &&
-            channel.unread
-        ) {
-            alertCount++;
-        }
-    }
-
-    alertCount += [...client.users.values()].filter(
+    let alertCount = [...client.users.values()].filter(
         (x) => x.relationship === RelationshipStatus.Incoming,
     ).length;
 
-    if (alertCount > 0) homeUnread = "mention";
     const homeActive =
         typeof server === "undefined" && !path.startsWith("/invite");
 
@@ -255,7 +238,9 @@ export default observer(() => {
                             <UserHover user={client.user ?? undefined}>
                                 <Icon
                                     size={42}
-                                    unread={homeUnread}
+                                    unread={
+                                        alertCount > 0 ? "mention" : undefined
+                                    }
                                     count={alertCount}>
                                     <UserIcon
                                         target={client.user ?? undefined}
@@ -268,6 +253,53 @@ export default observer(() => {
                         </div>
                     </ServerEntry>
                 </ConditionalLink>
+                {channels
+                    .filter(
+                        (x) =>
+                            (x.channel_type === "DirectMessage" ||
+                                x.channel_type === "Group") &&
+                            x.unread,
+                    )
+                    .map((x) => {
+                        const unreadCount = x.mentions.length;
+                        return (
+                            <Link to={`/channel/${x._id}`}>
+                                <ServerEntry
+                                    home
+                                    active={false}
+                                    onContextMenu={attachContextMenu("Menu", {
+                                        channel: x._id,
+                                        unread: true,
+                                    })}>
+                                    <div>
+                                        <Icon
+                                            size={42}
+                                            unread={
+                                                unreadCount > 0
+                                                    ? "mention"
+                                                    : "unread"
+                                            }
+                                            count={unreadCount}>
+                                            {x.channel_type ===
+                                            "DirectMessage" ? (
+                                                <UserIcon
+                                                    target={x.recipient}
+                                                    size={32}
+                                                    hover
+                                                />
+                                            ) : (
+                                                <ChannelIcon
+                                                    target={x}
+                                                    size={32}
+                                                    hover
+                                                />
+                                            )}
+                                        </Icon>
+                                    </div>
+                                </ServerEntry>
+                            </Link>
+                        );
+                    })}
                 <LineDivider />
                 {servers.map((server) => {
                     const active = server._id === server_id;
