@@ -1,4 +1,4 @@
-import { Store } from "@styled-icons/boxicons-regular";
+import { Store } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 // @ts-expect-error shade-blend-color does not have typings.
@@ -54,7 +54,11 @@ export const ThemeShopShim = () => {
 
     return (
         <Link to="/settings/theme_shop" replace>
-            <CategoryButton icon={<Store size={24} />} action="chevron" hover>
+            <CategoryButton
+                icon={<Store size={24} />}
+                action="chevron"
+                description={"Browse themes made by the community"}
+                hover>
                 <Text id="app.settings.pages.theme_shop.title" />
             </CategoryButton>
         </Link>
@@ -194,7 +198,7 @@ export const DisplayLigaturesShim = observer(() => {
     if (settings.theme.getFont() !== "Inter") return null;
 
     return (
-        <p>
+        <>
             <Checkbox
                 checked={settings.get("appearance:ligatures") ?? false}
                 onChange={(v) => settings.set("appearance:ligatures", v)}
@@ -203,7 +207,7 @@ export const DisplayLigaturesShim = observer(() => {
                 }>
                 <Text id="app.settings.pages.appearance.ligatures" />
             </Checkbox>
-        </p>
+        </>
     );
 });
 
@@ -214,14 +218,15 @@ export const DisplaySeasonalShim = observer(() => {
     const settings = useApplicationState().settings;
 
     return (
-        <p>
+        <>
+            <h3>Theme Options</h3>
             <Checkbox
                 checked={settings.get("appearance:seasonal") ?? true}
                 onChange={(v) => settings.set("appearance:seasonal", v)}
                 description="Displays effects in the home tab during holiday seasons.">
                 Seasonal theme
             </Checkbox>
-        </p>
+        </>
     );
 });
 

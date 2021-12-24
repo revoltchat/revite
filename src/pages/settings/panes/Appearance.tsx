@@ -24,13 +24,16 @@ export const Appearance = observer(() => {
         <div className={styles.appearance}>
             <ThemeBaseSelectorShim />
             <ThemeShopShim />
+            <hr />
             <ThemeAccentShim />
+            <hr />
             <DisplaySeasonalShim />
-
+            <hr />
             <DisplayFontShim />
             <DisplayLigaturesShim />
+            <hr />
             <DisplayEmojiShim />
-
+            <hr />
             <CollapsibleSection
                 defaultValue={false}
                 id="settings_overrides"
@@ -40,7 +43,6 @@ export const Appearance = observer(() => {
                 <h3>App</h3>
                 <ThemeOverrides />
             </CollapsibleSection>
-
             <CollapsibleSection
                 id="settings_advanced_appearance"
                 defaultValue={false}

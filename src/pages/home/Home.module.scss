@@ -27,7 +27,8 @@
 
         .actions {
             //grid-template-columns: repeat(2, 300px);
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: 300px 300px;
+            //grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             grid-column: span 2;
             gap: 16px;
             //margin: auto;

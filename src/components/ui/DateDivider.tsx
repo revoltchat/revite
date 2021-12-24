@@ -32,8 +32,10 @@ const Unread = styled.div`
     color: var(--accent-contrast);
     font-size: 7px;
     padding: 2px 6px;
+    font-size: 10px;
     border-radius: 60px;
     font-weight: 600;
+    margin-top: -1px;
 `;
 
 interface Props {
