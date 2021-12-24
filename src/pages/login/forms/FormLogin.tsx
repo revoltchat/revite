@@ -50,7 +50,7 @@ export function FormLogin() {
                     "x-session-token": session?.token,
                 };
 
-                function login() {
+                async function login() {
                     auth.setSession(session);
                 }
 
@@ -58,6 +58,7 @@ export function FormLogin() {
                     "GET",
                     "/onboard/hello",
                 );
+
                 if (onboarding) {
                     openScreen({
                         id: "onboarding",
