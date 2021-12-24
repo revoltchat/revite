@@ -56,7 +56,7 @@ const Container = styled.div`
     }
 
     h4 {
-        text-transform: unset;
+        text-transform: unset !important;
 
         a {
             opacity: 0.7;
