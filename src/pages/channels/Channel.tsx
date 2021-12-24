@@ -20,7 +20,7 @@ import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
-import Header from "../../components/ui/Header";
+import Header, { PageHeader } from "../../components/ui/Header";
 
 import RightSidebar from "../../components/navigation/RightSidebar";
 import ChannelHeader from "./ChannelHeader";
@@ -145,12 +145,11 @@ function VoiceChannel({ channel }: { channel: ChannelI }) {
 function ChannelPlaceholder() {
     return (
         <PlaceholderBase>
-            <Header placement="primary">
-                <Hash size={24} />
+            <PageHeader icon={<Hash size={24} />}>
                 <span className="name">
                     <Text id="app.main.channel.errors.nochannel" />
                 </span>
-            </Header>
+            </PageHeader>
 
             <div className="placeholder">
                 <Ghost width={80} />

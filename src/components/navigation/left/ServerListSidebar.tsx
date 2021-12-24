@@ -13,6 +13,7 @@ import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
+import { SIDEBAR_CHANNELS } from "../../../mobx/stores/Layout";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
@@ -168,6 +169,14 @@ const SettingsButton = styled.div`
 `;
 
 function Swoosh() {
+    const sidebarOpen = useApplicationState().layout.getSectionState(
+        SIDEBAR_CHANNELS,
+        true,
+    );
+    const fill = sidebarOpen
+        ? "var(--sidebar-active)"
+        : "var(--primary-background)";
+
     return (
         <span>
             <svg
@@ -177,15 +186,15 @@ function Swoosh() {
                 xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M54 53C54 67.9117 41.9117 80 27 80C12.0883 80 0 67.9117 0 53C0 38.0883 12.0883 26 27 26C41.9117 26 54 38.0883 54 53Z"
-                    fill="var(--sidebar-active)"
+                    fill={fill}
                 />
                 <path
                     d="M27 80C4.5 80 54 53 54 53L54.0001 106C54.0001 106 49.5 80 27 80Z"
-                    fill="var(--sidebar-active)"
+                    fill={fill}
                 />
                 <path
                     d="M27 26C4.5 26 54 53 54 53L53.9999 0C53.9999 0 49.5 26 27 26Z"
-                    fill="var(--sidebar-active)"
+                    fill={fill}
                 />
             </svg>
         </span>
