@@ -37,15 +37,15 @@ const Unread = styled.div`
 `;
 
 interface Props {
-    date: Date;
+    date?: Date;
     unread?: boolean;
 }
 
-export default function DateDivider(props: Props) {
+export default function DateDivider({ unread, date }: Props) {
     return (
-        <Base unread={props.unread}>
-            {props.unread && <Unread>NEW</Unread>}
-            <time>{dayjs(props.date).format("LL")}</time>
+        <Base unread={unread}>
+            {unread && <Unread>NEW</Unread>}
+            {date && <time>{dayjs(date).format("LL")}</time>}
         </Base>
     );
 }

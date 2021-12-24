@@ -104,6 +104,7 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
         prevAuthor: string,
         previousMasq: Nullable<Masquerade>,
     ) {
+        head = false;
         const atime = decodeTime(current),
             adate = new Date(atime),
             btime = decodeTime(previous),
@@ -115,14 +116,17 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
             divided = true;
         }
 
-        head = false;
+        let date;
         if (
-            unread ||
             adate.getFullYear() !== bdate.getFullYear() ||
             adate.getMonth() !== bdate.getMonth() ||
             adate.getDate() !== bdate.getDate()
         ) {
-            render.push(<DateDivider date={adate} unread={unread} />);
+            date = adate;
+        }
+
+        if (unread || date) {
+            render.push(<DateDivider date={date} unread={unread} />);
             head = true;
         }
 
