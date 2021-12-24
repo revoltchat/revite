@@ -78,12 +78,21 @@ const ModalContent = styled.div<
     border-radius: var(--border-radius);
 
     h3 {
+        font-size: 14px;
+        text-transform: uppercase;
         margin-top: 0;
     }
 
     form {
         display: flex;
         flex-direction: column;
+        gap: 8px;
+
+        > div {
+            margin: 0;
+            color: var(--secondary-foreground);
+            font-size: 12px;
+        }
     }
 
     ${(props) =>
@@ -95,7 +104,7 @@ const ModalContent = styled.div<
     ${(props) =>
         props.padding &&
         css`
-            padding: 1.5em;
+            padding: 1rem;
         `}
 
     ${(props) =>
@@ -116,8 +125,7 @@ const ModalActions = styled.div`
     gap: 8px;
     display: flex;
     flex-direction: row-reverse;
-
-    padding: 1em 1.5em;
+    padding: 1rem;
     background: var(--secondary-background);
     border-radius: 0 0 var(--border-radius) var(--border-radius);
 `;
