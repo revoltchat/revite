@@ -29,7 +29,7 @@ const Base = styled.div<{ unread?: boolean }>`
 
 const Unread = styled.div`
     background: var(--accent);
-    color: white;
+    color: var(--accent-contrast);
     font-size: 7px;
     padding: 2px 6px;
     border-radius: 60px;
