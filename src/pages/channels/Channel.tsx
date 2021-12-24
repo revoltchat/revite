@@ -66,14 +66,13 @@ const PlaceholderBase = styled.div`
         animation-duration: 3s;
         animation-iteration-count: infinite;
         animation-timing-function: ease-in-out;
-        margin-left: 30px;
-        margin-top: 5px;
     }
 
     .placeholder {
         justify-content: center;
         text-align: center;
         margin: auto;
+        padding: 12px;
 
         .primary {
             color: var(--secondary-foreground);
