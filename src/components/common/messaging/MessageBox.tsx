@@ -192,6 +192,7 @@ export default observer(({ channel }: Props) => {
         if (uploadState.type === "attached") return sendFile(content);
         if (content.length === 0) return;
 
+        internalEmit("NewMessages", "hide");
         stopTyping();
         setMessage();
         setReplies([]);
