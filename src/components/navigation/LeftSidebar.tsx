@@ -1,14 +1,17 @@
+import { observer } from "mobx-react-lite";
 import { Route, Switch } from "react-router";
+
+import { useApplicationState } from "../../mobx/State";
+import { SIDEBAR_CHANNELS } from "../../mobx/stores/Layout";
 
 import SidebarBase from "./SidebarBase";
 import HomeSidebar from "./left/HomeSidebar";
 import ServerListSidebar from "./left/ServerListSidebar";
 import ServerSidebar from "./left/ServerSidebar";
-import { useSelector } from "react-redux";
-import { State } from "../../redux";
 
-export default function LeftSidebar() {
-    const isOpen = useSelector((state: State) => state.sectionToggle['sidebar_channels'] ?? true)
+export default observer(() => {
+    const layout = useApplicationState().layout;
+    const isOpen = layout.getSectionState(SIDEBAR_CHANNELS, true);
 
     return (
         <SidebarBase>
@@ -33,4 +36,4 @@ export default function LeftSidebar() {
             </Switch>
         </SidebarBase>
     );
-}
+});

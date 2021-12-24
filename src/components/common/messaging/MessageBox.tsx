@@ -20,10 +20,9 @@ import {
     SMOOTH_SCROLL_ON_RECEIVE,
 } from "../../../lib/renderer/Singleton";
 
-import { dispatch, getState } from "../../../redux";
-import { Reply } from "../../../redux/reducers/queue";
+import { useApplicationState } from "../../../mobx/State";
+import { Reply } from "../../../mobx/stores/MessageQueue";
 
-import { SoundContext } from "../../../context/Settings";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
     FileUploader,
@@ -48,11 +47,11 @@ export type UploadState =
     | { type: "none" }
     | { type: "attached"; files: File[] }
     | {
-        type: "uploading";
-        files: File[];
-        percent: number;
-        cancel: CancelTokenSource;
-    }
+          type: "uploading";
+          files: File[];
+          percent: number;
+          cancel: CancelTokenSource;
+      }
     | { type: "sending"; files: File[] }
     | { type: "failed"; files: File[]; error: string };
 
@@ -112,17 +111,16 @@ const Action = styled.div`
 const RE_SED = new RegExp("^s/([^])*/([^])*$");
 
 // ! FIXME: add to app config and load from app config
-export const CAN_UPLOAD_AT_ONCE = 4;
+export const CAN_UPLOAD_AT_ONCE = 5;
 
 export default observer(({ channel }: Props) => {
-    const [draft, setDraft] = useState(getState().drafts[channel._id] ?? "");
+    const state = useApplicationState();
 
     const [uploadState, setUploadState] = useState<UploadState>({
         type: "none",
     });
     const [typing, setTyping] = useState<boolean | number>(false);
     const [replies, setReplies] = useState<Reply[]>([]);
-    const playSound = useContext(SoundContext);
     const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
     const translate = useTranslation();
@@ -148,40 +146,31 @@ export default observer(({ channel }: Props) => {
         );
     }
 
+    // Push message content to draft.
     const setMessage = useCallback(
-        (content?: string) => {
-            setDraft(content ?? "");
-
-            if (content) {
-                dispatch({
-                    type: "SET_DRAFT",
-                    channel: channel._id,
-                    content,
-                });
-            } else {
-                dispatch({
-                    type: "CLEAR_DRAFT",
-                    channel: channel._id,
-                });
-            }
-        },
-        [channel._id],
+        (content?: string) => state.draft.set(channel._id, content),
+        [state.draft, channel._id],
     );
 
     useEffect(() => {
+        /**
+         *
+         * @param content
+         * @param action
+         */
         function append(content: string, action: "quote" | "mention") {
             const text =
                 action === "quote"
                     ? `${content
-                        .split("\n")
-                        .map((x) => `> ${x}`)
-                        .join("\n")}\n\n`
+                          .split("\n")
+                          .map((x) => `> ${x}`)
+                          .join("\n")}\n\n`
                     : `${content} `;
 
-            if (!draft || draft.length === 0) {
+            if (!state.draft.has(channel._id)) {
                 setMessage(text);
             } else {
-                setMessage(`${draft}\n${text}`);
+                setMessage(`${state.draft.get(channel._id)}\n${text}`);
             }
         }
 
@@ -190,16 +179,20 @@ export default observer(({ channel }: Props) => {
             "append",
             append as (...args: unknown[]) => void,
         );
-    }, [draft, setMessage]);
+    }, [state.draft, channel._id, setMessage]);
 
+    /**
+     * Trigger send message.
+     */
     async function send() {
         if (uploadState.type === "uploading" || uploadState.type === "sending")
             return;
 
-        const content = draft?.trim() ?? "";
+        const content = state.draft.get(channel._id)?.trim() ?? "";
         if (uploadState.type === "attached") return sendFile(content);
         if (content.length === 0) return;
 
+        internalEmit("NewMessages", "hide");
         stopTyping();
         setMessage();
         setReplies([]);
@@ -225,8 +218,8 @@ export default observer(({ channel }: Props) => {
                     toReplace == ""
                         ? msg.content.toString() + newText
                         : msg.content
-                            .toString()
-                            .replace(new RegExp(toReplace, flags), newText);
+                              .toString()
+                              .replace(new RegExp(toReplace, flags), newText);
 
                 if (newContent != msg.content) {
                     if (newContent.length == 0) {
@@ -247,20 +240,15 @@ export default observer(({ channel }: Props) => {
                 }
             }
         } else {
-            playSound("outbound");
+            state.settings.sounds.playSound("outbound");
 
-            dispatch({
-                type: "QUEUE_ADD",
-                nonce,
+            state.queue.add(nonce, channel._id, {
+                _id: nonce,
                 channel: channel._id,
-                message: {
-                    _id: nonce,
-                    channel: channel._id,
-                    author: client.user!._id,
+                author: client.user!._id,
 
-                    content,
-                    replies,
-                },
+                content,
+                replies,
             });
 
             defer(() => renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE));
@@ -272,15 +260,16 @@ export default observer(({ channel }: Props) => {
                     replies,
                 });
             } catch (error) {
-                dispatch({
-                    type: "QUEUE_FAIL",
-                    error: takeError(error),
-                    nonce,
-                });
+                state.queue.fail(nonce, takeError(error));
             }
         }
     }
 
+    /**
+     *
+     * @param content
+     * @returns
+     */
     async function sendFile(content: string) {
         if (uploadState.type !== "attached") return;
         const attachments: string[] = [];
@@ -305,10 +294,10 @@ export default observer(({ channel }: Props) => {
                                     files,
                                     percent: Math.round(
                                         (i * 100 + (100 * e.loaded) / e.total) /
-                                        Math.min(
-                                            files.length,
-                                            CAN_UPLOAD_AT_ONCE,
-                                        ),
+                                            Math.min(
+                                                files.length,
+                                                CAN_UPLOAD_AT_ONCE,
+                                            ),
                                     ),
                                     cancel,
                                 }),
@@ -360,7 +349,7 @@ export default observer(({ channel }: Props) => {
 
         setMessage();
         setReplies([]);
-        playSound("outbound");
+        state.settings.sounds.playSound("outbound");
 
         if (files.length > CAN_UPLOAD_AT_ONCE) {
             setUploadState({
@@ -372,6 +361,10 @@ export default observer(({ channel }: Props) => {
         }
     }
 
+    /**
+     *
+     * @returns
+     */
     function startTyping() {
         if (typeof typing === "number" && +new Date() < typing) return;
 
@@ -385,6 +378,10 @@ export default observer(({ channel }: Props) => {
         }
     }
 
+    /**
+     *
+     * @param force
+     */
     function stopTyping(force?: boolean) {
         if (force || typing) {
             const ws = client.websocket;
@@ -398,6 +395,7 @@ export default observer(({ channel }: Props) => {
         }
     }
 
+    // TODO: change to useDebounceCallback
     // eslint-disable-next-line
     const debouncedStopTyping = useCallback(
         debounce(stopTyping as (...args: unknown[]) => void, 1000),
@@ -502,7 +500,7 @@ export default observer(({ channel }: Props) => {
                     id="message"
                     maxLength={2000}
                     onKeyUp={onKeyUp}
-                    value={draft ?? ""}
+                    value={state.draft.get(channel._id) ?? ""}
                     padding="var(--message-box-padding)"
                     onKeyDown={(e) => {
                         if (e.ctrlKey && e.key === "Enter") {
@@ -514,7 +512,7 @@ export default observer(({ channel }: Props) => {
 
                         if (
                             e.key === "ArrowUp" &&
-                            (!draft || draft.length === 0)
+                            !state.draft.has(channel._id)
                         ) {
                             e.preventDefault();
                             internalEmit("MessageRenderer", "edit_last");
@@ -553,13 +551,13 @@ export default observer(({ channel }: Props) => {
                     placeholder={
                         channel.channel_type === "DirectMessage"
                             ? translate("app.main.channel.message_who", {
-                                person: channel.recipient?.username,
-                            })
+                                  person: channel.recipient?.username,
+                              })
                             : channel.channel_type === "SavedMessages"
-                                ? translate("app.main.channel.message_saved")
-                                : translate("app.main.channel.message_where", {
-                                    channel_name: channel.name ?? undefined,
-                                })
+                            ? translate("app.main.channel.message_saved")
+                            : translate("app.main.channel.message_where", {
+                                  channel_name: channel.name ?? undefined,
+                              })
                     }
                     disabled={
                         uploadState.type === "uploading" ||

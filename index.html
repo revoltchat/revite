@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" background="#191919">
     <head>
         <meta charset="UTF-8" />
+
+        <!--App Title-->
         <title>Revolt</title>
         <meta name="apple-mobile-web-app-title" content="Revolt" />
 
+        <!--App Scaling-->
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0, user-scalable=no"
@@ -16,7 +19,7 @@
             rel="apple-touch-icon"
             href="public/assets/icons/apple-touch.png"
         />
-        <link rel="icon" type="image/png" href="/src/assets/logo_round.png" />
+        <link rel="icon" type="image/png" href="/assets/logo_round.png" />
 
         <!--Splash Screens for iOS Devices-->
         <link
@@ -70,13 +73,8 @@
             rel="apple-touch-startup-image"
         />
     </head>
-    <body ontouchstart="">
+    <body onContextMenu="return false" ontouchstart="">
         <div id="app"></div>
         <script type="module" src="/src/main.tsx"></script>
     </body>
-    <style>
-        html {
-            background-color: #191919;
-        }
-    </style>
 </html>

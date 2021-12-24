@@ -2,6 +2,7 @@ import { Prompt } from "react-router";
 import { useHistory } from "react-router-dom";
 import type { Attachment } from "revolt-api/types/Autumn";
 import { Bot } from "revolt-api/types/Bots";
+import { TextChannel, VoiceChannel } from "revolt-api/types/Channels";
 import type { EmbedImage } from "revolt-api/types/January";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
@@ -14,7 +15,7 @@ import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import { internalSubscribe } from "../../lib/eventEmitter";
 import { determineLink } from "../../lib/links";
 
-import { getState } from "../../redux";
+import { useApplicationState } from "../../mobx/State";
 
 import { Action } from "../../components/ui/Modal";
 
@@ -42,7 +43,12 @@ export type Screen =
           | { type: "leave_server"; target: Server }
           | { type: "delete_server"; target: Server }
           | { type: "delete_channel"; target: Channel }
-          | { type: "delete_bot"; target: string; name: string; cb: () => void }
+          | {
+                type: "delete_bot";
+                target: string;
+                name: string;
+                cb?: () => void;
+            }
           | { type: "delete_message"; target: Message }
           | {
                 type: "create_invite";
@@ -52,7 +58,11 @@ export type Screen =
           | { type: "ban_member"; target: Server; user: User }
           | { type: "unfriend_user"; target: User }
           | { type: "block_user"; target: User }
-          | { type: "create_channel"; target: Server }
+          | {
+                type: "create_channel";
+                target: Server;
+                cb?: (channel: TextChannel | VoiceChannel) => void;
+            }
           | { type: "create_category"; target: Server }
       ))
     | ({ id: "special_input" } & (
@@ -122,6 +132,7 @@ interface Props {
 
 export default function Intermediate(props: Props) {
     const [screen, openScreen] = useState<Screen>({ id: "none" });
+    const settings = useApplicationState().settings;
     const history = useHistory();
 
     const value = {
@@ -144,10 +155,11 @@ export default function Intermediate(props: Props) {
                         return true;
                     }
                     case "external": {
-                        const { trustedLinks } = getState();
                         if (
                             !trusted &&
-                            !trustedLinks.domains?.includes(link.url.hostname)
+                            !settings.security.isTrustedOrigin(
+                                link.url.hostname,
+                            )
                         ) {
                             openScreen({
                                 id: "external_link_prompt",

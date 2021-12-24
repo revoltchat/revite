@@ -4,7 +4,6 @@ import {
     Globe,
     LogOut,
     Desktop,
-    Bot,
 } from "@styled-icons/boxicons-regular";
 import {
     Bell,
@@ -17,20 +16,24 @@ import {
     Megaphone,
     Speaker,
     Store,
+    Bot,
 } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { LIBRARY_VERSION } from "revolt.js";
+import styled from "styled-components";
 
 import styles from "./Settings.module.scss";
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
-import RequiresOnline from "../../context/revoltjs/RequiresOnline";
-import {
-    AppContext,
-    OperationsContext,
-} from "../../context/revoltjs/RevoltClient";
+import { useApplicationState } from "../../mobx/State";
 
+import RequiresOnline from "../../context/revoltjs/RequiresOnline";
+import { AppContext, LogOutContext } from "../../context/revoltjs/RevoltClient";
+
+import UserIcon from "../../components/common/user/UserIcon";
+import { Username } from "../../components/common/user/UserShort";
 import LineDivider from "../../components/ui/LineDivider";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
@@ -50,12 +53,21 @@ import { Profile } from "./panes/Profile";
 import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
 import { ThemeShop } from "./panes/ThemeShop";
-import { isExperimentEnabled } from "../../redux/reducers/experiments";
 
-export default function Settings() {
+const IndexHeader = styled.div`
+    display: flex;
+    background: var(--secondary-background);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    align-items: center;
+    gap: 10px;
+`;
+
+export default observer(() => {
     const history = useHistory();
     const client = useContext(AppContext);
-    const operations = useContext(OperationsContext);
+    const logout = useContext(LogOutContext);
+    const experiments = useApplicationState().experiments;
 
     function switchPage(to?: string) {
         if (to) {
@@ -126,14 +138,14 @@ export default function Settings() {
                     title: <Text id="app.settings.pages.experiments.title" />,
                 },
                 {
-                    divider: !isExperimentEnabled('theme_shop'),
+                    divider: !experiments.isEnabled("theme_shop"),
                     category: "revolt",
                     id: "bots",
                     icon: <Bot size={20} />,
                     title: <Text id="app.settings.pages.bots.title" />,
                 },
                 {
-                    hidden: !isExperimentEnabled('theme_shop'),
+                    hidden: !experiments.isEnabled("theme_shop"),
                     divider: true,
                     id: "theme_shop",
                     icon: <Store size={20} />,
@@ -179,9 +191,11 @@ export default function Settings() {
                     <Route path="/settings/bots">
                         <MyBots />
                     </Route>
-                    {isExperimentEnabled('theme_shop') && <Route path="/settings/theme_shop">
-                        <ThemeShop />
-                    </Route>}
+                    {experiments.isEnabled("theme_shop") && (
+                        <Route path="/settings/theme_shop">
+                            <ThemeShop />
+                        </Route>
+                    )}
                     <Route path="/settings/feedback">
                         <Feedback />
                     </Route>
@@ -215,7 +229,7 @@ export default function Settings() {
                     </a>
                     <LineDivider />
                     <ButtonItem
-                        onClick={() => operations.logout()}
+                        onClick={logout}
                         className={styles.logOut}
                         compact>
                         <LogOut size={20} />
@@ -255,6 +269,12 @@ export default function Settings() {
                     </div>
                 </>
             }
+            indexHeader={
+                <IndexHeader>
+                    <UserIcon size={64} target={client.user!} />
+                    <Username user={client.user!} prefixAt />
+                </IndexHeader>
+            }
         />
     );
-}
+});

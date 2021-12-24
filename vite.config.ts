@@ -2,6 +2,7 @@ import replace from "@rollup/plugin-replace";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { defineConfig } from "vite";
+import viteCompression from "vite-plugin-compression";
 import { VitePWA } from "vite-plugin-pwa";
 
 import preact from "@preact/preset-vite";
@@ -11,11 +12,11 @@ function getGitRevision() {
         const rev = readFileSync(".git/HEAD").toString().trim();
         if (rev.indexOf(":") === -1) {
             return rev;
-        } else {
-            return readFileSync(".git/" + rev.substring(5))
-                .toString()
-                .trim();
         }
+
+        return readFileSync(`.git/${rev.substring(5)}`)
+            .toString()
+            .trim();
     } catch (err) {
         console.error("Failed to get Git revision.");
         return "?";
@@ -27,9 +28,9 @@ function getGitBranch() {
         const rev = readFileSync(".git/HEAD").toString().trim();
         if (rev.indexOf(":") === -1) {
             return "DETACHED";
-        } else {
-            return rev.split("/").pop();
         }
+
+        return rev.split("/").pop();
     } catch (err) {
         console.error("Failed to get Git branch.");
         return "?";
@@ -40,23 +41,21 @@ function getVersion() {
     return readFileSync("VERSION").toString();
 }
 
-const branch = getGitBranch();
-const isNightly = false; //branch !== 'production';
-const iconPrefix = isNightly ? "nightly-" : "";
-
 export default defineConfig({
     plugins: [
+        viteCompression({
+            verbose: true,
+            algorithm: "brotliCompress",
+        }),
         preact(),
         VitePWA({
             srcDir: "src",
             filename: "sw.ts",
             strategies: "injectManifest",
             manifest: {
-                name: isNightly ? "Revolt Nightly" : "Revolt",
+                name: "Revolt",
                 short_name: "Revolt",
-                description: isNightly
-                    ? "Early preview builds of Revolt."
-                    : "User-first, privacy-focused chat platform.",
+                description: "User-first, privacy-focused chat platform.",
                 categories: ["messaging"],
                 start_url: "/",
                 orientation: "portrait",
@@ -65,12 +64,12 @@ export default defineConfig({
                 theme_color: "#101823",
                 icons: [
                     {
-                        src: `/assets/icons/${iconPrefix}android-chrome-192x192.png`,
+                        src: `/assets/icons/android-chrome-192x192.png`,
                         type: "image/png",
                         sizes: "192x192",
                     },
                     {
-                        src: `/assets/icons/${iconPrefix}android-chrome-512x512.png`,
+                        src: `/assets/icons/android-chrome-512x512.png`,
                         type: "image/png",
                         sizes: "512x512",
                     },
@@ -104,5 +103,8 @@ export default defineConfig({
                 ui: resolve(__dirname, "ui/index.html"),
             },
         },
+    },
+    optimizeDeps: {
+        exclude: ["revolt.js"],
     },
 });

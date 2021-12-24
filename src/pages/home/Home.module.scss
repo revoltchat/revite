@@ -1,28 +1,54 @@
 .home {
+    height: 100%;
     user-select: none;
+    position: relative;
 
-    h3 {
-        margin: 1em 0;
-        font-size: 48px;
-        text-align: center;
-
-        img {
-            height: 36px;
-        }
-    }
-
-    .actions {
-        gap: 8px;
-        width: 240px;
-
-        margin: auto;
+    .homeScreen {
         display: flex;
-        width: fit-content;
-        align-items: stretch;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 95%;
+        padding: 12px;
+
+        h3 {
+            margin: 20px 0;
+            font-size: 48px;
+            text-align: center;
+
+            img {
+                height: 36px;
+            }
+        }
 
         a {
-            width: 100%;
+            font-size: 13px;
+        }
+
+        .actions {
+            // grid-template-columns: repeat(2, 300px);
+            // grid-template-columns: 300px 300px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-column: span 2;
+            gap: 16px;
+            //margin: auto;
+            display: grid;
+            width: fit-content;
+            align-items: stretch;
+            flex-direction: column;
+            margin-bottom: 20px;
+
+            a {
+                width: 100%;
+
+                &:nth-child(4) {
+                    margin-bottom: 20px;
+                }
+
+                div {
+                    margin: 0;
+                }
+            }
         }
     }
 }

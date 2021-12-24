@@ -116,6 +116,10 @@
         }
     }
 
+    &[data-muted="true"] {
+        opacity: 0.4;
+    }
+
     &[data-alert="true"],
     &[data-active="true"],
     &:hover {

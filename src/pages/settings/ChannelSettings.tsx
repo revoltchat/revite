@@ -1,4 +1,5 @@
-import { ListCheck, ListUl } from "@styled-icons/boxicons-regular";
+import { ListUl } from "@styled-icons/boxicons-regular";
+import { InfoCircle } from "@styled-icons/boxicons-solid";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";
@@ -55,14 +56,14 @@ export default function ChannelSettings() {
                         />
                     ),
                     id: "overview",
-                    icon: <ListUl size={20} />,
+                    icon: <InfoCircle size={20} />,
                     title: (
                         <Text id="app.settings.channel_pages.overview.title" />
                     ),
                 },
                 {
                     id: "permissions",
-                    icon: <ListCheck size={20} />,
+                    icon: <ListUl size={20} />,
                     title: (
                         <Text id="app.settings.channel_pages.permissions.title" />
                     ),

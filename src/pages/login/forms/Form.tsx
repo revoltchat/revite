@@ -6,10 +6,12 @@ import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
+import { useApplicationState } from "../../../mobx/State";
+
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
-import wideSVG from "../../../assets/wide.svg";
+import wideSVG from "../../../../public/assets/wide.svg";
 import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
@@ -44,7 +46,7 @@ interface FormInputs {
 }
 
 export function Form({ page, callback }: Props) {
-    const client = useContext(AppContext);
+    const configuration = useApplicationState().config.get();
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState<string | undefined>(undefined);
@@ -80,10 +82,7 @@ export function Form({ page, callback }: Props) {
         }
 
         try {
-            if (
-                client.configuration?.features.captcha.enabled &&
-                page !== "reset"
-            ) {
+            if (configuration?.features.captcha.enabled && page !== "reset") {
                 setCaptcha({
                     onSuccess: async (captcha) => {
                         setCaptcha(undefined);
@@ -111,7 +110,7 @@ export function Form({ page, callback }: Props) {
     if (typeof success !== "undefined") {
         return (
             <div className={styles.success}>
-                {client.configuration?.features.email ? (
+                {configuration?.features.email ? (
                     <>
                         <Envelope size={72} />
                         <h2>
@@ -172,15 +171,14 @@ export function Form({ page, callback }: Props) {
                         error={errors.password?.message}
                     />
                 )}
-                {client.configuration?.features.invite_only &&
-                    page === "create" && (
-                        <FormField
-                            type="invite"
-                            register={register}
-                            showOverline
-                            error={errors.invite?.message}
-                        />
-                    )}
+                {configuration?.features.invite_only && page === "create" && (
+                    <FormField
+                        type="invite"
+                        register={register}
+                        showOverline
+                        error={errors.invite?.message}
+                    />
+                )}
                 {error && (
                     <Overline type="error" error={error}>
                         <Text id={`login.error.${page}`} />

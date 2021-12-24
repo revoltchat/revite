@@ -6,3 +6,9 @@ dist-ssr
 *.local
 *.log
 /.idea
+
+public/assets
+public/assets_*
+!public/assets_default
+
+.vscode/vscode-chrome-debug-userdatadir

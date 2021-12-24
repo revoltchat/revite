@@ -7,3 +7,11 @@ export function urlBase64ToUint8Array(base64String: string) {
 
     return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
 }
+
+export function mapToRecord<K extends symbol | string | number, V>(
+    map: Map<K, V>,
+) {
+    let record = {} as Record<K, V>;
+    map.forEach((v, k) => (record[k] = v));
+    return record;
+}

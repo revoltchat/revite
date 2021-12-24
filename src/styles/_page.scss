@@ -29,7 +29,7 @@ body {
     -webkit-tap-highlight-color: transparent;
     -webkit-overflow-scrolling: touch;
     -webkit-text-size-adjust: 100%;
-    overscroll-behavior: contain;
+    overscroll-behavior: none;
 
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }

@@ -52,6 +52,17 @@
         margin: 0;
     }
 
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        &:not(:first-child) {
+            margin-top: 12px;
+        }
+    }
+
     ul,
     ol {
         list-style-position: inside;
@@ -87,6 +98,8 @@
         background: var(--block);
         border-radius: var(--border-radius);
         font-family: var(--monospace-font), monospace;
+        border-radius: 3px;
+        -webkit-box-decoration-break: clone;
     }
 
     input[type="checkbox"] {

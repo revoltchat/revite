@@ -7,35 +7,29 @@ import { useEffect } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
+import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
-import { dispatch } from "../../../redux";
-import { connectState } from "../../../redux/connector";
-import { Unreads } from "../../../redux/reducers/unreads";
+import { useApplicationState } from "../../../mobx/State";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import CollapsibleSection from "../../common/CollapsibleSection";
 import ServerHeader from "../../common/ServerHeader";
 import Category from "../../ui/Category";
-import { mapChannelWithUnread, useUnreads } from "./common";
 
 import { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
-import { internalEmit } from "../../../lib/eventEmitter";
-
-interface Props {
-    unreads: Unreads;
-}
 
 const ServerBase = styled.div`
     height: 100%;
-    width: 240px;
+    width: 232px;
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
     background: var(--secondary-background);
     border-start-start-radius: 8px;
+    border-end-start-radius: 8px;
     overflow: hidden;
 
     ${isTouchscreenDevice &&
@@ -54,8 +48,9 @@ const ServerList = styled.div`
     }
 `;
 
-const ServerSidebar = observer((props: Props) => {
+export default observer(() => {
     const client = useClient();
+    const state = useApplicationState();
     const { server: server_id, channel: channel_id } =
         useParams<{ server: string; channel?: string }>();
 
@@ -65,19 +60,21 @@ const ServerSidebar = observer((props: Props) => {
     const channel = channel_id ? client.channels.get(channel_id) : undefined;
 
     // The user selected no channel, let's see if there's a channel available
-    if (!channel && server.channel_ids.length > 0) return <Redirect to={`/server/${server_id}/channel/${server.channel_ids[0]}`} />;
+    if (!channel && server.channel_ids.length > 0)
+        return (
+            <Redirect
+                to={`/server/${server_id}/channel/${server.channel_ids[0]}`}
+            />
+        );
     if (channel_id && !channel) return <Redirect to={`/server/${server_id}`} />;
 
-    if (channel) useUnreads({ ...props, channel });
-
+    // ! FIXME: move this globally
+    // Track which channel the user was last on.
     useEffect(() => {
         if (!channel_id) return;
+        if (!server_id) return;
 
-        dispatch({
-            type: "LAST_OPENED_SET",
-            parent: server_id!,
-            child: channel_id!,
-        });
+        state.layout.setLastOpened(server_id, channel_id);
     }, [channel_id, server_id]);
 
     const uncategorised = new Set(server.channel_ids);
@@ -88,10 +85,12 @@ const ServerSidebar = observer((props: Props) => {
         if (!entry) return;
 
         const active = channel?._id === entry._id;
+        const isUnread = entry.isUnread(state.notifications);
+        const mentionCount = entry.getMentions(state.notifications);
 
         return (
             <ConditionalLink
-                onClick={e => {
+                onClick={(e) => {
                     if (e.shiftKey) {
                         internalEmit(
                             "MessageBox",
@@ -99,7 +98,7 @@ const ServerSidebar = observer((props: Props) => {
                             `<#${entry._id}>`,
                             "channel_mention",
                         );
-                        e.preventDefault()
+                        e.preventDefault();
                     }
                 }}
                 key={entry._id}
@@ -108,9 +107,15 @@ const ServerSidebar = observer((props: Props) => {
                 <ChannelButton
                     channel={entry}
                     active={active}
-                    // ! FIXME: pull it out directly
-                    alert={mapChannelWithUnread(entry, props.unreads).unread}
+                    alert={
+                        mentionCount.length > 0
+                            ? "mention"
+                            : isUnread
+                            ? "unread"
+                            : undefined
+                    }
                     compact
+                    muted={state.notifications.isMuted(entry)}
                 />
             </ConditionalLink>
         );
@@ -152,10 +157,4 @@ const ServerSidebar = observer((props: Props) => {
             <PaintCounter small />
         </ServerBase>
     );
-});
-
-export default connectState(ServerSidebar, (state) => {
-    return {
-        unreads: state.unreads,
-    };
 });

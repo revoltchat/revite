@@ -49,9 +49,9 @@ export const TipBase = styled.div<Props>`
     ${(props) =>
         props.error &&
         css`
-            color: var(--error);
+            color: white;
             border: 2px solid var(--error);
-            background: var(--secondary-header);
+            background: var(--error);
         `}
 `;
 

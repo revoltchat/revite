@@ -9,8 +9,6 @@ import MarkdownEmoji from "markdown-it-emoji/dist/markdown-it-emoji-bare";
 import MarkdownSub from "markdown-it-sub";
 // @ts-expect-error No typings.
 import MarkdownSup from "markdown-it-sup";
-import Prism from "prismjs";
-import "prismjs/themes/prism-tomorrow.css";
 import { RE_MENTIONS } from "revolt.js";
 
 import styles from "./Markdown.module.scss";
@@ -26,6 +24,7 @@ import { generateEmoji } from "../common/Emoji";
 
 import { emojiDictionary } from "../../assets/emojis";
 import { MarkdownProps } from "./Markdown";
+import Prism from "./prism";
 
 // TODO: global.d.ts file for defining globals
 declare global {
@@ -74,6 +73,8 @@ export const md: MarkdownIt = MarkdownIt({
         errorColor: "var(--error)",
     });
 
+md.linkify.set({ fuzzyLink: false });
+
 // TODO: global.d.ts file for defining globals
 declare global {
     interface Window {
@@ -81,8 +82,38 @@ declare global {
     }
 }
 
+// Include emojis.
 md.renderer.rules.emoji = function (token, idx) {
     return generateEmoji(token[idx].content);
+};
+
+// Force line breaks.
+// https://github.com/markdown-it/markdown-it/issues/211#issuecomment-508380611
+const defaultParagraphRenderer =
+    md.renderer.rules.paragraph_open ||
+    ((tokens, idx, options, env, self) =>
+        self.renderToken(tokens, idx, options));
+
+md.renderer.rules.paragraph_open = function (tokens, idx, options, env, self) {
+    let result = "";
+    if (idx > 1) {
+        const inline = tokens[idx - 2];
+        const paragraph = tokens[idx];
+        if (
+            inline.type === "inline" &&
+            inline.map &&
+            inline.map[1] &&
+            paragraph.map &&
+            paragraph.map[0]
+        ) {
+            const diff = paragraph.map[0] - inline.map[1];
+            if (diff > 0) {
+                result = "<br>".repeat(diff);
+            }
+        }
+    }
+
+    return result + defaultParagraphRenderer(tokens, idx, options, env, self);
 };
 
 const RE_TWEMOJI = /:(\w+):/g;

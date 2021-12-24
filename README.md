@@ -27,10 +27,22 @@ It is also recommended to run `git submodule update` after you pull from upstrea
 -   [Revolt Testers Server](https://app.revolt.chat/invite/Testers)
 -   [Contribution Guide](https://developers.revolt.chat/contributing)
 
+## Quick Start
+
+Get revite up and running locally.
+
+```
+git clone --recursive https://github.com/revoltchat/revite
+cd revite
+yarn
+yarn dev
+```
+
 ## CLI Commands
 
 | Command             | Description                                  |
 | ------------------- | -------------------------------------------- |
+| `yarn pull`         | Setup assets required for Revite.            |
 | `yarn dev`          | Start the Revolt client in development mode. |
 | `yarn build`        | Build the Revolt client.                     |
 | `yarn preview`      | Start a local server with the built client.  |
