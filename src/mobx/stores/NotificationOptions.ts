@@ -6,8 +6,15 @@ import { Server } from "revolt.js/dist/maps/Servers";
 
 import { mapToRecord } from "../../lib/conversion";
 
+import {
+    legacyMigrateNotification,
+    LegacyNotifications,
+} from "../legacy/redux";
+
+import { MIGRATIONS } from "../State";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
+import Syncable from "../interfaces/Syncable";
 
 /**
  * Possible notification states.
@@ -42,7 +49,9 @@ export interface Data {
 /**
  * Manages the user's notification preferences.
  */
-export default class NotificationOptions implements Store, Persistent<Data> {
+export default class NotificationOptions
+    implements Store, Persistent<Data>, Syncable
+{
     private server: ObservableMap<string, NotificationState>;
     private channel: ObservableMap<string, NotificationState>;
 
@@ -207,5 +216,19 @@ export default class NotificationOptions implements Store, Persistent<Data> {
         }
 
         return false;
+    }
+
+    @action apply(_key: "notifications", data: unknown, revision: number) {
+        if (revision < MIGRATIONS.REDUX) {
+            data = legacyMigrateNotification(data as LegacyNotifications);
+        }
+
+        this.hydrate(data as Data);
+    }
+
+    @computed toSyncable() {
+        return {
+            notifications: this.toJSON(),
+        };
     }
 }

@@ -13,5 +13,5 @@ export default interface Persistent<T> extends Store {
      * Hydrate this data store using given data.
      * @param data Given data
      */
-    hydrate(data: T): void;
+    hydrate(data: T, revision: number): void;
 }

@@ -30,6 +30,20 @@ export default class Auth implements Store, Persistent<Data> {
     constructor() {
         this.sessions = new ObservableMap();
         this.current = null;
+
+        // Inject session token if it is provided.
+        if (import.meta.env.VITE_SESSION_TOKEN) {
+            this.sessions.set("0", {
+                session: {
+                    name: "0",
+                    user_id: "0",
+                    token: import.meta.env.VITE_SESSION_TOKEN as string,
+                },
+            });
+
+            this.current = "0";
+        }
+
         makeAutoObservable(this);
     }
 

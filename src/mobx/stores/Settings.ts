@@ -2,12 +2,22 @@ import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 
 import { mapToRecord } from "../../lib/conversion";
 
+import {
+    LegacyAppearanceOptions,
+    legacyMigrateAppearance,
+    legacyMigrateTheme,
+    LegacyTheme,
+    LegacyThemeOptions,
+} from "../legacy/redux";
+
 import { Fonts, MonospaceFonts, Overrides } from "../../context/Theme";
 
 import { EmojiPack } from "../../components/common/Emoji";
 
+import { MIGRATIONS } from "../State";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
+import Syncable from "../interfaces/Syncable";
 import SAudio, { SoundOptions } from "./helpers/SAudio";
 import SSecurity from "./helpers/SSecurity";
 import STheme from "./helpers/STheme";
@@ -32,7 +42,9 @@ export interface ISettings {
 /**
  * Manages user settings.
  */
-export default class Settings implements Store, Persistent<ISettings> {
+export default class Settings
+    implements Store, Persistent<ISettings>, Syncable
+{
     private data: ObservableMap<string, unknown>;
 
     theme: STheme;
@@ -108,5 +120,61 @@ export default class Settings implements Store, Persistent<ISettings> {
      */
     @computed getUnchecked(key: string) {
         return this.data.get(key);
+    }
+
+    @action apply(
+        key: "appearance" | "theme",
+        data: unknown,
+        revision: number,
+    ) {
+        if (revision < MIGRATIONS.REDUX) {
+            if (key === "appearance") {
+                data = legacyMigrateAppearance(data as LegacyAppearanceOptions);
+            } else {
+                data = legacyMigrateTheme(data as LegacyThemeOptions);
+            }
+        }
+
+        if (key === "appearance") {
+            this.remove("appearance:emoji");
+        } else {
+            this.remove("appearance:ligatures");
+            this.remove("appearance:theme:base");
+            this.remove("appearance:theme:css");
+            this.remove("appearance:theme:font");
+            this.remove("appearance:theme:light");
+            this.remove("appearance:theme:monoFont");
+            this.remove("appearance:theme:overrides");
+        }
+
+        this.hydrate(data as ISettings);
+    }
+
+    @computed private pullKeys(keys: (keyof ISettings)[]) {
+        const obj: Partial<ISettings> = {};
+        keys.forEach((key) => {
+            let value = this.get(key);
+            if (!value) return;
+            (obj as any)[key] = value;
+        });
+
+        return obj;
+    }
+
+    @computed toSyncable() {
+        const data: Record<"appearance" | "theme", Partial<ISettings>> = {
+            appearance: this.pullKeys(["appearance:emoji"]),
+            theme: this.pullKeys([
+                "appearance:ligatures",
+                "appearance:theme:base",
+                "appearance:theme:css",
+                "appearance:theme:font",
+                "appearance:theme:light",
+                "appearance:theme:monoFont",
+                "appearance:theme:overrides",
+            ]),
+        };
+
+        return data;
     }
 }

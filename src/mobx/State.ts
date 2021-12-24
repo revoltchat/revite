@@ -1,10 +1,11 @@
+// @ts-expect-error No typings.
+import stringify from "json-stringify-deterministic";
 import localforage from "localforage";
-import { autorun, makeAutoObservable, reaction } from "mobx";
-
-import { createContext } from "preact";
-import { useContext } from "preact/hooks";
+import { makeAutoObservable, reaction } from "mobx";
+import { Client } from "revolt.js";
 
 import Persistent from "./interfaces/Persistent";
+import Syncable from "./interfaces/Syncable";
 import Auth from "./stores/Auth";
 import Draft from "./stores/Draft";
 import Experiments from "./stores/Experiments";
@@ -14,7 +15,11 @@ import MessageQueue from "./stores/MessageQueue";
 import NotificationOptions from "./stores/NotificationOptions";
 import ServerConfig from "./stores/ServerConfig";
 import Settings from "./stores/Settings";
-import Sync from "./stores/Sync";
+import Sync, { Data as DataSync, SyncKeys } from "./stores/Sync";
+
+export const MIGRATIONS = {
+    REDUX: 1640305719826,
+};
 
 /**
  * Handles global application state.
@@ -32,6 +37,7 @@ export default class State {
     sync: Sync;
 
     private persistent: [string, Persistent<unknown>][] = [];
+    private disabled: Set<string> = new Set();
 
     /**
      * Construct new State.
@@ -46,11 +52,11 @@ export default class State {
         this.notifications = new NotificationOptions();
         this.queue = new MessageQueue();
         this.settings = new Settings();
-        this.sync = new Sync();
+        this.sync = new Sync(this);
 
         makeAutoObservable(this);
-        this.registerListeners = this.registerListeners.bind(this);
         this.register();
+        this.setDisabled = this.setDisabled.bind(this);
     }
 
     /**
@@ -83,17 +89,78 @@ export default class State {
         }
     }
 
+    setDisabled(key: string) {
+        this.disabled.add(key);
+    }
+
     /**
      * Register reaction listeners for persistent data stores.
      * @returns Function to dispose of listeners
      */
-    registerListeners() {
+    registerListeners(client: Client) {
         const listeners = this.persistent.map(([id, store]) => {
             return reaction(
-                () => store.toJSON(),
+                () => stringify(store.toJSON()),
                 async (value) => {
                     try {
-                        await localforage.setItem(id, value);
+                        await localforage.setItem(id, JSON.parse(value));
+                        if (id === "sync") return;
+
+                        const revision = +new Date();
+                        switch (id) {
+                            case "settings": {
+                                const { appearance, theme } =
+                                    this.settings.toSyncable();
+
+                                const obj: Record<string, unknown> = {};
+                                if (this.sync.isEnabled("appearance")) {
+                                    if (this.disabled.has("appearance")) {
+                                        this.disabled.delete("appearance");
+                                    } else {
+                                        obj["appearance"] = appearance;
+                                        this.sync.setRevision(
+                                            "appearance",
+                                            revision,
+                                        );
+                                    }
+                                }
+
+                                if (this.sync.isEnabled("theme")) {
+                                    if (this.disabled.has("theme")) {
+                                        this.disabled.delete("theme");
+                                    } else {
+                                        obj["theme"] = theme;
+                                        this.sync.setRevision(
+                                            "theme",
+                                            revision,
+                                        );
+                                    }
+                                }
+
+                                if (Object.keys(obj).length > 0) {
+                                    client.syncSetSettings(
+                                        obj as any,
+                                        revision,
+                                    );
+                                }
+                                break;
+                            }
+                            default: {
+                                if (this.sync.isEnabled(id as SyncKeys)) {
+                                    if (this.disabled.has(id)) {
+                                        this.disabled.delete(id);
+                                    }
+
+                                    this.sync.setRevision(id, revision);
+                                    client.syncSetSettings(
+                                        (
+                                            store as unknown as Syncable
+                                        ).toSyncable(),
+                                        revision,
+                                    );
+                                }
+                            }
+                        }
                     } catch (err) {
                         console.error("Failed to serialise!");
                         console.error(err);
@@ -110,10 +177,15 @@ export default class State {
      * Load data stores from local storage.
      */
     async hydrate() {
-        for (const [id, store] of this.persistent) {
-            const data = await localforage.getItem(id);
-            if (typeof data === "object" && data !== null) {
-                store.hydrate(data);
+        const sync = (await localforage.getItem("sync")) as DataSync;
+        if (sync) {
+            const { revision } = sync;
+            for (const [id, store] of this.persistent) {
+                if (id === "sync") continue;
+                const data = await localforage.getItem(id);
+                if (typeof data === "object" && data !== null) {
+                    store.hydrate(data, revision[id]);
+                }
             }
         }
     }
@@ -121,12 +193,16 @@ export default class State {
 
 var state: State;
 
+export async function hydrateState() {
+    state = new State();
+    await state.hydrate();
+}
+
 /**
  * Get the application state
  * @returns Application state
  */
 export function useApplicationState() {
-    if (!state) state = new State();
     return state;
 }
 
