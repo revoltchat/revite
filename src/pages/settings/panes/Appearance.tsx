@@ -39,7 +39,6 @@ export const Appearance = observer(() => {
                 id="settings_overrides"
                 summary={<Text id="app.settings.pages.appearance.overrides" />}>
                 <ThemeTools />
-
                 <h3>App</h3>
                 <ThemeOverrides />
             </CollapsibleSection>
