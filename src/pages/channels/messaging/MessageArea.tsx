@@ -51,13 +51,14 @@ const Area = styled.div`
 `;
 
 interface Props {
+    last_id?: string;
     channel: Channel;
 }
 
 export const MessageAreaWidthContext = createContext(0);
 export const MESSAGE_AREA_PADDING = 82;
 
-export const MessageArea = observer(({ channel }: Props) => {
+export const MessageArea = observer(({ last_id, channel }: Props) => {
     const history = useHistory();
     const status = useContext(StatusContext);
     const { focusTaken } = useContext(IntermediateContext);
@@ -323,6 +324,7 @@ export const MessageArea = observer(({ channel }: Props) => {
                     )}
                     {renderer.state === "RENDER" && (
                         <MessageRenderer
+                            last_id={last_id}
                             renderer={renderer}
                             highlight={highlight}
                         />

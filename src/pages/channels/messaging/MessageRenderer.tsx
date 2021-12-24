@@ -30,6 +30,7 @@ import ConversationStart from "./ConversationStart";
 import MessageEditor from "./MessageEditor";
 
 interface Props {
+    last_id?: string;
     highlight?: string;
     renderer: ChannelRenderer;
 }
@@ -45,7 +46,7 @@ const BlockedMessage = styled.div`
     }
 `;
 
-export default observer(({ renderer, highlight }: Props) => {
+export default observer(({ last_id, renderer, highlight }: Props) => {
     const client = useClient();
     const userId = client.user!._id;
     const queue = useApplicationState().queue;
@@ -94,6 +95,7 @@ export default observer(({ renderer, highlight }: Props) => {
     }
 
     let head = true;
+    let divided = false;
     function compare(
         current: string,
         curAuthor: string,
@@ -107,16 +109,25 @@ export default observer(({ renderer, highlight }: Props) => {
             btime = decodeTime(previous),
             bdate = new Date(btime);
 
+        let unread = false;
+        if (!divided && last_id && previous >= last_id) {
+            unread = true;
+            divided = true;
+        }
+
+        head = false;
         if (
+            unread ||
             adate.getFullYear() !== bdate.getFullYear() ||
             adate.getMonth() !== bdate.getMonth() ||
             adate.getDate() !== bdate.getDate()
         ) {
-            render.push(<DateDivider date={adate} />);
+            render.push(<DateDivider date={adate} unread={unread} />);
             head = true;
         }
 
         head =
+            head ||
             curAuthor !== prevAuthor ||
             Math.abs(btime - atime) >= 420000 ||
             !isEqual(currentMasq, previousMasq);

@@ -201,10 +201,12 @@ export default class STheme {
     }
 }
 
-function getContrastingColour(hex: string, fallback = "black"): string {
+function getContrastingColour(hex: string, fallback?: string): string {
+    if (typeof hex !== "string") return "black";
+
     // TODO: Switch to color-parse
     // Try parse hex value.
-    hex = hex.replace("#", "");
+    hex = hex.replace(/#/g, "");
     const r = parseInt(hex.substr(0, 2), 16) / 255;
     const g = parseInt(hex.substr(2, 2), 16) / 255;
     const b = parseInt(hex.substr(4, 2), 16) / 255;
