@@ -104,7 +104,10 @@ export default class State {
      */
     async save() {
         for (const [id, store] of this.persistent) {
-            await localforage.setItem(id, store.toJSON());
+            await localforage.setItem(
+                id,
+                JSON.parse(stringify(store.toJSON())),
+            );
         }
     }
 
