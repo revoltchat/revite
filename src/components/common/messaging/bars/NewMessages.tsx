@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { decodeTime } from "ulid";
 
+import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import { internalSubscribe } from "../../../../lib/eventEmitter";
@@ -52,7 +53,8 @@ export default observer(
                         {dayjs(decodeTime(last_id)).fromNow()}
                     </div>
                     <div>
-                        Click to jump to start. <UpArrowAlt size={20} />
+                        <Text id="app.main.channel.misc.jump_beginning" />
+                        <UpArrowAlt size={20} />
                     </div>
                 </div>
             </Bar>
