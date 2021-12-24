@@ -30,7 +30,6 @@ export interface ClientOperations {
 
 export const AppContext = createContext<Client>(null!);
 export const StatusContext = createContext<ClientStatus>(null!);
-export const OperationsContext = createContext<ClientOperations>(null!);
 export const LogOutContext = createContext(() => {});
 
 type Props = {
@@ -57,12 +56,12 @@ export default observer(({ children }: Props) => {
 
     useEffect(() => {
         if (state.auth.isLoggedIn()) {
+            setLoaded(false);
             const client = state.config.createClient();
             setClient(client);
 
             client
                 .useExistingSession(state.auth.getSession()!)
-                .then(() => setLoaded(true))
                 .catch((err) => {
                     const error = takeError(err);
                     if (error === "Forbidden" || error === "Unauthorized") {
@@ -72,7 +71,8 @@ export default observer(({ children }: Props) => {
                         setStatus(ClientStatus.DISCONNECTED);
                         openScreen({ id: "error", error });
                     }
-                });
+                })
+                .finally(() => setLoaded(true));
         } else {
             setStatus(ClientStatus.READY);
             setLoaded(true);
