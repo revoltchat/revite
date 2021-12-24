@@ -44,10 +44,31 @@ const ChannelContent = styled.div`
 `;
 
 const PlaceholderBase = styled.div`
+    @keyframes floating {
+        0% {
+            transform: translate(0, 0px);
+        }
+        50% {
+            transform: translate(0, 15px);
+        }
+        100% {
+            transform: translate(0, -0px);
+        }
+    }
+
     flex-grow: 1;
     display: flex;
     overflow: hidden;
     flex-direction: column;
+
+    .floating {
+        animation-name: floating;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        margin-left: 30px;
+        margin-top: 5px;
+    }
 
     .placeholder {
         justify-content: center;
@@ -163,7 +184,9 @@ function ChannelPlaceholder() {
             </PageHeader>
 
             <div className="placeholder">
-                <Ghost width={80} />
+                <div className="floating">
+                    <Ghost width={80} />
+                </div>
                 <div className="primary">
                     <Text id="app.main.channel.errors.title" />
                 </div>

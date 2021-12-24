@@ -30,6 +30,11 @@ const CategoryBase = styled.div<BaseProps>`
         flex-shrink: 0;
     }
 
+    .action {
+        display: flex;
+        align-items: center;
+    }
+
     .content {
         display: flex;
         flex-grow: 1;
