@@ -1,17 +1,15 @@
-import { observer } from "mobx-react-lite";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
-
-import { useApplicationState } from "../../../mobx/State";
 
 import darkSVG from "./dark.svg";
 import lightSVG from "./light.svg";
 
 const List = styled.div`
     gap: 8px;
-    display: flex;
     width: 100%;
+    display: flex;
+    margin-bottom: 15px;
 
     > div {
         min-width: 0;
@@ -29,6 +27,7 @@ const List = styled.div`
         &[data-active="true"] {
             cursor: default;
             border: 3px solid var(--accent);
+
             &:hover {
                 border: 3px solid var(--accent);
             }
