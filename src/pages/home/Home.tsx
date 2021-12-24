@@ -17,6 +17,8 @@ import "./snow.scss";
 import { Text } from "preact-i18n";
 import { useContext, useMemo } from "preact/hooks";
 
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+
 import { useApplicationState } from "../../mobx/State";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
@@ -50,7 +52,7 @@ export default observer(() => {
         );
 
     const seasonalTheme = state.settings.get("appearance:seasonal") ?? true;
-    const isDecember = new Date().getMonth() === 11;
+    const isDecember = !isTouchscreenDevice && new Date().getMonth() === 11;
     const snowflakes = useMemo(() => {
         const flakes = [];
 
