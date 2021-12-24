@@ -72,7 +72,9 @@ export default observer(() => {
                     hideTitle: true,
                 },
                 {
-                    category: "User Management",
+                    category: (
+                        <Text id="app.settings.server_pages.management.title" />
+                    ),
                     id: "members",
                     icon: <Group size={20} />,
                     title: (
