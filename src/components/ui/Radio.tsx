@@ -7,9 +7,9 @@ interface Props {
     children: Children;
     description?: Children;
 
-    checked: boolean;
+    checked?: boolean;
     disabled?: boolean;
-    onSelect: () => void;
+    onSelect?: () => void;
 }
 
 interface BaseProps {
@@ -87,9 +87,10 @@ const RadioDescription = styled.span<BaseProps>`
 `;
 
 export default function Radio(props: Props) {
+    const selected = props.checked ?? false;
     return (
         <RadioBase
-            selected={props.checked}
+            selected={selected}
             disabled={props.disabled}
             onClick={() =>
                 !props.disabled && props.onSelect && props.onSelect()
@@ -101,7 +102,7 @@ export default function Radio(props: Props) {
             <span>
                 <span>{props.children}</span>
                 {props.description && (
-                    <RadioDescription selected={props.checked}>
+                    <RadioDescription selected={selected}>
                         {props.description}
                     </RadioDescription>
                 )}

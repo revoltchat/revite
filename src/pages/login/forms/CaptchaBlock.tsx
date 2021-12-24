@@ -1,10 +1,11 @@
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { observer } from "mobx-react-lite";
 
 import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useEffect } from "preact/hooks";
+import { useEffect } from "preact/hooks";
 
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { useApplicationState } from "../../../mobx/State";
 
 import Preloader from "../../../components/ui/Preloader";
 
@@ -13,22 +14,22 @@ export interface CaptchaProps {
     onCancel: () => void;
 }
 
-export function CaptchaBlock(props: CaptchaProps) {
-    const client = useContext(AppContext);
+export const CaptchaBlock = observer((props: CaptchaProps) => {
+    const configuration = useApplicationState().config.get();
 
     useEffect(() => {
-        if (!client.configuration?.features.captcha.enabled) {
+        if (!configuration?.features.captcha.enabled) {
             props.onSuccess();
         }
-    }, [client.configuration?.features.captcha.enabled, props]);
+    }, [configuration?.features.captcha.enabled, props]);
 
-    if (!client.configuration?.features.captcha.enabled)
+    if (!configuration?.features.captcha.enabled)
         return <Preloader type="spinner" />;
 
     return (
         <div>
             <HCaptcha
-                sitekey={client.configuration.features.captcha.key}
+                sitekey={configuration.features.captcha.key}
                 onVerify={(token) => props.onSuccess(token)}
             />
             <div className={styles.footer}>
@@ -38,4 +39,4 @@ export function CaptchaBlock(props: CaptchaProps) {
             </div>
         </div>
     );
-}
+});

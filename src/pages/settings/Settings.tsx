@@ -18,6 +18,7 @@ import {
     Store,
     Bot,
 } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { LIBRARY_VERSION } from "revolt.js";
 import styled from "styled-components";
@@ -26,13 +27,10 @@ import styles from "./Settings.module.scss";
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
-import { isExperimentEnabled } from "../../redux/reducers/experiments";
+import { useApplicationState } from "../../mobx/State";
 
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
-import {
-    AppContext,
-    OperationsContext,
-} from "../../context/revoltjs/RevoltClient";
+import { AppContext, LogOutContext } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import LineDivider from "../../components/ui/LineDivider";
@@ -64,10 +62,11 @@ const IndexHeader = styled.div`
     gap: 10px;
 `;
 
-export default function Settings() {
+export default observer(() => {
     const history = useHistory();
     const client = useContext(AppContext);
-    const operations = useContext(OperationsContext);
+    const logout = useContext(LogOutContext);
+    const experiments = useApplicationState().experiments;
 
     function switchPage(to?: string) {
         if (to) {
@@ -138,14 +137,14 @@ export default function Settings() {
                     title: <Text id="app.settings.pages.experiments.title" />,
                 },
                 {
-                    divider: !isExperimentEnabled("theme_shop"),
+                    divider: !experiments.isEnabled("theme_shop"),
                     category: "revolt",
                     id: "bots",
                     icon: <Bot size={20} />,
                     title: <Text id="app.settings.pages.bots.title" />,
                 },
                 {
-                    hidden: !isExperimentEnabled("theme_shop"),
+                    hidden: !experiments.isEnabled("theme_shop"),
                     divider: true,
                     id: "theme_shop",
                     icon: <Store size={20} />,
@@ -191,7 +190,7 @@ export default function Settings() {
                     <Route path="/settings/bots">
                         <MyBots />
                     </Route>
-                    {isExperimentEnabled("theme_shop") && (
+                    {experiments.isEnabled("theme_shop") && (
                         <Route path="/settings/theme_shop">
                             <ThemeShop />
                         </Route>
@@ -229,7 +228,7 @@ export default function Settings() {
                     </a>
                     <LineDivider />
                     <ButtonItem
-                        onClick={() => operations.logout()}
+                        onClick={logout}
                         className={styles.logOut}
                         compact>
                         <LogOut size={20} />
@@ -277,4 +276,4 @@ export default function Settings() {
             }
         />
     );
-}
+});

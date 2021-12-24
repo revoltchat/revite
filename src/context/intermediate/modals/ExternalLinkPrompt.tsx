@@ -1,6 +1,6 @@
 import { Text } from "preact-i18n";
 
-import { dispatch } from "../../../redux";
+import { useApplicationState } from "../../../mobx/State";
 
 import Modal from "../../../components/ui/Modal";
 
@@ -13,6 +13,7 @@ interface Props {
 
 export function ExternalLinkModal({ onClose, link }: Props) {
     const { openLink } = useIntermediate();
+    const settings = useApplicationState().settings;
 
     return (
         <Modal
@@ -39,13 +40,10 @@ export function ExternalLinkModal({ onClose, link }: Props) {
                     onClick: () => {
                         try {
                             const url = new URL(link);
-                            dispatch({
-                                type: "TRUSTED_LINKS_ADD_DOMAIN",
-                                domain: url.hostname,
-                            });
+                            settings.security.addTrustedOrigin(url.hostname);
                         } catch (e) {}
 
-                        openLink(link);
+                        openLink(link, true);
                         onClose();
                     },
                     plain: true,
