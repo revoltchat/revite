@@ -14,7 +14,7 @@ const Base = styled.div<{ unread?: boolean }>`
         margin-top: -2px;
         font-size: 0.6875rem;
         line-height: 0.6875rem;
-        padding: 2px 0 2px 0;
+        padding-inline-start: 5px;
         padding-inline-end: 5px;
         color: var(--tertiary-foreground);
         background: var(--primary-background);
@@ -30,7 +30,8 @@ const Base = styled.div<{ unread?: boolean }>`
 const Unread = styled.div`
     background: var(--accent);
     color: white;
-    padding: 5px 8px;
+    font-size: 7px;
+    padding: 2px 6px;
     border-radius: 60px;
     font-weight: 600;
 `;

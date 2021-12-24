@@ -21,7 +21,7 @@ import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
 import NewMessages from "../../components/common/messaging/bars/NewMessages";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
-import Header, { PageHeader } from "../../components/ui/Header";
+import { PageHeader } from "../../components/ui/Header";
 
 import RightSidebar from "../../components/navigation/RightSidebar";
 import ChannelHeader from "./ChannelHeader";
@@ -130,7 +130,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                 <ChannelContent>
                     <VoiceHeader id={channel._id} />
                     <NewMessages channel={channel} last_id={last_id} />
-                    <MessageArea channel={channel} />
+                    <MessageArea channel={channel} last_id={last_id} />
                     <TypingIndicator channel={channel} />
                     <JumpToBottom channel={channel} />
                     <MessageBox channel={channel} />
