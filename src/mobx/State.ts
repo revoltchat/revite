@@ -112,7 +112,7 @@ export default class State {
      * Register reaction listeners for persistent data stores.
      * @returns Function to dispose of listeners
      */
-    registerListeners(client: Client) {
+    registerListeners(client?: Client) {
         const listeners = this.persistent.map(([id, store]) => {
             return reaction(
                 () => stringify(store.toJSON()),
@@ -120,6 +120,7 @@ export default class State {
                     try {
                         await localforage.setItem(id, JSON.parse(value));
                         if (id === "sync") return;
+                        if (!client) return;
 
                         const revision = +new Date();
                         switch (id) {

@@ -15,7 +15,9 @@ export default function SyncManager() {
 
     // Sync settings from Revolt.
     useEffect(() => {
-        state.sync.pull(client);
+        if (client) {
+            state.sync.pull(client);
+        }
     }, [client]);
 
     // Keep data synced.
@@ -23,6 +25,7 @@ export default function SyncManager() {
 
     // Take data updates from Revolt.
     useEffect(() => {
+        if (!client) return;
         function onPacket(packet: ClientboundNotification) {
             if (packet.type === "UserSettingsUpdate") {
                 state.sync.apply(packet.update);

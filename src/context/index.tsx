@@ -11,6 +11,7 @@ import Locale from "./Locale";
 import Theme from "./Theme";
 import Intermediate from "./intermediate/Intermediate";
 import Client from "./revoltjs/RevoltClient";
+import SyncManager from "./revoltjs/SyncManager";
 
 /**
  * This component provides all of the application's context layers.
@@ -29,7 +30,10 @@ export default function Context({ children }: { children: Children }) {
         <Router basename={import.meta.env.BASE_URL}>
             <Locale>
                 <Intermediate>
-                    <Client>{children}</Client>
+                    <Client>
+                        {children}
+                        <SyncManager />
+                    </Client>
                 </Intermediate>
             </Locale>
             <Theme />

@@ -85,6 +85,7 @@ export default class Auth implements Store, Persistent<Data> {
     @action setSession(session: Session) {
         this.sessions.set(session.user_id, { session });
         this.current = session.user_id;
+        console.log(this.sessions, this.current);
     }
 
     /**
