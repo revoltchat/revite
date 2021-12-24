@@ -25,7 +25,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         display: flex;
         align-items: center;
         cursor: pointer;
-        font-size: 13px;
+        font-size: 12px;
         padding: 0 8px;
         user-select: none;
         justify-content: space-between;
@@ -89,7 +89,7 @@ export default observer(({ channel }: { channel: Channel }) => {
                 </div>
                 <div>
                     <Text id="app.main.channel.misc.jump_present" />{" "}
-                    <DownArrowAlt size={20} />
+                    <DownArrowAlt size={18} />
                 </div>
             </div>
         </Bar>

@@ -131,12 +131,11 @@
         display: grid;
         place-items: center;
         grid-template-columns: minmax(auto, 100%);
-        padding: 20px;
-        margin-bottom: 30px;
 
         > div {
             width: 100%;
             max-width: 560px;
+            transform: scale(0.9);
         }
     }
 
@@ -369,6 +368,7 @@
         display: flex;
         margin: 10px 0;
         flex-direction: column;
+        overflow: hidden;
         border-radius: var(--border-radius);
         background: var(--secondary-header);
 
@@ -452,7 +452,7 @@
         .session {
             align-items: unset;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
 
             > button {
                 width: 100%;
