@@ -279,7 +279,6 @@ export const PRESETS: Record<string, Theme> = {
     },
 };
 
-const keys = Object.keys(PRESETS.dark);
 const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 :root {
 	${(props) => generateVariables(props.theme)}
@@ -288,7 +287,6 @@ const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 
 export const generateVariables = (theme: Theme) => {
     return (Object.keys(theme) as Variables[]).map((key) => {
-        if (!keys.includes(key)) return;
         return `--${key}: ${theme[key]};`;
     });
 };
@@ -326,7 +324,7 @@ export default observer(() => {
         return () => window.removeEventListener("resize", resize);
     }, [root]);
 
-    const variables = theme.getVariables();
+    const variables = theme.computeVariables();
     return (
         <>
             <Helmet>

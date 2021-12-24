@@ -102,23 +102,22 @@ interface PageHeaderProps {
 export const PageHeader = observer(
     ({ children, icon, noBurger }: PageHeaderProps) => {
         const layout = useApplicationState().layout;
+        const visible = layout.getSectionState(SIDEBAR_CHANNELS, true);
 
         return (
-            <Header placement="primary">
+            <Header placement="primary" borders={!visible}>
                 {!noBurger && <HamburgerAction />}
                 <IconContainer
                     onClick={() =>
                         layout.toggleSectionState(SIDEBAR_CHANNELS, true)
                     }>
-                    {!isTouchscreenDevice &&
-                        layout.getSectionState(SIDEBAR_CHANNELS, true) && (
-                            <ChevronLeft size={18} />
-                        )}
+                    {!isTouchscreenDevice && visible && (
+                        <ChevronLeft size={18} />
+                    )}
                     {icon}
-                    {!isTouchscreenDevice &&
-                        !layout.getSectionState(SIDEBAR_CHANNELS, true) && (
-                            <ChevronRight size={18} />
-                        )}
+                    {!isTouchscreenDevice && !visible && (
+                        <ChevronRight size={18} />
+                    )}
                 </IconContainer>
                 {children}
             </Header>

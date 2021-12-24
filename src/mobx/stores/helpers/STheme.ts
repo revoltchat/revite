@@ -96,6 +96,22 @@ export default class STheme {
         };
     }
 
+    @computed computeVariables(): Theme {
+        const variables = this.getVariables() as Record<
+            string,
+            string | boolean
+        >;
+
+        for (const key of Object.keys(variables)) {
+            const value = variables[key];
+            if (typeof value === "string") {
+                variables[key + "-contrast"] = getContrastingColour(value);
+            }
+        }
+
+        return variables as unknown as Theme;
+    }
+
     @action setVariable(key: Variables, value: string) {
         this.settings.set("appearance:theme:overrides", {
             ...this.settings.get("appearance:theme:overrides"),
@@ -111,6 +127,15 @@ export default class STheme {
     @computed getVariable(key: Variables) {
         return (this.settings.get("appearance:theme:overrides")?.[key] ??
             PRESETS[this.getBase()]?.[key])!;
+    }
+
+    /**
+     * Get the contrasting colour of a variable by its key.
+     * @param key Variable
+     * @returns Contrasting value
+     */
+    @computed getContrastingVariable(key: Variables, fallback?: string) {
+        return getContrastingColour(this.getVariable(key), fallback);
     }
 
     @action setFont(font: Fonts) {
@@ -174,4 +199,18 @@ export default class STheme {
         this.settings.remove("appearance:theme:overrides");
         this.settings.remove("appearance:theme:css");
     }
+}
+
+function getContrastingColour(hex: string, fallback = "black"): string {
+    // TODO: Switch to color-parse
+    // Try parse hex value.
+    hex = hex.replace("#", "");
+    const r = parseInt(hex.substr(0, 2), 16) / 255;
+    const g = parseInt(hex.substr(2, 2), 16) / 255;
+    const b = parseInt(hex.substr(4, 2), 16) / 255;
+
+    if (isNaN(r) || isNaN(g) || isNaN(b))
+        return fallback ? getContrastingColour(fallback) : "black";
+
+    return r * 0.299 + g * 0.587 + b * 0.114 >= 0.186 ? "black" : "white";
 }

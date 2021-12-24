@@ -8,12 +8,17 @@ import { Text } from "preact-i18n";
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import { getRenderer } from "../../../../lib/renderer/Singleton";
 
-const Bar = styled.div`
+export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
     z-index: 10;
     position: relative;
 
     > div {
-        top: -26px;
+        ${(props) =>
+            props.position === "bottom" &&
+            css`
+                top: -26px;
+            `}
+
         height: 28px;
         width: 100%;
         position: absolute;
@@ -24,10 +29,29 @@ const Bar = styled.div`
         padding: 0 8px;
         user-select: none;
         justify-content: space-between;
-        color: var(--secondary-foreground);
         transition: color ease-in-out 0.08s;
-        background: var(--secondary-background);
-        border-radius: var(--border-radius) var(--border-radius) 0 0;
+
+        ${(props) =>
+            props.accent
+                ? css`
+                      color: var(--accent-contrast);
+                      background: var(--accent);
+                  `
+                : css`
+                      color: var(--secondary-foreground);
+                      background: var(--secondary-background);
+                  `}
+
+        ${(props) =>
+            props.position === "top"
+                ? css`
+                      border-radius: 0 0 var(--border-radius)
+                          var(--border-radius);
+                  `
+                : css`
+                      border-radius: var(--border-radius) var(--border-radius) 0
+                          0;
+                  `}
 
         > div {
             display: flex;
@@ -58,7 +82,7 @@ export default observer(({ channel }: { channel: Channel }) => {
     if (renderer.state !== "RENDER" || renderer.atBottom) return null;
 
     return (
-        <Bar>
+        <Bar position="bottom">
             <div onClick={() => renderer.jumpToBottom(true)}>
                 <div>
                     <Text id="app.main.channel.misc.viewing_old" />
