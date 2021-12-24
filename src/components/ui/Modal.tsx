@@ -61,29 +61,63 @@ const ModalBase = styled.div`
     }
 `;
 
-const ModalContainer = styled.div`
+const ModalContainer = styled.div<
+    {
+        [key in "userProfile"]?: boolean;
+    }
+>`
     overflow: hidden;
-    max-width: calc(100vw - 20px);
+    padding: 12px;
+    width: 100%;
+    max-width: 440px;
     border-radius: var(--border-radius);
 
     animation-name: ${zoomIn};
     animation-duration: 0.25s;
     animation-timing-function: cubic-bezier(0.3, 0.3, 0.18, 1.1);
+
+    ${(props) =>
+        !props.userProfile &&
+        css`
+            max-width: max-content;
+        `}
 `;
 
 const ModalContent = styled.div<
-    { [key in "attachment" | "noBackground" | "border" | "padding"]?: boolean }
+    {
+        [key in
+            | "attachment"
+            | "noBackground"
+            | "border"
+            | "padding"
+            | "userProfile"]?: boolean;
+    }
 >`
     text-overflow: ellipsis;
     border-radius: var(--border-radius);
 
+    .title {
+        font-size: 14px;
+        text-decoration: underline;
+    }
+
     h3 {
+        font-size: 14px;
+        text-transform: uppercase;
+
         margin-top: 0;
     }
 
     form {
         display: flex;
         flex-direction: column;
+        gap: 8px;
+
+        > div {
+            margin: 0;
+            color: var(--secondary-foreground);
+            font-size: 12px;
+        }
     }
 
     ${(props) =>
@@ -95,7 +129,7 @@ const ModalContent = styled.div<
     ${(props) =>
         props.padding &&
         css`
-            padding: 1.5em;
+            padding: 1rem;
         `}
 
     ${(props) =>
@@ -117,7 +151,7 @@ const ModalActions = styled.div`
     display: flex;
     flex-direction: row-reverse;
 
-    padding: 1em 1.5em;
+    padding: 1rem;
     background: var(--secondary-background);
     border-radius: 0 0 var(--border-radius) var(--border-radius);
 `;
@@ -131,6 +165,7 @@ interface Props {
     children?: Children;
     title?: Children;
 
+    userProfile?: boolean;
     disallowClosing?: boolean;
     noBackground?: boolean;
     dontModal?: boolean;
@@ -152,6 +187,7 @@ export default function Modal(props: Props) {
         <ModalContent
             attachment={!!props.actions}
             noBackground={props.noBackground}
+            userProfile={props.userProfile}
             border={props.border}
             padding={props.padding ?? !props.dontModal}>
             {props.title && <h3>{props.title}</h3>}
@@ -209,7 +245,9 @@ export default function Modal(props: Props) {
         <ModalBase
             className={animateClose ? "closing" : undefined}
             onClick={(!props.disallowClosing && props.onClose) || undefined}>
-            <ModalContainer onClick={(e) => (e.cancelBubble = true)}>
+            <ModalContainer
+                onClick={(e) => (e.cancelBubble = true)}
+                userProfile={false}>
                 {content}
                 {props.actions && (
                     <ModalActions>

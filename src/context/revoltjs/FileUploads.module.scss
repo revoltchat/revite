@@ -72,6 +72,7 @@
 
         .small {
             display: flex;
+            align-items: center;
             font-size: 10px;
             flex-direction: column;
             color: var(--tertiary-foreground);

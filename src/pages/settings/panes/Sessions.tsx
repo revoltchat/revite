@@ -232,7 +232,7 @@ export function Sessions() {
                 }}>
                 <Text id="app.settings.pages.sessions.logout" />
             </Button>*/}
-
+            <hr />
             <CategoryButton
                 onClick={async () => {
                     // ! FIXME: add to rAuth

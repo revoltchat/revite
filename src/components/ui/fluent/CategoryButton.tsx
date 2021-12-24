@@ -146,7 +146,6 @@ export default function CategoryButton({
             {icon}
             <div class="content">
                 <div className="title">{children}</div>
-
                 <div className="description">{description}</div>
             </div>
             <div class="action">

@@ -20,33 +20,39 @@ type BehaviourType =
     | { behaviour: "ask"; onChange: (file: File) => void }
     | { behaviour: "upload"; onUpload: (id: string) => Promise<void> }
     | {
-        behaviour: "multi";
-        onChange: (files: File[]) => void;
-        append?: (files: File[]) => void;
-    }
+          behaviour: "multi";
+          onChange: (files: File[]) => void;
+          append?: (files: File[]) => void;
+      };
 
 type StyleType =
     | {
-        style: "icon" | "banner";
-        width?: number;
-        height?: number;
-        previewURL?: string;
-        defaultPreview?: string;
-        desaturateDefault?: boolean
-    }
+          style: "icon" | "banner";
+          width?: number;
+          height?: number;
+          previewURL?: string;
+          defaultPreview?: string;
+          desaturateDefault?: boolean;
+      }
     | {
-        style: "attachment";
-        attached: boolean;
-        uploading: boolean;
-        cancel: () => void;
-        size?: number;
-    }
+          style: "attachment";
+          attached: boolean;
+          uploading: boolean;
+          cancel: () => void;
+          size?: number;
+      };
 
-type Props = BehaviourType & StyleType & {
-    fileType: "backgrounds" | "icons" | "avatars" | "attachments" | "banners";
-    maxFileSize: number;
-    remove: () => Promise<void>;
-}
+type Props = BehaviourType &
+    StyleType & {
+        fileType:
+            | "backgrounds"
+            | "icons"
+            | "avatars"
+            | "attachments"
+            | "banners";
+        maxFileSize: number;
+        remove: () => Promise<void>;
+    };
 
 export async function uploadFile(
     autumnURL: string,
@@ -226,14 +232,19 @@ export function FileUploader(props: Props) {
                 })}
                 data-uploading={uploading}>
                 <div
-                    className={classNames(styles.image, props.desaturateDefault && previewURL == null && styles.desaturate)}
+                    className={classNames(
+                        styles.image,
+                        props.desaturateDefault &&
+                            previewURL == null &&
+                            styles.desaturate,
+                    )}
                     style={{
                         backgroundImage:
                             style === "icon"
                                 ? `url('${previewURL ?? defaultPreview}')`
                                 : previewURL
-                                    ? `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('${previewURL}')`
-                                    : "none",
+                                ? `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('${previewURL}')`
+                                : "none",
                         width,
                         height,
                     }}

@@ -56,12 +56,13 @@ import { Sync } from "./panes/Sync";
 import { ThemeShop } from "./panes/ThemeShop";
 
 const IndexHeader = styled.div`
-    display: flex;
+    /*display: flex;*/
     background: var(--secondary-background);
     border-radius: var(--border-radius);
     padding: 20px;
     align-items: center;
     gap: 10px;
+    display: none;
 `;
 
 export default function Settings() {

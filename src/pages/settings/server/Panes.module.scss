@@ -49,6 +49,7 @@
         display: flex;
         align-items: center;
         flex-direction: row;
+        border-radius: var(--border-radius);
         background: var(--secondary-background);
 
         span,
@@ -76,6 +77,9 @@
         }
     }
 
+    .invite {
+    }
+
     .member {
         cursor: pointer;
 
@@ -95,12 +99,18 @@
 
     .virtual {
         flex-grow: 1;
+        > div > div > div {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
     }
 }
 
 .roles {
     gap: 12px;
-    height: 100%;
+    height: auto;
     display: flex;
 
     .list {
