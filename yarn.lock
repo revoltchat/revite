@@ -2463,10 +2463,10 @@ events@^3.3.0:
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
-exponential-backoff@^3.1.0:
+"exponential-backoff@npm:@insertish/exponential-backoff":
   version "3.1.0"
-  resolved "https://registry.yarnpkg.com/exponential-backoff/-/exponential-backoff-3.1.0.tgz#9409c7e579131f8bd4b32d7d8094a911040f2e68"
-  integrity sha512-oBuz5SYz5zzyuHINoe9ooePwSu0xApKWgeNzok4hZ5YKXFh9zrQBEM15CXqoZkJJPuI2ArvqjPQd8UKJA753XA==
+  resolved "https://registry.yarnpkg.com/@insertish/exponential-backoff/-/exponential-backoff-3.1.0.tgz#1d2e4c215fa8647779cfeab74ecb54a5c36835e6"
+  integrity sha512-8Jab9OfjheI84T04QjUwXceSO1DMGy8goDqVdnuoffC2fg23zBnikLJkrRHiT/ao4c08v4R2mU7+/DXMWmROng==
 
 fake-mediastreamtrack@^1.1.6:
   version "1.1.6"
@@ -2912,10 +2912,10 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
 
-isomorphic-ws@^4.0.1:
+"isomorphic-ws@npm:@insertish/isomorphic-ws":
   version "4.0.1"
-  resolved "https://registry.yarnpkg.com/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz#55fd4cd6c5e6491e76dc125938dd863f5cd4f2dc"
-  integrity sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==
+  resolved "https://registry.yarnpkg.com/@insertish/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz#5bcd6f73b93efa9ccdb6abf887ae808d40827169"
+  integrity sha512-kFD/p8T4Hkqr992QrdkbW/cQ/W/q2d9MPCobwzBv2PwTKLkCD9RaYDy6m17qRnSLQQ5PU0kHCG8kaOwAqzj1vQ==
 
 javascript-natural-sort@0.7.1:
   version "0.7.1"
@@ -2973,6 +2973,11 @@ json-stable-stringify-without-jsonify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
   integrity sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
+
+json-stringify-deterministic@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/json-stringify-deterministic/-/json-stringify-deterministic-1.0.2.tgz#fe72b5f49cc39c5f7c5fcb17d2fb06fca092e727"
+  integrity sha512-u6lgTmpDXjVJChV2pOcW7bQOOXrGZAHKzfOfJXQ4ktFrpdotKgaf1crqktYrVOe/Ul0Qrm/CMjWNGS+ErpngCg==
 
 json5@^2.1.2:
   version "2.2.0"
@@ -3087,6 +3092,11 @@ lodash.defaultsdeep@^4.6.1:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.1.tgz#512e9bd721d272d94e3d3a63653fa17516741ca6"
   integrity sha512-3j8wdDzYuWO3lM3Reg03MuQR957t287Rpcxp1njpEa8oDrikb+FwGdW3n+FELh/A6qib6yPit0j/pv9G/yeAqA==
+
+lodash.flatten@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
+  integrity sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=
 
 lodash.isequal@^4.5.0:
   version "4.5.0"
@@ -3571,18 +3581,6 @@ react-redux@^7.2.0:
     prop-types "^15.7.2"
     react-is "^16.13.1"
 
-react-redux@^7.2.4:
-  version "7.2.4"
-  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.4.tgz#1ebb474032b72d806de2e0519cd07761e222e225"
-  integrity sha512-hOQ5eOSkEJEXdpIKbnRyl04LhaWabkDPV+Ix97wqQX3T3d2NQ8DUblNXXtNMavc7DpswyQM6xfaN4HQDKNY2JA==
-  dependencies:
-    "@babel/runtime" "^7.12.1"
-    "@types/react-redux" "^7.1.16"
-    hoist-non-react-statics "^3.3.2"
-    loose-envify "^1.4.0"
-    prop-types "^15.7.2"
-    react-is "^16.13.1"
-
 react-router-dom@^5.2.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-5.2.1.tgz#34af8b551a4ce17487d3f80e651b91651978dff6"
@@ -3646,7 +3644,7 @@ readdirp@~3.6.0:
   dependencies:
     picomatch "^2.2.1"
 
-redux@^4.0.0, redux@^4.0.4, redux@^4.1.0:
+redux@^4.0.0, redux@^4.0.4:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.1.1.tgz#76f1c439bb42043f985fbd9bf21990e60bd67f47"
   integrity sha512-hZQZdDEM25UY2P493kPYuKqviVwZ58lEmGQNeQ+gXa+U0gYPUBf7NKYazbe3m+bs/DzM/ahN12DbF+NG8i0CWw==
@@ -3765,16 +3763,17 @@ revolt-api@^0.5.3-alpha.9:
   resolved "https://registry.yarnpkg.com/revolt-api/-/revolt-api-0.5.3-alpha.9.tgz#46e75b7d8f9c6702df39039b829dddbb7897f237"
   integrity sha512-L8K9uPV3ME8bLdtWm8L9iPQvFM0GghA+5LzmWFjd6Gbn56u22ZYub2lABi4iHrWgeA2X41dGSsuSBgHSlts9Og==
 
-revolt.js@^5.1.0-alpha.10:
-  version "5.1.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.1.0-alpha.10.tgz#e393ac8524e629d3359135651b23b044c0cc9b7b"
-  integrity sha512-wEmBMJkZE/oWy6mzVZg1qw5QC9CE+Gb7sTFlJl+C4pbXfTJWAtY311Tjbd2tX8w3ohYDmN338bVfCW4cOQ8GXQ==
+revolt.js@5.2.1-patch.1:
+  version "5.2.1-patch.1"
+  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.2.1-patch.1.tgz#4b392d4dae12ea28f559ef89790368f53788c81d"
+  integrity sha512-u2vvbCWXKx+vZKqlt5izowf9XnMbWdh3GaPMzipek6l6mBYSCIlr796HoiiIO3c2T3AWqh3zav97rm8z3jOIXg==
   dependencies:
     axios "^0.21.4"
     eventemitter3 "^4.0.7"
-    exponential-backoff "^3.1.0"
-    isomorphic-ws "^4.0.1"
+    exponential-backoff "npm:@insertish/exponential-backoff"
+    isomorphic-ws "npm:@insertish/isomorphic-ws"
     lodash.defaultsdeep "^4.6.1"
+    lodash.flatten "^4.4.0"
     lodash.isequal "^4.5.0"
     mobx "^6.3.2"
     revolt-api "^0.5.3-alpha.9"

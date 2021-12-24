@@ -78,11 +78,10 @@ export function UI() {
 
 render(
     <>
-        <Theme>
-            <UIDemo>
-                <UI />
-            </UIDemo>
-        </Theme>
+        <UIDemo>
+            <UI />
+        </UIDemo>
+        <Theme />
     </>,
     document.getElementById("app")!,
 );

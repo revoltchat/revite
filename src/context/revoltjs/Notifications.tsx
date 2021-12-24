@@ -8,21 +8,9 @@ import { useCallback, useContext, useEffect } from "preact/hooks";
 
 import { useTranslation } from "../../lib/i18n";
 
-import { connectState } from "../../redux/connector";
-import {
-    getNotificationState,
-    Notifications,
-    shouldNotify,
-} from "../../redux/reducers/notifications";
-import { NotificationOptions } from "../../redux/reducers/settings";
+import { useApplicationState } from "../../mobx/State";
 
-import { SoundContext } from "../Settings";
 import { AppContext } from "./RevoltClient";
-
-interface Props {
-    options?: NotificationOptions;
-    notifs: Notifications;
-}
 
 const notifications: { [key: string]: Notification } = {};
 
@@ -38,9 +26,11 @@ async function createNotification(
     }
 }
 
-function Notifier({ options, notifs }: Props) {
+function Notifier() {
     const translate = useTranslation();
-    const showNotification = options?.desktopEnabled ?? false;
+    const state = useApplicationState();
+    const notifs = state.notifications;
+    const showNotification = state.settings.get("notifications:desktop");
 
     const client = useContext(AppContext);
     const { guild: guild_id, channel: channel_id } = useParams<{
@@ -48,19 +38,13 @@ function Notifier({ options, notifs }: Props) {
         channel: string;
     }>();
     const history = useHistory();
-    const playSound = useContext(SoundContext);
 
     const message = useCallback(
         async (msg: Message) => {
-            if (msg.author_id === client.user!._id) return;
             if (msg.channel_id === channel_id && document.hasFocus()) return;
-            if (client.user!.status?.presence === Presence.Busy) return;
-            if (msg.author?.relationship === RelationshipStatus.Blocked) return;
+            if (!notifs.shouldNotify(msg)) return;
 
-            const notifState = getNotificationState(notifs, msg.channel!);
-            if (!shouldNotify(notifState, msg, client.user!._id)) return;
-
-            playSound("message");
+            state.settings.sounds.playSound("message");
             if (!showNotification) return;
 
             const effectiveName = msg.masquerade?.name ?? msg.author?.username;
@@ -220,7 +204,7 @@ function Notifier({ options, notifs }: Props) {
             channel_id,
             client,
             notifs,
-            playSound,
+            state,
         ],
     );
 
@@ -268,7 +252,7 @@ function Notifier({ options, notifs }: Props) {
         };
     }, [
         client,
-        playSound,
+        state,
         guild_id,
         channel_id,
         showNotification,
@@ -296,28 +280,17 @@ function Notifier({ options, notifs }: Props) {
     return null;
 }
 
-const NotifierComponent = connectState(
-    Notifier,
-    (state) => {
-        return {
-            options: state.settings.notification,
-            notifs: state.notifications,
-        };
-    },
-    true,
-);
-
 export default function NotificationsComponent() {
     return (
         <Switch>
             <Route path="/server/:server/channel/:channel">
-                <NotifierComponent />
+                <Notifier />
             </Route>
             <Route path="/channel/:channel">
-                <NotifierComponent />
+                <Notifier />
             </Route>
             <Route path="/">
-                <NotifierComponent />
+                <Notifier />
             </Route>
         </Switch>
     );

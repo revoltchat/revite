@@ -7,7 +7,7 @@ import { useState } from "preact/hooks";
 
 import { internalEmit } from "../../../lib/eventEmitter";
 
-import { QueuedMessage } from "../../../redux/reducers/queue";
+import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";

@@ -167,7 +167,7 @@ export default function Modal(props: Props) {
     isModalClosing = animateClose;
     const onClose = useCallback(() => {
         setAnimateClose(true);
-        setTimeout(() => props.onClose?.(), 2e2);
+        setTimeout(() => props.onClose!(), 2e2);
     }, [setAnimateClose, props]);
 
     useEffect(() => internalSubscribe("Modal", "close", onClose), [onClose]);

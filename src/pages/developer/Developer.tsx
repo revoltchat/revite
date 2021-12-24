@@ -1,6 +1,6 @@
 import { Wrench } from "@styled-icons/boxicons-solid";
 
-import { useContext, useState } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 
 import PaintCounter from "../../lib/PaintCounter";
 import { TextReact } from "../../lib/i18n";
@@ -16,10 +16,14 @@ export default function Developer() {
     const userPermission = client.user!.permission;
     const [ping, setPing] = useState<undefined | number>(client.websocket.ping);
 
-    setInterval(
-        () => setPing(client.websocket.ping),
-        client.options.heartbeat * 1e3,
-    );
+    useEffect(() => {
+        const timer = setInterval(
+            () => setPing(client.websocket.ping),
+            client.options.heartbeat * 1e3,
+        );
+
+        return () => clearInterval(timer);
+    }, []);
 
     return (
         <div>

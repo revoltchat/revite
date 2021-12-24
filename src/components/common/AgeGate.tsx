@@ -6,7 +6,8 @@ import styled from "styled-components";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import { dispatch, getState } from "../../redux";
+import { useApplicationState } from "../../mobx/State";
+import { SECTION_NSFW } from "../../mobx/stores/Layout";
 
 import Button from "../ui/Button";
 import Checkbox from "../ui/Checkbox";
@@ -49,9 +50,7 @@ type Props = {
 
 export default observer((props: Props) => {
     const history = useHistory();
-    const [consent, setConsent] = useState(
-        getState().sectionToggle["nsfw"] ?? false,
-    );
+    const layout = useApplicationState().layout;
     const [ageGate, setAgeGate] = useState(false);
 
     if (ageGate || !props.gated) {
@@ -81,26 +80,19 @@ export default observer((props: Props) => {
             </span>
 
             <Checkbox
-                checked={consent}
-                onChange={(v) => {
-                    setConsent(v);
-                    if (v) {
-                        dispatch({
-                            type: "SECTION_TOGGLE_SET",
-                            id: "nsfw",
-                            state: true,
-                        });
-                    } else {
-                        dispatch({ type: "SECTION_TOGGLE_UNSET", id: "nsfw" });
-                    }
-                }}>
+                checked={layout.getSectionState(SECTION_NSFW, false)}
+                onChange={() => layout.toggleSectionState(SECTION_NSFW, false)}>
                 <Text id="app.main.channel.nsfw.confirm" />
             </Checkbox>
             <div className="actions">
                 <Button contrast onClick={() => history.goBack()}>
                     <Text id="app.special.modals.actions.back" />
                 </Button>
-                <Button contrast onClick={() => consent && setAgeGate(true)}>
+                <Button
+                    contrast
+                    onClick={() =>
+                        layout.getSectionState(SECTION_NSFW) && setAgeGate(true)
+                    }>
                     <Text id={`app.main.channel.nsfw.${props.type}.confirm`} />
                 </Button>
             </div>

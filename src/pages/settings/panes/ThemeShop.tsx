@@ -1,19 +1,11 @@
-import { Plus, Check } from "@styled-icons/boxicons-regular";
-import {
-    Star,
-    BarChartAlt2,
-    Brush,
-    Bookmark,
-} from "@styled-icons/boxicons-solid";
 import styled from "styled-components";
 
 import { useEffect, useState } from "preact/hooks";
 
-import { dispatch } from "../../../redux";
+import { useApplicationState } from "../../../mobx/State";
 
-import { Theme, generateVariables, ThemeOptions } from "../../../context/Theme";
+import { Theme, generateVariables } from "../../../context/Theme";
 
-import InputBox from "../../../components/ui/InputBox";
 import Tip from "../../../components/ui/Tip";
 import previewPath from "../assets/preview.svg";
 
@@ -258,6 +250,8 @@ export function ThemeShop() {
     >(null);
     const [themeData, setThemeData] = useState<Record<string, Theme>>({});
 
+    const themes = useApplicationState().settings.theme;
+
     async function fetchThemeList() {
         const manifest = await fetchManifest();
         setThemeList(
@@ -352,21 +346,9 @@ export function ThemeShop() {
                         data-loaded={Reflect.has(themeData, slug)}>
                         <button
                             class="preview"
-                            onClick={() => {
-                                dispatch({
-                                    type: "THEMES_SET_THEME",
-                                    theme: {
-                                        slug,
-                                        meta: theme,
-                                        theme: themeData[slug],
-                                    },
-                                });
-
-                                dispatch({
-                                    type: "SETTINGS_SET_THEME",
-                                    theme: { base: slug },
-                                });
-                            }}>
+                            onClick={() =>
+                                themes.hydrate(themeData[slug], true)
+                            }>
                             <div class="previewBox">
                                 <div class="hover">Use theme</div>
                                 <ThemePreview
