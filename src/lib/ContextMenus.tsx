@@ -486,7 +486,7 @@ function ContextMenus(props: Props) {
                         lastDivider = false;
                         elements.push(
                             <MenuItem data={action} disabled={disabled}>
-                                <span style={color ? `color: ${color}` : ""}>
+                                <span style={{color}}>
                                     <Text
                                         id={`app.context_menu.${
                                             locale ?? action.action
