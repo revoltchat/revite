@@ -10,8 +10,7 @@
             "name": "Launch Chrome against localhost",
             "url": "http://local.revolt.chat:3000",
             "webRoot": "${workspaceFolder}",
-            "runtimeExecutable": "/usr/bin/chromium",
-            "userDataDir": "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir"
+            "runtimeExecutable": "/usr/bin/chromium"
         }
     ]
 }

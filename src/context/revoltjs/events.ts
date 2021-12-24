@@ -1,6 +1,4 @@
 import { Client } from "revolt.js/dist";
-import { Message } from "revolt.js/dist/maps/Messages";
-import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 
 import { StateUpdater } from "preact/hooks";
 

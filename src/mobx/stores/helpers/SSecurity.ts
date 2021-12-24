@@ -27,7 +27,6 @@ export default class SSecurity {
     }
 
     @computed isTrustedOrigin(origin: string) {
-        console.log(this.settings.get("security:trustedOrigins"), origin);
         return this.settings.get("security:trustedOrigins")?.includes(origin);
     }
 }

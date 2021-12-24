@@ -62,20 +62,22 @@ export interface LegacyAuthState {
     active?: string;
 }
 
-function legacyMigrateAuth(auth: LegacyAuthState): DataAuth {
+export function legacyMigrateAuth(auth: LegacyAuthState): DataAuth {
     return {
         current: auth.active,
         sessions: auth.accounts,
     };
 }
 
-function legacyMigrateLocale(lang: Language): DataLocaleOptions {
+export function legacyMigrateLocale(lang: Language): DataLocaleOptions {
     return {
         lang,
     };
 }
 
-function legacyMigrateTheme(theme: LegacyThemeOptions): Partial<ISettings> {
+export function legacyMigrateTheme(
+    theme: LegacyThemeOptions,
+): Partial<ISettings> {
     const { light, font, css, monospaceFont, ...variables } =
         theme.custom ?? {};
 
@@ -90,7 +92,7 @@ function legacyMigrateTheme(theme: LegacyThemeOptions): Partial<ISettings> {
     };
 }
 
-function legacyMigrateAppearance(
+export function legacyMigrateAppearance(
     appearance: LegacyAppearanceOptions,
 ): Partial<ISettings> {
     return {
@@ -98,7 +100,7 @@ function legacyMigrateAppearance(
     };
 }
 
-function legacyMigrateNotification(
+export function legacyMigrateNotification(
     channel: LegacyNotifications,
 ): DataNotificationOptions {
     return {
@@ -106,7 +108,7 @@ function legacyMigrateNotification(
     };
 }
 
-function legacyMigrateSync(sync: LegacySyncOptions): DataSync {
+export function legacyMigrateSync(sync: LegacySyncOptions): DataSync {
     return {
         disabled: sync.disabled ?? [],
         revision: {

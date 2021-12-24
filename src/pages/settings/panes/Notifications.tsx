@@ -1,3 +1,5 @@
+import { observer } from "mobx-react-lite";
+
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
@@ -11,7 +13,7 @@ import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import Checkbox from "../../../components/ui/Checkbox";
 
-export function Notifications() {
+export const Notifications = observer(() => {
     const client = useContext(AppContext);
     const { openScreen } = useIntermediate();
     const settings = useApplicationState().settings;
@@ -118,4 +120,4 @@ export function Notifications() {
             ))}
         </div>
     );
-}
+});
