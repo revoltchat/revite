@@ -70,6 +70,7 @@ export type Screen =
                 type:
                     | "create_group"
                     | "create_server"
+                    | "join_server"
                     | "set_custom_status"
                     | "add_friend";
             }

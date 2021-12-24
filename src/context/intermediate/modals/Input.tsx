@@ -146,7 +146,13 @@ export function SpecialInputModal(props: SpecialProps) {
                     onClose={onClose}
                     question={<Text id="app.main.servers.join" />}
                     field={"Invite code"}
-                    callback={async (code) => {
+                    callback={async (rawCode) => {
+                        // if the user provides an invite link, get rid of the url and just pass the invite code
+                        // prettier-ignore
+                        const regex = new RegExp(
+                            "http(s?):\/\/(app|nightly|rvlt|localhost).(revolt.chat|gg\/|\d{3,5})(\/invite\/)?", // localhost doesn't quite work yet
+                        );
+                        const code = rawCode.replace(regex, "");
                         const server = await client.fetchInvite(code);
                         if (typeof server === "undefined")
                             console.log("Something went wrong.");
