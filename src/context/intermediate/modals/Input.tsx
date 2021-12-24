@@ -77,6 +77,7 @@ type SpecialProps = { onClose: () => void } & (
           type:
               | "create_group"
               | "create_server"
+              | "join_server"
               | "set_custom_status"
               | "add_friend";
       }
@@ -135,6 +136,27 @@ export function SpecialInputModal(props: SpecialProps) {
                     callback={async (name) => {
                         const role = await props.server.createRole(name);
                         props.callback(role.id);
+                    }}
+                />
+            );
+        }
+        case "join_server": {
+            return (
+                <InputModal
+                    onClose={onClose}
+                    question={<Text id="app.main.servers.join" />}
+                    field={"Invite code"}
+                    callback={async (code) => {
+                        const server = await client.fetchInvite(code);
+                        if (typeof server === "undefined")
+                            console.log("Something went wrong.");
+
+                        if (client.servers.get(server.server_id)) {
+                            history.push(
+                                `/server/${server.server_id}/channel/${server.channel_id}`,
+                            );
+                        }
+                        await client.joinInvite(code);
                     }}
                 />
             );

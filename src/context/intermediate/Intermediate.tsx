@@ -106,6 +106,7 @@ export type Screen =
     | { id: "pending_requests"; users: User[] }
     | { id: "modify_account"; field: "username" | "email" | "password" }
     | { id: "create_bot"; onCreate: (bot: Bot) => void }
+    | { id: "new_server" }
     | {
           id: "server_identity";
           server: Server;
