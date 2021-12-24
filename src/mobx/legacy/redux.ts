@@ -1,8 +1,15 @@
+import { runInAction } from "mobx";
 import { Session } from "revolt-api/types/Auth";
 
 import { Language } from "../../context/Locale";
-import { Fonts, MonospaceFonts, Overrides } from "../../context/Theme";
+import {
+    Fonts,
+    MonospaceFonts,
+    Overrides,
+    ThemeOptions,
+} from "../../context/Theme";
 
+import State from "../State";
 import { Data as DataAuth } from "../stores/Auth";
 import { Data as DataLocaleOptions } from "../stores/LocaleOptions";
 import { Data as DataNotificationOptions } from "../stores/NotificationOptions";
@@ -62,6 +69,11 @@ export interface LegacyAuthState {
     active?: string;
 }
 
+export interface LegacySettings {
+    theme?: LegacyThemeOptions;
+    appearance?: LegacyAppearanceOptions;
+}
+
 export function legacyMigrateAuth(auth: LegacyAuthState): DataAuth {
     return {
         current: auth.active,
@@ -100,6 +112,20 @@ export function legacyMigrateAppearance(
     };
 }
 
+/**
+ * Remove trolling from an object
+ * @param inp Object to remove trolling from
+ * @returns Object without trolling
+ */
+function detroll(inp: object): ISettings {
+    const obj: object = {};
+    Object.keys(inp)
+        .filter((x) => typeof (inp as any)[x] !== "undefined")
+        .map((x) => ((obj as any)[x] = (inp as any)[x]));
+
+    return obj as unknown as ISettings;
+}
+
 export function legacyMigrateNotification(
     channel: LegacyNotifications,
 ): DataNotificationOptions {
@@ -115,4 +141,53 @@ export function legacyMigrateSync(sync: LegacySyncOptions): DataSync {
             ...sync.revision,
         },
     };
+}
+
+export type LegacyState = {
+    locale: Language;
+    auth: LegacyAuthState;
+    settings: LegacySettings;
+    sync: LegacySyncOptions;
+    notifications: LegacyNotifications;
+};
+
+export function legacyMigrateForwards(
+    data: Partial<LegacyState>,
+    target: State,
+) {
+    runInAction(() => {
+        if ("sync" in data) {
+            target.sync.hydrate(legacyMigrateSync(data.sync!));
+        }
+
+        if ("locale" in data) {
+            target.locale.hydrate(legacyMigrateLocale(data.locale!));
+        }
+
+        if ("auth" in data) {
+            target.auth.hydrate(legacyMigrateAuth(data.auth!));
+        }
+
+        if ("settings" in data) {
+            if (data!.settings!.theme) {
+                target.settings.hydrate(
+                    detroll(legacyMigrateTheme(data.settings!.theme!)),
+                );
+            }
+
+            if (data!.settings!.appearance) {
+                target.settings.hydrate(
+                    detroll(
+                        legacyMigrateAppearance(data.settings!.appearance!),
+                    ),
+                );
+            }
+        }
+
+        if ("notifications" in data) {
+            target.notifications.hydrate(
+                legacyMigrateNotification(data.notifications!),
+            );
+        }
+    });
 }

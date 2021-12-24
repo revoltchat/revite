@@ -4,6 +4,8 @@ import localforage from "localforage";
 import { makeAutoObservable, reaction } from "mobx";
 import { Client } from "revolt.js";
 
+import { legacyMigrateForwards, LegacyState } from "./legacy/redux";
+
 import Persistent from "./interfaces/Persistent";
 import Syncable from "./interfaces/Syncable";
 import Auth from "./stores/Auth";
@@ -89,8 +91,21 @@ export default class State {
         }
     }
 
+    /**
+     * Temporarily ignore updates to a key.
+     * @param key Key to ignore
+     */
     setDisabled(key: string) {
         this.disabled.add(key);
+    }
+
+    /**
+     * Save to disk.
+     */
+    async save() {
+        for (const [id, store] of this.persistent) {
+            await localforage.setItem(id, store.toJSON());
+        }
     }
 
     /**
@@ -177,6 +192,20 @@ export default class State {
      * Load data stores from local storage.
      */
     async hydrate() {
+        // Migrate legacy Redux store.
+        let legacy = await localforage.getItem("state");
+        if (legacy) {
+            if (typeof legacy === "string") {
+                legacy = JSON.parse(legacy);
+            }
+
+            legacyMigrateForwards(legacy as Partial<LegacyState>, this);
+            await localforage.removeItem("state");
+            await this.save();
+            return;
+        }
+
+        // Load MobX store.
         const sync = (await localforage.getItem("sync")) as DataSync;
         if (sync) {
             const { revision } = sync;
@@ -205,15 +234,3 @@ export async function hydrateState() {
 export function useApplicationState() {
     return state;
 }
-
-/**
- * 
- * Redux hydration:
- * localForage.getItem("state").then((s) => {
-            if (s !== null) {
-                dispatch({ type: "__INIT", state: s as State });
-            }
-
-            state.hydrate().then(() => setLoaded(true));
-        });
- */
