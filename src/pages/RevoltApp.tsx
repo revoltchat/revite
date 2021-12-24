@@ -129,7 +129,6 @@ export default function App() {
                 <Popovers />
                 <Notifications />
                 <StateMonitor />
-                <SyncManager />
             </OverlappingPanels>
         </>
     );
