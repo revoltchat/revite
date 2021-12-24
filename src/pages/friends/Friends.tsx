@@ -16,7 +16,7 @@ import { useClient } from "../../context/revoltjs/RevoltClient";
 import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
 import UserIcon from "../../components/common/user/UserIcon";
-import Header from "../../components/ui/Header";
+import Header, { PageHeader } from "../../components/ui/Header";
 import IconButton from "../../components/ui/IconButton";
 
 import { Children } from "../../types/Preact";
@@ -72,8 +72,7 @@ export default observer(() => {
     const isEmpty = lists.reduce((p: number, n) => p + n.length, 0) === 0;
     return (
         <>
-            <Header placement="primary">
-                {!isTouchscreenDevice && <UserDetail size={24} />}
+            <PageHeader icon={<UserDetail size={24} />} noBurger>
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />
                 </div>
@@ -115,7 +114,7 @@ export default observer(() => {
                     </Tooltip>
                     */}
                 </div>
-            </Header>
+            </PageHeader>
             <div
                 className={styles.list}
                 data-empty={isEmpty}

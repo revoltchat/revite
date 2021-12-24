@@ -1,4 +1,9 @@
-import { At, Hash } from "@styled-icons/boxicons-regular";
+import {
+    At,
+    ChevronLeft,
+    ChevronRight,
+    Hash,
+} from "@styled-icons/boxicons-regular";
 import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js/dist/maps/Channels";
@@ -8,14 +13,17 @@ import styled, { css } from "styled-components";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
-import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
+import { SIDEBAR_CHANNELS, SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { getChannelName } from "../../context/revoltjs/util";
 
 import { useStatusColour } from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
-import Header, { HamburgerAction } from "../../components/ui/Header";
+import Header, {
+    HamburgerAction,
+    PageHeader,
+} from "../../components/ui/Header";
 
 import Markdown from "../../components/markdown/Markdown";
 import HeaderActions from "./actions/HeaderActions";
@@ -68,25 +76,6 @@ const Info = styled.div`
     }
 `;
 
-const IconConainer = styled.div`
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    color: var(--secondary-foreground);
-    margin-right: 5px;
-
-    > svg {
-        margin-right: -5px;
-    }
-
-    ${!isTouchscreenDevice &&
-    css`
-        &:hover {
-            color: var(--foreground);
-        }
-    `}
-`;
-
 export default observer(({ channel }: ChannelHeaderProps) => {
     const { openScreen } = useIntermediate();
     const layout = useApplicationState().layout;
@@ -110,15 +99,7 @@ export default observer(({ channel }: ChannelHeaderProps) => {
     }
 
     return (
-        <Header placement="primary">
-            <HamburgerAction />
-            <IconConainer
-                onClick={() =>
-                    layout.toggleSectionState(SIDEBAR_MEMBERS, true)
-                }>
-                {/*isTouchscreenDevice && <ChevronLeft size={18} /> FIXME: requires mobx merge */}
-                {icon}
-            </IconConainer>
+        <PageHeader icon={icon}>
             <Info>
                 <span className="name">{name}</span>
                 {isTouchscreenDevice &&
@@ -162,6 +143,6 @@ export default observer(({ channel }: ChannelHeaderProps) => {
                     )}
             </Info>
             <HeaderActions channel={channel} />
-        </Header>
+        </PageHeader>
     );
 });

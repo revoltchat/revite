@@ -17,29 +17,14 @@ import "./snow.scss";
 import { Text } from "preact-i18n";
 import { useContext, useMemo } from "preact/hooks";
 
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-
 import { useApplicationState } from "../../mobx/State";
-import { SIDEBAR_CHANNELS } from "../../mobx/stores/Layout";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
 import wideSVG from "../../../public/assets/wide.svg";
 import Tooltip from "../../components/common/Tooltip";
-import Header from "../../components/ui/Header";
+import { PageHeader } from "../../components/ui/Header";
 import CategoryButton from "../../components/ui/fluent/CategoryButton";
-
-const IconConainer = styled.div`
-    cursor: pointer;
-    color: var(--secondary-foreground);
-
-    ${!isTouchscreenDevice &&
-    css`
-        &:hover {
-            color: var(--foreground);
-        }
-    `}
-`;
 
 const Overlay = styled.div`
     display: grid;
@@ -57,14 +42,6 @@ const Overlay = styled.div`
 export default observer(() => {
     const client = useContext(AppContext);
     const state = useApplicationState();
-
-    const toggleChannelSidebar = () => {
-        if (isTouchscreenDevice) {
-            return;
-        }
-
-        state.layout.toggleSectionState(SIDEBAR_CHANNELS, true);
-    };
 
     const toggleSeasonalTheme = () =>
         state.settings.set(
@@ -107,12 +84,9 @@ export default observer(() => {
                     </div>
                 )}
                 <div className="content">
-                    <Header placement="primary">
-                        <IconConainer onClick={toggleChannelSidebar}>
-                            <HomeIcon size={24} />
-                        </IconConainer>
+                    <PageHeader icon={<HomeIcon size={24} />}>
                         <Text id="app.navigation.tabs.home" />
-                    </Header>
+                    </PageHeader>
                     <div className={styles.homeScreen}>
                         <h3>
                             <Text id="app.special.modals.onboarding.welcome" />

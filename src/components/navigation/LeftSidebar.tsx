@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import { Route, Switch } from "react-router";
 
 import { useApplicationState } from "../../mobx/State";
@@ -8,7 +9,7 @@ import HomeSidebar from "./left/HomeSidebar";
 import ServerListSidebar from "./left/ServerListSidebar";
 import ServerSidebar from "./left/ServerSidebar";
 
-export default function LeftSidebar() {
+export default observer(() => {
     const layout = useApplicationState().layout;
     const isOpen = layout.getSectionState(SIDEBAR_CHANNELS, true);
 
@@ -35,4 +36,4 @@ export default function LeftSidebar() {
             </Switch>
         </SidebarBase>
     );
-}
+});

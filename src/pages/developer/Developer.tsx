@@ -7,7 +7,7 @@ import { TextReact } from "../../lib/i18n";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
-import Header from "../../components/ui/Header";
+import Header, { PageHeader } from "../../components/ui/Header";
 
 export default function Developer() {
     // const voice = useContext(VoiceContext);
@@ -27,10 +27,7 @@ export default function Developer() {
 
     return (
         <div>
-            <Header placement="primary">
-                <Wrench size="24" />
-                Developer Tab
-            </Header>
+            <PageHeader icon={<Wrench size="24" />}>Developer Tab</PageHeader>
             <div style={{ padding: "16px" }}>
                 <PaintCounter always />
             </div>

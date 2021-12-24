@@ -177,6 +177,6 @@ export default class Layout implements Store, Persistent<Data> {
      * @param def Default state value
      */
     @action toggleSectionState(id: string, def?: boolean) {
-        this.setSectionState(id, !this.getSectionState(id, def));
+        this.setSectionState(id, !this.getSectionState(id, def), def);
     }
 }
