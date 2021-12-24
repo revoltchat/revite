@@ -28,6 +28,7 @@ export interface ISettings {
 
     "appearance:emoji": EmojiPack;
     "appearance:ligatures": boolean;
+    "appearance:seasonal": boolean;
 
     "appearance:theme:base": "dark" | "light";
     "appearance:theme:overrides": Partial<Overrides>;
@@ -137,6 +138,7 @@ export default class Settings
 
         if (key === "appearance") {
             this.remove("appearance:emoji");
+            this.remove("appearance:seasonal");
         } else {
             this.remove("appearance:ligatures");
             this.remove("appearance:theme:base");
@@ -163,7 +165,10 @@ export default class Settings
 
     @computed toSyncable() {
         const data: Record<"appearance" | "theme", Partial<ISettings>> = {
-            appearance: this.pullKeys(["appearance:emoji"]),
+            appearance: this.pullKeys([
+                "appearance:emoji",
+                "appearance:seasonal",
+            ]),
             theme: this.pullKeys([
                 "appearance:ligatures",
                 "appearance:theme:base",

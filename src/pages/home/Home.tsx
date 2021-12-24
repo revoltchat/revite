@@ -8,6 +8,7 @@ import {
     Cog,
     RightArrowCircle,
 } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
@@ -53,23 +54,31 @@ const Overlay = styled.div`
     }
 `;
 
-export default function Home() {
+export default observer(() => {
     const client = useContext(AppContext);
-    const layout = useApplicationState().layout;
+    const state = useApplicationState();
 
     const toggleChannelSidebar = () => {
         if (isTouchscreenDevice) {
             return;
         }
 
-        layout.toggleSectionState(SIDEBAR_CHANNELS, true);
+        state.layout.toggleSectionState(SIDEBAR_CHANNELS, true);
     };
 
+    const toggleSeasonalTheme = () =>
+        state.settings.set(
+            "appearance:seasonal",
+            !state.settings.get("appearance:seasonal"),
+        );
+
+    const seasonalTheme = state.settings.get("appearance:seasonal") ?? true;
+    const isDecember = new Date().getMonth() === 11;
     const snowflakes = useMemo(() => {
         const flakes = [];
 
         // Disable outside of December
-        if (new Date().getMonth() !== 11) return [];
+        if (!isDecember) return [];
 
         for (let i = 0; i < 15; i++) {
             flakes.push("❄️");
@@ -88,13 +97,15 @@ export default function Home() {
     return (
         <div className={styles.home}>
             <Overlay>
-                <div class="snowfall">
-                    {snowflakes.map((emoji, index) => (
-                        <div key={index} class="snowflake">
-                            {emoji}
-                        </div>
-                    ))}
-                </div>
+                {seasonalTheme && (
+                    <div class="snowfall">
+                        {snowflakes.map((emoji, index) => (
+                            <div key={index} class="snowflake">
+                                {emoji}
+                            </div>
+                        ))}
+                    </div>
+                )}
                 <div className="content">
                     <Header placement="primary">
                         <IconConainer onClick={toggleChannelSidebar}>
@@ -193,12 +204,15 @@ export default function Home() {
                                 </Link>
                             </Tooltip>
                         </div>
-                        <Link to="/settings/appearance">
-                            <a>Turn off homescreen effects</a>
-                        </Link>
+                        {isDecember && (
+                            <a href="#" onClick={toggleSeasonalTheme}>
+                                Turn {seasonalTheme ? "off" : "on"} homescreen
+                                effects
+                            </a>
+                        )}
                     </div>
                 </div>
             </Overlay>{" "}
         </div>
     );
-}
+});

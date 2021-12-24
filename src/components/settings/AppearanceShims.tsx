@@ -208,6 +208,24 @@ export const DisplayLigaturesShim = observer(() => {
 });
 
 /**
+ * Component providing a way to toggle seasonal themes.
+ */
+export const DisplaySeasonalShim = observer(() => {
+    const settings = useApplicationState().settings;
+
+    return (
+        <p>
+            <Checkbox
+                checked={settings.get("appearance:seasonal") ?? true}
+                onChange={(v) => settings.set("appearance:seasonal", v)}
+                description="Displays effects in the home tab during holiday seasons.">
+                Seasonal theme
+            </Checkbox>
+        </p>
+    );
+});
+
+/**
  * Component providing a way to change emoji pack.
  */
 export const DisplayEmojiShim = observer(() => {
