@@ -255,6 +255,16 @@
             font-weight: 600;
         }
 
+        details {
+            summary {
+                font-size: 0.8125rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: var(--secondary-foreground);
+                cursor: pointer;
+            }
+        }
+
         .footer {
             border-top: 1px solid;
             margin: 0;
