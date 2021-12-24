@@ -134,7 +134,7 @@ export function GenericSettings({
                 <div className={styles.sidebar}>
                     <div className={styles.scrollbox}>
                         <div className={styles.container}>
-                            {indexHeader}
+                            {isTouchscreenDevice && indexHeader}
                             {pages.map((entry, i) =>
                                 entry.hidden ? undefined : (
                                     <>
