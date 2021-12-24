@@ -33,11 +33,11 @@ const Header = styled.div<Props>`
     background-position: center !important;
     background-color: var(--primary-header);
 
-    > div {
+    /*> div {
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-    }
+    }*/
 
     svg {
         flex-shrink: 0;
