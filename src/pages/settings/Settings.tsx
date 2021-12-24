@@ -33,6 +33,7 @@ import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import { AppContext, LogOutContext } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
+import { Username } from "../../components/common/user/UserShort";
 import LineDivider from "../../components/ui/LineDivider";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
@@ -270,8 +271,8 @@ export default observer(() => {
             }
             indexHeader={
                 <IndexHeader>
-                    <UserIcon size={64} />
-                    Username
+                    <UserIcon size={64} target={client.user!} />
+                    <Username user={client.user!} prefixAt />
                 </IndexHeader>
             }
         />
