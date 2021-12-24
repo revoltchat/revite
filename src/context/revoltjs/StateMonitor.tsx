@@ -5,45 +5,35 @@ import { Message } from "revolt.js/dist/maps/Messages";
 
 import { useContext, useEffect } from "preact/hooks";
 
-import { dispatch } from "../../redux";
-import { connectState } from "../../redux/connector";
-import { QueuedMessage } from "../../redux/reducers/queue";
+import { useApplicationState } from "../../mobx/State";
+
+import { setGlobalEmojiPack } from "../../components/common/Emoji";
 
 import { AppContext } from "./RevoltClient";
 
-type Props = {
-    messages: QueuedMessage[];
-};
-
-function StateMonitor(props: Props) {
+export default function StateMonitor() {
     const client = useContext(AppContext);
-
-    useEffect(() => {
-        dispatch({
-            type: "QUEUE_DROP_ALL",
-        });
-    }, []);
+    const state = useApplicationState();
 
     useEffect(() => {
         function add(msg: Message) {
             if (!msg.nonce) return;
-            if (!props.messages.find((x) => x.id === msg.nonce)) return;
-
-            dispatch({
-                type: "QUEUE_REMOVE",
-                nonce: msg.nonce,
-            });
+            if (
+                !state.queue.get(msg.channel_id).find((x) => x.id === msg.nonce)
+            )
+                return;
+            state.queue.remove(msg.nonce);
         }
 
         client.addListener("message", add);
         return () => client.removeListener("message", add);
-    }, [client, props.messages]);
+    }, [client]);
+
+    // Set global emoji pack.
+    useEffect(() => {
+        const v = state.settings.get("appearance:emoji");
+        v && setGlobalEmojiPack(v);
+    }, [state.settings.get("appearance:emoji")]);
 
     return null;
 }
-
-export default connectState(StateMonitor, (state) => {
-    return {
-        messages: [...state.queue],
-    };
-});

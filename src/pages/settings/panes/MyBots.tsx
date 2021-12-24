@@ -48,7 +48,7 @@ interface Changes {
 
 const BotBadge = styled.div`
     display: inline-block;
-
+    flex-shrink: 0;
     height: 1.3em;
     padding: 0px 4px;
     font-size: 0.7em;
@@ -56,7 +56,7 @@ const BotBadge = styled.div`
     margin-inline-start: 2px;
     text-transform: uppercase;
 
-    color: var(--foreground);
+    color: var(--accent-contrast);
     background: var(--accent);
     border-radius: calc(var(--border-radius) / 2);
 `;
@@ -228,99 +228,103 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
 
     return (
         <div key={bot._id} className={styles.botCard}>
-            <div className={styles.infoheader}>
-                <div className={styles.container}>
-                    {!editMode ? (
-                        <UserIcon
-                            className={styles.avatar}
-                            target={user}
-                            size={48}
-                            onClick={() =>
-                                openScreen({
-                                    id: "profile",
-                                    user_id: user._id,
-                                })
-                            }
-                        />
-                    ) : (
-                        <FileUploader
-                            width={64}
-                            height={64}
-                            style="icon"
-                            fileType="avatars"
-                            behaviour="upload"
-                            maxFileSize={4_000_000}
-                            onUpload={(avatar) => editBotAvatar(avatar)}
-                            remove={() => editBotAvatar()}
-                            defaultPreview={user.generateAvatarURL(
-                                { max_side: 256 },
-                                true,
-                            )}
-                            previewURL={user.generateAvatarURL(
-                                { max_side: 256 },
-                                true,
-                            )}
-                        />
-                    )}
+            <div className={styles.infocontainer}>
+                <div className={styles.infoheader}>
+                    <div className={styles.container}>
+                        {!editMode ? (
+                            <UserIcon
+                                className={styles.avatar}
+                                target={user}
+                                size={42}
+                                onClick={() =>
+                                    openScreen({
+                                        id: "profile",
+                                        user_id: user._id,
+                                    })
+                                }
+                            />
+                        ) : (
+                            <FileUploader
+                                width={42}
+                                height={42}
+                                style="icon"
+                                fileType="avatars"
+                                behaviour="upload"
+                                maxFileSize={4_000_000}
+                                onUpload={(avatar) => editBotAvatar(avatar)}
+                                remove={() => editBotAvatar()}
+                                defaultPreview={user.generateAvatarURL(
+                                    { max_side: 256 },
+                                    true,
+                                )}
+                                previewURL={user.generateAvatarURL(
+                                    { max_side: 256 },
+                                    true,
+                                )}
+                            />
+                        )}
 
-                    {!editMode ? (
-                        <div className={styles.userDetail}>
-                            <div className={styles.userName}>
-                                {user!.username}{" "}
-                                <BotBadge>
-                                    <Text id="app.main.channel.bot" />
-                                </BotBadge>
-                            </div>
+                        {!editMode ? (
+                            <div className={styles.userDetail}>
+                                <div className={styles.userName}>
+                                    {user!.username}{" "}
+                                    <BotBadge>
+                                        <Text id="app.main.channel.bot" />
+                                    </BotBadge>
+                                </div>
 
-                            <div className={styles.userid}>
-                                <Tooltip
-                                    content={
-                                        <Text id="app.settings.pages.bots.unique_id" />
-                                    }>
-                                    <HelpCircle size={16} />
-                                </Tooltip>
-                                <Tooltip
-                                    content={<Text id="app.special.copy" />}>
-                                    <a
-                                        onClick={() =>
-                                            writeClipboard(user!._id)
+                                <div className={styles.userid}>
+                                    <Tooltip
+                                        content={
+                                            <Text id="app.settings.pages.bots.unique_id" />
                                         }>
-                                        {user!._id}
-                                    </a>
-                                </Tooltip>
+                                        <HelpCircle size={16} />
+                                    </Tooltip>
+                                    <Tooltip
+                                        content={
+                                            <Text id="app.special.copy" />
+                                        }>
+                                        <a
+                                            onClick={() =>
+                                                writeClipboard(user!._id)
+                                            }>
+                                            {user!._id}
+                                        </a>
+                                    </Tooltip>
+                                </div>
                             </div>
-                        </div>
-                    ) : (
-                        <InputBox
-                            ref={setUsernameRef}
-                            value={data.username}
-                            disabled={saving}
-                            onChange={(e) =>
-                                setData({
-                                    ...data,
-                                    username: e.currentTarget.value,
-                                })
-                            }
-                        />
+                        ) : (
+                            <InputBox
+                                ref={setUsernameRef}
+                                value={data.username}
+                                disabled={saving}
+                                onChange={(e) =>
+                                    setData({
+                                        ...data,
+                                        username: e.currentTarget.value,
+                                    })
+                                }
+                            />
+                        )}
+                    </div>
+
+                    {!editMode && (
+                        <Tooltip
+                            content={
+                                <Text
+                                    id={`app.settings.pages.bots.${
+                                        bot.public ? "public" : "private"
+                                    }_bot_tip`}
+                                />
+                            }>
+                            {bot.public ? (
+                                <Globe size={24} />
+                            ) : (
+                                <LockAlt size={24} />
+                            )}
+                        </Tooltip>
                     )}
                 </div>
-
-                {!editMode && (
-                    <Tooltip
-                        content={
-                            <Text
-                                id={`app.settings.pages.bots.${
-                                    bot.public ? "public" : "private"
-                                }_bot_tip`}
-                            />
-                        }>
-                        {bot.public ? (
-                            <Globe size={24} />
-                        ) : (
-                            <LockAlt size={24} />
-                        )}
-                    </Tooltip>
-                )}
                 <Button
                     disabled={saving}
                     onClick={() => {
@@ -377,7 +381,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                     <CollapsibleSection
                         defaultValue={false}
                         id={`bot_profile_${bot._id}`}
-                        summary="Profile">
+                        summary={<Text id="app.settings.pages.bots.profile" />}>
                         <h3>
                             <Text id="app.settings.pages.profile.custom_background" />
                         </h3>
@@ -473,7 +477,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                             <Text id="app.special.modals.actions.save" />
                         </Button>
                         <Button
-                            accent
+                            error
                             onClick={async () => {
                                 setSaving(true);
                                 openScreen({
@@ -540,38 +544,56 @@ export const MyBots = observer(() => {
                 action="chevron">
                 <Text id="app.settings.pages.bots.create_bot" />
             </CategoryButton>
-            {bots?.map((bot) => {
-                return (
-                    <BotCard
-                        key={bot._id}
-                        bot={bot}
-                        onDelete={() =>
-                            setBots(bots.filter((x) => x._id !== bot._id))
-                        }
-                        onUpdate={(changes: Changes) =>
-                            setBots(
-                                bots.map((x) => {
-                                    if (x._id === bot._id) {
-                                        if (
-                                            "public" in changes &&
-                                            typeof changes.public === "boolean"
-                                        )
-                                            x.public = changes.public;
-                                        if ("interactions_url" in changes)
-                                            x.interactions_url =
-                                                changes.interactions_url;
-                                        if (
-                                            changes.remove === "InteractionsURL"
-                                        )
-                                            x.interactions_url = undefined;
-                                    }
-                                    return x;
-                                }),
-                            )
-                        }
-                    />
-                );
-            })}
+            <h5>
+                By creating a bot, you are agreeing to the {` `}
+                <a
+                    href="https://revolt.chat/aup"
+                    target="_blank"
+                    rel="noreferrer">
+                    Acceptable Usage Policy
+                </a>
+                .
+            </h5>
+            <hr />
+            <h3>
+                <Text id="app.settings.pages.bots.title" />
+            </h3>
+            <div className={styles.botList}>
+                {bots?.map((bot) => {
+                    return (
+                        <BotCard
+                            key={bot._id}
+                            bot={bot}
+                            onDelete={() =>
+                                setBots(bots.filter((x) => x._id !== bot._id))
+                            }
+                            onUpdate={(changes: Changes) =>
+                                setBots(
+                                    bots.map((x) => {
+                                        if (x._id === bot._id) {
+                                            if (
+                                                "public" in changes &&
+                                                typeof changes.public ===
+                                                    "boolean"
+                                            )
+                                                x.public = changes.public;
+                                            if ("interactions_url" in changes)
+                                                x.interactions_url =
+                                                    changes.interactions_url;
+                                            if (
+                                                changes.remove ===
+                                                "InteractionsURL"
+                                            )
+                                                x.interactions_url = undefined;
+                                        }
+                                        return x;
+                                    }),
+                                )
+                            }
+                        />
+                    );
+                })}
+            </div>
         </div>
     );
 });

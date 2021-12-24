@@ -5,7 +5,6 @@ import classNames from "classnames";
 import { attachContextMenu } from "preact-context-menu";
 import { useContext, useState } from "preact/hooks";
 
-import { useIntermediate } from "../../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../../context/revoltjs/RevoltClient";
 
 import AttachmentActions from "./AttachmentActions";
@@ -39,7 +38,7 @@ export default function Attachment({ attachment, hasContent }: Props) {
                     width={metadata.width}
                     height={metadata.height}
                     onContextMenu={attachContextMenu("Menu", {
-                        attachment: attachment,
+                        attachment,
                     })}
                     className={classNames({
                         [styles.margin]: hasContent,

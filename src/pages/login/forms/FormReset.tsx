@@ -2,12 +2,15 @@ import { useHistory, useParams } from "react-router-dom";
 
 import { useContext } from "preact/hooks";
 
+import { useApplicationState } from "../../../mobx/State";
+
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import { Form } from "./Form";
 
 export function FormSendReset() {
-    const client = useContext(AppContext);
+    const config = useApplicationState().config;
+    const client = config.createClient();
 
     return (
         <Form

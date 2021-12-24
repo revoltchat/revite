@@ -10,3 +10,5 @@ dist-ssr
 public/assets
 public/assets_*
 !public/assets_default
+
+.vscode/vscode-chrome-debug-userdatadir

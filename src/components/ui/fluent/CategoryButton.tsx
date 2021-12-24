@@ -1,4 +1,8 @@
-import { ChevronRight, LinkExternal } from "@styled-icons/boxicons-regular";
+import {
+    ChevronRight,
+    LinkExternal,
+    Pencil,
+} from "@styled-icons/boxicons-regular";
 import styled, { css } from "styled-components";
 
 import { Children } from "../../../types/Preact";
@@ -12,7 +16,6 @@ interface BaseProps {
 }
 
 const CategoryBase = styled.button<BaseProps>`
-    /*height: 54px;*/
     width: 100%;
     padding: 9.8px 12px;
     border-radius: var(--border-radius);
@@ -25,9 +28,15 @@ const CategoryBase = styled.button<BaseProps>`
     display: flex;
     align-items: center;
     flex-direction: row;
+    overflow: hidden;
 
     > svg {
         flex-shrink: 0;
+    }
+
+    .action {
+        display: flex;
+        align-items: center;
     }
 
     .content {

@@ -1,7 +1,17 @@
-import { Menu } from "@styled-icons/boxicons-regular";
+import {
+    ChevronLeft,
+    ChevronRight,
+    Menu,
+} from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
 import styled, { css } from "styled-components";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+
+import { useApplicationState } from "../../mobx/State";
+import { SIDEBAR_CHANNELS } from "../../mobx/stores/Layout";
+
+import { Children } from "../../types/Preact";
 
 interface Props {
     borders?: boolean;
@@ -9,8 +19,8 @@ interface Props {
     placement: "primary" | "secondary";
 }
 
-export default styled.header<Props>`
-    gap: 6px;
+const Header = styled.header<Props>`
+    gap: 10px;
     height: 48px;
     flex: 0 auto;
     display: flex;
@@ -32,10 +42,6 @@ export default styled.header<Props>`
         margin-inline-end: 8px;
         color: var(--secondary-foreground);
     }
-
-    /*@media only screen and (max-width: 768px) {
-        padding: 0 12px;
-    }*/
 
     ${() =>
         isTouchscreenDevice &&
@@ -65,6 +71,59 @@ export default styled.header<Props>`
             border-start-start-radius: 8px;
         `}
 `;
+
+export default Header;
+
+const IconContainer = styled.div`
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--secondary-foreground);
+    margin-right: 5px;
+
+    > svg {
+        margin-right: -5px;
+    }
+
+    ${!isTouchscreenDevice &&
+    css`
+        &:hover {
+            color: var(--foreground);
+        }
+    `}
+`;
+
+interface PageHeaderProps {
+    noBurger?: boolean;
+    children: Children;
+    icon: Children;
+}
+
+export const PageHeader = observer(
+    ({ children, icon, noBurger }: PageHeaderProps) => {
+        const layout = useApplicationState().layout;
+        const visible = layout.getSectionState(SIDEBAR_CHANNELS, true);
+
+        return (
+            <Header placement="primary" borders={!visible}>
+                {!noBurger && <HamburgerAction />}
+                <IconContainer
+                    onClick={() =>
+                        layout.toggleSectionState(SIDEBAR_CHANNELS, true)
+                    }>
+                    {!isTouchscreenDevice && visible && (
+                        <ChevronLeft size={18} />
+                    )}
+                    {icon}
+                    {!isTouchscreenDevice && !visible && (
+                        <ChevronRight size={18} />
+                    )}
+                </IconContainer>
+                {children}
+            </Header>
+        );
+    },
+);
 
 export function HamburgerAction() {
     if (!isTouchscreenDevice) return null;

@@ -1,5 +1,5 @@
 import { Chrome, Android, Apple, Windows } from "@styled-icons/boxicons-logos";
-import { HelpCircle, Desktop } from "@styled-icons/boxicons-regular";
+import { HelpCircle, Desktop, LogOut } from "@styled-icons/boxicons-regular";
 import {
     Safari,
     Firefoxbrowser,
@@ -24,6 +24,7 @@ import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import Button from "../../../components/ui/Button";
 import Preloader from "../../../components/ui/Preloader";
 import Tip from "../../../components/ui/Tip";
+import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 dayjs.extend(relativeTime);
 
@@ -202,8 +203,8 @@ export function Sessions() {
                     </div>
                 );
             })}
-            <Button
-                error
+            <hr />
+            <CategoryButton
                 onClick={async () => {
                     // ! FIXME: add to rAuth
                     const del: string[] = [];
@@ -223,9 +224,15 @@ export function Sessions() {
                     }
 
                     setSessions(sessions.filter((x) => x._id === deviceId));
-                }}>
+                }}
+                icon={<LogOut size={24} color={"var(--error)"} />}
+                action={"chevron"}
+                description={
+                    "Logs you out of all sessions except this device."
+                }>
                 <Text id="app.settings.pages.sessions.logout" />
-            </Button>
+            </CategoryButton>
+
             <Tip>
                 <span>
                     <Text id="app.settings.tips.sessions.a" />

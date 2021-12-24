@@ -1,9 +1,10 @@
-import { At, Key, Block } from "@styled-icons/boxicons-regular";
+import { At, Key, Block, ListOl } from "@styled-icons/boxicons-regular";
 import {
     Envelope,
     HelpCircle,
     Lock,
     Trash,
+    Pencil,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
@@ -69,7 +70,17 @@ export const Account = observer(() => {
                         />
                     </Link>
                     <div className={styles.userDetail}>
-                        @{client.user!.username}
+                        <div className={styles.userContainer}>
+                            <UserIcon
+                                className={styles.tinyavatar}
+                                target={client.user!}
+                                size={25}
+                                onClick={() => switchPage("profile")}
+                            />
+                            <div className={styles.username}>
+                                @{client.user!.username}
+                            </div>
+                        </div>
                         <div className={styles.userid}>
                             <Tooltip
                                 content={
@@ -114,6 +125,7 @@ export const Account = observer(() => {
                                     <>
                                         {value}{" "}
                                         <a
+                                            style={{ fontSize: "13px" }}
                                             onClick={(ev) =>
                                                 stopPropagation(
                                                     ev,
@@ -127,6 +139,7 @@ export const Account = observer(() => {
                                     <>
                                         •••••••••••@••••••.•••{" "}
                                         <a
+                                            style={{ fontSize: "13px" }}
                                             onClick={(ev) =>
                                                 stopPropagation(
                                                     ev,
@@ -142,7 +155,7 @@ export const Account = observer(() => {
                             )
                         }
                         account
-                        action="chevron"
+                        action={<Pencil size={20} />}
                         onClick={() =>
                             openScreen({
                                 id: "modify_account",
@@ -153,6 +166,7 @@ export const Account = observer(() => {
                     </CategoryButton>
                 ))}
             </div>
+            <hr />
             <h3>
                 <Text id="app.settings.pages.account.2fa.title" />
             </h3>
@@ -170,11 +184,19 @@ export const Account = observer(() => {
             </h5>
             <CategoryButton
                 icon={<Lock size={24} color="var(--error)" />}
-                description={"Set up 2FA Authentication on your account."}
+                description={"Set up 2FA on your account."}
                 disabled
-                action="chevron">
+                action={<Text id="general.unavailable" />}>
                 Set up Two-factor authentication
             </CategoryButton>
+            {/*<CategoryButton
+                icon={<ListOl size={24} />}
+                description={"View and download your 2FA backup codes."}
+                disabled
+                action="chevron">
+                View my backup codes
+            </CategoryButton>*/}
+            <hr />
             <h3>
                 <Text id="app.settings.pages.account.manage.title" />
             </h3>

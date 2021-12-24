@@ -1,26 +1,27 @@
+import { Hash } from "@styled-icons/boxicons-regular";
+import { Ghost } from "@styled-icons/boxicons-solid";
+import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
-
-import { useState } from "preact/hooks";
+import { useEffect, useMemo } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { dispatch, getState } from "../../redux";
+import { useApplicationState } from "../../mobx/State";
+import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
-
-import { Hash } from "@styled-icons/boxicons-regular";
-import { Ghost } from "@styled-icons/boxicons-solid";
 
 import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
+import NewMessages from "../../components/common/messaging/bars/NewMessages";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
-import Header from "../../components/ui/Header";
+import { PageHeader } from "../../components/ui/Header";
 
 import RightSidebar from "../../components/navigation/RightSidebar";
 import ChannelHeader from "./ChannelHeader";
@@ -43,28 +44,48 @@ const ChannelContent = styled.div`
 `;
 
 const PlaceholderBase = styled.div`
+    @keyframes floating {
+        0% {
+            transform: translate(0, 0px);
+        }
+        50% {
+            transform: translate(0, 15px);
+        }
+        100% {
+            transform: translate(0, -0px);
+        }
+    }
+
     flex-grow: 1;
     display: flex;
     overflow: hidden;
     flex-direction: column;
 
+    .floating {
+        animation-name: floating;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+    }
+
     .placeholder {
         justify-content: center;
         text-align: center;
         margin: auto;
-    
+        padding: 12px;
+
         .primary {
             color: var(--secondary-foreground);
             font-weight: 700;
             font-size: 22px;
             margin: 0 0 5px 0;
         }
-    
+
         .secondary {
             color: var(--tertiary-foreground);
             font-weight: 400;
         }
-    
+
         svg {
             margin: 2em auto;
             fill-opacity: 0.8;
@@ -84,17 +105,35 @@ export function Channel({ id }: { id: string }) {
     return <TextChannel channel={channel} />;
 }
 
-const MEMBERS_SIDEBAR_KEY = "sidebar_members";
-const CHANNELS_SIDEBAR_KEY = "sidebar_channels";
 const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
-    const [showMembers, setMembers] = useState(
-        getState().sectionToggle[MEMBERS_SIDEBAR_KEY] ?? true,
-    );
-    const [showChannels, setChannels] = useState(
-        getState().sectionToggle[CHANNELS_SIDEBAR_KEY] ?? true,
+    const layout = useApplicationState().layout;
+
+    // Cache the unread location.
+    const last_id = useMemo(
+        () =>
+            (channel.unread
+                ? channel.client.unreads?.getUnread(channel._id)?.last_id
+                : undefined) ?? undefined,
+        [channel],
     );
 
-    const id = channel._id;
+    // Mark channel as read.
+    useEffect(() => {
+        const checkUnread = () =>
+            channel.unread &&
+            channel.client.unreads!.markRead(
+                channel._id,
+                channel.last_message_id!,
+                true,
+            );
+
+        checkUnread();
+        return reaction(
+            () => channel.last_message_id,
+            () => checkUnread(),
+        );
+    }, [channel]);
+
     return (
         <AgeGate
             type="channel"
@@ -106,54 +145,20 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                     channel.nsfw
                 )
             }>
-            <ChannelHeader
-                channel={channel}
-                toggleSidebar={() => {
-                    setMembers(!showMembers);
-
-                    if (showMembers) {
-                        dispatch({
-                            type: "SECTION_TOGGLE_SET",
-                            id: MEMBERS_SIDEBAR_KEY,
-                            state: false,
-                        });
-                    } else {
-                        dispatch({
-                            type: "SECTION_TOGGLE_UNSET",
-                            id: MEMBERS_SIDEBAR_KEY,
-                        });
-                    }
-                }}
-                toggleChannelSidebar={() => {
-                    if (isTouchscreenDevice) {
-                        return
-                    }
-
-                    setChannels(!showChannels);
-
-                    if (showChannels) {
-                        dispatch({
-                            type: "SECTION_TOGGLE_SET",
-                            id: CHANNELS_SIDEBAR_KEY,
-                            state: false,
-                        });
-                    } else {
-                        dispatch({
-                            type: "SECTION_TOGGLE_UNSET",
-                            id: CHANNELS_SIDEBAR_KEY,
-                        });
-                    }
-                }}
-            />
+            <ChannelHeader channel={channel} />
             <ChannelMain>
                 <ChannelContent>
-                    <VoiceHeader id={id} />
-                    <MessageArea channel={channel} />
+                    <VoiceHeader id={channel._id} />
+                    <NewMessages channel={channel} last_id={last_id} />
+                    <MessageArea channel={channel} last_id={last_id} />
                     <TypingIndicator channel={channel} />
                     <JumpToBottom channel={channel} />
                     <MessageBox channel={channel} />
                 </ChannelContent>
-                {!isTouchscreenDevice && showMembers && <RightSidebar />}
+                {!isTouchscreenDevice &&
+                    layout.getSectionState(SIDEBAR_MEMBERS, true) && (
+                        <RightSidebar />
+                    )}
             </ChannelMain>
         </AgeGate>
     );
@@ -171,15 +176,22 @@ function VoiceChannel({ channel }: { channel: ChannelI }) {
 function ChannelPlaceholder() {
     return (
         <PlaceholderBase>
-            <Header placement="primary">
-                <Hash size={24} />
-                <span className="name"><Text id="app.main.channel.errors.nochannel" /></span>
-            </Header>
+            <PageHeader icon={<Hash size={24} />}>
+                <span className="name">
+                    <Text id="app.main.channel.errors.nochannel" />
+                </span>
+            </PageHeader>
 
             <div className="placeholder">
-                <Ghost width={80} />
-                <div className="primary"><Text id="app.main.channel.errors.title" /></div>
-                <div className="secondary"><Text id="app.main.channel.errors.nochannels" /></div>
+                <div className="floating">
+                    <Ghost width={80} />
+                </div>
+                <div className="primary">
+                    <Text id="app.main.channel.errors.title" />
+                </div>
+                <div className="secondary">
+                    <Text id="app.main.channel.errors.nochannels" />
+                </div>
             </div>
         </PlaceholderBase>
     );
