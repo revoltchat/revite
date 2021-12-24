@@ -7,7 +7,7 @@ import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
-import { useEffect } from "preact/hooks";
+import { useEffect, useMemo } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -19,6 +19,7 @@ import { useClient } from "../../context/revoltjs/RevoltClient";
 import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
+import NewMessages from "../../components/common/messaging/bars/NewMessages";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
 import Header, { PageHeader } from "../../components/ui/Header";
 
@@ -87,6 +88,15 @@ export function Channel({ id }: { id: string }) {
 const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
     const layout = useApplicationState().layout;
 
+    // Cache the unread location.
+    const last_id = useMemo(
+        () =>
+            (channel.unread
+                ? channel.client.unreads?.getUnread(channel._id)?.last_id
+                : undefined) ?? undefined,
+        [channel],
+    );
+
     // Mark channel as read.
     useEffect(() => {
         const checkUnread = () =>
@@ -119,6 +129,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
             <ChannelMain>
                 <ChannelContent>
                     <VoiceHeader id={channel._id} />
+                    <NewMessages channel={channel} last_id={last_id} />
                     <MessageArea channel={channel} />
                     <TypingIndicator channel={channel} />
                     <JumpToBottom channel={channel} />

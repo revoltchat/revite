@@ -134,8 +134,8 @@ export default observer(() => {
                     </div>
                     <span
                         style={{
-                            color: getContrastingColour(
-                                theme.getVariable(key),
+                            color: theme.getContrastingVariable(
+                                key,
                                 theme.getVariable("primary-background"),
                             ),
                         }}>
@@ -168,14 +168,3 @@ export default observer(() => {
         </Container>
     );
 });
-
-function getContrastingColour(hex: string, fallback: string): string {
-    hex = hex.replace("#", "");
-    const r = parseInt(hex.substr(0, 2), 16);
-    const g = parseInt(hex.substr(2, 2), 16);
-    const b = parseInt(hex.substr(4, 2), 16);
-    const cc = (r * 299 + g * 587 + b * 114) / 1000;
-    if (isNaN(r) || isNaN(g) || isNaN(b) || isNaN(cc))
-        return getContrastingColour(fallback, "#fffff");
-    return cc >= 175 ? "black" : "white";
-}
