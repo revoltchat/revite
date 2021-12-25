@@ -1,8 +1,9 @@
 import axios from "axios";
+import localforage from "localforage";
 import * as stackTrace from "stacktrace-js";
 import styled from "styled-components";
 
-import { useEffect, useErrorBoundary } from "preact/hooks";
+import { useEffect, useErrorBoundary, useState } from "preact/hooks";
 
 import { GIT_REVISION } from "../revision";
 import { Children } from "../types/Preact";
@@ -42,6 +43,16 @@ export function reportError(error: Error, section: string) {
 
 export default function ErrorBoundary({ children, section }: Props) {
     const [error, ignoreError] = useErrorBoundary();
+    const [confirm, setConfirm] = useState(false);
+
+    async function reset() {
+        if (confirm) {
+            await localforage.clear();
+            location.reload();
+        } else {
+            setConfirm(true);
+        }
+    }
 
     useEffect(() => {
         if (error) {
@@ -57,6 +68,9 @@ export default function ErrorBoundary({ children, section }: Props) {
                         <h3>Client Crash Report</h3>
                         <button onClick={ignoreError}>
                             Ignore error and try to reload app
+                        </button>
+                        <button onClick={reset}>
+                            {confirm ? "Are you sure?" : "Reset all app data"}
                         </button>
                         <button onClick={() => location.reload()}>
                             Refresh page
