@@ -6,6 +6,7 @@ import { Nullable } from "revolt.js/dist/util/null";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
+import { useState } from "preact/hooks";
 
 import { internalEmit } from "../../../lib/eventEmitter";
 
@@ -34,6 +35,7 @@ type UsernameProps = JSX.HTMLAttributes<HTMLElement> & {
     prefixAt?: boolean;
     masquerade?: Masquerade;
     showServerIdentity?: boolean | "both";
+    underlineHoverEffect?: boolean;
 };
 
 export const Username = observer(
@@ -42,8 +44,11 @@ export const Username = observer(
         prefixAt,
         masquerade,
         showServerIdentity,
+        underlineHoverEffect,
         ...otherProps
     }: UsernameProps) => {
+        const [hovering, setHovering] = useState(false);
+
         let username = user?.username;
         let color;
 
@@ -97,7 +102,16 @@ export const Username = observer(
         }
 
         return (
-            <span {...otherProps} style={{ color }}>
+            <span
+                {...otherProps}
+                style={{
+                    color,
+                    ...(underlineHoverEffect && hovering
+                        ? { "text-decoration": "underline" }
+                        : null),
+                }}
+                onMouseEnter={() => setHovering(true)}
+                onMouseLeave={() => setHovering(false)}>
                 {prefixAt ? "@" : undefined}
                 {masquerade?.name ?? username ?? (
                     <Text id="app.main.channel.unknown_user" />
@@ -113,12 +127,14 @@ export default function UserShort({
     prefixAt,
     masquerade,
     showServerIdentity,
+    underlineHoverEffect: underlineHoverEffect,
 }: {
     user?: User;
     size?: number;
     prefixAt?: boolean;
     masquerade?: Masquerade;
     showServerIdentity?: boolean;
+    underlineHoverEffect?: boolean;
 }) {
     const { openScreen } = useIntermediate();
     const openProfile = () =>
@@ -143,6 +159,7 @@ export default function UserShort({
                 showServerIdentity={showServerIdentity}
             />
             <Username
+                underlineHoverEffect={underlineHoverEffect}
                 user={user}
                 prefixAt={prefixAt}
                 masquerade={masquerade}

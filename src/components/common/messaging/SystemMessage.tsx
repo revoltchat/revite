@@ -86,7 +86,12 @@ export const SystemMessage = observer(
                     <TextReact
                         id={`app.main.channel.system.${data.type}`}
                         fields={{
-                            user: <UserShort user={data.user} />,
+                            user: (
+                                <UserShort
+                                    underlineHoverEffect
+                                    user={data.user}
+                                />
+                            ),
                         }}
                     />
                 );
