@@ -37,6 +37,7 @@ export default observer(() => {
                 <div className={styles.content}>
                     <div className={styles.nav}>
                         <a className={styles.logo}>
+                            {/*TOFIX: Hide logo if on Desktop Native*/}
                             <img src={wideSVG} draggable={false} />
                         </a>
                         <LocaleSelector />
