@@ -27,21 +27,25 @@ interface Props {
 
 const ERROR_URL = "https://reporting.revolt.chat";
 
+export function reportError(error: Error, section: string) {
+    stackTrace.fromError(error).then((stackframes) =>
+        axios.post(ERROR_URL, {
+            stackframes,
+            rawStackTrace: error.stack,
+            origin: window.origin,
+            commitSHA: GIT_REVISION,
+            userAgent: navigator.userAgent,
+            section,
+        }),
+    );
+}
+
 export default function ErrorBoundary({ children, section }: Props) {
     const [error, ignoreError] = useErrorBoundary();
 
     useEffect(() => {
         if (error) {
-            stackTrace.fromError(error).then((stackframes) =>
-                axios.post(ERROR_URL, {
-                    stackframes,
-                    rawStackTrace: error.stack,
-                    origin: window.origin,
-                    commitSHA: GIT_REVISION,
-                    userAgent: navigator.userAgent,
-                    section,
-                }),
-            );
+            reportError(error, section);
         }
     }, [error]);
 
