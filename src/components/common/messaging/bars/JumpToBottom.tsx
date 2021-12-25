@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
 
+import { internalEmit } from "../../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import { getRenderer } from "../../../../lib/renderer/Singleton";
 
@@ -88,7 +89,11 @@ export default observer(({ channel }: { channel: Channel }) => {
 
     return (
         <Bar position="bottom">
-            <div onClick={() => renderer.jumpToBottom(true)}>
+            <div
+                onClick={() => {
+                    renderer.jumpToBottom(true);
+                    internalEmit("NewMessages", "hide");
+                }}>
                 <div>
                     <Text id="app.main.channel.misc.viewing_old" />
                 </div>
