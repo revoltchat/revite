@@ -17,6 +17,12 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
             props.position === "bottom" &&
             css`
                 top: -26px;
+
+                ${() =>
+                    isTouchscreenDevice &&
+                    css`
+                        top: -32px;
+                    `}
             `}
 
         height: 28px;
@@ -71,7 +77,6 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
             isTouchscreenDevice &&
             css`
                 height: 34px;
-                /*top: -32px;*/
                 padding: 0 12px;
             `}
     }
