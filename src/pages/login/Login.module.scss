@@ -1,3 +1,43 @@
+// Pure CSS hand wave - by https://jarv.is/notes/css-waving-hand-emoji/
+@keyframes wave-animation {
+    0% {
+        transform: rotate(0deg);
+    }
+    10% {
+        transform: rotate(14deg);
+    } /* The following five values can be played with to make the waving more or less extreme */
+    20% {
+        transform: rotate(-8deg);
+    }
+    30% {
+        transform: rotate(14deg);
+    }
+    40% {
+        transform: rotate(-4deg);
+    }
+    50% {
+        transform: rotate(10deg);
+    }
+    60% {
+        transform: rotate(0deg);
+    } /* Reset for the last half to pause */
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/*@keyframes shrink {
+    0% {
+        background-size: 140% 140%;
+    }
+    10% {
+        background-size: 150% 150%;
+    }
+    100% {
+        background-size: 100% 100%;
+    }
+}*/
+
 .login {
     width: 100%;
     height: 100%;
@@ -8,6 +48,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    /*animation: shrink 5s normal forwards;*/
 
     .nav {
         display: flex;
@@ -113,6 +154,10 @@
                     gap: 4px;
 
                     img {
+                        animation-name: wave-animation;
+                        animation-duration: 2.5s;
+                        animation-iteration-count: 1;
+                        transform-origin: 70% 70%;
                         height: 28px;
                     }
                 }
