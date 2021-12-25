@@ -40,10 +40,7 @@ export default observer(() => {
                 <div className={styles.content}>
                     <div className={styles.nav}>
                         <a className={styles.logo}>
-                            <img
-                                src="https://app.revolt.chat/assets/wide.fe712d4a.svg"
-                                draggable={false}
-                            />
+                            <img src={wideSVG} draggable={false} />
                         </a>
                         <LocaleSelector />
                     </div>
