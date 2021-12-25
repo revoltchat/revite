@@ -1,78 +1,168 @@
 .login {
     width: 100%;
     height: 100%;
-
+    padding: 40px 35px;
     display: flex;
-    flex-direction: row;
+    user-select: none;
 
-    svg {
-        margin: auto;
-    }
+    background: url("/src/pages/login/background.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 
-    > div {
-        flex: 1;
+    .nav {
+        display: flex;
+        align-items: center;
+
+        .logo {
+            flex-grow: 1;
+            > img {
+                height: 24px;
+            }
+        }
     }
 
     .content {
         display: flex;
         flex-direction: column;
-
         justify-content: space-between;
+        flex-grow: 1;
+    }
 
-        .attribution {
-            color: var(--tertiary-background);
-            font-size: 12px;
-            line-height: 12px;
-            margin: 8px;
+    select {
+        max-width: 180px;
+        padding: 4px;
+        height: fit-content;
+        background-color: rgba(36, 36, 36, 0.75);
+        border: 2px solid rgba(128, 128, 128, 0.15);
+        backdrop-filter: blur(20px);
+        font-size: 13px;
+    }
 
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-        }
+    .middle {
+        display: flex;
+        gap: 50px;
 
-        .modal {
-            display: flex;
-            flex-direction: row;
-
-            justify-content: center;
+        .loginQR {
+            background-color: rgba(36, 36, 36, 0.75);
+            border: 2px solid rgba(128, 128, 128, 0.15);
+            border-radius: 8px;
+            width: 330px;
         }
     }
 
-    .bg {
-        background-size: cover !important;
-    }
-}
+    .form {
+        background-color: rgba(36, 36, 36, 0.75);
+        border: 2px solid rgba(128, 128, 128, 0.15);
+        backdrop-filter: blur(20px);
+        max-width: 330px;
+        max-height: 600px;
+        padding: 30px 25px;
+        border-radius: 8px;
+        margin-inline-start: 50px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 10px 0 rgb(0 0 0 / 20%);
 
-.form {
-    display: flex;
-    flex-direction: column;
-    font-size: 14px;
+        .formModal {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
 
-    img {
-        width: 260px;
-        margin: auto;
+            > span {
+                font-size: 13px;
+
+                b {
+                    font-weight: 600;
+                }
+            }
+
+            .welcome {
+                font-size: 20px;
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+
+            .subtitle {
+                font-weight: 400;
+                font-size: 14px;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                > div {
+                    margin: 0;
+                    margin-bottom: -4px;
+                    font-size: 12px;
+                    color: var(--secondary-foreground);
+                }
+
+                input {
+                    background: var(--secondary-background);
+                    /*border: 2px solid rgba(128, 128, 128, 0.15);*/
+                }
+
+                button {
+                    padding: 8px;
+                    background: var(--secondary-background);
+                    margin-bottom: 15px;
+                }
+            }
+        }
     }
 
     a {
-        margin-top: 4px;
-    }
+        color: white;
 
-    form {
-        margin: 1em 0;
-        display: flex;
-        flex-direction: column;
-
-        button {
-            margin-top: 24px;
+        &:hover {
+            text-decoration: underline;
         }
     }
 
-    .create {
-        text-align: center;
-        color: var(--tertiary-foreground);
+    .bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 14px;
 
-        a {
-            margin: 0 4px;
+        .links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            .socials {
+                display: flex;
+                gap: 10px;
+
+                a {
+                    transition: opacity 0.2s ease-in-out;
+                    &:hover {
+                        opacity: 0.7;
+                    }
+                    &:active {
+                        opacity: 0.5;
+                    }
+                }
+            }
+
+            .bullet {
+                height: 5px;
+                width: 5px;
+                background: grey;
+                border-radius: 50%;
+            }
+
+            .revolt {
+                display: flex;
+                gap: 10px;
+
+                a {
+                    color: white !important;
+                }
+            }
         }
     }
 }
@@ -103,24 +193,46 @@
     }
 }
 
-.footer {
-    margin-top: 12px;
-    text-align: center;
-    color: var(--tertiary6);
-
-    a {
-        color: var(--tertiary-background) !important;
-        cursor: pointer;
-        margin: 0 2px;
-
-        &:hover {
-            color: var(--tertiary-foreground) !important;
-        }
-    }
-}
-
 @media only screen and (max-width: 768px) {
-    .bg {
-        display: none;
+    .login {
+        padding: 30px 20px;
+        background-image: unset;
+        background-color: var(--primary-background);
+
+        .content {
+            .nav {
+                .logo {
+                    img {
+                        height: 24px;
+                    }
+                }
+            }
+
+            .bottom {
+                flex-direction: column;
+
+                .links {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                .bullet,
+                .attribution {
+                    display: none;
+                }
+            }
+        }
+
+        .form {
+            border: unset;
+            margin-inline-start: 0;
+            padding: 0;
+            max-width: unset;
+            box-shadow: unset;
+        }
+
+        .loginQR {
+            display: none;
+        }
     }
 }
