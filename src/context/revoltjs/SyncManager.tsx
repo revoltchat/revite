@@ -5,6 +5,8 @@ import { ClientboundNotification } from "revolt.js/dist/websocket/notifications"
 
 import { useEffect } from "preact/hooks";
 
+import { reportError } from "../../lib/ErrorBoundary";
+
 import { useApplicationState } from "../../mobx/State";
 
 import { useClient } from "./RevoltClient";
@@ -28,7 +30,11 @@ export default function SyncManager() {
         if (!client) return;
         function onPacket(packet: ClientboundNotification) {
             if (packet.type === "UserSettingsUpdate") {
-                state.sync.apply(packet.update);
+                try {
+                    state.sync.apply(packet.update);
+                } catch (err) {
+                    reportError(err, "failed_sync_apply");
+                }
             }
         }
 
