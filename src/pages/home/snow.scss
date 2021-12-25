@@ -46,7 +46,13 @@ $fontSize: 40px;
     @while ($count > 0) {
         $left: random(100);
         $deltaLeft: random(2 * $windNoise * 10) / 10 - $windNoise + $windSpeed;
+        /*$deltaLeft: math.div(random(2 * $windNoise * 10), 10) -
+            $windNoise +
+            $windSpeed;*/
         $scale: 1 + (random(2 * $sizeNoise * 10) / 10 - $sizeNoise) / 100;
+        /*$scale: 1 +
+            (math.div(random(2 * $sizeNoise * 10), 10) - $sizeNoise) /
+            100;*/
 
         .snowflake:nth-child(#{$count}) {
             animation: animation-snowflake-#{$count} linear infinite;
