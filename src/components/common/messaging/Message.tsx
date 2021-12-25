@@ -96,7 +96,7 @@ const Message = observer(
                             key={message_id}
                             index={index}
                             id={message_id}
-                            channel={message.channel!}
+                            channel={message.channel}
                             parent_mentions={message.mention_ids ?? []}
                         />
                     ))}
