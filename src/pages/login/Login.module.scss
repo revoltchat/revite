@@ -55,7 +55,7 @@
         background-color: rgba(36, 36, 36, 0.75);
         border: 2px solid rgba(128, 128, 128, 0.15);
         backdrop-filter: blur(20px);
-        max-width: 330px;
+        max-width: 360px;
         max-height: 600px;
         padding: 30px 25px;
         border-radius: 8px;
@@ -64,6 +64,29 @@
         margin-bottom: 20px;
         box-shadow: 0 2px 10px 0 rgb(0 0 0 / 20%);
 
+        .captcha {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 13px;
+
+            .title {
+                font-size: 20px;
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+
+            .checkbox {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            a {
+                cursor: pointer;
+            }
+        }
+
         .formModal {
             display: flex;
             flex-direction: column;
@@ -71,9 +94,14 @@
 
             > span {
                 font-size: 13px;
+                word-break: keep-all;
 
                 b {
                     font-weight: 600;
+                }
+
+                a {
+                    white-space: nowrap;
                 }
             }
 
@@ -84,8 +112,17 @@
             }
 
             .subtitle {
+                display: flex;
+                align-items: center;
+                gap: 6px;
                 font-weight: 400;
                 font-size: 14px;
+
+                > div {
+                    margin-top: 1px;
+                    font-size: 11px;
+                    color: var(--secondary-foreground);
+                }
             }
 
             form {
@@ -169,27 +206,28 @@
 
 .success {
     display: flex;
-    align-items: center;
     flex-direction: column;
+    gap: 10px;
 
-    .note {
-        color: var(--tertiary-foreground);
+    .title {
+        font-size: 20px;
+        font-weight: 600;
     }
 
-    .mailProvider {
-        padding: 24px 0;
-    }
-
-    * {
-        margin: 0;
-    }
-
-    h1 {
+    .subtitle {
         font-weight: 400;
+        font-size: 14px;
+        margin-bottom: 10px;
     }
 
-    h2 {
-        font-weight: 300;
+    button {
+        width: 100%;
+        background: var(--secondary-background);
+        margin-bottom: 8px;
+    }
+
+    a {
+        font-size: 13px;
     }
 }
 
