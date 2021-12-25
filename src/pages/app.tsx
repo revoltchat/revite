@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import { lazy, Suspense } from "preact/compat";
 
 import ErrorBoundary from "../lib/ErrorBoundary";
+import FakeClient from "../lib/FakeClient";
 
 import Context from "../context";
 import { CheckAuth } from "../context/revoltjs/CheckAuth";
@@ -31,7 +32,9 @@ export function App() {
                             <Login />
                         </Route>
                         <Route path="/invite/:code">
-                            <Invite />
+                            <FakeClient>
+                                <Invite />
+                            </FakeClient>
                         </Route>
                         <Route path="/login">
                             <CheckAuth>

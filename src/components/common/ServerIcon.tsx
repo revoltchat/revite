@@ -51,7 +51,9 @@ export default observer(
                     {name
                         .split(" ")
                         .map((x) => x[0])
-                        .filter((x) => typeof x !== "undefined")}
+                        .filter((x) => typeof x !== "undefined")
+                        .join("")
+                        .substring(0, 3)}
                 </ServerText>
             );
         }
