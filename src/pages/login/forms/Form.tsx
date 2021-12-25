@@ -211,17 +211,13 @@ export function Form({ page, callback }: Props) {
             {page === "create" && (
                 <>
                     <span className={styles.create}>
-                        <b>
-                            <Text id="login.existing" />
-                        </b>{" "}
+                        <Text id="login.existing" />{" "}
                         <Link to="/login">
                             <Text id="login.title" />
                         </Link>
                     </span>
                     <span className={styles.create}>
-                        <b>
-                            <Text id="login.missing_verification" />
-                        </b>{" "}
+                        <Text id="login.missing_verification" />{" "}
                         <Link to="/login/resend">
                             <Text id="login.resend" />
                         </Link>
@@ -231,17 +227,13 @@ export function Form({ page, callback }: Props) {
             {page === "login" && (
                 <>
                     <span className={styles.create}>
-                        <b>
-                            <Text id="login.new" />
-                        </b>{" "}
+                        <Text id="login.new" />{" "}
                         <Link to="/login/create">
                             <Text id="login.create" />
                         </Link>
                     </span>
                     <span className={styles.create}>
-                        <b>
-                            <Text id="login.forgot" />
-                        </b>{" "}
+                        <Text id="login.forgot" />{" "}
                         <Link to="/login/reset">
                             <Text id="login.reset" />
                         </Link>
