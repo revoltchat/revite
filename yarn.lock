@@ -1090,6 +1090,16 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
+"@insertish/exponential-backoff@3.1.0-patch.0":
+  version "3.1.0-patch.0"
+  resolved "https://registry.yarnpkg.com/@insertish/exponential-backoff/-/exponential-backoff-3.1.0-patch.0.tgz#1fff134f70fc0906d11d09069d51183b542e42cf"
+  integrity sha512-1qhW81s3GDbssyaxRWdpBAn1cIw5s393HnrdYFjfa2i6rq3SEjQDK6U80g6dq/K0or6JRr2eCn75Wfc1IrGM0g==
+
+"@insertish/isomorphic-ws@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@insertish/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz#5bcd6f73b93efa9ccdb6abf887ae808d40827169"
+  integrity sha512-kFD/p8T4Hkqr992QrdkbW/cQ/W/q2d9MPCobwzBv2PwTKLkCD9RaYDy6m17qRnSLQQ5PU0kHCG8kaOwAqzj1vQ==
+
 "@juggle/resize-observer@^3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.3.1.tgz#b50a781709c81e10701004214340f25475a171a0"
@@ -2470,11 +2480,6 @@ events@^3.3.0:
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
-"exponential-backoff@npm:@insertish/exponential-backoff":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@insertish/exponential-backoff/-/exponential-backoff-3.1.0.tgz#1d2e4c215fa8647779cfeab74ecb54a5c36835e6"
-  integrity sha512-8Jab9OfjheI84T04QjUwXceSO1DMGy8goDqVdnuoffC2fg23zBnikLJkrRHiT/ao4c08v4R2mU7+/DXMWmROng==
-
 fake-mediastreamtrack@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/fake-mediastreamtrack/-/fake-mediastreamtrack-1.1.6.tgz#2cbdfae201b9771cb8a6b988120ce0edf25eb6ca"
@@ -2918,11 +2923,6 @@ isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
-
-"isomorphic-ws@npm:@insertish/isomorphic-ws":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@insertish/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz#5bcd6f73b93efa9ccdb6abf887ae808d40827169"
-  integrity sha512-kFD/p8T4Hkqr992QrdkbW/cQ/W/q2d9MPCobwzBv2PwTKLkCD9RaYDy6m17qRnSLQQ5PU0kHCG8kaOwAqzj1vQ==
 
 javascript-natural-sort@0.7.1:
   version "0.7.1"
@@ -3770,15 +3770,15 @@ revolt-api@^0.5.3-alpha.9:
   resolved "https://registry.yarnpkg.com/revolt-api/-/revolt-api-0.5.3-alpha.9.tgz#46e75b7d8f9c6702df39039b829dddbb7897f237"
   integrity sha512-L8K9uPV3ME8bLdtWm8L9iPQvFM0GghA+5LzmWFjd6Gbn56u22ZYub2lABi4iHrWgeA2X41dGSsuSBgHSlts9Og==
 
-revolt.js@5.2.1-patch.2:
-  version "5.2.1-patch.2"
-  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.2.1-patch.2.tgz#a070b3eb6de3e5cda927e8a60e01682d60b19f92"
-  integrity sha512-9JwjizxJMXltPO5bsQrIBLnZjr9l1GbVd7q1dHzbuz3mEWIywRUWI/PeEEJQeYaj4COE2kHuH2PpkL/rR05SPA==
+revolt.js@5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.2.2.tgz#e6becef157722c4ce2c9668d7d2ed79188329f75"
+  integrity sha512-KfU4goDKZJwb10z/kuDKq/J4xpBpcIXmBpzryeQPo/5UCxlc90OflPonPJKfp8d6ykSnZs95tLdB7AloUXpYxg==
   dependencies:
+    "@insertish/exponential-backoff" "3.1.0-patch.0"
+    "@insertish/isomorphic-ws" "^4.0.1"
     axios "^0.21.4"
     eventemitter3 "^4.0.7"
-    exponential-backoff "npm:@insertish/exponential-backoff"
-    isomorphic-ws "npm:@insertish/isomorphic-ws"
     lodash.defaultsdeep "^4.6.1"
     lodash.flatten "^4.4.0"
     lodash.isequal "^4.5.0"
