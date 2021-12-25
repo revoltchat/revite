@@ -84,6 +84,7 @@
 
             a {
                 cursor: pointer;
+                color: var(--accent);
             }
         }
 
@@ -101,6 +102,7 @@
                 }
 
                 a {
+                    color: var(--accent);
                     white-space: nowrap;
                 }
             }
@@ -228,6 +230,7 @@
 
     a {
         font-size: 13px;
+        color: var(--accent);
     }
 }
 
