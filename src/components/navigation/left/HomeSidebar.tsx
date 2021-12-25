@@ -123,6 +123,8 @@ export default observer(() => {
                         user = channel.recipient;
 
                         if (!user) return null;
+                        if (user.relationship === RelationshipStatus.Blocked)
+                            return null;
                     }
 
                     const isUnread = channel.isUnread(state.notifications);
