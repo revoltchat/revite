@@ -27,16 +27,18 @@ export const CaptchaBlock = observer((props: CaptchaProps) => {
         return <Preloader type="spinner" />;
 
     return (
-        <div>
-            <HCaptcha
-                sitekey={configuration.features.captcha.key}
-                onVerify={(token) => props.onSuccess(token)}
-            />
-            <div className={styles.footer}>
-                <a onClick={props.onCancel}>
-                    <Text id="login.cancel" />
-                </a>
+        <div className={styles.captcha}>
+            <div className={styles.title}>Are you human?</div>
+            <div className={styles.checkbox}>
+                <HCaptcha
+                    theme="dark"
+                    sitekey={configuration.features.captcha.key}
+                    onVerify={(token) => props.onSuccess(token)}
+                />
             </div>
+            <a onClick={props.onCancel}>
+                <Text id="login.cancel" />
+            </a>
         </div>
     );
 });

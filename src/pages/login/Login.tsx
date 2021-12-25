@@ -1,18 +1,17 @@
+import { Twitter, Github, Mastodon } from "@styled-icons/boxicons-logos";
 import { observer } from "mobx-react-lite";
 import { Helmet } from "react-helmet";
 import { Route, Switch } from "react-router-dom";
-import { LIBRARY_VERSION } from "revolt.js";
 
 import styles from "./Login.module.scss";
 import { Text } from "preact-i18n";
 
 import { useApplicationState } from "../../mobx/State";
 
+import wideSVG from "../../../public/assets/wide.svg";
 import LocaleSelector from "../../components/common/LocaleSelector";
-import background from "./background.jpg";
 
 import { Titlebar } from "../../components/native/Titlebar";
-import { APP_VERSION } from "../../version";
 import { FormCreate } from "./forms/FormCreate";
 import { FormLogin } from "./forms/FormLogin";
 import { FormReset, FormSendReset } from "./forms/FormReset";
@@ -36,17 +35,20 @@ export default observer(() => {
                     />
                 </Helmet>
                 <div className={styles.content}>
-                    <div className={styles.attribution}>
-                        <span>
+                    <div className={styles.nav}>
+                        <a className={styles.logo}>
+                            {/*TOFIX: Hide logo if on Desktop Native*/}
+                            <img src={wideSVG} draggable={false} />
+                        </a>
+                        <LocaleSelector />
+                    </div>
+                    {/*<div className={styles.middle}>*/}
+                    <div className={styles.form}>
+                        {/*<div style={styles.version}>
                             API: <code>{configuration?.revolt ?? "???"}</code>{" "}
                             &middot; revolt.js: <code>{LIBRARY_VERSION}</code>{" "}
                             &middot; App: <code>{APP_VERSION}</code>
-                        </span>
-                        <span>
-                            <LocaleSelector />
-                        </span>
-                    </div>
-                    <div className={styles.modal}>
+                        </div>*/}
                         <Switch>
                             <Route path="/login/create">
                                 <FormCreate />
@@ -68,17 +70,58 @@ export default observer(() => {
                             </Route>
                         </Switch>
                     </div>
-                    <div className={styles.attribution}>
-                        <span>
-                            <Text id="general.image_by" /> &lrm;@lorenzoherrera
-                            &rlm;· unsplash.com
-                        </span>
+                    {/*<div className={styles.loginQR}></div>*/}
+                    {/*</div>*/}
+                    <div className={styles.bottom}>
+                        <div className={styles.links}>
+                            <div className={styles.socials}>
+                                <a
+                                    href="https://github.com/revoltchat"
+                                    target="_blank">
+                                    <Github size={24} />
+                                </a>
+                                <a
+                                    href="https://twitter.com/revoltchat"
+                                    target="_blank">
+                                    <Twitter size={24} />
+                                </a>
+                                <a
+                                    href="https://mastodon.social/@revoltchat"
+                                    target="_blank">
+                                    <Mastodon size={24} />
+                                </a>
+                            </div>
+                            <div className={styles.bullet} />
+                            <div className={styles.revolt}>
+                                <a
+                                    href="https://revolt.chat/about"
+                                    target="_blank"
+                                    rel="noreferrer">
+                                    <Text id="general.about" />
+                                </a>
+                                <a
+                                    href="https://revolt.chat/terms"
+                                    target="_blank"
+                                    rel="noreferrer">
+                                    <Text id="general.tos" />
+                                </a>
+                                <a
+                                    href="https://revolt.chat/privacy"
+                                    target="_blank"
+                                    rel="noreferrer">
+                                    <Text id="general.privacy" />
+                                </a>
+                            </div>
+                        </div>
+                        <a
+                            className={styles.attribution}
+                            href="https://unsplash.com/@fakurian"
+                            target="_blank">
+                            <Text id="general.image_by" /> &lrm;@fakurian &rlm;·
+                            unsplash.com
+                        </a>
                     </div>
                 </div>
-                <div
-                    className={styles.bg}
-                    style={{ background: `url('${background}')` }}
-                />
             </div>
         </>
     );

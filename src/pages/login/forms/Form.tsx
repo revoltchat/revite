@@ -15,10 +15,10 @@ import wideSVG from "../../../../public/assets/wide.svg";
 import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
+import WaveSVG from "../../settings/assets/wave.svg";
 
 import FormField from "../FormField";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
-import { Legal } from "./Legal";
 import { MailProvider } from "./MailProvider";
 
 interface Props {
@@ -112,30 +112,28 @@ export function Form({ page, callback }: Props) {
             <div className={styles.success}>
                 {configuration?.features.email ? (
                     <>
-                        <Envelope size={72} />
-                        <h2>
-                            <Text id="login.check_mail" />
-                        </h2>
-                        <p className={styles.note}>
-                            <Text id="login.email_delay" />
-                        </p>
+                        <div>
+                            <div className={styles.title}>
+                                <Text id="login.check_mail" />
+                            </div>
+                            <div className={styles.subtitle}>
+                                <Text id="login.email_delay" />
+                            </div>
+                        </div>
                         <MailProvider email={success} />
                     </>
                 ) : (
                     <>
-                        <CheckCircle size={72} />
-                        <h1>
+                        <div className={styles.title}>
                             <Text id="login.successful_registration" />
-                        </h1>
+                        </div>
                     </>
                 )}
-                <span className={styles.footer}>
-                    <Link to="/login">
-                        <a>
-                            <Text id="login.remembered" />
-                        </a>
-                    </Link>
-                </span>
+                <Link to="/login">
+                    <a>
+                        <Text id="login.remembered" />
+                    </a>
+                </Link>
             </div>
         );
     }
@@ -144,8 +142,18 @@ export function Form({ page, callback }: Props) {
     if (loading) return <Preloader type="spinner" />;
 
     return (
-        <div className={styles.form}>
-            <img src={wideSVG} />
+        <div className={styles.formModal}>
+            <div className={styles.welcome}>
+                <div className={styles.title}>
+                    <img src={WaveSVG} draggable={false} />
+                    <Text id="login.welcome" />
+                </div>
+                <div className={styles.subtitle}>
+                    <Text id="login.subtitle" />
+                    <div>(app.revolt.chat)</div>
+                </div>
+            </div>
+
             {/* Preact / React typing incompatabilities */}
             <form
                 onSubmit={
@@ -203,13 +211,13 @@ export function Form({ page, callback }: Props) {
             {page === "create" && (
                 <>
                     <span className={styles.create}>
-                        <Text id="login.existing" />
+                        <Text id="login.existing" />{" "}
                         <Link to="/login">
                             <Text id="login.title" />
                         </Link>
                     </span>
                     <span className={styles.create}>
-                        <Text id="login.missing_verification" />
+                        <Text id="login.missing_verification" />{" "}
                         <Link to="/login/resend">
                             <Text id="login.resend" />
                         </Link>
@@ -219,13 +227,13 @@ export function Form({ page, callback }: Props) {
             {page === "login" && (
                 <>
                     <span className={styles.create}>
-                        <Text id="login.new" />
+                        <Text id="login.new" />{" "}
                         <Link to="/login/create">
                             <Text id="login.create" />
                         </Link>
                     </span>
                     <span className={styles.create}>
-                        <Text id="login.forgot" />
+                        <Text id="login.forgot" />{" "}
                         <Link to="/login/reset">
                             <Text id="login.reset" />
                         </Link>
@@ -243,7 +251,6 @@ export function Form({ page, callback }: Props) {
                     </span>
                 </>
             )}
-            <Legal />
         </div>
     );
 }
