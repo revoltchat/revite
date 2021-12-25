@@ -344,8 +344,8 @@ export default observer(() => {
                 <IconButton
                     onClick={() =>
                         openScreen({
-                            id: "special_input",
-                            type: "create_server",
+                            id: "special_prompt",
+                            type: "add_server",
                         })
                     }>
                     <Plus size={36} />

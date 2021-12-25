@@ -56,6 +56,7 @@ export function PromptModal({
 }
 
 type SpecialProps = { onClose: () => void } & (
+    | { type: "add_server" }
     | { type: "leave_group"; target: Channel }
     | { type: "close_dm"; target: Channel }
     | { type: "leave_server"; target: Server }
@@ -81,11 +82,41 @@ type SpecialProps = { onClose: () => void } & (
 
 export const SpecialPromptModal = observer((props: SpecialProps) => {
     const client = useContext(AppContext);
+
+    const { openScreen } = useIntermediate();
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<undefined | string>(undefined);
 
     const { onClose } = props;
     switch (props.type) {
+        case "add_server": {
+            return (
+                <PromptModal
+                    onClose={onClose}
+                    question="Add Server"
+                    actions={[
+                        {
+                            children: "Create",
+                            onClick: () =>
+                                openScreen({
+                                    id: "special_input",
+                                    type: "create_server",
+                                }),
+                        },
+                        {
+                            confirmation: true,
+                            contrast: true,
+                            children: "Join",
+                            onClick: () =>
+                                openScreen({
+                                    id: "special_input",
+                                    type: "join_server",
+                                }),
+                        },
+                    ]}
+                />
+            );
+        }
         case "leave_group":
         case "close_dm":
         case "leave_server":

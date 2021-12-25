@@ -78,7 +78,9 @@ type SpecialProps = { onClose: () => void } & (
               | "create_group"
               | "create_server"
               | "set_custom_status"
-              | "add_friend";
+              | "add_friend"
+              | "create_server"
+              | "join_server";
       }
     | { type: "create_role"; server: Server; callback: (id: string) => void }
 );
@@ -170,6 +172,38 @@ export function SpecialInputModal(props: SpecialProps) {
                             )
                             .then(undefined)
                     }
+                />
+            );
+        }
+        case "create_server": {
+            return (
+                <InputModal
+                    onClose={onClose}
+                    question="Create Server"
+                    field="Server Name"
+                    defaultValue="New Server"
+                    callback={async (name) => {
+                        const server = await client.servers.createServer({
+                            name,
+                            nonce: ulid(),
+                        });
+
+                        history.push(`/server/${server._id}`);
+                    }}
+                />
+            );
+        }
+        case "join_server": {
+            return (
+                <InputModal
+                    onClose={onClose}
+                    question="Join Server"
+                    field="Server Code"
+                    callback={async (code) => {
+                        const data = await client.joinInvite(code);
+
+                        history.push(`/server/${data.server._id}`);
+                    }}
                 />
             );
         }

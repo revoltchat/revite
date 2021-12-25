@@ -38,6 +38,7 @@ export type Screen =
           actions: Action[];
       }
     | ({ id: "special_prompt" } & (
+          | { type: "add_server" }
           | { type: "leave_group"; target: Channel }
           | { type: "close_dm"; target: Channel }
           | { type: "leave_server"; target: Server }
@@ -70,6 +71,7 @@ export type Screen =
                 type:
                     | "create_group"
                     | "create_server"
+                    | "join_server"
                     | "set_custom_status"
                     | "add_friend";
             }
