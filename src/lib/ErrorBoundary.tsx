@@ -22,11 +22,12 @@ const CrashContainer = styled.div`
 
 interface Props {
     children: Children;
+    section: "client" | "renderer";
 }
 
 const ERROR_URL = "https://reporting.revolt.chat";
 
-export default function ErrorBoundary({ children }: Props) {
+export default function ErrorBoundary({ children, section }: Props) {
     const [error, ignoreError] = useErrorBoundary();
 
     useEffect(() => {
@@ -38,6 +39,7 @@ export default function ErrorBoundary({ children }: Props) {
                     origin: window.origin,
                     commitSHA: GIT_REVISION,
                     userAgent: navigator.userAgent,
+                    section,
                 }),
             );
         }
@@ -46,11 +48,24 @@ export default function ErrorBoundary({ children }: Props) {
     if (error) {
         return (
             <CrashContainer>
-                <h3>Client Crash Report</h3>
-                <button onClick={ignoreError}>
-                    Ignore error and try to reload app
-                </button>
-                <button onClick={() => location.reload()}>Refresh page</button>
+                {section === "client" ? (
+                    <>
+                        <h3>Client Crash Report</h3>
+                        <button onClick={ignoreError}>
+                            Ignore error and try to reload app
+                        </button>
+                        <button onClick={() => location.reload()}>
+                            Refresh page
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <h3>Component Error</h3>
+                        <button onClick={ignoreError}>
+                            Ignore error and try render again
+                        </button>
+                    </>
+                )}
                 <pre>
                     <code>{error?.stack}</code>
                 </pre>
