@@ -15,6 +15,7 @@ import wideSVG from "../../../../public/assets/wide.svg";
 import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
+import WaveSVG from "../../settings/assets/wave.svg";
 
 import FormField from "../FormField";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
@@ -144,6 +145,7 @@ export function Form({ page, callback }: Props) {
         <div className={styles.formModal}>
             <div className={styles.welcome}>
                 <div className={styles.title}>
+                    <img src={WaveSVG} draggable={false} />
                     <Text id="login.welcome" />
                 </div>
                 <div className={styles.subtitle}>

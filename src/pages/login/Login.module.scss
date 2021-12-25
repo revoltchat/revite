@@ -110,6 +110,16 @@
                 font-size: 20px;
                 font-weight: 600;
                 margin-bottom: 10px;
+
+                .title {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+
+                    img {
+                        height: 28px;
+                    }
+                }
             }
 
             .subtitle {
@@ -120,6 +130,7 @@
                 font-size: 14px;
 
                 > div {
+                    display: none;
                     margin-top: 1px;
                     font-size: 11px;
                     color: var(--secondary-foreground);
