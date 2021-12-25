@@ -2,7 +2,6 @@ import { Twitter, Github, Mastodon } from "@styled-icons/boxicons-logos";
 import { observer } from "mobx-react-lite";
 import { Helmet } from "react-helmet";
 import { Route, Switch } from "react-router-dom";
-import { LIBRARY_VERSION } from "revolt.js";
 
 import styles from "./Login.module.scss";
 import { Text } from "preact-i18n";
@@ -11,10 +10,8 @@ import { useApplicationState } from "../../mobx/State";
 
 import wideSVG from "../../../public/assets/wide.svg";
 import LocaleSelector from "../../components/common/LocaleSelector";
-import background from "./background.jpg";
 
 import { Titlebar } from "../../components/native/Titlebar";
-import { APP_VERSION } from "../../version";
 import { FormCreate } from "./forms/FormCreate";
 import { FormLogin } from "./forms/FormLogin";
 import { FormReset, FormSendReset } from "./forms/FormReset";
@@ -74,7 +71,6 @@ export default observer(() => {
                     </div>
                     {/*<div className={styles.loginQR}></div>*/}
                     {/*</div>*/}
-
                     <div className={styles.bottom}>
                         <div className={styles.links}>
                             <div className={styles.socials}>
@@ -116,7 +112,6 @@ export default observer(() => {
                                 </a>
                             </div>
                         </div>
-
                         <a
                             className={styles.attribution}
                             href="https://unsplash.com/@fakurian"
@@ -125,38 +120,6 @@ export default observer(() => {
                             unsplash.com
                         </a>
                     </div>
-                    {/*<div className={styles.attribution}>
-                        <span>
-                            API: <code>{configuration?.revolt ?? "???"}</code>{" "}
-                            &middot; revolt.js: <code>{LIBRARY_VERSION}</code>{" "}
-                            &middot; App: <code>{APP_VERSION}</code>
-                        </span>
-                        <span>
-                            
-                        </span>
-                    </div>
-                    <div className={styles.modal}>
-                        <Switch>
-                            <Route path="/login/create">
-                                <FormCreate />
-                            </Route>
-                            <Route path="/login/resend">
-                                <FormResend />
-                            </Route>
-                            <Route path="/login/verify/:token">
-                                <FormVerify />
-                            </Route>
-                            <Route path="/login/reset/:token">
-                                <FormReset />
-                            </Route>
-                            <Route path="/login/reset">
-                                <FormSendReset />
-                            </Route>
-                            <Route path="/">
-                                <FormLogin />
-                            </Route>
-                        </Switch>
-                    </div>*/}
                 </div>
             </div>
         </>
