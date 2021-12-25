@@ -20,12 +20,11 @@ import { FormResend, FormVerify } from "./forms/FormVerify";
 export default observer(() => {
     const state = useApplicationState();
     const theme = state.settings.theme;
-    const configuration = state.config.get();
 
     return (
         <>
             {window.isNative && !window.native.getConfig().frame && (
-                <Titlebar />
+                <Titlebar overlay />
             )}
             <div className={styles.login}>
                 <Helmet>
@@ -37,8 +36,9 @@ export default observer(() => {
                 <div className={styles.content}>
                     <div className={styles.nav}>
                         <a className={styles.logo}>
-                            {/*TOFIX: Hide logo if on Desktop Native*/}
-                            <img src={wideSVG} draggable={false} />
+                            {!("native" in window) && (
+                                <img src={wideSVG} draggable={false} />
+                            )}
                         </a>
                         <LocaleSelector />
                     </div>
