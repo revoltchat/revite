@@ -17,7 +17,7 @@ const RevoltApp = lazy(() => import("./RevoltApp"));
 
 export function App() {
     return (
-        <ErrorBoundary>
+        <ErrorBoundary section="client">
             <Context>
                 <Masks />
                 {/* 

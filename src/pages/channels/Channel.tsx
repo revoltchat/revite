@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { Text } from "preact-i18n";
 import { useEffect, useMemo } from "preact/hooks";
 
+import ErrorBoundary from "../../lib/ErrorBoundary";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
@@ -159,14 +160,16 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
             }>
             <ChannelHeader channel={channel} />
             <ChannelMain>
-                <ChannelContent>
-                    <VoiceHeader id={channel._id} />
-                    <NewMessages channel={channel} last_id={last_id} />
-                    <MessageArea channel={channel} last_id={last_id} />
-                    <TypingIndicator channel={channel} />
-                    <JumpToBottom channel={channel} />
-                    <MessageBox channel={channel} />
-                </ChannelContent>
+                <ErrorBoundary section="renderer">
+                    <ChannelContent>
+                        <VoiceHeader id={channel._id} />
+                        <NewMessages channel={channel} last_id={last_id} />
+                        <MessageArea channel={channel} last_id={last_id} />
+                        <TypingIndicator channel={channel} />
+                        <JumpToBottom channel={channel} />
+                        <MessageBox channel={channel} />
+                    </ChannelContent>
+                </ErrorBoundary>
                 {!isTouchscreenDevice &&
                     layout.getSectionState(SIDEBAR_MEMBERS, true) && (
                         <RightSidebar />
