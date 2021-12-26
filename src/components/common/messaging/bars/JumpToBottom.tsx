@@ -37,6 +37,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         user-select: none;
         justify-content: space-between;
         transition: color ease-in-out 0.08s;
+        top: 48px;
 
         ${(props) =>
             props.accent

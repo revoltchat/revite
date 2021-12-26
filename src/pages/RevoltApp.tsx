@@ -30,6 +30,7 @@ const Routes = styled.div`
     display: flex;
     overflow: hidden;
     flex-direction: column;
+    position: relative;
     background: var(--primary-background);
 `;
 
