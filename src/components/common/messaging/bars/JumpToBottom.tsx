@@ -61,6 +61,12 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
                           0;
                   `}
 
+                  ${() =>
+            isTouchscreenDevice &&
+            css`
+                top: 56px;
+            `}
+
         > div {
             display: flex;
             align-items: center;
