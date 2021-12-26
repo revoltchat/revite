@@ -1,5 +1,5 @@
-import { Plus } from "@styled-icons/boxicons-regular";
-import { Cog } from "@styled-icons/boxicons-solid";
+import { Plus, LinkExternal } from "@styled-icons/boxicons-regular";
+import { Cog, Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
@@ -160,6 +160,33 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
         css`
             cursor: pointer;
         `}
+`;
+
+const ServerCircle = styled.div`
+    width: 54px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-background);
+        border-radius: 50%;
+        height: 42px;
+        width: 42px;
+        transition: background-color 0.1s ease-in;
+
+        > div svg {
+            color: var(--accent);
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+    }
 `;
 
 const SettingsButton = styled.div`
@@ -341,17 +368,50 @@ export default observer(() => {
                         </ConditionalLink>
                     );
                 })}
-                <IconButton
-                    onClick={() =>
-                        openScreen({
-                            id: "special_input",
-                            type: "create_server",
-                        })
-                    }>
-                    <Plus size={36} />
-                </IconButton>
-                <PaintCounter small />
+                {/*<LineDivider />*/}
+                <ServerCircle>
+                    <Tooltip content="Add a Server" placement="right">
+                        <div className="circle">
+                            <IconButton
+                                onClick={() =>
+                                    openScreen({
+                                        id: "special_input",
+                                        type: "create_server",
+                                    })
+                                }>
+                                <Plus size={32} />
+                            </IconButton>
+                        </div>
+                    </Tooltip>
+                </ServerCircle>
+                <ServerCircle>
+                    <Tooltip
+                        content={
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "4px",
+                                }}>
+                                <div>Discover Public Servers</div>
+                                <LinkExternal size={12} />
+                            </div>
+                        }
+                        placement="right">
+                        <div className="circle">
+                            <IconButton>
+                                <a
+                                    href="https://revolt.social"
+                                    target="_blank"
+                                    rel="noreferrer">
+                                    <Compass size={32} />
+                                </a>
+                            </IconButton>
+                        </div>
+                    </Tooltip>
+                </ServerCircle>
             </ServerList>
+            <PaintCounter small />
             {!isTouchscreenDevice && (
                 <SettingsButton>
                     <Link to="/settings">
