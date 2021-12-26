@@ -234,6 +234,7 @@ var state: State;
 
 export async function hydrateState() {
     state = new State();
+    (window as any).state = state;
     await state.hydrate();
 }
 
