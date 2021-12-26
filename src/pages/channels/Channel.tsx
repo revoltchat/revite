@@ -2,13 +2,14 @@ import { Hash } from "@styled-icons/boxicons-regular";
 import { Ghost } from "@styled-icons/boxicons-solid";
 import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
-import { useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 import { useEffect, useMemo } from "preact/hooks";
 
+import ErrorBoundary from "../../lib/ErrorBoundary";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
@@ -44,15 +45,35 @@ const ChannelContent = styled.div`
 `;
 
 const PlaceholderBase = styled.div`
+    @keyframes floating {
+        0% {
+            transform: translate(0, 0px);
+        }
+        50% {
+            transform: translate(0, 15px);
+        }
+        100% {
+            transform: translate(0, -0px);
+        }
+    }
+
     flex-grow: 1;
     display: flex;
     overflow: hidden;
     flex-direction: column;
 
+    .floating {
+        animation-name: floating;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+    }
+
     .placeholder {
         justify-content: center;
         text-align: center;
         margin: auto;
+        padding: 12px;
 
         .primary {
             color: var(--secondary-foreground);
@@ -73,9 +94,21 @@ const PlaceholderBase = styled.div`
     }
 `;
 
-export function Channel({ id }: { id: string }) {
+export function Channel({ id, server_id }: { id: string; server_id: string }) {
     const client = useClient();
     const channel = client.channels.get(id);
+
+    if (server_id && !channel) {
+        const server = client.servers.get(server_id);
+        if (server && server.channel_ids.length > 0) {
+            return (
+                <Redirect
+                    to={`/server/${server_id}/channel/${server.channel_ids[0]}`}
+                />
+            );
+        }
+    }
+
     if (!channel) return <ChannelPlaceholder />;
 
     if (channel.channel_type === "VoiceChannel") {
@@ -127,14 +160,16 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
             }>
             <ChannelHeader channel={channel} />
             <ChannelMain>
-                <ChannelContent>
-                    <VoiceHeader id={channel._id} />
-                    <NewMessages channel={channel} last_id={last_id} />
-                    <MessageArea channel={channel} last_id={last_id} />
-                    <TypingIndicator channel={channel} />
-                    <JumpToBottom channel={channel} />
-                    <MessageBox channel={channel} />
-                </ChannelContent>
+                <ErrorBoundary section="renderer">
+                    <ChannelContent>
+                        <VoiceHeader id={channel._id} />
+                        <NewMessages channel={channel} last_id={last_id} />
+                        <MessageArea channel={channel} last_id={last_id} />
+                        <TypingIndicator channel={channel} />
+                        <JumpToBottom channel={channel} />
+                        <MessageBox channel={channel} />
+                    </ChannelContent>
+                </ErrorBoundary>
                 {!isTouchscreenDevice &&
                     layout.getSectionState(SIDEBAR_MEMBERS, true) && (
                         <RightSidebar />
@@ -163,7 +198,9 @@ function ChannelPlaceholder() {
             </PageHeader>
 
             <div className="placeholder">
-                <Ghost width={80} />
+                <div className="floating">
+                    <Ghost width={80} />
+                </div>
                 <div className="primary">
                     <Text id="app.main.channel.errors.title" />
                 </div>
@@ -176,6 +213,8 @@ function ChannelPlaceholder() {
 }
 
 export default function ChannelComponent() {
-    const { channel } = useParams<{ channel: string }>();
-    return <Channel id={channel} key={channel} />;
+    const { channel, server } =
+        useParams<{ channel: string; server: string }>();
+
+    return <Channel id={channel} server_id={server} key={channel} />;
 }

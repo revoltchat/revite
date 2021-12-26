@@ -48,6 +48,11 @@ export default observer(() => {
         a.last_message_id_or_past.localeCompare(b.last_message_id_or_past),
     );
 
+    // ! FIXME: must be a better way
+    const incoming = [...client.users.values()].filter(
+        (user) => user?.relationship === RelationshipStatus.Incoming,
+    );
+
     return (
         <GenericSidebarBase mobilePadding>
             <ConnectionStatus />
@@ -68,14 +73,9 @@ export default observer(() => {
                             <ButtonItem
                                 active={pathname === "/friends"}
                                 alert={
-                                    typeof [...client.users.values()].find(
-                                        (user) =>
-                                            user?.relationship ===
-                                            RelationshipStatus.Incoming,
-                                    ) !== "undefined"
-                                        ? "unread"
-                                        : undefined
-                                }>
+                                    incoming.length > 0 ? "mention" : undefined
+                                }
+                                alertCount={incoming.length}>
                                 <UserDetail size={20} />
                                 <span>
                                     <Text id="app.navigation.tabs.friends" />

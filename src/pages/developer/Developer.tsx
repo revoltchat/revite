@@ -15,6 +15,7 @@ export default function Developer() {
     const client = useContext(AppContext);
     const userPermission = client.user!.permission;
     const [ping, setPing] = useState<undefined | number>(client.websocket.ping);
+    const [crash, setCrash] = useState(false);
 
     useEffect(() => {
         const timer = setInterval(
@@ -44,6 +45,8 @@ export default function Developer() {
                 />
             </div>
             <div style={{ padding: "16px" }}>
+                <a onClick={() => setCrash(true)}>click to crash app</a>
+                {crash && (window as any).sus.sus()}
                 {/*<span>
                     <b>Voice Status:</b> {VoiceStatus[voice.status]}
                 </span>

@@ -75,7 +75,8 @@ export default class Settings
     @action hydrate(data: ISettings) {
         Object.keys(data).forEach(
             (key) =>
-                (data as any)[key] && this.data.set(key, (data as any)[key]),
+                typeof (data as any)[key] !== "undefined" &&
+                this.data.set(key, (data as any)[key]),
         );
     }
 

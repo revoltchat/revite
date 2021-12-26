@@ -49,12 +49,7 @@ export default function ChannelSettings() {
         <GenericSettings
             pages={[
                 {
-                    category: (
-                        <Category
-                            variant="uniform"
-                            text={getChannelName(channel, true)}
-                        />
-                    ),
+                    category: <div>{getChannelName(channel, true)}</div>,
                     id: "overview",
                     icon: <InfoCircle size={20} />,
                     title: (

@@ -101,7 +101,7 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                     mention:
                         message.author_id === client.user!._id
                             ? false
-                            : layout.getSectionState("SECTION_MENTION", false),
+                            : layout.getSectionState(SECTION_MENTION, false),
                 },
             ]);
         });

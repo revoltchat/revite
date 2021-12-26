@@ -56,7 +56,7 @@ export default class Sync implements Store, Persistent<Data> {
 
     toJSON() {
         return {
-            enabled: [...this.disabled],
+            disabled: [...this.disabled],
             revision: mapToRecord(this.revision),
         };
     }

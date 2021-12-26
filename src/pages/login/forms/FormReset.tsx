@@ -24,7 +24,8 @@ export function FormSendReset() {
 
 export function FormReset() {
     const { token } = useParams<{ token: string }>();
-    const client = useContext(AppContext);
+    const config = useApplicationState().config;
+    const client = config.createClient();
     const history = useHistory();
 
     return (

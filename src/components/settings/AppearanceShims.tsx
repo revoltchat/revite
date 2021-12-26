@@ -219,12 +219,25 @@ export const DisplaySeasonalShim = observer(() => {
 
     return (
         <>
-            <h3>Theme Options</h3>
+            <h3>
+                <Text id="app.settings.pages.appearance.theme_options.title" />
+            </h3>
+            {/* TOFIX: WIP feature - follows system theme */}
+            {/*<Checkbox
+                checked={settings.get("appearance:seasonal") ?? true}
+                onChange={(v) => settings.set("appearance:seasonal", v)}
+                description={
+                    <Text id="app.settings.pages.appearance.theme_options.follow_desc" />
+                }>
+                <Text id="app.settings.pages.appearance.theme_options.follow" />
+            </Checkbox>*/}
             <Checkbox
                 checked={settings.get("appearance:seasonal") ?? true}
                 onChange={(v) => settings.set("appearance:seasonal", v)}
-                description="Displays effects in the home tab during holiday seasons.">
-                Seasonal theme
+                description={
+                    <Text id="app.settings.pages.appearance.theme_options.seasonal_desc" />
+                }>
+                <Text id="app.settings.pages.appearance.theme_options.seasonal" />
             </Checkbox>
         </>
     );

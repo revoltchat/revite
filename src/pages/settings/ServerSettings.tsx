@@ -50,7 +50,7 @@ export default observer(() => {
         <GenericSettings
             pages={[
                 {
-                    category: <Category variant="uniform" text={server.name} />,
+                    category: <div>{server.name}</div>,
                     id: "overview",
                     icon: <InfoCircle size={20} />,
                     title: (
@@ -66,6 +66,15 @@ export default observer(() => {
                     hideTitle: true,
                 },
                 {
+                    id: "roles",
+                    icon: <FlagAlt size={20} />,
+                    title: <Text id="app.settings.server_pages.roles.title" />,
+                    hideTitle: true,
+                },
+                {
+                    category: (
+                        <Text id="app.settings.server_pages.management.title" />
+                    ),
                     id: "members",
                     icon: <Group size={20} />,
                     title: (
@@ -83,12 +92,6 @@ export default observer(() => {
                     id: "bans",
                     icon: <UserX size={20} />,
                     title: <Text id="app.settings.server_pages.bans.title" />,
-                },
-                {
-                    id: "roles",
-                    icon: <FlagAlt size={20} />,
-                    title: <Text id="app.settings.server_pages.roles.title" />,
-                    hideTitle: true,
                 },
             ]}
             children={

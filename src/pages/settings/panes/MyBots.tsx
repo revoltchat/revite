@@ -381,7 +381,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                     <CollapsibleSection
                         defaultValue={false}
                         id={`bot_profile_${bot._id}`}
-                        summary="Bot Profile">
+                        summary={<Text id="app.settings.pages.bots.profile" />}>
                         <h3>
                             <Text id="app.settings.pages.profile.custom_background" />
                         </h3>

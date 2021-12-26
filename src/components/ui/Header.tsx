@@ -29,10 +29,15 @@ const Header = styled.div<Props>`
     font-weight: 600;
     user-select: none;
     align-items: center;
-
     background-size: cover !important;
     background-position: center !important;
     background-color: var(--primary-header);
+
+    /*> div {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }*/
 
     svg {
         flex-shrink: 0;

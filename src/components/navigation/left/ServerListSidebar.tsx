@@ -1,5 +1,5 @@
-import { Plus } from "@styled-icons/boxicons-regular";
-import { Cog } from "@styled-icons/boxicons-solid";
+import { Plus, LinkExternal } from "@styled-icons/boxicons-regular";
+import { Cog, Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
@@ -18,6 +18,7 @@ import { SIDEBAR_CHANNELS } from "../../../mobx/stores/Layout";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
+import ChannelIcon from "../../common/ChannelIcon";
 import ServerIcon from "../../common/ServerIcon";
 import Tooltip from "../../common/Tooltip";
 import UserHover from "../../common/user/UserHover";
@@ -161,6 +162,33 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
         `}
 `;
 
+const ServerCircle = styled.div`
+    width: 54px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-background);
+        border-radius: 50%;
+        height: 42px;
+        width: 42px;
+        transition: background-color 0.1s ease-in;
+
+        > div svg {
+            color: var(--accent);
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+    }
+`;
+
 const SettingsButton = styled.div`
     width: 50px;
     height: 56px;
@@ -214,28 +242,10 @@ export default observer(() => {
     const path = useLocation().pathname;
     const { openScreen } = useIntermediate();
 
-    let homeUnread: "mention" | "unread" | undefined;
-    let alertCount = 0;
-    for (const channel of channels) {
-        if (channel?.channel_type === "Group" && channel.unread) {
-            homeUnread = "unread";
-            alertCount += channel.mentions.length;
-        }
-
-        if (
-            channel.channel_type === "DirectMessage" &&
-            channel.active &&
-            channel.unread
-        ) {
-            alertCount++;
-        }
-    }
-
-    alertCount += [...client.users.values()].filter(
+    let alertCount = [...client.users.values()].filter(
         (x) => x.relationship === RelationshipStatus.Incoming,
     ).length;
 
-    if (alertCount > 0) homeUnread = "mention";
     const homeActive =
         typeof server === "undefined" && !path.startsWith("/invite");
 
@@ -255,7 +265,9 @@ export default observer(() => {
                             <UserHover user={client.user ?? undefined}>
                                 <Icon
                                     size={42}
-                                    unread={homeUnread}
+                                    unread={
+                                        alertCount > 0 ? "mention" : undefined
+                                    }
                                     count={alertCount}>
                                     <UserIcon
                                         target={client.user ?? undefined}
@@ -268,6 +280,53 @@ export default observer(() => {
                         </div>
                     </ServerEntry>
                 </ConditionalLink>
+                {channels
+                    .filter(
+                        (x) =>
+                            (x.channel_type === "DirectMessage" ||
+                                x.channel_type === "Group") &&
+                            x.unread,
+                    )
+                    .map((x) => {
+                        const unreadCount = x.mentions.length;
+                        return (
+                            <Link to={`/channel/${x._id}`}>
+                                <ServerEntry
+                                    home
+                                    active={false}
+                                    onContextMenu={attachContextMenu("Menu", {
+                                        channel: x._id,
+                                        unread: true,
+                                    })}>
+                                    <div>
+                                        <Icon
+                                            size={42}
+                                            unread={
+                                                unreadCount > 0
+                                                    ? "mention"
+                                                    : "unread"
+                                            }
+                                            count={unreadCount}>
+                                            {x.channel_type ===
+                                            "DirectMessage" ? (
+                                                <UserIcon
+                                                    target={x.recipient}
+                                                    size={32}
+                                                    hover
+                                                />
+                                            ) : (
+                                                <ChannelIcon
+                                                    target={x}
+                                                    size={32}
+                                                    hover
+                                                />
+                                            )}
+                                        </Icon>
+                                    </div>
+                                </ServerEntry>
+                            </Link>
+                        );
+                    })}
                 <LineDivider />
                 {servers.map((server) => {
                     const active = server._id === server_id;
@@ -309,16 +368,49 @@ export default observer(() => {
                         </ConditionalLink>
                     );
                 })}
-                <IconButton
-                    onClick={() =>
-                        openScreen({
-                            id: "new_server",
-                        })
-                    }>
-                    <Plus size={36} />
-                </IconButton>
-                <PaintCounter small />
+                {/*<LineDivider />*/}
+                <ServerCircle>
+                    <Tooltip content="Add a Server" placement="right">
+                        <div className="circle">
+                            <IconButton
+                                onClick={() =>
+                                    openScreen({
+                                        id: "new_server",
+                                      })
+                                 }>
+                                <Plus size={32} />
+                            </IconButton>
+                        </div>
+                    </Tooltip>
+                </ServerCircle>
+                <ServerCircle>
+                    <Tooltip
+                        content={
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "4px",
+                                }}>
+                                <div>Discover Public Servers</div>
+                                <LinkExternal size={12} />
+                            </div>
+                        }
+                        placement="right">
+                        <div className="circle">
+                            <IconButton>
+                                <a
+                                    href="https://revolt.social"
+                                    target="_blank"
+                                    rel="noreferrer">
+                                    <Compass size={32} />
+                                </a>
+                            </IconButton>
+                        </div>
+                    </Tooltip>
+                </ServerCircle>
             </ServerList>
+            <PaintCounter small />
             {!isTouchscreenDevice && (
                 <SettingsButton>
                     <Link to="/settings">

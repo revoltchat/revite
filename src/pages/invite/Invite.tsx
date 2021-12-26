@@ -10,6 +10,8 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import { defer } from "../../lib/defer";
 import { TextReact } from "../../lib/i18n";
 
+import { useApplicationState } from "../../mobx/State";
+
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import {
     AppContext,
@@ -27,6 +29,7 @@ import Preloader from "../../components/ui/Preloader";
 export default function Invite() {
     const history = useHistory();
     const client = useContext(AppContext);
+
     const status = useContext(StatusContext);
     const { code } = useParams<{ code: string }>();
     const [processing, setProcessing] = useState(false);
@@ -36,10 +39,7 @@ export default function Invite() {
     );
 
     useEffect(() => {
-        if (
-            typeof invite === "undefined" &&
-            (status === ClientStatus.ONLINE || status === ClientStatus.READY)
-        ) {
+        if (typeof invite === "undefined") {
             client
                 .fetchInvite(code)
                 .then((data) => setInvite(data))
@@ -91,7 +91,7 @@ export default function Invite() {
             className={styles.invite}
             style={{
                 backgroundImage: invite.server_banner
-                    ? `url('${client.generateFileURL(invite.server_banner)}')`
+                    ? `url('${client?.generateFileURL(invite.server_banner)}')`
                     : undefined,
             }}>
             <div className={styles.leave}>

@@ -93,7 +93,7 @@ export const Overview = observer(({ server }: Props) => {
                     if (!changed) setChanged(true);
                 }}
             />
-
+            <hr />
             <h3>
                 <Text id="app.main.servers.custom_banner" />
             </h3>
@@ -107,7 +107,7 @@ export const Overview = observer(({ server }: Props) => {
                 previewURL={server.generateBannerURL({ width: 1000 }, true)}
                 remove={() => server.edit({ remove: "Banner" })}
             />
-
+            <hr />
             <h3>
                 <Text id="app.settings.server_pages.overview.system_messages" />
             </h3>
@@ -126,6 +126,7 @@ export const Overview = observer(({ server }: Props) => {
                         alignItems: "center",
                     }}>
                     <span style={{ flexShrink: "0", flex: `25%` }}>{i18n}</span>
+                    <span>Sends a message when someone joins your server</span>
                     <ComboBox
                         value={
                             systemMessages?.[
@@ -152,7 +153,11 @@ export const Overview = observer(({ server }: Props) => {
                             <Text id="general.disabled" />
                         </option>
                         {server.channels
-                            .filter((x) => (typeof x !== "undefined" && x.channel_type === "TextChannel"))
+                            .filter(
+                                (x) =>
+                                    typeof x !== "undefined" &&
+                                    x.channel_type === "TextChannel",
+                            )
                             .map((channel) => (
                                 <option key={channel!._id} value={channel!._id}>
                                     {getChannelName(channel!, true)}

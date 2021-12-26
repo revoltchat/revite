@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
 
+import { internalEmit } from "../../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import { getRenderer } from "../../../../lib/renderer/Singleton";
 
@@ -17,6 +18,12 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
             props.position === "bottom" &&
             css`
                 top: -26px;
+
+                ${() =>
+                    isTouchscreenDevice &&
+                    css`
+                        top: -32px;
+                    `}
             `}
 
         height: 28px;
@@ -71,7 +78,6 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
             isTouchscreenDevice &&
             css`
                 height: 34px;
-                top: -32px;
                 padding: 0 12px;
             `}
     }
@@ -83,7 +89,11 @@ export default observer(({ channel }: { channel: Channel }) => {
 
     return (
         <Bar position="bottom">
-            <div onClick={() => renderer.jumpToBottom(true)}>
+            <div
+                onClick={() => {
+                    renderer.jumpToBottom(true);
+                    internalEmit("NewMessages", "hide");
+                }}>
                 <div>
                     <Text id="app.main.channel.misc.viewing_old" />
                 </div>
