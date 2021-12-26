@@ -31,7 +31,13 @@ const Header = styled.div<Props>`
     align-items: center;
     background-size: cover !important;
     background-position: center !important;
-    background-color: var(--primary-header);
+    //background-color: var(--primary-header);
+    background-color: rgba(54, 54, 54, 0.75);
+    backdrop-filter: blur(10px);
+    z-index: 20;
+
+    position: absolute;
+    width: 100%;
 
     /*> div {
         text-overflow: ellipsis;

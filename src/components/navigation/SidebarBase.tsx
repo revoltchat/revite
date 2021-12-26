@@ -8,6 +8,12 @@ export default styled.div`
     user-select: none;
     flex-direction: row;
     align-items: stretch;
+
+    > * > ::-webkit-scrollbar-thumb {
+        width: 4px;
+        background-clip: content-box;
+        border-top: 48px solid transparent;
+    }
 `;
 
 export const GenericSidebarBase = styled.div<{

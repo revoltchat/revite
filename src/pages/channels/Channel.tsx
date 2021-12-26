@@ -35,6 +35,12 @@ const ChannelMain = styled.div`
     min-height: 0;
     overflow: hidden;
     flex-direction: row;
+
+    > * > ::-webkit-scrollbar-thumb {
+        width: 4px;
+        background-clip: content-box;
+        border-top: 48px solid transparent;
+    }
 `;
 
 const ChannelContent = styled.div`
