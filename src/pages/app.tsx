@@ -31,11 +31,6 @@ export function App() {
                         <Route path="/login/reset/:token">
                             <Login />
                         </Route>
-                        <Route path="/invite/:code">
-                            <FakeClient>
-                                <Invite />
-                            </FakeClient>
-                        </Route>
                         <Route path="/login">
                             <CheckAuth>
                                 <Login />
@@ -45,6 +40,11 @@ export function App() {
                             <CheckAuth auth>
                                 <RevoltApp />
                             </CheckAuth>
+                        </Route>
+                        <Route path="/invite/:code">
+                            <FakeClient>
+                                <Invite />
+                            </FakeClient>
                         </Route>
                     </Switch>
                 </Suspense>
