@@ -9,11 +9,11 @@ export default styled.div`
     flex-direction: row;
     align-items: stretch;
 
-    > * > ::-webkit-scrollbar-thumb {
+    /*> * > ::-webkit-scrollbar-thumb {
         width: 4px;
         background-clip: content-box;
         border-top: 48px solid transparent;
-    }
+    }*/
 `;
 
 export const GenericSidebarBase = styled.div<{
@@ -28,7 +28,12 @@ export const GenericSidebarBase = styled.div<{
     background: var(--secondary-background);
 
     > :nth-child(1) {
-        border-end-start-radius: 8px;
+        //border-end-start-radius: 8px;
+        margin-top: 48px;
+    }
+
+    > :nth-child(2) {
+        background: red;
     }
 
     ${(props) =>
