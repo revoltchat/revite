@@ -1,4 +1,5 @@
 import { CheckCircle, Envelope } from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
@@ -45,7 +46,7 @@ interface FormInputs {
     invite: string;
 }
 
-export function Form({ page, callback }: Props) {
+export const Form = observer(({ page, callback }: Props) => {
     const configuration = useApplicationState().config.get();
 
     const [loading, setLoading] = useState(false);
@@ -253,4 +254,4 @@ export function Form({ page, callback }: Props) {
             )}
         </div>
     );
-}
+});
