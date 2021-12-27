@@ -35,15 +35,8 @@ const Header = styled.div<Props>`
     background-color: rgba(54, 54, 54, 0.75);
     backdrop-filter: blur(10px);
     z-index: 20;
-
     position: absolute;
     width: 100%;
-
-    /*> div {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-    }*/
 
     svg {
         flex-shrink: 0;
