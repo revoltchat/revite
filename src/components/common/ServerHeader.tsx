@@ -15,9 +15,6 @@ import Tooltip from "./Tooltip";
 
 interface Props {
     server: Server;
-}
-
-interface Props {
     background?: boolean;
 }
 
@@ -27,6 +24,9 @@ const ServerBanner = styled.div<Props>`
     display: flex;
     flex-direction: column;
     justify-content: end;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 
     ${(props) =>
         props.background &&
