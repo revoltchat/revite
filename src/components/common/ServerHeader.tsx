@@ -25,7 +25,7 @@ const ServerBanner = styled.div`
     flex-direction: column;
     justify-content: end;
 
-    .title {
+    .container {
         height: 48px;
         display: flex;
         align-items: center;
@@ -36,7 +36,7 @@ const ServerBanner = styled.div`
         text-overflow: ellipsis;
         gap: 8px;
 
-        .test {
+        .title {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -51,7 +51,7 @@ export default observer(({ server }: Props) => {
     return (
         <div>
             <ServerBanner>
-                <div className="title">
+                <div className="container">
                     <div>
                         {server.flags && server.flags & 1 ? (
                             <Tooltip
@@ -105,7 +105,7 @@ export default observer(({ server }: Props) => {
                             </Tooltip>
                         ) : undefined}
                     </div>
-                    <div className="test">{server.name}</div>
+                    <div className="title">{server.name}</div>
                     {(server.permission & ServerPermission.ManageServer) >
                         0 && (
                         <div className="actions">
