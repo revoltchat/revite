@@ -45,7 +45,7 @@
 
     .scrollbox {
         &::-webkit-scrollbar-thumb {
-            border-top: none;
+            border-top: 56px solid transparent;
         }
     }
 
