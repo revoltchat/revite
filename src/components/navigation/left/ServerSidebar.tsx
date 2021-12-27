@@ -49,28 +49,6 @@ const ServerList = styled.div`
     }
 `;
 
-const ServerBanner = styled.div`
-    background-color: var(--primary-background);
-
-    .title {
-        height: 48px;
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        font-weight: 600;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        gap: 8px;
-
-        .test {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    }
-`;
-
 interface Props {
     server: Server;
 }
@@ -164,13 +142,7 @@ export default observer(() => {
 
     return (
         <ServerBase>
-            <ServerBanner>
-                <div className="title">
-                    <ServerHeader server={server} />
-                    <div className="test">{server.name}</div>
-                </div>
-            </ServerBanner>
-
+            <ServerHeader server={server} />
             <ConnectionStatus />
             <ServerList
                 onContextMenu={attachContextMenu("Menu", {
