@@ -27,14 +27,14 @@ export const GenericSidebarBase = styled.div<{
     /*border-end-start-radius: 8px;*/
     background: var(--secondary-background);
 
-    > :nth-child(1) {
+    /*> :nth-child(1) {
         //border-end-start-radius: 8px;
-        margin-top: 48px;
     }
 
     > :nth-child(2) {
+        margin-top: 48px;
         background: red;
-    }
+    }*/
 
     ${(props) =>
         props.mobilePadding &&
