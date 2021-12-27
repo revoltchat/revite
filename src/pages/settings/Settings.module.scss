@@ -54,7 +54,7 @@
         overflow-y: auto;
 
         .container {
-            padding: 20px 8px calc(var(--bottom-navigation-height) + 30px);
+            padding: 76px 8px calc(var(--bottom-navigation-height) + 30px);
             min-width: 218px;
         }
 
@@ -76,7 +76,7 @@
 
         .contentcontainer {
             max-width: unset !important;
-            padding: 16px 12px var(--bottom-navigation-height) !important;
+            padding: 72px 12px var(--bottom-navigation-height) !important;
         }
     }
 }
