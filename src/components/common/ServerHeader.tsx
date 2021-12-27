@@ -18,7 +18,7 @@ interface Props {
 }
 
 const ServerBanner = styled.div`
-    background-color: var(--primary-background);
+    background-color: var(--secondary-header);
     //height: 120px; //USE IF SERVER BANNER IS APPLIED
     flex-shrink: 0;
     display: flex;
