@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router";
+import { Server } from "revolt.js/dist/maps/Servers";
 import styled, { css } from "styled-components";
 
 import { attachContextMenu } from "preact-context-menu";
@@ -47,6 +48,32 @@ const ServerList = styled.div`
         width: 100%;
     }
 `;
+
+const ServerBanner = styled.div`
+    background-color: var(--primary-background);
+
+    .title {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        gap: 8px;
+
+        .test {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+`;
+
+interface Props {
+    server: Server;
+}
 
 export default observer(() => {
     const client = useClient();
@@ -137,7 +164,13 @@ export default observer(() => {
 
     return (
         <ServerBase>
-            <ServerHeader server={server} />
+            <ServerBanner>
+                <div className="title">
+                    <ServerHeader server={server} />
+                    <div className="test">{server.name}</div>
+                </div>
+            </ServerBanner>
+
             <ConnectionStatus />
             <ServerList
                 onContextMenu={attachContextMenu("Menu", {
