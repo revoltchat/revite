@@ -8,6 +8,8 @@ import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
 
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+
 import Header from "../ui/Header";
 import IconButton from "../ui/IconButton";
 
@@ -51,6 +53,12 @@ const ServerBanner = styled.div<Props>`
         overflow: hidden;
         text-overflow: ellipsis;
         gap: 8px;
+
+        ${() =>
+            isTouchscreenDevice &&
+            css`
+                height: 56px;
+            `}
 
         .title {
             white-space: nowrap;
