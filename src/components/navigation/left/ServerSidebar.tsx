@@ -62,15 +62,6 @@ export default observer(() => {
 
     const channel = channel_id ? client.channels.get(channel_id) : undefined;
 
-    // The user selected no channel, let's see if there's a channel available
-    if (!channel && server.channel_ids.length > 0)
-        return (
-            <Redirect
-                to={`/server/${server_id}/channel/${server.channel_ids[0]}`}
-            />
-        );
-    if (channel_id && !channel) return <Redirect to={`/server/${server_id}`} />;
-
     // ! FIXME: move this globally
     // Track which channel the user was last on.
     useEffect(() => {

@@ -4,6 +4,8 @@ import localforage from "localforage";
 import { makeAutoObservable, reaction } from "mobx";
 import { Client } from "revolt.js";
 
+import { reportError } from "../lib/ErrorBoundary";
+
 import { legacyMigrateForwards, LegacyState } from "./legacy/redux";
 
 import Persistent from "./interfaces/Persistent";
@@ -197,16 +199,20 @@ export default class State {
      */
     async hydrate() {
         // Migrate legacy Redux store.
-        let legacy = await localforage.getItem("state");
-        if (legacy) {
-            if (typeof legacy === "string") {
-                legacy = JSON.parse(legacy);
-            }
-
-            legacyMigrateForwards(legacy as Partial<LegacyState>, this);
+        try {
+            let legacy = await localforage.getItem("state");
             await localforage.removeItem("state");
-            await this.save();
-            return;
+            if (legacy) {
+                if (typeof legacy === "string") {
+                    legacy = JSON.parse(legacy);
+                }
+
+                legacyMigrateForwards(legacy as Partial<LegacyState>, this);
+                await this.save();
+                return;
+            }
+        } catch (err) {
+            reportError(err, "redux_migration");
         }
 
         // Load MobX store.
@@ -228,6 +234,7 @@ var state: State;
 
 export async function hydrateState() {
     state = new State();
+    (window as any).state = state;
     await state.hydrate();
 }
 

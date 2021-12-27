@@ -32,7 +32,7 @@ export default class ServerConfig
     }
 
     @action hydrate(data: RevoltConfiguration) {
-        this.config = data;
+        this.config = data ?? null;
     }
 
     /**

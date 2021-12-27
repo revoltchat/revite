@@ -2,6 +2,9 @@ import { Route, Switch } from "react-router-dom";
 
 import { lazy, Suspense } from "preact/compat";
 
+import ErrorBoundary from "../lib/ErrorBoundary";
+import FakeClient from "../lib/FakeClient";
+
 import Context from "../context";
 import { CheckAuth } from "../context/revoltjs/CheckAuth";
 
@@ -15,33 +18,37 @@ const RevoltApp = lazy(() => import("./RevoltApp"));
 
 export function App() {
     return (
-        <Context>
-            <Masks />
-            {/* 
-            // @ts-expect-error typings mis-match between preact... and preact? */}
-            <Suspense fallback={<Preloader type="spinner" />}>
-                <Switch>
-                    <Route path="/login/verify/:token">
-                        <Login />
-                    </Route>
-                    <Route path="/login/reset/:token">
-                        <Login />
-                    </Route>
-                    <Route path="/invite/:code">
-                        <Invite />
-                    </Route>
-                    <Route path="/login">
-                        <CheckAuth>
+        <ErrorBoundary section="client">
+            <Context>
+                <Masks />
+                {/* 
+                // @ts-expect-error typings mis-match between preact... and preact? */}
+                <Suspense fallback={<Preloader type="spinner" />}>
+                    <Switch>
+                        <Route path="/login/verify/:token">
                             <Login />
-                        </CheckAuth>
-                    </Route>
-                    <Route path="/">
-                        <CheckAuth auth>
-                            <RevoltApp />
-                        </CheckAuth>
-                    </Route>
-                </Switch>
-            </Suspense>
-        </Context>
+                        </Route>
+                        <Route path="/login/reset/:token">
+                            <Login />
+                        </Route>
+                        <Route path="/login">
+                            <CheckAuth>
+                                <Login />
+                            </CheckAuth>
+                        </Route>
+                        <Route path="/">
+                            <CheckAuth auth>
+                                <RevoltApp />
+                            </CheckAuth>
+                        </Route>
+                        <Route path="/invite/:code">
+                            <FakeClient>
+                                <Invite />
+                            </FakeClient>
+                        </Route>
+                    </Switch>
+                </Suspense>
+            </Context>
+        </ErrorBoundary>
     );
 }

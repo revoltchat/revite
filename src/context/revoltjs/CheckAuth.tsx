@@ -13,7 +13,7 @@ interface Props {
 export const CheckAuth = (props: Props) => {
     const auth = useApplicationState().auth;
     const client = useClient();
-    const ready = auth.isLoggedIn() && typeof client?.user !== "undefined";
+    const ready = auth.isLoggedIn() && !!client?.user;
 
     if (props.auth && !ready) {
         return <Redirect to="/login" />;
