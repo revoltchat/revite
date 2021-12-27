@@ -17,8 +17,31 @@ interface Props {
     server: Server;
 }
 
-const ServerName = styled.div`
-    flex-grow: 1;
+const ServerBanner = styled.div`
+    background-color: var(--primary-background);
+    //height: 120px; //USE IF SERVER BANNER IS APPLIED
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+
+    .title {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        gap: 8px;
+
+        .test {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
 `;
 
 export default observer(({ server }: Props) => {
@@ -26,45 +49,64 @@ export default observer(({ server }: Props) => {
 
     return (
         <div>
-            {server.flags && server.flags & 1 ? (
-                <Tooltip
-                    content={<Text id="app.special.server-badges.official" />}
-                    placement={"bottom-start"}>
-                    <svg width="20" height="20">
-                        <image
-                            xlinkHref="/assets/badges/verified.svg"
-                            height="20"
-                            width="20"
-                        />
-                        <image
-                            xlinkHref="/assets/badges/revolt_r.svg"
-                            height="15"
-                            width="15"
-                            x="2"
-                            y="3"
-                            style={
-                                "justify-content: center; align-items: center; filter: brightness(0);"
-                            }
-                        />
-                    </svg>
-                </Tooltip>
-            ) : undefined}
-            {server.flags && server.flags & 2 ? (
-                <Tooltip
-                    content={<Text id="app.special.server-badges.verified" />}
-                    placement={"bottom-start"}>
-                    <svg width="20" height="20">
-                        <image
-                            xlinkHref="/assets/badges/verified.svg"
-                            height="20"
-                            width="20"
-                        />
-                        <foreignObject x="2" y="2" width="15" height="15">
-                            <Check size={15} color="black" strokeWidth={8} />
-                        </foreignObject>
-                    </svg>
-                </Tooltip>
-            ) : undefined}
+            <ServerBanner>
+                <div className="title">
+                    <div>
+                        {server.flags && server.flags & 1 ? (
+                            <Tooltip
+                                content={
+                                    <Text id="app.special.server-badges.official" />
+                                }
+                                placement={"bottom-start"}>
+                                <svg width="20" height="20">
+                                    <image
+                                        xlinkHref="/assets/badges/verified.svg"
+                                        height="20"
+                                        width="20"
+                                    />
+                                    <image
+                                        xlinkHref="/assets/badges/revolt_r.svg"
+                                        height="15"
+                                        width="15"
+                                        x="2"
+                                        y="3"
+                                        style={
+                                            "justify-content: center; align-items: center; filter: brightness(0);"
+                                        }
+                                    />
+                                </svg>
+                            </Tooltip>
+                        ) : undefined}
+                        {server.flags && server.flags & 2 ? (
+                            <Tooltip
+                                content={
+                                    <Text id="app.special.server-badges.verified" />
+                                }
+                                placement={"bottom-start"}>
+                                <svg width="20" height="20">
+                                    <image
+                                        xlinkHref="/assets/badges/verified.svg"
+                                        height="20"
+                                        width="20"
+                                    />
+                                    <foreignObject
+                                        x="2"
+                                        y="2"
+                                        width="15"
+                                        height="15">
+                                        <Check
+                                            size={15}
+                                            color="black"
+                                            strokeWidth={8}
+                                        />
+                                    </foreignObject>
+                                </svg>
+                            </Tooltip>
+                        ) : undefined}
+                    </div>
+                    <div className="test">{server.name}</div>
+                </div>
+            </ServerBanner>
         </div>
         /*<Header
             borders
