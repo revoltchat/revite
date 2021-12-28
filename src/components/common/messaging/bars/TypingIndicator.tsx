@@ -26,7 +26,7 @@ const Base = styled.div`
         width: calc(100% - var(--scrollbar-thickness));
         color: var(--secondary-foreground);
         background-color: rgba(
-            var(--primary-header-rgb),
+            var(--secondary-background-rgb),
             max(var(--min-opacity), 0.75)
         );
         backdrop-filter: blur(10px);
