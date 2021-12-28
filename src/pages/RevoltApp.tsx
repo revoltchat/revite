@@ -19,7 +19,6 @@ import Channel from "./channels/Channel";
 import Developer from "./developer/Developer";
 import Friends from "./friends/Friends";
 import Home from "./home/Home";
-import Invite from "./invite/Invite";
 import InviteBot from "./invite/InviteBot";
 import ChannelSettings from "./settings/ChannelSettings";
 import ServerSettings from "./settings/ServerSettings";
@@ -121,7 +120,6 @@ export default function App() {
                         <Route path="/friends" component={Friends} />
                         <Route path="/open/:id" component={Open} />
                         <Route path="/bot/:id" component={InviteBot} />
-                        <Route path="/invite/:code?" component={Invite} />
                         <Route path="/" component={Home} />
                     </Switch>
                 </Routes>
