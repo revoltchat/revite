@@ -26,9 +26,12 @@ const ServerBanner = styled.div<Props>`
     display: flex;
     flex-direction: column;
     justify-content: end;
-    background-position: center;
+    /*background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover;*/
+
+    background-size: cover !important;
+    background-position: center center !important;
 
     ${(props) =>
         props.background &&
