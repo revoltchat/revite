@@ -2,8 +2,6 @@ name: Feature request
 description: Make a feature request
 title: "[Feature Request]"
 labels: ["enhancement"]
-assignees:
-  - insertish
 body:
   - type: markdown
     attributes:
@@ -14,6 +12,13 @@ body:
     attributes:
       label: What do you want to see?
       description: Describe your idea in as much detail as possible - if applicable, screenshots/mockups are really useful.
+    validations:
+      required: true
+  - type: textarea
+    id: commit-hash
+    attributes:
+      label: Commit hash
+      description: What is your commit hash? You can find this at the bottom of Settings, next to the branch name.
     validations:
       required: true
   - type: dropdown
