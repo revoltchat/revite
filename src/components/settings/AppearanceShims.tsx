@@ -214,7 +214,7 @@ export const DisplayLigaturesShim = observer(() => {
 /**
  * Component providing a way to toggle seasonal themes.
  */
-export const DisplaySeasonalShim = observer(() => {
+export const ThemeOptionsShim = observer(() => {
     const settings = useApplicationState().settings;
 
     return (
@@ -230,6 +230,13 @@ export const DisplaySeasonalShim = observer(() => {
                     <Text id="app.settings.pages.appearance.theme_options.follow_desc" />
                 }>
                 <Text id="app.settings.pages.appearance.theme_options.follow" />
+            </Checkbox>*/}
+            {/* THIS CHECKBOX ENABLES GLASS EFFECT IN UI - ENABLED BY DEFAULT*/}
+            {/*<Checkbox
+                checked={settings.get("appearance:seasonal") ?? true}
+                onChange={(v) => settings.set("appearance:seasonal", v)}
+                description={"Enables glass effects throughout the app"}>
+                Enable glass effects
             </Checkbox>*/}
             <Checkbox
                 checked={settings.get("appearance:seasonal") ?? true}
