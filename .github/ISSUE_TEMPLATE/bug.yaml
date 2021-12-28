@@ -2,8 +2,6 @@ name: Bug report
 description: File a bug report
 title: "[Bug Report]"
 labels: ["bug"]
-assignees:
-  - insertish
 body:
   - type: markdown
     attributes:
@@ -24,6 +22,13 @@ body:
       options:
         - Production (app.revolt.chat)
         - Nightly (nightly.revolt.chat)
+    validations:
+      required: true
+  - type: textarea
+    id: commit-hash
+    attributes:
+      label: Commit hash
+      description: What is your commit hash? You can find this at the bottom of Settings, next to the branch name.
     validations:
       required: true
   - type: dropdown
