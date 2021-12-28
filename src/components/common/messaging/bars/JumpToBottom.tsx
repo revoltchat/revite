@@ -32,16 +32,6 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         `}
 
     > div {
-        ${(props) =>
-            props.position === "bottom" &&
-            css`
-                ${() =>
-                    isTouchscreenDevice &&
-                    css`
-                        top: -90px;
-                    `}
-            `}
-
         height: 28px;
         width: 100%;
         position: absolute;
@@ -53,7 +43,6 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         user-select: none;
         justify-content: space-between;
         transition: color ease-in-out 0.08s;
-        top: -90px;
 
         ${(props) =>
             props.accent
