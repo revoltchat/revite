@@ -80,7 +80,7 @@ const Blocked = styled.div`
     color: var(--tertiary-foreground);
 
     .text {
-        padding: 14px 14px 14px 0;
+        padding: 14px;
     }
 
     svg {
@@ -89,13 +89,17 @@ const Blocked = styled.div`
 `;
 
 const Action = styled.div`
-    display: flex;
-    place-items: center;
+    /*display: flex;
+    align-items: center;
+    justify-content: center;*/
 
     > div {
         height: 48px;
-        width: 48px;
-        padding: 12px;
+        width: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        /*padding: 14px 0 14px 14px;*/
     }
 
     ${() =>
