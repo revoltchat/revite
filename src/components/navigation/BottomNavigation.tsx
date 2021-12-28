@@ -5,8 +5,7 @@ import styled, { css } from "styled-components";
 
 import ConditionalLink from "../../lib/ConditionalLink";
 
-import { connectState } from "../../redux/connector";
-import { LastOpened } from "../../redux/reducers/last_opened";
+import { useApplicationState } from "../../mobx/State";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
@@ -47,18 +46,13 @@ const Button = styled.a<{ active: boolean }>`
         `}
 `;
 
-interface Props {
-    lastOpened: LastOpened;
-}
-
-export const BottomNavigation = observer(({ lastOpened }: Props) => {
+export default observer(() => {
     const client = useClient();
+    const layout = useApplicationState().layout;
     const user = client.users.get(client.user!._id);
 
     const history = useHistory();
     const path = useLocation().pathname;
-
-    const channel_id = lastOpened["home"];
 
     const friendsActive = path.startsWith("/friends");
     const settingsActive = path.startsWith("/settings");
@@ -73,14 +67,11 @@ export const BottomNavigation = observer(({ lastOpened }: Props) => {
                             if (settingsActive) {
                                 if (history.length > 0) {
                                     history.goBack();
+                                    return;
                                 }
                             }
 
-                            if (channel_id) {
-                                history.push(`/channel/${channel_id}`);
-                            } else {
-                                history.push("/");
-                            }
+                            history.push(layout.getLastHomePath());
                         }}>
                         <Message size={24} />
                     </IconButton>
@@ -116,10 +107,4 @@ export const BottomNavigation = observer(({ lastOpened }: Props) => {
             </Navbar>
         </Base>
     );
-});
-
-export default connectState(BottomNavigation, (state) => {
-    return {
-        lastOpened: state.lastOpened,
-    };
 });

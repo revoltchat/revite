@@ -24,8 +24,9 @@ const PreloaderBase = styled.div`
     width: 100%;
     height: 100%;
 
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .spinner {
         width: 58px;

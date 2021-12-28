@@ -1,3 +1,4 @@
+import { Markdown } from "@styled-icons/boxicons-logos";
 import { observer } from "mobx-react-lite";
 import { Profile as ProfileI } from "revolt-api/types/Users";
 
@@ -62,7 +63,7 @@ export const Profile = observer(() => {
     return (
         <div className={styles.user}>
             <h3>
-                <Text id="app.settings.pages.profile.preview" />
+                <Text id="app.special.modals.actions.preview" />
             </h3>
             <div className={styles.preview}>
                 <UserProfile
@@ -71,6 +72,17 @@ export const Profile = observer(() => {
                     dummyProfile={profile}
                 />
             </div>
+            {/*<h3>Badges</h3>
+            <div className={styles.badgePicker}>
+                <div className={styles.overlay} />
+                <div className={styles.container}>
+                    <div className={styles.check}>a</div>
+                    <div className={styles.check}>b</div>
+                    <div className={styles.check}>c</div>
+                </div>
+                <div className={styles.overlay2} />
+            </div>*/}
+            <hr />
             <div className={styles.row}>
                 <div className={styles.pfp}>
                     <h3>
@@ -155,6 +167,19 @@ export const Profile = observer(() => {
                 onFocus={onFocus}
                 onBlur={onBlur}
             />
+            <div className={styles.markdown}>
+                <Markdown size="24" />
+                <h5>
+                    Descriptions support Markdown formatting,{" "}
+                    <a
+                        href="https://developers.revolt.chat/markdown"
+                        target="_blank"
+                        rel="noreferrer">
+                        learn more here
+                    </a>
+                    .
+                </h5>
+            </div>
             <p>
                 <Button
                     contrast

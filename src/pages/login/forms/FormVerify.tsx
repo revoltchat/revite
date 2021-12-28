@@ -2,6 +2,8 @@ import { useHistory, useParams } from "react-router-dom";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { useApplicationState } from "../../../mobx/State";
+
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
@@ -11,7 +13,8 @@ import Preloader from "../../../components/ui/Preloader";
 import { Form } from "./Form";
 
 export function FormResend() {
-    const client = useContext(AppContext);
+    const config = useApplicationState().config;
+    const client = config.createClient();
 
     return (
         <Form
@@ -26,7 +29,8 @@ export function FormResend() {
 export function FormVerify() {
     const [error, setError] = useState<undefined | string>(undefined);
     const { token } = useParams<{ token: string }>();
-    const client = useContext(AppContext);
+    const config = useApplicationState().config;
+    const client = config.createClient();
     const history = useHistory();
 
     useEffect(() => {

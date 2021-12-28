@@ -97,6 +97,10 @@ const KanbanListHeader = styled.div`
     cursor: pointer !important;
     transition: 0.2s ease background-color;
 
+    > * {
+        font: var(--font);
+    }
+
     &:hover {
         background: var(--background);
     }

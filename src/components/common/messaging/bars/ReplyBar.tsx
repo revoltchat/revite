@@ -10,8 +10,9 @@ import { StateUpdater, useEffect } from "preact/hooks";
 
 import { internalSubscribe } from "../../../../lib/eventEmitter";
 
-import { dispatch, getState } from "../../../../redux";
-import { Reply } from "../../../../redux/reducers/queue";
+import { useApplicationState } from "../../../../mobx/State";
+import { SECTION_MENTION } from "../../../../mobx/stores/Layout";
+import { Reply } from "../../../../mobx/stores/MessageQueue";
 
 import IconButton from "../../../ui/IconButton";
 
@@ -81,6 +82,7 @@ const Base = styled.div`
 const MAX_REPLIES = 5;
 export default observer(({ channel, replies, setReplies }: Props) => {
     const client = channel.client;
+    const layout = useApplicationState().layout;
 
     // Event listener for adding new messages to reply bar.
     useEffect(() => {
@@ -99,7 +101,7 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                     mention:
                         message.author_id === client.user!._id
                             ? false
-                            : getState().sectionToggle.mention ?? false,
+                            : layout.getSectionState(SECTION_MENTION, false),
                 },
             ]);
         });
@@ -181,11 +183,11 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                             }),
                                         );
 
-                                        dispatch({
-                                            type: "SECTION_TOGGLE_SET",
-                                            id: "mention",
+                                        layout.setSectionState(
+                                            SECTION_MENTION,
                                             state,
-                                        });
+                                            false,
+                                        );
                                     }}>
                                     <span class="toggle">
                                         <At size={15} />

@@ -32,7 +32,6 @@ function mapMailProvider(email?: string): [string, string] | undefined {
         case "outlook.com.br":
         case "outlook.cl":
         case "outlook.cz":
-        case "outlook.dk":
         case "outlook.com.gr":
         case "outlook.co.il":
         case "outlook.in":

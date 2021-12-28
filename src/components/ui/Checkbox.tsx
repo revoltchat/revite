@@ -40,7 +40,8 @@ const CheckboxBase = styled.label`
 const CheckboxContent = styled.span`
     display: flex;
     flex-grow: 1;
-    font-size: 1rem;
+    font-size: 14px;
+    gap: 2px;
     font-weight: 600;
     flex-direction: column;
 `;
@@ -111,7 +112,10 @@ export default function Checkbox(props: CheckboxProps) {
                     !props.disabled && props.onChange(!props.checked)
                 }
             />
-            <Checkmark checked={props.checked} contrast={props.contrast} className="check">
+            <Checkmark
+                checked={props.checked}
+                contrast={props.contrast}
+                className="check">
                 <Check size={20} />
             </Checkmark>
         </CheckboxBase>

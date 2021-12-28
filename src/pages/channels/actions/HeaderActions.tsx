@@ -14,6 +14,9 @@ import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 
+import { useApplicationState } from "../../../mobx/State";
+import { SIDEBAR_MEMBERS } from "../../../mobx/stores/Layout";
+
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import UpdateIndicator from "../../../components/common/UpdateIndicator";
@@ -21,10 +24,8 @@ import IconButton from "../../../components/ui/IconButton";
 
 import { ChannelHeaderProps } from "../ChannelHeader";
 
-export default function HeaderActions({
-    channel,
-    toggleSidebar,
-}: ChannelHeaderProps) {
+export default function HeaderActions({ channel }: ChannelHeaderProps) {
+    const layout = useApplicationState().layout;
     const { openScreen } = useIntermediate();
     const history = useHistory();
 
@@ -40,7 +41,7 @@ export default function HeaderActions({
         if (isTouchscreenDevice) {
             openRightSidebar();
         } else {
-            toggleSidebar?.();
+            layout.toggleSectionState(SIDEBAR_MEMBERS, true);
         }
     }
 

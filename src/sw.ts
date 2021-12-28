@@ -17,9 +17,9 @@ self.addEventListener("push", (event) => {
                 icon: data.icon,
                 image: data.image,
                 body: data.body,
-                timestamp: data.timestamp,
+                timestamp: data.timestamp * 1000,
                 tag: data.tag,
-                badge: "https://app.revolt.chat/assets/icons/android-chrome-512x512.png",
+                badge: "https://app.revolt.chat/assets/icons/monochrome.svg",
                 data: data.url,
             });
         }

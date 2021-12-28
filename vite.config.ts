@@ -2,6 +2,7 @@ import replace from "@rollup/plugin-replace";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { defineConfig } from "vite";
+import viteCompression from "vite-plugin-compression";
 import { VitePWA } from "vite-plugin-pwa";
 
 import preact from "@preact/preset-vite";
@@ -42,6 +43,10 @@ function getVersion() {
 
 export default defineConfig({
     plugins: [
+        viteCompression({
+            verbose: true,
+            algorithm: "brotliCompress",
+        }),
         preact(),
         VitePWA({
             srcDir: "src",
@@ -98,5 +103,8 @@ export default defineConfig({
                 ui: resolve(__dirname, "ui/index.html"),
             },
         },
+    },
+    optimizeDeps: {
+        exclude: ["revolt.js"],
     },
 });

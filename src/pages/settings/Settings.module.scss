@@ -130,11 +130,16 @@
 
         .container {
             min-width: 218px;
-            max-width: 300px;
             padding: 80px 8px;
             display: flex;
             gap: 2px;
             flex-direction: column;
+        }
+
+        @media only screen and (min-width: 800px) {
+            .container {
+                max-width: 300px;
+            }
         }
 
         .divider {
@@ -188,10 +193,27 @@
             padding: 80px 32px;
             width: 100%;
             flex-direction: column;
+
+            // This prevents members, invites and ban list from being able to properly display.
+            // height: fit-content;
         }
 
         details {
             margin: 14px 0;
+        }
+
+        /*a {
+            &:hover {
+                text-decoration: underline;
+            }
+        }*/
+
+        hr {
+            height: 1px;
+            width: calc(100% - 10px);
+            background: var(--secondary-header);
+            margin: 18px auto;
+            flex-grow: 0;
         }
 
         h1 {
@@ -205,6 +227,7 @@
             font-size: 0.8125rem;
             text-transform: uppercase;
             color: var(--secondary-foreground);
+            /*margin-bottom: 10px;*/
 
             &:first-child {
                 margin-top: 0;
@@ -222,6 +245,25 @@
             margin-top: 0;
             font-size: 0.75rem;
             font-weight: 400;
+
+            > a:hover {
+                text-decoration: underline;
+            }
+        }
+
+        h6 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        details {
+            summary {
+                font-size: 0.8125rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: var(--secondary-foreground);
+                cursor: pointer;
+            }
         }
 
         .footer {

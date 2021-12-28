@@ -7,7 +7,7 @@ import { useState } from "preact/hooks";
 
 import { internalEmit } from "../../../lib/eventEmitter";
 
-import { QueuedMessage } from "../../../redux/reducers/queue";
+import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
@@ -96,7 +96,7 @@ const Message = observer(
                             key={message_id}
                             index={index}
                             id={message_id}
-                            channel={message.channel!}
+                            channel={message.channel}
                             parent_mentions={message.mention_ids ?? []}
                         />
                     ))}
