@@ -22,11 +22,11 @@ import { GenericSidebarBase } from "../SidebarBase";
 import MemberList, { MemberListGroup } from "./MemberList";
 
 export const Container = styled.div`
-    margin-top: 48px;
+    padding-top: 48px;
 
     ${isTouchscreenDevice &&
     css`
-        margin-top: 0;
+        padding-top: 0;
     `}
 `;
 
@@ -172,6 +172,7 @@ export const GroupMemberSidebar = observer(
                 <Container>
                     {isTouchscreenDevice && <div>Group settings go here</div>}
                 </Container>
+
                 <MemberList entries={entries} context={channel} />
             </GenericSidebarBase>
         );
