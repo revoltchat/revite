@@ -95,7 +95,7 @@ export default class STheme {
             ...this.settings.get("appearance:theme:overrides"),
             light: this.isLight(),
 
-            "min-opacity": 1,
+            "min-opacity": 0,
         };
     }
 
