@@ -8,7 +8,6 @@ import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 import Popovers from "../context/intermediate/Popovers";
 import Notifications from "../context/revoltjs/Notifications";
 import StateMonitor from "../context/revoltjs/StateMonitor";
-import SyncManager from "../context/revoltjs/SyncManager";
 
 import { Titlebar } from "../components/native/Titlebar";
 import BottomNavigation from "../components/navigation/BottomNavigation";
@@ -28,7 +27,6 @@ import Settings from "./settings/Settings";
 const Routes = styled.div`
     min-width: 0;
     display: flex;
-    overflow: hidden;
     flex-direction: column;
     position: relative;
     background: var(--primary-background);
