@@ -17,6 +17,7 @@ import {
     Speaker,
     Store,
     Bot,
+    Trash,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory } from "react-router-dom";
@@ -54,13 +55,60 @@ import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
 import { ThemeShop } from "./panes/ThemeShop";
 
-const IndexHeader = styled.div`
+const AccountHeader = styled.div`
     display: flex;
-    background: var(--secondary-background);
+    flex-direction: column;
     border-radius: var(--border-radius);
-    padding: 20px;
-    align-items: center;
-    gap: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+
+    .account {
+        padding: 20px;
+        gap: 10px;
+        align-items: center;
+        display: flex;
+        background: var(--secondary-background);
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+            gap: 2px;
+
+            > span {
+                font-size: 20px;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .statusChanger {
+        display: flex;
+        align-items: center;
+        background: var(--tertiary-background);
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .status {
+            padding-inline-start: 12px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            color: var(--secondary-foreground);
+            flex-grow: 1;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        svg {
+            width: 48px;
+            flex-shrink: 0;
+        }
+    }
 `;
 
 export default observer(() => {
@@ -270,10 +318,19 @@ export default observer(() => {
                 </>
             }
             indexHeader={
-                <IndexHeader>
-                    <UserIcon size={64} target={client.user!} />
-                    <Username user={client.user!} prefixAt />
-                </IndexHeader>
+                <AccountHeader>
+                    <div className="account">
+                        <UserIcon size={64} target={client.user!} />
+                        <div className="details">
+                            <Username user={client.user!} prefixAt />
+                            Status goes here
+                        </div>
+                    </div>
+                    <div className="statusChanger">
+                        <div className="status">Change your status...</div>
+                        <Trash size={24} />
+                    </div>
+                </AccountHeader>
             }
         />
     );
