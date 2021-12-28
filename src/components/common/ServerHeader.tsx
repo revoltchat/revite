@@ -50,7 +50,7 @@ const ServerBanner = styled.div<Props>`
         height: 48px;
         display: flex;
         align-items: center;
-        padding: 10px;
+        padding: 0 14px;
         font-weight: 600;
         white-space: nowrap;
         overflow: hidden;
@@ -134,13 +134,11 @@ export default observer(({ server }: Props) => {
                 ) : undefined}
                 <div className="title">{server.name}</div>
                 {(server.permission & ServerPermission.ManageServer) > 0 && (
-                    <div className="actions">
-                        <Link to={`/server/${server._id}/settings`}>
-                            <IconButton>
-                                <Cog size={20} />
-                            </IconButton>
-                        </Link>
-                    </div>
+                    <Link to={`/server/${server._id}/settings`}>
+                        <IconButton>
+                            <Cog size={20} />
+                        </IconButton>
+                    </Link>
                 )}
             </div>
         </ServerBanner>
