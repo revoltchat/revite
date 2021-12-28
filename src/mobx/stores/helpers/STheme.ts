@@ -1,3 +1,4 @@
+import rgba from "color-rgba";
 import { makeAutoObservable, computed, action } from "mobx";
 
 import {
@@ -93,13 +94,15 @@ export default class STheme {
             ...PRESETS[this.getBase()],
             ...this.settings.get("appearance:theme:overrides"),
             light: this.isLight(),
+
+            "min-opacity": 1,
         };
     }
 
     @computed computeVariables(): Theme {
         const variables = this.getVariables() as Record<
             string,
-            string | boolean
+            string | boolean | number
         >;
 
         for (const key of Object.keys(variables)) {
@@ -204,15 +207,11 @@ export default class STheme {
 function getContrastingColour(hex: string, fallback?: string): string {
     if (typeof hex !== "string") return "black";
 
-    // TODO: Switch to color-parse
-    // Try parse hex value.
-    hex = hex.replace(/#/g, "");
-    const r = parseInt(hex.substr(0, 2), 16) / 255;
-    const g = parseInt(hex.substr(2, 2), 16) / 255;
-    const b = parseInt(hex.substr(4, 2), 16) / 255;
+    const colour = rgba(hex);
+    if (!colour) return fallback ? getContrastingColour(fallback) : "black";
 
-    if (isNaN(r) || isNaN(g) || isNaN(b))
-        return fallback ? getContrastingColour(fallback) : "black";
-
-    return r * 0.299 + g * 0.587 + b * 0.114 >= 0.186 ? "black" : "white";
+    const [r, g, b] = colour;
+    return (r / 255) * 0.299 + (g / 255) * 0.587 + (b / 255) * 0.114 >= 0.186
+        ? "black"
+        : "white";
 }
