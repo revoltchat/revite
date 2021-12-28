@@ -13,16 +13,32 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
     z-index: 10;
     position: relative;
 
+    ${(props) =>
+        props.position === "top" &&
+        css`
+            top: 0;
+        `}
+
+    ${(props) =>
+        props.position === "bottom" &&
+        css`
+            top: 65px;
+
+            ${() =>
+                isTouchscreenDevice &&
+                css`
+                    top: -90px;
+                `}
+        `}
+
     > div {
         ${(props) =>
             props.position === "bottom" &&
             css`
-                top: -26px;
-
                 ${() =>
                     isTouchscreenDevice &&
                     css`
-                        top: -32px;
+                        top: -90px;
                     `}
             `}
 
@@ -37,7 +53,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         user-select: none;
         justify-content: space-between;
         transition: color ease-in-out 0.08s;
-        top: 48px;
+        top: -90px;
 
         ${(props) =>
             props.accent
@@ -53,6 +69,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         ${(props) =>
             props.position === "top"
                 ? css`
+                      top: 48px;
                       border-radius: 0 0 var(--border-radius)
                           var(--border-radius);
                   `
