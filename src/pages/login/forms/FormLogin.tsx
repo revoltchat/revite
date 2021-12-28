@@ -21,6 +21,7 @@ export function FormLogin() {
                 if (browser) {
                     let { name } = browser;
                     const { os } = browser;
+                    let isiPad;
                     if (window.isNative) {
                         friendly_name = `Revolt Desktop on ${os}`;
                     } else {
@@ -28,8 +29,12 @@ export function FormLogin() {
                             name = "safari";
                         } else if (name === "fxios") {
                             name = "firefox";
+                        } else if (name === "crios") {
+                            name = "chrome";
                         }
-                        friendly_name = `${name} on ${os}`;
+                        if (os === "Mac OS" && navigator.maxTouchPoints > 0)
+                            isiPad = true;
+                        friendly_name = `${name} on ${isiPad ? "iPadOS" : os}`;
                     }
                 } else {
                     friendly_name = "Unknown Device";
