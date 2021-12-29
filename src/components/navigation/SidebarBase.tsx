@@ -8,6 +8,13 @@ export default styled.div`
     user-select: none;
     flex-direction: row;
     align-items: stretch;
+    /*background: var(--background);*/
+
+    background-color: rgba(
+        var(--background-rgb),
+        max(var(--min-opacity), 0.75)
+    );
+    backdrop-filter: blur(20px);
 
     /*> * > ::-webkit-scrollbar-thumb {
         width: 4px;

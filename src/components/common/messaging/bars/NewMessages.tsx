@@ -49,7 +49,7 @@ export default observer(
                         }
                     }}>
                     <div>
-                        New messages since{" "}
+                        <Text id="app.main.channel.misc.new_messages" />{" "}
                         {dayjs(decodeTime(last_id)).fromNow()}
                     </div>
                     <div>

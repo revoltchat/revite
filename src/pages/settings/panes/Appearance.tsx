@@ -31,8 +31,8 @@ export const Appearance = observer(() => {
             <h3>
                 <Text id="app.settings.pages.appearance.theme_options.title" />
             </h3>
-            <DisplaySeasonalShim />
             <DisplayTransparencyShim />
+            <DisplaySeasonalShim />
             <hr />
             <DisplayFontShim />
             <DisplayLigaturesShim />
