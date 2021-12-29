@@ -14,7 +14,8 @@ import {
     DisplayLigaturesShim,
     DisplayEmojiShim,
     ThemeCustomCSSShim,
-    ThemeOptionsShim,
+    DisplaySeasonalShim,
+    DisplayTransparencyShim,
 } from "../../../components/settings/AppearanceShims";
 import ThemeOverrides from "../../../components/settings/appearance/ThemeOverrides";
 import ThemeTools from "../../../components/settings/appearance/ThemeTools";
@@ -27,7 +28,11 @@ export const Appearance = observer(() => {
             <hr />
             <ThemeAccentShim />
             <hr />
-            <ThemeOptionsShim />
+            <h3>
+                <Text id="app.settings.pages.appearance.theme_options.title" />
+            </h3>
+            <DisplaySeasonalShim />
+            <DisplayTransparencyShim />
             <hr />
             <DisplayFontShim />
             <DisplayLigaturesShim />
