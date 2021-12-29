@@ -214,14 +214,44 @@ export const DisplayLigaturesShim = observer(() => {
 /**
  * Component providing a way to toggle seasonal themes.
  */
+export const DisplaySeasonalShim = observer(() => {
+    const settings = useApplicationState().settings;
+
+    return (
+        <Checkbox
+            checked={settings.get("appearance:seasonal") ?? true}
+            onChange={(v) => settings.set("appearance:seasonal", v)}
+            description={
+                <Text id="app.settings.pages.appearance.theme_options.seasonal_desc" />
+            }>
+            <Text id="app.settings.pages.appearance.theme_options.seasonal" />
+        </Checkbox>
+    );
+});
+
+/**
+ * Component providing a way to toggle transparency effects.
+ */
+export const DisplayTransparencyShim = observer(() => {
+    const settings = useApplicationState().settings;
+
+    return (
+        <Checkbox
+            checked={settings.get("appearance:transparency") ?? true}
+            onChange={(v) => settings.set("appearance:transparency", v)}
+            description={
+                <Text id="app.settings.pages.appearance.theme_options.transparency_desc" />
+            }>
+            <Text id="app.settings.pages.appearance.theme_options.transparency" />
+        </Checkbox>
+    );
+});
+
 export const ThemeOptionsShim = observer(() => {
     const settings = useApplicationState().settings;
 
     return (
         <>
-            <h3>
-                <Text id="app.settings.pages.appearance.theme_options.title" />
-            </h3>
             {/* TOFIX: WIP feature - follows system theme */}
             {/*<Checkbox
                 checked={settings.get("appearance:seasonal") ?? true}
