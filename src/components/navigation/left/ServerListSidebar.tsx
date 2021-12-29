@@ -385,7 +385,7 @@ export default observer(() => {
                         </div>
                     </Tooltip>
                 </ServerCircle>
-                <ServerCircle>
+                {/*<ServerCircle>
                     <Tooltip
                         content={
                             <div
@@ -395,14 +395,13 @@ export default observer(() => {
                                     gap: "4px",
                                 }}>
                                 <div>Discover Public Servers</div>
-                                <LinkExternal size={12} />
                             </div>
                         }
                         placement="right">
                         <div className="circle">
                             <IconButton>
                                 <a
-                                    href="https://revolt.social"
+                                    href="#"
                                     target="_blank"
                                     rel="noreferrer">
                                     <Compass size={32} />
@@ -410,7 +409,7 @@ export default observer(() => {
                             </IconButton>
                         </div>
                     </Tooltip>
-                </ServerCircle>
+                    </ServerCircle>*/}
             </ServerList>
             <PaintCounter small />
             {!isTouchscreenDevice && (
