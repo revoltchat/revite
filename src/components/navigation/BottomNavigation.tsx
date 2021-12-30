@@ -17,10 +17,10 @@ const Base = styled.div`
 `;
 
 const Navbar = styled.div`
-    z-index: 100;
-    max-width: 500px;
-    margin: 0 auto;
+    z-index: 500;
     display: flex;
+    margin: 0 auto;
+    max-width: 500px;
     height: var(--bottom-navigation-height);
 `;
 
@@ -71,7 +71,12 @@ export default observer(() => {
                                 }
                             }
 
-                            history.push(layout.getLastHomePath());
+                            const path = layout.getLastHomePath();
+                            if (path === "/friends") {
+                                history.push("/");
+                            } else {
+                                history.push(path);
+                            }
                         }}>
                         <Message size={24} />
                     </IconButton>
