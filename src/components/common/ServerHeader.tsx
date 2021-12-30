@@ -20,27 +20,31 @@ interface Props {
 }
 
 const ServerBanner = styled.div<Omit<Props, "server">>`
-    background-color: var(--secondary-header);
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     justify-content: end;
 
-    background-size: cover !important;
-    background-position: center center !important;
+    background-size: cover;
+    background-repeat: norepeat;
+    background-position: center center;
 
     ${(props) =>
-        props.background &&
-        css`
-            height: 120px;
-            .container {
-                background: linear-gradient(
-                    0deg,
-                    var(--secondary-background),
-                    transparent
-                );
-            }
-        `}
+        props.background
+            ? css`
+                  height: 120px;
+
+                  .container {
+                      background: linear-gradient(
+                          0deg,
+                          var(--secondary-background),
+                          transparent
+                      );
+                  }
+              `
+            : css`
+                  background-color: var(--secondary-header);
+              `}
 
     .container {
         height: var(--header-height);
@@ -70,10 +74,7 @@ export default observer(({ server }: Props) => {
         <ServerBanner
             background={typeof bannerURL !== "undefined"}
             style={{
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                background: bannerURL ? `url('${bannerURL}')` : undefined,
+                backgroundImage: bannerURL ? `url('${bannerURL}')` : undefined,
             }}>
             <div className="container">
                 {server.flags && server.flags & 1 ? (
