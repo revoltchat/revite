@@ -10,17 +10,11 @@
     gap: 20px;
 }
 
-/*::-webkit-scrollbar-thumb {
-    width: 4px;
-    background-clip: content-box;
-    border-top: 48px solid transparent;
-}*/
-
 .list {
     padding: 0 10px 10px 10px;
     padding-top: 48px;
     user-select: none;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
 
     &[data-empty="true"] {
         img {
@@ -194,10 +188,10 @@
 
 @media only screen and (max-width: 768px) {
     .list {
-        padding: 0 8px 8px 8px;
-    }
+        padding: 56px 8px 8px 8px;
 
-    .remove {
-        display: none;
+        .remove {
+            display: none;
+        }
     }
 }
