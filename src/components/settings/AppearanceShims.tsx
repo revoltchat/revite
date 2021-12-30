@@ -247,39 +247,6 @@ export const DisplayTransparencyShim = observer(() => {
     );
 });
 
-export const ThemeOptionsShim = observer(() => {
-    const settings = useApplicationState().settings;
-
-    return (
-        <>
-            {/* TOFIX: WIP feature - follows system theme */}
-            {/*<Checkbox
-                checked={settings.get("appearance:seasonal") ?? true}
-                onChange={(v) => settings.set("appearance:seasonal", v)}
-                description={
-                    <Text id="app.settings.pages.appearance.theme_options.follow_desc" />
-                }>
-                <Text id="app.settings.pages.appearance.theme_options.follow" />
-            </Checkbox>*/}
-            {/* THIS CHECKBOX ENABLES GLASS EFFECT IN UI - ENABLED BY DEFAULT*/}
-            {/*<Checkbox
-                checked={settings.get("appearance:seasonal") ?? true}
-                onChange={(v) => settings.set("appearance:seasonal", v)}
-                description={"Enables glass effects throughout the app"}>
-                Enable glass effects
-            </Checkbox>*/}
-            <Checkbox
-                checked={settings.get("appearance:seasonal") ?? true}
-                onChange={(v) => settings.set("appearance:seasonal", v)}
-                description={
-                    <Text id="app.settings.pages.appearance.theme_options.seasonal_desc" />
-                }>
-                <Text id="app.settings.pages.appearance.theme_options.seasonal" />
-            </Checkbox>
-        </>
-    );
-});
-
 /**
  * Component providing a way to change emoji pack.
  */
