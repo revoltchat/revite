@@ -49,8 +49,12 @@ export default observer(
                         }
                     }}>
                     <div>
-                        <Text id="app.main.channel.misc.new_messages" />{" "}
-                        {dayjs(decodeTime(last_id)).fromNow()}
+                        <Text
+                            id="app.main.channel.misc.new_messages"
+                            fields={{
+                                time_ago: dayjs(decodeTime(last_id)).fromNow(),
+                            }}
+                        />
                     </div>
                     <div>
                         <Text id="app.main.channel.misc.jump_beginning" />
