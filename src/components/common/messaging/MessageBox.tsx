@@ -89,10 +89,6 @@ const Blocked = styled.div`
 `;
 
 const Action = styled.div`
-    /*display: flex;
-    align-items: center;
-    justify-content: center;*/
-
     > div {
         height: 48px;
         width: 34px;
