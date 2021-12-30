@@ -319,7 +319,7 @@ export default observer(() => {
             }
             indexHeader={
                 <AccountHeader>
-                    <div className="account">
+                    {/*<div className="account">
                         <UserIcon size={64} target={client.user!} />
                         <div className="details">
                             <Username user={client.user!} prefixAt />
@@ -329,7 +329,7 @@ export default observer(() => {
                     <div className="statusChanger">
                         <div className="status">Change your status...</div>
                         <Trash size={24} />
-                    </div>
+            </div>*/}
                 </AccountHeader>
             }
         />
