@@ -170,7 +170,7 @@ export const GroupMemberSidebar = observer(
         return (
             <GenericSidebarBase>
                 <Container>
-                    {isTouchscreenDevice && <div>Group settings go here</div>}
+                    {/*{isTouchscreenDevice && <div>Group settings go here</div>}*/}
                 </Container>
 
                 <MemberList entries={entries} context={channel} />
@@ -197,7 +197,7 @@ export const ServerMemberSidebar = observer(
         return (
             <GenericSidebarBase>
                 <Container>
-                    {isTouchscreenDevice && <div>Server settings go here</div>}
+                    {/*{isTouchscreenDevice && <div>Server settings go here</div>}*/}
                 </Container>
                 <MemberList entries={entries} context={channel} />
             </GenericSidebarBase>
