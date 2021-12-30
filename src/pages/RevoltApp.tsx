@@ -83,6 +83,7 @@ export default function App() {
     const fixedBottomNav =
         path === "/" || path === "/settings" || path.startsWith("/friends");
     const inChannel = path.includes("/channel");
+    const inServer = path.includes("/server");
     const inSpecial =
         (path.startsWith("/friends") && isTouchscreenDevice) ||
         path.startsWith("/invite") ||
@@ -123,7 +124,8 @@ export default function App() {
                     docked={isTouchscreenDevice ? Docked.None : Docked.Left}>
                     <Routes
                         borders={
-                            !layout.getSectionState(SIDEBAR_CHANNELS, true)
+                            !layout.getSectionState(SIDEBAR_CHANNELS, true) &&
+                            inServer
                         }>
                         <Switch>
                             <Route
