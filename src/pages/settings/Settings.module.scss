@@ -45,7 +45,9 @@
 
     .scrollbox {
         &::-webkit-scrollbar-thumb {
+            min-height: 150px;
             border-top: 56px solid transparent;
+            border-bottom: var(--bottom-navigation-height) solid transparent;
         }
     }
 
@@ -117,6 +119,7 @@
 
     // All children receive custom scrollbar.
     > * > ::-webkit-scrollbar-thumb {
+        min-height: 100px;
         width: 4px;
         background-clip: content-box;
         border-top: 80px solid transparent;
