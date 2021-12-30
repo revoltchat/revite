@@ -13,6 +13,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
+    min-height: 15px;
+    min-width: 15px;
+
+    background-clip: content-box;
     background: var(--scrollbar-thumb);
 }
 
