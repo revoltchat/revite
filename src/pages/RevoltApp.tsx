@@ -5,6 +5,9 @@ import styled, { css } from "styled-components";
 import ContextMenus from "../lib/ContextMenus";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 
+import { useApplicationState } from "../mobx/State";
+import { SIDEBAR_CHANNELS } from "../mobx/stores/Layout";
+
 import Popovers from "../context/intermediate/Popovers";
 import Notifications from "../context/revoltjs/Notifications";
 import StateMonitor from "../context/revoltjs/StateMonitor";
@@ -45,12 +48,16 @@ const StatusBar = styled.div`
     }
 `;
 
-const Routes = styled.div.attrs({ "data-component": "routes" })`
+const Routes = styled.div.attrs({ "data-component": "routes" })<{
+    borders: boolean;
+}>`
     min-width: 0;
     display: flex;
-    flex-direction: column;
     position: relative;
+    flex-direction: column;
+
     background: var(--primary-background);
+
     /*background-color: rgba(
         var(--primary-background-rgb),
         max(var(--min-opacity), 0.75)
@@ -62,10 +69,17 @@ const Routes = styled.div.attrs({ "data-component": "routes" })`
         css`
             overflow: hidden;
         `}
+
+    ${(props) =>
+        props.borders &&
+        css`
+            border-start-start-radius: 8px;
+        `}
 `;
 
 export default function App() {
     const path = useLocation().pathname;
+    const layout = useApplicationState().layout;
     const fixedBottomNav =
         path === "/" || path === "/settings" || path.startsWith("/friends");
     const inChannel = path.includes("/channel");
@@ -107,7 +121,10 @@ export default function App() {
                         height: 50,
                     }}
                     docked={isTouchscreenDevice ? Docked.None : Docked.Left}>
-                    <Routes>
+                    <Routes
+                        borders={
+                            !layout.getSectionState(SIDEBAR_CHANNELS, true)
+                        }>
                         <Switch>
                             <Route
                                 path="/server/:server/channel/:channel/settings/:page"
