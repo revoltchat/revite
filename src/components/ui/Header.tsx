@@ -16,12 +16,12 @@ import { Children } from "../../types/Preact";
 interface Props {
     borders?: boolean;
     background?: boolean;
+    transparent?: boolean;
     placement: "primary" | "secondary";
 }
 
 const Header = styled.div<Props>`
     gap: 10px;
-    height: 48px;
     flex: 0 auto;
     display: flex;
     flex-shrink: 0;
@@ -29,16 +29,11 @@ const Header = styled.div<Props>`
     font-weight: 600;
     user-select: none;
     align-items: center;
+
+    height: var(--header-height);
+
     background-size: cover !important;
     background-position: center !important;
-    background-color: rgba(
-        var(--primary-header-rgb),
-        max(var(--min-opacity), 0.75)
-    );
-    backdrop-filter: blur(10px);
-    z-index: 20;
-    position: absolute;
-    width: 100%;
 
     svg {
         flex-shrink: 0;
@@ -49,11 +44,21 @@ const Header = styled.div<Props>`
         color: var(--secondary-foreground);
     }
 
-    ${() =>
-        isTouchscreenDevice &&
-        css`
-            height: 56px;
-        `}
+    ${(props) =>
+        props.transparent
+            ? css`
+                  background-color: rgba(
+                      var(--primary-header-rgb),
+                      max(var(--min-opacity), 0.75)
+                  );
+                  backdrop-filter: blur(10px);
+                  z-index: 20;
+                  position: absolute;
+                  width: 100%;
+              `
+            : css`
+                  background-color: var(--primary-header);
+              `}
 
     ${(props) =>
         props.background &&
@@ -99,19 +104,19 @@ const IconContainer = styled.div`
     `}
 `;
 
-interface PageHeaderProps {
+type PageHeaderProps = Omit<Props, "placement" | "borders"> & {
     noBurger?: boolean;
     children: Children;
     icon: Children;
-}
+};
 
 export const PageHeader = observer(
-    ({ children, icon, noBurger }: PageHeaderProps) => {
+    ({ children, icon, noBurger, ...props }: PageHeaderProps) => {
         const layout = useApplicationState().layout;
         const visible = layout.getSectionState(SIDEBAR_CHANNELS, true);
 
         return (
-            <Header placement="primary" borders={!visible}>
+            <Header {...props} placement="primary" borders={!visible}>
                 {!noBurger && <HamburgerAction />}
                 <IconContainer
                     onClick={() =>
@@ -136,7 +141,7 @@ export function HamburgerAction() {
 
     function openSidebar() {
         document
-            .querySelector("#app > div > div")
+            .querySelector("#app > div > div > div")
             ?.scrollTo({ behavior: "smooth", left: 0 });
     }
 

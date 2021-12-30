@@ -30,7 +30,7 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
     const history = useHistory();
 
     function openRightSidebar() {
-        const panels = document.querySelector("#app > div > div");
+        const panels = document.querySelector("#app > div > div > div");
         panels?.scrollTo({
             behavior: "smooth",
             left: panels.clientWidth * 3,
@@ -84,7 +84,11 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
             )}
             {(channel.channel_type === "Group" ||
                 channel.channel_type === "TextChannel") && (
-                <IconButton onClick={openSidebar}>
+                <IconButton
+                    onClick={() => {
+                        internalEmit("RightSidebar", "open", undefined);
+                        openRightSidebar();
+                    }}>
                     <Group size={25} />
                 </IconButton>
             )}

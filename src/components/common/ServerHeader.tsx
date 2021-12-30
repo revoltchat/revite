@@ -10,7 +10,6 @@ import { Text } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import Header from "../ui/Header";
 import IconButton from "../ui/IconButton";
 
 import Tooltip from "./Tooltip";
@@ -20,7 +19,7 @@ interface Props {
     background?: boolean;
 }
 
-const ServerBanner = styled.div<Props>`
+const ServerBanner = styled.div<Omit<Props, "server">>`
     background-color: var(--secondary-header);
     flex-shrink: 0;
     display: flex;
@@ -44,7 +43,8 @@ const ServerBanner = styled.div<Props>`
         `}
 
     .container {
-        height: 48px;
+        height: var(--header-height);
+
         display: flex;
         align-items: center;
         padding: 0 14px;
@@ -53,12 +53,6 @@ const ServerBanner = styled.div<Props>`
         overflow: hidden;
         text-overflow: ellipsis;
         gap: 8px;
-
-        ${() =>
-            isTouchscreenDevice &&
-            css`
-                height: 56px;
-            `}
 
         .title {
             white-space: nowrap;

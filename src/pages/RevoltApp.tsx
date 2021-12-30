@@ -45,7 +45,7 @@ const StatusBar = styled.div`
     }
 `;
 
-const Routes = styled.div`
+const Routes = styled.div.attrs({ "data-component": "routes" })`
     min-width: 0;
     display: flex;
     flex-direction: column;
