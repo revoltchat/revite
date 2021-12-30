@@ -4,6 +4,7 @@ import {
     Menu,
 } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
+import { useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
@@ -14,7 +15,9 @@ import { SIDEBAR_CHANNELS } from "../../mobx/stores/Layout";
 import { Children } from "../../types/Preact";
 
 interface Props {
-    borders?: boolean;
+    topBorder?: boolean;
+    bottomBorder?: boolean;
+
     background?: boolean;
     transparent?: boolean;
     placement: "primary" | "secondary";
@@ -77,9 +80,14 @@ const Header = styled.div<Props>`
         `}
 
     ${(props) =>
-        props.borders &&
+        props.topBorder &&
         css`
             border-start-start-radius: 8px;
+        `}
+
+    ${(props) =>
+        props.bottomBorder &&
+        css`
             border-end-start-radius: 8px;
         `}
 `;
@@ -115,9 +123,14 @@ export const PageHeader = observer(
     ({ children, icon, noBurger, ...props }: PageHeaderProps) => {
         const layout = useApplicationState().layout;
         const visible = layout.getSectionState(SIDEBAR_CHANNELS, true);
+        const { pathname } = useLocation();
 
         return (
-            <Header {...props} placement="primary" borders={!visible}>
+            <Header
+                {...props}
+                placement="primary"
+                topBorder={!visible}
+                bottomBorder={!pathname.includes("/server")}>
                 {!noBurger && <HamburgerAction />}
                 <IconContainer
                     onClick={() =>
