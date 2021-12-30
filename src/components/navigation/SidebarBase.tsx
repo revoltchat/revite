@@ -15,12 +15,6 @@ export default styled.div`
         max(var(--min-opacity), 0.75)
     );
     backdrop-filter: blur(20px);
-
-    /*> * > ::-webkit-scrollbar-thumb {
-        width: 4px;
-        background-clip: content-box;
-        border-top: 48px solid transparent;
-    }*/
 `;
 
 export const GenericSidebarBase = styled.div<{
