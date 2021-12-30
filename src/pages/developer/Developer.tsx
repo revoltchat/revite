@@ -29,7 +29,7 @@ export default function Developer() {
     return (
         <div>
             <PageHeader icon={<Wrench size="24" />}>Developer Tab</PageHeader>
-            <div style={{ padding: "16px", paddingTop: "56px" }}>
+            <div style={{ padding: "16px" }}>
                 <PaintCounter always />
             </div>
             <div style={{ padding: "16px" }}>

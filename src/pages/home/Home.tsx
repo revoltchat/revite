@@ -83,7 +83,7 @@ export default observer(() => {
                     </div>
                 )}
                 <div className="content">
-                    <PageHeader icon={<HomeIcon size={24} />}>
+                    <PageHeader icon={<HomeIcon size={24} />} transparent>
                         <Text id="app.navigation.tabs.home" />
                     </PageHeader>
                     <div className={styles.homeScreen}>

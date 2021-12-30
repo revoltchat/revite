@@ -1,6 +1,8 @@
 import rgba from "color-rgba";
 import { makeAutoObservable, computed, action } from "mobx";
 
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+
 import {
     Theme,
     PRESETS,
@@ -9,6 +11,7 @@ import {
     DEFAULT_MONO_FONT,
     Fonts,
     MonospaceFonts,
+    ComputedVariables,
 } from "../../../context/Theme";
 
 import Settings from "../Settings";
@@ -94,14 +97,10 @@ export default class STheme {
             ...PRESETS[this.getBase()],
             ...this.settings.get("appearance:theme:overrides"),
             light: this.isLight(),
-
-            "min-opacity": this.settings.get("appearance:transparency", true)
-                ? 0
-                : 1,
         };
     }
 
-    @computed computeVariables(): Theme {
+    @computed computeVariables(): ComputedVariables {
         const variables = this.getVariables() as Record<
             string,
             string | boolean | number
@@ -114,7 +113,16 @@ export default class STheme {
             }
         }
 
-        return variables as unknown as Theme;
+        return {
+            ...(variables as unknown as Theme),
+            "min-opacity": this.settings.get("appearance:transparency", true)
+                ? 0
+                : 1,
+            "header-height": isTouchscreenDevice ? "56px" : "48px",
+            "effective-bottom-offset": isTouchscreenDevice
+                ? "var(--bottom-navigation-height)"
+                : "0px",
+        };
     }
 
     @action setVariable(key: Variables, value: string) {

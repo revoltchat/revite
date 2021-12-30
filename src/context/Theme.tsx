@@ -72,8 +72,12 @@ export type Theme = Overrides & {
     font?: Fonts;
     css?: string;
     monospaceFont?: MonospaceFonts;
-
     "min-opacity"?: number;
+};
+
+export type ComputedVariables = Theme & {
+    "header-height"?: string;
+    "effective-bottom-offset"?: string;
 };
 
 export interface ThemeOptions {

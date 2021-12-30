@@ -6,6 +6,7 @@ import { User } from "revolt.js/dist/maps/Users";
 import styled, { css } from "styled-components";
 
 import styles from "./Friend.module.scss";
+import classNames from "classnames";
 import { Text } from "preact-i18n";
 
 import { TextReact } from "../../lib/i18n";
@@ -17,31 +18,11 @@ import { useClient } from "../../context/revoltjs/RevoltClient";
 import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
 import UserIcon from "../../components/common/user/UserIcon";
-import Header, { PageHeader } from "../../components/ui/Header";
+import { PageHeader } from "../../components/ui/Header";
 import IconButton from "../../components/ui/IconButton";
 
 import { Children } from "../../types/Preact";
 import { Friend } from "./Friend";
-
-const Container = styled.div`
-    overflow-y: scroll;
-
-    ::-webkit-scrollbar-thumb {
-        min-height: 100px;
-        width: 4px;
-        background-clip: content-box;
-        border-top: 48px solid transparent;
-    }
-    ${() =>
-        isTouchscreenDevice &&
-        css`
-            ::-webkit-scrollbar-thumb {
-                min-height: 150px;
-                border-top: 56px solid transparent;
-                border-bottom: var(--bottom-navigation-height) solid transparent;
-            }
-        `}
-`;
 
 export default observer(() => {
     const { openScreen } = useIntermediate();
@@ -93,7 +74,7 @@ export default observer(() => {
     const isEmpty = lists.reduce((p: number, n) => p + n.length, 0) === 0;
     return (
         <>
-            <PageHeader icon={<UserDetail size={24} />} noBurger>
+            <PageHeader icon={<UserDetail size={24} />} transparent noBurger>
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />
                 </div>
@@ -136,9 +117,9 @@ export default observer(() => {
                     */}
                 </div>
             </PageHeader>
-            <Container>
+            <div data-scroll-offset="true" data-avoids-navigation="true">
                 <div
-                    className={styles.list}
+                    className={classNames(styles.list, "with-padding")}
                     data-empty={isEmpty}
                     data-mobile={isTouchscreenDevice}>
                     {isEmpty && (
@@ -234,7 +215,7 @@ export default observer(() => {
                         );
                     })}
                 </div>
-            </Container>
+            </div>
         </>
     );
 });

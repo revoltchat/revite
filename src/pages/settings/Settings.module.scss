@@ -43,20 +43,13 @@
         background: var(--primary-background);
     }
 
-    .scrollbox {
-        &::-webkit-scrollbar-thumb {
-            min-height: 150px;
-            border-top: 56px solid transparent;
-            //border-bottom: var(--bottom-navigation-height) solid transparent;
-        }
-    }
-
     /* Sidebar */
     .sidebar {
         overflow-y: auto;
 
         .container {
-            padding: 76px 8px calc(var(--bottom-navigation-height) + 30px);
+            padding: calc(var(--header-height) + 4px) 8px
+                calc(var(--bottom-navigation-height) + 30px);
             min-width: 218px;
         }
 

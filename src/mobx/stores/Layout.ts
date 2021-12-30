@@ -139,6 +139,16 @@ export default class Layout implements Store, Persistent<Data> {
     }
 
     /**
+     * Get the last path the user had open.
+     * @returns Last path
+     */
+    @computed getLastPath() {
+        return this.lastSection === "home"
+            ? this.lastHomePath
+            : this.getLastOpened(this.lastSection);
+    }
+
+    /**
      * Set the current path open in the home tab.
      * @param path Pathname
      */
