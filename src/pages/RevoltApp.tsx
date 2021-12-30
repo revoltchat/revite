@@ -39,8 +39,8 @@ const StatusBar = styled.div`
     gap: 14px;
 
     .button {
-        border: 1px solid white;
         padding: 5px;
+        border: 1px solid white;
         border-radius: var(--border-radius);
     }
 `;

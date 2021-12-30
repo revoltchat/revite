@@ -37,8 +37,6 @@ const ChannelMain = styled.div`
     flex-direction: row;
 
     > * > ::-webkit-scrollbar-thumb {
-        min-height: 100px; //TOFIX: add this to all scrollbars so they do not disappear
-        width: 4px;
         background-clip: content-box;
         border-top: 48px solid transparent;
     }
