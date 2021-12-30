@@ -79,7 +79,6 @@ const Routes = styled.div.attrs({ "data-component": "routes" })<{
 
 export default function App() {
     const path = useLocation().pathname;
-    const layout = useApplicationState().layout;
     const fixedBottomNav =
         path === "/" || path === "/settings" || path.startsWith("/friends");
     const inChannel = path.includes("/channel");
@@ -122,11 +121,7 @@ export default function App() {
                         height: 50,
                     }}
                     docked={isTouchscreenDevice ? Docked.None : Docked.Left}>
-                    <Routes
-                        borders={
-                            !layout.getSectionState(SIDEBAR_CHANNELS, true) &&
-                            inServer
-                        }>
+                    <Routes borders={inServer}>
                         <Switch>
                             <Route
                                 path="/server/:server/channel/:channel/settings/:page"

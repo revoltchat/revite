@@ -80,6 +80,7 @@ const Header = styled.div<Props>`
         props.borders &&
         css`
             border-start-start-radius: 8px;
+            border-end-start-radius: 8px;
         `}
 `;
 
