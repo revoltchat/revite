@@ -25,16 +25,19 @@ import { LIBRARY_VERSION } from "revolt.js";
 import styled from "styled-components";
 
 import styles from "./Settings.module.scss";
+import { openContextMenu } from "preact-context-menu";
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
 import { useApplicationState } from "../../mobx/State";
 
+import { useIntermediate } from "../../context/intermediate/Intermediate";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import { AppContext, LogOutContext } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import { Username } from "../../components/common/user/UserShort";
+import UserStatus from "../../components/common/user/UserStatus";
 import LineDivider from "../../components/ui/LineDivider";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
@@ -115,6 +118,7 @@ export default observer(() => {
     const history = useHistory();
     const client = useContext(AppContext);
     const logout = useContext(LogOutContext);
+    const { openScreen } = useIntermediate();
     const experiments = useApplicationState().experiments;
 
     function switchPage(to?: string) {
@@ -319,17 +323,38 @@ export default observer(() => {
             }
             indexHeader={
                 <AccountHeader>
-                    {/*<div className="account">
-                        <UserIcon size={64} target={client.user!} />
+                    <div className="account">
+                        <UserIcon
+                            size={64}
+                            target={client.user!}
+                            status
+                            onClick={() => openContextMenu("Status")}
+                        />
                         <div className="details">
                             <Username user={client.user!} prefixAt />
-                            Status goes here
+                            <UserStatus user={client.user!} />
                         </div>
                     </div>
                     <div className="statusChanger">
-                        <div className="status">Change your status...</div>
-                        <Trash size={24} />
-            </div>*/}
+                        <a
+                            className="status"
+                            onClick={() =>
+                                openScreen({
+                                    id: "special_input",
+                                    type: "set_custom_status",
+                                })
+                            }>
+                            Change your status...
+                        </a>
+                        {client.user!.status?.text && (
+                            <Trash
+                                size={24}
+                                onClick={() =>
+                                    client.users.edit({ remove: "StatusText" })
+                                }
+                            />
+                        )}
+                    </div>
                 </AccountHeader>
             }
         />
