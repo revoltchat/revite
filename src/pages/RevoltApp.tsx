@@ -1,6 +1,6 @@
 import { Docked, OverlappingPanels, ShowIf } from "react-overlapping-panels";
 import { Switch, Route, useLocation } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import ContextMenus from "../lib/ContextMenus";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
@@ -56,6 +56,12 @@ const Routes = styled.div`
         max(var(--min-opacity), 0.75)
     );*/
     //backdrop-filter: blur(10px);
+
+    ${() =>
+        isTouchscreenDevice &&
+        css`
+            overflow: hidden;
+        `}
 `;
 
 export default function App() {

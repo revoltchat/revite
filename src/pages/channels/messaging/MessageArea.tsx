@@ -42,12 +42,6 @@ const Area = styled.div`
     padding-top: 48px;
     word-break: break-word;
 
-    > * > ::-webkit-scrollbar-thumb {
-        width: 4px;
-        background-clip: content-box;
-        border-top: 80px solid transparent;
-    }
-
     > div {
         display: flex;
         min-height: 100%;
