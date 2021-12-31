@@ -41,8 +41,12 @@ const Info = styled.div`
     white-space: nowrap;
 
     display: flex;
-    gap: 8px;
+    gap: 10px;
     align-items: center;
+
+    /*.name {
+        font-size: 0.9375rem;
+    }*/
 
     * {
         display: inline-block;
@@ -66,7 +70,7 @@ const Info = styled.div`
     .desc {
         cursor: pointer;
         margin-top: 2px;
-        font-size: 0.8em;
+        font-size: 0.8125rem;
         font-weight: 400;
         color: var(--secondary-foreground);
 
