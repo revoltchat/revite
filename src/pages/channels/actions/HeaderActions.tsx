@@ -9,6 +9,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 
 import { chainedDefer, defer } from "../../../lib/defer";
 import { internalEmit } from "../../../lib/eventEmitter";
@@ -24,6 +25,11 @@ import UpdateIndicator from "../../../components/common/UpdateIndicator";
 import IconButton from "../../../components/ui/IconButton";
 
 import { ChannelHeaderProps } from "../ChannelHeader";
+
+const Test = styled.div`
+    display: flex;
+    gap: 16px;
+`;
 
 export default function HeaderActions({ channel }: ChannelHeaderProps) {
     const layout = useApplicationState().layout;
@@ -61,7 +67,7 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
     }
 
     return (
-        <>
+        <Test>
             <UpdateIndicator style="channel" />
             {channel.channel_type === "Group" && (
                 <>
@@ -99,7 +105,7 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
                     <Group size={25} />
                 </IconButton>
             )}
-        </>
+        </Test>
     );
 }
 
