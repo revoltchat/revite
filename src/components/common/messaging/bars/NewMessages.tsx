@@ -37,7 +37,7 @@ export default observer(
 
         return (
             <Bar position="top" accent>
-                <div
+                <button
                     onClick={() => {
                         setHidden(true);
                         if (channel.channel_type === "TextChannel") {
@@ -56,7 +56,7 @@ export default observer(
                         <Text id="app.main.channel.misc.jump_beginning" />
                         <UpArrowAlt size={20} />
                     </div>
-                </div>
+                </button>
             </Bar>
         );
     },

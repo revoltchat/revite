@@ -13,7 +13,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
     z-index: 10;
     position: relative;
 
-    > div {
+    > button {
         ${(props) =>
             props.position === "bottom" &&
             css`
@@ -34,6 +34,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         cursor: pointer;
         font-size: 12px;
         padding: 0 8px;
+        border: 0;
         user-select: none;
         justify-content: space-between;
         transition: color ease-in-out 0.08s;
@@ -89,7 +90,7 @@ export default observer(({ channel }: { channel: Channel }) => {
 
     return (
         <Bar position="bottom">
-            <div
+            <button
                 onClick={() => {
                     renderer.jumpToBottom(true);
                     internalEmit("NewMessages", "hide");
@@ -101,7 +102,7 @@ export default observer(({ channel }: { channel: Channel }) => {
                     <Text id="app.main.channel.misc.jump_present" />{" "}
                     <DownArrowAlt size={18} />
                 </div>
-            </div>
+            </button>
         </Bar>
     );
 });
