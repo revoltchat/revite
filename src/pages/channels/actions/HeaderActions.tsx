@@ -10,6 +10,7 @@ import {
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 
+import { chainedDefer, defer } from "../../../lib/defer";
 import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
@@ -29,20 +30,34 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
     const { openScreen } = useIntermediate();
     const history = useHistory();
 
-    function openRightSidebar() {
-        const panels = document.querySelector("#app > div > div");
+    function slideOpen() {
+        if (!isTouchscreenDevice) return;
+        const panels = document.querySelector("#app > div > div > div");
         panels?.scrollTo({
             behavior: "smooth",
             left: panels.clientWidth * 3,
         });
     }
 
-    function openSidebar() {
-        if (isTouchscreenDevice) {
-            openRightSidebar();
-        } else {
+    function openSearch() {
+        if (
+            !isTouchscreenDevice &&
+            !layout.getSectionState(SIDEBAR_MEMBERS, true)
+        ) {
             layout.toggleSectionState(SIDEBAR_MEMBERS, true);
         }
+
+        slideOpen();
+        chainedDefer(() => internalEmit("RightSidebar", "open", "search"));
+    }
+
+    function openMembers() {
+        if (!isTouchscreenDevice) {
+            layout.toggleSectionState(SIDEBAR_MEMBERS, true);
+        }
+
+        slideOpen();
+        chainedDefer(() => internalEmit("RightSidebar", "open", undefined));
     }
 
     return (
@@ -74,17 +89,13 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
             )}
             <VoiceActions channel={channel} />
             {channel.channel_type !== "VoiceChannel" && (
-                <IconButton
-                    onClick={() => {
-                        internalEmit("RightSidebar", "open", "search");
-                        openRightSidebar();
-                    }}>
+                <IconButton onClick={openSearch}>
                     <Search size={25} />
                 </IconButton>
             )}
             {(channel.channel_type === "Group" ||
                 channel.channel_type === "TextChannel") && (
-                <IconButton onClick={openSidebar}>
+                <IconButton onClick={openMembers}>
                     <Group size={25} />
                 </IconButton>
             )}

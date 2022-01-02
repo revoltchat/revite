@@ -1,3 +1,4 @@
+import rgba from "color-rgba";
 import { observer } from "mobx-react-lite";
 import { Helmet } from "react-helmet";
 import { createGlobalStyle } from "styled-components";
@@ -71,6 +72,12 @@ export type Theme = Overrides & {
     font?: Fonts;
     css?: string;
     monospaceFont?: MonospaceFonts;
+    "min-opacity"?: number;
+};
+
+export type ComputedVariables = Theme & {
+    "header-height"?: string;
+    "effective-bottom-offset"?: string;
 };
 
 export interface ThemeOptions {
@@ -287,7 +294,13 @@ const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 
 export const generateVariables = (theme: Theme) => {
     return (Object.keys(theme) as Variables[]).map((key) => {
-        return `--${key}: ${theme[key]};`;
+        const colour = rgba(theme[key]);
+        if (colour) {
+            const [r, g, b] = colour;
+            return `--${key}: ${theme[key]}; --${key}-rgb: ${r}, ${g}, ${b};`;
+        } else {
+            return `--${key}: ${theme[key]};`;
+        }
     });
 };
 

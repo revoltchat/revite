@@ -6,8 +6,11 @@ import { Presence } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Server } from "revolt.js/dist/maps/Servers";
 import { User } from "revolt.js/dist/maps/Users";
+import styled, { css } from "styled-components";
 
 import { useContext, useEffect, useMemo } from "preact/hooks";
+
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import {
     ClientStatus,
@@ -17,6 +20,15 @@ import {
 
 import { GenericSidebarBase } from "../SidebarBase";
 import MemberList, { MemberListGroup } from "./MemberList";
+
+export const Container = styled.div`
+    padding-top: 48px;
+
+    ${isTouchscreenDevice &&
+    css`
+        padding-top: 0;
+    `}
+`;
 
 export default function MemberSidebar() {
     const channel = useClient().channels.get(
@@ -157,6 +169,10 @@ export const GroupMemberSidebar = observer(
 
         return (
             <GenericSidebarBase>
+                <Container>
+                    {/*{isTouchscreenDevice && <div>Group settings go here</div>}*/}
+                </Container>
+
                 <MemberList entries={entries} context={channel} />
             </GenericSidebarBase>
         );
@@ -180,6 +196,9 @@ export const ServerMemberSidebar = observer(
 
         return (
             <GenericSidebarBase>
+                <Container>
+                    {/*{isTouchscreenDevice && <div>Server settings go here</div>}*/}
+                </Container>
                 <MemberList entries={entries} context={channel} />
             </GenericSidebarBase>
         );

@@ -1,3 +1,4 @@
+import { Group } from "@styled-icons/boxicons-solid";
 import { autorun } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
@@ -47,7 +48,7 @@ const EmbedInviteBase = styled.div`
 
 const EmbedInviteDetails = styled.div`
     flex-grow: 1;
-    padding-left: 12px;
+    padding-inline-start: 12px;
     ${() =>
         isTouchscreenDevice &&
         css`
@@ -63,7 +64,14 @@ const EmbedInviteName = styled.div`
 `;
 
 const EmbedInviteMemberCount = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 2px;
     font-size: 0.8em;
+
+    > svg {
+        color: var(--secondary-foreground);
+    }
 `;
 
 type Props = {
@@ -119,6 +127,7 @@ export function EmbedInvite({ code }: Props) {
                 <EmbedInviteDetails>
                     <EmbedInviteName>{invite.server_name}</EmbedInviteName>
                     <EmbedInviteMemberCount>
+                        <Group size={12} />
                         {invite.member_count.toLocaleString()}{" "}
                         {invite.member_count === 1 ? "member" : "members"}
                     </EmbedInviteMemberCount>

@@ -13,7 +13,30 @@
 }
 
 ::-webkit-scrollbar-thumb {
+    min-height: 30px;
+    min-width: 30px;
+
+    background-clip: content-box;
     background: var(--scrollbar-thumb);
+}
+
+[data-scroll-offset] {
+    overflow-y: scroll;
+}
+
+[data-scroll-offset="with-padding"],
+[data-scroll-offset] .with-padding {
+    padding-top: var(--header-height);
+}
+
+[data-scroll-offset]::-webkit-scrollbar-thumb {
+    background-clip: content-box;
+    border-top: var(--header-height) solid transparent;
+}
+
+[data-avoids-navigation]::-webkit-scrollbar-thumb {
+    background-clip: content-box;
+    border-bottom: var(--effective-bottom-offset) solid transparent;
 }
 
 ::-webkit-scrollbar-corner {

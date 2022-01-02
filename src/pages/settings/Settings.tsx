@@ -17,6 +17,7 @@ import {
     Speaker,
     Store,
     Bot,
+    Trash,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory } from "react-router-dom";
@@ -24,16 +25,19 @@ import { LIBRARY_VERSION } from "revolt.js";
 import styled from "styled-components";
 
 import styles from "./Settings.module.scss";
+import { openContextMenu } from "preact-context-menu";
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
 import { useApplicationState } from "../../mobx/State";
 
+import { useIntermediate } from "../../context/intermediate/Intermediate";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import { AppContext, LogOutContext } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import { Username } from "../../components/common/user/UserShort";
+import UserStatus from "../../components/common/user/UserStatus";
 import LineDivider from "../../components/ui/LineDivider";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
@@ -54,19 +58,67 @@ import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
 import { ThemeShop } from "./panes/ThemeShop";
 
-const IndexHeader = styled.div`
+const AccountHeader = styled.div`
     display: flex;
-    background: var(--secondary-background);
+    flex-direction: column;
     border-radius: var(--border-radius);
-    padding: 20px;
-    align-items: center;
-    gap: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+
+    .account {
+        padding: 20px;
+        gap: 10px;
+        align-items: center;
+        display: flex;
+        background: var(--secondary-background);
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+            gap: 2px;
+
+            > span {
+                font-size: 20px;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .statusChanger {
+        display: flex;
+        align-items: center;
+        background: var(--tertiary-background);
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .status {
+            padding-inline-start: 12px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            color: var(--secondary-foreground);
+            flex-grow: 1;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        svg {
+            width: 48px;
+            flex-shrink: 0;
+        }
+    }
 `;
 
 export default observer(() => {
     const history = useHistory();
     const client = useContext(AppContext);
     const logout = useContext(LogOutContext);
+    const { openScreen } = useIntermediate();
     const experiments = useApplicationState().experiments;
 
     function switchPage(to?: string) {
@@ -270,10 +322,40 @@ export default observer(() => {
                 </>
             }
             indexHeader={
-                <IndexHeader>
-                    <UserIcon size={64} target={client.user!} />
-                    <Username user={client.user!} prefixAt />
-                </IndexHeader>
+                <AccountHeader>
+                    <div className="account">
+                        <UserIcon
+                            size={64}
+                            target={client.user!}
+                            status
+                            onClick={() => openContextMenu("Status")}
+                        />
+                        <div className="details">
+                            <Username user={client.user!} prefixAt />
+                            <UserStatus user={client.user!} />
+                        </div>
+                    </div>
+                    <div className="statusChanger">
+                        <a
+                            className="status"
+                            onClick={() =>
+                                openScreen({
+                                    id: "special_input",
+                                    type: "set_custom_status",
+                                })
+                            }>
+                            Change your status...
+                        </a>
+                        {client.user!.status?.text && (
+                            <Trash
+                                size={24}
+                                onClick={() =>
+                                    client.users.edit({ remove: "StatusText" })
+                                }
+                            />
+                        )}
+                    </div>
+                </AccountHeader>
             }
         />
     );

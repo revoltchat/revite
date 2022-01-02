@@ -102,7 +102,7 @@ export function GenericSettings({
                 />
             </Helmet>
             {isTouchscreenDevice && (
-                <Header placement="primary">
+                <Header placement="primary" transparent>
                     {typeof page === "undefined" ? (
                         <>
                             {showExitButton && (
@@ -168,6 +168,9 @@ export function GenericSettings({
                 <div className={styles.content}>
                     <div
                         className={styles.scrollbox}
+                        data-scroll-offset={
+                            isTouchscreenDevice ? "with-padding" : undefined
+                        }
                         ref={(ref) => {
                             // Force scroll to top if page changes.
                             if (ref) {
