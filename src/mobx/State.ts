@@ -226,6 +226,9 @@ export default class State {
                 store.hydrate(data, revision[id] ?? +new Date());
             }
         }
+
+        // Dump stores back to disk.
+        await this.save();
     }
 }
 
