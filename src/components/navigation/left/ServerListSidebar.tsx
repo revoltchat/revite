@@ -1,15 +1,18 @@
 import { Plus, LinkExternal } from "@styled-icons/boxicons-regular";
 import { Cog, Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
+import { DragDropContext } from "react-beautiful-dnd";
 import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components";
 
 import { attachContextMenu } from "preact-context-menu";
 import { Text } from "preact-i18n";
+import { useState } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
+import { Draggable, Droppable } from "../../../lib/dnd";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
@@ -235,7 +238,7 @@ export default observer(() => {
 
     const { server: server_id } = useParams<{ server?: string }>();
     const server = server_id ? client.servers.get(server_id) : undefined;
-    const servers = [...client.servers.values()];
+    const [servers, setServers] = useState([...client.servers.values()]);
     const channels = [...client.channels.values()];
 
     const history = useHistory();
@@ -250,181 +253,246 @@ export default observer(() => {
         typeof server === "undefined" && !path.startsWith("/invite");
 
     return (
-        <ServersBase>
-            <ServerList>
-                <ConditionalLink
-                    active={homeActive}
-                    to={state.layout.getLastHomePath()}>
-                    <ServerEntry home active={homeActive}>
-                        <Swoosh />
-                        <div
-                            onContextMenu={attachContextMenu("Status")}
-                            onClick={() =>
-                                homeActive && history.push("/settings")
-                            }>
-                            <UserHover user={client.user ?? undefined}>
-                                <Icon
-                                    size={42}
-                                    unread={
-                                        alertCount > 0 ? "mention" : undefined
-                                    }
-                                    count={alertCount}>
-                                    <UserIcon
-                                        target={client.user ?? undefined}
-                                        size={32}
-                                        status
-                                        hover
-                                    />
-                                </Icon>
-                            </UserHover>
-                        </div>
-                    </ServerEntry>
-                </ConditionalLink>
-                {channels
-                    .filter(
-                        (x) =>
-                            (x.channel_type === "DirectMessage" ||
-                                x.channel_type === "Group") &&
-                            x.unread,
-                    )
-                    .map((x) => {
-                        const unreadCount = x.mentions.length;
-                        return (
-                            <Link to={`/channel/${x._id}`}>
-                                <ServerEntry
-                                    home
-                                    active={false}
-                                    onContextMenu={attachContextMenu("Menu", {
-                                        channel: x._id,
-                                        unread: true,
-                                    })}>
-                                    <div>
-                                        <Icon
-                                            size={42}
-                                            unread={
-                                                unreadCount > 0
-                                                    ? "mention"
-                                                    : "unread"
-                                            }
-                                            count={unreadCount}>
-                                            {x.channel_type ===
-                                            "DirectMessage" ? (
+        <DragDropContext
+            onDragEnd={(target) => {
+                if (target.destination) {
+                    const arr = [...servers];
+                    arr.splice(
+                        target.destination.index,
+                        0,
+                        arr.splice(target.source.index, 1)[0],
+                    );
+                    setServers(arr);
+                }
+            }}>
+            <ServersBase>
+                <Droppable droppableId="server_list">
+                    {(provided) => (
+                        <ServerList
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}>
+                            <ConditionalLink
+                                active={homeActive}
+                                to={state.layout.getLastHomePath()}>
+                                <ServerEntry home active={homeActive}>
+                                    <Swoosh />
+                                    <div
+                                        onContextMenu={attachContextMenu(
+                                            "Status",
+                                        )}
+                                        onClick={() =>
+                                            homeActive &&
+                                            history.push("/settings")
+                                        }>
+                                        <UserHover
+                                            user={client.user ?? undefined}>
+                                            <Icon
+                                                size={42}
+                                                unread={
+                                                    alertCount > 0
+                                                        ? "mention"
+                                                        : undefined
+                                                }
+                                                count={alertCount}>
                                                 <UserIcon
-                                                    target={x.recipient}
+                                                    target={
+                                                        client.user ?? undefined
+                                                    }
                                                     size={32}
+                                                    status
                                                     hover
                                                 />
-                                            ) : (
-                                                <ChannelIcon
-                                                    target={x}
-                                                    size={32}
-                                                    hover
-                                                />
-                                            )}
-                                        </Icon>
+                                            </Icon>
+                                        </UserHover>
                                     </div>
                                 </ServerEntry>
-                            </Link>
-                        );
-                    })}
-                <LineDivider />
-                {servers.map((server) => {
-                    const active = server._id === server_id;
+                            </ConditionalLink>
+                            {channels
+                                .filter(
+                                    (x) =>
+                                        (x.channel_type === "DirectMessage" ||
+                                            x.channel_type === "Group") &&
+                                        x.unread,
+                                )
+                                .map((x) => {
+                                    const unreadCount = x.mentions.length;
+                                    return (
+                                        <Link to={`/channel/${x._id}`}>
+                                            <ServerEntry
+                                                home
+                                                active={false}
+                                                onContextMenu={attachContextMenu(
+                                                    "Menu",
+                                                    {
+                                                        channel: x._id,
+                                                        unread: true,
+                                                    },
+                                                )}>
+                                                <div>
+                                                    <Icon
+                                                        size={42}
+                                                        unread={
+                                                            unreadCount > 0
+                                                                ? "mention"
+                                                                : "unread"
+                                                        }
+                                                        count={unreadCount}>
+                                                        {x.channel_type ===
+                                                        "DirectMessage" ? (
+                                                            <UserIcon
+                                                                target={
+                                                                    x.recipient
+                                                                }
+                                                                size={32}
+                                                                hover
+                                                            />
+                                                        ) : (
+                                                            <ChannelIcon
+                                                                target={x}
+                                                                size={32}
+                                                                hover
+                                                            />
+                                                        )}
+                                                    </Icon>
+                                                </div>
+                                            </ServerEntry>
+                                        </Link>
+                                    );
+                                })}
+                            <LineDivider />
+                            {servers.map((server, index) => {
+                                const active = server._id === server_id;
 
-                    const isUnread = server.isUnread(state.notifications);
-                    const mentionCount = server.getMentions(
-                        state.notifications,
-                    ).length;
+                                const isUnread = server.isUnread(
+                                    state.notifications,
+                                );
+                                const mentionCount = server.getMentions(
+                                    state.notifications,
+                                ).length;
 
-                    return (
-                        <ConditionalLink
-                            key={server._id}
-                            active={active}
-                            to={state.layout.getServerPath(server._id)}>
-                            <ServerEntry
-                                active={active}
-                                onContextMenu={attachContextMenu("Menu", {
-                                    server: server._id,
-                                    unread: isUnread,
-                                })}>
-                                <Swoosh />
+                                return (
+                                    <Draggable
+                                        key={server._id}
+                                        draggableId={server._id}
+                                        index={index}>
+                                        {(provided, snapshot) => (
+                                            <div
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                ref={provided.innerRef}>
+                                                <ConditionalLink
+                                                    active={active}
+                                                    to={state.layout.getServerPath(
+                                                        server._id,
+                                                    )}>
+                                                    <ServerEntry
+                                                        active={active}
+                                                        onContextMenu={attachContextMenu(
+                                                            "Menu",
+                                                            {
+                                                                server: server._id,
+                                                                unread: isUnread,
+                                                            },
+                                                        )}>
+                                                        {!snapshot.isDragging && (
+                                                            <Swoosh />
+                                                        )}
+
+                                                        <Tooltip
+                                                            content={
+                                                                server.name
+                                                            }
+                                                            placement="right">
+                                                            <Icon
+                                                                size={42}
+                                                                unread={
+                                                                    mentionCount >
+                                                                    0
+                                                                        ? "mention"
+                                                                        : isUnread
+                                                                        ? "unread"
+                                                                        : undefined
+                                                                }
+                                                                count={
+                                                                    mentionCount
+                                                                }>
+                                                                <ServerIcon
+                                                                    size={32}
+                                                                    target={
+                                                                        server
+                                                                    }
+                                                                />
+                                                            </Icon>
+                                                        </Tooltip>
+                                                    </ServerEntry>
+                                                </ConditionalLink>
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                );
+                            })}
+                            {provided.placeholder}
+                            <ServerCircle>
                                 <Tooltip
-                                    content={server.name}
+                                    content="Add a Server"
                                     placement="right">
-                                    <Icon
-                                        size={42}
-                                        unread={
-                                            mentionCount > 0
-                                                ? "mention"
-                                                : isUnread
-                                                ? "unread"
-                                                : undefined
-                                        }
-                                        count={mentionCount}>
-                                        <ServerIcon size={32} target={server} />
-                                    </Icon>
+                                    <div className="circle">
+                                        <IconButton
+                                            onClick={() =>
+                                                openScreen({
+                                                    id: "special_input",
+                                                    type: "create_server",
+                                                })
+                                            }>
+                                            <Plus size={32} />
+                                        </IconButton>
+                                    </div>
                                 </Tooltip>
-                            </ServerEntry>
-                        </ConditionalLink>
-                    );
-                })}
-                {/*<LineDivider />*/}
-                <ServerCircle>
-                    <Tooltip content="Add a Server" placement="right">
-                        <div className="circle">
-                            <IconButton
-                                onClick={() =>
-                                    openScreen({
-                                        id: "special_input",
-                                        type: "create_server",
-                                    })
-                                }>
-                                <Plus size={32} />
-                            </IconButton>
-                        </div>
-                    </Tooltip>
-                </ServerCircle>
-                <ServerCircle>
-                    <Tooltip
-                        content={
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "4px",
-                                }}>
-                                <div>Discover Public Servers</div>
-                                <LinkExternal size={12} />
-                            </div>
-                        }
-                        placement="right">
-                        <div className="circle">
-                            <IconButton>
-                                <a
-                                    href="https://revolt.social"
-                                    target="_blank"
-                                    rel="noreferrer">
-                                    <Compass size={32} />
-                                </a>
-                            </IconButton>
-                        </div>
-                    </Tooltip>
-                </ServerCircle>
-            </ServerList>
-            <PaintCounter small />
-            {!isTouchscreenDevice && (
-                <SettingsButton>
-                    <Link to="/settings">
-                        <Tooltip
-                            content={<Text id="app.settings.title" />}
-                            placement="right">
-                            <IconButton>
-                                <Cog size={32} strokeWidth="0.5" />
-                            </IconButton>
-                        </Tooltip>
-                    </Link>
-                </SettingsButton>
-            )}
-        </ServersBase>
+                            </ServerCircle>
+                            <ServerCircle>
+                                <Tooltip
+                                    content={
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                gap: "4px",
+                                            }}>
+                                            <div>Discover Public Servers</div>
+                                            <LinkExternal size={12} />
+                                        </div>
+                                    }
+                                    placement="right">
+                                    <div className="circle">
+                                        <IconButton>
+                                            <a
+                                                href="https://revolt.social"
+                                                target="_blank"
+                                                rel="noreferrer">
+                                                <Compass size={32} />
+                                            </a>
+                                        </IconButton>
+                                    </div>
+                                </Tooltip>
+                            </ServerCircle>
+                        </ServerList>
+                    )}
+                </Droppable>
+                <PaintCounter small />
+                {!isTouchscreenDevice && (
+                    <SettingsButton>
+                        <Link to="/settings">
+                            <Tooltip
+                                content={<Text id="app.settings.title" />}
+                                placement="right">
+                                <IconButton>
+                                    <Cog size={32} strokeWidth="0.5" />
+                                </IconButton>
+                            </Tooltip>
+                        </Link>
+                    </SettingsButton>
+                )}
+            </ServersBase>
+        </DragDropContext>
     );
 });
