@@ -83,7 +83,7 @@ export default observer(() => {
                     </div>
                 )}
                 <div className="content">
-                    <PageHeader icon={<HomeIcon size={24} />}>
+                    <PageHeader icon={<HomeIcon size={24} />} transparent>
                         <Text id="app.navigation.tabs.home" />
                     </PageHeader>
                     <div className={styles.homeScreen}>
@@ -103,8 +103,8 @@ export default observer(() => {
                                     Create a group
                                 </CategoryButton>
                             </Link>
-                            <a
-                                href="https://revolt.social"
+                            {/*<a
+                                href="#"
                                 target="_blank"
                                 rel="noreferrer">
                                 <CategoryButton
@@ -115,7 +115,7 @@ export default observer(() => {
                                     }>
                                     Join a community
                                 </CategoryButton>
-                            </a>
+                                </a>*/}
 
                             {client.servers.get(
                                 "01F7ZSBSFHQ8TA81725KQCSDDP",
@@ -159,24 +159,24 @@ export default observer(() => {
                                 rel="noreferrer">
                                 <CategoryButton
                                     action="external"
+                                    description={
+                                        "Support the project by donating - thank you!"
+                                    }
                                     icon={<Money size={32} />}>
                                     <Text id="app.home.donate" />
                                 </CategoryButton>
                             </a>
-
-                            <Tooltip
-                                content={
-                                    <Text id="app.home.settings-tooltip" />
-                                }>
-                                <Link to="/settings">
-                                    <CategoryButton
-                                        action="chevron"
-                                        icon={<Cog size={32} />}>
-                                        <Text id="app.home.settings" />
-                                    </CategoryButton>
-                                </Link>
-                            </Tooltip>
                         </div>
+                        <Tooltip
+                            content={<Text id="app.home.settings-tooltip" />}>
+                            <Link to="/settings">
+                                <CategoryButton
+                                    action="chevron"
+                                    icon={<Cog size={32} />}>
+                                    <Text id="app.home.settings" />
+                                </CategoryButton>
+                            </Link>
+                        </Tooltip>
                         {isDecember && (
                             <a href="#" onClick={toggleSeasonalTheme}>
                                 Turn {seasonalTheme ? "off" : "on"} homescreen

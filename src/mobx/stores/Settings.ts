@@ -29,6 +29,7 @@ export interface ISettings {
     "appearance:emoji": EmojiPack;
     "appearance:ligatures": boolean;
     "appearance:seasonal": boolean;
+    "appearance:transparency": boolean;
 
     "appearance:theme:base": "dark" | "light";
     "appearance:theme:overrides": Partial<Overrides>;
@@ -140,6 +141,7 @@ export default class Settings
         if (key === "appearance") {
             this.remove("appearance:emoji");
             this.remove("appearance:seasonal");
+            this.remove("appearance:transparency");
         } else {
             this.remove("appearance:ligatures");
             this.remove("appearance:theme:base");
@@ -169,6 +171,7 @@ export default class Settings
             appearance: this.pullKeys([
                 "appearance:emoji",
                 "appearance:seasonal",
+                "appearance:transparency",
             ]),
             theme: this.pullKeys([
                 "appearance:ligatures",

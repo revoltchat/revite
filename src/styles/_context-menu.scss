@@ -1,12 +1,17 @@
 .preact-context-menu .context-menu {
-    z-index: 5000;
+    z-index: 10000;
     min-width: 190px;
     padding: 6px 8px;
     user-select: none;
     font-size: 0.875rem;
     color: var(--secondary-foreground);
     border-radius: var(--border-radius);
-    background: var(--primary-background) !important;
+    //background: var(--primary-background) !important;
+    background-color: rgba(
+        var(--primary-background-rgb),
+        max(var(--min-opacity), 0.8)
+    );
+    backdrop-filter: blur(10px);
     box-shadow: 0px 0px 8px 8px rgba(0, 0, 0, 0.05);
 
     > span,
@@ -23,7 +28,11 @@
             cursor: pointer;
 
             &:hover {
-                background: var(--secondary-background);
+                background-color: rgba(
+                    var(--secondary-background-rgb),
+                    max(var(--min-opacity), 0.75)
+                );
+                backdrop-filter: blur(10px);
             }
         }
 

@@ -1,4 +1,7 @@
+import rgba from "color-rgba";
 import { makeAutoObservable, computed, action } from "mobx";
+
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import {
     Theme,
@@ -8,6 +11,7 @@ import {
     DEFAULT_MONO_FONT,
     Fonts,
     MonospaceFonts,
+    ComputedVariables,
 } from "../../../context/Theme";
 
 import Settings from "../Settings";
@@ -96,10 +100,10 @@ export default class STheme {
         };
     }
 
-    @computed computeVariables(): Theme {
+    @computed computeVariables(): ComputedVariables {
         const variables = this.getVariables() as Record<
             string,
-            string | boolean
+            string | boolean | number
         >;
 
         for (const key of Object.keys(variables)) {
@@ -109,7 +113,16 @@ export default class STheme {
             }
         }
 
-        return variables as unknown as Theme;
+        return {
+            ...(variables as unknown as Theme),
+            "min-opacity": this.settings.get("appearance:transparency", true)
+                ? 0
+                : 1,
+            "header-height": isTouchscreenDevice ? "56px" : "48px",
+            "effective-bottom-offset": isTouchscreenDevice
+                ? "var(--bottom-navigation-height)"
+                : "0px",
+        };
     }
 
     @action setVariable(key: Variables, value: string) {
@@ -204,15 +217,11 @@ export default class STheme {
 function getContrastingColour(hex: string, fallback?: string): string {
     if (typeof hex !== "string") return "black";
 
-    // TODO: Switch to color-parse
-    // Try parse hex value.
-    hex = hex.replace(/#/g, "");
-    const r = parseInt(hex.substr(0, 2), 16) / 255;
-    const g = parseInt(hex.substr(2, 2), 16) / 255;
-    const b = parseInt(hex.substr(4, 2), 16) / 255;
+    const colour = rgba(hex);
+    if (!colour) return fallback ? getContrastingColour(fallback) : "black";
 
-    if (isNaN(r) || isNaN(g) || isNaN(b))
-        return fallback ? getContrastingColour(fallback) : "black";
-
-    return r * 0.299 + g * 0.587 + b * 0.114 >= 0.186 ? "black" : "white";
+    const [r, g, b] = colour;
+    return (r / 255) * 0.299 + (g / 255) * 0.587 + (b / 255) * 0.114 >= 0.186
+        ? "black"
+        : "white";
 }

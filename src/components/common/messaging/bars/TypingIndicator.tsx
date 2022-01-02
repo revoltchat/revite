@@ -25,7 +25,11 @@ const Base = styled.div`
         flex-direction: row;
         width: calc(100% - var(--scrollbar-thickness));
         color: var(--secondary-foreground);
-        background: var(--secondary-background);
+        background-color: rgba(
+            var(--secondary-background-rgb),
+            max(var(--min-opacity), 0.75)
+        );
+        backdrop-filter: blur(10px);
     }
 
     .avatars {

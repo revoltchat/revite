@@ -33,13 +33,18 @@ import Preloader from "../../../components/ui/Preloader";
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
 
-const Area = styled.div`
+const Area = styled.div.attrs({ "data-scroll-offset": "with-padding" })`
     height: 100%;
     flex-grow: 1;
     min-height: 0;
+    word-break: break-word;
+
     overflow-x: hidden;
     overflow-y: scroll;
-    word-break: break-word;
+
+    &::-webkit-scrollbar-thumb {
+        min-height: 150px;
+    }
 
     > div {
         display: flex;

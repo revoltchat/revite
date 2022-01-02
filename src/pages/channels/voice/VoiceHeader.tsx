@@ -30,6 +30,7 @@ interface Props {
 }
 
 const VoiceBase = styled.div`
+    margin-top: 48px;
     padding: 20px;
     background: var(--secondary-background);
 

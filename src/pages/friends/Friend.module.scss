@@ -13,7 +13,6 @@
 .list {
     padding: 0 10px 10px 10px;
     user-select: none;
-    overflow-y: scroll;
 
     &[data-empty="true"] {
         img {
@@ -185,12 +184,9 @@
     }
 }
 
+// Hide the remove friend button on smaller screens.
 @media only screen and (max-width: 768px) {
-    .list {
-        padding: 0 8px 8px 8px;
-    }
-
-    .remove {
+    .list .remove {
         display: none;
     }
 }

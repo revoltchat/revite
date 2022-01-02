@@ -29,7 +29,7 @@ import ChannelHeader from "./ChannelHeader";
 import { MessageArea } from "./messaging/MessageArea";
 import VoiceHeader from "./voice/VoiceHeader";
 
-const ChannelMain = styled.div`
+const ChannelMain = styled.div.attrs({ "data-component": "channel" })`
     flex-grow: 1;
     display: flex;
     min-height: 0;
@@ -37,7 +37,9 @@ const ChannelMain = styled.div`
     flex-direction: row;
 `;
 
-const ChannelContent = styled.div`
+const ChannelContent = styled.div.attrs({
+    "data-component": "content",
+})`
     flex-grow: 1;
     display: flex;
     overflow: hidden;

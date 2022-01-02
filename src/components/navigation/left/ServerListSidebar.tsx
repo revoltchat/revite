@@ -95,6 +95,7 @@ const ServerList = styled.div`
     overflow-y: scroll;
     padding-bottom: 20px;
     flex-direction: column;
+    margin-top: -2px;
 
     scrollbar-width: none;
 
@@ -168,6 +169,7 @@ const ServerCircle = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 
     .circle {
         display: flex;
@@ -384,7 +386,7 @@ export default observer(() => {
                         </div>
                     </Tooltip>
                 </ServerCircle>
-                <ServerCircle>
+                {/*<ServerCircle>
                     <Tooltip
                         content={
                             <div
@@ -394,14 +396,13 @@ export default observer(() => {
                                     gap: "4px",
                                 }}>
                                 <div>Discover Public Servers</div>
-                                <LinkExternal size={12} />
                             </div>
                         }
                         placement="right">
                         <div className="circle">
                             <IconButton>
                                 <a
-                                    href="https://revolt.social"
+                                    href="#"
                                     target="_blank"
                                     rel="noreferrer">
                                     <Compass size={32} />
@@ -409,7 +410,7 @@ export default observer(() => {
                             </IconButton>
                         </div>
                     </Tooltip>
-                </ServerCircle>
+                    </ServerCircle>*/}
             </ServerList>
             <PaintCounter small />
             {!isTouchscreenDevice && (
