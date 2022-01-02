@@ -212,7 +212,7 @@ export default class State {
                 return;
             }
         } catch (err) {
-            reportError(err, "redux_migration");
+            reportError(err as any, "redux_migration");
         }
 
         // Load MobX store.
