@@ -3,6 +3,7 @@ import { RevoltConfiguration } from "revolt-api/types/Core";
 import { Client } from "revolt.js";
 import { Nullable } from "revolt.js/dist/util/null";
 
+import { isDebug } from "../../revision";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
@@ -44,7 +45,7 @@ export default class ServerConfig
             unreads: true,
             autoReconnect: false,
             apiURL: import.meta.env.VITE_API_URL,
-            debug: import.meta.env.DEV,
+            debug: isDebug(),
         });
 
         if (this.config !== null) {
