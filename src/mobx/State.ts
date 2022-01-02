@@ -123,7 +123,6 @@ export default class State {
                 () => stringify(store.toJSON()),
                 async (value) => {
                     try {
-                        console.log(`I am saving ${id} as ${value}`);
                         await localforage.setItem(id, JSON.parse(value));
                         if (id === "sync") return;
                         if (!client) return;
