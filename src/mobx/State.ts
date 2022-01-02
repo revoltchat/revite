@@ -123,6 +123,7 @@ export default class State {
                 () => stringify(store.toJSON()),
                 async (value) => {
                     try {
+                        console.log(`I am saving ${id} as ${value}`);
                         await localforage.setItem(id, JSON.parse(value));
                         if (id === "sync") return;
                         if (!client) return;
@@ -217,14 +218,12 @@ export default class State {
 
         // Load MobX store.
         const sync = (await localforage.getItem("sync")) as DataSync;
-        if (sync) {
-            const { revision } = sync;
-            for (const [id, store] of this.persistent) {
-                if (id === "sync") continue;
-                const data = await localforage.getItem(id);
-                if (typeof data === "object" && data !== null) {
-                    store.hydrate(data, revision[id]);
-                }
+        const { revision } = sync ?? { revision: {} };
+        for (const [id, store] of this.persistent) {
+            if (id === "sync") continue;
+            const data = await localforage.getItem(id);
+            if (typeof data === "object" && data !== null) {
+                store.hydrate(data, revision[id] ?? +new Date());
             }
         }
     }
