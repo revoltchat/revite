@@ -3,16 +3,16 @@ import EventEmitter from "eventemitter3";
 export const InternalEvent = new EventEmitter();
 
 export function internalSubscribe(
-    ns: string,
-    event: string,
-    fn: (...args: unknown[]) => void,
+  ns: string,
+  event: string,
+  fn: (...args: unknown[]) => void,
 ) {
-    InternalEvent.addListener(`${ns}/${event}`, fn);
-    return () => InternalEvent.removeListener(`${ns}/${event}`, fn);
+  InternalEvent.addListener(`${ns}/${event}`, fn);
+  return () => InternalEvent.removeListener(`${ns}/${event}`, fn);
 }
 
 export function internalEmit(ns: string, event: string, ...args: unknown[]) {
-    InternalEvent.emit(`${ns}/${event}`, ...args);
+  InternalEvent.emit(`${ns}/${event}`, ...args);
 }
 
 // Event structure: namespace/event
@@ -30,3 +30,5 @@ export function internalEmit(ns: string, event: string, ...args: unknown[]) {
 // - Modal/close
 // - PWA/update
 // - NewMessages/hide
+// - LeftSidebar/navigate_channels(direction: number)
+// - LeftSidebar/navigate_servers(direction: number)

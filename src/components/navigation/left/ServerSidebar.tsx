@@ -1,19 +1,22 @@
 import { observer } from "mobx-react-lite";
-import { Redirect, useParams } from "react-router";
+import { Redirect, useParams, useHistory } from "react-router-dom";
+import { Channel } from "revolt.js/dist/maps/Channels";
 import { Server } from "revolt.js/dist/maps/Servers";
 import styled, { css } from "styled-components";
 
 import { attachContextMenu } from "preact-context-menu";
-import { useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
-import { internalEmit } from "../../../lib/eventEmitter";
+import { useDebounceCallback } from "../../../lib/debounce";
+import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
+import { serverChannels } from "../../../context/revoltjs/util";
 
 import CollapsibleSection from "../../common/CollapsibleSection";
 import ServerHeader from "../../common/ServerHeader";
@@ -56,6 +59,8 @@ interface Props {
 export default observer(() => {
     const client = useClient();
     const state = useApplicationState();
+    const history = useHistory();
+
     const { server: server_id, channel: channel_id } =
         useParams<{ server: string; channel?: string }>();
 
@@ -73,6 +78,43 @@ export default observer(() => {
         state.layout.setLastOpened(server_id, channel_id);
     }, [channel_id, server_id]);
 
+    const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
+
+    const openChannel = useDebounceCallback(
+        (channel: Channel) => {
+            history.push(`/server/${channel.server_id}/channel/${channel._id}`);
+            setSelectedChannel(null);
+        },
+        [],
+        275,
+    );
+
+    const channels = serverChannels(server, client);
+
+    useEffect(() => {
+        function navigateChannels(dir: number) {
+            const visibleChannels = channels;
+
+            const channelIndex = visibleChannels.findIndex(
+                (ch) => ch?._id === (selectedChannel ?? channel_id),
+            );
+
+            const len = visibleChannels.length;
+            const channel = visibleChannels[(channelIndex + dir + len) % len];
+
+            if (channel) {
+                setSelectedChannel(channel._id);
+                openChannel(channel);
+            }
+        }
+
+        return internalSubscribe(
+            "LeftSidebar",
+            "navigate_channels",
+            navigateChannels as (...args: unknown[]) => void,
+        );
+    }, [channels]);
+
     const uncategorised = new Set(server.channel_ids);
     const elements = [];
 
@@ -80,7 +122,7 @@ export default observer(() => {
         const entry = client.channels.get(id);
         if (!entry) return;
 
-        const active = channel?._id === entry._id;
+        const active = entry._id === (selectedChannel ?? channel?._id);
         const isUnread = entry.isUnread(state.notifications);
         const mentionCount = entry.getMentions(state.notifications);
 

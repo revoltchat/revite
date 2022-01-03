@@ -7,9 +7,12 @@ import styled, { css } from "styled-components";
 
 import { attachContextMenu } from "preact-context-menu";
 import { Text } from "preact-i18n";
+import { useEffect, useState } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
+import { useDebounceCallback } from "../../../lib/debounce";
+import { internalSubscribe } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
@@ -235,8 +238,13 @@ export default observer(() => {
     const client = useClient();
     const state = useApplicationState();
 
-    const { server: server_id } = useParams<{ server?: string }>();
-    const server = server_id ? client.servers.get(server_id) : undefined;
+    const { server: currentServer, channel: currentChannel } =
+        useParams<{ server?: string; channel?: string }>();
+
+    const server = currentServer
+        ? client.servers.get(currentServer)
+        : undefined;
+
     const servers = [...client.servers.values()];
     const channels = [...client.channels.values()];
 
@@ -250,6 +258,44 @@ export default observer(() => {
 
     const homeActive =
         typeof server === "undefined" && !path.startsWith("/invite");
+
+    // visually selected server id and channel id
+    let [selectedServer, setSelectedServer] = useState<string | null>(null);
+
+    const openServer = useDebounceCallback(
+        (id: string) => {
+            history.push(state.layout.getServerPath(id));
+            setSelectedServer(null);
+        },
+        [],
+        275,
+    );
+
+    // keybinds
+    // TODO: visually select channel, server, etc.. and *then* change the state, this will reduce lag.
+    useEffect(() => {
+        function navigateServers(dir: number) {
+            const serverIdx = servers.findIndex(
+                (s) => s._id === (selectedServer ?? currentServer),
+            );
+
+            const len = servers.length;
+
+            // todo: should probably be the last active server if none exists instead of defaulting to the first.
+            const server = servers[(serverIdx + dir + len) % len] ?? servers[0];
+
+            if (server) {
+                setSelectedServer(server._id);
+                openServer(server._id);
+            }
+        }
+
+        return internalSubscribe(
+            "LeftSidebar",
+            "navigate_servers",
+            navigateServers as (...args: unknown[]) => void,
+        );
+    });
 
     return (
         <ServersBase>
@@ -331,7 +377,8 @@ export default observer(() => {
                     })}
                 <LineDivider />
                 {servers.map((server) => {
-                    const active = server._id === server_id;
+                    const active =
+                        server._id === (selectedServer ?? currentServer);
 
                     const isUnread = server.isUnread(state.notifications);
                     const mentionCount = server.getMentions(

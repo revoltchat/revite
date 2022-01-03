@@ -1,4 +1,6 @@
+import { Client } from "revolt.js";
 import { Channel } from "revolt.js/dist/maps/Channels";
+import { Server } from "revolt.js/dist/maps/Servers";
 
 import { Text } from "preact-i18n";
 
@@ -46,4 +48,19 @@ export function getChannelName(
     }
 
     return <>{channel.name}</>;
+}
+
+// todo: please make a better way to do this
+// server.orderedChannels or something
+export function serverChannels(server: Server, client: Client) {
+    const ids = new Set(server.channel_ids);
+    return server?.categories
+        ?.flatMap((cat) =>
+            cat.channels.map((id) => {
+                ids.delete(id);
+                return client.channels.get(id);
+            }),
+        )
+        .concat(Array.from(ids, (id) => client.channels.get(id)))
+        .filter((ch) => ch !== undefined) as Channel[];
 }

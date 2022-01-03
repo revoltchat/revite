@@ -5,15 +5,17 @@ import {
     Notepad,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
-import { useContext, useEffect } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
+import { useDebounceCallback } from "../../../lib/debounce";
+import { internalSubscribe } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
@@ -45,6 +47,7 @@ const Navbar = styled.div`
 
 export default observer(() => {
     const { pathname } = useLocation();
+    const history = useHistory();
     const client = useContext(AppContext);
     const state = useApplicationState();
     const { channel: currentChannel } = useParams<{ channel: string }>();
@@ -63,6 +66,45 @@ export default observer(() => {
     channels.sort((b, a) =>
         a.last_message_id_or_past.localeCompare(b.last_message_id_or_past),
     );
+
+    let [selectedDM, setSelectedDM] = useState<string | null>(null);
+
+    const openDM = useDebounceCallback(
+        (id: string) => {
+            history.push(`/channel/${id}`);
+            setSelectedDM(null);
+        },
+        [],
+        275,
+    );
+
+    useEffect(() => {
+        function navigateDMs(dir: number) {
+            const visibleDMs = channels.filter((ch) =>
+                ch.channel_type === "DirectMessage"
+                    ? ch.active && ch.recipient != null
+                    : true,
+            );
+
+            const channelIndex = visibleDMs.findIndex(
+                (ch) => ch?._id === (selectedDM ?? currentChannel),
+            );
+
+            const len = visibleDMs.length;
+            const channel = visibleDMs[(channelIndex + dir + len) % len];
+
+            if (channel) {
+                setSelectedDM(channel._id);
+                openDM(channel._id);
+            }
+        }
+
+        return internalSubscribe(
+            "LeftSidebar",
+            "navigate_channels",
+            navigateDMs as (...args: unknown[]) => void,
+        );
+    }, [channels]);
 
     // ! FIXME: must be a better way
     const incoming = [...client.users.values()].filter(
@@ -149,10 +191,13 @@ export default observer(() => {
                         state.notifications,
                     ).length;
 
+                    const active =
+                        channel._id === (selectedDM ?? currentChannel);
+
                     return (
                         <ConditionalLink
                             key={channel._id}
-                            active={channel._id === currentChannel}
+                            active={active}
                             to={`/channel/${channel._id}`}>
                             <ChannelButton
                                 user={user}
@@ -165,7 +210,7 @@ export default observer(() => {
                                         : undefined
                                 }
                                 alertCount={mentionCount}
-                                active={channel._id === currentChannel}
+                                active={active}
                             />
                         </ConditionalLink>
                     );

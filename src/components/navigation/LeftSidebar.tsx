@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { Route, Switch } from "react-router";
 
+import { internalEmit } from "../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
@@ -15,6 +16,26 @@ export default observer(() => {
     const layout = useApplicationState().layout;
     const isOpen =
         isTouchscreenDevice || layout.getSectionState(SIDEBAR_CHANNELS, true);
+
+    // Register events here to reduce keybind conflicts.
+    document.body.addEventListener("keydown", (e) => {
+        const emit = (event: string, direction: number) => {
+            e.preventDefault();
+            internalEmit("LeftSidebar", event, direction);
+        };
+
+        if (e.ctrlKey && e.altKey && e.key === "ArrowUp")
+            return emit("navigate_servers", -1);
+
+        if (e.ctrlKey && e.altKey && e.key === "ArrowDown")
+            return emit("navigate_servers", 1);
+
+        if (e.altKey && e.key === "ArrowUp")
+            return emit("navigate_channels", -1);
+
+        if (e.altKey && e.key === "ArrowDown")
+            return emit("navigate_channels", 1);
+    });
 
     return (
         <SidebarBase>

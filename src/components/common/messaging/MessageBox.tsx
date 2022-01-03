@@ -10,7 +10,7 @@ import { Text } from "preact-i18n";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
-import { debounce } from "../../../lib/debounce";
+import { debounce, useDebounceCallback } from "../../../lib/debounce";
 import { defer } from "../../../lib/defer";
 import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { useTranslation } from "../../../lib/i18n";
@@ -399,11 +399,10 @@ export default observer(({ channel }: Props) => {
         }
     }
 
-    // TODO: change to useDebounceCallback
-    // eslint-disable-next-line
-    const debouncedStopTyping = useCallback(
-        debounce(stopTyping as (...args: unknown[]) => void, 1000),
+    const debouncedStopTyping = useDebounceCallback(
+        stopTyping,
         [channel._id],
+        1000,
     );
     const {
         onChange,
