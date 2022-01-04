@@ -7,13 +7,6 @@ import Auth from "../../mobx/stores/Auth";
 import { resetMemberSidebarFetched } from "../../components/navigation/right/MemberSidebar";
 import { ClientStatus } from "./RevoltClient";
 
-export let preventReconnect = false;
-let preventUntil = 0;
-
-export function setReconnectDisallowed(allowed: boolean) {
-    preventReconnect = allowed;
-}
-
 export function registerEvents(
     auth: Auth,
     setStatus: StateUpdater<ClientStatus>,
@@ -21,28 +14,10 @@ export function registerEvents(
 ) {
     if (!client) return;
 
-    function attemptReconnect() {
-        if (preventReconnect) return;
-        function reconnect() {
-            preventUntil = +new Date() + 2000;
-            client.websocket.connect().catch((err) => console.error(err));
-        }
-
-        if (+new Date() > preventUntil) {
-            setTimeout(reconnect, 2000);
-        } else {
-            reconnect();
-        }
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let listeners: Record<string, (...args: any[]) => void> = {
         connecting: () => setStatus(ClientStatus.CONNECTING),
-
-        dropped: () => {
-            setStatus(ClientStatus.DISCONNECTED);
-            attemptReconnect();
-        },
+        dropped: () => setStatus(ClientStatus.DISCONNECTED),
 
         ready: () => {
             resetMemberSidebarFetched();
@@ -73,14 +48,13 @@ export function registerEvents(
 
     const online = () => {
         setStatus(ClientStatus.RECONNECTING);
-        setReconnectDisallowed(false);
-        attemptReconnect();
+        client.options.autoReconnect = false;
+        client.websocket.connect();
     };
 
     const offline = () => {
-        setReconnectDisallowed(true);
+        client.options.autoReconnect = false;
         client.websocket.disconnect();
-        setStatus(ClientStatus.OFFLINE);
     };
 
     window.addEventListener("online", online);

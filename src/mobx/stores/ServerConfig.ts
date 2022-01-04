@@ -46,6 +46,7 @@ export default class ServerConfig
             autoReconnect: false,
             apiURL: import.meta.env.VITE_API_URL,
             debug: isDebug(),
+            onPongTimeout: "RECONNECT",
         });
 
         if (this.config !== null) {
