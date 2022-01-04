@@ -38,7 +38,7 @@ export default function MemberSidebar() {
 
 function useEntries(
     channel: Channel,
-    renderListener: (effect: (keys: string[]) => void) => () => void,
+    generateKeys: () => string[],
     isServer?: boolean,
 ) {
     const client = channel.client;
@@ -160,18 +160,16 @@ function useEntries(
     }
 
     useEffect(() => {
-        return renderListener(sort);
+        return autorun(() => sort(generateKeys()));
         // eslint-disable-next-line
-    }, [renderListener]);
+    }, [generateKeys]);
 
     return entries;
 }
 
 export const GroupMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
-        const entries = useEntries(channel, (effect) =>
-            autorun(() => effect(channel.recipient_ids!)),
-        );
+        const entries = useEntries(channel, () => channel.recipient_ids!);
 
         return (
             <GenericSidebarBase data-scroll-offset="with-padding">
@@ -209,7 +207,7 @@ export const ServerMemberSidebar = observer(
 
         const entries = useEntries(
             channel,
-            (effect) => autorun(() => effect([...client.members.keys()])),
+            () => [...client.members.keys()],
             true,
         );
 
