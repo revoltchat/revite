@@ -5,8 +5,7 @@ import styled, { css } from "styled-components";
 
 import ConditionalLink from "../../lib/ConditionalLink";
 
-import { connectState } from "../../redux/connector";
-import { LastOpened } from "../../redux/reducers/last_opened";
+import { useApplicationState } from "../../mobx/State";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
@@ -18,10 +17,10 @@ const Base = styled.div`
 `;
 
 const Navbar = styled.div`
-    z-index: 100;
-    max-width: 500px;
-    margin: 0 auto;
+    z-index: 500;
     display: flex;
+    margin: 0 auto;
+    max-width: 500px;
     height: var(--bottom-navigation-height);
 `;
 
@@ -47,18 +46,13 @@ const Button = styled.a<{ active: boolean }>`
         `}
 `;
 
-interface Props {
-    lastOpened: LastOpened;
-}
-
-export const BottomNavigation = observer(({ lastOpened }: Props) => {
+export default observer(() => {
     const client = useClient();
+    const layout = useApplicationState().layout;
     const user = client.users.get(client.user!._id);
 
     const history = useHistory();
     const path = useLocation().pathname;
-
-    const channel_id = lastOpened["home"];
 
     const friendsActive = path.startsWith("/friends");
     const settingsActive = path.startsWith("/settings");
@@ -73,13 +67,15 @@ export const BottomNavigation = observer(({ lastOpened }: Props) => {
                             if (settingsActive) {
                                 if (history.length > 0) {
                                     history.goBack();
+                                    return;
                                 }
                             }
 
-                            if (channel_id) {
-                                history.push(`/channel/${channel_id}`);
-                            } else {
+                            const path = layout.getLastHomePath();
+                            if (path === "/friends") {
                                 history.push("/");
+                            } else {
+                                history.push(path);
                             }
                         }}>
                         <Message size={24} />
@@ -116,10 +112,4 @@ export const BottomNavigation = observer(({ lastOpened }: Props) => {
             </Navbar>
         </Base>
     );
-});
-
-export default connectState(BottomNavigation, (state) => {
-    return {
-        lastOpened: state.lastOpened,
-    };
 });

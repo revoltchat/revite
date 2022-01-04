@@ -21,7 +21,7 @@ export default styled.button<Props>`
     align-items: center;
     justify-content: center;
     padding: 2px 16px;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-family: inherit;
     font-weight: 500;
     flex-shrink: 0;

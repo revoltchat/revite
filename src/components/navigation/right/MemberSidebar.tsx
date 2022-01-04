@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { autorun, reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Role } from "revolt-api/types/Servers";
@@ -7,7 +8,9 @@ import { Channel } from "revolt.js/dist/maps/Channels";
 import { Server } from "revolt.js/dist/maps/Servers";
 import { User } from "revolt.js/dist/maps/Users";
 
-import { useContext, useEffect, useMemo } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
+
+import { defer } from "../../../lib/defer";
 
 import {
     ClientStatus,
@@ -33,135 +36,161 @@ export default function MemberSidebar() {
     }
 }
 
-function useEntries(channel: Channel, keys: string[], isServer?: boolean) {
+function useEntries(
+    channel: Channel,
+    renderListener: (effect: (keys: string[]) => void) => () => void,
+    isServer?: boolean,
+) {
     const client = channel.client;
-    return useMemo(() => {
-        const categories: { [key: string]: [User, string][] } = {
-            online: [],
-            offline: [],
-        };
+    const [entries, setEntries] = useState<MemberListGroup[]>([]);
 
-        const categoryInfo: { [key: string]: string } = {};
+    function sort(keys: string[]) {
+        defer(() => {
+            const categories: { [key: string]: [User, string][] } = {
+                online: [],
+                offline: [],
+            };
 
-        let roles: Server["roles"] | undefined;
-        let roleList: string[];
-        if (
-            channel.channel_type === "TextChannel" ||
-            channel.channel_type === "VoiceChannel"
-        ) {
-            roles = channel.server?.roles;
-            if (roles) {
-                const list = Object.keys(roles)
-                    .map((id) => {
-                        return [id, roles![id], roles![id].rank ?? 0] as [
-                            string,
-                            Role,
-                            number,
-                        ];
-                    })
-                    .filter(([, role]) => role.hoist);
+            const categoryInfo: { [key: string]: string } = {};
 
-                list.sort((b, a) => b[2] - a[2]);
+            let roles: Server["roles"] | undefined;
+            let roleList: string[];
+            if (
+                channel.channel_type === "TextChannel" ||
+                channel.channel_type === "VoiceChannel"
+            ) {
+                roles = channel.server?.roles;
+                if (roles) {
+                    const list = Object.keys(roles)
+                        .map((id) => {
+                            return [id, roles![id], roles![id].rank ?? 0] as [
+                                string,
+                                Role,
+                                number,
+                            ];
+                        })
+                        .filter(([, role]) => role.hoist);
 
-                list.forEach(([id, role]) => {
-                    if (categories[id]) return;
-                    categories[id] = [];
-                    categoryInfo[id] = role.name;
-                });
+                    list.sort((b, a) => b[2] - a[2]);
 
-                roleList = list.map((x) => x[0]);
-            }
-        }
+                    list.forEach(([id, role]) => {
+                        if (categories[id]) return;
+                        categories[id] = [];
+                        categoryInfo[id] = role.name;
+                    });
 
-        keys.forEach((key) => {
-            let u;
-            if (isServer) {
-                const { server, user } = JSON.parse(key);
-                if (server !== channel.server_id) return;
-                u = client.users.get(user);
-            } else {
-                u = client.users.get(key);
+                    roleList = list.map((x) => x[0]);
+                }
             }
 
-            if (!u) return;
-
-            const member = client.members.get(key);
-            const sort = member?.nickname ?? u.username;
-            const entry = [u, sort] as [User, string];
-
-            if (!u.online || u.status?.presence === Presence.Invisible) {
-                categories.offline.push(entry);
-            } else {
+            keys.forEach((key) => {
+                let u;
                 if (isServer) {
-                    // Sort users into hoisted roles here.
-                    if (member?.roles && roles) {
-                        let success = false;
-                        for (const role of roleList) {
-                            if (member.roles.includes(role)) {
-                                categories[role].push(entry);
-                                success = true;
-                                break;
-                            }
-                        }
-
-                        if (success) return;
-                    }
+                    const { server, user } = JSON.parse(key);
+                    if (server !== channel.server_id) return;
+                    u = client.users.get(user);
                 } else {
-                    // Sort users into "participants" list here.
-                    // For voice calls.
+                    u = client.users.get(key);
                 }
 
-                categories.online.push(entry);
-            }
-        });
+                if (!u) return;
 
-        Object.keys(categories).forEach((key) =>
-            categories[key].sort((a, b) => a[1].localeCompare(b[1])),
-        );
+                const member = client.members.get(key);
+                const sort = member?.nickname ?? u.username;
+                const entry = [u, sort] as [User, string];
 
-        const entries: MemberListGroup[] = [];
+                if (!u.online || u.status?.presence === Presence.Invisible) {
+                    categories.offline.push(entry);
+                } else {
+                    if (isServer) {
+                        // Sort users into hoisted roles here.
+                        if (member?.roles && roles) {
+                            let success = false;
+                            for (const role of roleList) {
+                                if (member.roles.includes(role)) {
+                                    categories[role].push(entry);
+                                    success = true;
+                                    break;
+                                }
+                            }
 
-        Object.keys(categoryInfo).forEach((key) => {
-            if (categories[key].length > 0) {
+                            if (success) return;
+                        }
+                    } else {
+                        // Sort users into "participants" list here.
+                        // For voice calls.
+                    }
+
+                    categories.online.push(entry);
+                }
+            });
+
+            Object.keys(categories).forEach((key) =>
+                categories[key].sort((a, b) => a[1].localeCompare(b[1])),
+            );
+
+            const entries: MemberListGroup[] = [];
+
+            Object.keys(categoryInfo).forEach((key) => {
+                if (categories[key].length > 0) {
+                    entries.push({
+                        type: "role",
+                        name: categoryInfo[key],
+                        users: categories[key].map((x) => x[0]),
+                    });
+                }
+            });
+
+            if (categories.online.length > 0) {
                 entries.push({
-                    type: "role",
-                    name: categoryInfo[key],
-                    users: categories[key].map((x) => x[0]),
+                    type: "online",
+                    users: categories.online.map((x) => x[0]),
                 });
             }
+
+            if (categories.offline.length > 0) {
+                entries.push({
+                    type: "offline",
+                    users: categories.offline.map((x) => x[0]),
+                });
+            }
+
+            setEntries(entries);
         });
+    }
 
-        if (categories.online.length > 0) {
-            entries.push({
-                type: "online",
-                users: categories.online.map((x) => x[0]),
-            });
-        }
-
-        if (categories.offline.length > 0) {
-            entries.push({
-                type: "offline",
-                users: categories.offline.map((x) => x[0]),
-            });
-        }
-
-        return entries;
+    useEffect(() => {
+        return renderListener(sort);
         // eslint-disable-next-line
-    }, [keys]);
+    }, [renderListener]);
+
+    return entries;
 }
 
 export const GroupMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
-        const keys = [...channel.recipient_ids!];
-        const entries = useEntries(channel, keys);
+        const entries = useEntries(channel, (effect) =>
+            autorun(() => effect(channel.recipient_ids!)),
+        );
 
         return (
-            <GenericSidebarBase>
+            <GenericSidebarBase data-scroll-offset="with-padding">
+                {/*<Container>
+                    {isTouchscreenDevice && <div>Group settings go here</div>}
+                </Container>*/}
+
                 <MemberList entries={entries} context={channel} />
             </GenericSidebarBase>
         );
     },
 );
+
+// ! FIXME: this is temporary code until we get lazy guilds like subscriptions
+const FETCHED: Set<String> = new Set();
+
+export function resetMemberSidebarFetched() {
+    FETCHED.clear();
+}
 
 export const ServerMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
@@ -169,17 +198,26 @@ export const ServerMemberSidebar = observer(
         const status = useContext(StatusContext);
 
         useEffect(() => {
-            if (status === ClientStatus.ONLINE) {
-                channel.server!.fetchMembers();
+            const server_id = channel.server_id!;
+            if (status === ClientStatus.ONLINE && !FETCHED.has(server_id)) {
+                channel
+                    .server!.fetchMembers()
+                    .then(() => FETCHED.add(server_id));
             }
             // eslint-disable-next-line
         }, [status, channel.server_id]);
 
-        const keys = [...client.members.keys()];
-        const entries = useEntries(channel, keys, true);
+        const entries = useEntries(
+            channel,
+            (effect) => autorun(() => effect([...client.members.keys()])),
+            true,
+        );
 
         return (
-            <GenericSidebarBase>
+            <GenericSidebarBase data-scroll-offset="with-padding">
+                {/*<Container>
+                    {isTouchscreenDevice && <div>Server settings go here</div>}
+                </Container>*/}
                 <MemberList entries={entries} context={channel} />
             </GenericSidebarBase>
         );

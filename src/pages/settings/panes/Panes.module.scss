@@ -131,12 +131,11 @@
         display: grid;
         place-items: center;
         grid-template-columns: minmax(auto, 100%);
-        padding: 20px;
-        margin-bottom: 30px;
 
         > div {
             width: 100%;
             max-width: 560px;
+            transform: scale(0.9);
         }
     }
 
@@ -149,11 +148,21 @@
 
     .badgePicker {
         display: flex;
-        gap: 10px;
         margin-bottom: 20px;
+
+        //padding-bottom: 8px;
+        position: relative;
+
+        .container {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+        }
 
         .check {
             cursor: pointer;
+
+            flex-shrink: 0;
             height: 50px;
             width: 50px;
             background: var(--secondary-background);
@@ -173,9 +182,41 @@
         }
     }
 
+    // TOFIX: need to merge overlay 1 and 2 later
+
+    .overlay {
+        position: absolute;
+        flex-shrink: 0;
+        width: 8px;
+        background: red;
+        height: 100%;
+
+        background: linear-gradient(
+            to right,
+            var(--primary-background),
+            transparent
+        );
+    }
+
+    .overlay2 {
+        position: absolute;
+        right: 0;
+        flex-shrink: 0;
+        width: 8px;
+        background: red;
+        height: 100%;
+
+        background: linear-gradient(
+            to left,
+            var(--primary-background),
+            transparent
+        );
+    }
+
     .row {
         gap: 20px;
         display: flex;
+        margin-bottom: 30px;
 
         .pfp {
             display: flex;
@@ -303,215 +344,6 @@
     }
 }
 
-.appearance {
-    .theme {
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .themes {
-        gap: 8px;
-        display: flex;
-        width: 100%;
-        margin-bottom: 15px;
-
-        img {
-            cursor: pointer;
-            border-radius: var(--border-radius);
-            transition: border 0.3s;
-            border: 3px solid transparent;
-            width: 100%;
-
-            &[data-active="true"] {
-                cursor: default;
-                border: 3px solid var(--accent);
-                &:hover {
-                    border: 3px solid var(--accent);
-                }
-            }
-
-            &:hover {
-                border: 3px solid var(--tertiary-background);
-            }
-        }
-    }
-
-    details {
-        summary {
-            font-size: 0.8125rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--secondary-foreground);
-            cursor: pointer;
-        }
-    }
-
-    .emojiPack {
-        gap: 12px;
-        display: flex;
-        flex-direction: column;
-
-        .row {
-            gap: 12px;
-            display: flex;
-
-            > div {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-            }
-        }
-
-        .button {
-            padding: 2rem 1.2rem;
-            display: grid;
-            place-items: center;
-
-            cursor: pointer;
-            transition: border 0.3s;
-            background: var(--hover);
-            border: 3px solid transparent;
-            border-radius: var(--border-radius);
-
-            img {
-                max-width: 100%;
-            }
-
-            &[data-active="true"] {
-                cursor: default;
-                background: var(--secondary-background);
-                border: 3px solid var(--accent);
-
-                &:hover {
-                    border: 3px solid var(--accent);
-                }
-            }
-
-            &:hover {
-                background: var(--secondary-background);
-                border: 3px solid var(--tertiary-background);
-            }
-        }
-
-        h4 {
-            text-transform: unset;
-
-            a {
-                opacity: 0.7;
-                color: var(--accent);
-                font-weight: 600;
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
-
-            @media only screen and (max-width: 800px) {
-                a {
-                    display: block;
-                }
-            }
-        }
-    }
-
-    .display {
-        gap: 8px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .actions {
-        gap: 8px;
-        display: flex;
-        margin: 18px 0 8px 0;
-
-        .code {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            font-size: 0.875rem;
-            min-width: 0;
-            flex-grow: 1;
-            padding: 8px;
-            font-family: var(--monospace-font);
-            border-radius: var(--border-radius);
-            background: var(--secondary-background);
-
-            > div {
-                width: 100%;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-        }
-    }
-
-    .overrides {
-        row-gap: 8px;
-        display: grid;
-        column-gap: 16px;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        margin-bottom: 20px;
-
-        .entry {
-            padding: 12px;
-            margin-top: 8px;
-            border: 1px solid black;
-            border-radius: var(--border-radius);
-
-            span {
-                flex: 1;
-                display: block;
-                font-weight: 600;
-                font-size: 0.875rem;
-                margin-bottom: 8px;
-                text-transform: capitalize;
-
-                background: inherit;
-                background-clip: text;
-                -webkit-background-clip: text;
-            }
-
-            .override {
-                gap: 8px;
-                display: flex;
-
-                .picker {
-                    width: 38px;
-                    height: 38px;
-                    display: grid;
-                    cursor: pointer;
-                    place-items: center;
-                    border-radius: var(--border-radius);
-                    background: var(--primary-background);
-                }
-
-                input[type="text"] {
-                    width: 0;
-                    min-width: 0;
-                    flex-grow: 1;
-                }
-            }
-
-            .input {
-                width: 0;
-                height: 0;
-                position: relative;
-
-                input {
-                    opacity: 0;
-                    border: none;
-                    display: block;
-                    cursor: pointer;
-                    position: relative;
-
-                    top: 48px;
-                }
-            }
-        }
-    }
-}
-
 .sessions {
     .session {
         display: flex;
@@ -526,15 +358,17 @@
 
             svg {
                 margin-top: 1px;
+                flex-shrink: 0;
             }
         }
     }
 
     .entry {
-        padding: 16px;
+        padding: 12px;
         display: flex;
         margin: 10px 0;
         flex-direction: column;
+        overflow: hidden;
         border-radius: var(--border-radius);
         background: var(--secondary-header);
 
@@ -563,7 +397,7 @@
             background: transparent;
             border: 0;
             font-family: inherit;
-            font-size: 1rem;
+            font-size: 0.875rem;
             padding: 0;
             outline: 0;
             border-radius: 0;
@@ -618,7 +452,7 @@
         .session {
             align-items: unset;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
 
             > button {
                 width: 100%;
@@ -652,7 +486,7 @@
         }
 
         .entry > span > span {
-            gap: 12px;
+            gap: 8px;
             display: flex;
             align-items: center;
             flex-direction: row;
@@ -667,7 +501,7 @@
                 }
 
                 > img {
-                    height: 32px !important;
+                    height: 28px !important;
                 }
             }
 

@@ -1,3 +1,4 @@
+import { Group } from "@styled-icons/boxicons-solid";
 import { autorun } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
@@ -9,8 +10,6 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import { defer } from "../../../../lib/defer";
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
-
-import { dispatch } from "../../../../redux";
 
 import {
     AppContext,
@@ -33,7 +32,7 @@ const EmbedInviteBase = styled.div`
     align-items: center;
     padding: 0 12px;
     margin-top: 2px;
-    ${() => 
+    ${() =>
         isTouchscreenDevice &&
         css`
             flex-wrap: wrap;
@@ -44,19 +43,17 @@ const EmbedInviteBase = styled.div`
             > button {
                 width: 100%;
             }
-        `
-    }
+        `}
 `;
 
 const EmbedInviteDetails = styled.div`
     flex-grow: 1;
-    padding-left: 12px;
-    ${() => 
+    padding-inline-start: 12px;
+    ${() =>
         isTouchscreenDevice &&
         css`
             width: calc(100% - 55px);
-        `
-    }
+        `}
 `;
 
 const EmbedInviteName = styled.div`
@@ -67,18 +64,24 @@ const EmbedInviteName = styled.div`
 `;
 
 const EmbedInviteMemberCount = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 2px;
     font-size: 0.8em;
+
+    > svg {
+        color: var(--secondary-foreground);
+    }
 `;
 
 type Props = {
     code: string;
 };
 
-export function EmbedInvite(props: Props) {
+export function EmbedInvite({ code }: Props) {
     const history = useHistory();
     const client = useContext(AppContext);
     const status = useContext(StatusContext);
-    const code = props.code;
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [joinError, setJoinError] = useState<string | undefined>(undefined);
@@ -124,7 +127,9 @@ export function EmbedInvite(props: Props) {
                 <EmbedInviteDetails>
                     <EmbedInviteName>{invite.server_name}</EmbedInviteName>
                     <EmbedInviteMemberCount>
-                        {invite.member_count.toLocaleString()} {invite.member_count === 1 ? "member" : "members"}
+                        <Group size={12} />
+                        {invite.member_count.toLocaleString()}{" "}
+                        {invite.member_count === 1 ? "member" : "members"}
                     </EmbedInviteMemberCount>
                 </EmbedInviteDetails>
                 {processing ? (
@@ -151,10 +156,9 @@ export function EmbedInvite(props: Props) {
 
                                         defer(() => {
                                             if (server) {
-                                                dispatch({
-                                                    type: "UNREADS_MARK_MULTIPLE_READ",
-                                                    channels: server.channel_ids,
-                                                });
+                                                client.unreads!.markMultipleRead(
+                                                    server.channel_ids,
+                                                );
 
                                                 history.push(
                                                     `/server/${server._id}/channel/${invite.channel_id}`,
@@ -172,7 +176,9 @@ export function EmbedInvite(props: Props) {
                                 setProcessing(false);
                             }
                         }}>
-                        {client.servers.get(invite.server_id) ? "Joined" : "Join"}
+                        {client.servers.get(invite.server_id)
+                            ? "Joined"
+                            : "Join"}
                     </Button>
                 )}
             </EmbedInviteBase>

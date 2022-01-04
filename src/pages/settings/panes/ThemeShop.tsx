@@ -1,19 +1,19 @@
-import { Plus, Check } from "@styled-icons/boxicons-regular";
+import { Check } from "@styled-icons/boxicons-regular";
 import {
     Star,
-    BarChartAlt2,
     Brush,
     Bookmark,
+    BarChartAlt2,
 } from "@styled-icons/boxicons-solid";
 import styled from "styled-components";
 
+import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { dispatch } from "../../../redux";
+import { useApplicationState } from "../../../mobx/State";
 
-import { Theme, generateVariables, ThemeOptions } from "../../../context/Theme";
+import { Theme, generateVariables } from "../../../context/Theme";
 
-import InputBox from "../../../components/ui/InputBox";
 import Tip from "../../../components/ui/Tip";
 import previewPath from "../assets/preview.svg";
 
@@ -258,6 +258,8 @@ export function ThemeShop() {
     >(null);
     const [themeData, setThemeData] = useState<Record<string, Theme>>({});
 
+    const themes = useApplicationState().settings.theme;
+
     async function fetchThemeList() {
         const manifest = await fetchManifest();
         setThemeList(
@@ -285,7 +287,7 @@ export function ThemeShop() {
     return (
         <ThemeShopRoot>
             <h5>
-                Browse hundreds of themes, created and curated by the community.
+                <Text id="app.settings.pages.theme_shop.description" />
             </h5>
             {/*<LoadFail>
                 <h5>
@@ -296,54 +298,66 @@ export function ThemeShop() {
             <Tip warning hideSeparator>
                 The Theme Shop is currently under construction.
             </Tip>
+
             {/* FIXME INTEGRATE WITH MOBX */}
             {/*<ActiveTheme>
                 <div class="active-indicator">
                     <Check size="16" />
-                    Currently active
+                    <Text id="app.settings.pages.theme_shop.active" />
                 </div>
                 <div class="container">
                     <div class="theme">theme svg goes here</div>
                     <div class="info">
                         <div class="title">Theme Title</div>
-                        <div class="author">by Author</div>
+                        <div class="author">
+                            <Text id="app.settings.pages.theme_shop.by" />{" "}
+                            Author
+                        </div>
                         <h5>This is a theme description.</h5>
                     </div>
                 </div>
             </ActiveTheme>
-            <InputBox placeholder="Search themes..." contrast />
+            <InputBox placeholder="<Text id="app.settings.pages.theme_shop.search" />" contrast />
             <Category>
                 <div class="title">
                     <Bookmark size={16} />
-                    Saved
+                    <Text id="app.settings.pages.theme_shop.category.saved" />
                 </div>
-                <a class="view">Manage installed</a>
+                <a class="view">
+                    <Text id="app.settings.pages.theme_shop.category.manage" />
+                </a>
             </Category>
 
             <Category>
                 <div class="title">
                     <Star size={16} />
-                    New this week
+                    <Text id="app.settings.pages.theme_shop.category.new" />
                 </div>
-                <a class="view">View all</a>
-            </Category>
-
-            <Category>
-                <div class="title">
-                    <Brush size={16} />
-                    Default themes
-                </div>
-                <a class="view">View all</a>
+                <a class="view">
+                    <Text id="app.settings.pages.theme_shop.category.viewall" />
+                </a>
             </Category>
 
             <Category>
                 <div class="title">
                     <BarChartAlt2 size={16} />
-                    Highest rated
+                    <Text id="app.settings.pages.theme_shop.category.highest" />
                 </div>
-                <a class="view">View all</a>
-            </Category>*/}
+                <a class="view">
+                    <Text id="app.settings.pages.theme_shop.category.viewall" />
+                </a>
+            </Category>
 
+            <Category>
+                <div class="title">
+                    <Brush size={16} />
+                    <Text id="app.settings.pages.theme_shop.category.default" />
+                </div>
+                <a class="view">
+                    <Text id="app.settings.pages.theme_shop.category.viewall" />
+                </a>
+            </Category>*/}
+            <hr />
             <ThemeList>
                 {themeList?.map(([slug, theme]) => (
                     <ThemeInfo
@@ -351,23 +365,13 @@ export function ThemeShop() {
                         data-loaded={Reflect.has(themeData, slug)}>
                         <button
                             class="preview"
-                            onClick={() => {
-                                dispatch({
-                                    type: "THEMES_SET_THEME",
-                                    theme: {
-                                        slug,
-                                        meta: theme,
-                                        theme: themeData[slug],
-                                    },
-                                });
-
-                                dispatch({
-                                    type: "SETTINGS_SET_THEME",
-                                    theme: { base: slug },
-                                });
-                            }}>
+                            onClick={() =>
+                                themes.hydrate(themeData[slug], true)
+                            }>
                             <div class="previewBox">
-                                <div class="hover">Use theme</div>
+                                <div class="hover">
+                                    <Text id="app.settings.pages.theme_shop.use" />
+                                </div>
                                 <ThemePreview
                                     slug={slug}
                                     theme={themeData[slug]}
@@ -376,7 +380,10 @@ export function ThemeShop() {
                         </button>
                         <h1 class="name">{theme.name}</h1>
                         {/* Maybe id's of the users should be included as well / instead? */}
-                        <div class="creator">by {theme.creator}</div>
+                        <div class="creator">
+                            <Text id="app.settings.pages.theme_shop.by" />{" "}
+                            {theme.creator}
+                        </div>
                         <h5 class="description">{theme.description}</h5>
                     </ThemeInfo>
                 ))}

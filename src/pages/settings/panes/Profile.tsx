@@ -1,5 +1,6 @@
 import { Markdown } from "@styled-icons/boxicons-logos";
 import { observer } from "mobx-react-lite";
+import { useHistory } from "react-router-dom";
 import { Profile as ProfileI } from "revolt-api/types/Users";
 
 import styles from "./Panes.module.scss";
@@ -21,11 +22,13 @@ import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
 import Button from "../../../components/ui/Button";
+import Tip from "../../../components/ui/Tip";
 
 export const Profile = observer(() => {
     const status = useContext(StatusContext);
     const translate = useTranslation();
     const client = useClient();
+    const history = useHistory();
 
     const [profile, setProfile] = useState<undefined | ProfileI>(undefined);
 
@@ -47,6 +50,10 @@ export const Profile = observer(() => {
     function setContent(content?: string) {
         setProfile({ ...profile, content });
         if (!changed) setChanged(true);
+    }
+
+    function switchPage(to: string) {
+        history.replace(`/settings/${to}`);
     }
 
     const {
@@ -74,10 +81,15 @@ export const Profile = observer(() => {
             </div>
             {/*<h3>Badges</h3>
             <div className={styles.badgePicker}>
-                <div className={styles.check}>a</div>
-                <div className={styles.check}>b</div>
-                <div className={styles.check}>c</div>
+                <div className={styles.overlay} />
+                <div className={styles.container}>
+                    <div className={styles.check}>a</div>
+                    <div className={styles.check}>b</div>
+                    <div className={styles.check}>c</div>
+                </div>
+                <div className={styles.overlay2} />
             </div>*/}
+            <hr />
             <div className={styles.row}>
                 <div className={styles.pfp}>
                     <h3>
@@ -188,6 +200,12 @@ export const Profile = observer(() => {
                     <Text id="app.special.modals.actions.save" />
                 </Button>
             </p>
+            <Tip>
+                <span>Want to change your username?</span>{" "}
+                <a onClick={() => switchPage("account")}>
+                    Head over to your account settings.
+                </a>
+            </Tip>
         </div>
     );
 });

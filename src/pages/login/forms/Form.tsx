@@ -1,10 +1,13 @@
 import { CheckCircle, Envelope } from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
+
+import { useApplicationState } from "../../../mobx/State";
 
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
@@ -13,10 +16,10 @@ import wideSVG from "../../../../public/assets/wide.svg";
 import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
+import WaveSVG from "../../settings/assets/wave.svg";
 
 import FormField from "../FormField";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
-import { Legal } from "./Legal";
 import { MailProvider } from "./MailProvider";
 
 interface Props {
@@ -43,8 +46,8 @@ interface FormInputs {
     invite: string;
 }
 
-export function Form({ page, callback }: Props) {
-    const client = useContext(AppContext);
+export const Form = observer(({ page, callback }: Props) => {
+    const configuration = useApplicationState().config.get();
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState<string | undefined>(undefined);
@@ -80,10 +83,7 @@ export function Form({ page, callback }: Props) {
         }
 
         try {
-            if (
-                client.configuration?.features.captcha.enabled &&
-                page !== "reset"
-            ) {
+            if (configuration?.features.captcha.enabled && page !== "reset") {
                 setCaptcha({
                     onSuccess: async (captcha) => {
                         setCaptcha(undefined);
@@ -111,32 +111,30 @@ export function Form({ page, callback }: Props) {
     if (typeof success !== "undefined") {
         return (
             <div className={styles.success}>
-                {client.configuration?.features.email ? (
+                {configuration?.features.email ? (
                     <>
-                        <Envelope size={72} />
-                        <h2>
-                            <Text id="login.check_mail" />
-                        </h2>
-                        <p className={styles.note}>
-                            <Text id="login.email_delay" />
-                        </p>
+                        <div>
+                            <div className={styles.title}>
+                                <Text id="login.check_mail" />
+                            </div>
+                            <div className={styles.subtitle}>
+                                <Text id="login.email_delay" />
+                            </div>
+                        </div>
                         <MailProvider email={success} />
                     </>
                 ) : (
                     <>
-                        <CheckCircle size={72} />
-                        <h1>
+                        <div className={styles.title}>
                             <Text id="login.successful_registration" />
-                        </h1>
+                        </div>
                     </>
                 )}
-                <span className={styles.footer}>
-                    <Link to="/login">
-                        <a>
-                            <Text id="login.remembered" />
-                        </a>
-                    </Link>
-                </span>
+                <Link to="/login">
+                    <a>
+                        <Text id="login.remembered" />
+                    </a>
+                </Link>
             </div>
         );
     }
@@ -145,8 +143,18 @@ export function Form({ page, callback }: Props) {
     if (loading) return <Preloader type="spinner" />;
 
     return (
-        <div className={styles.form}>
-            <img src={wideSVG} />
+        <div className={styles.formModal}>
+            <div className={styles.welcome}>
+                <div className={styles.title}>
+                    <img src={WaveSVG} draggable={false} />
+                    <Text id="login.welcome" />
+                </div>
+                <div className={styles.subtitle}>
+                    <Text id="login.subtitle" />
+                    <div>(app.revolt.chat)</div>
+                </div>
+            </div>
+
             {/* Preact / React typing incompatabilities */}
             <form
                 onSubmit={
@@ -172,15 +180,14 @@ export function Form({ page, callback }: Props) {
                         error={errors.password?.message}
                     />
                 )}
-                {client.configuration?.features.invite_only &&
-                    page === "create" && (
-                        <FormField
-                            type="invite"
-                            register={register}
-                            showOverline
-                            error={errors.invite?.message}
-                        />
-                    )}
+                {configuration?.features.invite_only && page === "create" && (
+                    <FormField
+                        type="invite"
+                        register={register}
+                        showOverline
+                        error={errors.invite?.message}
+                    />
+                )}
                 {error && (
                     <Overline type="error" error={error}>
                         <Text id={`login.error.${page}`} />
@@ -205,13 +212,13 @@ export function Form({ page, callback }: Props) {
             {page === "create" && (
                 <>
                     <span className={styles.create}>
-                        <Text id="login.existing" />
+                        <Text id="login.existing" />{" "}
                         <Link to="/login">
                             <Text id="login.title" />
                         </Link>
                     </span>
                     <span className={styles.create}>
-                        <Text id="login.missing_verification" />
+                        <Text id="login.missing_verification" />{" "}
                         <Link to="/login/resend">
                             <Text id="login.resend" />
                         </Link>
@@ -221,13 +228,13 @@ export function Form({ page, callback }: Props) {
             {page === "login" && (
                 <>
                     <span className={styles.create}>
-                        <Text id="login.new" />
+                        <Text id="login.new" />{" "}
                         <Link to="/login/create">
                             <Text id="login.create" />
                         </Link>
                     </span>
                     <span className={styles.create}>
-                        <Text id="login.forgot" />
+                        <Text id="login.forgot" />{" "}
                         <Link to="/login/reset">
                             <Text id="login.reset" />
                         </Link>
@@ -245,7 +252,6 @@ export function Form({ page, callback }: Props) {
                     </span>
                 </>
             )}
-            <Legal />
         </div>
     );
-}
+});

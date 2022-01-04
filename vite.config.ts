@@ -99,4 +99,7 @@ export default defineConfig({
             },
         },
     },
+    optimizeDeps: {
+        exclude: ["revolt.js"],
+    },
 });

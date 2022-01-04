@@ -1,21 +1,27 @@
 import { Redirect } from "react-router-dom";
 
-import { useContext } from "preact/hooks";
+import { useApplicationState } from "../../mobx/State";
 
 import { Children } from "../../types/Preact";
-import { OperationsContext } from "./RevoltClient";
+import { useClient } from "./RevoltClient";
 
 interface Props {
     auth?: boolean;
+    blockRender?: boolean;
+
     children: Children;
 }
 
 export const CheckAuth = (props: Props) => {
-    const operations = useContext(OperationsContext);
+    const auth = useApplicationState().auth;
+    const client = useClient();
+    const ready = auth.isLoggedIn() && !!client?.user;
 
-    if (props.auth && !operations.ready()) {
+    if (props.auth && !ready) {
+        if (props.blockRender) return null;
         return <Redirect to="/login" />;
-    } else if (!props.auth && operations.ready()) {
+    } else if (!props.auth && ready) {
+        if (props.blockRender) return null;
         return <Redirect to="/" />;
     }
 

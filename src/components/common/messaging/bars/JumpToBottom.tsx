@@ -5,29 +5,73 @@ import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
 
+import { internalEmit } from "../../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import { getRenderer } from "../../../../lib/renderer/Singleton";
 
-const Bar = styled.div`
+export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
     z-index: 10;
     position: relative;
 
+    ${(props) =>
+        props.position === "top" &&
+        css`
+            top: 0;
+        `}
+
+    ${(props) =>
+        props.position === "bottom" &&
+        css`
+            top: -28px;
+
+            ${() =>
+                isTouchscreenDevice &&
+                css`
+                    top: -90px;
+                `}
+        `}
+
     > div {
-        top: -26px;
         height: 28px;
         width: 100%;
         position: absolute;
         display: flex;
         align-items: center;
         cursor: pointer;
-        font-size: 13px;
+        font-size: 12px;
         padding: 0 8px;
         user-select: none;
         justify-content: space-between;
-        color: var(--secondary-foreground);
         transition: color ease-in-out 0.08s;
-        background: var(--secondary-background);
-        border-radius: var(--border-radius) var(--border-radius) 0 0;
+
+        ${(props) =>
+            props.accent
+                ? css`
+                      color: var(--accent-contrast);
+                      background: var(--accent);
+                  `
+                : css`
+                      color: var(--secondary-foreground);
+                      background: var(--secondary-background);
+                  `}
+
+        ${(props) =>
+            props.position === "top"
+                ? css`
+                      top: 48px;
+                      border-radius: 0 0 var(--border-radius)
+                          var(--border-radius);
+                  `
+                : css`
+                      border-radius: var(--border-radius) var(--border-radius) 0
+                          0;
+                  `}
+
+                  ${() =>
+            isTouchscreenDevice &&
+            css`
+                top: 56px;
+            `}
 
         > div {
             display: flex;
@@ -47,7 +91,6 @@ const Bar = styled.div`
             isTouchscreenDevice &&
             css`
                 height: 34px;
-                top: -32px;
                 padding: 0 12px;
             `}
     }
@@ -58,14 +101,18 @@ export default observer(({ channel }: { channel: Channel }) => {
     if (renderer.state !== "RENDER" || renderer.atBottom) return null;
 
     return (
-        <Bar>
-            <div onClick={() => renderer.jumpToBottom(true)}>
+        <Bar position="bottom">
+            <div
+                onClick={() => {
+                    renderer.jumpToBottom(true);
+                    internalEmit("NewMessages", "hide");
+                }}>
                 <div>
                     <Text id="app.main.channel.misc.viewing_old" />
                 </div>
                 <div>
                     <Text id="app.main.channel.misc.jump_present" />{" "}
-                    <DownArrowAlt size={20} />
+                    <DownArrowAlt size={18} />
                 </div>
             </div>
         </Bar>

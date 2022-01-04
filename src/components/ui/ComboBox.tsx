@@ -19,4 +19,8 @@ export default styled.select`
     &:focus {
         box-shadow: 0 0 0 1.5pt var(--accent);
     }
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 `;

@@ -1,7 +1,6 @@
 import { ChevronDown } from "@styled-icons/boxicons-regular";
 
-import { State, store } from "../../redux";
-import { Action } from "../../redux/reducers";
+import { useApplicationState } from "../../mobx/State";
 
 import Details from "../ui/Details";
 
@@ -25,27 +24,14 @@ export default function CollapsibleSection({
     children,
     ...detailsProps
 }: Props) {
-    const state: State = store.getState();
-
-    function setState(state: boolean) {
-        if (state === defaultValue) {
-            store.dispatch({
-                type: "SECTION_TOGGLE_UNSET",
-                id,
-            } as Action);
-        } else {
-            store.dispatch({
-                type: "SECTION_TOGGLE_SET",
-                id,
-                state,
-            } as Action);
-        }
-    }
+    const layout = useApplicationState().layout;
 
     return (
         <Details
-            open={state.sectionToggle[id] ?? defaultValue}
-            onToggle={(e) => setState(e.currentTarget.open)}
+            open={layout.getSectionState(id, defaultValue)}
+            onToggle={(e) =>
+                layout.setSectionState(id, e.currentTarget.open, defaultValue)
+            }
             {...detailsProps}>
             <summary>
                 <div class="padding">

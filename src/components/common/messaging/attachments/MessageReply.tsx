@@ -18,7 +18,7 @@ import { SystemMessage } from "../SystemMessage";
 
 interface Props {
     parent_mentions: string[];
-    channel: Channel;
+    channel?: Channel;
     index: number;
     id: string;
 }
@@ -98,6 +98,12 @@ export const ReplyBase = styled.div<{
         transition: transform ease-in-out 0.1s;
         filter: brightness(1);
 
+        > span > p {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
         &:hover {
             filter: brightness(2);
         }
@@ -142,6 +148,8 @@ export const ReplyBase = styled.div<{
 
 export const MessageReply = observer(
     ({ index, channel, id, parent_mentions }: Props) => {
+        if (!channel) return null;
+
         const view = getRenderer(channel);
         if (view.state !== "RENDER") return null;
 

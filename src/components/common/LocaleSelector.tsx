@@ -1,23 +1,21 @@
-import { dispatch } from "../../redux";
-import { connectState } from "../../redux/connector";
+import { useApplicationState } from "../../mobx/State";
 
 import { Language, Languages } from "../../context/Locale";
 
 import ComboBox from "../ui/ComboBox";
 
-type Props = {
-    locale: string;
-};
+/**
+ * Component providing a language selector combobox.
+ * Note: this is not an observer but this is fine as we are just using a combobox.
+ */
+export default function LocaleSelector() {
+    const locale = useApplicationState().locale;
 
-export function LocaleSelector(props: Props) {
     return (
         <ComboBox
-            value={props.locale}
+            value={locale.getLanguage()}
             onChange={(e) =>
-                dispatch({
-                    type: "SET_LOCALE",
-                    locale: e.currentTarget.value as Language,
-                })
+                locale.setLanguage(e.currentTarget.value as Language)
             }>
             {Object.keys(Languages).map((x) => {
                 const l = Languages[x as keyof typeof Languages];
@@ -30,9 +28,3 @@ export function LocaleSelector(props: Props) {
         </ComboBox>
     );
 }
-
-export default connectState(LocaleSelector, (state) => {
-    return {
-        locale: state.locale,
-    };
-});

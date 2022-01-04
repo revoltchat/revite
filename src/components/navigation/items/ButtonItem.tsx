@@ -1,4 +1,5 @@
-import { X, Crown } from "@styled-icons/boxicons-regular";
+import { X } from "@styled-icons/boxicons-regular";
+import { Crown } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Presence } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";

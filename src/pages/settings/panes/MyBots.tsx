@@ -56,7 +56,7 @@ const BotBadge = styled.div`
     margin-inline-start: 2px;
     text-transform: uppercase;
 
-    color: var(--foreground);
+    color: var(--accent-contrast);
     background: var(--accent);
     border-radius: calc(var(--border-radius) / 2);
 `;
@@ -381,7 +381,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                     <CollapsibleSection
                         defaultValue={false}
                         id={`bot_profile_${bot._id}`}
-                        summary="Bot Profile">
+                        summary={<Text id="app.settings.pages.bots.profile" />}>
                         <h3>
                             <Text id="app.settings.pages.profile.custom_background" />
                         </h3>

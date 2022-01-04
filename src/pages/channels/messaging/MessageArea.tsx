@@ -33,13 +33,18 @@ import Preloader from "../../../components/ui/Preloader";
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
 
-const Area = styled.div`
+const Area = styled.div.attrs({ "data-scroll-offset": "with-padding" })`
     height: 100%;
     flex-grow: 1;
     min-height: 0;
+    word-break: break-word;
+
     overflow-x: hidden;
     overflow-y: scroll;
-    word-break: break-word;
+
+    &::-webkit-scrollbar-thumb {
+        min-height: 150px;
+    }
 
     > div {
         display: flex;
@@ -51,13 +56,14 @@ const Area = styled.div`
 `;
 
 interface Props {
+    last_id?: string;
     channel: Channel;
 }
 
 export const MessageAreaWidthContext = createContext(0);
 export const MESSAGE_AREA_PADDING = 82;
 
-export const MessageArea = observer(({ channel }: Props) => {
+export const MessageArea = observer(({ last_id, channel }: Props) => {
     const history = useHistory();
     const status = useContext(StatusContext);
     const { focusTaken } = useContext(IntermediateContext);
@@ -323,6 +329,7 @@ export const MessageArea = observer(({ channel }: Props) => {
                     )}
                     {renderer.state === "RENDER" && (
                         <MessageRenderer
+                            last_id={last_id}
                             renderer={renderer}
                             highlight={highlight}
                         />
