@@ -69,7 +69,7 @@ export const Username = observer(
                         const srv = client.servers.get(member._id.server);
                         if (srv?.roles) {
                             for (const role of member.roles) {
-                                const c = srv.roles[role].colour;
+                                const c = srv.roles[role]?.colour;
                                 if (c) {
                                     color = c;
                                     continue;
