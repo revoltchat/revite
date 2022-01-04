@@ -38,14 +38,6 @@
     flex-direction: column;
     background: var(--primary-header);
 
-    ::-webkit-scrollbar-thumb {
-        min-height: 100px;
-        width: 4px;
-        background-clip: content-box;
-        border-top: var(--header-height) solid transparent;
-        border-bottom: var(--bottom-navigation-height) solid transparent;
-    }
-
     .sidebar,
     .content {
         background: var(--primary-background);
@@ -56,7 +48,7 @@
         overflow-y: auto;
 
         .container {
-            padding: 20px 10px 80px;
+            padding: 12px 10px 80px;
             min-width: 218px;
         }
 
@@ -97,6 +89,11 @@
     &.closing {
         animation: close 0.18s ease-in;
     }
+
+    .scrollbox::-webkit-scrollbar-thumb {
+        background-clip: content-box;
+        border-top: 80px solid transparent;
+    }
 }
 
 .settings {
@@ -117,14 +114,6 @@
     .scrollbox:hover,
     .scrollbox:focus {
         visibility: visible;
-    }
-
-    // All children receive custom scrollbar.
-    > * > ::-webkit-scrollbar-thumb {
-        min-height: 100px;
-        width: 4px;
-        background-clip: content-box;
-        border-top: 80px solid transparent;
     }
 
     .sidebar {
