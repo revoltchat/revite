@@ -4,6 +4,7 @@ import { StateUpdater } from "preact/hooks";
 
 import Auth from "../../mobx/stores/Auth";
 
+import { resetMemberSidebarFetched } from "../../components/navigation/right/MemberSidebar";
 import { ClientStatus } from "./RevoltClient";
 
 export let preventReconnect = false;
@@ -43,7 +44,10 @@ export function registerEvents(
             attemptReconnect();
         },
 
-        ready: () => setStatus(ClientStatus.ONLINE),
+        ready: () => {
+            resetMemberSidebarFetched();
+            setStatus(ClientStatus.ONLINE);
+        },
 
         logout: () => {
             auth.logout();
