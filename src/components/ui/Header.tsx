@@ -54,7 +54,7 @@ const Header = styled.div<Props>`
                       var(--primary-header-rgb),
                       max(var(--min-opacity), 0.75)
                   );
-                  backdrop-filter: blur(10px);
+                  backdrop-filter: blur(20px);
                   z-index: 20;
                   position: absolute;
                   width: 100%;
