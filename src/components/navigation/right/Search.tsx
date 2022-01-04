@@ -99,7 +99,7 @@ export function SearchSidebar({ close }: Props) {
     }, [sort]);
 
     return (
-        <GenericSidebarBase>
+        <GenericSidebarBase data-scroll-offset="with-padding">
             <GenericSidebarList>
                 <SearchBase>
                     <Overline type="accent" block hover>
