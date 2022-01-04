@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import isEqual from "lodash.isequal";
 import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
@@ -9,7 +8,7 @@ import { Channel } from "revolt.js/dist/maps/Channels";
 import { Server } from "revolt.js/dist/maps/Servers";
 import { User } from "revolt.js/dist/maps/Users";
 
-import { Inputs, useContext, useEffect, useRef, useState } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 
 import { defer } from "../../../lib/defer";
 
@@ -21,15 +20,6 @@ import {
 
 import { GenericSidebarBase } from "../SidebarBase";
 import MemberList, { MemberListGroup } from "./MemberList";
-
-/*export const Container = styled.div`
-    padding-top: 48px;
-
-    ${isTouchscreenDevice &&
-    css`
-        padding-top: 0;
-    `}
-`;*/
 
 export default function MemberSidebar() {
     const channel = useClient().channels.get(
@@ -48,14 +38,13 @@ export default function MemberSidebar() {
 
 function useEntries(
     channel: Channel,
-    keys: string[],
-    renderListener: (effect: () => void) => () => void,
+    renderListener: (effect: (keys: string[]) => void) => () => void,
     isServer?: boolean,
 ) {
     const client = channel.client;
     const [entries, setEntries] = useState<MemberListGroup[]>([]);
 
-    function sort() {
+    function sort(keys: string[]) {
         defer(() => {
             const categories: { [key: string]: [User, string][] } = {
                 online: [],
@@ -170,8 +159,6 @@ function useEntries(
         });
     }
 
-    useEffect(() => sort(), []);
-
     useEffect(() => {
         return renderListener(sort);
         // eslint-disable-next-line
@@ -182,8 +169,8 @@ function useEntries(
 
 export const GroupMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
-        const entries = useEntries(channel, channel.recipient_ids!, (effect) =>
-            reaction(() => channel.recipient_ids, effect),
+        const entries = useEntries(channel, (effect) =>
+            reaction(() => channel.recipient_ids!, effect),
         );
 
         return (
@@ -222,7 +209,6 @@ export const ServerMemberSidebar = observer(
 
         const entries = useEntries(
             channel,
-            [...client.members.keys()],
             (effect) => reaction(() => [...client.members.keys()], effect),
             true,
         );
