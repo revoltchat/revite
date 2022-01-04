@@ -136,6 +136,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
     // We don't care if the mention changes.
     const newContent = content
         .replace(RE_TIME, (sub: string, ...args: unknown[]) => {
+            if (isNaN(args[0] as string)) return sub;
             const date = dayjs.unix(args[0] as number);
             const format = args[1] as string;
             let final = "";
