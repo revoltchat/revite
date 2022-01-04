@@ -132,7 +132,11 @@ export function GenericSettings({
             )}
             {(!isTouchscreenDevice || typeof page === "undefined") && (
                 <div className={styles.sidebar}>
-                    <div className={styles.scrollbox}>
+                    <div
+                        className={styles.scrollbox}
+                        data-scroll-offset={
+                            isTouchscreenDevice ? "with-padding" : undefined
+                        }>
                         <div className={styles.container}>
                             {isTouchscreenDevice && indexHeader}
                             {pages.map((entry, i) =>
