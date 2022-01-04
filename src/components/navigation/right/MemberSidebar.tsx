@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import isEqual from "lodash.isequal";
+import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Role } from "revolt-api/types/Servers";
@@ -7,7 +9,7 @@ import { Channel } from "revolt.js/dist/maps/Channels";
 import { Server } from "revolt.js/dist/maps/Servers";
 import { User } from "revolt.js/dist/maps/Users";
 
-import { useContext, useEffect, useState } from "preact/hooks";
+import { Inputs, useContext, useEffect, useRef, useState } from "preact/hooks";
 
 import { defer } from "../../../lib/defer";
 
@@ -44,11 +46,16 @@ export default function MemberSidebar() {
     }
 }
 
-function useEntries(channel: Channel, keys: string[], isServer?: boolean) {
+function useEntries(
+    channel: Channel,
+    keys: string[],
+    renderListener: (effect: () => void) => () => void,
+    isServer?: boolean,
+) {
     const client = channel.client;
     const [entries, setEntries] = useState<MemberListGroup[]>([]);
 
-    useEffect(() => {
+    function sort() {
         defer(() => {
             const categories: { [key: string]: [User, string][] } = {
                 online: [],
@@ -161,16 +168,23 @@ function useEntries(channel: Channel, keys: string[], isServer?: boolean) {
 
             setEntries(entries);
         });
+    }
+
+    useEffect(() => sort(), []);
+
+    useEffect(() => {
+        return renderListener(sort);
         // eslint-disable-next-line
-    }, [keys]);
+    }, [renderListener]);
 
     return entries;
 }
 
 export const GroupMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
-        const keys = [...channel.recipient_ids!];
-        const entries = useEntries(channel, keys);
+        const entries = useEntries(channel, channel.recipient_ids!, (effect) =>
+            reaction(() => channel.recipient_ids, effect),
+        );
 
         return (
             <GenericSidebarBase data-scroll-offset="with-padding">
@@ -206,8 +220,12 @@ export const ServerMemberSidebar = observer(
             // eslint-disable-next-line
         }, [status, channel.server_id]);
 
-        const keys = [...client.members.keys()];
-        const entries = useEntries(channel, keys, true);
+        const entries = useEntries(
+            channel,
+            [...client.members.keys()],
+            (effect) => reaction(() => [...client.members.keys()], effect),
+            true,
+        );
 
         return (
             <GenericSidebarBase data-scroll-offset="with-padding">
