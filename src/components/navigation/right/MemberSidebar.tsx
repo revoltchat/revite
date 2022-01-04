@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { reaction } from "mobx";
+import { autorun, reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Role } from "revolt-api/types/Servers";
@@ -170,7 +170,7 @@ function useEntries(
 export const GroupMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
         const entries = useEntries(channel, (effect) =>
-            reaction(() => channel.recipient_ids!, effect),
+            autorun(() => effect(channel.recipient_ids!)),
         );
 
         return (
@@ -209,7 +209,7 @@ export const ServerMemberSidebar = observer(
 
         const entries = useEntries(
             channel,
-            (effect) => reaction(() => [...client.members.keys()], effect),
+            (effect) => autorun(() => effect([...client.members.keys()])),
             true,
         );
 
