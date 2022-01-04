@@ -459,15 +459,18 @@ export default function ContextMenus() {
                         locale?: string,
                         disabled?: boolean,
                         tip?: Children,
+                        color?: string,
                     ) {
                         lastDivider = false;
                         elements.push(
                             <MenuItem data={action} disabled={disabled}>
-                                <Text
-                                    id={`app.context_menu.${
-                                        locale ?? action.action
-                                    }`}
-                                />
+                                <span style={{color}}>
+                                    <Text
+                                        id={`app.context_menu.${
+                                            locale ?? action.action
+                                        }`}
+                                    />
+                                </span>
                                 {tip && <div className="tip">{tip}</div>}
                             </MenuItem>,
                         );
@@ -652,18 +655,30 @@ export default function ContextMenus() {
                             if (
                                 serverPermissions & ServerPermission.KickMembers
                             )
-                                generateAction({
-                                    action: "kick_member",
-                                    target: server,
-                                    user: user!,
-                                });
+                                generateAction(
+                                    {
+                                        action: "kick_member",
+                                        target: server,
+                                        user: user!,
+                                    },
+                                    undefined, // this is needed because generateAction uses positional, not named parameters
+                                    undefined,
+                                    null,
+                                    "var(--error)", // the only relevant part really
+                                );
 
                             if (serverPermissions & ServerPermission.BanMembers)
-                                generateAction({
-                                    action: "ban_member",
-                                    target: server,
-                                    user: user!,
-                                });
+                                generateAction(
+                                    {
+                                        action: "ban_member",
+                                        target: server,
+                                        user: user!,
+                                    },
+                                    undefined,
+                                    undefined,
+                                    null,
+                                    "var(--error)",
+                                );
                         }
                     }
 
