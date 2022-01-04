@@ -179,14 +179,24 @@ export const GroupMemberSidebar = observer(
     },
 );
 
+// ! FIXME: this is temporary code until we get lazy guilds like subscriptions
+const FETCHED: Set<String> = new Set();
+
+export function resetMemberSidebarFetched() {
+    FETCHED.clear();
+}
+
 export const ServerMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
         const client = useClient();
         const status = useContext(StatusContext);
 
         useEffect(() => {
-            if (status === ClientStatus.ONLINE) {
-                channel.server!.fetchMembers();
+            const server_id = channel.server_id!;
+            if (status === ClientStatus.ONLINE && !FETCHED.has(server_id)) {
+                channel
+                    .server!.fetchMembers()
+                    .then(() => FETCHED.add(server_id));
             }
             // eslint-disable-next-line
         }, [status, channel.server_id]);
