@@ -9,7 +9,7 @@
     //background: var(--primary-background) !important;
     background-color: rgba(
         var(--primary-background-rgb),
-        max(var(--min-opacity), 0.8)
+        max(var(--min-opacity), 0.9)
     );
     backdrop-filter: blur(10px);
     box-shadow: 0px 0px 8px 8px rgba(0, 0, 0, 0.05);
