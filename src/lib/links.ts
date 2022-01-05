@@ -7,11 +7,13 @@ type LinkType =
           navigation_type: "channel";
           channel_id: string;
       }
+    | { type: "invite"; code: string }
     | { type: "external"; href: string; url: URL }
     | { type: "none" };
 
 const ALLOWED_ORIGINS = [
     location.hostname,
+    "rvlt.gg",
     "app.revolt.chat",
     "nightly.revolt.chat",
     "local.revolt.chat",
@@ -42,6 +44,12 @@ export function determineLink(href?: string): LinkType {
                             path,
                             navigation_type: "channel",
                             channel_id: path.slice(43),
+                        };
+                    }
+                    if (url.hostname == "rvlt.gg") {
+                        return {
+                            type: "invite",
+                            code: path,
                         };
                     }
                     return { type: "navigate", path };

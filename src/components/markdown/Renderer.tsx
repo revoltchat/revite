@@ -284,6 +284,10 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
                                     element.setAttribute("rel", "noreferrer");
                                     break;
                                 }
+                                case "invite": {
+                                    client.joinInvite(link.code);
+                                    break;
+                                }
                             }
                         },
                     );
