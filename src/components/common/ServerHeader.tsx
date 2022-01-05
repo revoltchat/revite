@@ -64,6 +64,8 @@ const ServerBanner = styled.div<Omit<Props, "server">>`
             overflow: hidden;
             text-overflow: ellipsis;
             flex-grow: 1;
+            color: var(--foreground)
+            cursor: pointer;
         }
     }
 `;
@@ -127,15 +129,14 @@ export default observer(({ server }: Props) => {
                     </Tooltip>
                 ) : undefined}
                 <a
-                  className="desc"
-                  onClick={() =>
-                      openScreen({
-                         id: "server_info",
-                         server,
-                     })
-                  } 
-                  style="cursor: pointer; color: var(--foreground)">
-                    <ServerName>{server.name}</ServerName>
+                    className="title"
+                    onClick={() =>
+                        openScreen({
+                            id: "server_info",
+                            server,
+                        })
+                    }>
+                    {server.name}
                 </a>
                 {(server.permission & ServerPermission.ManageServer) > 0 && (
                     <Link to={`/server/${server._id}/settings`}>
