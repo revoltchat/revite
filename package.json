@@ -1,7 +1,7 @@
 {
     "version": "0.0.0",
     "scripts": {
-        "dev": "node scripts/setup_assets.js --check && vite --port=3001",
+        "dev": "node scripts/setup_assets.js --check && vite",
         "pull": "node scripts/setup_assets.js",
         "build": "rimraf build && node scripts/setup_assets.js --check && vite build",
         "preview": "vite preview",
