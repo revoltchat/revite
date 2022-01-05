@@ -41,7 +41,6 @@ body:
         - Chrome
         - Safari
         - Microsoft Edge
-        - I'm using the PWA or Revolt Desktop
         - Other (please specify in the "What happened" form)
   - type: textarea
     id: logs
