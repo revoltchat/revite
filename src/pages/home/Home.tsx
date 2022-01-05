@@ -98,11 +98,11 @@ export default observer(() => {
                                     action="chevron"
                                     icon={<PlusCircle size={32} />}
                                     description={
-                                        <Text id="app.special.modals.onboarding.createGroupDescription">
-                                            Please translate me
+                                        <Text id="app.special.modals.onboarding.create_group_description">
+                                            of your friends, some cool bots, and throw a big party!
                                         </Text>
                                     }>
-                                    <Text id="app.special.modals.onboarding.createGroup" />
+                                    <Text id="app.special.modals.onboarding.create_group" />
                                 </CategoryButton>
                             </Link>
                             {/*<a
@@ -127,7 +127,7 @@ export default observer(() => {
                                         action="chevron"
                                         icon={<RightArrowCircle size={32} />}
                                         description={
-                                            <Text id="app.special.modals.onboarding.testerServerDescription">
+                                            <Text id="app.special.modals.onboarding.tester_server_description">
                                                 You can report issues and
                                                 discuss improvements with us
                                                 directly here.
@@ -142,7 +142,7 @@ export default observer(() => {
                                         action="chevron"
                                         icon={<Group size={32} />}
                                         description={
-                                            <Text id="app.special.modals.onboarding.testerServerDescription">
+                                            <Text id="app.special.modals.onboarding.tester_server_description">
                                                 You can report issues and
                                                 discuss improvements with us
                                                 directly here.
@@ -158,7 +158,7 @@ export default observer(() => {
                                     action="chevron"
                                     icon={<Megaphone size={32} />}
                                     description={
-                                        <Text id="app.special.modals.onboarding.feedbackDescription">
+                                        <Text id="app.special.modals.onboarding.feedback_description">
                                             Let us know how we can improve our
                                             app by giving us feedback.
                                         </Text>
@@ -173,7 +173,7 @@ export default observer(() => {
                                 <CategoryButton
                                     action="external"
                                     description={
-                                        <Text id="app.special.modals.onboarding.donateDescription">
+                                        <Text id="app.special.modals.onboarding.donate_description">
                                             "Support the project by donating -
                                             thank you!"
                                         </Text>
