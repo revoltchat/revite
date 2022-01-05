@@ -1,9 +1,9 @@
-import { EmojiPacks } from "../../redux/reducers/settings";
+export type EmojiPack = "mutant" | "twemoji" | "noto" | "openmoji";
 
-let EMOJI_PACK = "mutant";
+let EMOJI_PACK: EmojiPack = "mutant";
 const REVISION = 3;
 
-export function setEmojiPack(pack: EmojiPacks) {
+export function setGlobalEmojiPack(pack: EmojiPack) {
     EMOJI_PACK = pack;
 }
 
@@ -41,6 +41,12 @@ function toCodePoint(rune: string) {
 }
 
 function parseEmoji(emoji: string) {
+    if (emoji.startsWith("custom:")) {
+        return `https://dl.insrt.uk/projects/revolt/emotes/${emoji.substring(
+            7,
+        )}`;
+    }
+
     const codepoint = toCodePoint(emoji);
     return `https://static.revolt.chat/emoji/${EMOJI_PACK}/${codepoint}.svg?rev=${REVISION}`;
 }

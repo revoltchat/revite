@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { autorun, reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Role } from "revolt-api/types/Servers";
@@ -7,7 +8,9 @@ import { Channel } from "revolt.js/dist/maps/Channels";
 import { Server } from "revolt.js/dist/maps/Servers";
 import { User } from "revolt.js/dist/maps/Users";
 
-import { useContext, useEffect, useMemo } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
+
+import { defer } from "../../../lib/defer";
 
 import {
     ClientStatus,
@@ -33,9 +36,15 @@ export default function MemberSidebar() {
     }
 }
 
-function useEntries(channel: Channel, keys: string[], isServer?: boolean) {
+function useEntries(
+    channel: Channel,
+    generateKeys: () => string[],
+    isServer?: boolean,
+) {
     const client = channel.client;
-    return useMemo(() => {
+    const [entries, setEntries] = useState<MemberListGroup[]>([]);
+
+    function sort(keys: string[]) {
         const categories: { [key: string]: [User, string][] } = {
             online: [],
             offline: [],
@@ -145,23 +154,39 @@ function useEntries(channel: Channel, keys: string[], isServer?: boolean) {
             });
         }
 
-        return entries;
+        setEntries(entries);
+    }
+
+    useEffect(() => {
+        return autorun(() => sort(generateKeys()));
         // eslint-disable-next-line
-    }, [keys]);
+    }, []);
+
+    return entries;
 }
 
 export const GroupMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
-        const keys = [...channel.recipient_ids!];
-        const entries = useEntries(channel, keys);
+        const entries = useEntries(channel, () => channel.recipient_ids!);
 
         return (
-            <GenericSidebarBase>
+            <GenericSidebarBase data-scroll-offset="with-padding">
+                {/*<Container>
+                    {isTouchscreenDevice && <div>Group settings go here</div>}
+                </Container>*/}
+
                 <MemberList entries={entries} context={channel} />
             </GenericSidebarBase>
         );
     },
 );
+
+// ! FIXME: this is temporary code until we get lazy guilds like subscriptions
+const FETCHED: Set<String> = new Set();
+
+export function resetMemberSidebarFetched() {
+    FETCHED.clear();
+}
 
 export const ServerMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
@@ -169,17 +194,26 @@ export const ServerMemberSidebar = observer(
         const status = useContext(StatusContext);
 
         useEffect(() => {
-            if (status === ClientStatus.ONLINE) {
-                channel.server!.fetchMembers();
+            const server_id = channel.server_id!;
+            if (status === ClientStatus.ONLINE && !FETCHED.has(server_id)) {
+                channel
+                    .server!.fetchMembers()
+                    .then(() => FETCHED.add(server_id));
             }
             // eslint-disable-next-line
         }, [status, channel.server_id]);
 
-        const keys = [...client.members.keys()];
-        const entries = useEntries(channel, keys, true);
+        const entries = useEntries(
+            channel,
+            () => [...client.members.keys()],
+            true,
+        );
 
         return (
-            <GenericSidebarBase>
+            <GenericSidebarBase data-scroll-offset="with-padding">
+                {/*<Container>
+                    {isTouchscreenDevice && <div>Server settings go here</div>}
+                </Container>*/}
                 <MemberList entries={entries} context={channel} />
             </GenericSidebarBase>
         );

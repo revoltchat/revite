@@ -29,6 +29,15 @@ const SystemContent = styled.div`
     flex-wrap: wrap;
     align-items: center;
     flex-direction: row;
+
+    svg,
+    span {
+        cursor: pointer;
+    }
+
+    span:hover {
+        text-decoration: underline;
+    }
 `;
 
 interface Props {

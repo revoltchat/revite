@@ -1,13 +1,20 @@
 import styled, { css } from "styled-components";
 
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+
 export default styled.details<{ sticky?: boolean; large?: boolean }>`
     summary {
         ${(props) =>
             props.sticky &&
             css`
-                top: -1px;
+                top: 48px;
                 z-index: 10;
                 position: sticky;
+                ${() =>
+                    isTouchscreenDevice &&
+                    css`
+                        top: 56px;
+                    `}
             `}
 
         ${(props) =>

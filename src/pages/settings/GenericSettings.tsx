@@ -15,7 +15,7 @@ import {
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { ThemeContext } from "../../context/Theme";
+import { useApplicationState } from "../../mobx/State";
 
 import Category from "../../components/ui/Category";
 import Header from "../../components/ui/Header";
@@ -41,6 +41,7 @@ interface Props {
     showExitButton?: boolean;
     switchPage: (to?: string) => void;
     category: "pages" | "channel_pages" | "server_pages";
+    indexHeader?: Children;
 }
 
 export function GenericSettings({
@@ -51,9 +52,10 @@ export function GenericSettings({
     children,
     defaultPage,
     showExitButton,
+    indexHeader,
 }: Props) {
     const history = useHistory();
-    const theme = useContext(ThemeContext);
+    const theme = useApplicationState().settings.theme;
     const { page } = useParams<{ page: string }>();
 
     const [closing, setClosing] = useState(false);
@@ -94,13 +96,13 @@ export function GenericSettings({
                     name="theme-color"
                     content={
                         isTouchscreenDevice
-                            ? theme["background"]
-                            : theme["secondary-background"]
+                            ? theme.getVariable("background")
+                            : theme.getVariable("secondary-background")
                     }
                 />
             </Helmet>
             {isTouchscreenDevice && (
-                <Header placement="primary">
+                <Header placement="primary" transparent>
                     {typeof page === "undefined" ? (
                         <>
                             {showExitButton && (
@@ -130,8 +132,13 @@ export function GenericSettings({
             )}
             {(!isTouchscreenDevice || typeof page === "undefined") && (
                 <div className={styles.sidebar}>
-                    <div className={styles.scrollbox}>
+                    <div
+                        className={styles.scrollbox}
+                        data-scroll-offset={
+                            isTouchscreenDevice ? "with-padding" : undefined
+                        }>
                         <div className={styles.container}>
+                            {isTouchscreenDevice && indexHeader}
                             {pages.map((entry, i) =>
                                 entry.hidden ? undefined : (
                                     <>
@@ -165,6 +172,9 @@ export function GenericSettings({
                 <div className={styles.content}>
                     <div
                         className={styles.scrollbox}
+                        data-scroll-offset={
+                            isTouchscreenDevice ? "with-padding" : undefined
+                        }
                         ref={(ref) => {
                             // Force scroll to top if page changes.
                             if (ref) {

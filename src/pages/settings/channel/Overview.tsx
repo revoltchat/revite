@@ -10,8 +10,8 @@ import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 
 import Button from "../../../components/ui/Button";
-import InputBox from "../../../components/ui/InputBox";
 import Checkbox from "../../../components/ui/Checkbox";
+import InputBox from "../../../components/ui/InputBox";
 
 interface Props {
     channel: Channel;
@@ -40,10 +40,7 @@ export default observer(({ channel }: Props) => {
         () => setDescription(channel.description ?? ""),
         [channel.description],
     );
-    useEffect(
-        () => setNSFW(channel.nsfw ?? false),
-        [channel.nsfw],
-    );
+    useEffect(() => setNSFW(channel.nsfw ?? false), [channel.nsfw]);
 
     const [changed, setChanged] = useState(false);
     function save() {
@@ -51,8 +48,7 @@ export default observer(({ channel }: Props) => {
         if (name !== channel.name) changes.name = name;
         if (description !== channel.description)
             changes.description = description;
-        if (nsfw !== channel.nsfw)
-            changes.nsfw = nsfw;
+        if (nsfw !== channel.nsfw) changes.nsfw = nsfw;
 
         channel.edit(changes);
         setChanged(false);
@@ -118,15 +114,16 @@ export default observer(({ channel }: Props) => {
                     if (!changed) setChanged(true);
                 }}
             />
-            {channel.channel_type === "VoiceChannel" ? '' : (
+            <hr />
+            {channel.channel_type === "VoiceChannel" ? (
+                ""
+            ) : (
                 <Checkbox
                     checked={nsfw ?? false}
-                    onChange={
-                        (nsfwchange) => { 
-                            setNSFW(nsfwchange);
-                            if (!changed) setChanged(true);
-                        }
-                    }
+                    onChange={(nsfwchange) => {
+                        setNSFW(nsfwchange);
+                        if (!changed) setChanged(true);
+                    }}
                     description="Set this channel to NSFW.">
                     NSFW
                 </Checkbox>

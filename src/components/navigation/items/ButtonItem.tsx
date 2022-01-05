@@ -1,4 +1,5 @@
-import { X, Crown, UserPlus, Cog } from "@styled-icons/boxicons-regular";
+import { X, UserPlus, Cog } from "@styled-icons/boxicons-regular";
+import { Crown } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import { Presence } from "revolt-api/types/Users";

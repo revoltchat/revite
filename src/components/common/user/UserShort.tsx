@@ -16,7 +16,7 @@ import UserIcon from "./UserIcon";
 
 const BotBadge = styled.div`
     display: inline-block;
-
+    flex-shrink: 0;
     height: 1.4em;
     padding: 0 4px;
     font-size: 0.6em;
@@ -24,7 +24,7 @@ const BotBadge = styled.div`
     margin-inline-start: 2px;
     text-transform: uppercase;
 
-    color: var(--foreground);
+    color: var(--accent-contrast);
     background: var(--accent);
     border-radius: calc(var(--border-radius) / 2);
 `;
@@ -69,7 +69,7 @@ export const Username = observer(
                         const srv = client.servers.get(member._id.server);
                         if (srv?.roles) {
                             for (const role of member.roles) {
-                                const c = srv.roles[role].colour;
+                                const c = srv.roles[role]?.colour;
                                 if (c) {
                                     color = c;
                                     continue;

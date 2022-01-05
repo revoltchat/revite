@@ -10,14 +10,12 @@ import styled from "styled-components";
 import { decodeTime } from "ulid";
 
 import { Text } from "preact-i18n";
-import { memo } from "preact/compat";
 import { useEffect, useState } from "preact/hooks";
 
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { ChannelRenderer } from "../../../lib/renderer/Singleton";
 
-import { connectState } from "../../../redux/connector";
-import { QueuedMessage } from "../../../redux/reducers/queue";
+import { useApplicationState } from "../../../mobx/State";
 
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
@@ -32,8 +30,8 @@ import ConversationStart from "./ConversationStart";
 import MessageEditor from "./MessageEditor";
 
 interface Props {
+    last_id?: string;
     highlight?: string;
-    queue: QueuedMessage[];
     renderer: ChannelRenderer;
 }
 
@@ -48,9 +46,10 @@ const BlockedMessage = styled.div`
     }
 `;
 
-const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
+export default observer(({ last_id, renderer, highlight }: Props) => {
     const client = useClient();
     const userId = client.user!._id;
+    const queue = useApplicationState().queue;
 
     const [editing, setEditing] = useState<string | undefined>(undefined);
     const stopEditing = () => {
@@ -96,6 +95,7 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
     }
 
     let head = true;
+    let divided = false;
     function compare(
         current: string,
         curAuthor: string,
@@ -104,21 +104,34 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
         prevAuthor: string,
         previousMasq: Nullable<Masquerade>,
     ) {
+        head = false;
         const atime = decodeTime(current),
             adate = new Date(atime),
             btime = decodeTime(previous),
             bdate = new Date(btime);
 
+        let unread = false;
+        if (!divided && last_id && previous >= last_id) {
+            unread = true;
+            divided = true;
+        }
+
+        let date;
         if (
             adate.getFullYear() !== bdate.getFullYear() ||
             adate.getMonth() !== bdate.getMonth() ||
             adate.getDate() !== bdate.getDate()
         ) {
-            render.push(<DateDivider date={adate} />);
+            date = adate;
+        }
+
+        if (unread || date) {
+            render.push(<DateDivider date={date} unread={unread} />);
             head = true;
         }
 
         head =
+            head ||
             curAuthor !== prevAuthor ||
             Math.abs(btime - atime) >= 420000 ||
             !isEqual(currentMasq, previousMasq);
@@ -192,8 +205,7 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
 
     const nonces = renderer.messages.map((x) => x.nonce);
     if (renderer.atBottom) {
-        for (const msg of queue) {
-            if (msg.channel !== renderer.channel._id) continue;
+        for (const msg of queue.get(renderer.channel._id)) {
             if (nonces.includes(msg.id)) continue;
 
             if (previous) {
@@ -237,11 +249,3 @@ const MessageRenderer = observer(({ renderer, queue, highlight }: Props) => {
 
     return <>{render}</>;
 });
-
-export default memo(
-    connectState<Omit<Props, "queue">>(MessageRenderer, (state) => {
-        return {
-            queue: state.queue,
-        };
-    }),
-);
