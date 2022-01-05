@@ -98,9 +98,11 @@ export default observer(() => {
                                     action="chevron"
                                     icon={<PlusCircle size={32} />}
                                     description={
-                                        "Invite all of your friends, some cool bots, and throw a big party."
+                                        <Text id="app.special.modals.onboarding.createGroupDescription">
+                                            Please translate me
+                                        </Text>
                                     }>
-                                    Create a group
+                                    <Text id="app.special.modals.onboarding.createGroup" />
                                 </CategoryButton>
                             </Link>
                             {/*<a
@@ -125,7 +127,11 @@ export default observer(() => {
                                         action="chevron"
                                         icon={<RightArrowCircle size={32} />}
                                         description={
-                                            "You can report issues and discuss improvements with us directly here."
+                                            <Text id="app.special.modals.onboarding.testerServerDescription">
+                                                You can report issues and
+                                                discuss improvements with us
+                                                directly here.
+                                            </Text>
                                         }>
                                         <Text id="app.home.goto-testers" />
                                     </CategoryButton>
@@ -136,7 +142,11 @@ export default observer(() => {
                                         action="chevron"
                                         icon={<Group size={32} />}
                                         description={
-                                            "You can report issues and discuss improvements with us directly here."
+                                            <Text id="app.special.modals.onboarding.testerServerDescription">
+                                                You can report issues and
+                                                discuss improvements with us
+                                                directly here.
+                                            </Text>
                                         }>
                                         <Text id="app.home.join-testers" />
                                     </CategoryButton>
@@ -148,7 +158,10 @@ export default observer(() => {
                                     action="chevron"
                                     icon={<Megaphone size={32} />}
                                     description={
-                                        "Let us know how we can improve our app by giving us feedback."
+                                        <Text id="app.special.modals.onboarding.feedbackDescription">
+                                            Let us know how we can improve our
+                                            app by giving us feedback.
+                                        </Text>
                                     }>
                                     <Text id="app.home.feedback" />
                                 </CategoryButton>
@@ -160,7 +173,10 @@ export default observer(() => {
                                 <CategoryButton
                                     action="external"
                                     description={
-                                        "Support the project by donating - thank you!"
+                                        <Text id="app.special.modals.onboarding.donateDescription">
+                                            "Support the project by donating -
+                                            thank you!"
+                                        </Text>
                                     }
                                     icon={<Money size={32} />}>
                                     <Text id="app.home.donate" />
