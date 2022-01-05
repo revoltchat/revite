@@ -1947,7 +1947,7 @@ export const emojiDictionary = {
 
         // provided by Amy
         ayame_heart: "custom:ayame_heart.png",
-        catgirl_peek: "custom:catgirl_peak.png",
+        catgirl_peek: "custom:catgirl_peek.png",
         girl_happy: "custom:girl_happy.png",
         hug_plushie: "custom:hug_plushie.png",
         huggies: "custom:huggies.png",
