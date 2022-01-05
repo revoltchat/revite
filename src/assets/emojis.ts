@@ -1947,7 +1947,7 @@ export const emojiDictionary = {
         chade: "custom:chade.gif",
         gigachad: "custom:gigachad.webp",
 
-        // provided by Amy
+        // provided by Lillie ****************************************************************
         ayame_heart: "custom:ayame_heart.png",
         catgirl_peek: "custom:catgirl_peek.png",
         girl_happy: "custom:girl_happy.png",
