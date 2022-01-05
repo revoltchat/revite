@@ -213,9 +213,12 @@ export default observer(({ message }: { message: Message }) => {
 
         return (
             <>
-                {entries.map((entry) => (
-                    <EmbedInvite key={entry} code={entry} />
-                ))}
+                {entries.map(
+                    (entry) =>
+                        entry !== "discover" && (
+                            <EmbedInvite key={entry} code={entry} />
+                        ),
+                )}
             </>
         );
     }
