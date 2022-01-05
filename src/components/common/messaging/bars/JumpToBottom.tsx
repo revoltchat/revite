@@ -48,11 +48,19 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
             props.accent
                 ? css`
                       color: var(--accent-contrast);
-                      background: var(--accent);
+                      background-color: rgba(
+                          var(--accent-rgb),
+                          max(var(--min-opacity), 0.9)
+                      );
+                      backdrop-filter: blur(20px);
                   `
                 : css`
                       color: var(--secondary-foreground);
-                      background: var(--secondary-background);
+                      background-color: rgba(
+                          var(--secondary-background-rgb),
+                          max(var(--min-opacity), 0.9)
+                      );
+                      backdrop-filter: blur(20px);
                   `}
 
         ${(props) =>

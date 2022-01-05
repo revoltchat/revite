@@ -1938,5 +1938,20 @@ export const emojiDictionary = {
         yeahokayyy: "custom:yeahokayyy.png",
         yed: "custom:yed.png",
         yems: "custom:yems.png",
+
+        // new unsorted batch
+        michael: "custom:michael.gif",
+        charle: "custom:charle.gif",
+        sadge: "custom:sadge.webp",
+        sus: "custom:sus.webp",
+
+        // provided by Amy
+        ayame_heart: "custom:ayame_heart.png",
+        catgirl_peek: "custom:catgirl_peak.png",
+        girl_happy: "custom:girl_happy.png",
+        hug_plushie: "custom:hug_plushie.png",
+        huggies: "custom:huggies.png",
+        noted: "custom:noted.gif",
+        waving: "custom:waving.png",
     },
 };

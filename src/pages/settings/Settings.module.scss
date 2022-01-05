@@ -48,8 +48,7 @@
         overflow-y: auto;
 
         .container {
-            padding: calc(var(--header-height) + 4px) 8px
-                calc(var(--bottom-navigation-height) + 30px);
+            padding: 12px 10px 80px;
             min-width: 218px;
         }
 
@@ -63,7 +62,9 @@
 
     /* Content */
     .content {
-        padding: 0;
+        ::-webkit-scrollbar-thumb {
+            border-bottom: none;
+        }
 
         .scrollbox {
             overflow: auto;
@@ -71,7 +72,7 @@
 
         .contentcontainer {
             max-width: unset !important;
-            padding: 72px 12px var(--bottom-navigation-height) !important;
+            padding: 20px 10px 80px;
         }
     }
 }
@@ -87,6 +88,11 @@
 
     &.closing {
         animation: close 0.18s ease-in;
+    }
+
+    .scrollbox::-webkit-scrollbar-thumb {
+        background-clip: content-box;
+        border-top: 80px solid transparent;
     }
 }
 
@@ -108,14 +114,6 @@
     .scrollbox:hover,
     .scrollbox:focus {
         visibility: visible;
-    }
-
-    // All children receive custom scrollbar.
-    > * > ::-webkit-scrollbar-thumb {
-        min-height: 100px;
-        width: 4px;
-        background-clip: content-box;
-        border-top: 80px solid transparent;
     }
 
     .sidebar {
