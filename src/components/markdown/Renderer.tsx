@@ -17,6 +17,7 @@ import { useCallback, useContext } from "preact/hooks";
 import { internalEmit } from "../../lib/eventEmitter";
 import { determineLink } from "../../lib/links";
 
+import { dayjs } from "../../context/Locale";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
@@ -25,8 +26,6 @@ import { generateEmoji } from "../common/Emoji";
 import { emojiDictionary } from "../../assets/emojis";
 import { MarkdownProps } from "./Markdown";
 import Prism from "./prism";
-
-import { dayjs } from "../../context/Locale";
 
 // TODO: global.d.ts file for defining globals
 declare global {
@@ -86,7 +85,7 @@ declare global {
 
 // Include emojis.
 md.renderer.rules.emoji = function (token, idx) {
-    return generateEmoji(token[idx].content);
+    return generateEmoji(token[idx]);
 };
 
 // Force line breaks.
