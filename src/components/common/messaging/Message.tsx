@@ -13,7 +13,6 @@ import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
-import Button from "../../ui/Button";
 import IconButton from "../../ui/IconButton";
 import Overline from "../../ui/Overline";
 
@@ -28,6 +27,7 @@ import MessageBase, {
 } from "./MessageBase";
 import Attachment from "./attachments/Attachment";
 import { MessageReply } from "./attachments/MessageReply";
+import { MessageOverlayBar, OverlayBase } from "./bars/MessageOverlayBar";
 import Embed from "./embed/Embed";
 import InviteList from "./embed/EmbedInvite";
 
@@ -90,21 +90,6 @@ const Message = observer(
 
         // ! FIXME(?): animate on hover
         const [animate, setAnimate] = useState(false);
-        /*let animateState = false;
-        const setAnimate = (state: boolean) => {
-            animateState = state;
-            
-        };*/
-        const handleReplyQuickAction = () => {
-            internalEmit("ReplyBar", "add", message);
-        };
-        const handleMoreQuickAction = (e) => {
-            attachContextMenu("Menu", {
-                message,
-                contextualChannel: message.channel_id,
-                queued,
-            })(e);
-        };
 
         return (
             <div id={message._id}>
@@ -161,7 +146,7 @@ const Message = observer(
                         )}
                     </MessageInfo>
                     <MessageContent>
-                        <div class="overlayBase">
+                        <OverlayBase>
                             {head && (
                                 <span className="detail">
                                     <Username
@@ -193,26 +178,12 @@ const Message = observer(
                             {message.embeds?.map((embed, index) => (
                                 <Embed key={index} embed={embed} />
                             ))}
-
-                            <div
-                                class={
-                                    animate
-                                        ? "overlayBarVisible"
-                                        : "overlayBarHidden"
-                                }>
-                                <div class="overlayBarFlexItem">
-                                    <IconButton
-                                        onClick={handleReplyQuickAction}>
-                                        <Reply></Reply>
-                                    </IconButton>
-                                </div>
-                                <div class="overlayBarFlexItem">
-                                    <IconButton onClick={handleMoreQuickAction}>
-                                        …
-                                    </IconButton>
-                                </div>
-                            </div>
-                        </div>
+                            <MessageOverlayBar
+                                message={message}
+                                queued={queued}
+                                mouseOver={animate}
+                            />
+                        </OverlayBase>
                     </MessageContent>
                 </MessageBase>
             </div>

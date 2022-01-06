@@ -75,31 +75,3 @@ hr {
 foreignObject > svg {
     vertical-align: top !important;
 }
-
-.overlayBase {
-    position: relative;
-}
-.overlayBarHidden {
-    display: none;
-    color: red;
-}
-.overlayBarVisible {
-    position: absolute;
-    justify-content: end;
-    justify-self: end;
-    align-self: end;
-    align-items: end;
-    display: inline-flex;
-    top: 0;
-    right: 0;
-    z-index: 0;
-    //width: 20px;
-    //background-color: rgba(145, 40, 40, 0.666);
-    color: blue;
-    width: 50px;
-}
-.overlayBarFlexItem {
-    width: 25px;
-    height: 25px;
-    opacity: 75%;
-}
