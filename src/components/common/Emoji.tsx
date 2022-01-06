@@ -1,3 +1,5 @@
+import Token from "markdown-it/lib/token";
+
 export type EmojiPack = "mutant" | "twemoji" | "noto" | "openmoji";
 
 let EMOJI_PACK: EmojiPack = "mutant";
@@ -72,8 +74,10 @@ export default function Emoji({
     );
 }
 
-export function generateEmoji(emoji: string) {
-    return `<img loading="lazy" class="emoji" draggable="false" alt="${emoji}" src="${parseEmoji(
+export function generateEmoji(emojiToken: Token) {
+    const emoji = emojiToken.content;
+    const emojiSource = ":" + emojiToken.markup + ":";
+    return `<img loading="lazy" class="emoji" draggable="false" title="${emojiSource}" alt="${emoji}" src="${parseEmoji(
         emoji,
     )}" />`;
 }
