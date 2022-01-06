@@ -81,6 +81,7 @@ type SpecialProps = { onClose: () => void } & (
 
 export const SpecialPromptModal = observer((props: SpecialProps) => {
     const client = useContext(AppContext);
+    const history = useHistory();
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<undefined | string>(undefined);
 
@@ -157,6 +158,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                         case "delete_channel":
                                         case "leave_server":
                                         case "delete_server":
+                                            history.push("/home");
                                             props.target.delete();
                                             break;
                                         case "delete_bot":
