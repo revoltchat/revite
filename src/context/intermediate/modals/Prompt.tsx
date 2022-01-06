@@ -159,7 +159,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                         case "leave_server":
                                         case "delete_server":
                                             if (props.type != "delete_channel")
-                                                history.push("/home");
+                                                history.push("/");
                                             props.target.delete();
                                             break;
                                         case "delete_bot":
