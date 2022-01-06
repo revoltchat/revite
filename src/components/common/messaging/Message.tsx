@@ -1,3 +1,4 @@
+import { Reply } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
 
@@ -12,6 +13,8 @@ import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
+import Button from "../../ui/Button";
+import IconButton from "../../ui/IconButton";
 import Overline from "../../ui/Overline";
 
 import { Children } from "../../../types/Preact";
@@ -87,6 +90,21 @@ const Message = observer(
 
         // ! FIXME(?): animate on hover
         const [animate, setAnimate] = useState(false);
+        /*let animateState = false;
+        const setAnimate = (state: boolean) => {
+            animateState = state;
+            
+        };*/
+        const handleReplyQuickAction = () => {
+            internalEmit("ReplyBar", "add", message);
+        };
+        const handleMoreQuickAction = (e) => {
+            attachContextMenu("Menu", {
+                message,
+                contextualChannel: message.channel_id,
+                queued,
+            })(e);
+        };
 
         return (
             <div id={message._id}>
@@ -143,37 +161,58 @@ const Message = observer(
                         )}
                     </MessageInfo>
                     <MessageContent>
-                        {head && (
-                            <span className="detail">
-                                <Username
-                                    user={user}
-                                    className="author"
-                                    showServerIdentity
-                                    onClick={handleUserClick}
-                                    onContextMenu={userContext}
-                                    masquerade={message.masquerade!}
+                        <div class="overlayBase">
+                            {head && (
+                                <span className="detail">
+                                    <Username
+                                        user={user}
+                                        className="author"
+                                        showServerIdentity
+                                        onClick={handleUserClick}
+                                        onContextMenu={userContext}
+                                        masquerade={message.masquerade!}
+                                    />
+                                    <MessageDetail
+                                        message={message}
+                                        position="top"
+                                    />
+                                </span>
+                            )}
+                            {replacement ?? <Markdown content={content} />}
+                            {!queued && <InviteList message={message} />}
+                            {queued?.error && (
+                                <Overline type="error" error={queued.error} />
+                            )}
+                            {message.attachments?.map((attachment, index) => (
+                                <Attachment
+                                    key={index}
+                                    attachment={attachment}
+                                    hasContent={index > 0 || content.length > 0}
                                 />
-                                <MessageDetail
-                                    message={message}
-                                    position="top"
-                                />
-                            </span>
-                        )}
-                        {replacement ?? <Markdown content={content} />}
-                        {!queued && <InviteList message={message} />}
-                        {queued?.error && (
-                            <Overline type="error" error={queued.error} />
-                        )}
-                        {message.attachments?.map((attachment, index) => (
-                            <Attachment
-                                key={index}
-                                attachment={attachment}
-                                hasContent={index > 0 || content.length > 0}
-                            />
-                        ))}
-                        {message.embeds?.map((embed, index) => (
-                            <Embed key={index} embed={embed} />
-                        ))}
+                            ))}
+                            {message.embeds?.map((embed, index) => (
+                                <Embed key={index} embed={embed} />
+                            ))}
+
+                            <div
+                                class={
+                                    animate
+                                        ? "overlayBarVisible"
+                                        : "overlayBarHidden"
+                                }>
+                                <div class="overlayBarFlexItem">
+                                    <IconButton
+                                        onClick={handleReplyQuickAction}>
+                                        <Reply></Reply>
+                                    </IconButton>
+                                </div>
+                                <div class="overlayBarFlexItem">
+                                    <IconButton onClick={handleMoreQuickAction}>
+                                        …
+                                    </IconButton>
+                                </div>
+                            </div>
+                        </div>
                     </MessageContent>
                 </MessageBase>
             </div>
