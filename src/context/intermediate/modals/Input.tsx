@@ -17,6 +17,7 @@ interface Props {
     onClose: () => void;
     question: Children;
     field?: Children;
+    description?: Children;
     defaultValue?: string;
     callback: (value: string) => Promise<void>;
 }
@@ -25,6 +26,7 @@ export function InputModal({
     onClose,
     question,
     field,
+    description,
     defaultValue,
     callback,
 }: Props) {
@@ -36,6 +38,7 @@ export function InputModal({
         <Modal
             visible={true}
             title={question}
+            description={description}
             disabled={processing}
             actions={[
                 {
@@ -113,6 +116,17 @@ export function SpecialInputModal(props: SpecialProps) {
                     onClose={onClose}
                     question={<Text id="app.main.servers.create" />}
                     field={<Text id="app.main.servers.name" />}
+                    description={
+                        <div>
+                            By creating this server, you agree to the{" "}
+                            <a
+                                href="https://revolt.chat/aup"
+                                target="_blank"
+                                rel="noreferrer">
+                                Acceptable Use Policy.
+                            </a>
+                        </div>
+                    }
                     callback={async (name) => {
                         const server = await client.servers.createServer({
                             name,
