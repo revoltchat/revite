@@ -17,6 +17,7 @@ import { useCallback, useContext } from "preact/hooks";
 import { internalEmit } from "../../lib/eventEmitter";
 import { determineLink } from "../../lib/links";
 
+import { dayjs } from "../../context/Locale";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
@@ -25,8 +26,6 @@ import { generateEmoji } from "../common/Emoji";
 import { emojiDictionary } from "../../assets/emojis";
 import { MarkdownProps } from "./Markdown";
 import Prism from "./prism";
-
-import { dayjs } from "../../context/Locale";
 
 // TODO: global.d.ts file for defining globals
 declare global {
@@ -136,7 +135,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
     // We don't care if the mention changes.
     const newContent = content
         .replace(RE_TIME, (sub: string, ...args: unknown[]) => {
-            if (isNaN(args[0] as string)) return sub;
+            if (isNaN(args[0] as number)) return sub;
             const date = dayjs.unix(args[0] as number);
             const format = args[1] as string;
             let final = "";
