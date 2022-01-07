@@ -1,9 +1,12 @@
+import { autorun } from "mobx";
 import { useHistory } from "react-router";
 import { Server } from "revolt.js/dist/maps/Servers";
 import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
+
+import { defer } from "../../../lib/defer";
 
 import InputBox from "../../../components/ui/InputBox";
 import Modal from "../../../components/ui/Modal";
@@ -153,15 +156,32 @@ export function SpecialInputModal(props: SpecialProps) {
                             "http(s?):\/\/(app|nightly|rvlt|localhost).(revolt.chat|gg\/|\d{3,5})(\/invite\/)?", // localhost doesn't quite work yet
                         );
                         const code = rawCode.replace(regex, "");
-                        const server = await client.fetchInvite(code);
-                        if (typeof server === "undefined")
+                        const serv = await client.fetchInvite(code);
+                        if (typeof serv === "undefined")
                             console.log("Something went wrong.");
 
-                        if (client.servers.get(server.server_id)) {
+                        if (client.servers.get(serv.server_id)) {
                             history.push(
-                                `/server/${server.server_id}/channel/${server.channel_id}`,
+                                `/server/${serv.server_id}/channel/${serv.channel_id}`,
                             );
                         }
+                        const dispose = autorun(() => {
+                            const server = client.servers.get(serv.server_id);
+
+                            defer(() => {
+                                if (server) {
+                                    client.unreads!.markMultipleRead(
+                                        server.channel_ids,
+                                    );
+
+                                    history.push(
+                                        `/server/${server._id}/channel/${serv.channel_id}`,
+                                    );
+                                }
+                            });
+
+                            dispose();
+                        });
                         await client.joinInvite(code);
                     }}
                 />
