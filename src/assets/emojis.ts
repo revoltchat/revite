@@ -1944,10 +1944,12 @@ export const emojiDictionary = {
         charle: "custom:charle.gif",
         sadge: "custom:sadge.webp",
         sus: "custom:sus.webp",
+        chade: "custom:chade.gif",
+        gigachad: "custom:gigachad.webp",
 
-        // provided by Amy
+        // provided by Lillie ****************************************************************
         ayame_heart: "custom:ayame_heart.png",
-        catgirl_peek: "custom:catgirl_peak.png",
+        catgirl_peek: "custom:catgirl_peek.png",
         girl_happy: "custom:girl_happy.png",
         hug_plushie: "custom:hug_plushie.png",
         huggies: "custom:huggies.png",

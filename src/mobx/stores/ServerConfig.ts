@@ -43,7 +43,7 @@ export default class ServerConfig
     createClient() {
         const client = new Client({
             unreads: true,
-            autoReconnect: false,
+            autoReconnect: true,
             apiURL: import.meta.env.VITE_API_URL,
             debug: isDebug(),
             onPongTimeout: "RECONNECT",
