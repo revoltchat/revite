@@ -9,7 +9,7 @@ import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { Form } from "./Form";
 
 export function FormLogin() {
-    const auth = useApplicationState().auth;
+    const state = useApplicationState();
     const { openScreen } = useIntermediate();
 
     return (
@@ -37,7 +37,7 @@ export function FormLogin() {
 
                 // ! FIXME: temporary login flow code
                 // This should be replaced in the future.
-                const client = new Client();
+                const client = state.config.createClient();
                 await client.fetchConfiguration();
                 const session = (await client.req(
                     "POST",
@@ -51,7 +51,7 @@ export function FormLogin() {
                 };
 
                 async function login() {
-                    auth.setSession(session);
+                    state.auth.setSession(session);
                 }
 
                 const { onboarding } = await client.req(
