@@ -1,4 +1,4 @@
-// This file handles importing Prism code highlighting library.
+// This file handles importing the code for code highlighting from Prism.
 
 import Prism from "prismjs";
 

@@ -19,7 +19,7 @@ runs:
         - name: Setup Node
           uses: actions/setup-node@v2
           with:
-              node-version: 15
+              node-version: 17
               cache: "yarn"
 
         - name: Install Dependencies and Build

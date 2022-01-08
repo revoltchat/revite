@@ -3,6 +3,8 @@
 //
 // Source: https://github.com/Artimon/pure-css-snowfall
 
+@use "sass:math";
+
 $count: 36;
 $screenOffset: 0px;
 $fallDuration: 12;
@@ -45,47 +47,47 @@ $fontSize: 40px;
 
     @while ($count > 0) {
         $left: random(100);
-        $deltaLeft: random(2 * $windNoise * 10) / 10 - $windNoise + $windSpeed;
-        /*$deltaLeft: math.div(random(2 * $windNoise * 10), 10) -
+
+        $deltaLeft: math.div(random(2 * $windNoise * 10), 10) -
             $windNoise +
-            $windSpeed;*/
-        $scale: 1 + (random(2 * $sizeNoise * 10) / 10 - $sizeNoise) / 100;
-        /*$scale: 1 +
-            (math.div(random(2 * $sizeNoise * 10), 10) - $sizeNoise) /
-            100;*/
+            $windSpeed;
+
+        $scale: 1 +
+            math.div(
+                (math.div(random(2 * $sizeNoise * 10), 10) - $sizeNoise),
+                100
+            );
 
         .snowflake:nth-child(#{$count}) {
             animation: animation-snowflake-#{$count} linear infinite;
             animation-duration: $fallDuration +
-                random($fallDuration * 10) /
-                10 +
+                math.div(random($fallDuration * 10), 10) +
                 s;
-            animation-delay: random(2 * $fallDuration * 10) /
-                10 -
+            animation-delay: math.div(random(2 * $fallDuration * 10), 10) -
                 (2 * $fallDuration) +
                 s;
         }
 
         @keyframes animation-snowflake-#{$count} {
             0% {
-                left: percentage($left / 100);
+                left: percentage(math.div($left, 100));
                 top: calc(0% - #{$screenOffset});
                 transform: scale($scale)
                     rotate3d(
-                        random(100) / 100,
-                        random(100) / 100,
-                        random(100) / 100,
+                        math.div(random(100), 100),
+                        math.div(random(100), 100),
+                        math.div(random(100), 100),
                         0deg
                     );
             }
             100% {
-                left: percentage(($left + $deltaLeft) / 100);
+                left: percentage(math.div(($left + $deltaLeft), 100));
                 top: calc(100% + #{$screenOffset});
                 transform: scale($scale)
                     rotate3d(
-                        random(100) / 100,
-                        random(100) / 100,
-                        random(100) / 100,
+                        math.div(random(100), 100),
+                        math.div(random(100), 100),
+                        math.div(random(100), 100),
                         (random($rotation) + $rotation) *
                             ((random(2) - 1) * 2 - 1) + deg
                     );
