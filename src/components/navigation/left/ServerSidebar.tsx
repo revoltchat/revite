@@ -89,7 +89,7 @@ export default observer(() => {
         275,
     );
 
-    const channels = serverChannels(server, client);
+    const channels = serverChannels(server);
 
     useEffect(() => {
         function navigateChannels(dir: number) {

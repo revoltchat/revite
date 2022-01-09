@@ -52,15 +52,15 @@ export function getChannelName(
 
 // todo: please make a better way to do this
 // server.orderedChannels or something
-export function serverChannels(server: Server, client: Client) {
+export function serverChannels(server: Server) {
     const ids = new Set(server.channel_ids);
     return server?.categories
         ?.flatMap((cat) =>
             cat.channels.map((id) => {
                 ids.delete(id);
-                return client.channels.get(id);
+                return server.client.channels.get(id);
             }),
         )
-        .concat(Array.from(ids, (id) => client.channels.get(id)))
+        .concat(Array.from(ids, (id) => server.client.channels.get(id)))
         .filter((ch) => ch !== undefined) as Channel[];
 }

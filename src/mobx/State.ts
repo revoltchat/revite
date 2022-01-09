@@ -13,6 +13,7 @@ import Syncable from "./interfaces/Syncable";
 import Auth from "./stores/Auth";
 import Draft from "./stores/Draft";
 import Experiments from "./stores/Experiments";
+import Keybinds from "./stores/Keybinds";
 import Layout from "./stores/Layout";
 import LocaleOptions from "./stores/LocaleOptions";
 import MessageQueue from "./stores/MessageQueue";
@@ -39,6 +40,7 @@ export default class State {
     queue: MessageQueue;
     settings: Settings;
     sync: Sync;
+    keybinds: Keybinds;
 
     private persistent: [string, Persistent<unknown>][] = [];
     private disabled: Set<string> = new Set();
@@ -56,6 +58,7 @@ export default class State {
         this.notifications = new NotificationOptions();
         this.queue = new MessageQueue();
         this.settings = new Settings();
+        this.keybinds = new Keybinds();
         this.sync = new Sync(this);
 
         makeAutoObservable(this);
