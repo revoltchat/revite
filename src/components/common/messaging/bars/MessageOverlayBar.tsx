@@ -27,6 +27,8 @@ import LineDivider from "../../../ui/LineDivider";
 import { Children } from "../../../../types/Preact";
 
 const OverlayButtonWidth = 25;
+const OverlayButtonPadding = 5;
+const OverlayButtonTotalWidth = OverlayButtonWidth + OverlayButtonPadding;
 
 export const OverlayBase = styled.div`
     position: relative;
@@ -35,7 +37,10 @@ export const OverlayBase = styled.div`
 export const OverlayBarFlexItemStyled = styled.div`
     width: ${OverlayButtonWidth}px;
     height: 25px;
+    display: inline-flex;
     opacity: 75%;
+    padding-left: ${OverlayButtonPadding}px;
+    padding-right: ${OverlayButtonPadding}px;
 `;
 
 interface MessageOverlayBarProps {
@@ -81,14 +86,15 @@ export const OverlayBar = styled.div<OverlayBarProps>`
     justify-self: end;
     align-self: end;
     align-content: center;
+    justify-content: center;
     background: var(--primary-header);
     top: 0;
     right: 0;
     z-index: 0;
     width: ${(props) =>
-        OverlayButtonWidth * 2 +
-        (props.canEdit === true ? OverlayButtonWidth : 0) +
-        (props.canDelete === true ? OverlayButtonWidth : 0)}px;
+        OverlayButtonTotalWidth * 2 +
+        (props.canEdit === true ? OverlayButtonTotalWidth : 0) +
+        (props.canDelete === true ? OverlayButtonTotalWidth : 0)}px;
     border: 2px;
     border-style: solid;
     border-color: rgba(255, 255, 255, 0.25);
