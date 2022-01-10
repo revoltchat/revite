@@ -61,6 +61,8 @@ const TRUSTED_HOSTS = [
     "rvlt.gg",
 ];
 
+const REMOTE = "https://rvlt.gg";
+
 export default function Discover() {
     const state = useApplicationState();
     const { openLink } = useIntermediate();
@@ -68,12 +70,10 @@ export default function Discover() {
     const history = useHistory();
     const { pathname, search } = useLocation();
 
-    const srcURL = useMemo(() => {
+    const path = useMemo(() => {
         const query = new URLSearchParams(search);
         query.set("embedded", "true");
-        const REMOTE = "https://rvlt.gg";
-        // const REMOTE = "http://local.revolt.chat:3001";
-        return `${REMOTE}${pathname}?${query.toString()}`;
+        return `${pathname}?${query.toString()}`;
     }, []);
 
     const [loaded, setLoaded] = useState(false);
@@ -96,7 +96,7 @@ export default function Discover() {
         [],
     );
 
-    useEffect(() => state.layout.setLastSection("discover"), []);
+    useEffect(() => state.layout.setLastDiscoverPath(path), []);
 
     useEffect(() => {
         function onMessage(message: MessageEvent) {
@@ -113,6 +113,7 @@ export default function Discover() {
                         }
                         case "path": {
                             history.replace(data.path);
+                            state.layout.setLastDiscoverPath(data.path);
                             break;
                         }
                         case "navigate": {
@@ -157,7 +158,7 @@ export default function Discover() {
                 loaded={loaded}
                 crossOrigin="anonymous"
                 onLoad={() => setLoaded(true)}
-                src={srcURL}
+                src={REMOTE + path}
             />
         </Container>
     );
