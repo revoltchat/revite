@@ -98,9 +98,9 @@ export default observer(() => {
                                     action="chevron"
                                     icon={<PlusCircle size={32} />}
                                     description={
-                                        "Invite all of your friends, some cool bots, and throw a big party."
+                                        <Text id="app.home.group_desc" />
                                     }>
-                                    Create a group
+                                    <Text id="app.home.group" />
                                 </CategoryButton>
                             </Link>
                             <Link to="/discover">
@@ -109,9 +109,9 @@ export default observer(() => {
                                         action="chevron"
                                         icon={<Compass size={32} />}
                                         description={
-                                            "Find a community based on your hobbies or interests."
+                                            <Text id="app.home.discover_desc" />
                                         }>
-                                        Join a community
+                                        <Text id="app.home.discover" />
                                     </CategoryButton>
                                 </a>
                             </Link>
@@ -124,7 +124,7 @@ export default observer(() => {
                                         action="chevron"
                                         icon={<RightArrowCircle size={32} />}
                                         description={
-                                            "You can report issues and discuss improvements with us directly here."
+                                            <Text id="app.home.goto-testers_desc" />
                                         }>
                                         <Text id="app.home.goto-testers" />
                                     </CategoryButton>
@@ -135,7 +135,7 @@ export default observer(() => {
                                         action="chevron"
                                         icon={<Group size={32} />}
                                         description={
-                                            "You can report issues and discuss improvements with us directly here."
+                                            <Text id="app.home.join-testers_desc" />
                                         }>
                                         <Text id="app.home.join-testers" />
                                     </CategoryButton>
@@ -147,7 +147,7 @@ export default observer(() => {
                                     action="chevron"
                                     icon={<Megaphone size={32} />}
                                     description={
-                                        "Let us know how we can improve our app by giving us feedback."
+                                        <Text id="app.home.feedback_desc" />
                                     }>
                                     <Text id="app.home.feedback" />
                                 </CategoryButton>
@@ -159,23 +159,25 @@ export default observer(() => {
                                 <CategoryButton
                                     action="external"
                                     description={
-                                        "Support the project by donating - thank you!"
+                                        <Text id="app.home.donate_desc" />
                                     }
                                     icon={<Money size={32} />}>
                                     <Text id="app.home.donate" />
                                 </CategoryButton>
                             </a>
+                            <Tooltip
+                                content={
+                                    <Text id="app.home.settings-tooltip" />
+                                }>
+                                <Link to="/settings">
+                                    <CategoryButton
+                                        action="chevron"
+                                        icon={<Cog size={32} />}>
+                                        <Text id="app.home.settings" />
+                                    </CategoryButton>
+                                </Link>
+                            </Tooltip>
                         </div>
-                        <Tooltip
-                            content={<Text id="app.home.settings-tooltip" />}>
-                            <Link to="/settings">
-                                <CategoryButton
-                                    action="chevron"
-                                    icon={<Cog size={32} />}>
-                                    <Text id="app.home.settings" />
-                                </CategoryButton>
-                            </Link>
-                        </Tooltip>
                         {isDecember && (
                             <a href="#" onClick={toggleSeasonalTheme}>
                                 Turn {seasonalTheme ? "off" : "on"} homescreen
