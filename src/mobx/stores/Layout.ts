@@ -169,6 +169,9 @@ export default class Layout implements Store, Persistent<Data> {
      * @param path Pathname
      */
     @action setLastHomePath(path: string) {
+        if (path.startsWith("/bot")) return;
+        if (path.startsWith("/invite")) return;
+
         this.lastHomePath = path;
         this.lastSection = "home";
     }
