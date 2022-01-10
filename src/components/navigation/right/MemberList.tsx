@@ -6,16 +6,17 @@ import styled, { css } from "styled-components";
 import { Text } from "preact-i18n";
 import { memo } from "preact/compat";
 
+import { internalEmit } from "../../../lib/eventEmitter";
+
 import {
     Screen,
     useIntermediate,
 } from "../../../context/intermediate/Intermediate";
 
 import { UserButton } from "../items/ButtonItem";
-import { internalEmit } from "../../../lib/eventEmitter";
 
 export type MemberListGroup = {
-    type: "online" | "offline" | "role";
+    type: "online" | "offline" | "role" | "no_offline";
     name?: string;
     users: User[];
 };
@@ -39,6 +40,16 @@ const ListCategory = styled.div<{ first?: boolean }>`
         `}
 `;
 
+// ! FIXME: temporary performance fix
+const NoOomfie = styled.div`
+    padding: 4px;
+    padding-bottom: 12px;
+
+    font-size: 0.8em;
+    text-align: center;
+    color: var(--secondary-foreground);
+`;
+
 const ItemContent = memo(
     ({
         item,
@@ -54,7 +65,7 @@ const ItemContent = memo(
             user={item}
             margin
             context={context}
-            onClick={e => {
+            onClick={(e) => {
                 if (e.shiftKey) {
                     internalEmit(
                         "MessageBox",
@@ -62,12 +73,13 @@ const ItemContent = memo(
                         `<@${item._id}>`,
                         "mention",
                     );
-                } else[
-                    openScreen({
-                        id: "profile",
-                        user_id: item._id,
-                    })
-                ]
+                } else
+                    [
+                        openScreen({
+                            id: "profile",
+                            user_id: item._id,
+                        }),
+                    ];
             }}
         />
     ),
@@ -86,18 +98,22 @@ export default function MemberList({
         <GroupedVirtuoso
             groupCounts={entries.map((x) => x.users.length)}
             groupContent={(index) => {
-                const type = entries[index].type;
+                const entry = entries[index];
                 return (
                     <ListCategory first={index === 0}>
-                        {type === "role" ? (
-                            <>{entries[index].name}</>
-                        ) : type === "online" ? (
+                        {entry.type === "role" ? (
+                            <>{entry.name}</>
+                        ) : entry.type === "online" ? (
                             <Text id="app.status.online" />
                         ) : (
                             <Text id="app.status.offline" />
                         )}
-                        {" - "}
-                        {entries[index].users.length}
+                        {entry.type !== "no_offline" && (
+                            <>
+                                {" - "}
+                                {entry.users.length}
+                            </>
+                        )}
                     </ListCategory>
                 );
             }}
@@ -108,7 +124,23 @@ export default function MemberList({
                         .slice(0, groupIndex)
                         .reduce((a, b) => a + b.users.length, 0);
 
-                const item = entries[groupIndex].users[relativeIndex];
+                const entry = entries[groupIndex];
+                if (entry.type === "no_offline") {
+                    return (
+                        <NoOomfie>
+                            Offline users temporarily disabled for this server,
+                            see issue{" "}
+                            <a
+                                href="https://github.com/revoltchat/delta/issues/128"
+                                target="_blank">
+                                #128
+                            </a>{" "}
+                            for when this will be resolved.
+                        </NoOomfie>
+                    );
+                }
+
+                const item = entry.users[relativeIndex];
                 if (!item) return null;
 
                 return (
