@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
+import { ServerPermission } from "revolt.js";
 import { Route } from "revolt.js/dist/api/routes";
+import styled from "styled-components";
 
 import { useEffect, useState } from "preact/hooks";
 
@@ -11,6 +13,26 @@ import ComboBox from "../../components/ui/ComboBox";
 import Overline from "../../components/ui/Overline";
 import Preloader from "../../components/ui/Preloader";
 import Tip from "../../components/ui/Tip";
+
+import Markdown from "../../components/markdown/Markdown";
+
+const BotInfo = styled.div`
+    gap: 12px;
+    display: flex;
+    padding: 12px;
+
+    h1,
+    p {
+        margin: 0;
+    }
+`;
+
+const Option = styled.div`
+    gap: 8px;
+    display: flex;
+    margin-top: 4px;
+    margin-bottom: 12px;
+`;
 
 export default function InviteBot() {
     const { id } = useParams<{ id: string }>();
@@ -34,49 +56,67 @@ export default function InviteBot() {
             {typeof data === "undefined" && <Preloader type="spinner" />}
             {data && (
                 <>
-                    <UserIcon size={64} attachment={data.avatar} />
-                    <h1>{data.username}</h1>
-                    {data.description && <p>{data.description}</p>}
+                    <BotInfo>
+                        <UserIcon size={64} attachment={data.avatar} />
+                        <div className="name">
+                            <h1>{data.username}</h1>
+                            {data.description && (
+                                <Markdown content={data.description} />
+                            )}
+                        </div>
+                    </BotInfo>
                     <Overline type="subtle">Add to server</Overline>
-                    <ComboBox
-                        value={server}
-                        onChange={(e) => setServer(e.currentTarget.value)}>
-                        <option value="none">Select a server</option>
-                        {[...client.servers.values()].map((server) => (
-                            <option value={server._id} key={server._id}>
-                                {server.name}
-                            </option>
-                        ))}
-                    </ComboBox>
-                    <Button
-                        contrast
-                        onClick={() =>
-                            server !== "none" &&
-                            client.bots.invite(data._id, { server })
-                        }>
-                        add
-                    </Button>
+                    <Option>
+                        <ComboBox
+                            value={server}
+                            onChange={(e) => setServer(e.currentTarget.value)}>
+                            <option value="none">Select a server</option>
+                            {[...client.servers.values()]
+                                .filter(
+                                    (x) =>
+                                        x.permission &
+                                        ServerPermission.ManageServer,
+                                )
+                                .map((server) => (
+                                    <option value={server._id} key={server._id}>
+                                        {server.name}
+                                    </option>
+                                ))}
+                        </ComboBox>
+                        <Button
+                            contrast
+                            onClick={() =>
+                                server !== "none" &&
+                                client.bots.invite(data._id, { server })
+                            }>
+                            Add
+                        </Button>
+                    </Option>
                     <Overline type="subtle">Add to group</Overline>
-                    <ComboBox
-                        value={group}
-                        onChange={(e) => setGroup(e.currentTarget.value)}>
-                        <option value="none">Select a group</option>
-                        {[...client.channels.values()]
-                            .filter((x) => x.channel_type === "Group")
-                            .map((channel) => (
-                                <option value={channel._id} key={channel._id}>
-                                    {channel.name}
-                                </option>
-                            ))}
-                    </ComboBox>
-                    <Button
-                        contrast
-                        onClick={() =>
-                            group !== "none" &&
-                            client.bots.invite(data._id, { group })
-                        }>
-                        add
-                    </Button>
+                    <Option>
+                        <ComboBox
+                            value={group}
+                            onChange={(e) => setGroup(e.currentTarget.value)}>
+                            <option value="none">Select a group</option>
+                            {[...client.channels.values()]
+                                .filter((x) => x.channel_type === "Group")
+                                .map((channel) => (
+                                    <option
+                                        value={channel._id}
+                                        key={channel._id}>
+                                        {channel.name}
+                                    </option>
+                                ))}
+                        </ComboBox>
+                        <Button
+                            contrast
+                            onClick={() =>
+                                group !== "none" &&
+                                client.bots.invite(data._id, { group })
+                            }>
+                            Add
+                        </Button>
+                    </Option>
                 </>
             )}
         </div>
