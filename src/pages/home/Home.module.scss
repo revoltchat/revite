@@ -43,6 +43,12 @@
             @media (max-width: 600px) {
                 grid-template-columns: repeat(1, 1fr);
             }
+
+            // lol
+            > * > *,
+            > :last-child > * > * {
+                height: 100%;
+            }
         }
     }
 }
