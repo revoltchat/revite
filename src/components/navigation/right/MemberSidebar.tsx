@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { autorun, reaction } from "mobx";
+import { autorun } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Role } from "revolt-api/types/Servers";
@@ -9,8 +9,6 @@ import { Server } from "revolt.js/dist/maps/Servers";
 import { User } from "revolt.js/dist/maps/Users";
 
 import { useContext, useEffect, useState } from "preact/hooks";
-
-import { defer } from "../../../lib/defer";
 
 import {
     ClientStatus,
@@ -148,7 +146,7 @@ function useEntries(
         }
 
         // ! FIXME: Temporary performance fix
-        if (SKIP_OFFLINE.has(channel.server_id!)) {
+        if (shouldSkipOffline(channel.server_id!)) {
             entries.push({
                 type: "no_offline",
                 users: [null!],
@@ -194,7 +192,20 @@ export function resetMemberSidebarFetched() {
     FETCHED.clear();
 }
 
-export const SKIP_OFFLINE = new Set(["01F7ZSBSFHQ8TA81725KQCSDDP"]);
+const SKIP_OFFLINE = new Set(["01F7ZSBSFHQ8TA81725KQCSDDP"]);
+
+let SKIP_ENABLED = true;
+export function setOfflineSkipEnabled(value: boolean) {
+    SKIP_ENABLED = value;
+}
+
+function shouldSkipOffline(id: string) {
+    if (SKIP_ENABLED) {
+        return SKIP_OFFLINE.has(id);
+    }
+
+    return false;
+}
 
 export const ServerMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
@@ -205,7 +216,7 @@ export const ServerMemberSidebar = observer(
             const server_id = channel.server_id!;
             if (status === ClientStatus.ONLINE && !FETCHED.has(server_id)) {
                 channel
-                    .server!.syncMembers(SKIP_OFFLINE.has(server_id))
+                    .server!.syncMembers(shouldSkipOffline(server_id))
                     .then(() => FETCHED.add(server_id));
             }
             // eslint-disable-next-line
