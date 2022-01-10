@@ -19,6 +19,7 @@ import RightSidebar from "../components/navigation/RightSidebar";
 import Open from "./Open";
 import Channel from "./channels/Channel";
 import Developer from "./developer/Developer";
+import Discover from "./discover/Discover";
 import Friends from "./friends/Friends";
 import Home from "./home/Home";
 import InviteBot from "./invite/InviteBot";
@@ -82,6 +83,7 @@ export default function App() {
         path === "/" || path === "/settings" || path.startsWith("/friends");
     const inChannel = path.includes("/channel");
     const inServer = path.includes("/server");
+    const inDiscover = path.startsWith("/discover");
     const inSpecial =
         (path.startsWith("/friends") && isTouchscreenDevice) ||
         path.startsWith("/invite") ||
@@ -116,7 +118,11 @@ export default function App() {
                     }
                     bottomNav={{
                         component: <BottomNavigation />,
-                        showIf: fixedBottomNav ? ShowIf.Always : ShowIf.Left,
+                        showIf: inDiscover
+                            ? 0
+                            : fixedBottomNav
+                            ? ShowIf.Always
+                            : ShowIf.Left,
                         height: 50,
                     }}
                     docked={isTouchscreenDevice ? Docked.None : Docked.Left}>
@@ -171,6 +177,8 @@ export default function App() {
                                 component={Settings}
                             />
                             <Route path="/settings" component={Settings} />
+
+                            <Route path="/discover" component={Discover} />
 
                             <Route path="/dev" component={Developer} />
                             <Route path="/friends" component={Friends} />

@@ -103,19 +103,18 @@ export default observer(() => {
                                     Create a group
                                 </CategoryButton>
                             </Link>
-                            {/*<a
-                                href="#"
-                                target="_blank"
-                                rel="noreferrer">
-                                <CategoryButton
-                                    action="external"
-                                    icon={<Compass size={32} />}
-                                    description={
-                                        "Find a community based on your hobbies or interests."
-                                    }>
-                                    Join a community
-                                </CategoryButton>
-                                </a>*/}
+                            <Link to="/discover">
+                                <a>
+                                    <CategoryButton
+                                        action="chevron"
+                                        icon={<Compass size={32} />}
+                                        description={
+                                            "Find a community based on your hobbies or interests."
+                                        }>
+                                        Join a community
+                                    </CategoryButton>
+                                </a>
+                            </Link>
 
                             {client.servers.get(
                                 "01F7ZSBSFHQ8TA81725KQCSDDP",

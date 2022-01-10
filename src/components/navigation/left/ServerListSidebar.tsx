@@ -1,4 +1,4 @@
-import { Plus, LinkExternal } from "@styled-icons/boxicons-regular";
+import { Plus } from "@styled-icons/boxicons-regular";
 import { Cog, Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory, useLocation, useParams } from "react-router-dom";
@@ -249,7 +249,9 @@ export default observer(() => {
     ).length;
 
     const homeActive =
-        typeof server === "undefined" && !path.startsWith("/invite");
+        typeof server === "undefined" &&
+        !path.startsWith("/invite") &&
+        !path.startsWith("/discover");
 
     return (
         <ServersBase>
@@ -386,7 +388,7 @@ export default observer(() => {
                         </div>
                     </Tooltip>
                 </ServerCircle>
-                {/*<ServerCircle>
+                <ServerCircle>
                     <Tooltip
                         content={
                             <div
@@ -395,22 +397,21 @@ export default observer(() => {
                                     alignItems: "center",
                                     gap: "4px",
                                 }}>
-                                <div>Discover Public Servers</div>
+                                <div>Discover Revolt</div>
                             </div>
                         }
                         placement="right">
                         <div className="circle">
                             <IconButton>
-                                <a
-                                    href="#"
-                                    target="_blank"
-                                    rel="noreferrer">
-                                    <Compass size={32} />
-                                </a>
+                                <Link to="/discover">
+                                    <a>
+                                        <Compass size={32} />
+                                    </a>
+                                </Link>
                             </IconButton>
                         </div>
                     </Tooltip>
-                    </ServerCircle>*/}
+                </ServerCircle>
             </ServerList>
             <PaintCounter small />
             {!isTouchscreenDevice && (

@@ -30,6 +30,8 @@ export default function Invite() {
     const history = useHistory();
     const client = useContext(AppContext);
 
+    const layout = useApplicationState().layout;
+
     const status = useContext(StatusContext);
     const { code } = useParams<{ code: string }>();
     const [processing, setProcessing] = useState(false);
@@ -47,7 +49,7 @@ export default function Invite() {
         }
     }, [client, code, invite, status]);
 
-    if (code === undefined) return <Redirect to="/" />;
+    if (code === undefined) return <Redirect to={layout.getLastPath()} />;
 
     if (typeof invite === "undefined") {
         return (
@@ -72,7 +74,11 @@ export default function Invite() {
                                     <Button contrast>
                                         <ArrowBack
                                             size={32}
-                                            onClick={() => history.push("/")}
+                                            onClick={() =>
+                                                history.push(
+                                                    layout.getLastPath(),
+                                                )
+                                            }
                                         />
                                     </Button>
                                 </div>
@@ -95,7 +101,10 @@ export default function Invite() {
                     : undefined,
             }}>
             <div className={styles.leave}>
-                <ArrowBack size={32} onClick={() => history.push("/")} />
+                <ArrowBack
+                    size={32}
+                    onClick={() => history.push(layout.getLastPath())}
+                />
             </div>
 
             {!processing && (
