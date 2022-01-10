@@ -12,12 +12,12 @@ import Store from "../interfaces/Store";
 /**
  * Union type of available experiments.
  */
-export type Experiment = "dummy" | "theme_shop";
+export type Experiment = "dummy";
 
 /**
  * Currently active experiments.
  */
-export const AVAILABLE_EXPERIMENTS: Experiment[] = ["dummy", "theme_shop"];
+export const AVAILABLE_EXPERIMENTS: Experiment[] = ["dummy"];
 
 /**
  * Definitions for experiments listed by {@link Experiment}.
@@ -28,10 +28,6 @@ export const EXPERIMENTS: {
     dummy: {
         title: "Dummy Experiment",
         description: "This is a dummy experiment.",
-    },
-    theme_shop: {
-        title: "Theme Shop",
-        description: "Allows you to access and set user submitted themes.",
     },
 };
 
