@@ -31,12 +31,14 @@ const Container = styled.div`
                   background: var(--background);
               `
             : css`
-                  background: var(--secondary-background);
+                  background: var(--background);
               `}
 `;
 
 const Frame = styled.iframe<{ loaded: boolean }>`
     border: 0;
+    border-start-start-radius: 8px;
+    border-end-start-radius: 8px;
 
     ${(props) =>
         props.loaded
