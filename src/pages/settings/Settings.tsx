@@ -189,18 +189,11 @@ export default observer(() => {
                     title: <Text id="app.settings.pages.experiments.title" />,
                 },
                 {
-                    divider: !experiments.isEnabled("theme_shop"),
+                    divider: true,
                     category: "revolt",
                     id: "bots",
                     icon: <Bot size={20} />,
                     title: <Text id="app.settings.pages.bots.title" />,
-                },
-                {
-                    hidden: !experiments.isEnabled("theme_shop"),
-                    divider: true,
-                    id: "theme_shop",
-                    icon: <Store size={20} />,
-                    title: <Text id="app.settings.pages.theme_shop.title" />,
                 },
                 {
                     id: "feedback",
