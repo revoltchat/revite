@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Route, Switch } from "react-router";
+import { useLocation } from "react-router-dom";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -13,8 +14,10 @@ import ServerSidebar from "./left/ServerSidebar";
 
 export default observer(() => {
     const layout = useApplicationState().layout;
+    const { pathname } = useLocation();
     const isOpen =
-        isTouchscreenDevice || layout.getSectionState(SIDEBAR_CHANNELS, true);
+        !pathname.startsWith("/discover") &&
+        (isTouchscreenDevice || layout.getSectionState(SIDEBAR_CHANNELS, true));
 
     return (
         <SidebarBase>
