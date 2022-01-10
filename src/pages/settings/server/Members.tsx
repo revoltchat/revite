@@ -106,7 +106,11 @@ export const Members = ({ server }: Props) => {
     const members = useMemo(
         () =>
             query
-                ? data?.filter((x) => x.user?.username.includes(query))
+                ? data?.filter((x) =>
+                      x.user?.username
+                          .toLowerCase()
+                          .includes(query.toLowerCase()),
+                  )
                 : data,
         [data, query],
     );
