@@ -35,6 +35,11 @@ export default class Layout implements Store, Persistent<Data> {
     private lastHomePath: string;
 
     /**
+     * Volatile last discover path.
+     */
+    private lastDiscoverPath: string;
+
+    /**
      * Map of last channels viewed in servers.
      */
     private lastOpened: ObservableMap<string, string>;
@@ -50,6 +55,7 @@ export default class Layout implements Store, Persistent<Data> {
     constructor() {
         this.lastSection = "home";
         this.lastHomePath = "/";
+        this.lastDiscoverPath = "/discover/servers";
         this.lastOpened = new ObservableMap();
         this.openSections = new ObservableMap();
         makeAutoObservable(this);
@@ -144,9 +150,9 @@ export default class Layout implements Store, Persistent<Data> {
      */
     @computed getLastPath() {
         return this.lastSection === "discover"
-            ? "/discover"
+            ? this.lastDiscoverPath
             : this.lastSection === "home"
-            ? this.lastHomePath!
+            ? this.lastHomePath
             : this.getLastOpened(this.lastSection)!;
     }
 
@@ -165,6 +171,15 @@ export default class Layout implements Store, Persistent<Data> {
     @action setLastHomePath(path: string) {
         this.lastHomePath = path;
         this.lastSection = "home";
+    }
+
+    /**
+     * Set the last discover path.
+     * @param path Pathname
+     */
+    @action setLastDiscoverPath(path: string) {
+        this.lastDiscoverPath = path;
+        this.lastSection = "discover";
     }
 
     /**
