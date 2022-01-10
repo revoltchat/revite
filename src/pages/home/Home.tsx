@@ -10,7 +10,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import styles from "./Home.module.scss";
 import "./snow.scss";
@@ -165,18 +165,16 @@ export default observer(() => {
                                     <Text id="app.home.donate" />
                                 </CategoryButton>
                             </a>
-                            <Tooltip
-                                content={
-                                    <Text id="app.home.settings-tooltip" />
-                                }>
-                                <Link to="/settings">
-                                    <CategoryButton
-                                        action="chevron"
-                                        icon={<Cog size={32} />}>
-                                        <Text id="app.home.settings" />
-                                    </CategoryButton>
-                                </Link>
-                            </Tooltip>
+                            <Link to="/settings">
+                                <CategoryButton
+                                    action="chevron"
+                                    description={
+                                        <Text id="app.home.settings-tooltip" />
+                                    }
+                                    icon={<Cog size={32} />}>
+                                    <Text id="app.home.settings" />
+                                </CategoryButton>
+                            </Link>
                         </div>
                         {isDecember && (
                             <a href="#" onClick={toggleSeasonalTheme}>
