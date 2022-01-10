@@ -1,3 +1,9 @@
+/**
+ * ! DEPRECATED FILE
+ * ! DO NOT IMPORT
+ *
+ * Replaced by Revolt Discover
+ */
 import { Check } from "@styled-icons/boxicons-regular";
 import {
     Star,

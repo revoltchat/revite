@@ -50,10 +50,8 @@ export const ThemeBaseSelectorShim = observer(() => {
  * TODO: stabilise
  */
 export const ThemeShopShim = () => {
-    if (!useApplicationState().experiments.isEnabled("theme_shop")) return null;
-
     return (
-        <Link to="/settings/theme_shop" replace>
+        <Link to="/discover/themes" replace>
             <CategoryButton
                 icon={<Store size={24} />}
                 action="chevron"
