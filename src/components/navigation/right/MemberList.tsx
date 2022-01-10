@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { GroupedVirtuoso } from "react-virtuoso";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
@@ -48,6 +49,10 @@ const NoOomfie = styled.div`
     font-size: 0.8em;
     text-align: center;
     color: var(--secondary-foreground);
+
+    flex-direction: column;
+    display: flex;
+    gap: 4px;
 `;
 
 const ItemContent = memo(
@@ -128,14 +133,23 @@ export default function MemberList({
                 if (entry.type === "no_offline") {
                     return (
                         <NoOomfie>
-                            Offline users temporarily disabled for this server,
-                            see issue{" "}
-                            <a
-                                href="https://github.com/revoltchat/delta/issues/128"
-                                target="_blank">
-                                #128
-                            </a>{" "}
-                            for when this will be resolved.
+                            <div>
+                                Offline users temporarily disabled for this
+                                server, see issue{" "}
+                                <a
+                                    href="https://github.com/revoltchat/delta/issues/128"
+                                    target="_blank">
+                                    #128
+                                </a>{" "}
+                                for when this will be resolved.
+                            </div>
+                            <div>
+                                You may re-enable them in{" "}
+                                <Link to="/settings/experiments">
+                                    <a>experiments</a>
+                                </Link>
+                                .
+                            </div>
                         </NoOomfie>
                     );
                 }
