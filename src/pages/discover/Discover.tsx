@@ -71,8 +71,8 @@ export default function Discover() {
     const srcURL = useMemo(() => {
         const query = new URLSearchParams(search);
         query.set("embedded", "true");
-        // const REMOTE = 'https://rvlt.gg';
-        const REMOTE = "http://local.revolt.chat:3001";
+        const REMOTE = "https://rvlt.gg";
+        // const REMOTE = "http://local.revolt.chat:3001";
         return `${REMOTE}${pathname}?${query.toString()}`;
     }, []);
 
