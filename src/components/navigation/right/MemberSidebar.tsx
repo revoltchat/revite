@@ -197,7 +197,7 @@ export const ServerMemberSidebar = observer(
             const server_id = channel.server_id!;
             if (status === ClientStatus.ONLINE && !FETCHED.has(server_id)) {
                 channel
-                    .server!.fetchMembers()
+                    .server!.syncMembers()
                     .then(() => FETCHED.add(server_id));
             }
             // eslint-disable-next-line
