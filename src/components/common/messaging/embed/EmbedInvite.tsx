@@ -1,5 +1,5 @@
 import { Group } from "@styled-icons/boxicons-solid";
-import { autorun } from "mobx";
+import { autorun, reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { RetrievedInvite } from "revolt-api/types/Invites";
@@ -147,14 +147,16 @@ export function EmbedInvite({ code }: Props) {
                                         history.push(
                                             `/server/${invite.server_id}/channel/${invite.channel_id}`,
                                         );
+
+                                        return;
                                     }
 
-                                    const dispose = autorun(() => {
-                                        const server = client.servers.get(
-                                            invite.server_id,
-                                        );
-
-                                        defer(() => {
+                                    const dispose = reaction(
+                                        () =>
+                                            client.servers.get(
+                                                invite.server_id,
+                                            ),
+                                        (server) => {
                                             if (server) {
                                                 client.unreads!.markMultipleRead(
                                                     server.channel_ids,
@@ -163,11 +165,11 @@ export function EmbedInvite({ code }: Props) {
                                                 history.push(
                                                     `/server/${server._id}/channel/${invite.channel_id}`,
                                                 );
-                                            }
-                                        });
 
-                                        dispose();
-                                    });
+                                                dispose();
+                                            }
+                                        },
+                                    );
                                 }
 
                                 await client.joinInvite(code);
