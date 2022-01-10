@@ -1,18 +1,18 @@
-import { LeftArrowAlt } from "@styled-icons/boxicons-regular";
 import { Compass } from "@styled-icons/boxicons-solid";
-import { useHistory } from "react-router-dom";
+import { reaction } from "mobx";
+import { useHistory, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
 
+import { Overrides } from "../../context/Theme";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 
 import Header from "../../components/ui/Header";
-import IconButton from "../../components/ui/IconButton";
 import Preloader from "../../components/ui/Preloader";
 
 const Container = styled.div`
@@ -28,6 +28,7 @@ const Container = styled.div`
                   width: 100%;
                   height: 100%;
                   position: fixed;
+                  padding-bottom: 50px;
                   background: var(--background);
               `
             : css`
@@ -54,43 +55,94 @@ const Loader = styled.div`
     flex-grow: 1;
 `;
 
+const TRUSTED_HOSTS = [
+    "local.revolt.chat:3000",
+    "local.revolt.chat:3001",
+    "rvlt.gg",
+];
+
 export default function Discover() {
-    const layout = useApplicationState().layout;
+    const state = useApplicationState();
     const { openLink } = useIntermediate();
+
     const history = useHistory();
+    const { pathname, search } = useLocation();
+
+    const srcURL = useMemo(() => {
+        const query = new URLSearchParams(search);
+        query.set("embedded", "true");
+        // const REMOTE = 'https://rvlt.gg';
+        const REMOTE = "http://local.revolt.chat:3001";
+        return `${REMOTE}${pathname}?${query.toString()}`;
+    }, []);
 
     const [loaded, setLoaded] = useState(false);
+    const ref = useRef<HTMLIFrameElement>(null!);
 
-    useEffect(() => layout.setLastSection("discover"), []);
+    function sendTheme(theme?: Overrides) {
+        ref.current?.contentWindow?.postMessage(
+            JSON.stringify({
+                source: "revolt",
+                type: "theme",
+                theme: theme ?? state.settings.theme.computeVariables(),
+            }),
+            "*",
+        );
+    }
+
+    useEffect(
+        () =>
+            reaction(() => state.settings.theme.computeVariables(), sendTheme),
+        [],
+    );
+
+    useEffect(() => state.layout.setLastSection("discover"), []);
 
     useEffect(() => {
         function onMessage(message: MessageEvent) {
-            let data = JSON.parse(message.data);
-            if (data.source === "discover") {
-                switch (data.type) {
-                    case "navigate": {
-                        openLink(data.url);
-                        break;
+            let url = new URL(message.origin);
+            if (!TRUSTED_HOSTS.includes(url.host)) return;
+
+            try {
+                let data = JSON.parse(message.data);
+                if (data.source === "discover") {
+                    switch (data.type) {
+                        case "init": {
+                            sendTheme();
+                            break;
+                        }
+                        case "path": {
+                            history.replace(data.path);
+                            break;
+                        }
+                        case "navigate": {
+                            openLink(data.url);
+                            break;
+                        }
+                        case "applyTheme": {
+                            state.settings.theme.hydrate({
+                                ...data.theme.variables,
+                                css: data.theme.css,
+                            });
+                            break;
+                        }
                     }
+                }
+            } catch (err) {
+                if (import.meta.env.DEV) {
+                    console.error(err);
                 }
             }
         }
 
         window.addEventListener("message", onMessage);
         return () => window.removeEventListener("message", onMessage);
-    });
+    }, [ref]);
 
     return (
         <Container>
             {isTouchscreenDevice && (
                 <Header placement="primary">
-                    <IconButton
-                        onClick={() => history.push(layout.getLastPath())}>
-                        <LeftArrowAlt
-                            size={27}
-                            style={{ marginInlineEnd: "8px" }}
-                        />
-                    </IconButton>
                     <Compass size={27} />
                     Discover
                 </Header>
@@ -101,10 +153,11 @@ export default function Discover() {
                 </Loader>
             )}
             <Frame
+                ref={ref}
                 loaded={loaded}
                 crossOrigin="anonymous"
                 onLoad={() => setLoaded(true)}
-                src="https://rvlt.gg/discover/servers?embedded=true"
+                src={srcURL}
             />
         </Container>
     );

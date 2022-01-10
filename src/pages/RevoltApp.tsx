@@ -80,10 +80,12 @@ const Routes = styled.div.attrs({ "data-component": "routes" })<{
 export default function App() {
     const path = useLocation().pathname;
     const fixedBottomNav =
-        path === "/" || path === "/settings" || path.startsWith("/friends");
+        path === "/" ||
+        path === "/settings" ||
+        path.startsWith("/friends") ||
+        path.startsWith("/discover");
     const inChannel = path.includes("/channel");
     const inServer = path.includes("/server");
-    const inDiscover = path.startsWith("/discover");
     const inSpecial =
         (path.startsWith("/friends") && isTouchscreenDevice) ||
         path.startsWith("/invite") ||
@@ -118,11 +120,7 @@ export default function App() {
                     }
                     bottomNav={{
                         component: <BottomNavigation />,
-                        showIf: inDiscover
-                            ? 0
-                            : fixedBottomNav
-                            ? ShowIf.Always
-                            : ShowIf.Left,
+                        showIf: fixedBottomNav ? ShowIf.Always : ShowIf.Left,
                         height: 50,
                     }}
                     docked={isTouchscreenDevice ? Docked.None : Docked.Left}>

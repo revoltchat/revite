@@ -56,7 +56,6 @@ import { Notifications } from "./panes/Notifications";
 import { Profile } from "./panes/Profile";
 import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
-import { ThemeShop } from "./panes/ThemeShop";
 
 const AccountHeader = styled.div`
     display: flex;
@@ -243,11 +242,6 @@ export default observer(() => {
                     <Route path="/settings/bots">
                         <MyBots />
                     </Route>
-                    {experiments.isEnabled("theme_shop") && (
-                        <Route path="/settings/theme_shop">
-                            <ThemeShop />
-                        </Route>
-                    )}
                     <Route path="/settings/feedback">
                         <Feedback />
                     </Route>
