@@ -395,9 +395,18 @@ export default observer(() => {
                                 style={{
                                     display: "flex",
                                     alignItems: "center",
-                                    gap: "4px",
+                                    gap: "6px",
                                 }}>
                                 <div>Discover Revolt</div>
+                                <div
+                                    style={{
+                                        padding: "1px 5px",
+                                        fontSize: "11px",
+                                        background: "var(--status-busy)",
+                                        borderRadius: "60px",
+                                    }}>
+                                    NEW
+                                </div>
                             </div>
                         }
                         placement="right">
