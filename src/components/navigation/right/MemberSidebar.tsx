@@ -147,7 +147,13 @@ function useEntries(
             });
         }
 
-        if (categories.offline.length > 0) {
+        // ! FIXME: Temporary performance fix
+        if (SKIP_OFFLINE.has(channel.server_id!)) {
+            entries.push({
+                type: "no_offline",
+                users: [null!],
+            });
+        } else if (categories.offline.length > 0) {
             entries.push({
                 type: "offline",
                 users: categories.offline.map((x) => x[0]),
@@ -188,6 +194,8 @@ export function resetMemberSidebarFetched() {
     FETCHED.clear();
 }
 
+export const SKIP_OFFLINE = new Set(["01F7ZSBSFHQ8TA81725KQCSDDP"]);
+
 export const ServerMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
         const client = useClient();
@@ -197,7 +205,7 @@ export const ServerMemberSidebar = observer(
             const server_id = channel.server_id!;
             if (status === ClientStatus.ONLINE && !FETCHED.has(server_id)) {
                 channel
-                    .server!.syncMembers()
+                    .server!.syncMembers(SKIP_OFFLINE.has(server_id))
                     .then(() => FETCHED.add(server_id));
             }
             // eslint-disable-next-line
