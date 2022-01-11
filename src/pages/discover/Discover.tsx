@@ -38,8 +38,13 @@ const Container = styled.div`
 
 const Frame = styled.iframe<{ loaded: boolean }>`
     border: 0;
-    border-start-start-radius: 8px;
-    border-end-start-radius: 8px;
+
+    ${() =>
+        !isTouchscreenDevice &&
+        css`
+            border-start-start-radius: 8px;
+            border-end-start-radius: 8px;
+        `}
 
     ${(props) =>
         props.loaded
