@@ -26,7 +26,7 @@ import IconButton from "../../../components/ui/IconButton";
 
 import { ChannelHeaderProps } from "../ChannelHeader";
 
-const Testing = styled.div`
+const Container = styled.div`
     display: flex;
     gap: 16px;
 `;
@@ -108,7 +108,7 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
 
     return (
         <>
-            <Testing>
+            <Container>
                 <UpdateIndicator style="channel" />
                 {channel.channel_type === "Group" && (
                     <>
@@ -156,7 +156,7 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
                         <Search size={25} />
                     </IconButton>
                 )}
-            </Testing>
+            </Container>
         </>
     );
 }
