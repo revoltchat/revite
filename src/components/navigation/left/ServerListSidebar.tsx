@@ -388,39 +388,41 @@ export default observer(() => {
                         </div>
                     </Tooltip>
                 </ServerCircle>
-                <ServerCircle>
-                    <Tooltip
-                        content={
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "6px",
-                                }}>
-                                <div>Discover Revolt</div>
+                {!isTouchscreenDevice && (
+                    <ServerCircle>
+                        <Tooltip
+                            content={
                                 <div
                                     style={{
-                                        padding: "1px 5px",
-                                        fontSize: "11px",
-                                        background: "var(--status-busy)",
-                                        borderRadius: "60px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "6px",
                                     }}>
-                                    NEW
+                                    <div>Discover Revolt</div>
+                                    <div
+                                        style={{
+                                            padding: "1px 5px",
+                                            fontSize: "11px",
+                                            background: "var(--status-busy)",
+                                            borderRadius: "60px",
+                                        }}>
+                                        NEW
+                                    </div>
                                 </div>
+                            }
+                            placement="right">
+                            <div className="circle">
+                                <IconButton>
+                                    <Link to="/discover">
+                                        <a>
+                                            <Compass size={32} />
+                                        </a>
+                                    </Link>
+                                </IconButton>
                             </div>
-                        }
-                        placement="right">
-                        <div className="circle">
-                            <IconButton>
-                                <Link to="/discover">
-                                    <a>
-                                        <Compass size={32} />
-                                    </a>
-                                </Link>
-                            </IconButton>
-                        </div>
-                    </Tooltip>
-                </ServerCircle>
+                        </Tooltip>
+                    </ServerCircle>
+                )}
             </ServerList>
             <PaintCounter small />
             {!isTouchscreenDevice && (
