@@ -242,7 +242,7 @@ export const PRESETS: Record<string, Theme> = {
         mention: "rgba(251, 255, 0, 0.40)",
         success: "#65E572",
         warning: "#FAA352",
-        tooltip: "#000000",
+        tooltip: "#FFF",
         error: "#ED4245",
         hover: "rgba(0, 0, 0, 0.2)",
         "scrollbar-thumb": "#CA525A",
