@@ -133,7 +133,7 @@ export default class Layout implements Store, Persistent<Data> {
      */
     @action setLastOpened(server: string, channel: string) {
         this.lastOpened.set(server, channel);
-        this.lastSection = "server";
+        this.lastSection = server;
     }
 
     /**
@@ -149,11 +149,15 @@ export default class Layout implements Store, Persistent<Data> {
      * @returns Last path
      */
     @computed getLastPath() {
-        return this.lastSection === "discover"
-            ? this.lastDiscoverPath
-            : this.lastSection === "home"
-            ? this.lastHomePath
-            : this.getLastOpened(this.lastSection)!;
+        return (
+            (this.lastSection === "discover"
+                ? this.lastDiscoverPath
+                : this.lastSection === "home"
+                ? this.lastHomePath
+                : this.getServerPath(this.lastSection)!) ??
+            this.lastHomePath ??
+            "/"
+        );
     }
 
     /**
