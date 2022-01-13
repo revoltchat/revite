@@ -27,6 +27,7 @@ export type Variables =
     | "secondary-header"
     | "tertiary-background"
     | "tertiary-foreground"
+    | "tooltip"
     | "status-online"
     | "status-away"
     | "status-busy"
@@ -241,6 +242,7 @@ export const PRESETS: Record<string, Theme> = {
         mention: "rgba(251, 255, 0, 0.40)",
         success: "#65E572",
         warning: "#FAA352",
+        tooltip: "#000000",
         error: "#ED4245",
         hover: "rgba(0, 0, 0, 0.2)",
         "scrollbar-thumb": "#CA525A",
@@ -267,6 +269,7 @@ export const PRESETS: Record<string, Theme> = {
         mention: "rgba(251, 255, 0, 0.06)",
         success: "#65E572",
         warning: "#FAA352",
+        tooltip: "#000000",
         error: "#ED4245",
         hover: "rgba(0, 0, 0, 0.1)",
         "scrollbar-thumb": "#CA525A",
