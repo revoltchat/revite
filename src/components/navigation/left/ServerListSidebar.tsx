@@ -182,6 +182,7 @@ const ServerCircle = styled.div`
         height: 42px;
         width: 42px;
         transition: background-color 0.1s ease-in;
+        cursor: pointer;
 
         > div svg {
             color: var(--accent);
@@ -426,20 +427,24 @@ export default observer(() => {
                     </ServerCircle>
                 )}
             </ServerList>
-            <PaintCounter small />
+
             {!isTouchscreenDevice && (
-                <SettingsButton>
-                    <Link to="/settings">
-                        <Tooltip
-                            content={<Text id="app.settings.title" />}
-                            placement="right">
-                            <IconButton>
-                                <Cog size={32} strokeWidth="0.5" />
-                            </IconButton>
-                        </Tooltip>
-                    </Link>
-                </SettingsButton>
+                <Tooltip content={"Settings"} placement="right">
+                    <ServerCircle>
+                        <Link to="/settings">
+                            <div className="circle">
+                                <IconButton>
+                                    <Cog
+                                        size={24}
+                                        fill="var(--secondary-foreground) !important"
+                                    />
+                                </IconButton>
+                            </div>
+                        </Link>
+                    </ServerCircle>
+                </Tooltip>
             )}
+            <PaintCounter small />
         </ServersBase>
     );
 });
