@@ -109,9 +109,11 @@ const ServerList = styled.div`
 `;
 
 const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
-    height: 58px;
+    height: 54px;
     display: flex;
     align-items: center;
+
+    //transition: 0.2s ease height;
 
     :focus {
         outline: 3px solid blue;
@@ -165,7 +167,7 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
 
 const ServerCircle = styled.div`
     width: 54px;
-    height: 58px;
+    height: 54px;
     display: flex;
     align-items: center;
     justify-content: center;
