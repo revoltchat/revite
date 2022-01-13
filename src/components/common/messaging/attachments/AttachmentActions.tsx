@@ -1,10 +1,9 @@
 import {
-    Download,
     LinkExternal,
-    File,
     Headphone,
-    Video,
+    Download,
 } from "@styled-icons/boxicons-regular";
+import { File, Video } from "@styled-icons/boxicons-solid";
 import { Attachment } from "revolt-api/types/Autumn";
 
 import styles from "./AttachmentActions.module.scss";

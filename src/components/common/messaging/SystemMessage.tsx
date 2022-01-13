@@ -29,6 +29,17 @@ const SystemContent = styled.div`
     flex-wrap: wrap;
     align-items: center;
     flex-direction: row;
+    font-size: 14px;
+    color: var(--secondary-foreground);
+
+    span {
+        font-weight: 600;
+        color: var(--foreground);
+    }
+
+    svg {
+        margin-inline-end: 4px;
+    }
 
     svg,
     span {
