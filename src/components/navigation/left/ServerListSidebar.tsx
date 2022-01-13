@@ -61,7 +61,7 @@ function Icon({
                         y="5"
                         r="5"
                         fill={"white"}
-                        style={"text-align:center;"}
+                        fontWeight={600}
                         text-anchor="middle"
                         fontSize={"7.5"}
                         alignmentBaseline={"middle"}
