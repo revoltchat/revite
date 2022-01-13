@@ -402,7 +402,7 @@ export default observer(() => {
                                     <div
                                         style={{
                                             padding: "1px 5px",
-                                            fontSize: "11px",
+                                            fontSize: "9px",
                                             background: "var(--status-busy)",
                                             borderRadius: "60px",
                                         }}>
