@@ -61,9 +61,9 @@ function Icon({
                         y="5"
                         r="5"
                         fill={"white"}
+                        fontSize={"7.5"}
                         fontWeight={600}
                         text-anchor="middle"
-                        fontSize={"7.5"}
                         alignmentBaseline={"middle"}
                         dominant-baseline={"middle"}>
                         {count < 10 ? count : "9+"}
