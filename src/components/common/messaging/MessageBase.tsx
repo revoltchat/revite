@@ -195,6 +195,10 @@ export const MessageInfo = styled.div`
 `;
 
 export const MessageContent = styled.div`
+    // Position relatively so we can put
+    // the overlay in the right place.
+    position: relative;
+
     min-width: 0;
     flex-grow: 1;
     display: flex;

@@ -1,4 +1,3 @@
-import { Reply } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
 
@@ -13,7 +12,6 @@ import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
-import IconButton from "../../ui/IconButton";
 import Overline from "../../ui/Overline";
 
 import { Children } from "../../../types/Preact";
@@ -27,7 +25,7 @@ import MessageBase, {
 } from "./MessageBase";
 import Attachment from "./attachments/Attachment";
 import { MessageReply } from "./attachments/MessageReply";
-import { MessageOverlayBar, OverlayBase } from "./bars/MessageOverlayBar";
+import { MessageOverlayBar } from "./bars/MessageOverlayBar";
 import Embed from "./embed/Embed";
 import InviteList from "./embed/EmbedInvite";
 
@@ -89,7 +87,7 @@ const Message = observer(
         };
 
         // ! FIXME(?): animate on hover
-        const [animate, setAnimate] = useState(false);
+        const [mouseHovering, setAnimate] = useState(false);
 
         return (
             <div id={message._id}>
@@ -138,7 +136,7 @@ const Message = observer(
                                 size={36}
                                 onContextMenu={userContext}
                                 onClick={handleUserClick}
-                                animate={animate}
+                                animate={mouseHovering}
                                 showServerIdentity
                             />
                         ) : (
@@ -146,44 +144,43 @@ const Message = observer(
                         )}
                     </MessageInfo>
                     <MessageContent>
-                        <OverlayBase>
-                            {head && (
-                                <span className="detail">
-                                    <Username
-                                        user={user}
-                                        className="author"
-                                        showServerIdentity
-                                        onClick={handleUserClick}
-                                        onContextMenu={userContext}
-                                        masquerade={message.masquerade!}
-                                    />
-                                    <MessageDetail
-                                        message={message}
-                                        position="top"
-                                    />
-                                </span>
-                            )}
-                            {replacement ?? <Markdown content={content} />}
-                            {!queued && <InviteList message={message} />}
-                            {queued?.error && (
-                                <Overline type="error" error={queued.error} />
-                            )}
-                            {message.attachments?.map((attachment, index) => (
-                                <Attachment
-                                    key={index}
-                                    attachment={attachment}
-                                    hasContent={index > 0 || content.length > 0}
+                        {head && (
+                            <span className="detail">
+                                <Username
+                                    user={user}
+                                    className="author"
+                                    showServerIdentity
+                                    onClick={handleUserClick}
+                                    onContextMenu={userContext}
+                                    masquerade={message.masquerade!}
                                 />
-                            ))}
-                            {message.embeds?.map((embed, index) => (
-                                <Embed key={index} embed={embed} />
-                            ))}
+                                <MessageDetail
+                                    message={message}
+                                    position="top"
+                                />
+                            </span>
+                        )}
+                        {replacement ?? <Markdown content={content} />}
+                        {!queued && <InviteList message={message} />}
+                        {queued?.error && (
+                            <Overline type="error" error={queued.error} />
+                        )}
+                        {message.attachments?.map((attachment, index) => (
+                            <Attachment
+                                key={index}
+                                attachment={attachment}
+                                hasContent={index > 0 || content.length > 0}
+                            />
+                        ))}
+                        {message.embeds?.map((embed, index) => (
+                            <Embed key={index} embed={embed} />
+                        ))}
+                        {mouseHovering && !replacement && (
                             <MessageOverlayBar
                                 message={message}
                                 queued={queued}
-                                mouseOver={animate}
                             />
-                        </OverlayBase>
+                        )}
                     </MessageContent>
                 </MessageBase>
             </div>

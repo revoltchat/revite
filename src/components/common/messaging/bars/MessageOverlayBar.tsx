@@ -5,11 +5,11 @@ import {
     Trash,
 } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
+import { ChannelPermission } from "revolt.js";
 import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-import { attachContextMenu } from "preact-context-menu";
-import { useContext } from "preact/hooks";
+import { openContextMenu } from "preact-context-menu";
 
 import { internalEmit } from "../../../../lib/eventEmitter";
 
@@ -19,146 +19,99 @@ import {
     Screen,
     useIntermediate,
 } from "../../../../context/intermediate/Intermediate";
-import { AppContext } from "../../../../context/revoltjs/RevoltClient";
+import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 import IconButton from "../../../ui/IconButton";
-import LineDivider from "../../../ui/LineDivider";
 
-import { Children } from "../../../../types/Preact";
-
-const OverlayButtonWidth = 25;
-const OverlayButtonPadding = 5;
-const OverlayButtonTotalWidth = OverlayButtonWidth + OverlayButtonPadding;
-
-export const OverlayBase = styled.div`
-    position: relative;
-`;
-
-export const OverlayBarFlexItemStyled = styled.div`
-    width: ${OverlayButtonWidth}px;
-    height: 25px;
-    display: inline-flex;
-    opacity: 75%;
-    padding-left: ${OverlayButtonPadding}px;
-    padding-right: ${OverlayButtonPadding}px;
-`;
-
-interface MessageOverlayBarProps {
+interface Props {
     message: MessageObject;
     queued?: QueuedMessage;
-    mouseOver: boolean;
 }
-interface FlexItemProps {
-    onClick: (event: any) => void;
-    iconContent: Children;
-}
-export const OverlayBarFlexItem = observer(
-    ({ onClick, iconContent }: FlexItemProps) => {
-        const clickReact = (e: any) => {
-            onClick(e);
-        };
-        return (
-            <OverlayBarFlexItemStyled>
-                <IconButton onClick={clickReact}>{iconContent}</IconButton>
-            </OverlayBarFlexItemStyled>
-        );
-    },
-);
 
-export interface OverlayBarProps {
-    visible?: boolean;
-    canEdit?: boolean;
-    canDelete?: boolean;
-}
-export const OverlayBar = styled.div<OverlayBarProps>`
-    ${(props) =>
-        props.visible === true &&
-        css`
-            opacity: 1;
-        `};
-    ${(props) =>
-        props.visible !== true &&
-        css`
-            opacity: 0;
-        `};
+const OverlayBar = styled.div`
     display: inline-flex;
     position: absolute;
     justify-self: end;
     align-self: end;
     align-content: center;
     justify-content: center;
-    background: var(--primary-header);
-    top: 0;
+
     right: 0;
+    top: -18px;
     z-index: 0;
-    width: ${(props) =>
-        OverlayButtonTotalWidth * 2 +
-        (props.canEdit === true ? OverlayButtonTotalWidth : 0) +
-        (props.canDelete === true ? OverlayButtonTotalWidth : 0)}px;
-    border: 2px;
-    border-style: solid;
-    border-color: rgba(255, 255, 255, 0.25);
+    overflow: hidden;
+
     border-radius: 5px;
+    background: var(--primary-header);
+    border: 1px sold var(--background);
 `;
 
-export const MessageOverlayBar = observer(
-    ({ message, queued, mouseOver }: MessageOverlayBarProps) => {
-        const { openScreen, writeClipboard } = useIntermediate();
+const Entry = styled.div`
+    padding: 4px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: 0.2s ease background-color;
 
-        const client = useContext(AppContext);
-        const userId = client.user!._id;
-        const userIsAuthor = message.author_id === userId;
+    &:hover {
+        background: var(--secondary-header);
+    }
+`;
 
-        const handleReplyQuickAction = () => {
-            internalEmit("ReplyBar", "add", message);
-        };
-        const handleEditQuickAction = () => {
-            internalEmit("MessageRenderer", "edit_message", message._id);
-        };
-        const handleDeleteQuickAction = () => {
-            // Typescript flattens the case types into a single type and type structure and specifity is lost
-            openScreen({
-                id: "special_prompt",
-                type: "delete_message",
-                target: message,
-            } as unknown as Screen);
-        };
+export const MessageOverlayBar = observer(({ message, queued }: Props) => {
+    const client = useClient();
+    const { openScreen } = useIntermediate();
+    const isAuthor = message.author_id === client.user!._id;
 
-        const handleMoreQuickAction = (e: any) => {
-            attachContextMenu("Menu", {
-                message,
-                contextualChannel: message.channel_id,
-                queued,
-            })(e);
-        };
-
-        return (
-            <OverlayBar
-                visible={mouseOver}
-                canDelete={userIsAuthor}
-                canEdit={userIsAuthor}>
-                <OverlayBarFlexItem
-                    onClick={handleReplyQuickAction}
-                    iconContent={<Reply />}
-                />
-                {userIsAuthor && (
-                    <OverlayBarFlexItem
-                        onClick={handleEditQuickAction}
-                        iconContent={<Edit />}
-                    />
-                )}
-                {userIsAuthor && (
-                    <OverlayBarFlexItem
-                        onClick={handleDeleteQuickAction}
-                        iconContent={<Trash />}
-                    />
-                )}
-                |
-                <OverlayBarFlexItem
-                    onClick={handleMoreQuickAction}
-                    iconContent={<DotsHorizontalRounded />}
-                />
-            </OverlayBar>
-        );
-    },
-);
+    return (
+        <OverlayBar>
+            <Entry onClick={() => internalEmit("ReplyBar", "add", message)}>
+                <IconButton>
+                    <Reply size={24} />
+                </IconButton>
+            </Entry>
+            {isAuthor && (
+                <Entry
+                    onClick={() =>
+                        internalEmit(
+                            "MessageRenderer",
+                            "edit_message",
+                            message._id,
+                        )
+                    }>
+                    <IconButton>
+                        <Edit size={24} />
+                    </IconButton>
+                </Entry>
+            )}
+            {isAuthor ||
+            (message.channel &&
+                message.channel.permission &
+                    ChannelPermission.ManageMessages) ? (
+                <Entry
+                    onClick={() =>
+                        openScreen({
+                            id: "special_prompt",
+                            type: "delete_message",
+                            target: message,
+                        } as unknown as Screen)
+                    }>
+                    <IconButton>
+                        <Trash size={24} />
+                    </IconButton>
+                </Entry>
+            ) : undefined}
+            <Entry
+                onClick={() =>
+                    openContextMenu("Menu", {
+                        message,
+                        contextualChannel: message.channel_id,
+                        queued,
+                    })
+                }>
+                <IconButton>
+                    <DotsHorizontalRounded size={24} />
+                </IconButton>
+            </Entry>
+        </OverlayBar>
+    );
+});
