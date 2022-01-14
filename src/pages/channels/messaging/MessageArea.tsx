@@ -49,7 +49,7 @@ const Area = styled.div.attrs({ "data-scroll-offset": "with-padding" })`
     > div {
         display: flex;
         min-height: 100%;
-        padding-bottom: 24px;
+        padding-bottom: 26px;
         flex-direction: column;
         justify-content: flex-end;
     }
