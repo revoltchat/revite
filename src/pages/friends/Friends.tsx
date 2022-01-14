@@ -3,7 +3,7 @@ import { UserDetail, MessageAdd, UserPlus } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { RelationshipStatus, Presence } from "revolt-api/types/Users";
 import { User } from "revolt.js/dist/maps/Users";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import styles from "./Friend.module.scss";
 import classNames from "classnames";

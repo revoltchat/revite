@@ -1,6 +1,6 @@
 import { Docked, OverlappingPanels, ShowIf } from "react-overlapping-panels";
 import { Switch, Route, useLocation } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import ContextMenus from "../lib/ContextMenus";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";

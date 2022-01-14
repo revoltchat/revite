@@ -1,5 +1,5 @@
 import { Attachment } from "revolt-api/types/Autumn";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 export interface IconBaseProps<T> {
     target?: T;

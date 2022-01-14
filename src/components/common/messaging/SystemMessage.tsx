@@ -13,7 +13,7 @@ import {
 import { observer } from "mobx-react-lite";
 import { SystemMessage as SystemMessageI } from "revolt-api/types/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { attachContextMenu } from "preact-context-menu";
 

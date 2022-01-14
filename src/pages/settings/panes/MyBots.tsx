@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 import { Bot } from "revolt-api/types/Bots";
 import { Profile as ProfileI } from "revolt-api/types/Users";
 import { User } from "revolt.js/dist/maps/Users";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";

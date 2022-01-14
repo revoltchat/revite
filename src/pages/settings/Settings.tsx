@@ -22,7 +22,7 @@ import {
 import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { LIBRARY_VERSION } from "revolt.js";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import styles from "./Settings.module.scss";
 import { openContextMenu } from "preact-context-menu";

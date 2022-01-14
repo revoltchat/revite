@@ -1,3 +1,4 @@
+import macrosPlugin from "@insertish/vite-plugin-babel-macros";
 import replace from "@rollup/plugin-replace";
 import { readFileSync } from "fs";
 import { resolve } from "path";
@@ -43,6 +44,7 @@ function getVersion() {
 export default defineConfig({
     plugins: [
         preact(),
+        macrosPlugin(),
         VitePWA({
             srcDir: "src",
             filename: "sw.ts",
@@ -88,7 +90,7 @@ export default defineConfig({
             __GIT_BRANCH__: getGitBranch(),
             __APP_VERSION__: getVersion(),
             preventAssignment: true,
-        }),
+        }) as any,
     ],
     build: {
         sourcemap: true,

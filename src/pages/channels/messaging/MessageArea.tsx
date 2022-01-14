@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useHistory, useParams } from "react-router-dom";
 import { animateScroll } from "react-scroll";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import useResizeObserver from "use-resize-observer";
 
 import { createContext } from "preact";

@@ -1,7 +1,7 @@
 import { Message, Group, Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory, useLocation } from "react-router";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import ConditionalLink from "../../lib/ConditionalLink";
 

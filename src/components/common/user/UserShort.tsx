@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Masquerade } from "revolt-api/types/Channels";
 import { User } from "revolt.js/dist/maps/Users";
 import { Nullable } from "revolt.js/dist/util/null";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 

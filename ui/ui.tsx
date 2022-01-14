@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import "../src/styles/index.scss";
 import { render } from "preact";

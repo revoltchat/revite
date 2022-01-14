@@ -1,7 +1,7 @@
 import rgba from "color-rgba";
 import { observer } from "mobx-react-lite";
 import { Helmet } from "react-helmet";
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components/macro";
 
 import { useEffect } from "preact/hooks";
 

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import styled, { css, keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components/macro";
 
 import { createPortal, useCallback, useEffect, useState } from "preact/compat";
 
