@@ -1,9 +1,11 @@
+import { DotsHorizontalRounded, LinkAlt } from "@styled-icons/boxicons-regular";
 import {
-    DotsHorizontalRounded,
-    Edit,
-    Reply,
+    Pencil,
     Trash,
-} from "@styled-icons/boxicons-regular";
+    Share,
+    InfoSquare,
+    Notification,
+} from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { ChannelPermission } from "revolt.js";
 import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
@@ -21,6 +23,7 @@ import {
 } from "../../../../context/intermediate/Intermediate";
 import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
+import Tooltip from "../../../common/Tooltip";
 import IconButton from "../../../ui/IconButton";
 
 interface Props {
@@ -29,7 +32,7 @@ interface Props {
 }
 
 const OverlayBar = styled.div`
-    display: inline-flex;
+    display: flex;
     position: absolute;
     justify-self: end;
     align-self: end;
@@ -43,11 +46,15 @@ const OverlayBar = styled.div`
 
     border-radius: 5px;
     background: var(--primary-header);
-    border: 1px sold var(--background);
+    //border: 1px solid var(--background);
 `;
 
 const Entry = styled.div`
-    padding: 4px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
     cursor: pointer;
     transition: 0.2s ease background-color;
@@ -55,6 +62,18 @@ const Entry = styled.div`
     &:hover {
         background: var(--secondary-header);
     }
+
+    &:active {
+        svg {
+            transform: translateY(1px);
+        }
+    }
+`;
+
+const Divider = styled.div`
+    margin: 6px 4px;
+    width: 0.5px;
+    background: var(--tertiary-background);
 `;
 
 export const MessageOverlayBar = observer(({ message, queued }: Props) => {
@@ -64,54 +83,106 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
 
     return (
         <OverlayBar>
-            <Entry onClick={() => internalEmit("ReplyBar", "add", message)}>
-                <IconButton>
-                    <Reply size={24} />
-                </IconButton>
-            </Entry>
-            {isAuthor && (
-                <Entry
-                    onClick={() =>
-                        internalEmit(
-                            "MessageRenderer",
-                            "edit_message",
-                            message._id,
-                        )
-                    }>
+            <Tooltip content="Reply">
+                <Entry onClick={() => internalEmit("ReplyBar", "add", message)}>
                     <IconButton>
-                        <Edit size={24} />
+                        <Share size={18} />
                     </IconButton>
                 </Entry>
+            </Tooltip>
+
+            {isAuthor && (
+                <Tooltip content="Edit">
+                    <Entry
+                        onClick={() =>
+                            internalEmit(
+                                "MessageRenderer",
+                                "edit_message",
+                                message._id,
+                            )
+                        }>
+                        <IconButton>
+                            <Pencil size={18} />
+                        </IconButton>
+                    </Entry>
+                </Tooltip>
             )}
             {isAuthor ||
             (message.channel &&
                 message.channel.permission &
                     ChannelPermission.ManageMessages) ? (
+                <Tooltip content="Delete">
+                    <Entry
+                        onClick={() =>
+                            openScreen({
+                                id: "special_prompt",
+                                type: "delete_message",
+                                target: message,
+                            } as unknown as Screen)
+                        }>
+                        <IconButton>
+                            <Trash size={18} color={"var(--error)"} />
+                        </IconButton>
+                    </Entry>
+                </Tooltip>
+            ) : undefined}
+            <Tooltip content="More">
                 <Entry
                     onClick={() =>
-                        openScreen({
-                            id: "special_prompt",
-                            type: "delete_message",
-                            target: message,
-                        } as unknown as Screen)
+                        openContextMenu("Menu", {
+                            message,
+                            contextualChannel: message.channel_id,
+                            queued,
+                        })
                     }>
                     <IconButton>
-                        <Trash size={24} />
+                        <DotsHorizontalRounded size={18} />
                     </IconButton>
                 </Entry>
-            ) : undefined}
-            <Entry
-                onClick={() =>
-                    openContextMenu("Menu", {
-                        message,
-                        contextualChannel: message.channel_id,
-                        queued,
-                    })
-                }>
-                <IconButton>
-                    <DotsHorizontalRounded size={24} />
-                </IconButton>
-            </Entry>
+            </Tooltip>
+            <Divider />
+            <Tooltip content="Mark as Unread">
+                <Entry
+                    onClick={() =>
+                        openContextMenu("Menu", {
+                            message,
+                            contextualChannel: message.channel_id,
+                            queued,
+                        })
+                    }>
+                    <IconButton>
+                        <Notification size={18} />
+                    </IconButton>
+                </Entry>
+            </Tooltip>
+            <Tooltip content="Copy Link">
+                <Entry
+                    onClick={() =>
+                        openContextMenu("Menu", {
+                            message,
+                            contextualChannel: message.channel_id,
+                            queued,
+                        })
+                    }>
+                    <IconButton>
+                        <LinkAlt size={18} />
+                    </IconButton>
+                </Entry>
+            </Tooltip>
+            <Tooltip content="Copy ID">
+                <Entry
+                    onClick={() =>
+                        openContextMenu("Menu", {
+                            message,
+                            contextualChannel: message.channel_id,
+                            queued,
+                        })
+                    }>
+                    <IconButton>
+                        <InfoSquare size={18} />
+                    </IconButton>
+                </Entry>
+            </Tooltip>
         </OverlayBar>
     );
 });
