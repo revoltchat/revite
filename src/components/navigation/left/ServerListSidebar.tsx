@@ -1,9 +1,9 @@
-import { Plus, LinkExternal } from "@styled-icons/boxicons-regular";
+import { Plus } from "@styled-icons/boxicons-regular";
 import { Cog, Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { attachContextMenu } from "preact-context-menu";
 import { Text } from "preact-i18n";
@@ -61,9 +61,9 @@ function Icon({
                         y="5"
                         r="5"
                         fill={"white"}
-                        style={"text-align:center;"}
-                        text-anchor="middle"
                         fontSize={"7.5"}
+                        fontWeight={600}
+                        text-anchor="middle"
                         alignmentBaseline={"middle"}
                         dominant-baseline={"middle"}>
                         {count < 10 ? count : "9+"}
@@ -78,11 +78,9 @@ const ServersBase = styled.div`
     width: 56px;
     height: 100%;
     padding-left: 2px;
-
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
-
     ${isTouchscreenDevice &&
     css`
         padding-bottom: 50px;
@@ -95,41 +93,33 @@ const ServerList = styled.div`
     overflow-y: scroll;
     padding-bottom: 20px;
     flex-direction: column;
-
     scrollbar-width: none;
-
     > :first-child > svg {
         margin: 6px 0 6px 4px;
     }
-
     &::-webkit-scrollbar {
         width: 0px;
     }
 `;
 
 const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
-    height: 58px;
+    height: 54px;
     display: flex;
     align-items: center;
-
+    //transition: 0.2s ease height;
     :focus {
         outline: 3px solid blue;
     }
-
     > div {
         height: 42px;
         padding-inline-start: 6px;
-
         display: grid;
         place-items: center;
-
         border-start-start-radius: 50%;
         border-end-start-radius: 50%;
-
         &:active {
             transform: translateY(1px);
         }
-
         ${(props) =>
             props.active &&
             css`
@@ -138,23 +128,19 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
                 }
             `}
     }
-
     > span {
         width: 0;
         display: relative;
-
         ${(props) =>
             !props.active &&
             css`
                 display: none;
             `}
-
         svg {
             margin-top: 5px;
             pointer-events: none;
         }
     }
-
     ${(props) =>
         (!props.active || props.home) &&
         css`
@@ -164,11 +150,11 @@ const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
 
 const ServerCircle = styled.div`
     width: 54px;
-    height: 58px;
+    height: 54px;
     display: flex;
     align-items: center;
     justify-content: center;
-
+    flex-shrink: 0;
     .circle {
         display: flex;
         align-items: center;
@@ -178,11 +164,10 @@ const ServerCircle = styled.div`
         height: 42px;
         width: 42px;
         transition: background-color 0.1s ease-in;
-
+        cursor: pointer;
         > div svg {
             color: var(--accent);
         }
-
         &:active {
             transform: translateY(1px);
         }
@@ -247,7 +232,9 @@ export default observer(() => {
     ).length;
 
     const homeActive =
-        typeof server === "undefined" && !path.startsWith("/invite");
+        typeof server === "undefined" &&
+        !path.startsWith("/invite") &&
+        !path.startsWith("/discover");
 
     return (
         <ServersBase>
@@ -375,55 +362,68 @@ export default observer(() => {
                             <IconButton
                                 onClick={() =>
                                     openScreen({
-                                        id: "new_server",
-                                      })
-                                 }>
+                                        id: "new_server"
+                                    })
+                                }>
                                 <Plus size={32} />
                             </IconButton>
                         </div>
                     </Tooltip>
                 </ServerCircle>
-                <ServerCircle>
-                    <Tooltip
-                        content={
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "4px",
-                                }}>
-                                <div>Discover Public Servers</div>
-                                <LinkExternal size={12} />
-                            </div>
-                        }
-                        placement="right">
-                        <div className="circle">
-                            <IconButton>
-                                <a
-                                    href="https://revolt.social"
-                                    target="_blank"
-                                    rel="noreferrer">
-                                    <Compass size={32} />
-                                </a>
-                            </IconButton>
-                        </div>
-                    </Tooltip>
-                </ServerCircle>
-            </ServerList>
-            <PaintCounter small />
-            {!isTouchscreenDevice && (
-                <SettingsButton>
-                    <Link to="/settings">
+                {!isTouchscreenDevice && (
+                    <ServerCircle>
                         <Tooltip
-                            content={<Text id="app.settings.title" />}
+                            content={
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "6px",
+                                    }}>
+                                    <div>Discover Revolt</div>
+                                    <div
+                                        style={{
+                                            padding: "1px 5px",
+                                            fontSize: "9px",
+                                            background: "var(--status-busy)",
+                                            borderRadius: "60px",
+                                        }}>
+                                        NEW
+                                    </div>
+                                </div>
+                            }
                             placement="right">
-                            <IconButton>
-                                <Cog size={32} strokeWidth="0.5" />
-                            </IconButton>
+                            <div className="circle">
+                                <IconButton>
+                                    <Link to="/discover">
+                                        <a>
+                                            <Compass size={32} />
+                                        </a>
+                                    </Link>
+                                </IconButton>
+                            </div>
                         </Tooltip>
-                    </Link>
-                </SettingsButton>
+                    </ServerCircle>
+                )}
+            </ServerList>
+
+            {!isTouchscreenDevice && (
+                <Tooltip content={"Settings"} placement="right">
+                    <ServerCircle>
+                        <Link to="/settings">
+                            <div className="circle">
+                                <IconButton>
+                                    <Cog
+                                        size={24}
+                                        fill="var(--secondary-foreground) !important"
+                                    />
+                                </IconButton>
+                            </div>
+                        </Link>
+                    </ServerCircle>
+                </Tooltip>
             )}
+            <PaintCounter small />
         </ServersBase>
     );
 });
