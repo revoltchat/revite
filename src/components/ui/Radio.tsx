@@ -1,5 +1,5 @@
 import { Circle } from "@styled-icons/boxicons-regular";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Children } from "../../types/Preact";
 

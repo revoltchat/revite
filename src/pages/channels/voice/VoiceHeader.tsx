@@ -10,7 +10,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { Hashnode, Speakerdeck, Teamspeak } from "@styled-icons/simple-icons";
 import { observer } from "mobx-react-lite";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useMemo } from "preact/hooks";

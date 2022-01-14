@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { RetrievedInvite } from "revolt-api/types/Invites";
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 

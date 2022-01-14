@@ -1,6 +1,6 @@
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { StateUpdater, useState } from "preact/hooks";
 
@@ -14,19 +14,19 @@ import UserIcon from "./user/UserIcon";
 export type AutoCompleteState =
     | { type: "none" }
     | ({ selected: number; within: boolean } & (
-        | {
-            type: "emoji";
-            matches: string[];
-        }
-        | {
-            type: "user";
-            matches: User[];
-        }
-        | {
-            type: "channel";
-            matches: Channel[];
-        }
-    ));
+          | {
+                type: "emoji";
+                matches: string[];
+            }
+          | {
+                type: "user";
+                matches: User[];
+            }
+          | {
+                type: "channel";
+                matches: Channel[];
+            }
+      ));
 
 export type SearchClues = {
     users?: { type: "channel"; id: string } | { type: "all" };
@@ -79,15 +79,15 @@ export function useAutoComplete(
 
             if (current === ":" || current === "@" || current === "#") {
                 const search = content.slice(j + 1, content.length);
-                const minLen = current === ":" ? 2 : 1
+                const minLen = current === ":" ? 2 : 1;
 
                 if (search.length >= minLen) {
                     return [
                         current === "#"
                             ? "channel"
                             : current === ":"
-                                ? "emoji"
-                                : "user",
+                            ? "emoji"
+                            : "user",
                         search.toLowerCase(),
                         j + 1,
                     ];
@@ -167,8 +167,8 @@ export function useAutoComplete(
                 const matches = (
                     search.length > 0
                         ? users.filter((user) =>
-                            user.username.toLowerCase().match(regex),
-                        )
+                              user.username.toLowerCase().match(regex),
+                          )
                         : users
                 )
                     .splice(0, 5)
@@ -199,8 +199,8 @@ export function useAutoComplete(
                 const matches = (
                     search.length > 0
                         ? channels.filter((channel) =>
-                            channel.name!.toLowerCase().match(regex),
-                        )
+                              channel.name!.toLowerCase().match(regex),
+                          )
                         : channels
                 )
                     .splice(0, 5)
@@ -417,7 +417,7 @@ export default function AutoComplete({
                             <Emoji
                                 emoji={
                                     (emojiDictionary as Record<string, string>)[
-                                    match
+                                        match
                                     ]
                                 }
                                 size={20}

@@ -6,7 +6,7 @@ import { Masquerade } from "revolt-api/types/Channels";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
 import { Nullable } from "revolt.js/dist/util/null";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { decodeTime } from "ulid";
 
 import { Text } from "preact-i18n";

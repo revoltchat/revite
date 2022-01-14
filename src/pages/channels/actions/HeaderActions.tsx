@@ -9,7 +9,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { chainedDefer, defer } from "../../../lib/defer";
 import { internalEmit } from "../../../lib/eventEmitter";

@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import { ServerPermission } from "revolt.js/dist/api/permissions";
 import { Server } from "revolt.js/dist/maps/Servers";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 

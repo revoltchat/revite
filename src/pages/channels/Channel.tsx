@@ -4,7 +4,7 @@ import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router-dom";
 import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useEffect, useMemo } from "preact/hooks";

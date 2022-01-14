@@ -5,7 +5,7 @@ import {
 } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 

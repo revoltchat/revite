@@ -7,7 +7,7 @@ import {
 import { observer } from "mobx-react-lite";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useContext, useEffect } from "preact/hooks";

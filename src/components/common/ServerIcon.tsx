@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Server } from "revolt.js/dist/maps/Servers";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { useContext } from "preact/hooks";
 

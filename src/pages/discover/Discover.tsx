@@ -1,7 +1,7 @@
 import { Compass } from "@styled-icons/boxicons-solid";
 import { reaction } from "mobx";
 import { useHistory, useLocation } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 

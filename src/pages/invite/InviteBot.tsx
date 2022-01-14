@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { ServerPermission } from "revolt.js";
 import { Route } from "revolt.js/dist/api/routes";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { useEffect, useState } from "preact/hooks";
 
