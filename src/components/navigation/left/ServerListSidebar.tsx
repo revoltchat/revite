@@ -95,7 +95,6 @@ const ServerList = styled.div`
     overflow-y: scroll;
     padding-bottom: 20px;
     flex-direction: column;
-    margin-top: -2px;
 
     scrollbar-width: none;
 
