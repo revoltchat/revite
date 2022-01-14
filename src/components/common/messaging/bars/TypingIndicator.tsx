@@ -13,10 +13,10 @@ const Base = styled.div`
     position: relative;
 
     > div {
-        height: 24px;
-        margin-top: -24px;
+        height: 26px;
+        top: -26px;
         position: absolute;
-
+        font-size: 13px;
         gap: 8px;
         display: flex;
         padding: 0 10px;
@@ -40,9 +40,12 @@ const Base = styled.div`
             height: 16px;
             object-fit: cover;
             border-radius: var(--border-radius-half);
+            background: var(--secondary-background);
+            //background-clip: border-box;
+            border: 2px solid var(--secondary-background);
 
             &:not(:first-child) {
-                margin-left: -4px;
+                margin-left: -6px;
             }
         }
     }
@@ -53,6 +56,7 @@ const Base = styled.div`
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        //font-weight: 600;
     }
 `;
 
