@@ -32,7 +32,7 @@ const Container = styled.div`
                   background: var(--background);
               `
             : css`
-                  background: var(--background);
+                  background: var(--secondary-background);
               `}
 `;
 
