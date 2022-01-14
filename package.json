@@ -59,6 +59,7 @@
         }
     },
     "dependencies": {
+        "@insertish/vite-plugin-babel-macros": "^1.0.5",
         "color-rgba": "^2.3.0",
         "fs-extra": "^10.0.0",
         "klaw": "^4.0.1",
@@ -67,6 +68,7 @@
         "vite": "2.6.14"
     },
     "devDependencies": {
+        "@babel/plugin-proposal-decorators": "^7.16.7",
         "@fontsource/atkinson-hyperlegible": "^4.4.5",
         "@fontsource/bree-serif": "^4.4.5",
         "@fontsource/comic-neue": "^4.4.5",
