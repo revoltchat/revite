@@ -89,7 +89,7 @@ export const UserButton = observer((props: UserProps) => {
                         alert ? (
                             channel.last_message.content.slice(0, 32)
                         ) : (
-                            <UserStatus user={user} />
+                            <UserStatus user={user} tooltip />
                         )}
                     </div>
                 }
