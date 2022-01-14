@@ -14,7 +14,7 @@ export default function Tooltip(props: Props) {
     const { children, content, ...tippyProps } = props;
 
     return (
-        <Tippy content={content} {...tippyProps}>
+        <Tippy content={content} animation="shift-away" {...tippyProps}>
             {/*
             // @ts-expect-error Type mis-match. */}
             <div style={`display: flex;`}>{children}</div>
