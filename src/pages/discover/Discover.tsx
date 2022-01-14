@@ -32,7 +32,7 @@ const Container = styled.div`
                   background: var(--background);
               `
             : css`
-                  background: var(--secondary-background);
+                  background: var(--background);
               `}
 `;
 
@@ -42,6 +42,7 @@ const Frame = styled.iframe<{ loaded: boolean }>`
     ${() =>
         !isTouchscreenDevice &&
         css`
+            background: var(--secondary-background);
             border-start-start-radius: 8px;
             border-end-start-radius: 8px;
         `}
@@ -58,6 +59,14 @@ const Frame = styled.iframe<{ loaded: boolean }>`
 
 const Loader = styled.div`
     flex-grow: 1;
+
+    ${() =>
+        !isTouchscreenDevice &&
+        css`
+            background: var(--secondary-background);
+            border-start-start-radius: 8px;
+            border-end-start-radius: 8px;
+        `}
 `;
 
 const TRUSTED_HOSTS = [
