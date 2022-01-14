@@ -25,6 +25,7 @@ import MessageBase, {
 } from "./MessageBase";
 import Attachment from "./attachments/Attachment";
 import { MessageReply } from "./attachments/MessageReply";
+import { MessageOverlayBar } from "./bars/MessageOverlayBar";
 import Embed from "./embed/Embed";
 import InviteList from "./embed/EmbedInvite";
 
@@ -86,7 +87,7 @@ const Message = observer(
         };
 
         // ! FIXME(?): animate on hover
-        const [animate, setAnimate] = useState(false);
+        const [mouseHovering, setAnimate] = useState(false);
 
         return (
             <div id={message._id}>
@@ -135,7 +136,7 @@ const Message = observer(
                                 size={36}
                                 onContextMenu={userContext}
                                 onClick={handleUserClick}
-                                animate={animate}
+                                animate={mouseHovering}
                                 showServerIdentity
                             />
                         ) : (
@@ -174,6 +175,12 @@ const Message = observer(
                         {message.embeds?.map((embed, index) => (
                             <Embed key={index} embed={embed} />
                         ))}
+                        {mouseHovering && !replacement && (
+                            <MessageOverlayBar
+                                message={message}
+                                queued={queued}
+                            />
+                        )}
                     </MessageContent>
                 </MessageBase>
             </div>
