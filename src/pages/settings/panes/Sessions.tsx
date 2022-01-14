@@ -92,7 +92,7 @@ export function Sessions() {
                 return <Android size={14} />;
             case /mac.*os/i.test(name):
                 return <Macos size={14} />;
-            case /ios/i.test(name):
+            case /i(Pad)os/i.test(name):
                 return <Apple size={14} />;
             case /windows/i.test(name):
                 return <Windows size={14} />;
