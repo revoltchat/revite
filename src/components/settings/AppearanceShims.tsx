@@ -1,4 +1,4 @@
-import { Store } from "@styled-icons/boxicons-solid";
+import { Brush } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 // @ts-expect-error shade-blend-color does not have typings.
@@ -53,11 +53,13 @@ export const ThemeShopShim = () => {
     return (
         <Link to="/discover/themes" replace>
             <CategoryButton
-                icon={<Store size={24} />}
+                icon={<Brush size={24} />}
                 action="chevron"
-                description={"Browse themes made by the community"}
+                description={
+                    <Text id="app.settings.pages.appearance.discover.description" />
+                }
                 hover>
-                <Text id="app.settings.pages.theme_shop.title" />
+                <Text id="app.settings.pages.appearance.discover.title" />
             </CategoryButton>
         </Link>
     );
