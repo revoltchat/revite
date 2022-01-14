@@ -77,7 +77,7 @@ function Icon({
 const ServersBase = styled.div`
     width: 56px;
     height: 100%;
-    padding-left: 2px;
+    padding-inline-start: 2px;
 
     display: flex;
     flex-shrink: 0;
