@@ -1,8 +1,8 @@
+import macrosPlugin from "@insertish/vite-plugin-babel-macros";
 import replace from "@rollup/plugin-replace";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { defineConfig } from "vite";
-import viteCompression from "vite-plugin-compression";
 import { VitePWA } from "vite-plugin-pwa";
 
 import preact from "@preact/preset-vite";
@@ -43,11 +43,8 @@ function getVersion() {
 
 export default defineConfig({
     plugins: [
-        viteCompression({
-            verbose: true,
-            algorithm: "brotliCompress",
-        }),
         preact(),
+        macrosPlugin(),
         VitePWA({
             srcDir: "src",
             filename: "sw.ts",
@@ -93,7 +90,7 @@ export default defineConfig({
             __GIT_BRANCH__: getGitBranch(),
             __APP_VERSION__: getVersion(),
             preventAssignment: true,
-        }),
+        }) as any,
     ],
     build: {
         sourcemap: true,

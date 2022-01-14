@@ -50,7 +50,7 @@ export default observer(({ children }: Props) => {
 
     useEffect(() => {
         if (navigator.onLine) {
-            new Client().req("GET", "/").then(state.config.set);
+            state.config.createClient().req("GET", "/").then(state.config.set);
         }
     }, []);
 

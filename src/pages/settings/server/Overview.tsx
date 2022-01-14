@@ -126,7 +126,6 @@ export const Overview = observer(({ server }: Props) => {
                         alignItems: "center",
                     }}>
                     <span style={{ flexShrink: "0", flex: `25%` }}>{i18n}</span>
-                    <span>Sends a message when someone joins your server</span>
                     <ComboBox
                         value={
                             systemMessages?.[

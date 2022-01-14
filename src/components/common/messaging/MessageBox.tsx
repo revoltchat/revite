@@ -3,7 +3,7 @@ import Axios, { CancelTokenSource } from "axios";
 import { observer } from "mobx-react-lite";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
@@ -80,7 +80,7 @@ const Blocked = styled.div`
     color: var(--tertiary-foreground);
 
     .text {
-        padding: 14px 14px 14px 0;
+        padding: 14px;
     }
 
     svg {
@@ -89,13 +89,17 @@ const Blocked = styled.div`
 `;
 
 const Action = styled.div`
-    display: flex;
-    place-items: center;
-
     > div {
         height: 48px;
-        width: 48px;
-        padding: 12px;
+        width: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        /*padding: 14px 0 14px 14px;*/
+    }
+
+    .mobile {
+        justify-content: start;
     }
 
     ${() =>

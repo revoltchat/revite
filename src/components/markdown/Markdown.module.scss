@@ -1,5 +1,7 @@
 .markdown {
     :global(.emoji) {
+        object-fit: contain;
+
         height: 1.25em;
         width: 1.25em;
         margin: 0 0.05em 0 0.1em;
@@ -95,6 +97,7 @@
     code {
         color: white;
         font-size: 90%;
+        padding-inline-end: 1em;
         background: var(--block);
         border-radius: var(--border-radius);
         font-family: var(--monospace-font), monospace;

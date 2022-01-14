@@ -1,5 +1,5 @@
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 

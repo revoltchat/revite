@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useLayoutEffect, useState } from "preact/hooks";

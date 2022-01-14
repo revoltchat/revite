@@ -33,7 +33,7 @@ export default function SyncManager() {
                 try {
                     state.sync.apply(packet.update);
                 } catch (err) {
-                    reportError(err, "failed_sync_apply");
+                    reportError(err as any, "failed_sync_apply");
                 }
             }
         }

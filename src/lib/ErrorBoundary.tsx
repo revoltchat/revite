@@ -1,7 +1,7 @@
 import axios from "axios";
 import localforage from "localforage";
 import * as stackTrace from "stacktrace-js";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { useEffect, useErrorBoundary, useState } from "preact/hooks";
 

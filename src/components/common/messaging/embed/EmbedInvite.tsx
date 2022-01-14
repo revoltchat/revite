@@ -1,9 +1,10 @@
-import { autorun } from "mobx";
+import { Group } from "@styled-icons/boxicons-solid";
+import { autorun, reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { RetrievedInvite } from "revolt-api/types/Invites";
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
@@ -47,7 +48,7 @@ const EmbedInviteBase = styled.div`
 
 const EmbedInviteDetails = styled.div`
     flex-grow: 1;
-    padding-left: 12px;
+    padding-inline-start: 12px;
     ${() =>
         isTouchscreenDevice &&
         css`
@@ -63,7 +64,14 @@ const EmbedInviteName = styled.div`
 `;
 
 const EmbedInviteMemberCount = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 2px;
     font-size: 0.8em;
+
+    > svg {
+        color: var(--secondary-foreground);
+    }
 `;
 
 type Props = {
@@ -119,6 +127,7 @@ export function EmbedInvite({ code }: Props) {
                 <EmbedInviteDetails>
                     <EmbedInviteName>{invite.server_name}</EmbedInviteName>
                     <EmbedInviteMemberCount>
+                        <Group size={12} />
                         {invite.member_count.toLocaleString()}{" "}
                         {invite.member_count === 1 ? "member" : "members"}
                     </EmbedInviteMemberCount>
@@ -138,14 +147,16 @@ export function EmbedInvite({ code }: Props) {
                                         history.push(
                                             `/server/${invite.server_id}/channel/${invite.channel_id}`,
                                         );
+
+                                        return;
                                     }
 
-                                    const dispose = autorun(() => {
-                                        const server = client.servers.get(
-                                            invite.server_id,
-                                        );
-
-                                        defer(() => {
+                                    const dispose = reaction(
+                                        () =>
+                                            client.servers.get(
+                                                invite.server_id,
+                                            ),
+                                        (server) => {
                                             if (server) {
                                                 client.unreads!.markMultipleRead(
                                                     server.channel_ids,
@@ -154,11 +165,11 @@ export function EmbedInvite({ code }: Props) {
                                                 history.push(
                                                     `/server/${server._id}/channel/${invite.channel_id}`,
                                                 );
-                                            }
-                                        });
 
-                                        dispose();
-                                    });
+                                                dispose();
+                                            }
+                                        },
+                                    );
                                 }
 
                                 await client.joinInvite(code);
@@ -204,9 +215,12 @@ export default observer(({ message }: { message: Message }) => {
 
         return (
             <>
-                {entries.map((entry) => (
-                    <EmbedInvite key={entry} code={entry} />
-                ))}
+                {entries.map(
+                    (entry) =>
+                        entry !== "discover" && (
+                            <EmbedInvite key={entry} code={entry} />
+                        ),
+                )}
             </>
         );
     }

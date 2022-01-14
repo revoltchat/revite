@@ -7,6 +7,7 @@ import {
 import { observer } from "mobx-react-lite";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useContext, useEffect } from "preact/hooks";
@@ -26,6 +27,21 @@ import placeholderSVG from "../items/placeholder.svg";
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 import ButtonItem, { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
+
+const Navbar = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    height: 48px;
+
+    ${() =>
+        isTouchscreenDevice &&
+        css`
+            height: 56px;
+        `}
+`;
 
 export default observer(() => {
     const { pathname } = useLocation();
@@ -55,6 +71,9 @@ export default observer(() => {
 
     return (
         <GenericSidebarBase mobilePadding>
+            <Navbar>
+                <Text id="app.home.directs" />
+            </Navbar>
             <ConnectionStatus />
             <GenericSidebarList>
                 <ConditionalLink active={pathname === "/"} to="/">

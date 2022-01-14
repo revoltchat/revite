@@ -10,7 +10,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components/macro";
 
 import styles from "./Home.module.scss";
 import "./snow.scss";
@@ -83,7 +83,7 @@ export default observer(() => {
                     </div>
                 )}
                 <div className="content">
-                    <PageHeader icon={<HomeIcon size={24} />}>
+                    <PageHeader icon={<HomeIcon size={24} />} transparent>
                         <Text id="app.navigation.tabs.home" />
                     </PageHeader>
                     <div className={styles.homeScreen}>
@@ -98,24 +98,23 @@ export default observer(() => {
                                     action="chevron"
                                     icon={<PlusCircle size={32} />}
                                     description={
-                                        "Invite all of your friends, some cool bots, and throw a big party."
+                                        <Text id="app.home.group_desc" />
                                     }>
-                                    Create a group
+                                    <Text id="app.home.group" />
                                 </CategoryButton>
                             </Link>
-                            <a
-                                href="https://revolt.social"
-                                target="_blank"
-                                rel="noreferrer">
-                                <CategoryButton
-                                    action="external"
-                                    icon={<Compass size={32} />}
-                                    description={
-                                        "Find a community based on your hobbies or interests."
-                                    }>
-                                    Join a community
-                                </CategoryButton>
-                            </a>
+                            <Link to="/discover">
+                                <a>
+                                    <CategoryButton
+                                        action="chevron"
+                                        icon={<Compass size={32} />}
+                                        description={
+                                            <Text id="app.home.discover_desc" />
+                                        }>
+                                        <Text id="app.home.discover" />
+                                    </CategoryButton>
+                                </a>
+                            </Link>
 
                             {client.servers.get(
                                 "01F7ZSBSFHQ8TA81725KQCSDDP",
@@ -125,7 +124,7 @@ export default observer(() => {
                                         action="chevron"
                                         icon={<RightArrowCircle size={32} />}
                                         description={
-                                            "You can report issues and discuss improvements with us directly here."
+                                            <Text id="app.home.goto-testers_desc" />
                                         }>
                                         <Text id="app.home.goto-testers" />
                                     </CategoryButton>
@@ -136,7 +135,7 @@ export default observer(() => {
                                         action="chevron"
                                         icon={<Group size={32} />}
                                         description={
-                                            "You can report issues and discuss improvements with us directly here."
+                                            <Text id="app.home.join-testers_desc" />
                                         }>
                                         <Text id="app.home.join-testers" />
                                     </CategoryButton>
@@ -148,7 +147,7 @@ export default observer(() => {
                                     action="chevron"
                                     icon={<Megaphone size={32} />}
                                     description={
-                                        "Let us know how we can improve our app by giving us feedback."
+                                        <Text id="app.home.feedback_desc" />
                                     }>
                                     <Text id="app.home.feedback" />
                                 </CategoryButton>
@@ -159,23 +158,23 @@ export default observer(() => {
                                 rel="noreferrer">
                                 <CategoryButton
                                     action="external"
+                                    description={
+                                        <Text id="app.home.donate_desc" />
+                                    }
                                     icon={<Money size={32} />}>
                                     <Text id="app.home.donate" />
                                 </CategoryButton>
                             </a>
-
-                            <Tooltip
-                                content={
-                                    <Text id="app.home.settings-tooltip" />
-                                }>
-                                <Link to="/settings">
-                                    <CategoryButton
-                                        action="chevron"
-                                        icon={<Cog size={32} />}>
-                                        <Text id="app.home.settings" />
-                                    </CategoryButton>
-                                </Link>
-                            </Tooltip>
+                            <Link to="/settings">
+                                <CategoryButton
+                                    action="chevron"
+                                    description={
+                                        <Text id="app.home.settings-tooltip" />
+                                    }
+                                    icon={<Cog size={32} />}>
+                                    <Text id="app.home.settings" />
+                                </CategoryButton>
+                            </Link>
                         </div>
                         {isDecember && (
                             <a href="#" onClick={toggleSeasonalTheme}>

@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useHistory, useParams } from "react-router-dom";
 import { animateScroll } from "react-scroll";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import useResizeObserver from "use-resize-observer";
 
 import { createContext } from "preact";
@@ -33,18 +33,23 @@ import Preloader from "../../../components/ui/Preloader";
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
 
-const Area = styled.div`
+const Area = styled.div.attrs({ "data-scroll-offset": "with-padding" })`
     height: 100%;
     flex-grow: 1;
     min-height: 0;
+    word-break: break-word;
+
     overflow-x: hidden;
     overflow-y: scroll;
-    word-break: break-word;
+
+    &::-webkit-scrollbar-thumb {
+        min-height: 150px;
+    }
 
     > div {
         display: flex;
         min-height: 100%;
-        padding-bottom: 24px;
+        padding-bottom: 26px;
         flex-direction: column;
         justify-content: flex-end;
     }

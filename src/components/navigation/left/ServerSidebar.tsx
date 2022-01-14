@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router";
-import styled, { css } from "styled-components";
+import { Server } from "revolt.js/dist/maps/Servers";
+import styled, { css } from "styled-components/macro";
 
 import { attachContextMenu } from "preact-context-menu";
 import { useEffect } from "preact/hooks";
@@ -47,6 +48,10 @@ const ServerList = styled.div`
         width: 100%;
     }
 `;
+
+interface Props {
+    server: Server;
+}
 
 export default observer(() => {
     const client = useClient();

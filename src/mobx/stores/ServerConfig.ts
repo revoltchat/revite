@@ -3,6 +3,7 @@ import { RevoltConfiguration } from "revolt-api/types/Core";
 import { Client } from "revolt.js";
 import { Nullable } from "revolt.js/dist/util/null";
 
+import { isDebug } from "../../revision";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
@@ -32,7 +33,7 @@ export default class ServerConfig
     }
 
     @action hydrate(data: RevoltConfiguration) {
-        this.config = data;
+        this.config = data ?? null;
     }
 
     /**
@@ -42,9 +43,10 @@ export default class ServerConfig
     createClient() {
         const client = new Client({
             unreads: true,
-            autoReconnect: false,
+            autoReconnect: true,
             apiURL: import.meta.env.VITE_API_URL,
-            debug: import.meta.env.DEV,
+            debug: isDebug(),
+            onPongTimeout: "RECONNECT",
         });
 
         if (this.config !== null) {

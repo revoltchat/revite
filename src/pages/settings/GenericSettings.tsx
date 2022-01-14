@@ -102,7 +102,7 @@ export function GenericSettings({
                 />
             </Helmet>
             {isTouchscreenDevice && (
-                <Header placement="primary">
+                <Header placement="primary" transparent>
                     {typeof page === "undefined" ? (
                         <>
                             {showExitButton && (
@@ -132,7 +132,11 @@ export function GenericSettings({
             )}
             {(!isTouchscreenDevice || typeof page === "undefined") && (
                 <div className={styles.sidebar}>
-                    <div className={styles.scrollbox}>
+                    <div
+                        className={styles.scrollbox}
+                        data-scroll-offset={
+                            isTouchscreenDevice ? "with-padding" : undefined
+                        }>
                         <div className={styles.container}>
                             {isTouchscreenDevice && indexHeader}
                             {pages.map((entry, i) =>
@@ -168,6 +172,9 @@ export function GenericSettings({
                 <div className={styles.content}>
                     <div
                         className={styles.scrollbox}
+                        data-scroll-offset={
+                            isTouchscreenDevice ? "with-padding" : undefined
+                        }
                         ref={(ref) => {
                             // Force scroll to top if page changes.
                             if (ref) {

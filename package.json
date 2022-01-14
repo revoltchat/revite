@@ -59,6 +59,8 @@
         }
     },
     "dependencies": {
+        "@insertish/vite-plugin-babel-macros": "^1.0.5",
+        "color-rgba": "^2.3.0",
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
         "react-beautiful-dnd": "^13.1.0",
@@ -66,6 +68,7 @@
         "vite": "^2.6.14"
     },
     "devDependencies": {
+        "@babel/plugin-proposal-decorators": "^7.16.7",
         "@fontsource/atkinson-hyperlegible": "^4.4.5",
         "@fontsource/bree-serif": "^4.4.5",
         "@fontsource/comic-neue": "^4.4.5",
@@ -95,6 +98,7 @@
         "@traptitech/markdown-it-katex": "^3.4.3",
         "@traptitech/markdown-it-spoiler": "^1.1.6",
         "@trivago/prettier-plugin-sort-imports": "^2.0.2",
+        "@types/color-rgba": "^2.1.0",
         "@types/lodash.defaultsdeep": "^4.6.6",
         "@types/lodash.isequal": "^4.5.5",
         "@types/markdown-it": "^12.0.2",
@@ -142,7 +146,7 @@
         "react-virtualized-auto-sizer": "^1.0.5",
         "react-virtuoso": "^1.10.4",
         "revolt-api": "0.5.3-alpha.10",
-        "revolt.js": "5.2.2",
+        "revolt.js": "5.2.5",
         "rimraf": "^3.0.2",
         "sass": "^1.35.1",
         "shade-blend-color": "^1.0.0",
@@ -151,7 +155,6 @@
         "typescript": "^4.4.2",
         "ulid": "^2.3.0",
         "use-resize-observer": "^7.0.0",
-        "vite-plugin-compression": "^0.3.6",
         "vite-plugin-pwa": "^0.8.1",
         "workbox-precaching": "^6.1.5"
     },

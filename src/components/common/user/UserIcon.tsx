@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { Masquerade } from "revolt-api/types/Channels";
 import { Presence } from "revolt-api/types/Users";
 import { User } from "revolt.js/dist/maps/Users";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { useApplicationState } from "../../../mobx/State";
 

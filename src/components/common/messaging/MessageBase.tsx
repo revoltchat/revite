@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled, { css, keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components/macro";
 import { decodeTime } from "ulid";
 
 import { Text } from "preact-i18n";

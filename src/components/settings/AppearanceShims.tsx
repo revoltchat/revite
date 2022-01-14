@@ -1,4 +1,4 @@
-import { Store } from "@styled-icons/boxicons-solid";
+import { Brush } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 // @ts-expect-error shade-blend-color does not have typings.
@@ -50,16 +50,16 @@ export const ThemeBaseSelectorShim = observer(() => {
  * TODO: stabilise
  */
 export const ThemeShopShim = () => {
-    if (!useApplicationState().experiments.isEnabled("theme_shop")) return null;
-
     return (
-        <Link to="/settings/theme_shop" replace>
+        <Link to="/discover/themes" replace>
             <CategoryButton
-                icon={<Store size={24} />}
+                icon={<Brush size={24} />}
                 action="chevron"
-                description={"Browse themes made by the community"}
+                description={
+                    <Text id="app.settings.pages.appearance.discover.description" />
+                }
                 hover>
-                <Text id="app.settings.pages.theme_shop.title" />
+                <Text id="app.settings.pages.appearance.discover.title" />
             </CategoryButton>
         </Link>
     );
@@ -218,28 +218,32 @@ export const DisplaySeasonalShim = observer(() => {
     const settings = useApplicationState().settings;
 
     return (
-        <>
-            <h3>
-                <Text id="app.settings.pages.appearance.theme_options.title" />
-            </h3>
-            {/* TOFIX: WIP feature - follows system theme */}
-            {/*<Checkbox
-                checked={settings.get("appearance:seasonal") ?? true}
-                onChange={(v) => settings.set("appearance:seasonal", v)}
-                description={
-                    <Text id="app.settings.pages.appearance.theme_options.follow_desc" />
-                }>
-                <Text id="app.settings.pages.appearance.theme_options.follow" />
-            </Checkbox>*/}
-            <Checkbox
-                checked={settings.get("appearance:seasonal") ?? true}
-                onChange={(v) => settings.set("appearance:seasonal", v)}
-                description={
-                    <Text id="app.settings.pages.appearance.theme_options.seasonal_desc" />
-                }>
-                <Text id="app.settings.pages.appearance.theme_options.seasonal" />
-            </Checkbox>
-        </>
+        <Checkbox
+            checked={settings.get("appearance:seasonal") ?? true}
+            onChange={(v) => settings.set("appearance:seasonal", v)}
+            description={
+                <Text id="app.settings.pages.appearance.theme_options.seasonal_desc" />
+            }>
+            <Text id="app.settings.pages.appearance.theme_options.seasonal" />
+        </Checkbox>
+    );
+});
+
+/**
+ * Component providing a way to toggle transparency effects.
+ */
+export const DisplayTransparencyShim = observer(() => {
+    const settings = useApplicationState().settings;
+
+    return (
+        <Checkbox
+            checked={settings.get("appearance:transparency") ?? true}
+            onChange={(v) => settings.set("appearance:transparency", v)}
+            description={
+                <Text id="app.settings.pages.appearance.theme_options.transparency_desc" />
+            }>
+            <Text id="app.settings.pages.appearance.theme_options.transparency" />
+        </Checkbox>
     );
 });
 
