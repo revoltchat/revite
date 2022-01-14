@@ -143,7 +143,7 @@
         "react-virtualized-auto-sizer": "^1.0.5",
         "react-virtuoso": "^1.10.4",
         "revolt-api": "^0.5.3-alpha.11",
-        "revolt.js": "5.2.3",
+        "revolt.js": "5.2.5",
         "rimraf": "^3.0.2",
         "sass": "^1.47.0",
         "shade-blend-color": "^1.0.0",
