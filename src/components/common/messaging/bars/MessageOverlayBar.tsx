@@ -43,10 +43,15 @@ const OverlayBar = styled.div`
     top: -18px;
     z-index: 0;
     overflow: hidden;
+    transition: box-shadow 0.1s ease-out;
 
     border-radius: 5px;
     background: var(--primary-header);
     //border: 1px solid var(--background);
+
+    &:hover {
+        box-shadow: rgb(0 0 0 / 20%) 0px 2px 10px;
+    }
 `;
 
 const Entry = styled.div`
