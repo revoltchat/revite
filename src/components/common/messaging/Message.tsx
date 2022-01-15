@@ -3,7 +3,7 @@ import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
 
 import { attachContextMenu } from "preact-context-menu";
 import { memo } from "preact/compat";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
@@ -89,6 +89,7 @@ const Message = observer(
 
         // ! FIXME(?): animate on hover
         const [mouseHovering, setAnimate] = useState(false);
+        useEffect(() => setAnimate(false), [replacement]);
 
         return (
             <div id={message._id}>
