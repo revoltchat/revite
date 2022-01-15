@@ -42,12 +42,12 @@ const OverlayBar = styled.div`
     right: 0;
     top: -18px;
     z-index: 0;
-    overflow: hidden;
+    //overflow: hidden;
     transition: box-shadow 0.1s ease-out;
 
     border-radius: 5px;
     background: var(--primary-header);
-    //border: 1px solid var(--background);
+    border: 1px solid var(--background);
 
     &:hover {
         box-shadow: rgb(0 0 0 / 20%) 0px 2px 10px;
@@ -55,17 +55,22 @@ const OverlayBar = styled.div`
 `;
 
 const Entry = styled.div`
-    height: 30px;
-    width: 30px;
+    height: 32px;
+    width: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     cursor: pointer;
     transition: 0.2s ease background-color;
+    border-radius: var(--border-radius);
 
     &:hover {
         background: var(--secondary-header);
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 2.5pt var(--accent);
     }
 
     &:active {
