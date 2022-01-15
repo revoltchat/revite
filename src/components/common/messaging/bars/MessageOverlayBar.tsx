@@ -1,4 +1,4 @@
-import { DotsHorizontalRounded, LinkAlt } from "@styled-icons/boxicons-regular";
+import { DotsVerticalRounded, LinkAlt } from "@styled-icons/boxicons-regular";
 import {
     Pencil,
     Trash,
@@ -63,13 +63,13 @@ const Entry = styled.div`
     flex-shrink: 0;
     cursor: pointer;
     transition: 0.2s ease background-color;
-    border-radius: var(--border-radius);
 
     &:hover {
         background: var(--secondary-header);
     }
 
     &:focus {
+        border-radius: var(--border-radius);
         box-shadow: 0 0 0 2.5pt var(--accent);
     }
 
@@ -146,7 +146,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                         })
                     }>
                     <IconButton>
-                        <DotsHorizontalRounded size={18} />
+                        <DotsVerticalRounded size={18} />
                     </IconButton>
                 </Entry>
             </Tooltip>
