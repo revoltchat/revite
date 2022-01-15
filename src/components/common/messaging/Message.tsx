@@ -130,7 +130,7 @@ const Message = observer(
                     }
                     onMouseEnter={() => setAnimate(true)}
                     onMouseLeave={() => setAnimate(false)}>
-                    <MessageInfo>
+                    <MessageInfo click={typeof head !== "undefined"}>
                         {head ? (
                             <UserIcon
                                 url={message.generateMasqAvatarURL()}

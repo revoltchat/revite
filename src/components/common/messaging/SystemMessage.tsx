@@ -147,7 +147,7 @@ export const SystemMessage = observer(
                         : undefined
                 }>
                 {!hideInfo && (
-                    <MessageInfo>
+                    <MessageInfo click={false}>
                         <MessageDetail message={message} position="left" />
                         <SystemMessageIcon className="systemIcon" />
                     </MessageInfo>
