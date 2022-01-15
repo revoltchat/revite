@@ -54,7 +54,8 @@ export type Fonts =
     | "Poppins"
     | "Raleway"
     | "Ubuntu"
-    | "Comic Neue";
+    | "Comic Neue"
+    | "Lexend";
 
 export type MonospaceFonts =
     | "Fira Code"
@@ -142,6 +143,14 @@ export const FONTS: Record<Fonts, { name: string; load: () => void }> = {
             await import("@fontsource/lato/400.css");
             await import("@fontsource/lato/700.css");
             await import("@fontsource/lato/400-italic.css");
+        },
+    },
+    Lexend: {
+        name: "Lexend",
+        load: async () => {
+            await import("@fontsource/lexend/300.css");
+            await import("@fontsource/lexend/400.css");
+            await import("@fontsource/lexend/700.css");
         },
     },
     Montserrat: {
