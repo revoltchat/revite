@@ -15,7 +15,7 @@ import TextFile from "./TextFile";
 
 interface Props {
     attachment: AttachmentI;
-    hasContent: boolean;
+    hasContent?: boolean;
 }
 
 const MAX_ATTACHMENT_WIDTH = 480;
