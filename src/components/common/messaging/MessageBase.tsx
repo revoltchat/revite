@@ -152,15 +152,6 @@ export const MessageInfo = styled.div`
         position: absolute;
     }
 
-    svg {
-        user-select: none;
-        cursor: pointer;
-
-        &:active {
-            transform: translateY(1px);
-        }
-    }
-
     time {
         opacity: 0;
     }
