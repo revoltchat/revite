@@ -55,20 +55,17 @@ export function GenericSettings({
     indexHeader,
 }: Props) {
     const history = useHistory();
-    const theme = useApplicationState().settings.theme;
+    const state = useApplicationState();
+    const theme = state.settings.theme;
     const { page } = useParams<{ page: string }>();
 
     const [closing, setClosing] = useState(false);
     const exitSettings = useCallback(() => {
-        if (history.length > 1) {
-            setClosing(true);
+        setClosing(true);
 
-            setTimeout(() => {
-                history.goBack();
-            }, 100);
-        } else {
-            history.push("/");
-        }
+        setTimeout(() => {
+            history.replace(state.layout.getLastPath());
+        }, 100);
     }, [history]);
 
     useEffect(() => {

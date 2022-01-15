@@ -67,13 +67,13 @@ export default observer(() => {
                         onClick={() => {
                             if (settingsActive) {
                                 if (history.length > 0) {
-                                    history.goBack();
+                                    history.replace(layout.getLastPath());
                                     return;
                                 }
                             }
 
                             const path = layout.getLastHomePath();
-                            if (path === "/friends") {
+                            if (path.startsWith("/friends")) {
                                 history.push("/");
                             } else {
                                 history.push(path);
