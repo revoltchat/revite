@@ -109,6 +109,15 @@ const Action = styled.div`
         `}
 `;
 
+const FileAction = styled.div`
+    > div {
+        height: 48px;
+        width: 62px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+`;
+
 // For sed replacement
 const RE_SED = new RegExp("^s/([^])*/([^])*$");
 
@@ -458,7 +467,7 @@ export default observer(({ channel }: Props) => {
             />
             <Base>
                 {channel.permission & ChannelPermission.UploadFiles ? (
-                    <Action>
+                    <FileAction>
                         <FileUploader
                             size={24}
                             behaviour="multi"
@@ -493,7 +502,7 @@ export default observer(({ channel }: Props) => {
                                 }
                             }}
                         />
-                    </Action>
+                    </FileAction>
                 ) : undefined}
                 <TextAreaAutoSize
                     autoFocus
