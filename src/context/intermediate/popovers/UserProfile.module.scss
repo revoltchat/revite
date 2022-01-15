@@ -141,14 +141,15 @@
 }
 
 .entry {
-    gap: 8px;
+    gap: 12px;
+    font-weight: 500;
     min-width: 0;
     padding: 12px;
     display: flex;
     cursor: pointer;
     align-items: center;
     transition: background-color 0.1s;
-    color: var(--secondary-foreground);
+    color: var(--foreground);
     border-radius: var(--border-radius);
     background-color: var(--secondary-background);
 
