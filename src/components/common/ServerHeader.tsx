@@ -23,7 +23,7 @@ const ServerBanner = styled.div<Omit<Props, "server">>`
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
 
     background-size: cover;
     background-repeat: norepeat;
