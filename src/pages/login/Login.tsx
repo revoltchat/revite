@@ -8,8 +8,8 @@ import { Text } from "preact-i18n";
 
 import { useApplicationState } from "../../mobx/State";
 
-import wideSVG from "../../../public/assets/wide.svg";
 import LocaleSelector from "../../components/common/LocaleSelector";
+import wideSVG from "/assets/wide.svg";
 
 import { Titlebar } from "../../components/native/Titlebar";
 import { FormCreate } from "./forms/FormCreate";
