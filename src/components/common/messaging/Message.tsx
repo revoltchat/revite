@@ -133,6 +133,7 @@ const Message = observer(
                     <MessageInfo click={typeof head !== "undefined"}>
                         {head ? (
                             <UserIcon
+                                className="avatar"
                                 url={message.generateMasqAvatarURL()}
                                 target={user}
                                 size={36}
