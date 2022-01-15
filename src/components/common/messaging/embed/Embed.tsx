@@ -135,15 +135,14 @@ export default function Embed({ embed }: Props) {
                                 </a>
                             </span>
                         )}
-                        {embed.description && (
-                            <div className={styles.description}>
-                                {embed.type === "Text" ? (
-                                    <Markdown content={embed.description} />
-                                ) : (
-                                    embed.description
-                                )}
-                            </div>
-                        )}
+                        {embed.description &&
+                            (embed.type === "Text" ? (
+                                <Markdown content={embed.description} />
+                            ) : (
+                                <div className={styles.description}>
+                                    {embed.description}
+                                </div>
+                            ))}
 
                         {largeMedia &&
                             (embed.type === "Text" ? (
