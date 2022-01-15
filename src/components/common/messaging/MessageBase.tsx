@@ -134,7 +134,7 @@ export default styled.div<BaseMessageProps>`
     }
 `;
 
-export const MessageInfo = styled.div`
+export const MessageInfo = styled.div<{ click: boolean }>`
     width: 62px;
     display: flex;
     flex-shrink: 0;
@@ -183,6 +183,12 @@ export const MessageInfo = styled.div`
         margin-right: 0.5em;
         color: var(--tertiary-foreground);
     }
+
+    ${(props) =>
+        props.click &&
+        css`
+            cursor: pointer;
+        `}
 `;
 
 export const MessageContent = styled.div`
