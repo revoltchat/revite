@@ -39,6 +39,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         align-items: center;
         cursor: pointer;
         font-size: 12px;
+        font-weight: 500;
         padding: 0 8px;
         user-select: none;
         justify-content: space-between;

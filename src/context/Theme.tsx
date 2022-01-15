@@ -49,7 +49,7 @@ export type Fonts =
     | "Roboto"
     | "Noto Sans"
     | "Lato"
-    | "Bree Serif"
+    | "Bitter"
     | "Montserrat"
     | "Poppins"
     | "Raleway"
@@ -94,6 +94,7 @@ export const FONTS: Record<Fonts, { name: string; load: () => void }> = {
         load: async () => {
             await import("@fontsource/open-sans/300.css");
             await import("@fontsource/open-sans/400.css");
+            await import("@fontsource/open-sans/500.css");
             await import("@fontsource/open-sans/600.css");
             await import("@fontsource/open-sans/700.css");
             await import("@fontsource/open-sans/400-italic.css");
@@ -132,9 +133,14 @@ export const FONTS: Record<Fonts, { name: string; load: () => void }> = {
             await import("@fontsource/noto-sans/400-italic.css");
         },
     },
-    "Bree Serif": {
-        name: "Bree Serif",
-        load: () => import("@fontsource/bree-serif/400.css"),
+    Bitter: {
+        name: "Bitter",
+        load: async () => {
+            await import("@fontsource/bitter/300.css");
+            await import("@fontsource/bitter/400.css");
+            await import("@fontsource/bitter/600.css");
+            await import("@fontsource/bitter/700.css");
+        },
     },
     Lato: {
         name: "Lato",

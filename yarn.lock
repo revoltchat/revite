@@ -1256,10 +1256,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/atkinson-hyperlegible/-/atkinson-hyperlegible-4.5.1.tgz#7d14141d4b3f2ad6b1bd9f785fa6961c3ad28a07"
   integrity sha512-ohzzQVkjj9YBMZx3cmxDBPPjN1nbDU8tVbgHjD3ViDsto97ONxcegYeUA5Fa8bUpTHYhLZSRWYASSU0e96r3JQ==
 
-"@fontsource/bree-serif@^4.4.5":
+"@fontsource/bitter@^4.5.0":
   version "4.5.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/bree-serif/-/bree-serif-4.5.0.tgz#89c5cc3613aaeaea7df77d909a8bbd18f8becf13"
-  integrity sha512-Pmegcv03v5WzV63NSdDjkFVSWnHUZv66bf1WevJIv0l3yooMFol1zxzlF32INaLcte8xTADMVbyXtSZgXb6vRQ==
+  resolved "https://registry.yarnpkg.com/@fontsource/bitter/-/bitter-4.5.0.tgz#002bd1caf7ad96730aec9d758f7643f11db599d8"
+  integrity sha512-kDOQwzCrbq1TaG3ddDnKMmudgoIDiaVtvpw+QxZ5+/iYyV+87qFlOxgZQJUBrG90RR0uD0nbFEbfTiicH9IfWA==
 
 "@fontsource/comic-neue@^4.4.5":
   version "4.5.0"
@@ -1301,10 +1301,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/noto-sans/-/noto-sans-4.5.0.tgz#179c71178678bf17e6018919c33b48ea895a86dd"
   integrity sha512-pYg1hJtdRJFVPkp8zCVuk5Gy42PTEeQUZSqYZHac412qV3MgOnvregHVa8Og38Z16rM61ZYwxDpuseJqS08Ifw==
 
-"@fontsource/open-sans@^4.4.5":
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/open-sans/-/open-sans-4.5.0.tgz#e6d05dfdfe74580001010302f9c418067b45a6a9"
-  integrity sha512-49+A0IkTTv3cpS1YecrZNCqvlVTThUt/qioiAIZsXfgC3TqavgRqwXXvroXmhVeP/f0sqZw5CRDMS1Hj4aSTbQ==
+"@fontsource/open-sans@^4.5.2":
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/open-sans/-/open-sans-4.5.2.tgz#6953650035d5b42be645013b1465544d0af49d7d"
+  integrity sha512-aDQrW8s0KslG2aKb9nM5R6fiQR9iPomqWXf6iZCC30qv/UFlSY14SppodA3rE//+w37EqsJjyUq3BSEYzLdisg==
 
 "@fontsource/poppins@^4.4.5":
   version "4.5.0"
