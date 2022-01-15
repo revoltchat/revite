@@ -169,6 +169,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                     <Tooltip content="Mark as Unread">
                         <Entry
                             onClick={() => {
+                                // ! FIXME: deduplicate this code with ctx menu
                                 const messages = getRenderer(
                                     message.channel!,
                                 ).messages;
