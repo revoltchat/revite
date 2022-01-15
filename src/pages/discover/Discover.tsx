@@ -37,7 +37,7 @@ const Container = styled.div`
 `;
 
 const Frame = styled.iframe<{ loaded: boolean }>`
-    border: 0;
+    border: none;
 
     ${() =>
         !isTouchscreenDevice &&
@@ -50,7 +50,7 @@ const Frame = styled.iframe<{ loaded: boolean }>`
     ${(props) =>
         props.loaded
             ? css`
-                  flex-grow: 1;
+                  height: 100%;
               `
             : css`
                   display: none;
