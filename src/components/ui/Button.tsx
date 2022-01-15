@@ -14,7 +14,7 @@ export type ButtonProps = Props &
     Omit<JSX.HTMLAttributes<HTMLButtonElement>, "as">;
 
 export default styled.button<Props>`
-    z-index: 1;
+    //z-index: 1;
     display: flex;
     height: 38px;
     min-width: 96px;
