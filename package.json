@@ -59,6 +59,7 @@
         }
     },
     "dependencies": {
+        "@fontsource/bitter": "^4.5.0",
         "@insertish/vite-plugin-babel-macros": "^1.0.5",
         "color-rgba": "^2.3.0",
         "fs-extra": "^10.0.0",
@@ -70,7 +71,6 @@
     "devDependencies": {
         "@babel/plugin-proposal-decorators": "^7.16.7",
         "@fontsource/atkinson-hyperlegible": "^4.4.5",
-        "@fontsource/bree-serif": "^4.4.5",
         "@fontsource/comic-neue": "^4.4.5",
         "@fontsource/fira-code": "^4.4.5",
         "@fontsource/inter": "^4.4.5",
@@ -79,7 +79,7 @@
         "@fontsource/lexend": "^4.5.2",
         "@fontsource/montserrat": "^4.4.5",
         "@fontsource/noto-sans": "^4.4.5",
-        "@fontsource/open-sans": "^4.4.5",
+        "@fontsource/open-sans": "^4.5.2",
         "@fontsource/poppins": "^4.4.5",
         "@fontsource/raleway": "^4.4.5",
         "@fontsource/roboto": "^4.4.5",
