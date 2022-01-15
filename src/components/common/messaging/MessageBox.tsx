@@ -81,6 +81,10 @@ const Blocked = styled.div`
     flex-grow: 1;
     cursor: not-allowed;
 
+    .text {
+        padding: var(--message-box-padding);
+    }
+
     > div > div {
         cursor: default;
     }
