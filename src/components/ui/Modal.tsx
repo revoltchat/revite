@@ -80,7 +80,16 @@ const ModalContent = styled.div<
     h3 {
         font-size: 14px;
         text-transform: uppercase;
-        margin-top: 0;
+        margin: 0;
+        margin-bottom: 10px;
+        color: var(--foreground);
+    }
+
+    h5 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--secondary-foreground);
     }
 
     form {
@@ -105,6 +114,7 @@ const ModalContent = styled.div<
         props.padding &&
         css`
             padding: 1rem;
+            min-width: 450px;
         `}
 
     ${(props) =>
@@ -138,6 +148,7 @@ export type Action = Omit<ButtonProps, "onClick"> & {
 interface Props {
     children?: Children;
     title?: Children;
+    description?: Children;
 
     disallowClosing?: boolean;
     noBackground?: boolean;
@@ -163,6 +174,7 @@ export default function Modal(props: Props) {
             border={props.border}
             padding={props.padding ?? !props.dontModal}>
             {props.title && <h3>{props.title}</h3>}
+            {props.description && <h5>{props.description}</h5>}
             {props.children}
         </ModalContent>
     );
