@@ -40,13 +40,10 @@ const OverlayBar = styled.div`
     align-self: end;
     align-content: center;
     justify-content: center;
-
     right: 0;
     top: -18px;
     z-index: 0;
-    //overflow: hidden;
     transition: box-shadow 0.1s ease-out;
-
     border-radius: 5px;
     background: var(--primary-header);
     border: 1px solid var(--background);
