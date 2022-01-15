@@ -1,4 +1,4 @@
-import { Embed as EmbedI } from "revolt-api/types/January";
+import { Embed as EmbedI } from "revolt-api/types/Channels";
 
 import styles from "./Embed.module.scss";
 import classNames from "classnames";
