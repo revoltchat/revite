@@ -142,6 +142,14 @@ export const MessageInfo = styled.div<{ click: boolean }>`
     flex-direction: row;
     justify-content: center;
 
+    .avatar {
+        user-select: none;
+        cursor: pointer;
+        &:active {
+            transform: translateY(1px);
+        }
+    }
+
     .copyBracket {
         opacity: 0;
         position: absolute;
@@ -184,11 +192,11 @@ export const MessageInfo = styled.div<{ click: boolean }>`
         color: var(--tertiary-foreground);
     }
 
-    ${(props) =>
+    /*${(props) =>
         props.click &&
         css`
             cursor: pointer;
-        `}
+        `}*/
 `;
 
 export const MessageContent = styled.div`
