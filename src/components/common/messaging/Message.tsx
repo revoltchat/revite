@@ -6,6 +6,7 @@ import { memo } from "preact/compat";
 import { useState } from "preact/hooks";
 
 import { internalEmit } from "../../../lib/eventEmitter";
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 
@@ -175,12 +176,14 @@ const Message = observer(
                         {message.embeds?.map((embed, index) => (
                             <Embed key={index} embed={embed} />
                         ))}
-                        {mouseHovering && !replacement && (
-                            <MessageOverlayBar
-                                message={message}
-                                queued={queued}
-                            />
-                        )}
+                        {mouseHovering &&
+                            !replacement &&
+                            !isTouchscreenDevice && (
+                                <MessageOverlayBar
+                                    message={message}
+                                    queued={queued}
+                                />
+                            )}
                     </MessageContent>
                 </MessageBase>
             </div>
