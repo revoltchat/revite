@@ -371,6 +371,7 @@ export const UserProfile = observer(
                                                     <UserIcon
                                                         size={32}
                                                         target={x}
+                                                        status
                                                     />
                                                     <span>{x.username}</span>
                                                 </div>
