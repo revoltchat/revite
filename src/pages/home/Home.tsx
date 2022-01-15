@@ -23,10 +23,10 @@ import { useApplicationState } from "../../mobx/State";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
-import wideSVG from "../../../public/assets/wide.svg";
 import Tooltip from "../../components/common/Tooltip";
 import { PageHeader } from "../../components/ui/Header";
 import CategoryButton from "../../components/ui/fluent/CategoryButton";
+import wideSVG from "/assets/wide.svg";
 
 const Overlay = styled.div`
     display: grid;
