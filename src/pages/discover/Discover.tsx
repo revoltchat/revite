@@ -28,6 +28,7 @@ const Container = styled.div`
                   width: 100%;
                   height: 100%;
                   position: fixed;
+
                   padding-bottom: 50px;
                   background: var(--background);
               `
@@ -45,6 +46,12 @@ const Frame = styled.iframe<{ loaded: boolean }>`
             background: var(--secondary-background);
             border-start-start-radius: 8px;
             border-end-start-radius: 8px;
+        `}
+
+    ${() =>
+        isTouchscreenDevice &&
+        css`
+            padding-top: 56px;
         `}
 
     ${(props) =>
@@ -157,7 +164,7 @@ export default function Discover() {
     return (
         <Container>
             {isTouchscreenDevice && (
-                <Header placement="primary">
+                <Header placement="primary" transparent>
                     <Compass size={27} />
                     Discover
                 </Header>
