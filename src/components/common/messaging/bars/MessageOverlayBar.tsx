@@ -24,7 +24,6 @@ import {
 import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 import Tooltip from "../../../common/Tooltip";
-import IconButton from "../../../ui/IconButton";
 
 interface Props {
     message: MessageObject;
@@ -63,9 +62,11 @@ const Entry = styled.div`
     flex-shrink: 0;
     cursor: pointer;
     transition: 0.2s ease background-color;
+    color: var(--secondary-foreground);
 
     &:hover {
-        background: var(--secondary-header);
+        background-color: var(--secondary-header);
+        color: var(--foreground);
     }
 
     &:focus {
@@ -95,9 +96,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
         <OverlayBar>
             <Tooltip content="Reply">
                 <Entry onClick={() => internalEmit("ReplyBar", "add", message)}>
-                    <IconButton>
-                        <Share size={18} />
-                    </IconButton>
+                    <Share size={18} />
                 </Entry>
             </Tooltip>
 
@@ -111,9 +110,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                                 message._id,
                             )
                         }>
-                        <IconButton>
-                            <Pencil size={18} />
-                        </IconButton>
+                        <Pencil size={18} />
                     </Entry>
                 </Tooltip>
             )}
@@ -130,9 +127,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                                 target: message,
                             } as unknown as Screen)
                         }>
-                        <IconButton>
-                            <Trash size={18} color={"var(--error)"} />
-                        </IconButton>
+                        <Trash size={18} color={"var(--error)"} />
                     </Entry>
                 </Tooltip>
             ) : undefined}
@@ -145,9 +140,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                             queued,
                         })
                     }>
-                    <IconButton>
-                        <DotsVerticalRounded size={18} />
-                    </IconButton>
+                    <DotsVerticalRounded size={18} />
                 </Entry>
             </Tooltip>
             <Divider />
@@ -160,9 +153,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                             queued,
                         })
                     }>
-                    <IconButton>
-                        <Notification size={18} />
-                    </IconButton>
+                    <Notification size={18} />
                 </Entry>
             </Tooltip>
             <Tooltip content="Copy Link">
@@ -174,9 +165,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                             queued,
                         })
                     }>
-                    <IconButton>
-                        <LinkAlt size={18} />
-                    </IconButton>
+                    <LinkAlt size={18} />
                 </Entry>
             </Tooltip>
             <Tooltip content="Copy ID">
@@ -188,9 +177,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                             queued,
                         })
                     }>
-                    <IconButton>
-                        <InfoSquare size={18} />
-                    </IconButton>
+                    <InfoSquare size={18} />
                 </Entry>
             </Tooltip>
         </OverlayBar>
