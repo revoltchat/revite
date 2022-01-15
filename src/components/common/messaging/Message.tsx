@@ -3,9 +3,10 @@ import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
 
 import { attachContextMenu } from "preact-context-menu";
 import { memo } from "preact/compat";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { internalEmit } from "../../../lib/eventEmitter";
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 
@@ -88,6 +89,7 @@ const Message = observer(
 
         // ! FIXME(?): animate on hover
         const [mouseHovering, setAnimate] = useState(false);
+        useEffect(() => setAnimate(false), [replacement]);
 
         return (
             <div id={message._id}>
@@ -175,12 +177,14 @@ const Message = observer(
                         {message.embeds?.map((embed, index) => (
                             <Embed key={index} embed={embed} />
                         ))}
-                        {mouseHovering && !replacement && (
-                            <MessageOverlayBar
-                                message={message}
-                                queued={queued}
-                            />
-                        )}
+                        {mouseHovering &&
+                            !replacement &&
+                            !isTouchscreenDevice && (
+                                <MessageOverlayBar
+                                    message={message}
+                                    queued={queued}
+                                />
+                            )}
                     </MessageContent>
                 </MessageBase>
             </div>

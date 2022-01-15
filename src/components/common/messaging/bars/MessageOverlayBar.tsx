@@ -12,8 +12,11 @@ import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 
 import { openContextMenu } from "preact-context-menu";
+import { useEffect, useState } from "preact/hooks";
 
 import { internalEmit } from "../../../../lib/eventEmitter";
+import { shiftKeyPressed } from "../../../../lib/modifiers";
+import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 import { QueuedMessage } from "../../../../mobx/stores/MessageQueue";
 
@@ -89,8 +92,23 @@ const Divider = styled.div`
 
 export const MessageOverlayBar = observer(({ message, queued }: Props) => {
     const client = useClient();
-    const { openScreen } = useIntermediate();
+    const { openScreen, writeClipboard } = useIntermediate();
     const isAuthor = message.author_id === client.user!._id;
+
+    const [copied, setCopied] = useState<"link" | "id">(null!);
+    const [extraActions, setExtra] = useState(shiftKeyPressed);
+
+    useEffect(() => {
+        const handler = (ev: KeyboardEvent) => setExtra(ev.shiftKey);
+
+        document.addEventListener("keyup", handler);
+        document.addEventListener("keydown", handler);
+
+        return () => {
+            document.removeEventListener("keyup", handler);
+            document.removeEventListener("keydown", handler);
+        };
+    });
 
     return (
         <OverlayBar>
@@ -120,12 +138,14 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                     ChannelPermission.ManageMessages) ? (
                 <Tooltip content="Delete">
                     <Entry
-                        onClick={() =>
-                            openScreen({
-                                id: "special_prompt",
-                                type: "delete_message",
-                                target: message,
-                            } as unknown as Screen)
+                        onClick={(e) =>
+                            e.shiftKey
+                                ? message.delete()
+                                : openScreen({
+                                      id: "special_prompt",
+                                      type: "delete_message",
+                                      target: message,
+                                  } as unknown as Screen)
                         }>
                         <Trash size={18} color={"var(--error)"} />
                     </Entry>
@@ -143,43 +163,54 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                     <DotsVerticalRounded size={18} />
                 </Entry>
             </Tooltip>
-            <Divider />
-            <Tooltip content="Mark as Unread">
-                <Entry
-                    onClick={() =>
-                        openContextMenu("Menu", {
-                            message,
-                            contextualChannel: message.channel_id,
-                            queued,
-                        })
-                    }>
-                    <Notification size={18} />
-                </Entry>
-            </Tooltip>
-            <Tooltip content="Copy Link">
-                <Entry
-                    onClick={() =>
-                        openContextMenu("Menu", {
-                            message,
-                            contextualChannel: message.channel_id,
-                            queued,
-                        })
-                    }>
-                    <LinkAlt size={18} />
-                </Entry>
-            </Tooltip>
-            <Tooltip content="Copy ID">
-                <Entry
-                    onClick={() =>
-                        openContextMenu("Menu", {
-                            message,
-                            contextualChannel: message.channel_id,
-                            queued,
-                        })
-                    }>
-                    <InfoSquare size={18} />
-                </Entry>
-            </Tooltip>
+            {extraActions && (
+                <>
+                    <Divider />
+                    <Tooltip content="Mark as Unread">
+                        <Entry
+                            onClick={() => {
+                                const messages = getRenderer(
+                                    message.channel!,
+                                ).messages;
+                                const index = messages.findIndex(
+                                    (x) => x._id === message._id,
+                                );
+
+                                let unread_id = message._id;
+                                if (index > 0) {
+                                    unread_id = messages[index - 1]._id;
+                                }
+
+                                internalEmit("NewMessages", "mark", unread_id);
+                                message.channel?.ack(unread_id, true);
+                            }}>
+                            <Notification size={18} />
+                        </Entry>
+                    </Tooltip>
+                    <Tooltip
+                        content={copied === "link" ? "Copied!" : "Copy Link"}
+                        hideOnClick={false}>
+                        <Entry
+                            onClick={() => {
+                                setCopied("link");
+                                writeClipboard(message.url);
+                            }}>
+                            <LinkAlt size={18} />
+                        </Entry>
+                    </Tooltip>
+                    <Tooltip
+                        content={copied === "id" ? "Copied!" : "Copy ID"}
+                        hideOnClick={false}>
+                        <Entry
+                            onClick={() => {
+                                setCopied("id");
+                                writeClipboard(message._id);
+                            }}>
+                            <InfoSquare size={18} />
+                        </Entry>
+                    </Tooltip>
+                </>
+            )}
         </OverlayBar>
     );
 });
