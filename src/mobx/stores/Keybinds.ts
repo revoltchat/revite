@@ -1,4 +1,3 @@
-import EventEmitter from "eventemitter3";
 import isEqual from "lodash.isequal";
 import {
     action,
@@ -7,7 +6,6 @@ import {
     makeAutoObservable,
     observable,
     ObservableMap,
-    ObservableSet,
 } from "mobx";
 
 import { Inputs, useEffect } from "preact/hooks";
@@ -35,6 +33,7 @@ export enum KeybindAction {
     EditPreviousMessage = "edit_previous_message",
 }
 
+// If any are not defined here, things may break.
 /**
  * A map of the default built-in keybinds.
  * every action must be represented.
@@ -75,15 +74,9 @@ export type Keybinding = {
 };
 
 export interface Data {
-    // note: data is stored in string format but parsed on load
     keybinds: Record<KeybindAction, Keybinding>;
 }
 
-class KeybindEvent extends KeyboardEvent {
-    constructor(type: string, event: KeyboardEvent) {
-        super(type, event);
-    }
-}
 /**
  * Handles adding, remove, and fetching keybinds.
  */
@@ -136,7 +129,6 @@ export default class Keybinds implements Store, Persistent<Data> {
      * Construct new Keybinds store.
      */
     constructor() {
-        // If any are not defined here, things will break.
         this.keybinds = observable.map(DEFAULT_KEYBINDS);
         makeAutoObservable(this);
     }
@@ -167,7 +159,6 @@ export default class Keybinds implements Store, Persistent<Data> {
             [index].sequence.map(KeyCombo.stringifyShort);
     }
 
-    // todo: better name
     @computed
     getKeybindList() {
         return entries(this.keybinds).flatMap(([action, keybinds]) =>
@@ -175,6 +166,8 @@ export default class Keybinds implements Store, Persistent<Data> {
         );
     }
 
+    // todo: store keybinds through their stringified representation
+    // todo: only save modified keybinds
     toJSON() {
         return {
             keybinds: this.keybinds.toJSON(),

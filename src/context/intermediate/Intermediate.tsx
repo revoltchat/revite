@@ -16,6 +16,7 @@ import { internalSubscribe } from "../../lib/eventEmitter";
 import { determineLink } from "../../lib/links";
 
 import { useApplicationState } from "../../mobx/State";
+import { KeyCombo } from "../../mobx/stores/Keybinds";
 
 import { Action } from "../../components/ui/Modal";
 
@@ -109,6 +110,11 @@ export type Screen =
     | {
           id: "server_identity";
           server: Server;
+      }
+    | {
+          id: "keybind_capture";
+          actionName: string;
+          onSubmit: (keys: KeyCombo[]) => void;
       };
 
 export const IntermediateContext = createContext({

@@ -14,7 +14,7 @@ interface BaseProps {
     readonly largeDescription?: boolean;
 }
 
-const CategoryBase = styled.div<BaseProps>`
+export const CategoryBase = styled.div<BaseProps>`
     padding: 9.8px 12px;
     border-radius: var(--border-radius);
     margin-bottom: 10px;

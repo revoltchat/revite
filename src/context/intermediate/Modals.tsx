@@ -5,11 +5,12 @@ import { isModalClosing } from "../../components/ui/Modal";
 import { Screen } from "./Intermediate";
 import { ClipboardModal } from "./modals/Clipboard";
 import { ErrorModal } from "./modals/Error";
+import { ExternalLinkModal } from "./modals/ExternalLinkPrompt";
 import { InputModal } from "./modals/Input";
+import { InputCaptureModal } from "./modals/InputCapture";
 import { OnboardingModal } from "./modals/Onboarding";
 import { PromptModal } from "./modals/Prompt";
 import { SignedOutModal } from "./modals/SignedOut";
-import {ExternalLinkModal} from "./modals/ExternalLinkPrompt";
 import { TokenRevealModal } from "./modals/TokenReveal";
 
 export interface Props {
@@ -40,6 +41,8 @@ export default function Modals({ screen, openScreen }: Props) {
             return <OnboardingModal onClose={onClose} {...screen} />;
         case "external_link_prompt":
             return <ExternalLinkModal onClose={onClose} {...screen} />;
+        case "keybind_capture":
+            return <InputCaptureModal onClose={onClose} {...screen} />;
     }
 
     return null;

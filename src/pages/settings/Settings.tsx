@@ -4,6 +4,7 @@ import {
     Globe,
     LogOut,
     Desktop,
+    Key,
 } from "@styled-icons/boxicons-regular";
 import {
     Bell,
@@ -18,6 +19,7 @@ import {
     Store,
     Bot,
     Trash,
+    Keyboard,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory } from "react-router-dom";
@@ -49,6 +51,7 @@ import { Appearance } from "./panes/Appearance";
 import { Audio } from "./panes/Audio";
 import { ExperimentsPage } from "./panes/Experiments";
 import { Feedback } from "./panes/Feedback";
+import { Keybinds } from "./panes/Keybinds";
 import { Languages } from "./panes/Languages";
 import { MyBots } from "./panes/MyBots";
 import { Native } from "./panes/Native";
@@ -169,6 +172,12 @@ export default observer(() => {
                     title: <Text id="app.settings.pages.notifications.title" />,
                 },
                 {
+                    id: "keybinds",
+                    icon: <Keyboard size={20} />,
+                    // TODO: translate
+                    title: "Keybinds",
+                },
+                {
                     id: "language",
                     icon: <Globe size={20} />,
                     title: <Text id="app.settings.pages.language.title" />,
@@ -227,6 +236,9 @@ export default observer(() => {
                     </Route>
                     <Route path="/settings/notifications">
                         <Notifications />
+                    </Route>
+                    <Route path="/settings/keybinds">
+                        <Keybinds />
                     </Route>
                     <Route path="/settings/language">
                         <Languages />

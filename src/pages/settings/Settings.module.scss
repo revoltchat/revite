@@ -279,13 +279,14 @@
         top: 0;
 
         &:after {
-            content: "ESC";
+            content: var(--key-esc, "Esc");
             margin-top: 4px;
             display: flex;
             justify-content: center;
             width: 40px;
             opacity: 0.5;
             font-size: 0.75rem;
+            text-transform: uppercase;
         }
 
         .closeButton {
