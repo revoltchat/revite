@@ -21,7 +21,7 @@ interface IconModifiers {
 
 export default styled.svg<IconModifiers>`
     flex-shrink: 0;
-
+    cursor: pointer;
     img {
         width: 100%;
         height: 100%;
