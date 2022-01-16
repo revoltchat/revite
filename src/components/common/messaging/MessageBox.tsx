@@ -21,6 +21,7 @@ import {
 } from "../../../lib/renderer/Singleton";
 
 import { useApplicationState } from "../../../mobx/State";
+import { KeybindAction } from "../../../mobx/stores/Keybinds";
 import { Reply } from "../../../mobx/stores/MessageQueue";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
@@ -419,6 +420,20 @@ export default observer(({ channel }: Props) => {
                 : undefined,
     });
 
+    state.keybinds.useAction(KeybindAction.EditPreviousMessage, (event) => {
+        if (!state.draft.has(channel._id)) {
+            event.preventDefault();
+            internalEmit("MessageRenderer", "edit_last");
+        }
+    });
+
+    state.keybinds.useAction(KeybindAction.InputSubmit, (e) => {
+        if (!e.isComposing && !isTouchscreenDevice) {
+            e.preventDefault();
+            send();
+        }
+    });
+
     return (
         <>
             <AutoComplete {...autoCompleteProps} />
@@ -512,25 +527,6 @@ export default observer(({ channel }: Props) => {
                         }
 
                         if (onKeyDown(e)) return;
-
-                        if (
-                            e.key === "ArrowUp" &&
-                            !state.draft.has(channel._id)
-                        ) {
-                            e.preventDefault();
-                            internalEmit("MessageRenderer", "edit_last");
-                            return;
-                        }
-
-                        if (
-                            !e.shiftKey &&
-                            !e.isComposing &&
-                            e.key === "Enter" &&
-                            !isTouchscreenDevice
-                        ) {
-                            e.preventDefault();
-                            return send();
-                        }
 
                         if (e.key === "Escape") {
                             if (replies.length > 0) {

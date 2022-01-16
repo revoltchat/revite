@@ -5,6 +5,9 @@ import { createPortal, useCallback, useEffect, useState } from "preact/compat";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
 
+import { useApplicationState } from "../../mobx/State";
+import { KeybindAction } from "../../mobx/stores/Keybinds";
+
 import { Children } from "../../types/Preact";
 import Button, { ButtonProps } from "./Button";
 
@@ -155,6 +158,7 @@ export let isModalClosing = false;
 
 export default function Modal(props: Props) {
     if (!props.visible) return null;
+    const state = useApplicationState();
 
     const content = (
         <ModalContent
@@ -180,18 +184,16 @@ export default function Modal(props: Props) {
 
     useEffect(() => internalSubscribe("Modal", "close", onClose), [onClose]);
 
-    useEffect(() => {
-        if (props.disallowClosing) return;
-
-        function keyDown(e: KeyboardEvent) {
-            if (e.key === "Escape") {
+    state.keybinds.useAction(
+        KeybindAction.NavigatePreviousContextModal,
+        (e) => {
+            if (!props.disallowClosing) {
+                e.preventDefault();
                 onClose();
             }
-        }
-
-        document.body.addEventListener("keydown", keyDown);
-        return () => document.body.removeEventListener("keydown", keyDown);
-    }, [props.disallowClosing, onClose]);
+        },
+        [props.disallowClosing, onClose],
+    );
 
     const confirmationAction = props.actions?.find(
         (action) => action.confirmation,

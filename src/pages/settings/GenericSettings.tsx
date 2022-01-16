@@ -4,18 +4,18 @@ import { useHistory, useParams } from "react-router-dom";
 
 import styles from "./Settings.module.scss";
 import classNames from "classnames";
+import { createRef } from "preact";
 import { Text } from "preact-i18n";
-import {
-    useCallback,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from "preact/hooks";
+import { useCallback, useMemo, useRef, useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
+import {
+    KeybindAction,
+    KeybindSequence,
+    KeyCombo,
+} from "../../mobx/stores/Keybinds";
 
 import Category from "../../components/ui/Category";
 import Header from "../../components/ui/Header";
@@ -55,7 +55,9 @@ export function GenericSettings({
     indexHeader,
 }: Props) {
     const history = useHistory();
-    const theme = useApplicationState().settings.theme;
+    const state = useApplicationState();
+    const theme = state.settings.theme;
+    const [keybinds] = useState(() => state.keybinds);
     const { page } = useParams<{ page: string }>();
 
     const [closing, setClosing] = useState(false);
@@ -71,21 +73,33 @@ export function GenericSettings({
         }
     }, [history]);
 
-    useEffect(() => {
-        function keyDown(e: KeyboardEvent) {
-            if (e.key === "Escape") {
-                exitSettings();
-            }
-        }
+    const modalRef = createRef<HTMLDivElement>();
 
-        document.body.addEventListener("keydown", keyDown);
-        return () => document.body.removeEventListener("keydown", keyDown);
-    }, [exitSettings]);
+    keybinds.useAction(
+        KeybindAction.NavigatePreviousContextSettings,
+        (e) => {
+            console.log("Settings");
+            exitSettings();
+        },
+        [exitSettings],
+    );
+
+    // useMemo isn't really doing anything here.
+    const exitKeybind = useMemo(
+        () =>
+            KeybindSequence.stringify(
+                state.keybinds
+                    .getKeybinds(KeybindAction.NavigatePreviousContext)[0]
+                    .sequence.map(KeyCombo.stringifyShort),
+            ),
+        [keybinds.keybinds],
+    );
 
     const pageRef = useRef<string>();
 
     return (
         <div
+            ref={modalRef}
             className={classNames(styles.settings, {
                 [styles.closing]: closing,
                 [styles.native]: window.isNative,
@@ -196,7 +210,12 @@ export function GenericSettings({
                             {children}
                         </div>
                         {!isTouchscreenDevice && (
-                            <div className={styles.action}>
+                            <div
+                                className={styles.action}
+                                style={{
+                                    // note: doesn't update reactively.
+                                    "--key-esc": `"${exitKeybind}"`,
+                                }}>
                                 <div
                                     onClick={exitSettings}
                                     className={styles.closeButton}>
