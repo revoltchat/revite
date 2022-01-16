@@ -77,10 +77,7 @@ export function GenericSettings({
 
     keybinds.useAction(
         KeybindAction.NavigatePreviousContextSettings,
-        (e) => {
-            console.log("Settings");
-            exitSettings();
-        },
+        (e) => exitSettings(),
         [exitSettings],
     );
 

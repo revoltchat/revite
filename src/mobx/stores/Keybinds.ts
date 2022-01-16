@@ -33,29 +33,97 @@ export enum KeybindAction {
     EditPreviousMessage = "edit_previous_message",
 }
 
+// note: order dependent!
+export const KEYBINDING_MODIFIER_KEYS = ["Control", "Alt", "Meta", "Shift"];
+
+const DISPLAY_SHORT_REPLACEMENTS: Record<string, string> = {
+    Control: "Ctrl",
+    Escape: "Esc",
+};
+
+export const KeyCombo = {
+    fromKeyboardEvent(event: KeyboardEvent): KeyCombo {
+        const pressed = KEYBINDING_MODIFIER_KEYS.filter(
+            (key) => event.getModifierState(key) && event.key,
+        );
+
+        if (!KEYBINDING_MODIFIER_KEYS.includes(event.key)) {
+            pressed.push(event.key);
+        }
+
+        return pressed;
+    },
+
+    /**
+     * Stringifies a key combo, using shortened key replacements when possible.
+     * ex. replacing `Escape` with `Esc`
+     */
+    stringifyShort(combo: KeyCombo) {
+        return combo.map((k) => DISPLAY_SHORT_REPLACEMENTS[k] ?? k);
+    },
+};
+
+export const KeybindSequence = {
+    /**
+     * Parse a stringified keybind seqeuence.
+     *
+     * @example
+     * ```
+     * parse('Alt+ArrowUp')
+     * parse('Control+k b')
+     * ```
+     */
+    parse(sequence: string): KeyCombo[] {
+        return sequence.split(" ").map((expr) => expr.split("+"));
+    },
+
+    /** Stringify a keybind sequence */
+    stringify(sequence: KeyCombo[]) {
+        return sequence.map((combo) => combo.join("+")).join(" ");
+    },
+
+    /**
+     * Stringifies a keybind sequence, using shortened key replacements when possible.
+     * ex. replacing `Escape` with `Esc`
+     */
+    stringifyShort(sequence: KeyCombo[]) {
+        return sequence
+            .map((combo) => KeyCombo.stringifyShort(combo).join("+"))
+            .join(" ");
+    },
+};
+
+/** utility to make writing the default keybinds easier */
+function keybindMap(
+    obj: Record<KeybindAction, string[]>,
+): Map<KeybindAction, Keybinding[]> {
+    const entries = Object.entries(obj) as [KeybindAction, string[]][];
+    const parsed = entries.map(
+        ([act, seqs]) =>
+            [
+                act,
+                seqs.map((seq) => ({ sequence: KeybindSequence.parse(seq) })),
+            ] as const,
+    );
+    return new Map(parsed);
+}
+
 // If any are not defined here, things may break.
 /**
  * A map of the default built-in keybinds.
  * every action must be represented.
  */
-export const DEFAULT_KEYBINDS = new Map<KeybindAction, Keybinding[]>([
-    [KeybindAction.NavigateChannelUp, [{ sequence: [["Alt", "ArrowUp"]] }]],
-    [KeybindAction.NavigateChannelDown, [{ sequence: [["Alt", "ArrowDown"]] }]],
-    [
-        KeybindAction.NavigateServerUp,
-        [{ sequence: [["Control", "Alt", "ArrowUp"]] }],
-    ],
-    [
-        KeybindAction.NavigateServerDown,
-        [{ sequence: [["Control", "Alt", "ArrowDown"]] }],
-    ],
-    [KeybindAction.NavigatePreviousContext, [{ sequence: [["Escape"]] }]],
-    [KeybindAction.NavigatePreviousContextModal, [{ sequence: [] }]],
-    [KeybindAction.NavigatePreviousContextSettings, [{ sequence: [] }]],
-
-    [KeybindAction.InputSubmit, [{ sequence: [["Enter"]] }]],
-    [KeybindAction.EditPreviousMessage, [{ sequence: [["ArrowUp"]] }]],
-]);
+export const DEFAULT_KEYBINDS = keybindMap({
+    [KeybindAction.NavigateChannelUp]: ["Alt+ArrowUp"],
+    [KeybindAction.NavigateChannelDown]: ["Alt+ArrowDown"],
+    [KeybindAction.NavigateServerUp]: ["Control+Alt+ArrowUp"],
+    [KeybindAction.NavigateServerDown]: ["Control+Alt+ArrowDown"],
+    [KeybindAction.NavigatePreviousContext]: ["Escape"],
+    [KeybindAction.NavigatePreviousContextModal]: [],
+    [KeybindAction.NavigatePreviousContextSettings]: [],
+    [KeybindAction.InputSubmit]: ["Enter"],
+    [KeybindAction.EditPreviousMessage]: ["ArrowUp"],
+});
 
 // naming:
 // modifiers + key is a combo
@@ -224,63 +292,3 @@ export default class Keybinds implements Store, Persistent<Data> {
         this.keybinds.replace(DEFAULT_KEYBINDS);
     }
 }
-
-// note: order dependent!
-export const KEYBINDING_MODIFIER_KEYS = ["Control", "Alt", "Meta", "Shift"];
-
-const DISPLAY_SHORT_REPLACEMENTS: Record<string, string> = {
-    Control: "Ctrl",
-    Escape: "Esc",
-};
-
-export const KeyCombo = {
-    fromKeyboardEvent(event: KeyboardEvent): KeyCombo {
-        const pressed = KEYBINDING_MODIFIER_KEYS.filter(
-            (key) => event.getModifierState(key) && event.key,
-        );
-
-        if (!KEYBINDING_MODIFIER_KEYS.includes(event.key)) {
-            pressed.push(event.key);
-        }
-
-        return pressed;
-    },
-
-    /**
-     * Stringifies a key combo, using shortened key replacements when possible.
-     * ex. replacing `Escape` with `Esc`
-     */
-    stringifyShort(combo: KeyCombo) {
-        return combo.map((k) => DISPLAY_SHORT_REPLACEMENTS[k] ?? k);
-    },
-};
-
-export const KeybindSequence = {
-    /**
-     * Parse a stringified keybind seqeuence.
-     *
-     * @example
-     * ```
-     * parse('Alt+ArrowUp')
-     * parse('Control+k b')
-     * ```
-     */
-    parse(sequence: string): KeyCombo[] {
-        return sequence.split(" ").map((expr) => expr.split("+"));
-    },
-
-    /** Stringify a keybind sequence */
-    stringify(sequence: KeyCombo[]) {
-        return sequence.map((combo) => combo.join("+")).join(" ");
-    },
-
-    /**
-     * Stringifies a keybind sequence, using shortened key replacements when possible.
-     * ex. replacing `Escape` with `Esc`
-     */
-    stringifyShort(sequence: KeyCombo[]) {
-        return sequence
-            .map((combo) => KeyCombo.stringifyShort(combo).join("+"))
-            .join(" ");
-    },
-};
