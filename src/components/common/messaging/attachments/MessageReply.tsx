@@ -60,6 +60,7 @@ export const ReplyBase = styled.div<{
     }
 
     .user {
+        //margin-inline-start: 12px;
         gap: 6px;
         display: flex;
         flex-shrink: 0;
@@ -97,6 +98,10 @@ export const ReplyBase = styled.div<{
         transition: filter 1s ease-in-out;
         transition: transform ease-in-out 0.1s;
         filter: brightness(1);
+
+        > svg {
+            flex-shrink: 0;
+        }
 
         > span > p {
             display: flex;
