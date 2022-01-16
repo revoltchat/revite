@@ -1,47 +1,136 @@
+import EventEmitter from "eventemitter3";
+import isEqual from "lodash.isequal";
 import {
     action,
     computed,
+    entries,
     makeAutoObservable,
     observable,
     ObservableMap,
+    ObservableSet,
 } from "mobx";
 
 import { Inputs, useEffect } from "preact/hooks";
 
-import { internalSubscribe } from "../../lib/eventEmitter";
+import { debounce } from "../../lib/debounce";
+import { internalEmit, internalSubscribe } from "../../lib/eventEmitter";
 
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
 /** Actions that keybinds can bind to */
-export enum Keybinding {
+export enum KeybindAction {
     // Navigation
     NavigateChannelUp = "navigate_channel_up",
     NavigateChannelDown = "navigate_channel_down",
     NavigateServerUp = "navigate_server_up",
     NavigateServerDown = "navigate_server_down",
+
+    NavigatePreviousContext = "navigate_previous_context",
+    NavigatePreviousContextModal = "navigate_previous_context_modal",
+    NavigatePreviousContextSettings = "navigate_previous_context_settings",
+
+    InputSubmit = "input_submit",
+
+    EditPreviousMessage = "edit_previous_message",
 }
 
 /**
  * A map of the default built-in keybinds.
  * every action must be represented.
  */
-export const DEFAULT_KEYBINDS = new Map([
-    [Keybinding.NavigateChannelUp, ["Alt+ArrowUp"]],
-    [Keybinding.NavigateChannelDown, ["Alt+ArrowDown"]],
-    [Keybinding.NavigateServerUp, ["Ctrl+Alt+ArrowUp"]],
-    [Keybinding.NavigateServerDown, ["Ctrl+Alt+ArrowDown"]],
+export const DEFAULT_KEYBINDS = new Map<KeybindAction, Keybinding[]>([
+    [KeybindAction.NavigateChannelUp, [{ sequence: [["Alt", "ArrowUp"]] }]],
+    [KeybindAction.NavigateChannelDown, [{ sequence: [["Alt", "ArrowDown"]] }]],
+    [
+        KeybindAction.NavigateServerUp,
+        [{ sequence: [["Control", "Alt", "ArrowUp"]] }],
+    ],
+    [
+        KeybindAction.NavigateServerDown,
+        [{ sequence: [["Control", "Alt", "ArrowDown"]] }],
+    ],
+    [KeybindAction.NavigatePreviousContext, [{ sequence: [["Escape"]] }]],
+    [KeybindAction.NavigatePreviousContextModal, [{ sequence: [] }]],
+    [KeybindAction.NavigatePreviousContextSettings, [{ sequence: [] }]],
+
+    [KeybindAction.InputSubmit, [{ sequence: [["Enter"]] }]],
+    [KeybindAction.EditPreviousMessage, [{ sequence: [["ArrowUp"]] }]],
 ]);
 
+// naming:
+// modifiers + key is a combo
+// a sequence of combos is a sequence (also called a keybind)
+
+/**
+ * Keys that must be pressed at the same time, order should not matter.
+ * Should only be include modifiers and one key at the moment.
+ */
+export type KeyCombo = string[];
+
+export type KeySequence = KeyCombo[];
+
+export type Keybinding = {
+    sequence: KeySequence;
+};
+
 export interface Data {
-    keybinds: Record<Keybinding, string[]>;
+    // note: data is stored in string format but parsed on load
+    keybinds: Record<KeybindAction, Keybinding>;
 }
 
+class KeybindEvent extends KeyboardEvent {
+    constructor(type: string, event: KeyboardEvent) {
+        super(type, event);
+    }
+}
 /**
  * Handles adding, remove, and fetching keybinds.
  */
 export default class Keybinds implements Store, Persistent<Data> {
-    keybinds: ObservableMap<Keybinding, string[]>;
+    keybinds: ObservableMap<KeybindAction, Keybinding[]>;
+
+    possibleSequences = new Map<Keybinding, KeyCombo[]>();
+
+    resetPossibleSequences = () =>
+        debounce(() => this.possibleSequences.clear(), 1000);
+
+    handleEvent(event: Event) {
+        if (!(event instanceof KeyboardEvent)) return;
+        if (event.repeat) return;
+
+        const combo = KeyCombo.fromKeyboardEvent(event);
+
+        this.keybinds.forEach((keybindings, action) => {
+            keybindings.forEach((keybinding) => {
+                // skip unassigned keybinds
+                if (keybinding.sequence.length === 0) return;
+
+                const expectedSequence =
+                    this.possibleSequences.get(keybinding) ??
+                    keybinding.sequence;
+
+                // todo: add matches function to better handle browser inconsistencies
+                const matched = isEqual(expectedSequence[0], combo);
+
+                if (matched) {
+                    if (expectedSequence.length > 1) {
+                        this.possibleSequences.set(
+                            keybinding,
+                            expectedSequence.slice(1),
+                        );
+                    } else {
+                        this.possibleSequences.delete(keybinding);
+                        internalEmit("action", action, event);
+                    }
+                } else if (KEYBINDING_MODIFIER_KEYS.includes(event.key)) {
+                    this.possibleSequences.delete(keybinding);
+                }
+            });
+        });
+
+        this.resetPossibleSequences();
+    }
 
     /**
      * Construct new Keybinds store.
@@ -57,19 +146,34 @@ export default class Keybinds implements Store, Persistent<Data> {
     }
 
     /** Get the default built-in keybind of an action */
-    getDefault(action: Keybinding, index: number) {
+    getDefault(action: KeybindAction, index: number) {
         return DEFAULT_KEYBINDS.get(action)?.[index];
     }
 
-    // disableAction action
-    // disables an active keybind from without removing it
-    // useful for the keybindings setting where disabling all keybinds may be a good idea
-
-    // enableAction action
-    // enables a disabled keybind
-
     // useAction action, fn, inputs
     // listen to an actions events
+    useAction(
+        action: KeybindAction,
+        cb: (event: KeyboardEvent) => void | boolean,
+        inputs?: Inputs,
+    ) {
+        useEffect(() => internalSubscribe("action", action, cb as any), inputs);
+    }
+
+    @computed
+    displayKeybind(action: KeybindAction, index: number) {
+        return this.keybinds
+            .get(action)!
+            [index].sequence.map(KeyCombo.stringifyShort);
+    }
+
+    // todo: better name
+    @computed
+    getKeybindList() {
+        return entries(this.keybinds).flatMap(([action, keybinds]) =>
+            keybinds.map((keybind) => ({ ...keybind, action })),
+        );
+    }
 
     toJSON() {
         return {
@@ -82,23 +186,28 @@ export default class Keybinds implements Store, Persistent<Data> {
         this.keybinds.merge(data.keybinds);
     }
 
+    // todo: findConflicts
+
     /**
      * Get a list of keybind expressions for a given action.
      * @param action The action to get the keybinds for
      */
     @computed
-    getKeybinds(action: Keybinding) {
+    getKeybinds(action: KeybindAction) {
         return this.keybinds.get(action)!;
     }
 
     @action
-    setKeybind(action: Keybinding, index: number, sequence: string) {
-        this.keybinds.get(action)![index] = sequence;
+    setKeybind(action: KeybindAction, index: number, sequence: string) {
+        this.keybinds.get(action)![index].sequence =
+            KeybindSequence.parse(sequence);
     }
 
     @action
-    addKeybind(action: Keybinding, sequence: string) {
-        this.keybinds.get(action)!.push(sequence);
+    addKeybind(action: KeybindAction, sequence: string) {
+        this.keybinds
+            .get(action)!
+            .push({ sequence: KeybindSequence.parse(sequence) });
     }
 
     /**
@@ -106,7 +215,7 @@ export default class Keybinds implements Store, Persistent<Data> {
      * If there is none, remove it from the list of keybinds for the given action.
      */
     @action
-    resetToDefault(action: Keybinding, index: number) {
+    resetToDefault(action: KeybindAction, index: number) {
         const keybinds = this.keybinds.get(action)!;
         const defaultValue = this.getDefault(action, index);
         if (defaultValue) {
@@ -123,15 +232,35 @@ export default class Keybinds implements Store, Persistent<Data> {
     }
 }
 
-// naming:
-// modifiers + key is a combo
-// a sequence of combos is a sequence (also called a keybind)
+// note: order dependent!
+export const KEYBINDING_MODIFIER_KEYS = ["Control", "Alt", "Meta", "Shift"];
 
-/**
- * Keys that must be pressed at the same time, order should not matter.
- * Should only be include modifiers and one key at the moment.
- */
-export type KeyCombo = string[];
+const DISPLAY_SHORT_REPLACEMENTS: Record<string, string> = {
+    Control: "Ctrl",
+    Escape: "Esc",
+};
+
+export const KeyCombo = {
+    fromKeyboardEvent(event: KeyboardEvent): KeyCombo {
+        const pressed = KEYBINDING_MODIFIER_KEYS.filter(
+            (key) => event.getModifierState(key) && event.key,
+        );
+
+        if (!KEYBINDING_MODIFIER_KEYS.includes(event.key)) {
+            pressed.push(event.key);
+        }
+
+        return pressed;
+    },
+
+    /**
+     * Stringifies a key combo, using shortened key replacements when possible.
+     * ex. replacing `Escape` with `Esc`
+     */
+    stringifyShort(combo: KeyCombo) {
+        return combo.map((k) => DISPLAY_SHORT_REPLACEMENTS[k] ?? k);
+    },
+};
 
 export const KeybindSequence = {
     /**
@@ -143,12 +272,22 @@ export const KeybindSequence = {
      * parse('Control+k b')
      * ```
      */
-    parse(sequence: string) {
+    parse(sequence: string): KeyCombo[] {
         return sequence.split(" ").map((expr) => expr.split("+"));
     },
 
     /** Stringify a keybind sequence */
     stringify(sequence: KeyCombo[]) {
         return sequence.map((combo) => combo.join("+")).join(" ");
+    },
+
+    /**
+     * Stringifies a keybind sequence, using shortened key replacements when possible.
+     * ex. replacing `Escape` with `Esc`
+     */
+    stringifyShort(sequence: KeyCombo[]) {
+        return sequence
+            .map((combo) => KeyCombo.stringifyShort(combo).join("+"))
+            .join(" ");
     },
 };

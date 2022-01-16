@@ -5,7 +5,10 @@ import { Client } from "revolt.js";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
+import { internalEmit } from "../../lib/eventEmitter";
+
 import { useApplicationState } from "../../mobx/State";
+import { KeybindAction } from "../../mobx/stores/Keybinds";
 
 import Preloader from "../../components/ui/Preloader";
 
@@ -80,6 +83,25 @@ export default observer(({ children }: Props) => {
     }, [state.auth.getSession()]);
 
     useEffect(() => registerEvents(state.auth, setStatus, client), [client]);
+
+    // register keybind listener
+    useEffect(() => {
+        // const handler = state.keybinds.createHandler();
+        document.addEventListener("keydown", state.keybinds);
+        return () => document.addEventListener("keydown", state.keybinds);
+    }, [state.keybinds]);
+
+    // todo: create a better solution than this for handling conflicting / layered keybinds that need to have exclusivity
+    state.keybinds.useAction(KeybindAction.NavigatePreviousContext, (e) => {
+        internalEmit("action", KeybindAction.NavigatePreviousContextModal, e);
+        if (!e.defaultPrevented) {
+            internalEmit(
+                "action",
+                KeybindAction.NavigatePreviousContextSettings,
+                e,
+            );
+        }
+    });
 
     if (!loaded || status === ClientStatus.LOADING) {
         return <Preloader type="spinner" />;
