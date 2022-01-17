@@ -106,20 +106,25 @@ export function SearchSidebar({ close }: Props) {
     }, [sort]);
 
     // needs more testing to see if this is fragile or not
+
+    // ? Search if the InputRef is being used.
     keybinds.useAction(
         KeybindAction.InputSubmit,
         (e) => {
             if (e.composedPath().includes(inputRef.current!)) {
+                e.preventDefault();
                 search();
             }
         },
         [inputRef],
     );
 
+    // ? Close search if the event came from the sidebar.
     keybinds.useAction(
         KeybindAction.InputCancel,
         (e) => {
             if (e.composedPath().includes(sidebarRef.current!)) {
+                e.preventDefault();
                 close();
             }
         },

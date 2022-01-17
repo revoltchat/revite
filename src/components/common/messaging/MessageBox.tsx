@@ -414,12 +414,15 @@ export default observer(({ channel }: Props) => {
                     : undefined,
         });
 
-    state.keybinds.useAction(KeybindAction.EditPreviousMessage, (event) => {
-        if (!state.draft.has(channel._id)) {
-            event.preventDefault();
-            internalEmit("MessageRenderer", "edit_last");
-        }
-    });
+    state.keybinds.useAction(
+        KeybindAction.MessagingEditPreviousMessage,
+        (event) => {
+            if (!state.draft.has(channel._id)) {
+                event.preventDefault();
+                internalEmit("MessageRenderer", "edit_last");
+            }
+        },
+    );
 
     state.keybinds.useAction(KeybindAction.InputForceSubmit, (e) => {
         e.preventDefault();
@@ -446,6 +449,7 @@ export default observer(({ channel }: Props) => {
             });
         }
 
+        e.preventDefault();
         debouncedStopTyping(true);
     });
 

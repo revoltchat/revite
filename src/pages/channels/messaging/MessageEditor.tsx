@@ -75,7 +75,12 @@ export default function MessageEditor({ message, finish }: Props) {
     // ? Stop editing when pressing ESC.
     keybinds.useAction(
         KeybindAction.InputCancel,
-        (e) => !focusTaken && finish(),
+        (e) => {
+            if (!focusTaken) {
+                e.preventDefault();
+                finish();
+            }
+        },
         [focusTaken, finish],
     );
 

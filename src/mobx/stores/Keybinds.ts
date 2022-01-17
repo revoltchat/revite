@@ -16,29 +16,6 @@ import { internalEmit, internalSubscribe } from "../../lib/eventEmitter";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
-/** Actions that keybinds can bind to */
-export enum KeybindAction {
-    // Navigation
-    NavigateChannelUp = "navigate_channel_up",
-    NavigateChannelDown = "navigate_channel_down",
-    NavigateServerUp = "navigate_server_up",
-    NavigateServerDown = "navigate_server_down",
-
-    NavigateAutoCompleteUp = "navigate_auto_complete_up",
-    NavigateAutoCompleteDown = "navigate_auto_complete_down",
-    AutoCompleteSelect = "auto_complete_select",
-
-    NavigatePreviousContext = "navigate_previous_context",
-    NavigatePreviousContextModal = "navigate_previous_context_modal",
-    NavigatePreviousContextSettings = "navigate_previous_context_settings",
-
-    InputSubmit = "input_submit",
-    InputCancel = "input_cancel",
-    InputForceSubmit = "input_force_submit",
-
-    EditPreviousMessage = "edit_previous_message",
-}
-
 // note: order dependent!
 export const KEYBINDING_MODIFIER_KEYS = ["Control", "Alt", "Meta", "Shift"];
 
@@ -114,6 +91,30 @@ function keybindMap(
     return new Map(parsed);
 }
 
+/** Actions that keybinds can bind to */
+export enum KeybindAction {
+    // Navigation
+    NavigateChannelUp = "navigate_channel_up",
+    NavigateChannelDown = "navigate_channel_down",
+    NavigateServerUp = "navigate_server_up",
+    NavigateServerDown = "navigate_server_down",
+
+    NavigateAutoCompleteUp = "navigate_auto_complete_up",
+    NavigateAutoCompleteDown = "navigate_auto_complete_down",
+    AutoCompleteSelect = "auto_complete_select",
+
+    NavigatePreviousContext = "navigate_previous_context",
+    NavigatePreviousContextModal = "navigate_previous_context_modal",
+    NavigatePreviousContextSettings = "navigate_previous_context_settings",
+
+    InputSubmit = "input_submit",
+    InputCancel = "input_cancel",
+    InputForceSubmit = "input_force_submit",
+
+    MessagingScrollToBottom = "scroll_to_bottom",
+    MessagingEditPreviousMessage = "messaging_edit_previous_message",
+}
+
 // If any are not defined here, things may break.
 /**
  * A map of the default built-in keybinds.
@@ -136,7 +137,9 @@ export const DEFAULT_KEYBINDS = keybindMap({
     [KeybindAction.InputForceSubmit]: ["Control+Enter"],
     [KeybindAction.InputSubmit]: ["Enter"],
     [KeybindAction.InputCancel]: ["Escape"],
-    [KeybindAction.EditPreviousMessage]: ["ArrowUp"],
+
+    [KeybindAction.MessagingScrollToBottom]: ["Escape"],
+    [KeybindAction.MessagingEditPreviousMessage]: ["ArrowUp"],
 });
 
 // naming:

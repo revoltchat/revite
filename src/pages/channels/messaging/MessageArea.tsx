@@ -21,6 +21,9 @@ import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { getRenderer } from "../../../lib/renderer/Singleton";
 import { ScrollState } from "../../../lib/renderer/types";
 
+import { useApplicationState } from "../../../mobx/State";
+import { KeybindAction } from "../../../mobx/stores/Keybinds";
+
 import { IntermediateContext } from "../../../context/intermediate/Intermediate";
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
 import {
@@ -64,6 +67,7 @@ export const MessageAreaWidthContext = createContext(0);
 export const MESSAGE_AREA_PADDING = 82;
 
 export const MessageArea = observer(({ last_id, channel }: Props) => {
+    const keybinds = useApplicationState().keybinds;
     const history = useHistory();
     const status = useContext(StatusContext);
     const { focusTaken } = useContext(IntermediateContext);
@@ -304,17 +308,16 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
     }, [ref, scrollState, stbOnResize]);
 
     // ? Scroll to bottom when pressing 'Escape'.
-    useEffect(() => {
-        function keyUp(e: KeyboardEvent) {
-            if (e.key === "Escape" && !focusTaken) {
+    keybinds.useAction(
+        KeybindAction.MessagingScrollToBottom,
+        (e) => {
+            if (!e.defaultPrevented && !focusTaken) {
                 renderer.jumpToBottom(true);
                 internalEmit("TextArea", "focus", "message");
             }
-        }
-
-        document.body.addEventListener("keyup", keyUp);
-        return () => document.body.removeEventListener("keyup", keyUp);
-    }, [renderer, ref, focusTaken]);
+        },
+        [renderer, ref, focusTaken],
+    );
 
     return (
         <MessageAreaWidthContext.Provider

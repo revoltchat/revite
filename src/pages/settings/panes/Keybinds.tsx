@@ -319,7 +319,7 @@ export const Keybinds = observer(() => {
                     },
                     messaging: {
                         edit_previous_message:
-                            KeybindAction.EditPreviousMessage,
+                            KeybindAction.MessagingEditPreviousMessage,
                     },
                 }}
             />
