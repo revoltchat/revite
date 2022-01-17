@@ -387,8 +387,12 @@ export function ThemeShop() {
                         <h1 class="name">{theme.name}</h1>
                         {/* Maybe id's of the users should be included as well / instead? */}
                         <div class="creator">
-                            <Text id="app.settings.pages.theme_shop.by" />{" "}
-                            {theme.creator}
+                            <Text
+                                id="app.settings.pages.theme_shop.by"
+                                fields={{
+                                    creator: theme.creator
+                                }}
+                            />
                         </div>
                         <h5 class="description">{theme.description}</h5>
                     </ThemeInfo>
