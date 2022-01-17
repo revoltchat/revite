@@ -358,107 +358,116 @@ function ListElement({
     }, [editing, category.id, save]);
 
     return (
-        <Draggable
-            isDragDisabled={!draggable}
-            key={category.id}
-            draggableId={category.id}
-            index={index}>
-            {(provided) => (
-                <div {...provided.draggableProps} ref={provided.innerRef}>
-                    <KanbanList last={false} key={category.id}>
-                        <div class="inner">
-                            <Row>
-                                <KanbanListHeader {...provided.dragHandleProps}>
-                                    {editing ? (
-                                        <input
-                                            value={editing}
-                                            onChange={(e) =>
-                                                setEditing(
-                                                    e.currentTarget.value,
-                                                )
-                                            }
-                                            onKeyDown={(e) =>
-                                                e.key === "Enter" && save()
-                                            }
-                                            id={category.id}
-                                        />
-                                    ) : (
-                                        <span onClick={startEditing}>
-                                            {category.title}
-                                        </span>
-                                    )}
-                                </KanbanListHeader>
-                                {deleteSelf && (
-                                    <KanbanListHeader onClick={deleteSelf}>
-                                        <X size={24} />
+        <form
+            // when possible, use onSubmit instead of a keybind action for `Enter` or `InputSubmit`.
+            onSubmit={(e) => {
+                e.preventDefault();
+                save();
+            }}>
+            <Draggable
+                isDragDisabled={!draggable}
+                key={category.id}
+                draggableId={category.id}
+                index={index}>
+                {(provided) => (
+                    <div {...provided.draggableProps} ref={provided.innerRef}>
+                        <KanbanList last={false} key={category.id}>
+                            <div class="inner">
+                                <Row>
+                                    <KanbanListHeader
+                                        {...provided.dragHandleProps}>
+                                        {editing ? (
+                                            <input
+                                                value={editing}
+                                                onChange={(e) =>
+                                                    setEditing(
+                                                        e.currentTarget.value,
+                                                    )
+                                                }
+                                                id={category.id}
+                                            />
+                                        ) : (
+                                            <span onClick={startEditing}>
+                                                {category.title}
+                                            </span>
+                                        )}
                                     </KanbanListHeader>
-                                )}
-                            </Row>
-                            <Droppable
-                                droppableId={category.id}
-                                key={category.id}>
-                                {(provided) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.droppableProps}>
-                                        {category.channels.map((x, index) => {
-                                            const channel =
-                                                server.client.channels.get(x);
-                                            if (!channel) return null;
+                                    {deleteSelf && (
+                                        <KanbanListHeader onClick={deleteSelf}>
+                                            <X size={24} />
+                                        </KanbanListHeader>
+                                    )}
+                                </Row>
+                                <Droppable
+                                    droppableId={category.id}
+                                    key={category.id}>
+                                    {(provided) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}>
+                                            {category.channels.map(
+                                                (x, index) => {
+                                                    const channel =
+                                                        server.client.channels.get(
+                                                            x,
+                                                        );
+                                                    if (!channel) return null;
 
-                                            return (
-                                                <Draggable
-                                                    key={x}
-                                                    draggableId={x}
-                                                    index={index}>
-                                                    {(provided) => (
-                                                        <div
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                            ref={
-                                                                provided.innerRef
-                                                            }>
-                                                            <KanbanEntry>
-                                                                <div class="inner">
-                                                                    <ChannelIcon
-                                                                        target={
-                                                                            channel
-                                                                        }
-                                                                        size={
-                                                                            24
-                                                                        }
-                                                                    />
-                                                                    <span>
-                                                                        {
-                                                                            channel.name
-                                                                        }
-                                                                    </span>
+                                                    return (
+                                                        <Draggable
+                                                            key={x}
+                                                            draggableId={x}
+                                                            index={index}>
+                                                            {(provided) => (
+                                                                <div
+                                                                    {...provided.draggableProps}
+                                                                    {...provided.dragHandleProps}
+                                                                    ref={
+                                                                        provided.innerRef
+                                                                    }>
+                                                                    <KanbanEntry>
+                                                                        <div class="inner">
+                                                                            <ChannelIcon
+                                                                                target={
+                                                                                    channel
+                                                                                }
+                                                                                size={
+                                                                                    24
+                                                                                }
+                                                                            />
+                                                                            <span>
+                                                                                {
+                                                                                    channel.name
+                                                                                }
+                                                                            </span>
+                                                                        </div>
+                                                                    </KanbanEntry>
                                                                 </div>
-                                                            </KanbanEntry>
-                                                        </div>
-                                                    )}
-                                                </Draggable>
-                                            );
-                                        })}
-                                        {provided.placeholder}
-                                    </div>
-                                )}
-                            </Droppable>
-                            <KanbanListHeader
-                                onClick={() =>
-                                    openScreen({
-                                        id: "special_prompt",
-                                        type: "create_channel",
-                                        target: server,
-                                        cb: addChannel,
-                                    })
-                                }>
-                                <Plus size={24} />
-                            </KanbanListHeader>
-                        </div>
-                    </KanbanList>
-                </div>
-            )}
-        </Draggable>
+                                                            )}
+                                                        </Draggable>
+                                                    );
+                                                },
+                                            )}
+                                            {provided.placeholder}
+                                        </div>
+                                    )}
+                                </Droppable>
+                                <KanbanListHeader
+                                    onClick={() =>
+                                        openScreen({
+                                            id: "special_prompt",
+                                            type: "create_channel",
+                                            target: server,
+                                            cb: addChannel,
+                                        })
+                                    }>
+                                    <Plus size={24} />
+                                </KanbanListHeader>
+                            </div>
+                        </KanbanList>
+                    </div>
+                )}
+            </Draggable>
+        </form>
     );
 }
