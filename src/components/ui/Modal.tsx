@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import styled, { css, keyframes } from "styled-components";
 
+import { createRef } from "preact";
 import { createPortal, useCallback, useEffect, useState } from "preact/compat";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
@@ -199,30 +200,35 @@ export default function Modal(props: Props) {
         (action) => action.confirmation,
     );
 
-    useEffect(() => {
-        if (!confirmationAction) return;
+    const actionsRef = createRef<HTMLDivElement>();
 
-        // ! TODO: this may be done better if we
-        // ! can focus the button although that
-        // ! doesn't seem to work...
-        function keyDown(e: KeyboardEvent) {
-            if (e.key === "Enter") {
-                confirmationAction!.onClick();
+    state.keybinds.useAction(
+        KeybindAction.InputSubmit,
+        (e) => {
+            // ! TODO: this may be done better if we
+            // ! can focus the button although that
+            // ! doesn't seem to work...
+            // ? if the event is from an action then don't confirm, avoids unexpected behavior
+            // ? (ex. clicking enter on a cancel button still confirming)
+            if (
+                actionsRef.current &&
+                confirmationAction &&
+                !e.composedPath().includes(actionsRef.current)
+            ) {
+                confirmationAction.onClick();
             }
-        }
-
-        document.body.addEventListener("keydown", keyDown);
-        return () => document.body.removeEventListener("keydown", keyDown);
-    }, [confirmationAction]);
+        },
+        [confirmationAction],
+    );
 
     return createPortal(
         <ModalBase
             className={animateClose ? "closing" : undefined}
             onClick={(!props.disallowClosing && props.onClose) || undefined}>
-            <ModalContainer onClick={(e) => (e.cancelBubble = true)}>
+            <ModalContainer onClick={(e) => e.stopPropagation()}>
                 {content}
                 {props.actions && (
-                    <ModalActions>
+                    <ModalActions ref={actionsRef}>
                         {props.actions.map((x, index) => (
                             <Button
                                 key={index}

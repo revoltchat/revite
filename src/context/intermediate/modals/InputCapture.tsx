@@ -39,6 +39,7 @@ const InputBox = styled.output`
     font-family: var(--monospace-font);
     border-radius: var(--border-radius);
     background: var(--secondary-background);
+    height: 4ch;
 
     kbd {
         flex-wrap: wrap;
@@ -141,7 +142,7 @@ export const InputCaptureModal = ({ onClose, onSubmit, actionName }: Props) => {
                 <InputBox
                     tabIndex={0}
                     ref={input}
-                    onClick={reset}
+                    onFocus={reset}
                     onKeyDownCapture={onKeyDown}
                     onKeyUpCapture={onKeyUp}>
                     {sequence.length + mods.length > 0 ? (

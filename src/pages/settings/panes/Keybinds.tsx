@@ -36,7 +36,7 @@ import CategoryButton, {
     CategoryBase,
 } from "../../../components/ui/fluent/CategoryButton";
 
-const KeySequence = styled.kbd`
+const KeySequence = styled.kbd<{ light: boolean }>`
     display: inline-flex;
     place-items: center;
     font-size: 1rem;
@@ -51,7 +51,10 @@ const KeySequence = styled.kbd`
     }
     & > kbd > kbd {
         display: inline-flex;
-        background-color: var(--tertiary-background);
+        background-color: ${(props) =>
+            props.light
+                ? "rgb(var(--tertiary-background-rgb), 0.05)"
+                : "var(--tertiary-background)"};
 
         padding: 0.5ch 1ch 0.35ch;
         border-radius: 3px;
@@ -108,7 +111,9 @@ export const Keybind = ({ sequence }: KeybindProps) => {
         </kbd>
     ));
 
-    return <KeySequence>{keys}</KeySequence>;
+    const isLight = useApplicationState().settings.theme.isLight();
+
+    return <KeySequence light={isLight}>{keys}</KeySequence>;
 };
 
 // todo: use `main` in the future for better accessability

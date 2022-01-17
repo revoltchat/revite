@@ -86,7 +86,6 @@ export default observer(({ children }: Props) => {
 
     // register keybind listener
     useEffect(() => {
-        // const handler = state.keybinds.createHandler();
         document.addEventListener("keydown", state.keybinds);
         return () => document.addEventListener("keydown", state.keybinds);
     }, [state.keybinds]);
