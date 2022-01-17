@@ -4,6 +4,9 @@ import styled, { css } from "styled-components";
 
 import { StateUpdater, useState } from "preact/hooks";
 
+import { useApplicationState } from "../../mobx/State";
+import { KeybindAction } from "../../mobx/stores/Keybinds";
+
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import { emojiDictionary } from "../../assets/emojis";
@@ -14,19 +17,19 @@ import UserIcon from "./user/UserIcon";
 export type AutoCompleteState =
     | { type: "none" }
     | ({ selected: number; within: boolean } & (
-        | {
-            type: "emoji";
-            matches: string[];
-        }
-        | {
-            type: "user";
-            matches: User[];
-        }
-        | {
-            type: "channel";
-            matches: Channel[];
-        }
-    ));
+          | {
+                type: "emoji";
+                matches: string[];
+            }
+          | {
+                type: "user";
+                matches: User[];
+            }
+          | {
+                type: "channel";
+                matches: Channel[];
+            }
+      ));
 
 export type SearchClues = {
     users?: { type: "channel"; id: string } | { type: "all" };
@@ -39,7 +42,6 @@ export type AutoCompleteProps = {
     setState: StateUpdater<AutoCompleteState>;
 
     onKeyUp: (ev: KeyboardEvent) => void;
-    onKeyDown: (ev: KeyboardEvent) => boolean;
     onChange: (ev: JSX.TargetedEvent<HTMLTextAreaElement, Event>) => void;
     onClick: JSX.MouseEventHandler<HTMLButtonElement>;
     onFocus: JSX.FocusEventHandler<HTMLTextAreaElement>;
@@ -50,6 +52,7 @@ export function useAutoComplete(
     setValue: (v?: string) => void,
     searchClues?: SearchClues,
 ): AutoCompleteProps {
+    const keybinds = useApplicationState().keybinds;
     const [state, setState] = useState<AutoCompleteState>({ type: "none" });
     const [focused, setFocused] = useState(false);
     const client = useClient();
@@ -79,15 +82,15 @@ export function useAutoComplete(
 
             if (current === ":" || current === "@" || current === "#") {
                 const search = content.slice(j + 1, content.length);
-                const minLen = current === ":" ? 2 : 1
+                const minLen = current === ":" ? 2 : 1;
 
                 if (search.length >= minLen) {
                     return [
                         current === "#"
                             ? "channel"
                             : current === ":"
-                                ? "emoji"
-                                : "user",
+                            ? "emoji"
+                            : "user",
                         search.toLowerCase(),
                         j + 1,
                     ];
@@ -167,8 +170,8 @@ export function useAutoComplete(
                 const matches = (
                     search.length > 0
                         ? users.filter((user) =>
-                            user.username.toLowerCase().match(regex),
-                        )
+                              user.username.toLowerCase().match(regex),
+                          )
                         : users
                 )
                     .splice(0, 5)
@@ -199,8 +202,8 @@ export function useAutoComplete(
                 const matches = (
                     search.length > 0
                         ? channels.filter((channel) =>
-                            channel.name!.toLowerCase().match(regex),
-                        )
+                              channel.name!.toLowerCase().match(regex),
+                          )
                         : channels
                 )
                     .splice(0, 5)
@@ -270,42 +273,39 @@ export function useAutoComplete(
         setFocused(false);
     }
 
-    function onKeyDown(e: KeyboardEvent) {
+    keybinds.useAction(KeybindAction.NavigateAutoCompleteUp, (e) => {
         if (focused && state.type !== "none") {
-            if (e.key === "ArrowUp") {
-                e.preventDefault();
-                if (state.selected > 0) {
-                    setState({
-                        ...state,
-                        selected: state.selected - 1,
-                    });
-                }
+            e.preventDefault();
 
-                return true;
-            }
-
-            if (e.key === "ArrowDown") {
-                e.preventDefault();
-                if (state.selected < state.matches.length - 1) {
-                    setState({
-                        ...state,
-                        selected: state.selected + 1,
-                    });
-                }
-
-                return true;
-            }
-
-            if (e.key === "Enter" || e.key === "Tab") {
-                e.preventDefault();
-                selectCurrent(e.currentTarget as HTMLTextAreaElement);
-
-                return true;
+            if (state.selected > 0) {
+                setState({
+                    ...state,
+                    selected: state.selected - 1,
+                });
             }
         }
+    });
 
-        return false;
-    }
+    keybinds.useAction(KeybindAction.NavigateAutoCompleteDown, (e) => {
+        if (focused && state.type !== "none") {
+            e.preventDefault();
+            if (state.selected < state.matches.length - 1) {
+                setState({
+                    ...state,
+                    selected: state.selected + 1,
+                });
+            }
+        }
+    });
+
+    keybinds.useAction(KeybindAction.AutoCompleteSelect, (e) => {
+        if (focused && state.type !== "none") {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            selectCurrent(e.target as HTMLTextAreaElement);
+        }
+    });
 
     function onKeyUp(e: KeyboardEvent) {
         if (e.currentTarget !== null) {
@@ -331,7 +331,6 @@ export function useAutoComplete(
         onClick,
         onChange,
         onKeyUp,
-        onKeyDown,
         onFocus,
         onBlur,
     };
@@ -417,7 +416,7 @@ export default function AutoComplete({
                             <Emoji
                                 emoji={
                                     (emojiDictionary as Record<string, string>)[
-                                    match
+                                        match
                                     ]
                                 }
                                 size={20}

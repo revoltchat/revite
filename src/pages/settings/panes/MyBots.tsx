@@ -215,16 +215,10 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
         setSaving(false);
     }
 
-    const {
-        onChange,
-        onKeyUp,
-        onKeyDown,
-        onFocus,
-        onBlur,
-        ...autoCompleteProps
-    } = useAutoComplete(setContent, {
-        users: { type: "all" },
-    });
+    const { onChange, onKeyUp, onFocus, onBlur, ...autoCompleteProps } =
+        useAutoComplete(setContent, {
+            users: { type: "all" },
+        });
 
     return (
         <div key={bot._id} className={styles.botCard}>
@@ -427,7 +421,6 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                 }`,
                             )}
                             onKeyUp={onKeyUp}
-                            onKeyDown={onKeyDown}
                             onFocus={onFocus}
                             onBlur={onBlur}
                         />

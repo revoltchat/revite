@@ -405,20 +405,14 @@ export default observer(({ channel }: Props) => {
         [channel._id],
         1000,
     );
-    const {
-        onChange,
-        onKeyUp,
-        onKeyDown,
-        onFocus,
-        onBlur,
-        ...autoCompleteProps
-    } = useAutoComplete(setMessage, {
-        users: { type: "channel", id: channel._id },
-        channels:
-            channel.channel_type === "TextChannel"
-                ? { server: channel.server_id! }
-                : undefined,
-    });
+    const { onChange, onKeyUp, onFocus, onBlur, ...autoCompleteProps } =
+        useAutoComplete(setMessage, {
+            users: { type: "channel", id: channel._id },
+            channels:
+                channel.channel_type === "TextChannel"
+                    ? { server: channel.server_id! }
+                    : undefined,
+        });
 
     state.keybinds.useAction(KeybindAction.EditPreviousMessage, (event) => {
         if (!state.draft.has(channel._id)) {
@@ -427,11 +421,32 @@ export default observer(({ channel }: Props) => {
         }
     });
 
+    state.keybinds.useAction(KeybindAction.InputForceSubmit, (e) => {
+        e.preventDefault();
+        send();
+    });
+
     state.keybinds.useAction(KeybindAction.InputSubmit, (e) => {
-        if (!e.isComposing && !isTouchscreenDevice) {
+        if (!e.isComposing && !isTouchscreenDevice && !e.defaultPrevented) {
             e.preventDefault();
             send();
         }
+    });
+
+    state.keybinds.useAction(KeybindAction.InputCancel, (e) => {
+        if (replies.length > 0) {
+            setReplies(replies.slice(0, -1));
+        } else if (
+            uploadState.type === "attached" &&
+            uploadState.files.length > 0
+        ) {
+            setUploadState({
+                type: uploadState.files.length > 1 ? "attached" : "none",
+                files: uploadState.files.slice(0, -1),
+            });
+        }
+
+        debouncedStopTyping(true);
     });
 
     return (
@@ -520,33 +535,6 @@ export default observer(({ channel }: Props) => {
                     onKeyUp={onKeyUp}
                     value={state.draft.get(channel._id) ?? ""}
                     padding="var(--message-box-padding)"
-                    onKeyDown={(e) => {
-                        if (e.ctrlKey && e.key === "Enter") {
-                            e.preventDefault();
-                            return send();
-                        }
-
-                        if (onKeyDown(e)) return;
-
-                        if (e.key === "Escape") {
-                            if (replies.length > 0) {
-                                setReplies(replies.slice(0, -1));
-                            } else if (
-                                uploadState.type === "attached" &&
-                                uploadState.files.length > 0
-                            ) {
-                                setUploadState({
-                                    type:
-                                        uploadState.files.length > 1
-                                            ? "attached"
-                                            : "none",
-                                    files: uploadState.files.slice(0, -1),
-                                });
-                            }
-                        }
-
-                        debouncedStopTyping(true);
-                    }}
                     placeholder={
                         channel.channel_type === "DirectMessage"
                             ? translate("app.main.channel.message_who", {

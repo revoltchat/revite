@@ -6,6 +6,9 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
+import { useApplicationState } from "../../../mobx/State";
+import { KeybindAction } from "../../../mobx/stores/Keybinds";
+
 import {
     IntermediateContext,
     useIntermediate,
@@ -48,6 +51,7 @@ interface Props {
 }
 
 export default function MessageEditor({ message, finish }: Props) {
+    const keybinds = useApplicationState().keybinds;
     const [content, setContent] = useState((message.content as string) ?? "");
     const { focusTaken } = useContext(IntermediateContext);
     const { openScreen } = useIntermediate();
@@ -69,31 +73,27 @@ export default function MessageEditor({ message, finish }: Props) {
     }
 
     // ? Stop editing when pressing ESC.
-    useEffect(() => {
-        function keyUp(e: KeyboardEvent) {
-            if (e.key === "Escape" && !focusTaken) {
-                finish();
-            }
+    keybinds.useAction(
+        KeybindAction.InputCancel,
+        (e) => !focusTaken && finish(),
+        [focusTaken, finish],
+    );
+
+    keybinds.useAction(KeybindAction.InputSubmit, (e) => {
+        if (!isTouchscreenDevice && !e.defaultPrevented) {
+            e.preventDefault();
+            save();
         }
-
-        document.body.addEventListener("keyup", keyUp);
-        return () => document.body.removeEventListener("keyup", keyUp);
-    }, [focusTaken, finish]);
-
-    const {
-        onChange,
-        onKeyUp,
-        onKeyDown,
-        onFocus,
-        onBlur,
-        ...autoCompleteProps
-    } = useAutoComplete((v) => setContent(v ?? ""), {
-        users: { type: "channel", id: message.channel!._id },
-        channels:
-            message.channel!.channel_type === "TextChannel"
-                ? { server: message.channel!.server_id! }
-                : undefined,
     });
+
+    const { onChange, onKeyUp, onFocus, onBlur, ...autoCompleteProps } =
+        useAutoComplete((v) => setContent(v ?? ""), {
+            users: { type: "channel", id: message.channel!._id },
+            channels:
+                message.channel!.channel_type === "TextChannel"
+                    ? { server: message.channel!.server_id! }
+                    : undefined,
+        });
 
     return (
         <EditorBase>
@@ -107,18 +107,6 @@ export default function MessageEditor({ message, finish }: Props) {
                 onChange={(ev) => {
                     onChange(ev);
                     setContent(ev.currentTarget.value);
-                }}
-                onKeyDown={(e) => {
-                    if (onKeyDown(e)) return;
-
-                    if (
-                        !e.shiftKey &&
-                        e.key === "Enter" &&
-                        !isTouchscreenDevice
-                    ) {
-                        e.preventDefault();
-                        save();
-                    }
                 }}
                 onKeyUp={onKeyUp}
                 onFocus={onFocus}

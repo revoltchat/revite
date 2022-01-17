@@ -24,11 +24,17 @@ export enum KeybindAction {
     NavigateServerUp = "navigate_server_up",
     NavigateServerDown = "navigate_server_down",
 
+    NavigateAutoCompleteUp = "navigate_auto_complete_up",
+    NavigateAutoCompleteDown = "navigate_auto_complete_down",
+    AutoCompleteSelect = "auto_complete_select",
+
     NavigatePreviousContext = "navigate_previous_context",
     NavigatePreviousContextModal = "navigate_previous_context_modal",
     NavigatePreviousContextSettings = "navigate_previous_context_settings",
 
     InputSubmit = "input_submit",
+    InputCancel = "input_cancel",
+    InputForceSubmit = "input_force_submit",
 
     EditPreviousMessage = "edit_previous_message",
 }
@@ -118,10 +124,18 @@ export const DEFAULT_KEYBINDS = keybindMap({
     [KeybindAction.NavigateChannelDown]: ["Alt+ArrowDown"],
     [KeybindAction.NavigateServerUp]: ["Control+Alt+ArrowUp"],
     [KeybindAction.NavigateServerDown]: ["Control+Alt+ArrowDown"],
+
+    [KeybindAction.NavigateAutoCompleteUp]: ["ArrowUp"],
+    [KeybindAction.NavigateAutoCompleteDown]: ["ArrowDown"],
+    [KeybindAction.AutoCompleteSelect]: ["Enter", "Tab"],
+
     [KeybindAction.NavigatePreviousContext]: ["Escape"],
     [KeybindAction.NavigatePreviousContextModal]: [],
     [KeybindAction.NavigatePreviousContextSettings]: [],
+
+    [KeybindAction.InputForceSubmit]: ["Control+Enter"],
     [KeybindAction.InputSubmit]: ["Enter"],
+    [KeybindAction.InputCancel]: ["Escape"],
     [KeybindAction.EditPreviousMessage]: ["ArrowUp"],
 });
 

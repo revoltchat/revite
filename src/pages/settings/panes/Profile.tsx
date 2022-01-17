@@ -49,16 +49,10 @@ export const Profile = observer(() => {
         if (!changed) setChanged(true);
     }
 
-    const {
-        onChange,
-        onKeyUp,
-        onKeyDown,
-        onFocus,
-        onBlur,
-        ...autoCompleteProps
-    } = useAutoComplete(setContent, {
-        users: { type: "all" },
-    });
+    const { onChange, onKeyUp, onFocus, onBlur, ...autoCompleteProps } =
+        useAutoComplete(setContent, {
+            users: { type: "all" },
+        });
 
     return (
         <div className={styles.user}>
@@ -163,7 +157,6 @@ export const Profile = observer(() => {
                     }`,
                 )}
                 onKeyUp={onKeyUp}
-                onKeyDown={onKeyDown}
                 onFocus={onFocus}
                 onBlur={onBlur}
             />

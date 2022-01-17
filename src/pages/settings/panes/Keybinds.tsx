@@ -160,9 +160,6 @@ const Container = styled.div`
                     flex: 1;
                 }
             }
-
-            .unset-keybind {
-            }
         }
     }
 `;
@@ -301,6 +298,10 @@ export const Keybinds = observer(() => {
     const keybinds = useApplicationState().keybinds;
     return (
         <Container>
+            {/* temporary */}
+            <IconButton onClick={() => keybinds.reset()}>
+                <Reset size={20} title={`Reset all keybinds`} />
+            </IconButton>
             <GenericKeybinds
                 keybinds={keybinds}
                 categories={{
