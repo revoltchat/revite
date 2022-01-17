@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Masquerade } from "revolt-api/types/Channels";
 import { User } from "revolt.js/dist/maps/Users";
 import { Nullable } from "revolt.js/dist/util/null";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
@@ -21,9 +21,8 @@ const BotBadge = styled.div`
     padding: 0 4px;
     font-size: 0.6em;
     user-select: none;
-    margin-inline-start: 2px;
+    margin-inline-start: 4px;
     text-transform: uppercase;
-
     color: var(--accent-contrast);
     background: var(--accent);
     border-radius: calc(var(--border-radius) / 2);
@@ -69,7 +68,7 @@ export const Username = observer(
                         const srv = client.servers.get(member._id.server);
                         if (srv?.roles) {
                             for (const role of member.roles) {
-                                const c = srv.roles[role].colour;
+                                const c = srv.roles[role]?.colour;
                                 if (c) {
                                     color = c;
                                     continue;

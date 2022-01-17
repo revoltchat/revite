@@ -1,7 +1,7 @@
 import { DownArrowAlt } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
@@ -13,19 +13,25 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
     z-index: 10;
     position: relative;
 
+    ${(props) =>
+        props.position === "top" &&
+        css`
+            top: 0;
+        `}
+
+    ${(props) =>
+        props.position === "bottom" &&
+        css`
+            top: -28px;
+
+            ${() =>
+                isTouchscreenDevice &&
+                css`
+                    top: -90px;
+                `}
+        `}
+
     > button {
-        ${(props) =>
-            props.position === "bottom" &&
-            css`
-                top: -26px;
-
-                ${() =>
-                    isTouchscreenDevice &&
-                    css`
-                        top: -32px;
-                    `}
-            `}
-
         height: 28px;
         width: 100%;
         position: absolute;
@@ -33,6 +39,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         align-items: center;
         cursor: pointer;
         font-size: 12px;
+        font-weight: 500;
         padding: 0 8px;
         border: 0;
         user-select: none;
@@ -43,16 +50,25 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
             props.accent
                 ? css`
                       color: var(--accent-contrast);
-                      background: var(--accent);
+                      background-color: rgba(
+                          var(--accent-rgb),
+                          max(var(--min-opacity), 0.9)
+                      );
+                      backdrop-filter: blur(20px);
                   `
                 : css`
                       color: var(--secondary-foreground);
-                      background: var(--secondary-background);
+                      background-color: rgba(
+                          var(--secondary-background-rgb),
+                          max(var(--min-opacity), 0.9)
+                      );
+                      backdrop-filter: blur(20px);
                   `}
 
         ${(props) =>
             props.position === "top"
                 ? css`
+                      top: 48px;
                       border-radius: 0 0 var(--border-radius)
                           var(--border-radius);
                   `
@@ -60,6 +76,12 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
                       border-radius: var(--border-radius) var(--border-radius) 0
                           0;
                   `}
+
+                  ${() =>
+            isTouchscreenDevice &&
+            css`
+                top: 56px;
+            `}
 
         > div {
             display: flex;

@@ -1,4 +1,5 @@
-import { X, Crown } from "@styled-icons/boxicons-regular";
+import { X } from "@styled-icons/boxicons-regular";
+import { Crown } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Presence } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
@@ -88,7 +89,7 @@ export const UserButton = observer((props: UserProps) => {
                         alert ? (
                             channel.last_message.content.slice(0, 32)
                         ) : (
-                            <UserStatus user={user} />
+                            <UserStatus user={user} tooltip />
                         )}
                     </div>
                 }
@@ -152,11 +153,12 @@ export const ChannelButton = observer((props: ChannelProps) => {
     }
 
     const { openScreen } = useIntermediate();
+    const alerting = alert && !muted && !active;
 
     return (
         <button
             {...buttonProps}
-            data-alert={typeof alert === "string" && !muted}
+            data-alert={alerting}
             data-muted={muted}
             aria-label={channel.name}
             className={classNames(styles.item, { [styles.compact]: compact })}
@@ -189,7 +191,7 @@ export const ChannelButton = observer((props: ChannelProps) => {
                 )}
             </div>
             <div className={styles.button}>
-                {alert && !muted && (
+                {alerting && (
                     <div className={styles.alert} data-style={alert}>
                         {alertCount}
                     </div>

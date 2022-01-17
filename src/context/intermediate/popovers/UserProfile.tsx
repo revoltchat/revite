@@ -3,6 +3,7 @@ import {
     Envelope,
     Edit,
     UserPlus,
+    UserX,
     Group,
     InfoCircle,
 } from "@styled-icons/boxicons-solid";
@@ -254,6 +255,11 @@ export const UserProfile = observer(
                                     <UserPlus size={28} />
                                 </IconButton>
                             )}
+                        {user.relationship === RelationshipStatus.Outgoing && (
+                            <IconButton onClick={() => user.removeFriend()}>
+                                <UserX size={28} />
+                            </IconButton>
+                        )}
                     </div>
                     <div className={styles.tabs} aria-role="tablist">
                         <Tab
@@ -381,6 +387,7 @@ export const UserProfile = observer(
                                                     <UserIcon
                                                         size={32}
                                                         target={x}
+                                                        status
                                                     />
                                                     <span>{x.username}</span>
                                                 </div>

@@ -3,8 +3,10 @@ import { UserDetail, MessageAdd, UserPlus } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { RelationshipStatus, Presence } from "revolt-api/types/Users";
 import { User } from "revolt.js/dist/maps/Users";
+import styled, { css } from "styled-components/macro";
 
 import styles from "./Friend.module.scss";
+import classNames from "classnames";
 import { Text } from "preact-i18n";
 
 import { TextReact } from "../../lib/i18n";
@@ -16,7 +18,7 @@ import { useClient } from "../../context/revoltjs/RevoltClient";
 import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
 import UserIcon from "../../components/common/user/UserIcon";
-import Header, { PageHeader } from "../../components/ui/Header";
+import { PageHeader } from "../../components/ui/Header";
 import IconButton from "../../components/ui/IconButton";
 
 import { Children } from "../../types/Preact";
@@ -72,7 +74,7 @@ export default observer(() => {
     const isEmpty = lists.reduce((p: number, n) => p + n.length, 0) === 0;
     return (
         <>
-            <PageHeader icon={<UserDetail size={24} />} noBurger>
+            <PageHeader icon={<UserDetail size={24} />} transparent noBurger>
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />
                 </div>
@@ -115,99 +117,104 @@ export default observer(() => {
                     */}
                 </div>
             </PageHeader>
-            <div
-                className={styles.list}
-                data-empty={isEmpty}
-                data-mobile={isTouchscreenDevice}>
-                {isEmpty && (
-                    <>
-                        <img src="https://img.insrt.uk/xexu7/XOPoBUTI47.png/raw" />
-                        <Text id="app.special.friends.nobody" />
-                    </>
-                )}
+            <div data-scroll-offset="true" data-avoids-navigation="true">
+                <div
+                    className={classNames(styles.list, "with-padding")}
+                    data-empty={isEmpty}
+                    data-mobile={isTouchscreenDevice}>
+                    {isEmpty && (
+                        <>
+                            <img src="https://img.insrt.uk/xexu7/XOPoBUTI47.png/raw" />
+                            <Text id="app.special.friends.nobody" />
+                        </>
+                    )}
 
-                {incoming.length > 0 && (
-                    <div
-                        className={styles.pending}
-                        onClick={() =>
-                            openScreen({
-                                id: "pending_requests",
-                                users: incoming,
-                            })
-                        }>
-                        <div className={styles.avatars}>
-                            {incoming.map(
-                                (x, i) =>
-                                    i < 3 && (
-                                        <UserIcon
-                                            target={x}
-                                            size={64}
-                                            mask={
-                                                i <
-                                                Math.min(incoming.length - 1, 2)
-                                                    ? "url(#overlap)"
-                                                    : undefined
-                                            }
-                                        />
-                                    ),
-                            )}
-                        </div>
-                        <div className={styles.details}>
-                            <div>
-                                <Text id="app.special.friends.pending" />{" "}
-                                <span>{incoming.length}</span>
-                            </div>
-                            <span>
-                                {incoming.length > 3 ? (
-                                    <TextReact
-                                        id="app.special.friends.from.several"
-                                        fields={{
-                                            userlist: userlist.slice(0, 6),
-                                            count: incoming.length - 3,
-                                        }}
-                                    />
-                                ) : incoming.length > 1 ? (
-                                    <TextReact
-                                        id="app.special.friends.from.multiple"
-                                        fields={{
-                                            user: userlist.shift()!,
-                                            userlist: userlist.slice(1),
-                                        }}
-                                    />
-                                ) : (
-                                    <TextReact
-                                        id="app.special.friends.from.single"
-                                        fields={{ user: userlist[0] }}
-                                    />
-                                )}
-                            </span>
-                        </div>
-                        <ChevronRight size={28} />
-                    </div>
-                )}
-
-                {lists.map(([i18n, list, section_id], index) => {
-                    if (index === 0) return;
-                    if (list.length === 0) return;
-
-                    return (
-                        <CollapsibleSection
-                            key={section_id}
-                            id={`friends_${section_id}`}
-                            defaultValue={true}
-                            sticky
-                            large
-                            summary={
-                                <div class="title">
-                                    <Text id={i18n} /> — {list.length}
-                                </div>
+                    {incoming.length > 0 && (
+                        <div
+                            className={styles.pending}
+                            onClick={() =>
+                                openScreen({
+                                    id: "pending_requests",
+                                    users: incoming,
+                                })
                             }>
-                            {list.map((x) => (
-                                <Friend key={x._id} user={x} />
-                            ))}
-                        </CollapsibleSection>
-                    );
-                })}
+                            <div className={styles.avatars}>
+                                {incoming.map(
+                                    (x, i) =>
+                                        i < 3 && (
+                                            <UserIcon
+                                                target={x}
+                                                size={64}
+                                                mask={
+                                                    i <
+                                                    Math.min(
+                                                        incoming.length - 1,
+                                                        2,
+                                                    )
+                                                        ? "url(#overlap)"
+                                                        : undefined
+                                                }
+                                            />
+                                        ),
+                                )}
+                            </div>
+                            <div className={styles.details}>
+                                <div>
+                                    <Text id="app.special.friends.pending" />{" "}
+                                    <span>{incoming.length}</span>
+                                </div>
+                                <span>
+                                    {incoming.length > 3 ? (
+                                        <TextReact
+                                            id="app.special.friends.from.several"
+                                            fields={{
+                                                userlist: userlist.slice(0, 6),
+                                                count: incoming.length - 3,
+                                            }}
+                                        />
+                                    ) : incoming.length > 1 ? (
+                                        <TextReact
+                                            id="app.special.friends.from.multiple"
+                                            fields={{
+                                                user: userlist.shift()!,
+                                                userlist: userlist.slice(1),
+                                            }}
+                                        />
+                                    ) : (
+                                        <TextReact
+                                            id="app.special.friends.from.single"
+                                            fields={{ user: userlist[0] }}
+                                        />
+                                    )}
+                                </span>
+                            </div>
+                            <ChevronRight size={28} />
+                        </div>
+                    )}
+
+                    {lists.map(([i18n, list, section_id], index) => {
+                        if (index === 0) return;
+                        if (list.length === 0) return;
+
+                        return (
+                            <CollapsibleSection
+                                key={section_id}
+                                id={`friends_${section_id}`}
+                                defaultValue={true}
+                                sticky
+                                large
+                                summary={
+                                    <div class="title">
+                                        <Text id={i18n} /> — {list.length}
+                                    </div>
+                                }>
+                                {list.map((x) => (
+                                    <Friend key={x._id} user={x} />
+                                ))}
+                            </CollapsibleSection>
+                        );
+                    })}
+                </div>
             </div>
         </>
     );

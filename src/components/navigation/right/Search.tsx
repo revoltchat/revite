@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
@@ -107,7 +107,7 @@ export function SearchSidebar({ close }: Props) {
     }, [sort]);
 
     return (
-        <GenericSidebarBase>
+        <GenericSidebarBase data-scroll-offset="with-padding">
             <GenericSidebarList>
                 <SearchBase>
                     <Overline type="accent" block hover>

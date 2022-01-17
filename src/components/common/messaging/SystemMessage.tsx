@@ -13,7 +13,7 @@ import {
 import { observer } from "mobx-react-lite";
 import { SystemMessage as SystemMessageI } from "revolt-api/types/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { attachContextMenu } from "preact-context-menu";
 
@@ -29,6 +29,26 @@ const SystemContent = styled.div`
     flex-wrap: wrap;
     align-items: center;
     flex-direction: row;
+    font-size: 14px;
+    color: var(--secondary-foreground);
+
+    span {
+        font-weight: 600;
+        color: var(--foreground);
+    }
+
+    svg {
+        margin-inline-end: 4px;
+    }
+
+    svg,
+    span {
+        cursor: pointer;
+    }
+
+    span:hover {
+        text-decoration: underline;
+    }
 `;
 
 interface Props {
@@ -127,7 +147,7 @@ export const SystemMessage = observer(
                         : undefined
                 }>
                 {!hideInfo && (
-                    <MessageInfo>
+                    <MessageInfo click={false}>
                         <MessageDetail message={message} position="left" />
                         <SystemMessageIcon className="systemIcon" />
                     </MessageInfo>

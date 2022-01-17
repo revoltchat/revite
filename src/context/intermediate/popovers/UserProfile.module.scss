@@ -72,6 +72,7 @@
         background: transparent;
         border: none;
         font-size: 0.875rem;
+        font-weight: 500;
         cursor: pointer;
         border-bottom: 2px solid transparent;
         transition: border-bottom 0.3s;
@@ -110,7 +111,7 @@
         justify-content: center;
         opacity: 0.5;
         flex-grow: 1;
-
+        font-size: 14px;
         font-weight: 500;
     }
 
@@ -128,7 +129,7 @@
 
     > div {
         > span {
-            font-size: 15px;
+            font-size: 14px;
         }
     }
 }
@@ -144,14 +145,15 @@
 }
 
 .entry {
-    gap: 8px;
+    gap: 12px;
+    font-weight: 500;
     min-width: 0;
     padding: 12px;
     display: flex;
     cursor: pointer;
     align-items: center;
     transition: background-color 0.1s;
-    color: var(--secondary-foreground);
+    color: var(--foreground);
     border-radius: var(--border-radius);
     background-color: var(--secondary-background);
 

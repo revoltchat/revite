@@ -7,7 +7,7 @@ import {
     runInAction,
 } from "mobx";
 import { Client } from "revolt.js";
-import { UserSettings } from "revolt.js/node_modules/revolt-api/types/Sync";
+import { UserSettings } from "revolt-api/types/Sync";
 
 import { mapToRecord } from "../../lib/conversion";
 

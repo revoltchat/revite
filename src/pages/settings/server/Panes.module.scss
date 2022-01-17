@@ -15,6 +15,25 @@
             }
         }
     }
+
+    .markdown {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+        gap: 4px;
+
+        svg {
+            flex-shrink: 0;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        h5 {
+            margin: 0;
+        }
+    }
 }
 
 .userList {

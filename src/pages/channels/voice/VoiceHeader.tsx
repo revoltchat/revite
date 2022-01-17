@@ -1,16 +1,14 @@
-import { BarChart } from "@styled-icons/boxicons-regular";
 import {
-    Megaphone,
+    BarChartAlt2,
     Microphone,
     MicrophoneOff,
     PhoneOff,
-    Speaker,
     VolumeFull,
     VolumeMute,
 } from "@styled-icons/boxicons-solid";
 import { Hashnode, Speakerdeck, Teamspeak } from "@styled-icons/simple-icons";
 import { observer } from "mobx-react-lite";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useMemo } from "preact/hooks";
@@ -30,6 +28,7 @@ interface Props {
 }
 
 const VoiceBase = styled.div`
+    margin-top: 48px;
     padding: 20px;
     background: var(--secondary-background);
 
@@ -40,16 +39,16 @@ const VoiceBase = styled.div`
         align-items: center;
 
         padding: 10px;
-        font-size: 14px;
-        font-weight: 600;
+        font-size: 13px;
+        font-weight: 500;
         user-select: none;
+        gap: 6px;
 
         color: var(--success);
         border-radius: var(--border-radius);
         background: var(--primary-background);
 
         svg {
-            margin-inline-end: 4px;
             cursor: help;
         }
     }
@@ -58,7 +57,7 @@ const VoiceBase = styled.div`
     flex-direction: column;
 
     .participants {
-        margin: 20px 0;
+        margin: 40px 20px;
         justify-content: center;
         user-select: none;
         display: flex;
@@ -136,42 +135,42 @@ export default observer(({ id }: Props) => {
                       )}
             </div>
             <div className="status">
-                <BarChart size={20} />
+                <BarChartAlt2 size={16} />
                 {voiceState.status === VoiceStatus.CONNECTED && (
                     <Text id="app.main.channel.voice.connected" />
                 )}
             </div>
             <div className="actions">
-                <Tooltip content={"Leave call"} placement={"bottom"}>
+                <Tooltip content={"Leave call"} placement={"top"}>
                     <Button error onClick={voiceState.disconnect}>
-                        <PhoneOff width={25} />
+                        <PhoneOff width={20} />
                     </Button>
                 </Tooltip>
                 {voiceState.isProducing("audio") ? (
-                    <Tooltip content={"Mute microphone"} placement={"bottom"}>
+                    <Tooltip content={"Mute microphone"} placement={"top"}>
                         <Button
                             onClick={() => voiceState.stopProducing("audio")}>
-                            <Microphone width={25} />
+                            <Microphone width={20} />
                         </Button>
                     </Tooltip>
                 ) : (
-                    <Tooltip content={"Unmute microphone"} placement={"bottom"}>
+                    <Tooltip content={"Unmute microphone"} placement={"top"}>
                         <Button
                             onClick={() => voiceState.startProducing("audio")}>
-                            <MicrophoneOff width={25} />
+                            <MicrophoneOff width={20} />
                         </Button>
                     </Tooltip>
                 )}
                 {voiceState.isDeaf() ? (
-                    <Tooltip content={"Deafen"} placement={"bottom"}>
+                    <Tooltip content={"Undeafen"} placement={"top"}>
                         <Button onClick={() => voiceState.stopDeafen()}>
-                            <VolumeMute width={25} />
+                            <VolumeMute width={20} />
                         </Button>
                     </Tooltip>
                 ) : (
-                    <Tooltip content={"Deafen"} placement={"bottom"}>
+                    <Tooltip content={"Deafen"} placement={"top"}>
                         <Button onClick={() => voiceState.startDeafen()}>
-                            <VolumeFull width={25} />
+                            <VolumeFull width={20} />
                         </Button>
                     </Tooltip>
                 )}

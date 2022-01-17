@@ -1,5 +1,5 @@
 import { Wrench } from "@styled-icons/boxicons-solid";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import UpdateIndicator from "../common/UpdateIndicator";
 

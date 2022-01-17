@@ -1,5 +1,5 @@
 import { Check } from "@styled-icons/boxicons-regular";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Children } from "../../types/Preact";
 
@@ -48,7 +48,7 @@ const CheckboxContent = styled.span`
 
 const CheckboxDescription = styled.span`
     font-size: 0.75rem;
-    font-weight: 400;
+    font-weight: 500;
     color: var(--secondary-foreground);
 `;
 

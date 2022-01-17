@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled, { css, keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components/macro";
 import { decodeTime } from "ulid";
 
 import { Text } from "preact-i18n";
@@ -136,13 +136,21 @@ export default styled.article.attrs((props: BaseMessageProps) => ({
     }
 `;
 
-export const MessageInfo = styled.div`
+export const MessageInfo = styled.div<{ click: boolean }>`
     width: 62px;
     display: flex;
     flex-shrink: 0;
     padding-top: 2px;
     flex-direction: row;
     justify-content: center;
+
+    .avatar {
+        user-select: none;
+        cursor: pointer;
+        &:active {
+            transform: translateY(1px);
+        }
+    }
 
     .copyBracket {
         opacity: 0;
@@ -152,15 +160,6 @@ export const MessageInfo = styled.div`
     .copyTime {
         opacity: 0;
         position: absolute;
-    }
-
-    svg {
-        user-select: none;
-        cursor: pointer;
-
-        &:active {
-            transform: translateY(1px);
-        }
     }
 
     time {
@@ -194,9 +193,19 @@ export const MessageInfo = styled.div`
         margin-right: 0.5em;
         color: var(--tertiary-foreground);
     }
+
+    /*${(props) =>
+        props.click &&
+        css`
+            cursor: pointer;
+        `}*/
 `;
 
 export const MessageContent = styled.div`
+    // Position relatively so we can put
+    // the overlay in the right place.
+    position: relative;
+
     min-width: 0;
     flex-grow: 1;
     display: flex;

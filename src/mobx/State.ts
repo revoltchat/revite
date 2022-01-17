@@ -212,21 +212,22 @@ export default class State {
                 return;
             }
         } catch (err) {
-            reportError(err, "redux_migration");
+            reportError(err as any, "redux_migration");
         }
 
         // Load MobX store.
         const sync = (await localforage.getItem("sync")) as DataSync;
-        if (sync) {
-            const { revision } = sync;
-            for (const [id, store] of this.persistent) {
-                if (id === "sync") continue;
-                const data = await localforage.getItem(id);
-                if (typeof data === "object" && data !== null) {
-                    store.hydrate(data, revision[id]);
-                }
+        const { revision } = sync ?? { revision: {} };
+        for (const [id, store] of this.persistent) {
+            if (id === "sync") continue;
+            const data = await localforage.getItem(id);
+            if (typeof data === "object" && data !== null) {
+                store.hydrate(data, revision[id] ?? +new Date());
             }
         }
+
+        // Dump stores back to disk.
+        await this.save();
     }
 }
 

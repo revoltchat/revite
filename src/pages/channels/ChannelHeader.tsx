@@ -8,7 +8,7 @@ import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -78,7 +78,6 @@ const Info = styled.div`
 
 export default observer(({ channel }: ChannelHeaderProps) => {
     const { openScreen } = useIntermediate();
-    const layout = useApplicationState().layout;
 
     const name = getChannelName(channel);
     let icon, recipient: User | undefined;
@@ -99,7 +98,7 @@ export default observer(({ channel }: ChannelHeaderProps) => {
     }
 
     return (
-        <PageHeader icon={icon}>
+        <PageHeader icon={icon} transparent>
             <Info>
                 <span className="name">{name}</span>
                 {isTouchscreenDevice &&

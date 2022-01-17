@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useLayoutEffect, useState } from "preact/hooks";
@@ -60,6 +60,7 @@ export const ReplyBase = styled.div<{
     }
 
     .user {
+        //margin-inline-start: 12px;
         gap: 6px;
         display: flex;
         flex-shrink: 0;
@@ -97,6 +98,10 @@ export const ReplyBase = styled.div<{
         transition: filter 1s ease-in-out;
         transition: transform ease-in-out 0.1s;
         filter: brightness(1);
+
+        > svg {
+            flex-shrink: 0;
+        }
 
         > span > p {
             display: flex;

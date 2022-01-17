@@ -1,6 +1,6 @@
 import { Shield } from "@styled-icons/boxicons-regular";
 import { Badges } from "revolt-api/types/Users";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Localizer, Text } from "preact-i18n";
 

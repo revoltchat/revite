@@ -9,7 +9,7 @@ import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { Form } from "./Form";
 
 export function FormLogin() {
-    const auth = useApplicationState().auth;
+    const state = useApplicationState();
     const { openScreen } = useIntermediate();
 
     return (
@@ -21,6 +21,7 @@ export function FormLogin() {
                 if (browser) {
                     let { name } = browser;
                     const { os } = browser;
+                    let isiPad;
                     if (window.isNative) {
                         friendly_name = `Revolt Desktop on ${os}`;
                     } else {
@@ -28,8 +29,12 @@ export function FormLogin() {
                             name = "safari";
                         } else if (name === "fxios") {
                             name = "firefox";
+                        } else if (name === "crios") {
+                            name = "chrome";
                         }
-                        friendly_name = `${name} on ${os}`;
+                        if (os === "Mac OS" && navigator.maxTouchPoints > 0)
+                            isiPad = true;
+                        friendly_name = `${name} on ${isiPad ? "iPadOS" : os}`;
                     }
                 } else {
                     friendly_name = "Unknown Device";
@@ -37,7 +42,7 @@ export function FormLogin() {
 
                 // ! FIXME: temporary login flow code
                 // This should be replaced in the future.
-                const client = new Client();
+                const client = state.config.createClient();
                 await client.fetchConfiguration();
                 const session = (await client.req(
                     "POST",
@@ -51,7 +56,7 @@ export function FormLogin() {
                 };
 
                 async function login() {
-                    auth.setSession(session);
+                    state.auth.setSession(session);
                 }
 
                 const { onboarding } = await client.req(

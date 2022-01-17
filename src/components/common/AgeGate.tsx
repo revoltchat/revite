@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
