@@ -2,8 +2,12 @@ import { Link, useParams } from "react-router-dom";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 
+import { createRef } from "preact";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
+
+import { useApplicationState } from "../../../mobx/State";
+import { KeybindAction } from "../../../mobx/stores/Keybinds";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
@@ -76,6 +80,7 @@ interface Props {
 }
 
 export function SearchSidebar({ close }: Props) {
+    const keybinds = useApplicationState().keybinds;
     const channel = useClient().channels.get(
         useParams<{ channel: string }>().channel,
     )!;
@@ -85,6 +90,8 @@ export function SearchSidebar({ close }: Props) {
     const [query, setQuery] = useState("");
 
     const [state, setState] = useState<SearchState>({ type: "waiting" });
+    const inputRef = createRef<HTMLInputElement>();
+    const sidebarRef = createRef<HTMLDivElement>();
 
     async function search() {
         if (!query) return;
@@ -98,8 +105,29 @@ export function SearchSidebar({ close }: Props) {
         // eslint-disable-next-line
     }, [sort]);
 
+    // needs more testing to see if this is fragile or not
+    keybinds.useAction(
+        KeybindAction.InputSubmit,
+        (e) => {
+            if (e.composedPath().includes(inputRef.current!)) {
+                search();
+            }
+        },
+        [inputRef],
+    );
+
+    keybinds.useAction(
+        KeybindAction.InputCancel,
+        (e) => {
+            if (e.composedPath().includes(sidebarRef.current!)) {
+                close();
+            }
+        },
+        [sidebarRef],
+    );
+
     return (
-        <GenericSidebarBase>
+        <GenericSidebarBase ref={sidebarRef}>
             <GenericSidebarList>
                 <SearchBase>
                     <Overline type="accent" block hover>
@@ -109,8 +137,8 @@ export function SearchSidebar({ close }: Props) {
                         <Text id="app.main.channel.search.title" />
                     </Overline>
                     <InputBox
+                        ref={inputRef}
                         value={query}
-                        onKeyDown={(e) => e.key === "Enter" && search()}
                         onChange={(e) => setQuery(e.currentTarget.value)}
                     />
                     <div class="sort">
