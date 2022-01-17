@@ -111,7 +111,8 @@ export enum KeybindAction {
     InputCancel = "input_cancel",
     InputForceSubmit = "input_force_submit",
 
-    MessagingScrollToBottom = "scroll_to_bottom",
+    MessagingHideNew = "messaging_hide_new",
+    MessagingScrollToBottom = "messaging_scroll_to_bottom",
     MessagingEditPreviousMessage = "messaging_edit_previous_message",
 }
 
@@ -138,6 +139,7 @@ export const DEFAULT_KEYBINDS = keybindMap({
     [KeybindAction.InputSubmit]: ["Enter"],
     [KeybindAction.InputCancel]: ["Escape"],
 
+    [KeybindAction.MessagingHideNew]: ["Escape"],
     [KeybindAction.MessagingScrollToBottom]: ["Escape"],
     [KeybindAction.MessagingEditPreviousMessage]: ["ArrowUp"],
 });
