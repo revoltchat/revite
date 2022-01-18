@@ -9,7 +9,7 @@ import styles from "./Friend.module.scss";
 import classNames from "classnames";
 import { Text } from "preact-i18n";
 
-import { TextReact } from "../../lib/i18n";
+import { TextReact, useTranslation } from "../../lib/i18n";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
@@ -85,7 +85,11 @@ export default observer(() => {
                         </IconButton>
                     </Tooltip>
                     <div className={styles.divider} />*/}
-                    <Tooltip content={"Create Group"} placement="bottom">
+                    <Tooltip
+                        content={
+                            <Text id="app.special.friends.create_group"></Text>
+                        }
+                        placement="bottom">
                         <IconButton
                             onClick={() =>
                                 openScreen({
@@ -96,7 +100,11 @@ export default observer(() => {
                             <MessageAdd size={24} />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip content={"Add Friend"} placement="bottom">
+                    <Tooltip
+                        content={
+                            <Text id="app.special.friends.add_friend"></Text>
+                        }
+                        placement="bottom">
                         <IconButton
                             onClick={() =>
                                 openScreen({

@@ -5,6 +5,7 @@ import {
 } from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
 
+import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import Button from "../../../components/ui/Button";
@@ -58,8 +59,9 @@ export default observer(({ channel }: Props) => {
     return (
         <div>
             <Tip warning>This section is under construction.</Tip>
-            <h2>select role</h2>
-            {selected}
+            <h2>
+                <Text id="app.settings.channel_pages.permissions.select_role"></Text>
+            </h2>
             {keys.map((id) => {
                 const role: R = id === "default" ? defaultRole : roles[id];
 
@@ -67,7 +69,7 @@ export default observer(({ channel }: Props) => {
                     <Checkbox
                         key={id}
                         checked={selected === id}
-                        onChange={(selected) => selected && setSelected(id)}>
+                        onChange={(s) => s && setSelected(id)}>
                         {role.name}
                     </Checkbox>
                 );
@@ -95,7 +97,7 @@ export default observer(({ channel }: Props) => {
                 onClick={() => {
                     channel.setPermissions(selected, p);
                 }}>
-                click here to save permissions for role
+                <Text id="app.settings.channel_pages.permissions.save_permissions"></Text>
             </Button>
         </div>
     );

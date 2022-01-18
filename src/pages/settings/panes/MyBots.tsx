@@ -138,10 +138,10 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
             if (err.isAxiosError && err.response?.data?.type) {
                 switch (err.response.data.type) {
                     case "UsernameTaken":
-                        setError("That username is taken!");
+                        setError(translate('app.settings.pages.bots.errors.username_taken'));
                         break;
                     default:
-                        setError(`Error: ${err.response.data.type}`);
+                        setError(translate('app.settings.pages.bots.errors.username_error', { error: err.response.data.type }));
                         break;
                 }
             } else setError(err.toString());
@@ -545,14 +545,13 @@ export const MyBots = observer(() => {
                 <Text id="app.settings.pages.bots.create_bot" />
             </CategoryButton>
             <h5>
-                By creating a bot, you are agreeing to the {` `}
+                <Text id="app.settings.pages.bots.crate_bot_tip.a" /> {` `}
                 <a
                     href="https://revolt.chat/aup"
                     target="_blank"
                     rel="noreferrer">
-                    Acceptable Usage Policy
+                    <Text id="app.settings.pages.bots.crate_bot_tip.b" />
                 </a>
-                .
             </h5>
             <hr />
             <h3>

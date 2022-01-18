@@ -9,6 +9,8 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useMemo, useState } from "preact/hooks";
 
+import { useTranslation } from "../../../lib/i18n";
+
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import Button from "../../../components/ui/Button";
@@ -95,6 +97,7 @@ interface Props {
 export const Members = ({ server }: Props) => {
     const [data, setData] = useState<Member[] | undefined>(undefined);
     const [query, setQuery] = useState("");
+    const translate = useTranslation();
 
     useEffect(() => {
         server
@@ -118,12 +121,18 @@ export const Members = ({ server }: Props) => {
     return (
         <div className={styles.userList}>
             <InputBox
-                placeholder="Search for a specific user..."
+                placeholder={translate(
+                    "app.settings.server_pages.members.search_members",
+                )}
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
                 contrast
             />
-            <div className={styles.subtitle}>{data?.length ?? 0} Members</div>
+            <div className={styles.subtitle}>
+                <Text
+                    id="app.settings.server_pages.members.search_members_count"
+                    fields={{ total: data?.length ?? 0 }}></Text>
+            </div>
             {members && (
                 <div className={styles.virtual}>
                     <Virtuoso

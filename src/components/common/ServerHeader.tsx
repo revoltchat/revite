@@ -127,9 +127,14 @@ export default observer(({ server }: Props) => {
                 <div className="title">{server.name}</div>
                 {(server.permission & ServerPermission.ManageServer) > 0 && (
                     <Link to={`/server/${server._id}/settings`}>
-                        <IconButton>
-                            <Cog size={20} />
-                        </IconButton>
+                        <Tooltip
+                            content={
+                                <Text id="app.main.servers.server_settings"></Text>
+                            }>
+                            <IconButton>
+                                <Cog size={20} />
+                            </IconButton>
+                        </Tooltip>
                     </Link>
                 )}
             </div>

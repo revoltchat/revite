@@ -171,22 +171,24 @@ export const Account = observer(() => {
             </h3>
             <h5>
                 {/*<Text id="app.settings.pages.account.2fa.description" />*/}
-                Two-factor authentication is currently work-in-progress, see{" "}
+                <Text id="app.settings.pages.account.2fa.description_soon.a" />{" "}
                 {` `}
                 <a
                     href="https://github.com/insertish/rauth/milestone/1"
                     target="_blank"
                     rel="noreferrer">
-                    v1 milestone here
+                    <Text id="app.settings.pages.account.2fa.description_soon.b" />
                 </a>
                 .
             </h5>
             <CategoryButton
                 icon={<Lock size={24} color="var(--error)" />}
-                description={"Set up 2FA on your account."}
+                description={
+                    <Text id="app.settings.pages.account.2fa.description"></Text>
+                }
                 disabled
                 action={<Text id="general.unavailable" />}>
-                Set up Two-factor authentication
+                <Text id="app.settings.pages.account.2fa.setup_2factor"></Text>
             </CategoryButton>
             {/*<CategoryButton
                 icon={<ListOl size={24} />}
@@ -205,7 +207,7 @@ export const Account = observer(() => {
             <CategoryButton
                 icon={<Block size={24} color="var(--error)" />}
                 description={
-                    "Disable your account. You won't be able to access it unless you log back in."
+                    <Text id="app.settings.pages.account.manage.disabled_account_desc" />
                 }
                 disabled
                 action={<Text id="general.unavailable" />}>
@@ -215,7 +217,7 @@ export const Account = observer(() => {
                 <CategoryButton
                     icon={<Trash size={24} color="var(--error)" />}
                     description={
-                        "Delete your account, including all of your data. (sends an email to contact@revolt.chat)"
+                        <Text id="app.settings.pages.account.manage.delete_account_desc" />
                     }
                     hover
                     action="external">
