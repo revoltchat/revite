@@ -3,6 +3,7 @@ import { ServerPermission } from "revolt.js";
 import { Route } from "revolt.js/dist/api/routes";
 import styled from "styled-components/macro";
 
+import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
@@ -51,7 +52,7 @@ export default function InviteBot() {
     return (
         <div style={{ padding: "6em" }}>
             <Tip warning hideSeparator>
-                This section is under construction.
+                <Text id="general.under_construction"></Text>
             </Tip>
             {typeof data === "undefined" && <Preloader type="spinner" />}
             {data && (

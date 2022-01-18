@@ -58,7 +58,9 @@ export default observer(({ channel }: Props) => {
 
     return (
         <div>
-            <Tip warning>This section is under construction.</Tip>
+            <Tip warning>
+                <Text id="general.under_construction"></Text>
+            </Tip>
             <h2>
                 <Text id="app.settings.channel_pages.permissions.select_role"></Text>
             </h2>
