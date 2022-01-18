@@ -70,6 +70,7 @@ export const KeybindSequence = {
         return sequence.map((combo) => combo.join("+")).join(" ");
     },
 
+    // todo: better names
     /** Stringify a keybind sequence */
     stringifyFull(sequence: KeyCombo[]) {
         return sequence

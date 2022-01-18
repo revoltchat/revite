@@ -14,12 +14,14 @@ import {
 import isEqual from "lodash.isequal";
 import { keys } from "mobx";
 import { observer } from "mobx-react-lite";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import styles from "./Panes.module.scss";
 import { JSX } from "preact";
 import { Text, useText } from "preact-i18n";
 import { useMemo, useState } from "preact/hooks";
+
+import { TextReact } from "../../../lib/i18n";
 
 import { useApplicationState } from "../../../mobx/State";
 import KeybindsType, {
@@ -33,6 +35,7 @@ import KeybindsType, {
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
+import Tooltip from "../../../components/common/Tooltip";
 import Category from "../../../components/ui/Category";
 import IconButton from "../../../components/ui/IconButton";
 import InputBox from "../../../components/ui/InputBox";
@@ -46,13 +49,16 @@ const REPLACEMENTS: Record<string, () => JSX.Element> = {
 };
 
 // todo: move `Key` and `Keybind` to components
+// todo: change `simple` to something more descriptive like `pressable` or `indented`?
 type KeyProps = {
     children: string;
     short?: boolean;
+    simple?: boolean;
 };
 const Key = styled.kbd.attrs<KeyProps, { light: boolean }>(
-    ({ children: key, short = true }) => {
+    ({ children: key, short = true, simple = false }) => {
         return {
+            simple,
             children:
                 REPLACEMENTS[key]?.() ?? (short ? keyShort(key) : keyFull(key)),
             light: useApplicationState().settings.theme.isLight(),
@@ -66,41 +72,48 @@ const Key = styled.kbd.attrs<KeyProps, { light: boolean }>(
             : "var(--tertiary-background)"};
 
     padding: 0.5ch 1ch 0.35ch;
+
     border-radius: 3px;
-
     outline: 1px solid rgb(66 66 66 / 0.5);
-    box-shadow: 0 1px 1px rgba(133, 133, 133, 0.2),
-        0 2.5px 0 0 rgba(0, 0, 0, 0.5);
 
-    font-size: 0.85em;
     font-weight: 700;
+    font-family: var(--monospace-font), monospace;
 
     text-transform: uppercase;
-
-    &:active {
-        outline: 1px solid rgb(0 0 0 / 0.3);
-        color: var(--tertiary-foreground);
-        transform: translateY(2px);
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    }
 
     svg {
         // change arrow scaling in svgs to better fit the text
         transform: scale(1.5);
     }
+
+    ${(props) =>
+        !props.simple &&
+        css`
+            box-shadow: 0 1px 1px rgba(133, 133, 133, 0.2),
+                0 2.5px 0 0 rgba(0, 0, 0, 0.5);
+
+            &:active {
+                outline: 1px solid rgb(0 0 0 / 0.3);
+                color: var(--tertiary-foreground);
+                transform: translateY(2px);
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            }
+        `}
 `;
 
 const KeySequence = styled.kbd`
     display: inline-flex;
     place-items: center;
-    font-size: 1rem;
-    gap: 1ch;
-    line-height: 1;
     flex-wrap: wrap;
+
+    line-height: 1;
+    font-size: 0.85em;
+    font-family: var(--monospace-font), monospace;
 
     // todo: clean this up
     & > kbd {
         display: inline-flex;
+        align-items: center;
         gap: 0.5ch;
     }
 `;
@@ -108,8 +121,14 @@ const KeySequence = styled.kbd`
 // allow string to make easier to use
 type KeybindProps = {
     children: string | KeyCombo[];
+    short?: boolean;
+    simple?: boolean;
 };
-export const Keybind = ({ children: sequence }: KeybindProps) => {
+export const Keybind = ({
+    children: sequence,
+    short,
+    simple,
+}: KeybindProps) => {
     const keys =
         typeof sequence === "string"
             ? KeybindSequence.parse(sequence)
@@ -119,7 +138,11 @@ export const Keybind = ({ children: sequence }: KeybindProps) => {
         <kbd>
             {keybinding.map((mod, i) => [
                 i > 0 ? "+" : null,
-                <Key children={mod} short={keys.flat().length > 1} />,
+                <Key
+                    children={mod}
+                    short={short ?? keys.flat().length > 1}
+                    simple={simple}
+                />,
             ])}
         </kbd>
     ));
@@ -189,7 +212,14 @@ const ActionGroup = observer(({ id, action, keybinds }: ActionProps) => {
                             ),
                     })
                 }
-                action={<PlusCircle size={20} />}
+                action={
+                    <Tooltip
+                        content={
+                            <Text id="app.settings.pages.keybinds.add_keybind" />
+                        }>
+                        <PlusCircle size={20} />
+                    </Tooltip>
+                }
                 description={
                     <Text
                         id={`app.settings.pages.keybinds.action.${action}.description`}
@@ -200,44 +230,63 @@ const ActionGroup = observer(({ id, action, keybinds }: ActionProps) => {
                 />
             </CategoryButton>
             {keybinds.getKeybinds(action).map((keybind, i) => {
-                const defaultSequence = keybinds.getDefault(action, i);
+                const defaultSequence = keybinds.getDefault(
+                    action,
+                    i,
+                )?.sequence;
                 return (
                     <div class="keybind">
                         <Keybind>{keybind.sequence}</Keybind>
-                        {/* TODO: tooltip this */}
-                        <IconButton
-                            onClick={() =>
-                                openScreen({
-                                    id: "keybind_capture",
-                                    actionName: id,
-                                    onSubmit: (seq) =>
-                                        keybinds.setKeybind(
-                                            action,
-                                            i,
-                                            KeybindSequence.stringify(seq),
-                                        ),
-                                })
+                        <Tooltip
+                            content={
+                                <Text id="app.settings.pages.keybinds.edit_keybind" />
                             }>
-                            <Pencil size={20} />
-                        </IconButton>
-                        {!isEqual(
-                            keybind.sequence,
-                            defaultSequence?.sequence,
-                        ) && (
+                            <IconButton
+                                onClick={() =>
+                                    openScreen({
+                                        id: "keybind_capture",
+                                        actionName: id,
+                                        onSubmit: (seq) =>
+                                            keybinds.setKeybind(
+                                                action,
+                                                i,
+                                                KeybindSequence.stringify(seq),
+                                            ),
+                                    })
+                                }>
+                                <Pencil size={20} />
+                            </IconButton>
+                        </Tooltip>
+
+                        {!isEqual(keybind.sequence, defaultSequence) && (
                             <IconButton
                                 onClick={() =>
                                     keybinds.resetToDefault(action, i)
                                 }>
                                 {/* TODO: tooltip these */}
                                 {defaultSequence ? (
-                                    <Reset
-                                        size={20}
-                                        title={`Reset to ${KeybindSequence.stringifyShort(
-                                            defaultSequence.sequence,
-                                        )}`}
-                                    />
+                                    <Tooltip
+                                        content={
+                                            <TextReact
+                                                id="app.settings.pages.keybinds.reset_keybind"
+                                                fields={{
+                                                    keybind: (
+                                                        <Keybind simple>
+                                                            {defaultSequence}
+                                                        </Keybind>
+                                                    ),
+                                                }}
+                                            />
+                                        }>
+                                        <Reset size={20} />
+                                    </Tooltip>
                                 ) : (
-                                    <XCircle size={20} title="Remove" />
+                                    <Tooltip
+                                        content={
+                                            <Text id="app.settings.pages.keybinds.remove_keybind" />
+                                        }>
+                                        <XCircle size={20} />
+                                    </Tooltip>
                                 )}
                             </IconButton>
                         )}
