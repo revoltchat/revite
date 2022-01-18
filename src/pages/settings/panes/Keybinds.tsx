@@ -5,18 +5,11 @@ import {
     UpArrowAlt,
     Reset,
 } from "@styled-icons/boxicons-regular";
-import {
-    XCircle,
-    Edit,
-    PlusCircle,
-    Pencil,
-} from "@styled-icons/boxicons-solid";
+import { XCircle, PlusCircle, Pencil } from "@styled-icons/boxicons-solid";
 import isEqual from "lodash.isequal";
-import { keys } from "mobx";
 import { observer } from "mobx-react-lite";
 import styled, { css } from "styled-components";
 
-import styles from "./Panes.module.scss";
 import { JSX } from "preact";
 import { Text, useText } from "preact-i18n";
 import { useMemo, useState } from "preact/hooks";
@@ -189,13 +182,81 @@ const Container = styled.div`
     }
 `;
 
+type KeybindEntriesProps = { action: KeybindAction };
+const KeybindEntries = observer(({ action }: KeybindEntriesProps) => {
+    const keybinds = useApplicationState().keybinds;
+    const { openScreen } = useIntermediate();
+
+    const entries = keybinds.getKeybinds(action).map((keybind, i) => {
+        const defaultSequence = keybinds.getDefault(action, i)?.sequence;
+        const isDefault = isEqual(keybind.sequence, defaultSequence);
+
+        return (
+            <div class="keybind">
+                <Keybind>{keybind.sequence}</Keybind>
+                <Tooltip
+                    content={
+                        <Text id="app.settings.pages.keybinds.edit_keybind" />
+                    }>
+                    <IconButton
+                        onClick={() =>
+                            openScreen({
+                                id: "keybind_capture",
+                                actionName: action,
+                                onSubmit: (seq) =>
+                                    keybinds.setKeybind(
+                                        action,
+                                        i,
+                                        KeybindSequence.stringify(seq),
+                                    ),
+                            })
+                        }>
+                        <Pencil size={20} />
+                    </IconButton>
+                </Tooltip>
+
+                {!isDefault && (
+                    <IconButton
+                        onClick={() => keybinds.resetToDefault(action, i)}>
+                        {defaultSequence ? (
+                            <Tooltip
+                                content={
+                                    <TextReact
+                                        id="app.settings.pages.keybinds.reset_keybind"
+                                        fields={{
+                                            keybind: (
+                                                <Keybind simple>
+                                                    {defaultSequence}
+                                                </Keybind>
+                                            ),
+                                        }}
+                                    />
+                                }>
+                                <Reset size={20} />
+                            </Tooltip>
+                        ) : (
+                            <Tooltip
+                                content={
+                                    <Text id="app.settings.pages.keybinds.remove_keybind" />
+                                }>
+                                <XCircle size={20} />
+                            </Tooltip>
+                        )}
+                    </IconButton>
+                )}
+            </div>
+        );
+    });
+
+    return <>{entries}</>;
+});
+
 type ActionProps = {
-    id: string;
     action: KeybindAction;
     keybinds: KeybindsType;
 };
 
-const ActionGroup = observer(({ id, action, keybinds }: ActionProps) => {
+const ActionGroup = observer(({ action, keybinds }: ActionProps) => {
     const { openScreen } = useIntermediate();
 
     // todo: add category button sections support for each keybinding, similar to https://autumn.revolt.chat/attachments/6adrbbW9VwkLnnkL76MTX_nDrbp5LwVRKHBeVEN3-D is sectioned
@@ -205,7 +266,7 @@ const ActionGroup = observer(({ id, action, keybinds }: ActionProps) => {
                 onClick={() =>
                     openScreen({
                         id: "keybind_capture",
-                        actionName: id,
+                        actionName: action,
                         onSubmit: (seq) =>
                             keybinds.addKeybind(
                                 action,
@@ -230,70 +291,7 @@ const ActionGroup = observer(({ id, action, keybinds }: ActionProps) => {
                     id={`app.settings.pages.keybinds.action.${action}.title`}
                 />
             </CategoryButton>
-            {keybinds.getKeybinds(action).map((keybind, i) => {
-                const defaultSequence = keybinds.getDefault(
-                    action,
-                    i,
-                )?.sequence;
-                return (
-                    <div class="keybind">
-                        <Keybind>{keybind.sequence}</Keybind>
-                        <Tooltip
-                            content={
-                                <Text id="app.settings.pages.keybinds.edit_keybind" />
-                            }>
-                            <IconButton
-                                onClick={() =>
-                                    openScreen({
-                                        id: "keybind_capture",
-                                        actionName: id,
-                                        onSubmit: (seq) =>
-                                            keybinds.setKeybind(
-                                                action,
-                                                i,
-                                                KeybindSequence.stringify(seq),
-                                            ),
-                                    })
-                                }>
-                                <Pencil size={20} />
-                            </IconButton>
-                        </Tooltip>
-
-                        {!isEqual(keybind.sequence, defaultSequence) && (
-                            <IconButton
-                                onClick={() =>
-                                    keybinds.resetToDefault(action, i)
-                                }>
-                                {/* TODO: tooltip these */}
-                                {defaultSequence ? (
-                                    <Tooltip
-                                        content={
-                                            <TextReact
-                                                id="app.settings.pages.keybinds.reset_keybind"
-                                                fields={{
-                                                    keybind: (
-                                                        <Keybind simple>
-                                                            {defaultSequence}
-                                                        </Keybind>
-                                                    ),
-                                                }}
-                                            />
-                                        }>
-                                        <Reset size={20} />
-                                    </Tooltip>
-                                ) : (
-                                    <Tooltip
-                                        content={
-                                            <Text id="app.settings.pages.keybinds.remove_keybind" />
-                                        }>
-                                        <XCircle size={20} />
-                                    </Tooltip>
-                                )}
-                            </IconButton>
-                        )}
-                    </div>
-                );
-            })}
+            <KeybindEntries action={action} />
         </article>
     );
 });
@@ -310,7 +308,7 @@ const KeybindSection = observer(({ id, actions, keybinds }: SectionProps) => (
             <>
                 {/* Technically `hr` shouldn't be used because of it's semantic meaning, but the rest of the app uses it so for consistency it's being used it here. */}
                 {i > 0 && <hr />}
-                <ActionGroup id={action} action={action} keybinds={keybinds} />
+                <ActionGroup action={action} keybinds={keybinds} />
             </>
         ))}
     </section>
