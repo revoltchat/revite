@@ -27,12 +27,12 @@ export const keyShort = (key: string) =>
 
 export const KeyCombo = {
     fromKeyboardEvent(event: KeyboardEvent): KeyCombo {
-        const pressed = KEYBINDING_MODIFIER_KEYS.filter(
-            (key) => event.getModifierState(key) && event.key,
+        const pressed = KEYBINDING_MODIFIER_KEYS.filter((key) =>
+            event.getModifierState(key),
         );
 
         if (!KEYBINDING_MODIFIER_KEYS.includes(event.key)) {
-            pressed.push(event.key);
+            pressed.push(event.key.replace(" ", "Space"));
         }
 
         return pressed;
