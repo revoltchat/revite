@@ -19,14 +19,14 @@ import styled from "styled-components";
 import styles from "./Panes.module.scss";
 import { JSX } from "preact";
 import { Text, useText } from "preact-i18n";
-import { useState } from "preact/hooks";
+import { useMemo, useState } from "preact/hooks";
 
 import { useApplicationState } from "../../../mobx/State";
 import KeybindsType, {
     KeybindAction,
     KeybindSequence,
     KeyCombo,
-    keyLong,
+    keyFull,
     keyShort,
 } from "../../../mobx/stores/Keybinds";
 
@@ -54,7 +54,7 @@ const Key = styled.kbd.attrs<KeyProps, { light: boolean }>(
     ({ children: key, short = true }) => {
         return {
             children:
-                REPLACEMENTS[key]?.() ?? (short ? keyShort(key) : keyLong(key)),
+                REPLACEMENTS[key]?.() ?? (short ? keyShort(key) : keyFull(key)),
             light: useApplicationState().settings.theme.isLight(),
         };
     },
@@ -131,23 +131,8 @@ export const Keybind = ({ children: sequence }: KeybindProps) => {
 const Container = styled.div`
     // hack: increase specificity because Panes.module.css usually has higher.
     &&& {
-        h1,
-        h2,
-        h3,
-        h4,
-        h5 {
-            text-transform: uppercase;
-            margin: 0;
-        }
-
-        header {
-            display: flex;
-            place-items: center;
-
-            label {
-                margin: 0;
-            }
-        }
+        display: flex;
+        flex-direction: column;
 
         .subsection {
             display: flex;
@@ -321,15 +306,15 @@ export const Keybinds = observer(() => {
         messaging: [KeybindAction.MessagingEditPreviousMessage],
         // todo: advanced subsections?
         advanced: [
-            // input / form
-            KeybindAction.InputSubmit,
-            KeybindAction.InputCancel,
-            KeybindAction.InputForceSubmit,
-
             // autocomplete
             KeybindAction.AutoCompleteSelect,
             KeybindAction.AutoCompleteUp,
             KeybindAction.AutoCompleteDown,
+
+            // input / form
+            KeybindAction.InputSubmit,
+            KeybindAction.InputCancel,
+            KeybindAction.InputForceSubmit,
 
             // messaging / channel
             KeybindAction.MessagingScrollToBottom,
@@ -341,11 +326,60 @@ export const Keybinds = observer(() => {
         ],
     };
 
+    const [value, setValue] = useState("");
+
+    // todo: cache and use existing data
+    const searchData: [KeybindAction, ...string[]][] = useMemo(
+        () =>
+            Object.values(categories)
+                .flat()
+                .map((action) => {
+                    return [
+                        action,
+                        useText(
+                            `app.settings.pages.keybinds.action.${action}.description`,
+                        ).description,
+                        useText(
+                            `app.settings.pages.keybinds.action.${action}.title`,
+                        ).title,
+                        ...keybinds
+                            .getKeybinds(action)
+                            .flatMap((keybind) => [
+                                KeybindSequence.stringifyFull(keybind.sequence),
+                                KeybindSequence.stringifyShort(
+                                    keybind.sequence,
+                                ),
+                            ]),
+                    ];
+                }),
+        [keybinds],
+    );
+
+    const filteredCategories = useMemo(() => {
+        const foundActions = searchData
+            .filter((data) => data.some((text) => text.includes(value)))
+            .map((d) => d[0]);
+
+        return Object.fromEntries(
+            Object.entries(categories).map(([k, v]) => [
+                k,
+                v.filter((a) => foundActions.includes(a)),
+            ]),
+        );
+    }, [value]);
+
     return (
         <Container>
-            {/* todo: datalist? */}
-            <InputBox type="search" contrast />
-            <GenericKeybinds keybinds={keybinds} categories={categories} />
+            <InputBox
+                placeholder={
+                    useText("app.settings.pages.keybinds.search").search
+                }
+                onInput={(e) => setValue(e.currentTarget.value)}
+                contrast></InputBox>
+            <GenericKeybinds
+                keybinds={keybinds}
+                categories={filteredCategories}
+            />
         </Container>
     );
 });

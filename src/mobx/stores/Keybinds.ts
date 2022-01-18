@@ -20,10 +20,10 @@ import Store from "../interfaces/Store";
 // note: order dependent!
 export const KEYBINDING_MODIFIER_KEYS = ["Control", "Alt", "Meta", "Shift"];
 
-export const keyLong = (key: string) => useText(`keys.${key}.long`).long ?? key;
+export const keyFull = (key: string) => useText(`keys.${key}.full`).full ?? key;
 
 export const keyShort = (key: string) =>
-    useText(`keys.${key}.short`).short ?? keyLong(key);
+    useText(`keys.${key}.short`).short ?? keyFull(key);
 
 export const KeyCombo = {
     fromKeyboardEvent(event: KeyboardEvent): KeyCombo {
@@ -45,6 +45,10 @@ export const KeyCombo = {
     stringifyShort(combo: KeyCombo) {
         return combo.map(keyShort);
     },
+
+    stringifyFull(combo: KeyCombo) {
+        return combo.map(keyFull);
+    },
 };
 
 export const KeybindSequence = {
@@ -64,6 +68,13 @@ export const KeybindSequence = {
     /** Stringify a keybind sequence */
     stringify(sequence: KeyCombo[]) {
         return sequence.map((combo) => combo.join("+")).join(" ");
+    },
+
+    /** Stringify a keybind sequence */
+    stringifyFull(sequence: KeyCombo[]) {
+        return sequence
+            .map((combo) => KeyCombo.stringifyFull(combo).join("+"))
+            .join(" ");
     },
 
     /**
@@ -112,7 +123,7 @@ export enum KeybindAction {
     InputCancel = "input_cancel",
     InputForceSubmit = "input_force_submit",
 
-    MessagingMarkChannelRead = "messaging_mark_read",
+    MessagingMarkChannelRead = "messaging_mark_channel_read",
     MessagingScrollToBottom = "messaging_scroll_to_bottom",
     MessagingEditPreviousMessage = "messaging_edit_previous_message",
 }

@@ -84,7 +84,7 @@ export function GenericSettings({
     // useMemo isn't really doing anything here.
     const exitKeybind = useMemo(
         () =>
-            KeybindSequence.stringify(
+            KeybindSequence.stringifyFull(
                 state.keybinds
                     .getKeybinds(KeybindAction.NavigatePreviousContext)[0]
                     .sequence.map(KeyCombo.stringifyShort),
