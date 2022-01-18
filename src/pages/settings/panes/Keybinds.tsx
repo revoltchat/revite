@@ -105,6 +105,7 @@ const KeySequence = styled.kbd`
     display: inline-flex;
     place-items: center;
     flex-wrap: wrap;
+    gap: 1ch;
 
     line-height: 1;
     font-size: 0.85em;
