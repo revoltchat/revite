@@ -8,6 +8,7 @@ import {
     ObservableMap,
 } from "mobx";
 
+import { useText } from "preact-i18n";
 import { Inputs, useEffect } from "preact/hooks";
 
 import { debounce } from "../../lib/debounce";
@@ -19,10 +20,10 @@ import Store from "../interfaces/Store";
 // note: order dependent!
 export const KEYBINDING_MODIFIER_KEYS = ["Control", "Alt", "Meta", "Shift"];
 
-const DISPLAY_SHORT_REPLACEMENTS: Record<string, string> = {
-    Control: "Ctrl",
-    Escape: "Esc",
-};
+export const keyLong = (key: string) => useText(`keys.${key}.long`).long ?? key;
+
+export const keyShort = (key: string) =>
+    useText(`keys.${key}.short`).short ?? keyLong(key);
 
 export const KeyCombo = {
     fromKeyboardEvent(event: KeyboardEvent): KeyCombo {
@@ -42,7 +43,7 @@ export const KeyCombo = {
      * ex. replacing `Escape` with `Esc`
      */
     stringifyShort(combo: KeyCombo) {
-        return combo.map((k) => DISPLAY_SHORT_REPLACEMENTS[k] ?? k);
+        return combo.map(keyShort);
     },
 };
 
@@ -99,8 +100,8 @@ export enum KeybindAction {
     NavigateServerUp = "navigate_server_up",
     NavigateServerDown = "navigate_server_down",
 
-    NavigateAutoCompleteUp = "navigate_auto_complete_up",
-    NavigateAutoCompleteDown = "navigate_auto_complete_down",
+    AutoCompleteUp = "auto_complete_up",
+    AutoCompleteDown = "auto_complete_down",
     AutoCompleteSelect = "auto_complete_select",
 
     NavigatePreviousContext = "navigate_previous_context",
@@ -111,7 +112,7 @@ export enum KeybindAction {
     InputCancel = "input_cancel",
     InputForceSubmit = "input_force_submit",
 
-    MessagingHideNew = "messaging_hide_new",
+    MessagingMarkChannelRead = "messaging_mark_read",
     MessagingScrollToBottom = "messaging_scroll_to_bottom",
     MessagingEditPreviousMessage = "messaging_edit_previous_message",
 }
@@ -127,8 +128,8 @@ export const DEFAULT_KEYBINDS = keybindMap({
     [KeybindAction.NavigateServerUp]: ["Control+Alt+ArrowUp"],
     [KeybindAction.NavigateServerDown]: ["Control+Alt+ArrowDown"],
 
-    [KeybindAction.NavigateAutoCompleteUp]: ["ArrowUp"],
-    [KeybindAction.NavigateAutoCompleteDown]: ["ArrowDown"],
+    [KeybindAction.AutoCompleteUp]: ["ArrowUp"],
+    [KeybindAction.AutoCompleteDown]: ["ArrowDown"],
     [KeybindAction.AutoCompleteSelect]: ["Enter", "Tab"],
 
     [KeybindAction.NavigatePreviousContext]: ["Escape"],
@@ -139,7 +140,7 @@ export const DEFAULT_KEYBINDS = keybindMap({
     [KeybindAction.InputSubmit]: ["Enter"],
     [KeybindAction.InputCancel]: ["Escape"],
 
-    [KeybindAction.MessagingHideNew]: ["Escape"],
+    [KeybindAction.MessagingMarkChannelRead]: ["Escape"],
     [KeybindAction.MessagingScrollToBottom]: ["Escape"],
     [KeybindAction.MessagingEditPreviousMessage]: ["ArrowUp"],
 });

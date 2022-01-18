@@ -26,7 +26,11 @@ export default observer(
         useEffect(() => setHidden(false), [last_id]);
         useEffect(() => internalSubscribe("NewMessages", "hide", hide), []);
 
-        keybinds.useAction(KeybindAction.MessagingHideNew, (e) => hide(), []);
+        keybinds.useAction(
+            KeybindAction.MessagingMarkChannelRead,
+            (e) => hide(),
+            [],
+        );
 
         const renderer = getRenderer(channel);
         const history = useHistory();

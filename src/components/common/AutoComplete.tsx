@@ -273,7 +273,7 @@ export function useAutoComplete(
         setFocused(false);
     }
 
-    keybinds.useAction(KeybindAction.NavigateAutoCompleteUp, (e) => {
+    keybinds.useAction(KeybindAction.AutoCompleteUp, (e) => {
         if (focused && state.type !== "none") {
             e.preventDefault();
 
@@ -286,7 +286,7 @@ export function useAutoComplete(
         }
     });
 
-    keybinds.useAction(KeybindAction.NavigateAutoCompleteDown, (e) => {
+    keybinds.useAction(KeybindAction.AutoCompleteDown, (e) => {
         if (focused && state.type !== "none") {
             e.preventDefault();
             if (state.selected < state.matches.length - 1) {

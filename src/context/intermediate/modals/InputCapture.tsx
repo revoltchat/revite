@@ -147,12 +147,14 @@ export const InputCaptureModal = ({ onClose, onSubmit, actionName }: Props) => {
                     onKeyUpCapture={onKeyUp}>
                     {sequence.length + mods.length > 0 ? (
                         <Keybind
-                            sequence={sequence.concat(
+                            children={sequence.concat(
                                 mods.length > 0 ? [mods] : [],
                             )}
                         />
                     ) : (
-                        "Press a key"
+                        <Text id="app.special.modals.input_capture.placeholder">
+                            Press keys to record
+                        </Text>
                     )}
                 </InputBox>
                 <IconButton title="clear input" onClick={reset}>
