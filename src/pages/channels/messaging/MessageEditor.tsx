@@ -104,6 +104,11 @@ export default function MessageEditor({ message, finish }: Props) {
         [textAreaRef],
     );
 
+    keybinds.useAction(KeybindAction.InputForceSubmit, (e) => {
+        e.preventDefault();
+        save();
+    });
+
     const inputCancel = keybinds.getKeybinds(KeybindAction.InputCancel)[0]
         .sequence;
 

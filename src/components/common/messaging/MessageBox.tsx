@@ -445,8 +445,11 @@ export default observer(({ channel }: Props) => {
     });
 
     state.keybinds.useAction(KeybindAction.InputCancel, (e) => {
+        if (!e.composedPath().includes(textAreaRef.current!)) return;
+
         if (replies.length > 0) {
             setReplies(replies.slice(0, -1));
+            e.preventDefault();
         } else if (
             uploadState.type === "attached" &&
             uploadState.files.length > 0
@@ -455,9 +458,9 @@ export default observer(({ channel }: Props) => {
                 type: uploadState.files.length > 1 ? "attached" : "none",
                 files: uploadState.files.slice(0, -1),
             });
+            e.preventDefault();
         }
 
-        e.preventDefault();
         debouncedStopTyping(true);
     });
 
