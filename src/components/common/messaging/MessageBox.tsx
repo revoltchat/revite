@@ -419,9 +419,13 @@ export default observer(({ channel }: Props) => {
 
     state.keybinds.useAction(
         KeybindAction.MessagingEditPreviousMessage,
-        (event) => {
-            if (!state.draft.has(channel._id)) {
-                event.preventDefault();
+        (e) => {
+            if (
+                !state.draft.has(channel._id) &&
+                !e.defaultPrevented &&
+                e.composedPath().includes(textAreaRef.current!)
+            ) {
+                e.preventDefault();
                 internalEmit("MessageRenderer", "edit_last");
             }
         },
