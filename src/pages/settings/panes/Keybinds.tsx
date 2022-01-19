@@ -29,7 +29,6 @@ import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
-import Category from "../../../components/ui/Category";
 import IconButton from "../../../components/ui/IconButton";
 import InputBox from "../../../components/ui/InputBox";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
@@ -332,7 +331,11 @@ export const GenericKeybinds = observer(
                     <CollapsibleSection
                         id={`keybinds_${categoryId}`}
                         defaultValue={categoryId !== "advanced"}
-                        summary={<Category text={categoryId} />}>
+                        summary={
+                            <Text
+                                id={`app.settings.pages.keybinds.category.${categoryId}`}
+                            />
+                        }>
                         <KeybindSection
                             id={categoryId}
                             actions={actions}
