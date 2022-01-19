@@ -278,35 +278,38 @@
         position: sticky;
         top: 0;
 
-        &:after {
-            content: var(--key-esc, "Esc");
-            margin-top: 4px;
-            display: flex;
-            justify-content: center;
-            width: 40px;
-            opacity: 0.5;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-        }
+        display: flex;
+        place-items: start;
 
-        .closeButton {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: var(--border-radius-half);
-            height: 40px;
-            width: 40px;
-            border: 3px solid var(--tertiary-background);
-            cursor: pointer;
+        .close {
+            display: grid;
+            place-items: center;
+            gap: 4px;
 
-            svg {
-                color: var(--secondary-foreground);
+            .keybind {
+                font-size: 0.65rem;
+                opacity: 0.5;
             }
-            &:hover {
-                background: var(--secondary-header);
-            }
-            &:active {
-                transform: translateY(2px);
+
+            .closeButton {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: var(--border-radius-half);
+                height: 40px;
+                width: 40px;
+                border: 3px solid var(--tertiary-background);
+                cursor: pointer;
+
+                svg {
+                    color: var(--secondary-foreground);
+                }
+                &:hover {
+                    background: var(--secondary-header);
+                }
+                &:active {
+                    transform: translateY(2px);
+                }
             }
         }
     }

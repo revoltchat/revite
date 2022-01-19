@@ -109,12 +109,6 @@ export default function MessageEditor({ message, finish }: Props) {
         save();
     });
 
-    const inputCancel = keybinds.getKeybinds(KeybindAction.InputCancel)[0]
-        .sequence;
-
-    const inputSubmit = keybinds.getKeybinds(KeybindAction.InputSubmit)[0]
-        .sequence;
-
     const { onChange, onKeyUp, onFocus, onBlur, ...autoCompleteProps } =
         useAutoComplete((v) => setContent(v ?? ""), {
             users: { type: "channel", id: message.channel!._id },
@@ -143,9 +137,10 @@ export default function MessageEditor({ message, finish }: Props) {
                 onBlur={onBlur}
             />
             <span className="caption">
-                <Keybind children={inputCancel} /> to{" "}
+                <Keybind action={KeybindAction.InputCancel} /> to{" "}
                 <a onClick={finish}>cancel</a> &middot;{" "}
-                <Keybind children={inputSubmit} /> to <a onClick={save}>save</a>
+                <Keybind action={KeybindAction.InputSubmit} /> to{" "}
+                <a onClick={save}>save</a>
             </span>
         </EditorBase>
     );

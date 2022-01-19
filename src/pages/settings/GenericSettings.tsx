@@ -6,16 +6,12 @@ import styles from "./Settings.module.scss";
 import classNames from "classnames";
 import { createRef } from "preact";
 import { Text } from "preact-i18n";
-import { useCallback, useMemo, useRef, useState } from "preact/hooks";
+import { useCallback, useRef, useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
-import {
-    KeybindAction,
-    KeybindSequence,
-    KeyCombo,
-} from "../../mobx/stores/Keybinds";
+import { KeybindAction } from "../../mobx/stores/Keybinds";
 
 import Category from "../../components/ui/Category";
 import Header from "../../components/ui/Header";
@@ -24,6 +20,7 @@ import LineDivider from "../../components/ui/LineDivider";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { Children } from "../../types/Preact";
+import { Keybind } from "./panes/Keybinds";
 
 interface Props {
     pages: {
@@ -196,20 +193,20 @@ export function GenericSettings({
                             {children}
                         </div>
                         {!isTouchscreenDevice && (
-                            <div
-                                className={styles.action}
-                                style={{
-                                    // note: doesn't update reactively.
-                                    "--key-esc": `"${keybinds.withLocalization(
-                                        KeybindAction.NavigatePreviousContext,
-                                        0,
-                                        { short: true },
-                                    )}"`,
-                                }}>
-                                <div
-                                    onClick={exitSettings}
-                                    className={styles.closeButton}>
-                                    <X size={28} />
+                            <div className={styles.action}>
+                                <div className={styles.close}>
+                                    <IconButton
+                                        onClick={exitSettings}
+                                        className={styles.closeButton}>
+                                        <X size={28} />
+                                    </IconButton>
+                                    <Keybind
+                                        className={styles.keybind}
+                                        action={
+                                            KeybindAction.NavigatePreviousContext
+                                        }
+                                        short
+                                    />
                                 </div>
                             </div>
                         )}

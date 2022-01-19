@@ -112,23 +112,28 @@ const KeySequence = styled.kbd`
 `;
 
 // allow string to make easier to use
-type KeybindProps = {
-    children: string | KeyCombo[];
-    short?: boolean;
-    pressable?: boolean;
-};
-export const Keybind = ({
-    children: sequence,
-    short,
-    pressable,
-}: KeybindProps) => {
+type KeybindProps =
+    | (Omit<JSX.HTMLAttributes<HTMLElement>, "children" | "as"> & {
+          children: string | KeyCombo[];
+          short?: boolean;
+          pressable?: boolean;
+      })
+    | { action: KeybindAction; short?: boolean; pressable?: boolean };
+export const Keybind = ({ short, pressable, ...props }: KeybindProps) => {
+    const keybinds = useApplicationState().keybinds;
+
+    const sequence =
+        "children" in props
+            ? props.children
+            : keybinds.getKeybinds(props.action)[0].sequence;
+
     const keys =
         typeof sequence === "string"
             ? KeybindSequence.parse(sequence)
             : sequence;
 
     const kbds = keys.map((keybinding) => (
-        <kbd>
+        <kbd {...props}>
             {keybinding.map((mod, i) => [
                 i > 0 ? "+" : null,
                 <Key
