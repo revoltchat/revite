@@ -6,6 +6,7 @@ import { Channel } from "revolt.js/dist/maps/Channels";
 import styled, { css } from "styled-components";
 import { ulid } from "ulid";
 
+import { createRef } from "preact";
 import { Text } from "preact-i18n";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
@@ -414,6 +415,8 @@ export default observer(({ channel }: Props) => {
                     : undefined,
         });
 
+    const textAreaRef = createRef<HTMLDivElement>();
+
     state.keybinds.useAction(
         KeybindAction.MessagingEditPreviousMessage,
         (event) => {
@@ -430,7 +433,12 @@ export default observer(({ channel }: Props) => {
     });
 
     state.keybinds.useAction(KeybindAction.InputSubmit, (e) => {
-        if (!e.isComposing && !isTouchscreenDevice && !e.defaultPrevented) {
+        if (
+            !e.isComposing &&
+            !isTouchscreenDevice &&
+            !e.defaultPrevented &&
+            e.composedPath().includes(textAreaRef.current!)
+        ) {
             e.preventDefault();
             send();
         }
@@ -531,6 +539,7 @@ export default observer(({ channel }: Props) => {
                     </Action>
                 ) : undefined}
                 <TextAreaAutoSize
+                    innerRef={textAreaRef}
                     autoFocus
                     hideBorder
                     maxRows={20}

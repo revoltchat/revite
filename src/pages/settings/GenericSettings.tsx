@@ -81,17 +81,6 @@ export function GenericSettings({
         [exitSettings],
     );
 
-    // useMemo isn't really doing anything here.
-    const exitKeybind = useMemo(
-        () =>
-            KeybindSequence.stringifyFull(
-                state.keybinds
-                    .getKeybinds(KeybindAction.NavigatePreviousContext)[0]
-                    .sequence.map(KeyCombo.stringifyShort),
-            ),
-        [keybinds.keybinds],
-    );
-
     const pageRef = useRef<string>();
 
     return (
@@ -211,7 +200,11 @@ export function GenericSettings({
                                 className={styles.action}
                                 style={{
                                     // note: doesn't update reactively.
-                                    "--key-esc": `"${exitKeybind}"`,
+                                    "--key-esc": `"${keybinds.withLocalization(
+                                        KeybindAction.NavigatePreviousContext,
+                                        0,
+                                        { short: true },
+                                    )}"`,
                                 }}>
                                 <div
                                     onClick={exitSettings}

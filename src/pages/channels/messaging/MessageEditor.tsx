@@ -1,7 +1,8 @@
 import { Message } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 
-import { useContext, useEffect, useState } from "preact/hooks";
+import { createRef } from "preact";
+import { useContext, useEffect, useRef, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
@@ -17,6 +18,8 @@ import {
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
+
+import { Keybind } from "../../settings/panes/Keybinds";
 
 const EditorBase = styled.div`
     display: flex;
@@ -55,6 +58,7 @@ export default function MessageEditor({ message, finish }: Props) {
     const [content, setContent] = useState((message.content as string) ?? "");
     const { focusTaken } = useContext(IntermediateContext);
     const { openScreen } = useIntermediate();
+    const textAreaRef = createRef<HTMLDivElement>();
 
     async function save() {
         finish();
@@ -84,12 +88,27 @@ export default function MessageEditor({ message, finish }: Props) {
         [focusTaken, finish],
     );
 
-    keybinds.useAction(KeybindAction.InputSubmit, (e) => {
-        if (!isTouchscreenDevice && !e.defaultPrevented) {
-            e.preventDefault();
-            save();
-        }
-    });
+    keybinds.useAction(
+        KeybindAction.InputSubmit,
+        (e) => {
+            if (
+                !isTouchscreenDevice &&
+                !e.isComposing &&
+                !e.defaultPrevented &&
+                e.composedPath().includes(textAreaRef.current!)
+            ) {
+                e.preventDefault();
+                save();
+            }
+        },
+        [textAreaRef],
+    );
+
+    const inputCancel = keybinds.getKeybinds(KeybindAction.InputCancel)[0]
+        .sequence;
+
+    const inputSubmit = keybinds.getKeybinds(KeybindAction.InputSubmit)[0]
+        .sequence;
 
     const { onChange, onKeyUp, onFocus, onBlur, ...autoCompleteProps } =
         useAutoComplete((v) => setContent(v ?? ""), {
@@ -104,6 +123,7 @@ export default function MessageEditor({ message, finish }: Props) {
         <EditorBase>
             <AutoComplete detached {...autoCompleteProps} />
             <TextAreaAutoSize
+                innerRef={textAreaRef}
                 forceFocus
                 maxRows={10}
                 value={content}
@@ -118,8 +138,9 @@ export default function MessageEditor({ message, finish }: Props) {
                 onBlur={onBlur}
             />
             <span className="caption">
-                escape to <a onClick={finish}>cancel</a> &middot; enter to{" "}
-                <a onClick={save}>save</a>
+                <Keybind children={inputCancel} /> to{" "}
+                <a onClick={finish}>cancel</a> &middot;{" "}
+                <Keybind children={inputSubmit} /> to <a onClick={save}>save</a>
             </span>
         </EditorBase>
     );

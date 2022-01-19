@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { RefObject } from "preact";
+import { Ref, RefObject } from "preact";
 import { useEffect, useLayoutEffect, useRef } from "preact/hooks";
 
 import TextArea, { TextAreaProps } from "../components/ui/TextArea";
@@ -18,6 +18,7 @@ type TextAreaAutoSizeProps = Omit<
         minHeight?: number;
         maxRows?: number;
         value: string;
+        innerRef?: Ref<HTMLDivElement>;
 
         id?: string;
 
@@ -64,6 +65,7 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
         hideBorder,
         forceFocus,
         onChange,
+        innerRef,
         ...textAreaProps
     } = props;
 
@@ -132,7 +134,7 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
     }, [props.id, ref]);
 
     return (
-        <Container>
+        <Container ref={innerRef}>
             <TextArea
                 ref={ref}
                 value={value}

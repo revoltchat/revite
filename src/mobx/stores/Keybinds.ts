@@ -25,6 +25,7 @@ export const keyFull = (key: string) => useText(`keys.${key}.full`).full ?? key;
 export const keyShort = (key: string) =>
     useText(`keys.${key}.short`).short ?? keyFull(key);
 
+type WithLocalizationParams = { short: boolean };
 export const KeyCombo = {
     fromKeyboardEvent(event: KeyboardEvent): KeyCombo {
         const pressed = KEYBINDING_MODIFIER_KEYS.filter((key) =>
@@ -38,16 +39,9 @@ export const KeyCombo = {
         return pressed;
     },
 
-    /**
-     * Stringifies a key combo, using shortened key replacements when possible.
-     * ex. replacing `Escape` with `Esc`
-     */
-    stringifyShort(combo: KeyCombo) {
-        return combo.map(keyShort);
-    },
-
-    stringifyFull(combo: KeyCombo) {
-        return combo.map(keyFull);
+    withLocalization(combo: KeyCombo, { short }: WithLocalizationParams) {
+        const fn = short ? keyShort : keyFull;
+        return combo.map(fn);
     },
 };
 
@@ -72,19 +66,13 @@ export const KeybindSequence = {
 
     // todo: better names
     /** Stringify a keybind sequence */
-    stringifyFull(sequence: KeyCombo[]) {
-        return sequence
-            .map((combo) => KeyCombo.stringifyFull(combo).join("+"))
-            .join(" ");
-    },
+    withLocalization(sequence: KeyCombo[], params?: WithLocalizationParams) {
+        const short = params?.short ?? sequence.flat().length === 1;
 
-    /**
-     * Stringifies a keybind sequence, using shortened key replacements when possible.
-     * ex. replacing `Escape` with `Esc`
-     */
-    stringifyShort(sequence: KeyCombo[]) {
         return sequence
-            .map((combo) => KeyCombo.stringifyShort(combo).join("+"))
+            .map((combo) =>
+                KeyCombo.withLocalization(combo, { short }).join("+"),
+            )
             .join(" ");
     },
 };
@@ -253,10 +241,15 @@ export default class Keybinds implements Store, Persistent<Data> {
     }
 
     @computed
-    displayKeybind(action: KeybindAction, index: number) {
-        return this.keybinds
-            .get(action)!
-            [index].sequence.map(KeyCombo.stringifyShort);
+    withLocalization(
+        action: KeybindAction,
+        index: number,
+        params?: WithLocalizationParams,
+    ) {
+        return KeybindSequence.withLocalization(
+            this.keybinds.get(action)![index].sequence,
+            params,
+        );
     }
 
     @computed

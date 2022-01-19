@@ -152,9 +152,7 @@ export const InputCaptureModal = ({ onClose, onSubmit, actionName }: Props) => {
                             )}
                         />
                     ) : (
-                        <Text id="app.special.modals.input_capture.placeholder">
-                            Press keys to record
-                        </Text>
+                        <Text id="app.special.modals.input_capture.placeholder" />
                     )}
                 </InputBox>
                 <IconButton title="clear input" onClick={reset}>

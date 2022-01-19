@@ -46,12 +46,12 @@ const REPLACEMENTS: Record<string, () => JSX.Element> = {
 type KeyProps = {
     children: string;
     short?: boolean;
-    simple?: boolean;
+    pressable?: boolean;
 };
 const Key = styled.kbd.attrs<KeyProps, { light: boolean }>(
-    ({ children: key, short = true, simple = false }) => {
+    ({ children: key, short = true, pressable = false }) => {
         return {
-            simple,
+            pressable,
             children:
                 REPLACEMENTS[key]?.() ?? (short ? keyShort(key) : keyFull(key)),
             light: useApplicationState().settings.theme.isLight(),
@@ -80,7 +80,7 @@ const Key = styled.kbd.attrs<KeyProps, { light: boolean }>(
     }
 
     ${(props) =>
-        !props.simple &&
+        props.pressable &&
         css`
             box-shadow: 0 1px 1px rgba(133, 133, 133, 0.2),
                 0 2.5px 0 0 rgba(0, 0, 0, 0.5);
@@ -104,7 +104,6 @@ const KeySequence = styled.kbd`
     font-size: 0.85em;
     font-family: var(--monospace-font), monospace;
 
-    // todo: clean this up
     & > kbd {
         display: inline-flex;
         align-items: center;
@@ -116,12 +115,12 @@ const KeySequence = styled.kbd`
 type KeybindProps = {
     children: string | KeyCombo[];
     short?: boolean;
-    simple?: boolean;
+    pressable?: boolean;
 };
 export const Keybind = ({
     children: sequence,
     short,
-    simple,
+    pressable,
 }: KeybindProps) => {
     const keys =
         typeof sequence === "string"
@@ -135,7 +134,7 @@ export const Keybind = ({
                 <Key
                     children={mod}
                     short={short ?? keys.flat().length > 1}
-                    simple={simple}
+                    pressable={pressable}
                 />,
             ])}
         </kbd>
@@ -193,7 +192,7 @@ const KeybindEntries = observer(({ action }: KeybindEntriesProps) => {
 
         return (
             <div class="keybind">
-                <Keybind>{keybind.sequence}</Keybind>
+                <Keybind pressable>{keybind.sequence}</Keybind>
                 <Tooltip
                     content={
                         <Text id="app.settings.pages.keybinds.edit_keybind" />
@@ -225,7 +224,7 @@ const KeybindEntries = observer(({ action }: KeybindEntriesProps) => {
                                         id="app.settings.pages.keybinds.reset_keybind"
                                         fields={{
                                             keybind: (
-                                                <Keybind simple>
+                                                <Keybind>
                                                     {defaultSequence}
                                                 </Keybind>
                                             ),
@@ -368,7 +367,6 @@ export const Keybinds = observer(() => {
             KeybindAction.MessagingScrollToBottom,
             KeybindAction.MessagingMarkChannelRead,
 
-            // todo: localize as "Go back" or "Cancel"?
             // probably won't be displayed unless under an advanced section.
             KeybindAction.NavigatePreviousContext,
         ],
@@ -393,9 +391,13 @@ export const Keybinds = observer(() => {
                         ...keybinds
                             .getKeybinds(action)
                             .flatMap((keybind) => [
-                                KeybindSequence.stringifyFull(keybind.sequence),
-                                KeybindSequence.stringifyShort(
+                                KeybindSequence.withLocalization(
                                     keybind.sequence,
+                                    { short: true },
+                                ),
+                                KeybindSequence.withLocalization(
+                                    keybind.sequence,
+                                    { short: false },
                                 ),
                             ]),
                     ];
