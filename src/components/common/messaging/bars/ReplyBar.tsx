@@ -76,6 +76,7 @@ const Base = styled.div`
     .replyto {
         align-self: center;
         font-weight: 500;
+        flex-shrink: 0;
     }
 
     .content {
@@ -87,6 +88,7 @@ const Base = styled.div`
             align-items: center;
             gap: 6px;
             font-weight: 600;
+            flex-shrink: 0;
         }
 
         .message {
