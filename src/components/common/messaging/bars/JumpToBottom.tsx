@@ -10,7 +10,7 @@ import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
-    z-index: 10;
+    z-index: 1;
     position: relative;
 
     ${(props) =>
