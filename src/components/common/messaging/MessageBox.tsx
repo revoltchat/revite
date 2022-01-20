@@ -114,7 +114,7 @@ const Action = styled.div`
 `;
 
 const FileAction = styled.div`
-    > div {
+    > button {
         height: 48px;
         width: 62px;
         display: flex;
