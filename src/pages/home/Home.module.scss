@@ -1,28 +1,52 @@
 .home {
+    height: 100%;
     user-select: none;
+    position: relative;
 
-    h3 {
-        margin: 1em 0;
-        font-size: 48px;
-        text-align: center;
-
-        img {
-            height: 36px;
-        }
-    }
-
-    .actions {
-        gap: 8px;
-        width: 240px;
-
-        margin: auto;
+    .homeScreen {
         display: flex;
-        width: fit-content;
-        align-items: stretch;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        padding: 12px;
+
+        h3 {
+            margin: 20px 0;
+            font-size: 48px;
+            text-align: center;
+
+            img {
+                height: 36px;
+            }
+        }
 
         a {
-            width: 100%;
+            font-size: 13px;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            max-width: 650px;
+            margin-bottom: 30px;
+
+            a {
+                width: 100%;
+
+                div {
+                    margin: 0;
+                }
+            }
+
+            @media (max-width: 600px) {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            > * > * {
+                height: 100%;
+            }
         }
     }
 }

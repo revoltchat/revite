@@ -2,7 +2,7 @@ import { Cog } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import { User } from "revolt.js/dist/maps/Users";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { openContextMenu } from "preact-context-menu";
 import { Text, Localizer } from "preact-i18n";
@@ -52,7 +52,7 @@ export default observer(({ user }: Props) => {
     const { writeClipboard } = useIntermediate();
 
     return (
-        <Header borders placement="secondary">
+        <Header topBorder placement="secondary">
             <HeaderBase>
                 <Localizer>
                     <Tooltip content={<Text id="app.special.copy_username" />}>

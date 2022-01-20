@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { dayjs } from "../../context/Locale";
 
@@ -14,7 +14,7 @@ const Base = styled.div<{ unread?: boolean }>`
         margin-top: -2px;
         font-size: 0.6875rem;
         line-height: 0.6875rem;
-        padding: 2px 0 2px 0;
+        padding-inline-start: 5px;
         padding-inline-end: 5px;
         color: var(--tertiary-foreground);
         background: var(--primary-background);
@@ -29,22 +29,25 @@ const Base = styled.div<{ unread?: boolean }>`
 
 const Unread = styled.div`
     background: var(--accent);
-    color: white;
-    padding: 5px 8px;
+    color: var(--accent-contrast);
+    font-size: 7px;
+    padding: 2px 6px;
+    font-size: 10px;
     border-radius: 60px;
     font-weight: 600;
+    margin-top: -1px;
 `;
 
 interface Props {
-    date: Date;
+    date?: Date;
     unread?: boolean;
 }
 
-export default function DateDivider(props: Props) {
+export default function DateDivider({ unread, date }: Props) {
     return (
-        <Base unread={props.unread}>
-            {props.unread && <Unread>NEW</Unread>}
-            <time>{dayjs(props.date).format("LL")}</time>
+        <Base unread={unread}>
+            {unread && <Unread>NEW</Unread>}
+            {date && <time>{dayjs(date).format("LL")}</time>}
         </Base>
     );
 }

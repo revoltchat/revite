@@ -1,75 +1,33 @@
 import { Client } from "revolt.js/dist";
-import { Message } from "revolt.js/dist/maps/Messages";
-import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
 
 import { StateUpdater } from "preact/hooks";
 
-import { dispatch } from "../../redux";
+import Auth from "../../mobx/stores/Auth";
 
-import { ClientOperations, ClientStatus } from "./RevoltClient";
-
-export let preventReconnect = false;
-let preventUntil = 0;
-
-export function setReconnectDisallowed(allowed: boolean) {
-    preventReconnect = allowed;
-}
+import { resetMemberSidebarFetched } from "../../components/navigation/right/MemberSidebar";
+import { ClientStatus } from "./RevoltClient";
 
 export function registerEvents(
-    { operations }: { operations: ClientOperations },
+    auth: Auth,
     setStatus: StateUpdater<ClientStatus>,
     client: Client,
 ) {
-    function attemptReconnect() {
-        if (preventReconnect) return;
-        function reconnect() {
-            preventUntil = +new Date() + 2000;
-            client.websocket.connect().catch((err) => console.error(err));
-        }
-
-        if (+new Date() > preventUntil) {
-            setTimeout(reconnect, 2000);
-        } else {
-            reconnect();
-        }
-    }
+    if (!client) return;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let listeners: Record<string, (...args: any[]) => void> = {
-        connecting: () =>
-            operations.ready() && setStatus(ClientStatus.CONNECTING),
+        connecting: () => setStatus(ClientStatus.CONNECTING),
+        dropped: () => setStatus(ClientStatus.DISCONNECTED),
 
-        dropped: () => {
-            if (operations.ready()) {
-                setStatus(ClientStatus.DISCONNECTED);
-                attemptReconnect();
-            }
+        ready: () => {
+            resetMemberSidebarFetched();
+            setStatus(ClientStatus.ONLINE);
         },
 
-        packet: (packet: ClientboundNotification) => {
-            switch (packet.type) {
-                case "ChannelAck": {
-                    dispatch({
-                        type: "UNREADS_MARK_READ",
-                        channel: packet.id,
-                        message: packet.message_id,
-                    });
-                    break;
-                }
-            }
+        logout: () => {
+            auth.logout();
+            setStatus(ClientStatus.READY);
         },
-
-        message: (message: Message) => {
-            if (message.mention_ids?.includes(client.user!._id)) {
-                dispatch({
-                    type: "UNREADS_MENTION",
-                    channel: message.channel_id,
-                    message: message._id,
-                });
-            }
-        },
-
-        ready: () => setStatus(ClientStatus.ONLINE),
     };
 
     if (import.meta.env.DEV) {
@@ -89,19 +47,14 @@ export function registerEvents(
     }
 
     const online = () => {
-        if (operations.ready()) {
-            setStatus(ClientStatus.RECONNECTING);
-            setReconnectDisallowed(false);
-            attemptReconnect();
-        }
+        setStatus(ClientStatus.RECONNECTING);
+        client.options.autoReconnect = false;
+        client.websocket.connect();
     };
 
     const offline = () => {
-        if (operations.ready()) {
-            setReconnectDisallowed(true);
-            client.websocket.disconnect();
-            setStatus(ClientStatus.OFFLINE);
-        }
+        client.options.autoReconnect = false;
+        client.websocket.disconnect();
     };
 
     window.addEventListener("online", online);

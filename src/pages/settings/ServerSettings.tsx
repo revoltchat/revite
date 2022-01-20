@@ -1,15 +1,26 @@
-import { ListUl, ListCheck, ListMinus } from "@styled-icons/boxicons-regular";
-import { XSquare, Share, Group } from "@styled-icons/boxicons-solid";
+import { ListUl } from "@styled-icons/boxicons-regular";
+import {
+    InfoCircle,
+    Group,
+    FlagAlt,
+    Envelope,
+    UserX,
+    Trash,
+} from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
 
+import styles from "./Settings.module.scss";
 import { Text } from "preact-i18n";
 
+import { useIntermediate } from "../../context/intermediate/Intermediate";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import Category from "../../components/ui/Category";
+import LineDivider from "../../components/ui/LineDivider";
 
+import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { GenericSettings } from "./GenericSettings";
 import { Bans } from "./server/Bans";
 import { Categories } from "./server/Categories";
@@ -19,11 +30,13 @@ import { Overview } from "./server/Overview";
 import { Roles } from "./server/Roles";
 
 export default observer(() => {
+    const { openScreen } = useIntermediate();
     const { server: sid } = useParams<{ server: string }>();
     const client = useClient();
     const server = client.servers.get(sid);
     if (!server) return null;
 
+    const owner = server.owner === client.user?._id;
     const history = useHistory();
     function switchPage(to?: string) {
         if (to) {
@@ -37,21 +50,31 @@ export default observer(() => {
         <GenericSettings
             pages={[
                 {
-                    category: <Category variant="uniform" text={server.name} />,
+                    category: <div>{server.name}</div>,
                     id: "overview",
-                    icon: <ListUl size={20} />,
+                    icon: <InfoCircle size={20} />,
                     title: (
                         <Text id="app.settings.server_pages.overview.title" />
                     ),
                 },
                 {
                     id: "categories",
-                    icon: <ListMinus size={20} />,
+                    icon: <ListUl size={20} />,
                     title: (
                         <Text id="app.settings.server_pages.categories.title" />
                     ),
+                    hideTitle: true,
                 },
                 {
+                    id: "roles",
+                    icon: <FlagAlt size={20} />,
+                    title: <Text id="app.settings.server_pages.roles.title" />,
+                    hideTitle: true,
+                },
+                {
+                    category: (
+                        <Text id="app.settings.server_pages.management.title" />
+                    ),
                     id: "members",
                     icon: <Group size={20} />,
                     title: (
@@ -60,21 +83,15 @@ export default observer(() => {
                 },
                 {
                     id: "invites",
-                    icon: <Share size={20} />,
+                    icon: <Envelope size={20} />,
                     title: (
                         <Text id="app.settings.server_pages.invites.title" />
                     ),
                 },
                 {
                     id: "bans",
-                    icon: <XSquare size={20} />,
+                    icon: <UserX size={20} />,
                     title: <Text id="app.settings.server_pages.bans.title" />,
-                },
-                {
-                    id: "roles",
-                    icon: <ListCheck size={20} />,
-                    title: <Text id="app.settings.server_pages.roles.title" />,
-                    hideTitle: true,
                 },
             ]}
             children={
@@ -110,6 +127,26 @@ export default observer(() => {
             category="server_pages"
             switchPage={switchPage}
             defaultPage="overview"
+            custom={
+                owner ? (
+                    <>
+                        <LineDivider />
+                        <ButtonItem
+                            onClick={() =>
+                                openScreen({
+                                    id: "special_prompt",
+                                    type: "delete_server",
+                                    target: server,
+                                })
+                            }
+                            className={styles.deleteServer}
+                            compact>
+                            <Trash size={20} />
+                            <Text id="app.context_menu.delete_server" />
+                        </ButtonItem>
+                    </>
+                ) : undefined
+            }
             showExitButton
         />
     );

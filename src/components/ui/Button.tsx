@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 interface Props {
     readonly compact?: boolean;
@@ -14,16 +14,17 @@ export type ButtonProps = Props &
     Omit<JSX.HTMLAttributes<HTMLButtonElement>, "as">;
 
 export default styled.button<Props>`
-    z-index: 1;
+    //z-index: 1;
     display: flex;
     height: 38px;
     min-width: 96px;
     align-items: center;
     justify-content: center;
     padding: 2px 16px;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-family: inherit;
     font-weight: 500;
+    flex-shrink: 0;
 
     transition: 0.2s ease opacity;
     transition: 0.2s ease background-color;

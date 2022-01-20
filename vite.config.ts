@@ -1,3 +1,4 @@
+import macrosPlugin from "@insertish/vite-plugin-babel-macros";
 import replace from "@rollup/plugin-replace";
 import { readFileSync } from "fs";
 import { resolve } from "path";
@@ -11,11 +12,11 @@ function getGitRevision() {
         const rev = readFileSync(".git/HEAD").toString().trim();
         if (rev.indexOf(":") === -1) {
             return rev;
-        } else {
-            return readFileSync(".git/" + rev.substring(5))
-                .toString()
-                .trim();
         }
+
+        return readFileSync(`.git/${rev.substring(5)}`)
+            .toString()
+            .trim();
     } catch (err) {
         console.error("Failed to get Git revision.");
         return "?";
@@ -27,9 +28,9 @@ function getGitBranch() {
         const rev = readFileSync(".git/HEAD").toString().trim();
         if (rev.indexOf(":") === -1) {
             return "DETACHED";
-        } else {
-            return rev.split("/").pop();
         }
+
+        return rev.split("/").pop();
     } catch (err) {
         console.error("Failed to get Git branch.");
         return "?";
@@ -40,37 +41,33 @@ function getVersion() {
     return readFileSync("VERSION").toString();
 }
 
-const branch = getGitBranch();
-const isNightly = false; //branch !== 'production';
-const iconPrefix = isNightly ? "nightly-" : "";
-
 export default defineConfig({
     plugins: [
         preact(),
+        macrosPlugin(),
         VitePWA({
             srcDir: "src",
             filename: "sw.ts",
             strategies: "injectManifest",
             manifest: {
-                name: isNightly ? "Revolt Nightly" : "Revolt",
+                name: "Revolt",
                 short_name: "Revolt",
-                description: isNightly
-                    ? "Early preview builds of Revolt."
-                    : "User-first, privacy-focused chat platform.",
-                categories: ["messaging"],
+                description: "User-first, privacy-focused chat platform.",
+                categories: ["communication", "chat", "messaging"],
                 start_url: "/",
                 orientation: "portrait",
+                /*display_override: ["window-controls-overlay"],*/
                 display: "standalone",
                 background_color: "#101823",
                 theme_color: "#101823",
                 icons: [
                     {
-                        src: `/assets/icons/${iconPrefix}android-chrome-192x192.png`,
+                        src: `/assets/icons/android-chrome-192x192.png`,
                         type: "image/png",
                         sizes: "192x192",
                     },
                     {
-                        src: `/assets/icons/${iconPrefix}android-chrome-512x512.png`,
+                        src: `/assets/icons/android-chrome-512x512.png`,
                         type: "image/png",
                         sizes: "512x512",
                     },
@@ -87,6 +84,23 @@ export default defineConfig({
                         purpose: "maskable",
                     },
                 ],
+                //TODO: add shortcuts relating to your last opened direct messages
+                /*shortcuts: [
+                    {
+                      "name": "Open Play Later",
+                      "short_name": "Play Later",
+                      "description": "View the list of podcasts you saved for later",
+                      "url": "/play-later?utm_source=homescreen",
+                      "icons": [{ "src": "/icons/play-later.png", "sizes": "192x192" }]
+                    },
+                    {
+                      "name": "View Subscriptions",
+                      "short_name": "Subscriptions",
+                      "description": "View the list of podcasts you listen to",
+                      "url": "/subscriptions?utm_source=homescreen",
+                      "icons": [{ "src": "/icons/subscriptions.png", "sizes": "192x192" }]
+                    }
+                  ]*/
             },
         }),
         replace({
@@ -94,7 +108,7 @@ export default defineConfig({
             __GIT_BRANCH__: getGitBranch(),
             __APP_VERSION__: getVersion(),
             preventAssignment: true,
-        }),
+        }) as any,
     ],
     build: {
         sourcemap: true,
@@ -104,5 +118,8 @@ export default defineConfig({
                 ui: resolve(__dirname, "ui/index.html"),
             },
         },
+    },
+    optimizeDeps: {
+        exclude: ["revolt.js"],
     },
 });

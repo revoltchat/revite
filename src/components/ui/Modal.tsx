@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import styled, { css, keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components/macro";
 
 import { createPortal, useCallback, useEffect, useState } from "preact/compat";
 
@@ -53,6 +53,7 @@ const ModalBase = styled.div`
 
     &.closing {
         animation-name: ${close};
+        animation-fill-mode: forwards;
     }
 
     &.closing > div {
@@ -77,12 +78,30 @@ const ModalContent = styled.div<
     border-radius: var(--border-radius);
 
     h3 {
-        margin-top: 0;
+        font-size: 14px;
+        text-transform: uppercase;
+        margin: 0;
+        margin-bottom: 10px;
+        color: var(--foreground);
+    }
+
+    h5 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--secondary-foreground);
     }
 
     form {
         display: flex;
         flex-direction: column;
+        gap: 8px;
+
+        > div {
+            margin: 0;
+            color: var(--secondary-foreground);
+            font-size: 12px;
+        }
     }
 
     ${(props) =>
@@ -94,7 +113,8 @@ const ModalContent = styled.div<
     ${(props) =>
         props.padding &&
         css`
-            padding: 1.5em;
+            padding: 1rem;
+            min-width: 450px;
         `}
 
     ${(props) =>
@@ -115,8 +135,7 @@ const ModalActions = styled.div`
     gap: 8px;
     display: flex;
     flex-direction: row-reverse;
-
-    padding: 1em 1.5em;
+    padding: 1rem;
     background: var(--secondary-background);
     border-radius: 0 0 var(--border-radius) var(--border-radius);
 `;
@@ -129,6 +148,7 @@ export type Action = Omit<ButtonProps, "onClick"> & {
 interface Props {
     children?: Children;
     title?: Children;
+    description?: Children;
 
     disallowClosing?: boolean;
     noBackground?: boolean;
@@ -154,6 +174,7 @@ export default function Modal(props: Props) {
             border={props.border}
             padding={props.padding ?? !props.dontModal}>
             {props.title && <h3>{props.title}</h3>}
+            {props.description && <h5>{props.description}</h5>}
             {props.children}
         </ModalContent>
     );
@@ -166,7 +187,7 @@ export default function Modal(props: Props) {
     isModalClosing = animateClose;
     const onClose = useCallback(() => {
         setAnimateClose(true);
-        setTimeout(() => props.onClose?.(), 2e2);
+        setTimeout(() => props.onClose!(), 2e2);
     }, [setAnimateClose, props]);
 
     useEffect(() => internalSubscribe("Modal", "close", onClose), [onClose]);

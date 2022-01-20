@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
@@ -6,15 +6,28 @@ import { Children } from "../../types/Preact";
 
 type Props = Omit<JSX.HTMLAttributes<HTMLDivElement>, "children" | "as"> & {
     error?: string;
+    hover?: boolean;
     block?: boolean;
     spaced?: boolean;
     noMargin?: boolean;
     children?: Children;
-    type?: "default" | "subtle" | "error";
+    type?: "default" | "subtle" | "error" | "accent";
 };
 
 const OverlineBase = styled.div<Omit<Props, "children" | "error">>`
     display: inline;
+    transition: 0.2s ease filter;
+
+    ${(props) =>
+        props.hover &&
+        css`
+            cursor: pointer;
+            transition: 0.2s ease filter;
+
+            &:hover {
+                filter: brightness(1.2);
+            }
+        `}
 
     ${(props) =>
         !props.noMargin &&
@@ -46,6 +59,14 @@ const OverlineBase = styled.div<Omit<Props, "children" | "error">>`
             font-size: 12px;
             font-weight: 400;
             color: var(--error);
+        `}
+
+    ${(props) =>
+        props.type === "accent" &&
+        css`
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--accent);
         `}
 
     ${(props) =>

@@ -1,9 +1,11 @@
 import { Check } from "@styled-icons/boxicons-regular";
 import { Palette } from "@styled-icons/boxicons-solid";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { RefObject } from "preact";
 import { useRef } from "preact/hooks";
+
+import { useDebounceCallback } from "../../lib/debounce";
 
 interface Props {
     value: string;
@@ -115,6 +117,11 @@ const Rows = styled.div`
 
 export default function ColourSwatches({ value, onChange }: Props) {
     const ref = useRef<HTMLInputElement>() as RefObject<HTMLInputElement>;
+    const setValue = useDebounceCallback(
+        (value) => onChange(value as string),
+        [onChange],
+        100,
+    );
 
     return (
         <SwatchesBase>
@@ -122,7 +129,7 @@ export default function ColourSwatches({ value, onChange }: Props) {
                 type="color"
                 value={value}
                 ref={ref}
-                onChange={(ev) => onChange(ev.currentTarget.value)}
+                onChange={(ev) => setValue(ev.currentTarget.value)}
             />
             <Swatch
                 colour={value}

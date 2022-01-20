@@ -1,4 +1,4 @@
-import { Embed as EmbedI } from "revolt-api/types/January";
+import { Embed as EmbedI } from "revolt-api/types/Channels";
 
 import styles from "./Embed.module.scss";
 import classNames from "classnames";
@@ -8,6 +8,8 @@ import { useIntermediate } from "../../../../context/intermediate/Intermediate";
 import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 import { MessageAreaWidthContext } from "../../../../pages/channels/messaging/MessageArea";
+import Markdown from "../../../markdown/Markdown";
+import Attachment from "../attachments/Attachment";
 import EmbedMedia from "./EmbedMedia";
 
 interface Props {
@@ -45,34 +47,43 @@ export default function Embed({ embed }: Props) {
     }
 
     switch (embed.type) {
+        case "Text":
         case "Website": {
             // Determine special embed size.
             let mw, mh;
             const largeMedia =
-                (embed.special && embed.special.type !== "None") ||
-                embed.image?.size === "Large";
-            switch (embed.special?.type) {
-                case "YouTube":
-                case "Bandcamp": {
-                    mw = embed.video?.width ?? 1280;
-                    mh = embed.video?.height ?? 720;
-                    break;
-                }
-                case "Twitch": {
-                    mw = 1280;
-                    mh = 720;
-                    break;
-                }
-                default: {
-                    if (embed.image?.size === "Preview") {
-                        mw = MAX_EMBED_WIDTH;
-                        mh = Math.min(
-                            embed.image.height ?? 0,
-                            MAX_PREVIEW_SIZE,
-                        );
-                    } else {
-                        mw = embed.image?.width ?? MAX_EMBED_WIDTH;
-                        mh = embed.image?.height ?? 0;
+                embed.type === "Text"
+                    ? typeof embed.media !== "undefined"
+                    : (embed.special && embed.special.type !== "None") ||
+                      embed.image?.size === "Large";
+
+            if (embed.type === "Text") {
+                mw = MAX_EMBED_WIDTH;
+                mh = 0;
+            } else {
+                switch (embed.special?.type) {
+                    case "YouTube":
+                    case "Bandcamp": {
+                        mw = embed.video?.width ?? 1280;
+                        mh = embed.video?.height ?? 720;
+                        break;
+                    }
+                    case "Twitch": {
+                        mw = 1280;
+                        mh = 720;
+                        break;
+                    }
+                    default: {
+                        if (embed.image?.size === "Preview") {
+                            mw = MAX_EMBED_WIDTH;
+                            mh = Math.min(
+                                embed.image.height ?? 0,
+                                MAX_PREVIEW_SIZE,
+                            );
+                        } else {
+                            mw = embed.image?.width ?? MAX_EMBED_WIDTH;
+                            mh = embed.image?.height ?? 0;
+                        }
                     }
                 }
             }
@@ -87,7 +98,9 @@ export default function Embed({ embed }: Props) {
                         width: width + CONTAINER_PADDING,
                     }}>
                     <div>
-                        {embed.site_name && (
+                        {(embed.type === "Text"
+                            ? embed.title
+                            : embed.site_name) && (
                             <div className={styles.siteinfo}>
                                 {embed.icon_url && (
                                     <img
@@ -102,38 +115,43 @@ export default function Embed({ embed }: Props) {
                                     />
                                 )}
                                 <div className={styles.site}>
-                                    {embed.site_name}{" "}
+                                    {embed.type === "Text"
+                                        ? embed.title
+                                        : embed.site_name}{" "}
                                 </div>
                             </div>
                         )}
 
                         {/*<span><a href={embed.url} target={"_blank"} className={styles.author}>Author</a></span>*/}
-                        {embed.title && (
+                        {embed.type === "Website" && embed.title && (
                             <span>
                                 <a
-                                    onClick={(e) =>
-                                        openLink(e.currentTarget.href) &&
-                                        e.preventDefault()
+                                    onMouseDown={(ev) =>
+                                        (ev.button === 0 || ev.button === 1) &&
+                                        openLink(embed.url)
                                     }
-                                    href={embed.url}
-                                    target={"_blank"}
-                                    className={styles.title}
-                                    rel="noreferrer">
+                                    className={styles.title}>
                                     {embed.title}
                                 </a>
                             </span>
                         )}
-                        {embed.description && (
-                            <div className={styles.description}>
-                                {embed.description}
-                            </div>
-                        )}
+                        {embed.description &&
+                            (embed.type === "Text" ? (
+                                <Markdown content={embed.description} />
+                            ) : (
+                                <div className={styles.description}>
+                                    {embed.description}
+                                </div>
+                            ))}
 
-                        {largeMedia && (
-                            <EmbedMedia embed={embed} height={height} />
-                        )}
+                        {largeMedia &&
+                            (embed.type === "Text" ? (
+                                <Attachment attachment={embed.media!} />
+                            ) : (
+                                <EmbedMedia embed={embed} height={height} />
+                            ))}
                     </div>
-                    {!largeMedia && (
+                    {!largeMedia && embed.type === "Website" && (
                         <div>
                             <EmbedMedia
                                 embed={embed}
@@ -159,9 +177,7 @@ export default function Embed({ embed }: Props) {
                     frameBorder="0"
                     loading="lazy"
                     onClick={() => openScreen({ id: "image_viewer", embed })}
-                    onMouseDown={(ev) =>
-                        ev.button === 1 && window.open(embed.url, "_blank")
-                    }
+                    onMouseDown={(ev) => ev.button === 1 && openLink(embed.url)}
                 />
             );
         }

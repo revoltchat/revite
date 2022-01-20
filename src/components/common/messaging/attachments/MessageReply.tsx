@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useLayoutEffect, useState } from "preact/hooks";
@@ -18,7 +18,7 @@ import { SystemMessage } from "../SystemMessage";
 
 interface Props {
     parent_mentions: string[];
-    channel: Channel;
+    channel?: Channel;
     index: number;
     id: string;
 }
@@ -60,6 +60,7 @@ export const ReplyBase = styled.div<{
     }
 
     .user {
+        //margin-inline-start: 12px;
         gap: 6px;
         display: flex;
         flex-shrink: 0;
@@ -84,15 +85,29 @@ export const ReplyBase = styled.div<{
     }
 
     .content {
-        padding: 2px 0;
+        max-height: 32px;
+
         gap: 4px;
         display: flex;
+        padding: 2px 0;
         cursor: pointer;
+        overflow: hidden;
         align-items: center;
         flex-direction: row;
+
         transition: filter 1s ease-in-out;
         transition: transform ease-in-out 0.1s;
         filter: brightness(1);
+
+        > svg {
+            flex-shrink: 0;
+        }
+
+        > span > p {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
 
         &:hover {
             filter: brightness(2);
@@ -138,6 +153,8 @@ export const ReplyBase = styled.div<{
 
 export const MessageReply = observer(
     ({ index, channel, id, parent_mentions }: Props) => {
+        if (!channel) return null;
+
         const view = getRenderer(channel);
         if (view.state !== "RENDER") return null;
 
@@ -178,9 +195,10 @@ export const MessageReply = observer(
                             <>
                                 <div className="user">
                                     <UserShort
-                                        user={message.author}
                                         size={16}
                                         showServerIdentity
+                                        user={message.author}
+                                        masquerade={message.masquerade!}
                                         prefixAt={parent_mentions.includes(
                                             message.author_id,
                                         )}

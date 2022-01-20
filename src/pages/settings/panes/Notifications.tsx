@@ -1,4 +1,4 @@
-import defaultsDeep from "lodash.defaultsdeep";
+import { observer } from "mobx-react-lite";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
@@ -6,28 +6,17 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import { urlBase64ToUint8Array } from "../../../lib/conversion";
 
-import { dispatch } from "../../../redux";
-import { connectState } from "../../../redux/connector";
-import {
-    DEFAULT_SOUNDS,
-    NotificationOptions,
-    SoundOptions,
-} from "../../../redux/reducers/settings";
+import { useApplicationState } from "../../../mobx/State";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 import Checkbox from "../../../components/ui/Checkbox";
 
-import { SOUNDS_ARRAY } from "../../../assets/sounds/Audio";
-
-interface Props {
-    options?: NotificationOptions;
-}
-
-export function Component({ options }: Props) {
+export const Notifications = observer(() => {
     const client = useContext(AppContext);
     const { openScreen } = useIntermediate();
+    const settings = useApplicationState().settings;
     const [pushEnabled, setPushEnabled] = useState<undefined | boolean>(
         undefined,
     );
@@ -42,10 +31,6 @@ export function Component({ options }: Props) {
             });
     }, []);
 
-    const enabledSounds: SoundOptions = defaultsDeep(
-        options?.sounds ?? {},
-        DEFAULT_SOUNDS,
-    );
     return (
         <div className={styles.notifications}>
             <h3>
@@ -53,7 +38,7 @@ export function Component({ options }: Props) {
             </h3>
             <Checkbox
                 disabled={!("Notification" in window)}
-                checked={options?.desktopEnabled ?? false}
+                checked={settings.get("notifications:desktop", false)!}
                 description={
                     <Text id="app.settings.pages.notifications.descriptions.enable_desktop" />
                 }
@@ -61,6 +46,7 @@ export function Component({ options }: Props) {
                     if (desktopEnabled) {
                         const permission =
                             await Notification.requestPermission();
+
                         if (permission !== "granted") {
                             return openScreen({
                                 id: "error",
@@ -69,10 +55,7 @@ export function Component({ options }: Props) {
                         }
                     }
 
-                    dispatch({
-                        type: "SETTINGS_SET_NOTIFICATION_OPTIONS",
-                        options: { desktopEnabled },
-                    });
+                    settings.set("notifications:desktop", desktopEnabled);
                 }}>
                 <Text id="app.settings.pages.notifications.enable_desktop" />
             </Checkbox>
@@ -125,32 +108,16 @@ export function Component({ options }: Props) {
             <h3>
                 <Text id="app.settings.pages.notifications.sounds" />
             </h3>
-            {SOUNDS_ARRAY.map((key) => (
+            {settings.sounds.getState().map(({ id, enabled }) => (
                 <Checkbox
-                    key={key}
-                    checked={!!enabledSounds[key]}
+                    key={id}
+                    checked={enabled}
                     onChange={(enabled) =>
-                        dispatch({
-                            type: "SETTINGS_SET_NOTIFICATION_OPTIONS",
-                            options: {
-                                sounds: {
-                                    ...options?.sounds,
-                                    [key]: enabled,
-                                },
-                            },
-                        })
+                        settings.sounds.setEnabled(id, enabled)
                     }>
-                    <Text
-                        id={`app.settings.pages.notifications.sound.${key}`}
-                    />
+                    <Text id={`app.settings.pages.notifications.sound.${id}`} />
                 </Checkbox>
             ))}
         </div>
     );
-}
-
-export const Notifications = connectState(Component, (state) => {
-    return {
-        options: state.settings.notification,
-    };
 });

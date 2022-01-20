@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 export default styled.select`
     width: 100%;
     padding: 10px;
     cursor: pointer;
     border-radius: var(--border-radius);
-
+    font-weight: 500;
     font-family: inherit;
     font-size: var(--text-size);
     color: var(--secondary-foreground);
@@ -19,4 +19,8 @@ export default styled.select`
     &:focus {
         box-shadow: 0 0 0 1.5pt var(--accent);
     }
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 `;

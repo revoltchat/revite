@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import { defer } from "../../lib/defer";
 import { TextReact } from "../../lib/i18n";
 
-import { dispatch } from "../../redux";
+import { useApplicationState } from "../../mobx/State";
 
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import {
@@ -29,6 +29,9 @@ import Preloader from "../../components/ui/Preloader";
 export default function Invite() {
     const history = useHistory();
     const client = useContext(AppContext);
+
+    const layout = useApplicationState().layout;
+
     const status = useContext(StatusContext);
     const { code } = useParams<{ code: string }>();
     const [processing, setProcessing] = useState(false);
@@ -38,10 +41,7 @@ export default function Invite() {
     );
 
     useEffect(() => {
-        if (
-            typeof invite === "undefined" &&
-            (status === ClientStatus.ONLINE || status === ClientStatus.READY)
-        ) {
+        if (typeof invite === "undefined") {
             client
                 .fetchInvite(code)
                 .then((data) => setInvite(data))
@@ -49,7 +49,7 @@ export default function Invite() {
         }
     }, [client, code, invite, status]);
 
-    if (code === undefined) return <Redirect to="/" />;
+    if (code === undefined) return <Redirect to={layout.getLastPath()} />;
 
     if (typeof invite === "undefined") {
         return (
@@ -74,7 +74,11 @@ export default function Invite() {
                                     <Button contrast>
                                         <ArrowBack
                                             size={32}
-                                            onClick={() => history.push("/")}
+                                            onClick={() =>
+                                                history.push(
+                                                    layout.getLastPath(),
+                                                )
+                                            }
                                         />
                                     </Button>
                                 </div>
@@ -93,11 +97,14 @@ export default function Invite() {
             className={styles.invite}
             style={{
                 backgroundImage: invite.server_banner
-                    ? `url('${client.generateFileURL(invite.server_banner)}')`
+                    ? `url('${client?.generateFileURL(invite.server_banner)}')`
                     : undefined,
             }}>
             <div className={styles.leave}>
-                <ArrowBack size={32} onClick={() => history.push("/")} />
+                <ArrowBack
+                    size={32}
+                    onClick={() => history.push(layout.getLastPath())}
+                />
             </div>
 
             {!processing && (
@@ -168,11 +175,9 @@ export default function Invite() {
 
                                             defer(() => {
                                                 if (server) {
-                                                    dispatch({
-                                                        type: "UNREADS_MARK_MULTIPLE_READ",
-                                                        channels:
-                                                            server.channel_ids,
-                                                    });
+                                                    client.unreads!.markMultipleRead(
+                                                        server.channel_ids,
+                                                    );
 
                                                     history.push(
                                                         `/server/${server._id}/channel/${invite.channel_id}`,
