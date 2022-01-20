@@ -162,7 +162,7 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                     <Base key={reply.id}>
                         <ReplyBase preview>
                             <div class="replyto">
-                                <Text id="app.main.channel.replying" />
+                                <Text id="app.main.channel.reply.replying" />
                             </div>
                             <div class="content">
                                 <div class="username">
@@ -229,7 +229,10 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                             false,
                                         );
                                     }}>
-                                    <Tooltip content="Toggle author ping">
+                                    <Tooltip
+                                        content={
+                                            <Text id="app.main.channel.reply.toggle" />
+                                        }>
                                         <span class="toggle">
                                             <At size={15} />
                                             <Text
