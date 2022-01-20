@@ -42,8 +42,8 @@ export const ReplyBase = styled.div<{
         content: "";
         width: 22px;
         height: 10px;
-        border-inline-start: 3px solid #4f515d;
-        border-top: 3px solid #4f515d;
+        border-inline-start: 3px solid var(--message-box);
+        border-top: 3px solid var(--message-box);
         align-self: flex-end;
     }
 
