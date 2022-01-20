@@ -1,27 +1,29 @@
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
+import { Masquerade } from "revolt-api/types/Channels";
 import { User } from "revolt.js/dist/maps/Users";
-import styled from "styled-components";
+import { Nullable } from "revolt.js/dist/util/null";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
+
+import { internalEmit } from "../../../lib/eventEmitter";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import UserIcon from "./UserIcon";
-import { internalEmit } from "../../../lib/eventEmitter";
 
 const BotBadge = styled.div`
     display: inline-block;
-
+    flex-shrink: 0;
     height: 1.4em;
     padding: 0 4px;
     font-size: 0.6em;
     user-select: none;
-    margin-inline-start: 2px;
+    margin-inline-start: 4px;
     text-transform: uppercase;
-
-    color: var(--foreground);
+    color: var(--accent-contrast);
     background: var(--accent);
     border-radius: calc(var(--border-radius) / 2);
 `;
@@ -29,12 +31,15 @@ const BotBadge = styled.div`
 type UsernameProps = JSX.HTMLAttributes<HTMLElement> & {
     user?: User;
     prefixAt?: boolean;
-    showServerIdentity?: boolean;
-}
+    masquerade?: Masquerade;
+    showServerIdentity?: boolean | "both";
+};
+
 export const Username = observer(
     ({
         user,
         prefixAt,
+        masquerade,
         showServerIdentity,
         ...otherProps
     }: UsernameProps) => {
@@ -52,14 +57,18 @@ export const Username = observer(
 
                 if (member) {
                     if (member.nickname) {
-                        username = member.nickname;
+                        if (showServerIdentity === "both") {
+                            username = `${member.nickname} (${username})`;
+                        } else {
+                            username = member.nickname;
+                        }
                     }
 
                     if (member.roles && member.roles.length > 0) {
                         const srv = client.servers.get(member._id.server);
                         if (srv?.roles) {
                             for (const role of member.roles) {
-                                const c = srv.roles[role].colour;
+                                const c = srv.roles[role]?.colour;
                                 if (c) {
                                     color = c;
                                     continue;
@@ -75,7 +84,7 @@ export const Username = observer(
             return (
                 <>
                     <span {...otherProps} style={{ color }}>
-                        {username ?? (
+                        {masquerade?.name ?? username ?? (
                             <Text id="app.main.channel.unknown_user" />
                         )}
                     </span>
@@ -89,7 +98,9 @@ export const Username = observer(
         return (
             <span {...otherProps} style={{ color }}>
                 {prefixAt ? "@" : undefined}
-                {username ?? <Text id="app.main.channel.unknown_user" />}
+                {masquerade?.name ?? username ?? (
+                    <Text id="app.main.channel.unknown_user" />
+                )}
             </span>
         );
     },
@@ -99,11 +110,13 @@ export default function UserShort({
     user,
     size,
     prefixAt,
+    masquerade,
     showServerIdentity,
 }: {
     user?: User;
     size?: number;
     prefixAt?: boolean;
+    masquerade?: Masquerade;
     showServerIdentity?: boolean;
 }) {
     const { openScreen } = useIntermediate();
@@ -112,31 +125,28 @@ export default function UserShort({
 
     const handleUserClick = (e: MouseEvent) => {
         if (e.shiftKey && user?._id) {
-            e.preventDefault()
-            internalEmit(
-                "MessageBox",
-                "append",
-                `<@${user?._id}>`,
-                "mention",
-            );
+            e.preventDefault();
+            internalEmit("MessageBox", "append", `<@${user?._id}>`, "mention");
         } else {
-            openProfile()
+            openProfile();
         }
-    }
+    };
 
     return (
         <>
             <UserIcon
-                size={size ?? 24}
                 target={user}
+                size={size ?? 24}
+                masquerade={masquerade}
                 onClick={handleUserClick}
                 showServerIdentity={showServerIdentity}
             />
             <Username
                 user={user}
-                showServerIdentity={showServerIdentity}
-                onClick={handleUserClick}
                 prefixAt={prefixAt}
+                masquerade={masquerade}
+                onClick={handleUserClick}
+                showServerIdentity={showServerIdentity}
             />
         </>
     );

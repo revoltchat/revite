@@ -1,22 +1,19 @@
+import { observer } from "mobx-react-lite";
+
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 
-import { dispatch } from "../../../redux";
-import { connectState } from "../../../redux/connector";
+import { useApplicationState } from "../../../mobx/State";
 import {
     AVAILABLE_EXPERIMENTS,
-    ExperimentOptions,
     EXPERIMENTS,
-    isExperimentEnabled,
-} from "../../../redux/reducers/experiments";
+} from "../../../mobx/stores/Experiments";
 
 import Checkbox from "../../../components/ui/Checkbox";
 
-interface Props {
-    options?: ExperimentOptions;
-}
+export const ExperimentsPage = observer(() => {
+    const experiments = useApplicationState().experiments;
 
-export function Component(props: Props) {
     return (
         <div className={styles.experiments}>
             <h3>
@@ -25,15 +22,8 @@ export function Component(props: Props) {
             {AVAILABLE_EXPERIMENTS.map((key) => (
                 <Checkbox
                     key={key}
-                    checked={isExperimentEnabled(key, props.options)}
-                    onChange={(enabled) =>
-                        dispatch({
-                            type: enabled
-                                ? "EXPERIMENTS_ENABLE"
-                                : "EXPERIMENTS_DISABLE",
-                            key,
-                        })
-                    }
+                    checked={experiments.isEnabled(key)}
+                    onChange={(enabled) => experiments.setEnabled(key, enabled)}
                     description={EXPERIMENTS[key].description}>
                     {EXPERIMENTS[key].title}
                 </Checkbox>
@@ -45,10 +35,4 @@ export function Component(props: Props) {
             )}
         </div>
     );
-}
-
-export const ExperimentsPage = connectState(Component, (state) => {
-    return {
-        options: state.experiments,
-    };
 });

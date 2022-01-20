@@ -2,20 +2,20 @@ import { Attachment as AttachmentI } from "revolt-api/types/Autumn";
 
 import styles from "./Attachment.module.scss";
 import classNames from "classnames";
+import { attachContextMenu } from "preact-context-menu";
 import { useContext, useState } from "preact/hooks";
 
-import { useIntermediate } from "../../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../../context/revoltjs/RevoltClient";
 
 import AttachmentActions from "./AttachmentActions";
 import { SizedGrid } from "./Grid";
+import ImageFile from "./ImageFile";
 import Spoiler from "./Spoiler";
 import TextFile from "./TextFile";
-import ImageFile from "./ImageFile";
 
 interface Props {
     attachment: AttachmentI;
-    hasContent: boolean;
+    hasContent?: boolean;
 }
 
 const MAX_ATTACHMENT_WIDTH = 480;
@@ -37,11 +37,18 @@ export default function Attachment({ attachment, hasContent }: Props) {
                 <SizedGrid
                     width={metadata.width}
                     height={metadata.height}
+                    onContextMenu={attachContextMenu("Menu", {
+                        attachment,
+                    })}
                     className={classNames({
                         [styles.margin]: hasContent,
                         spoiler,
                     })}>
-                    <ImageFile attachment={attachment} width={metadata.width} height={metadata.height} />
+                    <ImageFile
+                        attachment={attachment}
+                        width={metadata.width}
+                        height={metadata.height}
+                    />
                     {spoiler && <Spoiler set={setSpoiler} />}
                 </SizedGrid>
             );

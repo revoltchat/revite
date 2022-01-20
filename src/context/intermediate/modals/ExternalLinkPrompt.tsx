@@ -1,7 +1,10 @@
 import { Text } from "preact-i18n";
 
+import { useApplicationState } from "../../../mobx/State";
+
 import Modal from "../../../components/ui/Modal";
-import { dispatch } from "../../../redux";
+
+import { useIntermediate } from "../Intermediate";
 
 interface Props {
     onClose: () => void;
@@ -9,6 +12,9 @@ interface Props {
 }
 
 export function ExternalLinkModal({ onClose, link }: Props) {
+    const { openLink } = useIntermediate();
+    const settings = useApplicationState().settings;
+
     return (
         <Modal
             visible={true}
@@ -17,7 +23,7 @@ export function ExternalLinkModal({ onClose, link }: Props) {
             actions={[
                 {
                     onClick: () => {
-                        window.open(link, "_blank");
+                        openLink(link, true);
                         onClose();
                     },
                     confirmation: true,
@@ -34,17 +40,17 @@ export function ExternalLinkModal({ onClose, link }: Props) {
                     onClick: () => {
                         try {
                             const url = new URL(link);
-                            dispatch({
-                                type: "TRUSTED_LINKS_ADD_DOMAIN",
-                                domain: url.hostname
-                            });
-                        } catch(e) {}
-                        window.open(link, "_blank");
+                            settings.security.addTrustedOrigin(url.hostname);
+                        } catch (e) {}
+
+                        openLink(link, true);
                         onClose();
                     },
                     plain: true,
-                    children: <Text id="app.special.modals.external_links.trust_domain" />,
-                }
+                    children: (
+                        <Text id="app.special.modals.external_links.trust_domain" />
+                    ),
+                },
             ]}>
             <Text id="app.special.modals.external_links.short" /> <br />
             <a>{link}</a>

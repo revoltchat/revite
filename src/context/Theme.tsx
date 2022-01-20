@@ -1,14 +1,11 @@
+import rgba from "color-rgba";
+import { observer } from "mobx-react-lite";
 import { Helmet } from "react-helmet";
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components/macro";
 
-import { createContext } from "preact";
 import { useEffect } from "preact/hooks";
 
-import { connectState } from "../redux/connector";
-
-import { Children } from "../types/Preact";
-import { fetchManifest, fetchTheme } from "../pages/settings/panes/ThemeShop";
-import { getState } from "../redux";
+import { useApplicationState } from "../mobx/State";
 
 export type Variables =
     | "accent"
@@ -30,6 +27,7 @@ export type Variables =
     | "secondary-header"
     | "tertiary-background"
     | "tertiary-foreground"
+    | "tooltip"
     | "status-online"
     | "status-away"
     | "status-busy"
@@ -51,26 +49,37 @@ export type Fonts =
     | "Roboto"
     | "Noto Sans"
     | "Lato"
-    | "Bree Serif"
+    | "Bitter"
     | "Montserrat"
     | "Poppins"
     | "Raleway"
     | "Ubuntu"
-    | "Comic Neue";
+    | "Comic Neue"
+    | "Lexend";
+
 export type MonospaceFonts =
     | "Fira Code"
     | "Roboto Mono"
     | "Source Code Pro"
     | "Space Mono"
-    | "Ubuntu Mono";
+    | "Ubuntu Mono"
+    | "JetBrains Mono";
 
-export type Theme = {
+export type Overrides = {
     [variable in Variables]: string;
-} & {
+};
+
+export type Theme = Overrides & {
     light?: boolean;
     font?: Fonts;
     css?: string;
     monospaceFont?: MonospaceFonts;
+    "min-opacity"?: number;
+};
+
+export type ComputedVariables = Theme & {
+    "header-height"?: string;
+    "effective-bottom-offset"?: string;
 };
 
 export interface ThemeOptions {
@@ -85,6 +94,7 @@ export const FONTS: Record<Fonts, { name: string; load: () => void }> = {
         load: async () => {
             await import("@fontsource/open-sans/300.css");
             await import("@fontsource/open-sans/400.css");
+            await import("@fontsource/open-sans/500.css");
             await import("@fontsource/open-sans/600.css");
             await import("@fontsource/open-sans/700.css");
             await import("@fontsource/open-sans/400-italic.css");
@@ -123,9 +133,14 @@ export const FONTS: Record<Fonts, { name: string; load: () => void }> = {
             await import("@fontsource/noto-sans/400-italic.css");
         },
     },
-    "Bree Serif": {
-        name: "Bree Serif",
-        load: () => import("@fontsource/bree-serif/400.css"),
+    Bitter: {
+        name: "Bitter",
+        load: async () => {
+            await import("@fontsource/bitter/300.css");
+            await import("@fontsource/bitter/400.css");
+            await import("@fontsource/bitter/600.css");
+            await import("@fontsource/bitter/700.css");
+        },
     },
     Lato: {
         name: "Lato",
@@ -134,6 +149,14 @@ export const FONTS: Record<Fonts, { name: string; load: () => void }> = {
             await import("@fontsource/lato/400.css");
             await import("@fontsource/lato/700.css");
             await import("@fontsource/lato/400-italic.css");
+        },
+    },
+    Lexend: {
+        name: "Lexend",
+        load: async () => {
+            await import("@fontsource/lexend/300.css");
+            await import("@fontsource/lexend/400.css");
+            await import("@fontsource/lexend/700.css");
         },
     },
     Montserrat: {
@@ -211,6 +234,10 @@ export const MONOSPACE_FONTS: Record<
         name: "Ubuntu Mono",
         load: () => import("@fontsource/ubuntu-mono/400.css"),
     },
+    "JetBrains Mono": {
+        name: "JetBrains Mono",
+        load: () => import("@fontsource/jetbrains-mono/400.css"),
+    },
 };
 
 export const FONT_KEYS = Object.keys(FONTS).sort();
@@ -222,7 +249,6 @@ export const DEFAULT_MONO_FONT = "Fira Code";
 // Generated from https://gitlab.insrt.uk/revolt/community/themes
 export const PRESETS: Record<string, Theme> = {
     light: {
-        light: true,
         accent: "#FD6671",
         background: "#F6F6F6",
         foreground: "#000000",
@@ -231,6 +257,7 @@ export const PRESETS: Record<string, Theme> = {
         mention: "rgba(251, 255, 0, 0.40)",
         success: "#65E572",
         warning: "#FAA352",
+        tooltip: "#FFF",
         error: "#ED4245",
         hover: "rgba(0, 0, 0, 0.2)",
         "scrollbar-thumb": "#CA525A",
@@ -249,7 +276,6 @@ export const PRESETS: Record<string, Theme> = {
         "status-invisible": "#A5A5A5",
     },
     dark: {
-        light: false,
         accent: "#FD6671",
         background: "#191919",
         foreground: "#F6F6F6",
@@ -258,6 +284,7 @@ export const PRESETS: Record<string, Theme> = {
         mention: "rgba(251, 255, 0, 0.06)",
         success: "#65E572",
         warning: "#FAA352",
+        tooltip: "#000000",
         error: "#ED4245",
         hover: "rgba(0, 0, 0, 0.1)",
         "scrollbar-thumb": "#CA525A",
@@ -277,28 +304,6 @@ export const PRESETS: Record<string, Theme> = {
     },
 };
 
-// todo: store used themes locally
-export function getBaseTheme(name: string): Theme {
-    if (name in PRESETS) {
-        return PRESETS[name]
-    }
-
-    const themes = getState().themes
-
-    if (name in themes) {
-        const { theme } = themes[name];
-
-        return {
-            ...PRESETS[theme.light ? 'light' : 'dark'],
-            ...theme
-        }
-    }
-
-    // how did we get here
-    return PRESETS['dark']
-}
-
-const keys = Object.keys(PRESETS.dark);
 const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 :root {
 	${(props) => generateVariables(props.theme)}
@@ -307,41 +312,39 @@ const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 
 export const generateVariables = (theme: Theme) => {
     return (Object.keys(theme) as Variables[]).map((key) => {
-        if (!keys.includes(key)) return;
-        return `--${key}: ${theme[key]};`;
-    })
-}
+        const colour = rgba(theme[key]);
+        if (colour) {
+            const [r, g, b] = colour;
+            return `--${key}: ${theme[key]}; --${key}-rgb: ${r}, ${g}, ${b};`;
+        } else {
+            return `--${key}: ${theme[key]};`;
+        }
+    });
+};
 
-// Load the default default them and apply extras later
-export const ThemeContext = createContext<Theme>(PRESETS["dark"]);
-
-interface Props {
-    children: Children;
-    options?: ThemeOptions;
-}
-
-function Theme({ children, options }: Props) {
-    const theme: Theme = {
-        ...getBaseTheme(options?.base ?? 'dark'),
-        ...options?.custom,
-    };
+export default observer(() => {
+    const settings = useApplicationState().settings;
+    const theme = settings.theme;
 
     const root = document.documentElement.style;
     useEffect(() => {
-        const font = theme.font ?? DEFAULT_FONT;
+        const font = theme.getFont() ?? DEFAULT_FONT;
         root.setProperty("--font", `"${font}"`);
         FONTS[font].load();
-    }, [root, theme.font]);
+    }, [root, theme.getFont()]);
 
     useEffect(() => {
-        const font = theme.monospaceFont ?? DEFAULT_MONO_FONT;
+        const font = theme.getMonospaceFont() ?? DEFAULT_MONO_FONT;
         root.setProperty("--monospace-font", `"${font}"`);
         MONOSPACE_FONTS[font].load();
-    }, [root, theme.monospaceFont]);
+    }, [root, theme.getMonospaceFont()]);
 
     useEffect(() => {
-        root.setProperty("--ligatures", options?.ligatures ? "normal" : "none");
-    }, [root, options?.ligatures]);
+        root.setProperty(
+            "--ligatures",
+            settings.get("appearance:ligatures") ? "normal" : "none",
+        );
+    }, [root, settings.get("appearance:ligatures")]);
 
     useEffect(() => {
         const resize = () =>
@@ -352,22 +355,14 @@ function Theme({ children, options }: Props) {
         return () => window.removeEventListener("resize", resize);
     }, [root]);
 
+    const variables = theme.computeVariables();
     return (
-        <ThemeContext.Provider value={theme}>
+        <>
             <Helmet>
-                <meta name="theme-color" content={theme["background"]} />
+                <meta name="theme-color" content={variables["background"]} />
             </Helmet>
-            <GlobalTheme theme={theme} />
-            {theme.css && (
-                <style dangerouslySetInnerHTML={{ __html: theme.css }} />
-            )}
-            {children}
-        </ThemeContext.Provider>
+            <GlobalTheme theme={variables} />
+            <style dangerouslySetInnerHTML={{ __html: theme.getCSS() ?? "" }} />
+        </>
     );
-}
-
-export default connectState<{ children: Children }>(Theme, (state) => {
-    return {
-        options: state.settings.theme,
-    };
 });

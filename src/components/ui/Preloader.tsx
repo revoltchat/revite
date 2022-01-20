@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components/macro";
 
 const skSpinner = keyframes`
     0%, 80%, 100% { 
@@ -24,8 +24,9 @@ const PreloaderBase = styled.div`
     width: 100%;
     height: 100%;
 
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .spinner {
         width: 58px;

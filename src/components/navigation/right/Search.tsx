@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
@@ -99,11 +99,11 @@ export function SearchSidebar({ close }: Props) {
     }, [sort]);
 
     return (
-        <GenericSidebarBase>
+        <GenericSidebarBase data-scroll-offset="with-padding">
             <GenericSidebarList>
                 <SearchBase>
-                    <Overline type="error" onClick={close} block>
-                        « back to members
+                    <Overline type="accent" block hover>
+                        <a onClick={close}>« back to members</a>
                     </Overline>
                     <Overline type="subtle" block>
                         <Text id="app.main.channel.search.title" />
@@ -118,7 +118,7 @@ export function SearchSidebar({ close }: Props) {
                             <Button
                                 key={key}
                                 compact
-                                error={sort === key}
+                                accent={sort === key}
                                 onClick={() => setSort(key as Sort)}>
                                 <Text
                                     id={`app.main.channel.search.sort.${key.toLowerCase()}`}

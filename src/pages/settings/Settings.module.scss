@@ -43,18 +43,12 @@
         background: var(--primary-background);
     }
 
-    .scrollbox {
-        &::-webkit-scrollbar-thumb {
-            border-top: none;
-        }
-    }
-
     /* Sidebar */
     .sidebar {
         overflow-y: auto;
 
         .container {
-            padding: 20px 8px calc(var(--bottom-navigation-height) + 30px);
+            padding: 12px 10px 80px;
             min-width: 218px;
         }
 
@@ -68,7 +62,9 @@
 
     /* Content */
     .content {
-        padding: 0;
+        ::-webkit-scrollbar-thumb {
+            border-bottom: none;
+        }
 
         .scrollbox {
             overflow: auto;
@@ -76,7 +72,7 @@
 
         .contentcontainer {
             max-width: unset !important;
-            padding: 16px 12px var(--bottom-navigation-height) !important;
+            padding: 20px 10px 80px;
         }
     }
 }
@@ -92,6 +88,15 @@
 
     &.closing {
         animation: close 0.18s ease-in;
+    }
+
+    .scrollbox::-webkit-scrollbar-thumb {
+        background-clip: content-box;
+        border-top: 80px solid transparent;
+    }
+
+    .container {
+        max-width: 300px;
     }
 }
 
@@ -115,13 +120,6 @@
         visibility: visible;
     }
 
-    // All children receive custom scrollbar.
-    > * > ::-webkit-scrollbar-thumb {
-        width: 4px;
-        background-clip: content-box;
-        border-top: 80px solid transparent;
-    }
-
     .sidebar {
         flex: 1 0 218px;
         display: flex;
@@ -130,7 +128,7 @@
 
         .container {
             min-width: 218px;
-            max-width: 300px;
+
             padding: 80px 8px;
             display: flex;
             gap: 2px;
@@ -144,7 +142,9 @@
         .donate {
             color: goldenrod !important;
         }
-        .logOut {
+
+        .logOut,
+        .deleteServer {
             color: var(--error) !important;
         }
 
@@ -176,20 +176,37 @@
         .scrollbox {
             display: flex;
             flex-grow: 1;
+            align-items: stretch;
         }
 
         .contentcontainer {
             display: flex;
             gap: 13px;
-            height: fit-content;
             max-width: 740px;
             padding: 80px 32px;
             width: 100%;
             flex-direction: column;
+
+            // This prevents members, invites and ban list from being able to properly display.
+            // height: fit-content;
         }
 
         details {
             margin: 14px 0;
+        }
+
+        /*a {
+            &:hover {
+                text-decoration: underline;
+            }
+        }*/
+
+        hr {
+            height: 1px;
+            width: calc(100% - 10px);
+            background: var(--secondary-header);
+            margin: 18px auto;
+            flex-grow: 0;
         }
 
         h1 {
@@ -203,6 +220,7 @@
             font-size: 0.8125rem;
             text-transform: uppercase;
             color: var(--secondary-foreground);
+            /*margin-bottom: 10px;*/
 
             &:first-child {
                 margin-top: 0;
@@ -219,7 +237,26 @@
         h5 {
             margin-top: 0;
             font-size: 0.75rem;
-            font-weight: 400;
+            font-weight: 500;
+
+            > a:hover {
+                text-decoration: underline;
+            }
+        }
+
+        h6 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        details {
+            summary {
+                font-size: 0.8125rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: var(--secondary-foreground);
+                cursor: pointer;
+            }
         }
 
         .footer {

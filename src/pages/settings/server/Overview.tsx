@@ -1,3 +1,4 @@
+import { Markdown } from "@styled-icons/boxicons-logos";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
 import { Server } from "revolt.js/dist/maps/Servers";
@@ -84,7 +85,7 @@ export const Overview = observer(({ server }: Props) => {
             </h3>
             <TextAreaAutoSize
                 maxRows={10}
-                minHeight={60}
+                minHeight={120}
                 maxLength={1024}
                 value={description}
                 placeholder={"Add a topic..."}
@@ -93,7 +94,20 @@ export const Overview = observer(({ server }: Props) => {
                     if (!changed) setChanged(true);
                 }}
             />
-
+            <div className={styles.markdown}>
+                <Markdown size="24" />
+                <h5>
+                    Descriptions support Markdown formatting,{" "}
+                    <a
+                        href="https://developers.revolt.chat/markdown"
+                        target="_blank"
+                        rel="noreferrer">
+                        learn more here
+                    </a>
+                    .
+                </h5>
+            </div>
+            <hr />
             <h3>
                 <Text id="app.main.servers.custom_banner" />
             </h3>
@@ -107,7 +121,7 @@ export const Overview = observer(({ server }: Props) => {
                 previewURL={server.generateBannerURL({ width: 1000 }, true)}
                 remove={() => server.edit({ remove: "Banner" })}
             />
-
+            <hr />
             <h3>
                 <Text id="app.settings.server_pages.overview.system_messages" />
             </h3>
@@ -152,7 +166,11 @@ export const Overview = observer(({ server }: Props) => {
                             <Text id="general.disabled" />
                         </option>
                         {server.channels
-                            .filter((x) => (typeof x !== "undefined" && x.channel_type === "TextChannel"))
+                            .filter(
+                                (x) =>
+                                    typeof x !== "undefined" &&
+                                    x.channel_type === "TextChannel",
+                            )
                             .map((channel) => (
                                 <option key={channel!._id} value={channel!._id}>
                                     {getChannelName(channel!, true)}

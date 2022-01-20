@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Children } from "../../../../types/Preact";
 
 const Grid = styled.div<{ width: number; height: number }>`
-    --width: ${props => props.width}px;
-    --height: ${props => props.height}px;
+    --width: ${(props) => props.width}px;
+    --height: ${(props) => props.height}px;
 
     display: grid;
     aspect-ratio: ${(props) => props.width} / ${(props) => props.height};
@@ -42,7 +42,7 @@ const Grid = styled.div<{ width: number; height: number }>`
         overflow: hidden;
 
         object-fit: contain;
-        
+
         // It's something
         object-position: left;
     }

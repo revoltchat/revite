@@ -1,4 +1,5 @@
-import { X, Crown } from "@styled-icons/boxicons-regular";
+import { X } from "@styled-icons/boxicons-regular";
+import { Crown } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Presence } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
@@ -31,6 +32,7 @@ type CommonProps = Omit<
     alert?: "unread" | "mention";
     alertCount?: number;
     margin?: boolean;
+    muted?: boolean;
 };
 
 type UserProps = CommonProps & {
@@ -39,6 +41,7 @@ type UserProps = CommonProps & {
     channel?: Channel;
 };
 
+// TODO: Gray out blocked names.
 export const UserButton = observer((props: UserProps) => {
     const {
         active,
@@ -86,7 +89,7 @@ export const UserButton = observer((props: UserProps) => {
                         alert ? (
                             channel.last_message.content.slice(0, 32)
                         ) : (
-                            <UserStatus user={user} />
+                            <UserStatus user={user} tooltip />
                         )}
                     </div>
                 }
@@ -132,8 +135,16 @@ type ChannelProps = CommonProps & {
 };
 
 export const ChannelButton = observer((props: ChannelProps) => {
-    const { active, alert, alertCount, channel, user, compact, ...divProps } =
-        props;
+    const {
+        active,
+        alert,
+        alertCount,
+        channel,
+        user,
+        compact,
+        muted,
+        ...divProps
+    } = props;
 
     if (channel.channel_type === "SavedMessages") throw "Invalid channel type.";
     if (channel.channel_type === "DirectMessage") {
@@ -142,17 +153,19 @@ export const ChannelButton = observer((props: ChannelProps) => {
     }
 
     const { openScreen } = useIntermediate();
+    const alerting = alert && !muted && !active;
 
     return (
         <div
             {...divProps}
             data-active={active}
-            data-alert={typeof alert === "string"}
+            data-alert={alerting}
+            data-muted={muted}
             aria-label={channel.name}
             className={classNames(styles.item, { [styles.compact]: compact })}
             onContextMenu={attachContextMenu("Menu", {
                 channel: channel._id,
-                unread: typeof alert !== "undefined",
+                unread: !!alert,
             })}>
             <ChannelIcon
                 className={styles.avatar}
@@ -164,7 +177,8 @@ export const ChannelButton = observer((props: ChannelProps) => {
                 {channel.channel_type === "Group" && (
                     <div className={styles.subText}>
                         {typeof channel.last_message?.content === "string" &&
-                        alert ? (
+                        alert &&
+                        !muted ? (
                             channel.last_message.content.slice(0, 32)
                         ) : (
                             <Text
@@ -177,7 +191,7 @@ export const ChannelButton = observer((props: ChannelProps) => {
                 )}
             </div>
             <div className={styles.button}>
-                {alert && (
+                {alerting && (
                     <div className={styles.alert} data-style={alert}>
                         {alertCount}
                     </div>

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" background="#191919">
     <head>
         <meta charset="UTF-8" />
+
+        <!--App Title-->
         <title>Revolt</title>
         <meta name="apple-mobile-web-app-title" content="Revolt" />
 
+        <!--App Scaling-->
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0, user-scalable=no"
@@ -16,7 +19,7 @@
             rel="apple-touch-icon"
             href="public/assets/icons/apple-touch.png"
         />
-        <link rel="icon" type="image/png" href="/src/assets/logo_round.png" />
+        <link rel="icon" type="image/png" href="/assets/logo_round.png" />
 
         <!--Splash Screens for iOS Devices-->
         <link
@@ -69,14 +72,72 @@
             media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
             rel="apple-touch-startup-image"
         />
+
+        <!--CSS for noscript screen-->
+        <style>
+            noscript {
+                background: #242424;
+                color: white;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                user-select: none;
+            }
+            noscript > div {
+                padding: 12px;
+                display: flex;
+                font-family: "Open Sans", sans-serif;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+            }
+            noscript > div > h1 {
+                margin: 8px 0;
+                text-transform: uppercase;
+                font-size: 20px;
+                font-weight: 700;
+            }
+            noscript > div > p {
+                margin: 4px 0;
+                font-size: 14px;
+            }
+            noscript > div > a {
+                align-self: center;
+                margin-top: 20px;
+                padding: 8px 10px;
+                font-size: 14px;
+                width: 80px;
+                font-weight: 600;
+                background: #ed5151;
+                border-radius: 4px;
+                text-decoration: none;
+                color: white;
+                transition: background-color 0.2s;
+            }
+            noscript > div > a:hover {
+                background-color: #cf4848;
+            }
+            noscript > div > a:active {
+                background-color: #b64141;
+            }
+        </style>
     </head>
-    <body ontouchstart="">
+    <body onContextMenu="return false" ontouchstart="">
         <div id="app"></div>
         <script type="module" src="/src/main.tsx"></script>
+        <noscript>
+            <div>
+                <img src="disabled-js.svg" />
+                <h1>Well, this is really awkward...</h1>
+                <p>Seems like your JavaScript is disabled.</p>
+                <p>You'll need to enable JavaScript to run this app.</p>
+                <a href="https://app.revolt.chat" target="_blank">Reload</a>
+            </div>
+        </noscript>
     </body>
-    <style>
-        html {
-            background-color: #191919;
-        }
-    </style>
 </html>

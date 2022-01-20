@@ -1,119 +1,190 @@
-import { Home as HomeIcon } from "@styled-icons/boxicons-solid";
+import { Money } from "@styled-icons/boxicons-regular";
+import {
+    Home as HomeIcon,
+    PlusCircle,
+    Compass,
+    Megaphone,
+    Group,
+    Cog,
+    RightArrowCircle,
+} from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components/macro";
 
 import styles from "./Home.module.scss";
+import "./snow.scss";
 import { Text } from "preact-i18n";
-import { useState } from "preact/hooks";
+import { useContext, useMemo } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { dispatch, getState } from "../../redux";
+import { useApplicationState } from "../../mobx/State";
 
-import wideSVG from "../../assets/wide.svg";
-import Emoji from "../../components/common/Emoji";
+import { AppContext } from "../../context/revoltjs/RevoltClient";
+
 import Tooltip from "../../components/common/Tooltip";
-import Header from "../../components/ui/Header";
+import { PageHeader } from "../../components/ui/Header";
 import CategoryButton from "../../components/ui/fluent/CategoryButton";
+import wideSVG from "/assets/wide.svg";
 
-const CHANNELS_SIDEBAR_KEY = "sidebar_channels";
+const Overlay = styled.div`
+    display: grid;
+    height: 100%;
 
-const IconConainer = styled.div`
-    cursor: pointer;
-    color: var(--secondary-foreground);
+    > * {
+        grid-area: 1 / 1;
+    }
 
-    ${!isTouchscreenDevice &&
-    css`
-        &:hover {
-            color: var(--foreground);
-        }
-    `}
+    .content {
+        z-index: 1;
+    }
 `;
 
-export default function Home() {
-    const [showChannels, setChannels] = useState(
-        getState().sectionToggle[CHANNELS_SIDEBAR_KEY] ?? true,
-    );
+export default observer(() => {
+    const client = useContext(AppContext);
+    const state = useApplicationState();
 
-    const toggleChannelSidebar = () => {
-        if (isTouchscreenDevice) {
-            return;
+    const seasonalTheme = state.settings.get("appearance:seasonal", true);
+    const toggleSeasonalTheme = () =>
+        state.settings.set("appearance:seasonal", !seasonalTheme);
+
+    const isDecember = !isTouchscreenDevice && new Date().getMonth() === 11;
+    const snowflakes = useMemo(() => {
+        const flakes = [];
+
+        // Disable outside of December
+        if (!isDecember) return [];
+
+        for (let i = 0; i < 15; i++) {
+            flakes.push("❄️");
+            flakes.push("❄");
         }
 
-        setChannels(!showChannels);
-
-        if (showChannels) {
-            dispatch({
-                type: "SECTION_TOGGLE_SET",
-                id: CHANNELS_SIDEBAR_KEY,
-                state: false,
-            });
-        } else {
-            dispatch({
-                type: "SECTION_TOGGLE_UNSET",
-                id: CHANNELS_SIDEBAR_KEY,
-            });
+        for (let i = 0; i < 2; i++) {
+            flakes.push("🎄");
+            flakes.push("☃️");
+            flakes.push("⛄");
         }
-    };
+
+        return flakes;
+    }, []);
 
     return (
         <div className={styles.home}>
-            <Header placement="primary">
-                <IconConainer onClick={toggleChannelSidebar}>
-                    <HomeIcon size={24} />
-                </IconConainer>
-                <Text id="app.navigation.tabs.home" />
-            </Header>
-            <h3>
-                <Text id="app.special.modals.onboarding.welcome" />
-                <br />
-                <img src={wideSVG} />
-            </h3>
-            <div className={styles.actions}>
-                <Link to="/invite/Testers">
-                    <CategoryButton
-                        action="chevron"
-                        icon={<Emoji emoji="😁" size={32} />}>
-                        Join testers server
-                    </CategoryButton>
-                </Link>
-                <a
-                    href="https://insrt.uk/donate"
-                    target="_blank"
-                    rel="noreferrer">
-                    <CategoryButton
-                        action="external"
-                        icon={<Emoji emoji="💷" size={32} />}>
-                        Donate to Revolt
-                    </CategoryButton>
-                </a>
-                <Link to="/settings/feedback">
-                    <CategoryButton
-                        action="chevron"
-                        icon={<Emoji emoji="🎉" size={32} />}>
-                        Give feedback
-                    </CategoryButton>
-                </Link>
-                <a
-                    href="https://revolt.social"
-                    target="_blank"
-                    rel="noreferrer">
-                    <CategoryButton
-                        action="external"
-                        icon={<Emoji emoji="🧭" size={32} />}>
-                        Find Servers & Bots
-                    </CategoryButton>
-                </a>
-                <Tooltip content="You can also right-click the user icon in the top left, or left click it if you're already home.">
-                    <Link to="/settings">
-                        <CategoryButton
-                            action="chevron"
-                            icon={<Emoji emoji="🔧" size={32} />}>
-                            Settings
-                        </CategoryButton>
-                    </Link>
-                </Tooltip>
-            </div>
+            <Overlay>
+                {seasonalTheme && (
+                    <div class="snowfall">
+                        {snowflakes.map((emoji, index) => (
+                            <div key={index} class="snowflake">
+                                {emoji}
+                            </div>
+                        ))}
+                    </div>
+                )}
+                <div className="content">
+                    <PageHeader icon={<HomeIcon size={24} />} transparent>
+                        <Text id="app.navigation.tabs.home" />
+                    </PageHeader>
+                    <div className={styles.homeScreen}>
+                        <h3>
+                            <Text id="app.special.modals.onboarding.welcome" />
+                            <br />
+                            <img src={wideSVG} />
+                        </h3>
+                        <div className={styles.actions}>
+                            <Link to="/settings">
+                                <CategoryButton
+                                    action="chevron"
+                                    icon={<PlusCircle size={32} />}
+                                    description={
+                                        <Text id="app.home.group_desc" />
+                                    }>
+                                    <Text id="app.home.group" />
+                                </CategoryButton>
+                            </Link>
+                            <Link to="/discover">
+                                <a>
+                                    <CategoryButton
+                                        action="chevron"
+                                        icon={<Compass size={32} />}
+                                        description={
+                                            <Text id="app.home.discover_desc" />
+                                        }>
+                                        <Text id="app.home.discover" />
+                                    </CategoryButton>
+                                </a>
+                            </Link>
+
+                            {client.servers.get(
+                                "01F7ZSBSFHQ8TA81725KQCSDDP",
+                            ) ? (
+                                <Link to="/server/01F7ZSBSFHQ8TA81725KQCSDDP">
+                                    <CategoryButton
+                                        action="chevron"
+                                        icon={<RightArrowCircle size={32} />}
+                                        description={
+                                            <Text id="app.home.goto-testers_desc" />
+                                        }>
+                                        <Text id="app.home.goto-testers" />
+                                    </CategoryButton>
+                                </Link>
+                            ) : (
+                                <Link to="/invite/Testers">
+                                    <CategoryButton
+                                        action="chevron"
+                                        icon={<Group size={32} />}
+                                        description={
+                                            <Text id="app.home.join-testers_desc" />
+                                        }>
+                                        <Text id="app.home.join-testers" />
+                                    </CategoryButton>
+                                </Link>
+                            )}
+
+                            <Link to="/settings/feedback">
+                                <CategoryButton
+                                    action="chevron"
+                                    icon={<Megaphone size={32} />}
+                                    description={
+                                        <Text id="app.home.feedback_desc" />
+                                    }>
+                                    <Text id="app.home.feedback" />
+                                </CategoryButton>
+                            </Link>
+                            <a
+                                href="https://insrt.uk/donate"
+                                target="_blank"
+                                rel="noreferrer">
+                                <CategoryButton
+                                    action="external"
+                                    description={
+                                        <Text id="app.home.donate_desc" />
+                                    }
+                                    icon={<Money size={32} />}>
+                                    <Text id="app.home.donate" />
+                                </CategoryButton>
+                            </a>
+                            <Link to="/settings">
+                                <CategoryButton
+                                    action="chevron"
+                                    description={
+                                        <Text id="app.home.settings-tooltip" />
+                                    }
+                                    icon={<Cog size={32} />}>
+                                    <Text id="app.home.settings" />
+                                </CategoryButton>
+                            </Link>
+                        </div>
+                        {isDecember && (
+                            <a href="#" onClick={toggleSeasonalTheme}>
+                                Turn {seasonalTheme ? "off" : "on"} homescreen
+                                effects
+                            </a>
+                        )}
+                    </div>
+                </div>
+            </Overlay>{" "}
         </div>
     );
-}
+});

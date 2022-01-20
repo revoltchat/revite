@@ -1,5 +1,5 @@
 import { InfoCircle } from "@styled-icons/boxicons-regular";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Children } from "../../types/Preact";
 
@@ -18,6 +18,7 @@ export const Separator = styled.div<Props>`
 export const TipBase = styled.div<Props>`
     display: flex;
     padding: 12px;
+    font-weight: 500;
     overflow: hidden;
     align-items: center;
 
@@ -49,9 +50,9 @@ export const TipBase = styled.div<Props>`
     ${(props) =>
         props.error &&
         css`
-            color: var(--error);
+            color: white;
             border: 2px solid var(--error);
-            background: var(--secondary-header);
+            background: var(--error);
         `}
 `;
 

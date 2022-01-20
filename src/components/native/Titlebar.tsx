@@ -1,13 +1,24 @@
 import { Wrench } from "@styled-icons/boxicons-solid";
-import styled from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import UpdateIndicator from "../common/UpdateIndicator";
 
-const TitlebarBase = styled.div`
+interface Props {
+    overlay?: boolean;
+}
+
+const TitlebarBase = styled.div<Props>`
     height: var(--titlebar-height);
     display: flex;
     user-select: none;
     align-items: center;
+
+    ${(props) =>
+        props.overlay &&
+        css`
+            position: fixed;
+            width: 100%;
+        `}
 
     .drag {
         flex-grow: 1;
@@ -84,9 +95,9 @@ const TitlebarBase = styled.div`
     }
 `;
 
-export function Titlebar() {
+export function Titlebar(props: Props) {
     return (
-        <TitlebarBase>
+        <TitlebarBase {...props}>
             <div class="title">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

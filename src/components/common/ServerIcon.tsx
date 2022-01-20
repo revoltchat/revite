@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Server } from "revolt.js/dist/maps/Servers";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { useContext } from "preact/hooks";
 
@@ -13,10 +13,13 @@ interface Props extends IconBaseProps<Server> {
 }
 
 const ServerText = styled.div`
-    display: grid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.2em;
+    font-size: 0.75rem;
+    font-weight: 600;
     overflow: hidden;
-    place-items: center;
     color: var(--foreground);
     background: var(--primary-background);
     border-radius: var(--border-radius-half);
@@ -49,7 +52,9 @@ export default observer(
                     {name
                         .split(" ")
                         .map((x) => x[0])
-                        .filter((x) => typeof x !== "undefined")}
+                        .filter((x) => typeof x !== "undefined")
+                        .join("")
+                        .substring(0, 3)}
                 </ServerText>
             );
         }

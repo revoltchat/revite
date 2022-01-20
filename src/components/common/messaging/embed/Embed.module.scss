@@ -1,9 +1,10 @@
 .embed {
-    margin: .2em 0;
+    margin: 0.2em 0;
 
     iframe {
         border: none;
         border-radius: var(--border-radius);
+        width: 100%;
     }
 
     &.image {
@@ -87,11 +88,15 @@
         .footer {
             font-size: 12px;
         }
-        
+
         img.image {
             cursor: pointer;
             object-fit: contain;
             border-radius: var(--border-radius);
+        }
+
+        a {
+            cursor: pointer;
         }
     }
 }
@@ -99,14 +104,14 @@
 // TODO: unified actions css (see attachment.module.scss for other actions css)
 .actions {
     display: grid;
-    grid-template: 
+    grid-template:
         "name open" auto
         "size open" auto
         / minmax(20px, 1fr) min-content;
 
     align-items: center;
     column-gap: 12px;
-    
+
     width: 100%;
     padding: 8px;
     overflow: none;
@@ -119,7 +124,7 @@
         white-space: nowrap;
         overflow: hidden;
     }
-    
+
     .filesize {
         grid-area: size;
 

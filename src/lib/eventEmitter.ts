@@ -29,3 +29,5 @@ export function internalEmit(ns: string, event: string, ...args: unknown[]) {
 // - ReplyBar/add
 // - Modal/close
 // - PWA/update
+// - NewMessages/hide
+// - NewMessages/mark

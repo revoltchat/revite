@@ -1,9 +1,17 @@
+import { Refresh } from "@styled-icons/boxicons-regular";
+
 import { useEffect, useState } from "preact/hooks";
 
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
+import Tip from "../../../components/ui/Tip";
+import CategoryButton from "../../../components/ui/fluent/CategoryButton";
+import RLogo from "../assets/revolt_r.svg";
 
 export function Native() {
+    if (typeof window.native === "undefined") return null;
+    /* eslint-disable react-hooks/rules-of-hooks */
+
     const [config, setConfig] = useState(window.native.getConfig());
     const [autoStart, setAutoStart] = useState<boolean | undefined>();
     const fetchValue = () => window.native.getAutoStart().then(setAutoStart);
@@ -17,9 +25,9 @@ export function Native() {
     }, []);
 
     return (
-        <div>
+        <div style={{ marginTop: "10px" }}>
+            <Tip hideSeparator>Some options might require a restart.</Tip>
             <h3>App Behavior</h3>
-            <h5>Some options might require a restart.</h5>
             <Checkbox
                 checked={autoStart ?? false}
                 disabled={typeof autoStart === "undefined"}
@@ -154,6 +162,8 @@ export function Native() {
                                         the app will not load!
                                     </span>
                                 </b>
+                                <br />
+                                <code>yarn dev --port 3001</code>
                             </>
                         }>
                         I understand there's no going back.
@@ -172,6 +182,13 @@ export function Native() {
                     </p>
                 </>
             )}
+            <hr />
+            <CategoryButton
+                icon={<img src={RLogo} draggable={false} />}
+                description={<span>version {window.nativeVersion}</span>}
+                action={<Refresh size={24} />}>
+                Revolt for Desktop
+            </CategoryButton>
         </div>
     );
 }

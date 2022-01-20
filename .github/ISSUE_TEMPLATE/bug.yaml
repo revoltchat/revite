@@ -1,0 +1,66 @@
+name: Bug report
+description: File a bug report
+title: "[Bug Report]"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: dropdown
+    id: branch
+    attributes:
+      label: Branch
+      description: What branch of Revolt are you using?
+      options:
+        - Production (app.revolt.chat)
+        - Nightly (nightly.revolt.chat)
+    validations:
+      required: true
+  - type: textarea
+    id: commit-hash
+    attributes:
+      label: Commit hash
+      description: What is your commit hash? You can find this at the bottom of Settings, next to the branch name.
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Other (please specify in the "What happened" form)
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. (To get this, press `CTRL`- or `CMD`-`SHIFT`-`I` and navigate to the "Console" tab.)
+      render: shell
+  - type: checkboxes
+    id: desktop
+    attributes:
+      label: Desktop
+      description: Is this bug specific to [the desktop client](https://gihtub.com/revoltchat/desktop)? (If not, leave this unchecked.)
+      options:
+        - label: Yes, this bug is specific to Revolt Desktop and is *not* an issue with Revolt Desktop itself.
+          required: false
+  - type: checkboxes
+    id: pwa
+    attributes:
+      label: PWA
+      description: Is this bug specific to the PWA (i.e. "installing" the web app on iOS or Android)? (If not, leave this unchecked.)
+      options:
+        - label: Yes, this bug is specific to the PWA.
+          required: false

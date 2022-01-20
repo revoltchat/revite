@@ -4,9 +4,9 @@ import styles from "./Onboarding.module.scss";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import wideSVG from "../../../assets/wide.svg";
 import Button from "../../../components/ui/Button";
 import Preloader from "../../../components/ui/Preloader";
+import wideSVG from "/assets/wide.svg";
 
 import FormField from "../../../pages/login/FormField";
 import { takeError } from "../../revoltjs/util";
@@ -40,6 +40,7 @@ export function OnboardingModal({ onClose, callback }: Props) {
             <div className={styles.header}>
                 <h1>
                     <Text id="app.special.modals.onboarding.welcome" />
+                    <br />
                     <img src={wideSVG} loading="eager" />
                 </h1>
             </div>

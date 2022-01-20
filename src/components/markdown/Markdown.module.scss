@@ -1,5 +1,7 @@
 .markdown {
     :global(.emoji) {
+        object-fit: contain;
+
         height: 1.25em;
         width: 1.25em;
         margin: 0 0.05em 0 0.1em;
@@ -76,6 +78,17 @@
         }
     }
 
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        &:not(:first-child) {
+            margin-top: 12px;
+        }
+    }
+
     ul,
     ol {
         list-style-position: inside;
@@ -104,6 +117,7 @@
 
     p > code {
         padding: 1px 4px;
+        flex-shrink: 0;
     }
 
     code {
@@ -112,6 +126,8 @@
         background: var(--block);
         border-radius: var(--border-radius);
         font-family: var(--monospace-font), monospace;
+        border-radius: 3px;
+        -webkit-box-decoration-break: clone;
     }
 
     input[type="checkbox"] {

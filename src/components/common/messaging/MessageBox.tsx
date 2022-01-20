@@ -1,9 +1,9 @@
-import { Send, ShieldX } from "@styled-icons/boxicons-solid";
+import { Send, ShieldX, HappyBeaming, Box } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
 import { observer } from "mobx-react-lite";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
@@ -20,10 +20,9 @@ import {
     SMOOTH_SCROLL_ON_RECEIVE,
 } from "../../../lib/renderer/Singleton";
 
-import { dispatch, getState } from "../../../redux";
-import { Reply } from "../../../redux/reducers/queue";
+import { useApplicationState } from "../../../mobx/State";
+import { Reply } from "../../../mobx/stores/MessageQueue";
 
-import { SoundContext } from "../../../context/Settings";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
     FileUploader,
@@ -79,9 +78,15 @@ const Blocked = styled.div`
     user-select: none;
     font-size: var(--text-size);
     color: var(--tertiary-foreground);
+    flex-grow: 1;
+    cursor: not-allowed;
 
     .text {
-        padding: 14px 14px 14px 0;
+        padding: var(--message-box-padding);
+    }
+
+    > div > div {
+        cursor: default;
     }
 
     svg {
@@ -90,13 +95,17 @@ const Blocked = styled.div`
 `;
 
 const Action = styled.div`
-    display: flex;
-    place-items: center;
-
     > div {
         height: 48px;
         width: 48px;
-        padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /*padding: 14px 0 14px 14px;*/
+    }
+
+    .mobile {
+        width: 62px;
     }
 
     ${() =>
@@ -108,21 +117,29 @@ const Action = styled.div`
         `}
 `;
 
+const FileAction = styled.div`
+    > div {
+        height: 48px;
+        width: 62px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+`;
+
 // For sed replacement
 const RE_SED = new RegExp("^s/([^])*/([^])*$");
 
 // ! FIXME: add to app config and load from app config
-export const CAN_UPLOAD_AT_ONCE = 4;
+export const CAN_UPLOAD_AT_ONCE = 5;
 
 export default observer(({ channel }: Props) => {
-    const [draft, setDraft] = useState(getState().drafts[channel._id] ?? "");
+    const state = useApplicationState();
 
     const [uploadState, setUploadState] = useState<UploadState>({
         type: "none",
     });
     const [typing, setTyping] = useState<boolean | number>(false);
     const [replies, setReplies] = useState<Reply[]>([]);
-    const playSound = useContext(SoundContext);
     const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
     const translate = useTranslation();
@@ -148,27 +165,18 @@ export default observer(({ channel }: Props) => {
         );
     }
 
+    // Push message content to draft.
     const setMessage = useCallback(
-        (content?: string) => {
-            setDraft(content ?? "");
-
-            if (content) {
-                dispatch({
-                    type: "SET_DRAFT",
-                    channel: channel._id,
-                    content,
-                });
-            } else {
-                dispatch({
-                    type: "CLEAR_DRAFT",
-                    channel: channel._id,
-                });
-            }
-        },
-        [channel._id],
+        (content?: string) => state.draft.set(channel._id, content),
+        [state.draft, channel._id],
     );
 
     useEffect(() => {
+        /**
+         *
+         * @param content
+         * @param action
+         */
         function append(content: string, action: "quote" | "mention") {
             const text =
                 action === "quote"
@@ -178,10 +186,10 @@ export default observer(({ channel }: Props) => {
                           .join("\n")}\n\n`
                     : `${content} `;
 
-            if (!draft || draft.length === 0) {
+            if (!state.draft.has(channel._id)) {
                 setMessage(text);
             } else {
-                setMessage(`${draft}\n${text}`);
+                setMessage(`${state.draft.get(channel._id)}\n${text}`);
             }
         }
 
@@ -190,16 +198,20 @@ export default observer(({ channel }: Props) => {
             "append",
             append as (...args: unknown[]) => void,
         );
-    }, [draft, setMessage]);
+    }, [state.draft, channel._id, setMessage]);
 
+    /**
+     * Trigger send message.
+     */
     async function send() {
         if (uploadState.type === "uploading" || uploadState.type === "sending")
             return;
 
-        const content = draft?.trim() ?? "";
+        const content = state.draft.get(channel._id)?.trim() ?? "";
         if (uploadState.type === "attached") return sendFile(content);
         if (content.length === 0) return;
 
+        internalEmit("NewMessages", "hide");
         stopTyping();
         setMessage();
         setReplies([]);
@@ -247,20 +259,15 @@ export default observer(({ channel }: Props) => {
                 }
             }
         } else {
-            playSound("outbound");
+            state.settings.sounds.playSound("outbound");
 
-            dispatch({
-                type: "QUEUE_ADD",
-                nonce,
+            state.queue.add(nonce, channel._id, {
+                _id: nonce,
                 channel: channel._id,
-                message: {
-                    _id: nonce,
-                    channel: channel._id,
-                    author: client.user!._id,
+                author: client.user!._id,
 
-                    content,
-                    replies,
-                },
+                content,
+                replies,
             });
 
             defer(() => renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE));
@@ -272,15 +279,16 @@ export default observer(({ channel }: Props) => {
                     replies,
                 });
             } catch (error) {
-                dispatch({
-                    type: "QUEUE_FAIL",
-                    error: takeError(error),
-                    nonce,
-                });
+                state.queue.fail(nonce, takeError(error));
             }
         }
     }
 
+    /**
+     *
+     * @param content
+     * @returns
+     */
     async function sendFile(content: string) {
         if (uploadState.type !== "attached") return;
         const attachments: string[] = [];
@@ -360,7 +368,7 @@ export default observer(({ channel }: Props) => {
 
         setMessage();
         setReplies([]);
-        playSound("outbound");
+        state.settings.sounds.playSound("outbound");
 
         if (files.length > CAN_UPLOAD_AT_ONCE) {
             setUploadState({
@@ -372,6 +380,10 @@ export default observer(({ channel }: Props) => {
         }
     }
 
+    /**
+     *
+     * @returns
+     */
     function startTyping() {
         if (typeof typing === "number" && +new Date() < typing) return;
 
@@ -385,6 +397,10 @@ export default observer(({ channel }: Props) => {
         }
     }
 
+    /**
+     *
+     * @param force
+     */
     function stopTyping(force?: boolean) {
         if (force || typing) {
             const ws = client.websocket;
@@ -398,6 +414,7 @@ export default observer(({ channel }: Props) => {
         }
     }
 
+    // TODO: change to useDebounceCallback
     // eslint-disable-next-line
     const debouncedStopTyping = useCallback(
         debounce(stopTyping as (...args: unknown[]) => void, 1000),
@@ -458,7 +475,7 @@ export default observer(({ channel }: Props) => {
             />
             <Base>
                 {channel.permission & ChannelPermission.UploadFiles ? (
-                    <Action>
+                    <FileAction>
                         <FileUploader
                             size={24}
                             behaviour="multi"
@@ -493,7 +510,7 @@ export default observer(({ channel }: Props) => {
                                 }
                             }}
                         />
-                    </Action>
+                    </FileAction>
                 ) : undefined}
                 <TextAreaAutoSize
                     autoFocus
@@ -502,7 +519,7 @@ export default observer(({ channel }: Props) => {
                     id="message"
                     maxLength={2000}
                     onKeyUp={onKeyUp}
-                    value={draft ?? ""}
+                    value={state.draft.get(channel._id) ?? ""}
                     padding="var(--message-box-padding)"
                     onKeyDown={(e) => {
                         if (e.ctrlKey && e.key === "Enter") {
@@ -514,7 +531,7 @@ export default observer(({ channel }: Props) => {
 
                         if (
                             e.key === "ArrowUp" &&
-                            (!draft || draft.length === 0)
+                            !state.draft.has(channel._id)
                         ) {
                             e.preventDefault();
                             internalEmit("MessageRenderer", "edit_last");
@@ -523,6 +540,7 @@ export default observer(({ channel }: Props) => {
 
                         if (
                             !e.shiftKey &&
+                            !e.isComposing &&
                             e.key === "Enter" &&
                             !isTouchscreenDevice
                         ) {
@@ -572,10 +590,17 @@ export default observer(({ channel }: Props) => {
                     onFocus={onFocus}
                     onBlur={onBlur}
                 />
+                {/*<Action>
+                    <IconButton>
+                        <Box size={24} />
+                    </IconButton>
+                </Action>
                 <Action>
-                    {/*<IconButton onClick={emojiPicker}>
-                        <HappyAlt size={20} />
-                </IconButton>*/}
+                    <IconButton>
+                        <HappyBeaming size={24} />
+                    </IconButton>
+                </Action>*/}
+                <Action>
                     <IconButton
                         className="mobile"
                         onClick={send}

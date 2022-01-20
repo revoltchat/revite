@@ -1,6 +1,6 @@
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { StateUpdater, useState } from "preact/hooks";
 
@@ -79,7 +79,9 @@ export function useAutoComplete(
 
             if (current === ":" || current === "@" || current === "#") {
                 const search = content.slice(j + 1, content.length);
-                if (search.length > 0) {
+                const minLen = current === ":" ? 2 : 1;
+
+                if (search.length >= minLen) {
                     return [
                         current === "#"
                             ? "channel"

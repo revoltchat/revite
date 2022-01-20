@@ -1,5 +1,8 @@
 import { XCircle } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
+import { Virtuoso } from "react-virtuoso";
+import { Ban } from "revolt-api/types/Servers";
+import { User } from "revolt-api/types/Users";
 import { Route } from "revolt.js/dist/api/routes";
 import { Server } from "revolt.js/dist/maps/Servers";
 
@@ -11,12 +14,45 @@ import UserIcon from "../../../components/common/user/UserIcon";
 import IconButton from "../../../components/ui/IconButton";
 import Preloader from "../../../components/ui/Preloader";
 
+interface InnerProps {
+    ban: Ban;
+    users: Pick<User, "username" | "avatar" | "_id">[];
+    server: Server;
+    removeSelf: () => void;
+}
+
+const Inner = observer(({ ban, users, server, removeSelf }: InnerProps) => {
+    const [deleting, setDelete] = useState(false);
+    const user = users.find((x) => x._id === ban._id.user);
+
+    return (
+        <div className={styles.ban} data-deleting={deleting}>
+            <span>
+                <UserIcon attachment={user?.avatar ?? undefined} size={24} />{" "}
+                {user?.username}
+            </span>
+            <div className={styles.reason}>
+                {ban.reason ?? (
+                    <Text id="app.settings.server_pages.bans.no_reason" />
+                )}
+            </div>
+            <IconButton
+                onClick={() => {
+                    setDelete(true);
+                    server.unbanUser(ban._id.user).then(removeSelf);
+                }}
+                disabled={deleting}>
+                <XCircle size={24} />
+            </IconButton>
+        </div>
+    );
+});
+
 interface Props {
     server: Server;
 }
 
 export const Bans = observer(({ server }: Props) => {
-    const [deleting, setDelete] = useState<string[]>([]);
     const [data, setData] = useState<
         Route<"GET", "/servers/id/bans">["response"] | undefined
     >(undefined);
@@ -39,42 +75,31 @@ export const Bans = observer(({ server }: Props) => {
                 </span>
             </div>
             {typeof data === "undefined" && <Preloader type="ring" />}
-            {data?.bans.map((x) => {
-                const user = data.users.find((y) => y._id === x._id.user);
-
-                return (
-                    <div
-                        key={x._id.user}
-                        className={styles.ban}
-                        data-deleting={deleting.indexOf(x._id.user) > -1}>
-                        <span>
-                            <UserIcon attachment={user?.avatar} size={24} />
-                            {user?.username}
-                        </span>
-                        <div className={styles.reason}>
-                            {x.reason ?? (
-                                <Text id="app.settings.server_pages.bans.no_reason" />
-                            )}
-                        </div>
-                        <IconButton
-                            onClick={async () => {
-                                setDelete([...deleting, x._id.user]);
-
-                                await server.unbanUser(x._id.user);
-
-                                setData({
-                                    ...data,
-                                    bans: data.bans.filter(
-                                        (y) => y._id.user !== x._id.user,
-                                    ),
-                                });
-                            }}
-                            disabled={deleting.indexOf(x._id.user) > -1}>
-                            <XCircle size={24} />
-                        </IconButton>
-                    </div>
-                );
-            })}
+            {data && (
+                <div className={styles.virtual}>
+                    <Virtuoso
+                        totalCount={data.bans.length}
+                        itemContent={(index) => (
+                            <Inner
+                                key={data.bans[index]._id.user}
+                                server={server}
+                                users={data.users}
+                                ban={data.bans[index]}
+                                removeSelf={() => {
+                                    setData({
+                                        bans: data.bans.filter(
+                                            (y) =>
+                                                y._id.user !==
+                                                data.bans[index]._id.user,
+                                        ),
+                                        users: data.users,
+                                    });
+                                }}
+                            />
+                        )}
+                    />
+                </div>
+            )}
         </div>
     );
 });
