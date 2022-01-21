@@ -40,10 +40,11 @@ export const ReplyBase = styled.div<{
 
     &::before {
         content: "";
+        flex-shrink: 0;
         width: 22px;
         height: 10px;
-        border-inline-start: 3px solid var(--message-box);
-        border-top: 3px solid var(--message-box);
+        border-inline-start: 2px solid var(--message-box);
+        border-top: 2px solid var(--message-box);
         align-self: flex-end;
     }
 
