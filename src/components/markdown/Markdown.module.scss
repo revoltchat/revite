@@ -27,6 +27,10 @@
         }
     }
 
+    p + blockquote {
+        margin-top: -1em;
+    }
+
     a {
         text-decoration: none;
 
@@ -53,11 +57,7 @@
     h4,
     h5,
     h6 {
-        margin: 2rem 0 0 0;
-
-        &:not(:last-child) {
-            margin-bottom: 1rem;
-        }
+        margin: 0;
     }
 
     ul,
@@ -71,21 +71,10 @@
     }
 
     li {
-        margin: 0.5em 0;
+        margin: 0.15em 0;
 
         &:last-child {
             margin-bottom: 0;
-        }
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        &:not(:first-child) {
-            margin-top: 12px;
         }
     }
 
