@@ -65,7 +65,7 @@ export function GenericSettings({
 
         setTimeout(() => {
             history.replace(state.layout.getLastPath());
-        }, 100);
+        }, 200);
     }, [history]);
 
     useEffect(() => {

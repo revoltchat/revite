@@ -13,6 +13,21 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
     z-index: 1;
     position: relative;
 
+    @keyframes bounce-from-bottom {
+        0% {
+            transform: translateY(33px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    animation-name: bounce-from-bottom;
+    animation-duration: 340ms;
+    animation-delay: 0ms;
+    animation-timing-function: cubic-bezier(0.2, 0.9, 0.5, 1.16);
+    animation-fill-mode: forwards;
+
     ${(props) =>
         props.position === "top" &&
         css`
