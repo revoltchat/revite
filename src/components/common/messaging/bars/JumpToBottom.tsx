@@ -10,7 +10,7 @@ import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
-    z-index: 10;
+    z-index: 1;
     position: relative;
 
     ${(props) =>
@@ -44,6 +44,10 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         user-select: none;
         justify-content: space-between;
         transition: color ease-in-out 0.08s;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         ${(props) =>
             props.accent
@@ -86,6 +90,10 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
             display: flex;
             align-items: center;
             gap: 6px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         &:hover {
@@ -103,6 +111,12 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
                 padding: 0 12px;
             `}
     }
+
+    @media only screen and (max-width: 800px) {
+        .right > span {
+            display: none;
+        }
+    }
 `;
 
 export default observer(({ channel }: { channel: Channel }) => {
@@ -119,8 +133,10 @@ export default observer(({ channel }: { channel: Channel }) => {
                 <div>
                     <Text id="app.main.channel.misc.viewing_old" />
                 </div>
-                <div>
-                    <Text id="app.main.channel.misc.jump_present" />{" "}
+                <div className="right">
+                    <span>
+                        <Text id="app.main.channel.misc.jump_present" />
+                    </span>
                     <DownArrowAlt size={18} />
                 </div>
             </div>

@@ -56,6 +56,7 @@ export type UploadState =
     | { type: "failed"; files: File[]; error: string };
 
 const Base = styled.div`
+    z-index: 10;
     display: flex;
     align-items: flex-start;
     background: var(--message-box);
@@ -102,6 +103,10 @@ const Action = styled.div`
         align-items: center;
         justify-content: center;
         /*padding: 14px 0 14px 14px;*/
+    }
+
+    .mobile {
+        width: 62px;
     }
 
     ${() =>

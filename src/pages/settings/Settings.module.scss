@@ -94,6 +94,10 @@
         background-clip: content-box;
         border-top: 80px solid transparent;
     }
+
+    .container {
+        max-width: 300px;
+    }
 }
 
 .settings {
@@ -124,16 +128,11 @@
 
         .container {
             min-width: 218px;
+
             padding: 80px 8px;
             display: flex;
             gap: 2px;
             flex-direction: column;
-        }
-
-        @media only screen and (min-width: 800px) {
-            .container {
-                max-width: 300px;
-            }
         }
 
         .divider {
