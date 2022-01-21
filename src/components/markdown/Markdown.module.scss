@@ -27,6 +27,7 @@
 
         &[data-type="mention"] {
             padding: 0 6px;
+            flex-shrink: 0;
             font-weight: 600;
             display: inline-block;
             background: var(--secondary-background);
