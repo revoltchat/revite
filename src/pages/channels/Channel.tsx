@@ -1,33 +1,31 @@
-import { Hash } from "@styled-icons/boxicons-regular";
-import { Ghost } from "@styled-icons/boxicons-solid";
 import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
+import { Text } from "preact-i18n";
+import { useEffect, useState } from "preact/hooks";
 import { Redirect, useParams } from "react-router-dom";
 import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
 import styled from "styled-components/macro";
 
-import { Text } from "preact-i18n";
-import { useEffect, useState } from "preact/hooks";
-
-import ErrorBoundary from "../../lib/ErrorBoundary";
-import { internalSubscribe } from "../../lib/eventEmitter";
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-
-import { useApplicationState } from "../../mobx/State";
-import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
-
-import { useClient } from "../../context/revoltjs/RevoltClient";
+import { Hash } from "@styled-icons/boxicons-regular";
+import { Ghost } from "@styled-icons/boxicons-solid";
 
 import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
 import NewMessages from "../../components/common/messaging/bars/NewMessages";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
-import { PageHeader } from "../../components/ui/Header";
-
 import RightSidebar from "../../components/navigation/RightSidebar";
+import { PageHeader } from "../../components/ui/Header";
+import { useClient } from "../../context/revoltjs/RevoltClient";
+import ErrorBoundary from "../../lib/ErrorBoundary";
+import { internalSubscribe } from "../../lib/eventEmitter";
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+import { voiceState } from "../../lib/vortex/VoiceState";
+import { useApplicationState } from "../../mobx/State";
+import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
 import ChannelHeader from "./ChannelHeader";
 import { MessageArea } from "./messaging/MessageArea";
+import { VoiceEmptyState } from "./voice/VoiceEmptyState";
 import VoiceHeader from "./voice/VoiceHeader";
 
 const ChannelMain = styled.div.attrs({ "data-component": "channel" })`
@@ -195,14 +193,17 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
     );
 });
 
-function VoiceChannel({ channel }: { channel: ChannelI }) {
+const VoiceChannel = observer(({ channel }: { channel: ChannelI }) => {
     return (
         <>
             <ChannelHeader channel={channel} />
             <VoiceHeader id={channel._id} />
+            {voiceState.roomId !== channel._id ? (
+                <VoiceEmptyState channel={channel} />
+            ) : null}
         </>
     );
-}
+});
 
 function ChannelPlaceholder() {
     return (
