@@ -16,6 +16,7 @@ import { internalEmit } from "../../../lib/eventEmitter";
 import { useTranslation } from "../../../lib/i18n";
 import { stopPropagation } from "../../../lib/stopPropagation";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
@@ -30,7 +31,6 @@ import AutoComplete, {
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 interface Data {
     _id: string;

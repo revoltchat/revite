@@ -16,6 +16,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import { stopPropagation } from "../../../lib/stopPropagation";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
@@ -28,7 +29,6 @@ import {
 
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 export const Account = observer(() => {
     const { openScreen, writeClipboard } = useIntermediate();

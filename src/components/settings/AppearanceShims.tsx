@@ -7,6 +7,7 @@ import pSBC from "shade-blend-color";
 import { Text } from "preact-i18n";
 
 import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
+import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { ColourSwatches } from "@revoltchat/ui/lib/components/atoms/inputs/ColourSwatches";
 import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
@@ -22,8 +23,6 @@ import {
     MONOSPACE_FONTS,
     MONOSPACE_FONT_KEYS,
 } from "../../context/Theme";
-
-import CategoryButton from "../ui/fluent/CategoryButton";
 
 import { EmojiSelector } from "./appearance/EmojiSelector";
 import { ThemeBaseSelector } from "./appearance/ThemeBaseSelector";

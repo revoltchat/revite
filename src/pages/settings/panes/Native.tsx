@@ -3,10 +3,10 @@ import { Refresh } from "@styled-icons/boxicons-regular";
 import { useEffect, useState } from "preact/hooks";
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 import RLogo from "../assets/revolt_r.svg";
 
 export function Native() {
