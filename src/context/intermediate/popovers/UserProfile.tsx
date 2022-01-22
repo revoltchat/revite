@@ -442,7 +442,7 @@ export const UserProfile = observer(
         }
 
         return (
-            <ModalBound padding="0" onClose={onClose}>
+            <ModalBound padding="0" maxWidth="560px" onClose={onClose}>
                 {content}
             </ModalBound>
         );

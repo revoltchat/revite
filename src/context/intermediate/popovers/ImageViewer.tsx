@@ -29,7 +29,11 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
     const client = useClient();
 
     return (
-        <ModalBound onClose={onClose} transparent>
+        <ModalBound
+            maxWidth="100%"
+            maxHeight="100%"
+            onClose={onClose}
+            transparent>
             <div className={styles.viewer}>
                 {attachment && (
                     <>

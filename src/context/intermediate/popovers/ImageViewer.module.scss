@@ -1,13 +1,18 @@
 .viewer {
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+
     display: flex;
+    overflow: hidden;
     flex-direction: column;
     border-end-end-radius: 4px;
     border-end-start-radius: 4px;
-    overflow: hidden;
 
     img {
         width: auto;
         height: auto;
+        min-height: 0;
         max-width: 90vw;
         max-height: 75vh;
         border-bottom: thin solid var(--tertiary-foreground);
