@@ -41,9 +41,8 @@ export function Native() {
 
                     setAutoStart(v);
                 }}
-                description="Launch Revolt when you log into your computer.">
-                Start with computer
-            </Checkbox>
+                title={"Start with computer"}
+                description="Launch Revolt when you log into your computer."></Checkbox>
 
             <Checkbox
                 value={config.discordRPC}
@@ -54,9 +53,8 @@ export function Native() {
                         discordRPC,
                     });
                 }}
-                description="Rep Revolt on your Discord status.">
-                Enable Discord status
-            </Checkbox>
+                title={"Enable Discord status"}
+                description="Rep Revolt on your Discord status."></Checkbox>
             <Checkbox
                 value={config.build === "nightly"}
                 onChange={(nightly) => {
@@ -68,9 +66,8 @@ export function Native() {
                         build,
                     });
                 }}
-                description="Use the beta branch of Revolt.">
-                Revolt Nightly
-            </Checkbox>
+                title={"Revolt Nightly"}
+                description="Use the beta branch of Revolt."></Checkbox>
             <h3>Titlebar</h3>
             <Checkbox
                 value={!config.frame}
@@ -82,10 +79,9 @@ export function Native() {
                         frame: !frame,
                     });
                 }}
-                description={<>Let Revolt use its own window frame.</>}>
-                Custom window frame
-            </Checkbox>
-            <Checkbox //FIXME: In Titlebar.tsx, enable .quick css
+                title={"Custom window frame"}
+                description={"Let Revolt use its own window frame."}></Checkbox>
+            {/*<Checkbox //FIXME: In Titlebar.tsx, enable .quick css
                 disabled={true}
                 value={!config.frame}
                 onChange={(frame) => {
@@ -98,7 +94,7 @@ export function Native() {
                 }}
                 description="Show mute/deafen buttons on the titlebar.">
                 Enable quick action buttons
-            </Checkbox>
+            </Checkbox>*/}
             <h3>Advanced</h3>
             <Checkbox
                 value={config.hardwareAcceleration}
@@ -113,9 +109,8 @@ export function Native() {
                         hardwareAcceleration,
                     });
                 }}
-                description="Uses your GPU to render the app, disable if you run into visual issues.">
-                Hardware Acceleration
-            </Checkbox>
+                title={"Hardware Acceleration"}
+                description="Uses your GPU to render the app, disable if you run into visual issues."></Checkbox>
             <p style={{ display: "flex", gap: "8px" }}>
                 <Button
                     compact
@@ -151,6 +146,7 @@ export function Native() {
                     <Checkbox
                         value={confirmDev}
                         onChange={setConfirmDev}
+                        title={"I understand there's no going back."}
                         description={
                             <>
                                 This will change the app to the 'dev' branch,
@@ -166,9 +162,7 @@ export function Native() {
                                 <br />
                                 <code>yarn dev --port 3001</code>
                             </>
-                        }>
-                        I understand there's no going back.
-                    </Checkbox>
+                        }></Checkbox>
                     <p>
                         <Button
                             compact

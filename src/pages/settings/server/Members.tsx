@@ -55,6 +55,14 @@ const Inner = observer(({ member }: InnerProps) => {
                             <Checkbox
                                 key={key}
                                 value={roles.includes(key) ?? false}
+                                title={
+                                    <span
+                                        style={{
+                                            color: role.colour,
+                                        }}>
+                                        {role.name}
+                                    </span>
+                                }
                                 onChange={(v) => {
                                     if (v) {
                                         setRoles([...roles, key]);
@@ -63,14 +71,7 @@ const Inner = observer(({ member }: InnerProps) => {
                                             roles.filter((x) => x !== key),
                                         );
                                     }
-                                }}>
-                                <span
-                                    style={{
-                                        color: role.colour,
-                                    }}>
-                                    {role.name}
-                                </span>
-                            </Checkbox>
+                                }}></Checkbox>
                         );
                     })}
                     <Button

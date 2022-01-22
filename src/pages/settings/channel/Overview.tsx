@@ -5,10 +5,11 @@ import styled from "styled-components/macro";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
+
+import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 
@@ -123,9 +124,8 @@ export default observer(({ channel }: Props) => {
                         setNSFW(nsfwchange);
                         if (!changed) setChanged(true);
                     }}
-                    description="Set this channel to NSFW.">
-                    NSFW
-                </Checkbox>
+                    title={"NSFW"}
+                    description="Set this channel to NSFW."></Checkbox>
             )}
             <p>
                 <Button onClick={save} palette="secondary" disabled={!changed}>

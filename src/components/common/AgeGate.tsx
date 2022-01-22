@@ -81,9 +81,8 @@ export default observer((props: Props) => {
 
             <Checkbox
                 value={layout.getSectionState(SECTION_NSFW, false)}
-                onChange={() => layout.toggleSectionState(SECTION_NSFW, false)}>
-                <Text id="app.main.channel.nsfw.confirm" />
-            </Checkbox>
+                onChange={() => layout.toggleSectionState(SECTION_NSFW, false)}
+                title={<Text id="app.main.channel.nsfw.confirm" />}></Checkbox>
             <div className="actions">
                 <Button palette="secondary" onClick={() => history.goBack()}>
                     <Text id="app.special.modals.actions.back" />

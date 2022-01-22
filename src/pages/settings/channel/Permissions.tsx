@@ -67,9 +67,8 @@ export default observer(({ channel }: Props) => {
                     <Checkbox
                         key={id}
                         value={selected === id}
-                        onChange={(selected) => selected && setSelected(id)}>
-                        {role.name}
-                    </Checkbox>
+                        onChange={(selected) => selected && setSelected(id)}
+                        title={role.name}></Checkbox>
                 );
             })}
             <h2>Channel permissions</h2>
@@ -82,11 +81,8 @@ export default observer(({ channel }: Props) => {
                     return (
                         <Checkbox
                             value={(p & value) > 0}
-                            onChange={(c) =>
-                                setPerm(c ? p | value : p ^ value)
-                            }>
-                            {perm}
-                        </Checkbox>
+                            onChange={(c) => setPerm(c ? p | value : p ^ value)}
+                            title={perm}></Checkbox>
                     );
                 }
             })}

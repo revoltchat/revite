@@ -194,9 +194,8 @@ export const Roles = observer(({ server }: Props) => {
                                 <Checkbox
                                     value={hoist ?? false}
                                     onChange={(v) => setHoist(v)}
-                                    description="Display this role above others.">
-                                    Hoist Role
-                                </Checkbox>
+                                    title={"Hoist Role"}
+                                    description="Display this role above others."></Checkbox>
                             </p>
                         </section>
                     </>
@@ -220,11 +219,12 @@ export const Roles = observer(({ server }: Props) => {
                                     setPerm([perm[0] ^ value, perm[1]])
                                 }
                                 disabled={!(clientPermissions & value)}
+                                title={
+                                    <Text id={`permissions.server.${key}.t`} />
+                                }
                                 description={
                                     <Text id={`permissions.server.${key}.d`} />
-                                }>
-                                <Text id={`permissions.server.${key}.t`} />
-                            </Checkbox>
+                                }></Checkbox>
                         );
                     })}
                 </section>
@@ -250,11 +250,12 @@ export const Roles = observer(({ server }: Props) => {
                                     key === "View" ||
                                     !(clientPermissions & value)
                                 }
+                                title={
+                                    <Text id={`permissions.channel.${key}.t`} />
+                                }
                                 description={
                                     <Text id={`permissions.channel.${key}.d`} />
-                                }>
-                                <Text id={`permissions.channel.${key}.t`} />
-                            </Checkbox>
+                                }></Checkbox>
                         );
                     })}
                 </section>

@@ -11,15 +11,16 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
-import { internalEmit } from "../../../lib/eventEmitter";
-import { useTranslation } from "../../../lib/i18n";
-import { stopPropagation } from "../../../lib/stopPropagation";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
+
+import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
+import { internalEmit } from "../../../lib/eventEmitter";
+import { useTranslation } from "../../../lib/i18n";
+import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -433,15 +434,15 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         />
                     </CollapsibleSection>
                     <Checkbox
-                        palette="secondary"
                         value={data.public}
                         disabled={saving}
+                        title={<Text id="app.settings.pages.bots.public_bot" />}
                         description={
                             <Text id="app.settings.pages.bots.public_bot_desc" />
                         }
-                        onChange={(v) => setData({ ...data, public: v })}>
-                        <Text id="app.settings.pages.bots.public_bot" />
-                    </Checkbox>
+                        onChange={(v) =>
+                            setData({ ...data, public: v })
+                        }></Checkbox>
                     <h3>
                         <Text id="app.settings.pages.bots.interactions_url" />
                     </h3>
