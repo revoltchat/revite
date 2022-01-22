@@ -6,11 +6,11 @@ import styled from "styled-components/macro";
 import { useEffect, useState } from "preact/hooks";
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
-import ComboBox from "../../components/ui/ComboBox";
 import Overline from "../../components/ui/Overline";
 import Preloader from "../../components/ui/Preloader";
 import Tip from "../../components/ui/Tip";

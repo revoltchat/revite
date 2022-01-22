@@ -2,12 +2,11 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { TextReact } from "../../../lib/i18n";
 import { stopPropagation } from "../../../lib/stopPropagation";
 import { voiceState } from "../../../lib/vortex/VoiceState";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
 
-import ComboBox from "../../../components/ui/ComboBox";
 import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
 import opusSVG from "../assets/opus_logo.svg";

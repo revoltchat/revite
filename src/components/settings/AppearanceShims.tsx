@@ -8,6 +8,8 @@ import { Text } from "preact-i18n";
 
 import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+import { ColourSwatches } from "@revoltchat/ui/lib/components/atoms/inputs/ColourSwatches";
+import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
 
 import { useApplicationState } from "../../mobx/State";
 
@@ -20,8 +22,6 @@ import {
     MONOSPACE_FONT_KEYS,
 } from "../../context/Theme";
 
-import ColourSwatches from "../ui/ColourSwatches";
-import ComboBox from "../ui/ComboBox";
 import Radio from "../ui/Radio";
 import CategoryButton from "../ui/fluent/CategoryButton";
 

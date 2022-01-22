@@ -1,8 +1,8 @@
+import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
+
 import { useApplicationState } from "../../mobx/State";
 
 import { Language, Languages } from "../../context/Locale";
-
-import ComboBox from "../ui/ComboBox";
 
 /**
  * Component providing a language selector combobox.

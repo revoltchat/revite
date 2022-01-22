@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { X } from "@styled-icons/boxicons-regular";
+import dayjs from "dayjs";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
 import { Masquerade } from "revolt-api/types/Channels";
@@ -14,6 +15,7 @@ import { useEffect, useState } from "preact/hooks";
 
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { ChannelRenderer } from "../../../lib/renderer/Singleton";
+import { MessageDivider } from "@revoltchat/ui/lib/components/atoms/indicators/MessageDivider";
 
 import { useApplicationState } from "../../../mobx/State";
 
@@ -22,7 +24,6 @@ import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Message from "../../../components/common/messaging/Message";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
-import DateDivider from "../../../components/ui/DateDivider";
 import Preloader from "../../../components/ui/Preloader";
 
 import { Children } from "../../../types/Preact";
@@ -126,7 +127,12 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
         }
 
         if (unread || date) {
-            render.push(<DateDivider date={date} unread={unread} />);
+            render.push(
+                <MessageDivider
+                    date={dayjs(date).format("LL")}
+                    unread={unread}
+                />,
+            );
             head = true;
         }
 

@@ -9,11 +9,11 @@ import { useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { getChannelName } from "../../../context/revoltjs/util";
 
-import ComboBox from "../../../components/ui/ComboBox";
 import InputBox from "../../../components/ui/InputBox";
 
 interface Props {

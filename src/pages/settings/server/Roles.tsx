@@ -16,11 +16,11 @@ import {
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+import { ColourSwatches } from "@revoltchat/ui/lib/components/atoms/inputs/ColourSwatches";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
-import ColourSwatches from "../../../components/ui/ColourSwatches";
 import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
 

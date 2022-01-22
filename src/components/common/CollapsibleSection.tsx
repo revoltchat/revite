@@ -1,8 +1,8 @@
 import { ChevronDown } from "@styled-icons/boxicons-regular";
 
-import { useApplicationState } from "../../mobx/State";
+import { Details } from "@revoltchat/ui/lib/components/atoms/layout/Details";
 
-import Details from "../ui/Details";
+import { useApplicationState } from "../../mobx/State";
 
 import { Children } from "../../types/Preact";
 
