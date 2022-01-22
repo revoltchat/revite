@@ -17,6 +17,7 @@ import { useTranslation } from "../../../lib/i18n";
 import { stopPropagation } from "../../../lib/stopPropagation";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -28,7 +29,6 @@ import AutoComplete, {
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import InputBox from "../../../components/ui/InputBox";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 

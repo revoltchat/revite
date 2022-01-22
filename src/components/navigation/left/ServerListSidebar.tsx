@@ -11,6 +11,7 @@ import { Text } from "preact-i18n";
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import { useApplicationState } from "../../../mobx/State";
 import { SIDEBAR_CHANNELS } from "../../../mobx/stores/Layout";
@@ -23,7 +24,6 @@ import ServerIcon from "../../common/ServerIcon";
 import Tooltip from "../../common/Tooltip";
 import UserHover from "../../common/user/UserHover";
 import UserIcon from "../../common/user/UserIcon";
-import IconButton from "../../ui/IconButton";
 import LineDivider from "../../ui/LineDivider";
 
 import { Children } from "../../../types/Preact";

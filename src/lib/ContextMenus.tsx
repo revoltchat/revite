@@ -32,6 +32,8 @@ import {
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
+
 import { useApplicationState } from "../mobx/State";
 import { QueuedMessage } from "../mobx/stores/MessageQueue";
 import { NotificationState } from "../mobx/stores/NotificationOptions";
@@ -47,7 +49,6 @@ import CMNotifications from "./contextmenu/CMNotifications";
 
 import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
-import IconButton from "../components/ui/IconButton";
 import LineDivider from "../components/ui/LineDivider";
 
 import { Children } from "../types/Preact";

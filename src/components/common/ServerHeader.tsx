@@ -8,9 +8,7 @@ import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-
-import IconButton from "../ui/IconButton";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import Tooltip from "./Tooltip";
 

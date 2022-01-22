@@ -1,14 +1,13 @@
 import { observer } from "mobx-react-lite";
 import { Server } from "revolt.js/dist/maps/Servers";
-import styled, { css } from "styled-components/macro";
 
 import styles from "./ServerIdentityModal.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
 
-import InputBox from "../../../components/ui/InputBox";
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
 

@@ -19,6 +19,7 @@ import {
     getRenderer,
     SMOOTH_SCROLL_ON_RECEIVE,
 } from "../../../lib/renderer/Singleton";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import { useApplicationState } from "../../../mobx/State";
 import { Reply } from "../../../mobx/stores/MessageQueue";
@@ -31,8 +32,6 @@ import {
 } from "../../../context/revoltjs/FileUploads";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
-
-import IconButton from "../../ui/IconButton";
 
 import AutoComplete, { useAutoComplete } from "../AutoComplete";
 import { PermissionTooltip } from "../Tooltip";

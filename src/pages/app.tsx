@@ -4,11 +4,11 @@ import { lazy, Suspense } from "preact/compat";
 
 import ErrorBoundary from "../lib/ErrorBoundary";
 import FakeClient from "../lib/FakeClient";
+import Masks from "@revoltchat/ui/lib/components/lib/Masks";
 
 import Context from "../context";
 import { CheckAuth } from "../context/revoltjs/CheckAuth";
 
-import Masks from "../components/ui/Masks";
 import Preloader from "../components/ui/Preloader";
 
 import Invite from "./invite/Invite";

@@ -5,7 +5,8 @@ import { ulid } from "ulid";
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
-import InputBox from "../../../components/ui/InputBox";
+import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
+
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
 

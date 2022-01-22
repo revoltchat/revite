@@ -17,11 +17,11 @@ import {
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { ColourSwatches } from "@revoltchat/ui/lib/components/atoms/inputs/ColourSwatches";
+import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
-import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
 
 import ButtonItem from "../../../components/navigation/items/ButtonItem";
@@ -176,7 +176,7 @@ export const Roles = observer(({ server }: Props) => {
                                     onChange={(e) =>
                                         setName(e.currentTarget.value)
                                     }
-                                    contrast
+                                    palette="secondary"
                                 />
                             </p>
                         </section>
@@ -284,7 +284,7 @@ export const Roles = observer(({ server }: Props) => {
                                     onChange={(e) =>
                                         setRank(parseInt(e.currentTarget.value))
                                     }
-                                    contrast
+                                    palette="secondary"
                                 />
                             </p>
                         </section>

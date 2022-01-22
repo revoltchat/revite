@@ -10,6 +10,7 @@ import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { ColourSwatches } from "@revoltchat/ui/lib/components/atoms/inputs/ColourSwatches";
 import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
+import { Radio } from "@revoltchat/ui/lib/components/atoms/inputs/Radio";
 
 import { useApplicationState } from "../../mobx/State";
 
@@ -22,7 +23,6 @@ import {
     MONOSPACE_FONT_KEYS,
 } from "../../context/Theme";
 
-import Radio from "../ui/Radio";
 import CategoryButton from "../ui/fluent/CategoryButton";
 
 import { EmojiSelector } from "./appearance/EmojiSelector";
@@ -119,10 +119,10 @@ export const DisplayCompactShim = () => {
             </h3>
             <div /* className={styles.display} */>
                 <Radio
+                    value
                     description={
                         <Text id="app.settings.pages.appearance.display.default_description" />
-                    }
-                    checked>
+                    }>
                     <Text id="app.settings.pages.appearance.display.default" />
                 </Radio>
                 <Radio

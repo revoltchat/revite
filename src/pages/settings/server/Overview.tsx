@@ -10,11 +10,10 @@ import { useEffect, useState } from "preact/hooks";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
+import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { getChannelName } from "../../../context/revoltjs/util";
-
-import InputBox from "../../../components/ui/InputBox";
 
 interface Props {
     server: Server;
@@ -69,9 +68,9 @@ export const Overview = observer(({ server }: Props) => {
                         <Text id="app.main.servers.name" />
                     </h3>
                     <InputBox
-                        contrast
                         value={name}
                         maxLength={32}
+                        palette="secondary"
                         onChange={(e) => {
                             setName(e.currentTarget.value);
                             if (!changed) setChanged(true);

@@ -13,11 +13,14 @@ import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import { useAutosave } from "../../../lib/debounce";
 import { Draggable, Droppable } from "../../../lib/dnd";
 import { noop } from "../../../lib/js";
+import {
+    SaveStatus,
+    EditStatus,
+} from "@revoltchat/ui/lib/components/atoms/indicators/SaveStatus";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import ChannelIcon from "../../../components/common/ChannelIcon";
-import SaveStatus, { EditStatus } from "../../../components/ui/SaveStatus";
 
 const KanbanEntry = styled.div`
     padding: 2px 4px;

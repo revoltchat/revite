@@ -12,6 +12,7 @@ import { Localizer, Text } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { stopPropagation } from "../../../lib/stopPropagation";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
@@ -20,7 +21,6 @@ import Tooltip from "../../common/Tooltip";
 import UserIcon from "../../common/user/UserIcon";
 import { Username } from "../../common/user/UserShort";
 import UserStatus from "../../common/user/UserStatus";
-import IconButton from "../../ui/IconButton";
 
 import { Children } from "../../../types/Preact";
 

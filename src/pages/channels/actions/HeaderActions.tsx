@@ -15,6 +15,7 @@ import { chainedDefer, defer } from "../../../lib/defer";
 import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import { useApplicationState } from "../../../mobx/State";
 import { SIDEBAR_MEMBERS } from "../../../mobx/stores/Layout";
@@ -22,7 +23,6 @@ import { SIDEBAR_MEMBERS } from "../../../mobx/stores/Layout";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import UpdateIndicator from "../../../components/common/UpdateIndicator";
-import IconButton from "../../../components/ui/IconButton";
 
 import { ChannelHeaderProps } from "../ChannelHeader";
 

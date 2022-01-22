@@ -14,12 +14,12 @@ import {
 } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import { useApplicationState } from "../../mobx/State";
 
 import Category from "../../components/ui/Category";
 import Header from "../../components/ui/Header";
-import IconButton from "../../components/ui/IconButton";
 import LineDivider from "../../components/ui/LineDivider";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";

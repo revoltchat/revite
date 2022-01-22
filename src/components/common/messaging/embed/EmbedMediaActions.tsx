@@ -3,7 +3,7 @@ import { EmbedImage } from "revolt-api/types/January";
 
 import styles from "./Embed.module.scss";
 
-import IconButton from "../../../ui/IconButton";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 interface Props {
     embed: EmbedImage;

@@ -8,10 +8,9 @@ import { useEffect, useState } from "preact/hooks";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
-
-import InputBox from "../../../components/ui/InputBox";
 
 interface Props {
     channel: Channel;
@@ -85,9 +84,9 @@ export default observer(({ channel }: Props) => {
                         )}
                     </h3>
                     <InputBox
-                        contrast
                         value={name}
                         maxLength={32}
+                        palette="secondary"
                         onChange={(e) => {
                             setName(e.currentTarget.value);
                             if (!changed) setChanged(true);

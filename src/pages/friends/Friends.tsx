@@ -11,6 +11,7 @@ import { Text } from "preact-i18n";
 
 import { TextReact } from "../../lib/i18n";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { useClient } from "../../context/revoltjs/RevoltClient";
@@ -19,7 +20,6 @@ import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
 import UserIcon from "../../components/common/user/UserIcon";
 import { PageHeader } from "../../components/ui/Header";
-import IconButton from "../../components/ui/IconButton";
 
 import { Children } from "../../types/Preact";
 import { Friend } from "./Friend";

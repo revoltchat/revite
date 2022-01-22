@@ -8,11 +8,11 @@ import { openContextMenu } from "preact-context-menu";
 import { Text, Localizer } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import Header from "../../ui/Header";
-import IconButton from "../../ui/IconButton";
 
 import Tooltip from "../Tooltip";
 import UserStatus from "./UserStatus";

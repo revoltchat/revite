@@ -11,10 +11,9 @@ import classNames from "classnames";
 import { useContext } from "preact/hooks";
 
 import { determineFileSize } from "../../../../lib/fileSize";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import { AppContext } from "../../../../context/revoltjs/RevoltClient";
-
-import IconButton from "../../../ui/IconButton";
 
 interface Props {
     attachment: Attachment;

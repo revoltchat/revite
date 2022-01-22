@@ -11,11 +11,11 @@ import { useEffect, useMemo, useState } from "preact/hooks";
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
+import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
-import IconButton from "../../../components/ui/IconButton";
-import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
 
 interface InnerProps {
@@ -119,10 +119,10 @@ export const Members = ({ server }: Props) => {
     return (
         <div className={styles.userList}>
             <InputBox
-                placeholder="Search for a specific user..."
                 value={query}
+                palette="secondary"
+                placeholder="Search for a specific user..."
                 onChange={(e) => setQuery(e.currentTarget.value)}
-                contrast
             />
             <div className={styles.subtitle}>{data?.length ?? 0} Members</div>
             {members && (

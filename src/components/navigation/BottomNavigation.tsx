@@ -4,13 +4,13 @@ import { useHistory, useLocation } from "react-router";
 import styled, { css } from "styled-components/macro";
 
 import ConditionalLink from "../../lib/ConditionalLink";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import { useApplicationState } from "../../mobx/State";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../common/user/UserIcon";
-import IconButton from "../ui/IconButton";
 
 const Base = styled.div`
     background: var(--secondary-background);

@@ -19,6 +19,7 @@ import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 
 import { noop } from "../../../lib/js";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import ChannelIcon from "../../../components/common/ChannelIcon";
 import ServerIcon from "../../../components/common/ServerIcon";
@@ -27,7 +28,6 @@ import UserBadges from "../../../components/common/user/UserBadges";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
-import IconButton from "../../../components/ui/IconButton";
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";

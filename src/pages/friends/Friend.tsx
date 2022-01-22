@@ -9,16 +9,15 @@ import styles from "./Friend.module.scss";
 import classNames from "classnames";
 import { attachContextMenu } from "preact-context-menu";
 import { Text } from "preact-i18n";
-import { useContext } from "preact/hooks";
 
 import { stopPropagation } from "../../lib/stopPropagation";
 import { voiceState } from "../../lib/vortex/VoiceState";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
-import IconButton from "../../components/ui/IconButton";
 
 import { Children } from "../../types/Preact";
 
