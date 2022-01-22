@@ -1,6 +1,6 @@
 import { Text } from "preact-i18n";
 
-import Modal from "../../../components/ui/Modal";
+import { ModalBound } from "../../../components/util/ModalBound";
 
 interface Props {
     onClose: () => void;
@@ -9,8 +9,7 @@ interface Props {
 
 export function ErrorModal({ onClose, error }: Props) {
     return (
-        <Modal
-            visible={true}
+        <ModalBound
             onClose={() => false}
             title={<Text id="app.special.modals.error" />}
             actions={[
@@ -25,6 +24,6 @@ export function ErrorModal({ onClose, error }: Props) {
                 },
             ]}>
             <Text id={`error.${error}`}>{error}</Text>
-        </Modal>
+        </ModalBound>
     );
 }

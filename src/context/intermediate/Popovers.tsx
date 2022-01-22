@@ -1,9 +1,8 @@
-import { useContext } from "preact/hooks";
+import { useContext, useEffect, useRef } from "preact/hooks";
 
 import { internalEmit } from "../../lib/eventEmitter";
 
-import { isModalClosing } from "../../components/ui/Modal";
-
+// import { isModalClosing } from "../../components/ui/Modal";
 import { IntermediateContext, useIntermediate } from "./Intermediate";
 import { SpecialInputModal } from "./modals/Input";
 import { SpecialPromptModal } from "./modals/Prompt";
@@ -16,14 +15,24 @@ import { ServerIdentityModal } from "./popovers/ServerIdentityModal";
 import { UserPicker } from "./popovers/UserPicker";
 import { UserProfile } from "./popovers/UserProfile";
 
+var closing = false;
 export default function Popovers() {
     const { screen } = useContext(IntermediateContext);
     const { openScreen } = useIntermediate();
 
-    const onClose = () =>
-        isModalClosing
-            ? openScreen({ id: "none" })
-            : internalEmit("Modal", "close");
+    const onClose = (force?: boolean) => {
+        if (screen.id === "none") return;
+        if (force === true || screen.id === "onboarding" || closing) {
+            openScreen({ id: "none" });
+        } else {
+            internalEmit("Modal", "requestClose");
+            closing = true;
+        }
+    };
+
+    useEffect(() => {
+        closing = false;
+    }, [screen.id]);
 
     switch (screen.id) {
         case "profile":

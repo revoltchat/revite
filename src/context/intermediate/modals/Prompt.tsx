@@ -15,11 +15,12 @@ import { TextReact } from "../../../lib/i18n";
 import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
 import { Radio } from "@revoltchat/ui/lib/components/atoms/inputs/Radio";
 import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
+import { Action } from "@revoltchat/ui/lib/components/atoms/layout/Modal";
 
 import Message from "../../../components/common/messaging/Message";
 import UserIcon from "../../../components/common/user/UserIcon";
-import Modal, { Action } from "../../../components/ui/Modal";
 
+import { ModalBound } from "../../../components/util/ModalBound";
 import { Children } from "../../../types/Preact";
 import { I18nError } from "../../Locale";
 import { AppContext } from "../../revoltjs/RevoltClient";
@@ -44,8 +45,7 @@ export function PromptModal({
     error,
 }: Props) {
     return (
-        <Modal
-            visible={true}
+        <ModalBound
             title={question}
             actions={actions}
             onClose={onClose}
@@ -56,7 +56,7 @@ export function PromptModal({
                 </Category>
             )}
             {content}
-        </Modal>
+        </ModalBound>
     );
 }
 

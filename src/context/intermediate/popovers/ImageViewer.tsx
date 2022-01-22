@@ -6,8 +6,8 @@ import styles from "./ImageViewer.module.scss";
 
 import AttachmentActions from "../../../components/common/messaging/attachments/AttachmentActions";
 import EmbedMediaActions from "../../../components/common/messaging/embed/EmbedMediaActions";
-import Modal from "../../../components/ui/Modal";
 
+import { ModalBound } from "../../../components/util/ModalBound";
 import { useClient } from "../../revoltjs/RevoltClient";
 
 interface Props {
@@ -29,7 +29,7 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
     const client = useClient();
 
     return (
-        <Modal visible={true} onClose={onClose} noBackground>
+        <ModalBound onClose={onClose} transparent>
             <div className={styles.viewer}>
                 {attachment && (
                     <>
@@ -56,6 +56,6 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
                     </>
                 )}
             </div>
-        </Modal>
+        </ModalBound>
     );
 }

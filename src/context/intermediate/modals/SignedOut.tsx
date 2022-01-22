@@ -1,6 +1,6 @@
 import { Text } from "preact-i18n";
 
-import Modal from "../../../components/ui/Modal";
+import { ModalBound } from "../../../components/util/ModalBound";
 
 interface Props {
     onClose: () => void;
@@ -8,8 +8,7 @@ interface Props {
 
 export function SignedOutModal({ onClose }: Props) {
     return (
-        <Modal
-            visible={true}
+        <ModalBound
             onClose={onClose}
             title={<Text id="app.special.modals.signed_out" />}
             actions={[

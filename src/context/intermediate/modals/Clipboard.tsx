@@ -1,6 +1,6 @@
 import { Text } from "preact-i18n";
 
-import Modal from "../../../components/ui/Modal";
+import { ModalBound } from "../../../components/util/ModalBound";
 
 interface Props {
     onClose: () => void;
@@ -9,8 +9,7 @@ interface Props {
 
 export function ClipboardModal({ onClose, text }: Props) {
     return (
-        <Modal
-            visible={true}
+        <ModalBound
             onClose={onClose}
             title={<Text id="app.special.modals.clipboard.unavailable" />}
             actions={[
@@ -27,6 +26,6 @@ export function ClipboardModal({ onClose, text }: Props) {
             )}
             <Text id="app.special.modals.clipboard.copy" />{" "}
             <code style={{ userSelect: "all" }}>{text}</code>
-        </Modal>
+        </ModalBound>
     );
 }

@@ -2,8 +2,7 @@ import { Text } from "preact-i18n";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import Modal from "../../../components/ui/Modal";
-
+import { ModalBound } from "../../../components/util/ModalBound";
 import { useIntermediate } from "../Intermediate";
 
 interface Props {
@@ -16,8 +15,7 @@ export function ExternalLinkModal({ onClose, link }: Props) {
     const settings = useApplicationState().settings;
 
     return (
-        <Modal
-            visible={true}
+        <ModalBound
             onClose={onClose}
             title={<Text id={"app.special.modals.external_links.title"} />}
             actions={[
@@ -53,6 +51,6 @@ export function ExternalLinkModal({ onClose, link }: Props) {
             ]}>
             <Text id="app.special.modals.external_links.short" /> <br />
             <a>{link}</a>
-        </Modal>
+        </ModalBound>
     );
 }

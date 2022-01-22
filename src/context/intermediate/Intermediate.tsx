@@ -14,10 +14,9 @@ import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
 import { determineLink } from "../../lib/links";
+import { Action } from "@revoltchat/ui/lib/components/atoms/layout/Modal";
 
 import { useApplicationState } from "../../mobx/State";
-
-import { Action } from "../../components/ui/Modal";
 
 import { Children } from "../../types/Preact";
 import Modals from "./Modals";

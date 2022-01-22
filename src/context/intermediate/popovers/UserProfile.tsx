@@ -31,9 +31,9 @@ import UserBadges from "../../../components/common/user/UserBadges";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
-import Modal from "../../../components/ui/Modal";
 
 import Markdown from "../../../components/markdown/Markdown";
+import { ModalBound } from "../../../components/util/ModalBound";
 import {
     ClientStatus,
     StatusContext,
@@ -145,13 +145,8 @@ export const UserProfile = observer(
         const badges = user.badges ?? 0;
         const flags = user.flags ?? 0;
 
-        return (
-            <Modal
-                visible
-                border={dummy}
-                padding={false}
-                onClose={onClose}
-                dontModal={dummy}>
+        const content = (
+            <div>
                 <div
                     className={styles.header}
                     data-force={profile?.background ? "light" : undefined}
@@ -439,7 +434,17 @@ export const UserProfile = observer(
                             </div>
                         ))}
                 </div>
-            </Modal>
+            </div>
+        );
+
+        if (dummy) {
+            return content;
+        }
+
+        return (
+            <ModalBound padding="0" onClose={onClose}>
+                {content}
+            </ModalBound>
         );
     },
 );

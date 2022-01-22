@@ -5,8 +5,8 @@ import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
 import UserCheckbox from "../../../components/common/user/UserCheckbox";
-import Modal from "../../../components/ui/Modal";
 
+import { ModalBound } from "../../../components/util/ModalBound";
 import { useClient } from "../../revoltjs/RevoltClient";
 
 interface Props {
@@ -22,8 +22,7 @@ export function UserPicker(props: Props) {
     const client = useClient();
 
     return (
-        <Modal
-            visible={true}
+        <ModalBound
             title={<Text id="app.special.popovers.user_picker.select" />}
             onClose={props.onClose}
             actions={[
@@ -57,6 +56,6 @@ export function UserPicker(props: Props) {
                         />
                     ))}
             </div>
-        </Modal>
+        </ModalBound>
     );
 }

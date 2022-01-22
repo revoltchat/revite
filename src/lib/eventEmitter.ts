@@ -28,6 +28,7 @@ export function internalEmit(ns: string, event: string, ...args: unknown[]) {
 // - TextArea/focus
 // - ReplyBar/add
 // - Modal/close
+// - Modal/requestClose
 // - PWA/update
 // - NewMessages/hide
 // - NewMessages/mark

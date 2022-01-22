@@ -1,15 +1,16 @@
+import { useEffect, useRef } from "preact/hooks";
+
 import { internalEmit } from "../../lib/eventEmitter";
 
-import { isModalClosing } from "../../components/ui/Modal";
-
+//import { isModalClosing } from "@revoltchat/ui/lib/components/atoms/layout/Modal";
 import { Screen } from "./Intermediate";
 import { ClipboardModal } from "./modals/Clipboard";
 import { ErrorModal } from "./modals/Error";
+import { ExternalLinkModal } from "./modals/ExternalLinkPrompt";
 import { InputModal } from "./modals/Input";
 import { OnboardingModal } from "./modals/Onboarding";
 import { PromptModal } from "./modals/Prompt";
 import { SignedOutModal } from "./modals/SignedOut";
-import {ExternalLinkModal} from "./modals/ExternalLinkPrompt";
 import { TokenRevealModal } from "./modals/TokenReveal";
 
 export interface Props {
@@ -17,11 +18,21 @@ export interface Props {
     openScreen: (screen: Screen) => void;
 }
 
+var closing = false;
 export default function Modals({ screen, openScreen }: Props) {
-    const onClose = () =>
-        isModalClosing || screen.id === "onboarding"
-            ? openScreen({ id: "none" })
-            : internalEmit("Modal", "close");
+    const onClose = (force?: boolean) => {
+        if (screen.id === "none") return;
+        if (force === true || screen.id === "onboarding" || closing) {
+            openScreen({ id: "none" });
+        } else {
+            internalEmit("Modal", "requestClose");
+            closing = true;
+        }
+    };
+
+    useEffect(() => {
+        closing = false;
+    }, [screen.id]);
 
     switch (screen.id) {
         case "_prompt":

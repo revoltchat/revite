@@ -4,9 +4,8 @@ import { Channel } from "revolt.js/dist/maps/Channels";
 
 import styles from "./ChannelInfo.module.scss";
 
-import Modal from "../../../components/ui/Modal";
-
 import Markdown from "../../../components/markdown/Markdown";
+import { ModalBound } from "../../../components/util/ModalBound";
 import { getChannelName } from "../../revoltjs/util";
 
 interface Props {
@@ -24,7 +23,7 @@ export const ChannelInfo = observer(({ channel, onClose }: Props) => {
     }
 
     return (
-        <Modal visible={true} onClose={onClose}>
+        <ModalBound onClose={onClose}>
             <div className={styles.info}>
                 <div className={styles.header}>
                     <h1>{getChannelName(channel, true)}</h1>
@@ -36,6 +35,6 @@ export const ChannelInfo = observer(({ channel, onClose }: Props) => {
                     <Markdown content={channel.description!} />
                 </p>
             </div>
-        </Modal>
+        </ModalBound>
     );
 });

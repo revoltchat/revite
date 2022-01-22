@@ -1,6 +1,6 @@
 import { Text } from "preact-i18n";
 
-import Modal from "../../../components/ui/Modal";
+import { ModalBound } from "../../../components/util/ModalBound";
 
 interface Props {
     onClose: () => void;
@@ -10,8 +10,7 @@ interface Props {
 
 export function TokenRevealModal({ onClose, token, username }: Props) {
     return (
-        <Modal
-            visible={true}
+        <ModalBound
             onClose={onClose}
             title={
                 <Text
@@ -27,6 +26,6 @@ export function TokenRevealModal({ onClose, token, username }: Props) {
                 },
             ]}>
             <code style={{ userSelect: "all" }}>{token}</code>
-        </Modal>
+        </ModalBound>
     );
 }

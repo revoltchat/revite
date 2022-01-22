@@ -6,8 +6,7 @@ import { useContext, useState } from "preact/hooks";
 import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 import { Error } from "@revoltchat/ui/lib/components/atoms/layout/Error";
 
-import Modal from "../../../components/ui/Modal";
-
+import { ModalBound } from "../../../components/util/ModalBound";
 import FormField from "../../../pages/login/FormField";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
@@ -70,14 +69,12 @@ export function ModifyAccountModal({ onClose, field }: Props) {
     };
 
     return (
-        <Modal
-            visible={true}
+        <ModalBound
             onClose={onClose}
             title={<Text id={`app.special.modals.account.change.${field}`} />}
             disabled={processing}
             actions={[
                 {
-                    disabled: processing,
                     confirmation: true,
                     onClick: handleSubmit(onSubmit),
                     children:
@@ -149,6 +146,6 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                     </Category>
                 )}
             </form>
-        </Modal>
+        </ModalBound>
     );
 }

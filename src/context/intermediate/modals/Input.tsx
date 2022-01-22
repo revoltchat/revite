@@ -8,8 +8,7 @@ import { useContext, useState } from "preact/hooks";
 import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
 import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 
-import Modal from "../../../components/ui/Modal";
-
+import { ModalBound } from "../../../components/util/ModalBound";
 import { Children } from "../../../types/Preact";
 import { I18nError } from "../../Locale";
 import { AppContext } from "../../revoltjs/RevoltClient";
@@ -35,8 +34,7 @@ export function InputModal({
     const [error, setError] = useState<undefined | string>(undefined);
 
     return (
-        <Modal
-            visible={true}
+        <ModalBound
             title={question}
             disabled={processing}
             actions={[
@@ -74,7 +72,7 @@ export function InputModal({
                 value={value}
                 onChange={(e) => setValue(e.currentTarget.value)}
             />
-        </Modal>
+        </ModalBound>
     );
 }
 

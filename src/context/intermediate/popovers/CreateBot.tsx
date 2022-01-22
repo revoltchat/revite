@@ -6,8 +6,7 @@ import { useContext, useState } from "preact/hooks";
 
 import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 
-import Modal from "../../../components/ui/Modal";
-
+import { ModalBound } from "../../../components/util/ModalBound";
 import FormField from "../../../pages/login/FormField";
 import { I18nError } from "../../Locale";
 import { AppContext } from "../../revoltjs/RevoltClient";
@@ -38,8 +37,7 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
     };
 
     return (
-        <Modal
-            visible={true}
+        <ModalBound
             onClose={onClose}
             title={<Text id="app.special.popovers.create_bot.title" />}
             actions={[
@@ -79,6 +77,6 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
                     </Category>
                 )}
             </form>
-        </Modal>
+        </ModalBound>
     );
 }

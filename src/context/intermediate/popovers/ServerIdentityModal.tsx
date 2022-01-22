@@ -9,8 +9,7 @@ import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
 import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 
-import Modal from "../../../components/ui/Modal";
-
+import { ModalBound } from "../../../components/util/ModalBound";
 import { FileUploader } from "../../revoltjs/FileUploads";
 import { useClient } from "../../revoltjs/RevoltClient";
 
@@ -36,8 +35,7 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
     }, [member.nickname]);
 
     return (
-        <Modal
-            visible={true}
+        <ModalBound
             title={
                 <Text
                     id={"app.special.popovers.server_identity.title"}
@@ -100,6 +98,6 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
                     </div>
                 </div>
             </div>
-        </Modal>
+        </ModalBound>
     );
 });
