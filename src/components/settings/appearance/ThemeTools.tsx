@@ -48,8 +48,9 @@ export default function ThemeTools() {
                     <Text id="app.settings.pages.appearance.reset_overrides" />
                 }>
                 <Button
+                    compact="icon"
                     palette="secondary"
-                    /*iconbutton*/ onClick={theme.reset}>
+                    onClick={theme.reset}>
                     <Reset size={22} />
                 </Button>
             </Tooltip>
@@ -64,7 +65,7 @@ export default function ThemeTools() {
             <Tooltip
                 content={<Text id="app.settings.pages.appearance.import" />}>
                 <Button
-                    /*iconbutton*/
+                    compact="icon"
                     palette="secondary"
                     onClick={async () => {
                         try {

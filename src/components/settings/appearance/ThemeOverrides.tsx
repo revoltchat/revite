@@ -139,7 +139,7 @@ export default observer(() => {
                                 theme.getVariable("primary-background"),
                             ),
                         }}>
-                        {key}
+                        {key.replace(/-/g, " ")}
                     </span>
                     <div class="override">
                         <div
