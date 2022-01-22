@@ -16,11 +16,10 @@ import {
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
+import { Header } from "@revoltchat/ui/lib/components/atoms/layout/Header";
 import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 
 import { useApplicationState } from "../../mobx/State";
-
-import Header from "../../components/ui/Header";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { Children } from "../../types/Preact";
@@ -99,7 +98,7 @@ export function GenericSettings({
                 />
             </Helmet>
             {isTouchscreenDevice && (
-                <Header placement="primary" transparent>
+                <Header palette="primary" withTransparency>
                     {typeof page === "undefined" ? (
                         <>
                             {showExitButton && (

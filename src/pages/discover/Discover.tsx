@@ -7,13 +7,12 @@ import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
+import { Header } from "@revoltchat/ui/lib/components/atoms/layout/Header";
 
 import { useApplicationState } from "../../mobx/State";
 
 import { Overrides } from "../../context/Theme";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-
-import Header from "../../components/ui/Header";
 
 const Container = styled.div`
     flex-grow: 1;
@@ -164,7 +163,7 @@ export default function Discover() {
     return (
         <Container>
             {isTouchscreenDevice && (
-                <Header placement="primary" transparent>
+                <Header palette="primary" withTransparency>
                     <Compass size={27} />
                     Discover
                 </Header>

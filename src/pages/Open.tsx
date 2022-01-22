@@ -4,14 +4,14 @@ import { useHistory, useParams } from "react-router-dom";
 import { Text } from "preact-i18n";
 import { useContext, useEffect } from "preact/hooks";
 
+import { Header } from "@revoltchat/ui/lib/components/atoms/layout/Header";
+
 import { useIntermediate } from "../context/intermediate/Intermediate";
 import {
     AppContext,
     ClientStatus,
     StatusContext,
 } from "../context/revoltjs/RevoltClient";
-
-import Header from "../components/ui/Header";
 
 export default function Open() {
     const history = useHistory();
@@ -22,7 +22,7 @@ export default function Open() {
 
     if (status !== ClientStatus.ONLINE) {
         return (
-            <Header placement="primary">
+            <Header palette="primary">
                 <Text id="general.loading" />
             </Header>
         );
@@ -72,7 +72,7 @@ export default function Open() {
     });
 
     return (
-        <Header placement="primary">
+        <Header palette="primary">
             <Text id="general.loading" />
         </Header>
     );

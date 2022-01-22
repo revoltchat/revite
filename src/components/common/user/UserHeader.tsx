@@ -9,10 +9,9 @@ import { Text, Localizer } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
+import { Header } from "@revoltchat/ui/lib/components/atoms/layout/Header";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
-
-import Header from "../../ui/Header";
 
 import Tooltip from "../Tooltip";
 import UserStatus from "./UserStatus";
@@ -52,7 +51,7 @@ export default observer(({ user }: Props) => {
     const { writeClipboard } = useIntermediate();
 
     return (
-        <Header topBorder placement="secondary">
+        <Header topBorder palette="secondary">
             <HeaderBase>
                 <Localizer>
                     <Tooltip content={<Text id="app.special.copy_username" />}>

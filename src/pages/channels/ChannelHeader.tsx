@@ -1,29 +1,18 @@
-import {
-    At,
-    ChevronLeft,
-    ChevronRight,
-    Hash,
-} from "@styled-icons/boxicons-regular";
+import { At, Hash } from "@styled-icons/boxicons-regular";
 import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
-import styled, { css } from "styled-components/macro";
+import styled from "styled-components/macro";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-
-import { useApplicationState } from "../../mobx/State";
-import { SIDEBAR_CHANNELS, SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { getChannelName } from "../../context/revoltjs/util";
 
 import { useStatusColour } from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
-import Header, {
-    HamburgerAction,
-    PageHeader,
-} from "../../components/ui/Header";
+import { PageHeader } from "../../components/ui/Header";
 
 import Markdown from "../../components/markdown/Markdown";
 import HeaderActions from "./actions/HeaderActions";
@@ -98,7 +87,7 @@ export default observer(({ channel }: ChannelHeaderProps) => {
     }
 
     return (
-        <PageHeader icon={icon} transparent>
+        <PageHeader icon={icon} withTransparency>
             <Info>
                 <span className="name">{name}</span>
                 {isTouchscreenDevice &&
