@@ -14,10 +14,11 @@ import {
     useState,
 } from "preact/hooks";
 
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
-import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
 import InputBox from "../../../components/ui/InputBox";
@@ -158,7 +159,10 @@ export const Roles = observer(({ server }: Props) => {
                             roles[role].name
                         )}
                     </h2>
-                    <Button contrast disabled={!modified} onClick={save}>
+                    <Button
+                        palette="secondary"
+                        disabled={!modified}
+                        onClick={save}>
                         Save
                     </Button>
                 </div>
@@ -256,11 +260,14 @@ export const Roles = observer(({ server }: Props) => {
                     })}
                 </section>
                 <div className={styles.actions}>
-                    <Button contrast disabled={!modified} onClick={save}>
+                    <Button
+                        palette="secondary"
+                        disabled={!modified}
+                        onClick={save}>
                         Save
                     </Button>
                     {role !== "default" && (
-                        <Button contrast error onClick={deleteRole}>
+                        <Button palette="error" onClick={deleteRole}>
                             Delete
                         </Button>
                     )}

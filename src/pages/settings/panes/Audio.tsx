@@ -5,8 +5,8 @@ import { useEffect, useState } from "preact/hooks";
 import { TextReact } from "../../../lib/i18n";
 import { stopPropagation } from "../../../lib/stopPropagation";
 import { voiceState } from "../../../lib/vortex/VoiceState";
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
-import Button from "../../../components/ui/Button";
 import ComboBox from "../../../components/ui/ComboBox";
 import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
@@ -163,7 +163,7 @@ export function Audio() {
                                 <Button
                                     compact
                                     onClick={(e) => handleAskForPermission(e)}
-                                    error>
+                                    palette="error">
                                     <Text id="app.settings.pages.audio.button_grant" />
                                 </Button>
                             )}

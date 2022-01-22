@@ -9,9 +9,10 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useMemo, useState } from "preact/hooks";
 
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
-import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 import IconButton from "../../../components/ui/IconButton";
 import InputBox from "../../../components/ui/InputBox";

@@ -88,7 +88,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                 {
                     onClick: onClose,
                     children: <Text id="app.special.modals.actions.cancel" />,
-                    plain: true,
+                    palette: "plain",
                 },
             ]}>
             {/* Preact / React typing incompatabilities */}

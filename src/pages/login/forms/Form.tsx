@@ -7,12 +7,13 @@ import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+
 import { useApplicationState } from "../../../mobx/State";
 
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
-import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
 import WaveSVG from "../../settings/assets/wave.svg";

@@ -15,13 +15,13 @@ import { useMemo } from "preact/hooks";
 
 import VoiceClient from "../../../lib/vortex/VoiceClient";
 import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import Button from "../../../components/ui/Button";
 
 interface Props {
     id: string;
@@ -142,7 +142,7 @@ export default observer(({ id }: Props) => {
             </div>
             <div className="actions">
                 <Tooltip content={"Leave call"} placement={"top"}>
-                    <Button error onClick={voiceState.disconnect}>
+                    <Button palette="error" onClick={voiceState.disconnect}>
                         <PhoneOff width={20} />
                     </Button>
                 </Tooltip>

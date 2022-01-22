@@ -2,7 +2,8 @@ import { Refresh } from "@styled-icons/boxicons-regular";
 
 import { useEffect, useState } from "preact/hooks";
 
-import Button from "../../../components/ui/Button";
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+
 import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
@@ -117,15 +118,15 @@ export function Native() {
             </Checkbox>
             <p style={{ display: "flex", gap: "8px" }}>
                 <Button
-                    contrast
                     compact
+                    palette="secondary"
                     disabled={!hintReload}
                     onClick={window.native.reload}>
                     Reload Page
                 </Button>
                 <Button
-                    contrast
                     compact
+                    palette="secondary"
                     disabled={!hintRelaunch}
                     onClick={window.native.relaunch}>
                     Reload App
@@ -136,8 +137,8 @@ export function Native() {
                 <>
                     <h5>Development mode is currently on.</h5>
                     <Button
-                        contrast
                         compact
+                        palette="secondary"
                         onClick={() => {
                             window.native.set("build", "stable");
                             window.native.reload();
@@ -170,8 +171,8 @@ export function Native() {
                     </Checkbox>
                     <p>
                         <Button
-                            error
                             compact
+                            palette="error"
                             disabled={!confirmDev}
                             onClick={() => {
                                 window.native.set("build", "dev");

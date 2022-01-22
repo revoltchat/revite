@@ -18,6 +18,7 @@ import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 
 import { noop } from "../../../lib/js";
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
 import ChannelIcon from "../../../components/common/ChannelIcon";
 import ServerIcon from "../../../components/common/ServerIcon";
@@ -26,7 +27,6 @@ import UserBadges from "../../../components/common/user/UserBadges";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
-import Button from "../../../components/ui/Button";
 import IconButton from "../../../components/ui/IconButton";
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
@@ -193,7 +193,10 @@ export const UserProfile = observer(
                         </div>
                         {isPublicBot && (
                             <Link to={`/bot/${user._id}`}>
-                                <Button accent compact onClick={onClose}>
+                                <Button
+                                    palette="accent"
+                                    compact
+                                    onClick={onClose}>
                                     Add to server
                                 </Button>
                             </Link>

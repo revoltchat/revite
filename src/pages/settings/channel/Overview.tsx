@@ -6,10 +6,10 @@ import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 
-import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 import InputBox from "../../../components/ui/InputBox";
 
@@ -129,7 +129,7 @@ export default observer(({ channel }: Props) => {
                 </Checkbox>
             )}
             <p>
-                <Button onClick={save} contrast disabled={!changed}>
+                <Button onClick={save} palette="secondary" disabled={!changed}>
                     <Text id="app.special.modals.actions.save" />
                 </Button>
             </p>

@@ -8,11 +8,11 @@ import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { getChannelName } from "../../../context/revoltjs/util";
 
-import Button from "../../../components/ui/Button";
 import ComboBox from "../../../components/ui/ComboBox";
 import InputBox from "../../../components/ui/InputBox";
 
@@ -181,7 +181,7 @@ export const Overview = observer(({ server }: Props) => {
             ))}
 
             <p>
-                <Button onClick={save} contrast disabled={!changed}>
+                <Button onClick={save} palette="secondary" disabled={!changed}>
                     <Text id="app.special.modals.actions.save" />
                 </Button>
             </p>

@@ -10,6 +10,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import { defer } from "../../../../lib/defer";
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
 import {
     AppContext,
@@ -19,7 +20,6 @@ import {
 import { takeError } from "../../../../context/revoltjs/util";
 
 import ServerIcon from "../../../../components/common/ServerIcon";
-import Button from "../../../../components/ui/Button";
 import Overline from "../../../ui/Overline";
 import Preloader from "../../../ui/Preloader";
 

@@ -7,7 +7,8 @@ import { Channel } from "revolt.js/dist/maps/Channels";
 
 import { useEffect, useState } from "preact/hooks";
 
-import Button from "../../../components/ui/Button";
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+
 import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
 
@@ -91,7 +92,7 @@ export default observer(({ channel }: Props) => {
                 }
             })}
             <Button
-                contrast
+                palette="secondary"
                 onClick={() => {
                     channel.setPermissions(selected, p);
                 }}>

@@ -4,9 +4,12 @@ import styled, { css, keyframes } from "styled-components/macro";
 import { createPortal, useCallback, useEffect, useState } from "preact/compat";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
+import {
+    Button,
+    Props as ButtonProps,
+} from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
 import { Children } from "../../types/Preact";
-import Button, { ButtonProps } from "./Button";
 
 const open = keyframes`
     0% {opacity: 0;}
@@ -140,7 +143,10 @@ const ModalActions = styled.div`
     border-radius: 0 0 var(--border-radius) var(--border-radius);
 `;
 
-export type Action = Omit<ButtonProps, "onClick"> & {
+export type Action = Omit<
+    JSX.HTMLAttributes<HTMLButtonElement> & ButtonProps,
+    "onClick" | "as"
+> & {
     confirmation?: boolean;
     onClick: () => void;
 };
@@ -235,8 +241,8 @@ export default function Modal(props: Props) {
                     <ModalActions>
                         {props.actions.map((x, index) => (
                             <Button
-                                key={index}
                                 {...x}
+                                key={index}
                                 disabled={props.disabled}
                             />
                         ))}

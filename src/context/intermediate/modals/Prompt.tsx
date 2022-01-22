@@ -135,8 +135,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     actions={[
                         {
                             confirmation: true,
-                            contrast: true,
-                            error: true,
+                            palette: "error",
                             children: (
                                 <Text
                                     id={`app.special.modals.actions.${event[1]}`}
@@ -201,8 +200,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     actions={[
                         {
                             confirmation: true,
-                            contrast: true,
-                            error: true,
+                            palette: "error",
                             children: (
                                 <Text id="app.special.modals.actions.delete" />
                             ),
@@ -223,7 +221,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                 <Text id="app.special.modals.actions.cancel" />
                             ),
                             onClick: onClose,
-                            plain: true,
+                            palette: "plain",
                         },
                     ]}
                     content={
@@ -304,8 +302,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                             children: (
                                 <Text id="app.special.modals.actions.kick" />
                             ),
-                            contrast: true,
-                            error: true,
+                            palette: "error",
                             confirmation: true,
                             onClick: async () => {
                                 setProcessing(true);
@@ -358,8 +355,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                             children: (
                                 <Text id="app.special.modals.actions.ban" />
                             ),
-                            contrast: true,
-                            error: true,
+                            palette: "error",
                             confirmation: true,
                             onClick: async () => {
                                 setProcessing(true);
@@ -417,7 +413,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     actions={[
                         {
                             confirmation: true,
-                            contrast: true,
+                            palette: "secondary",
                             children: (
                                 <Text id="app.special.modals.actions.create" />
                             ),
@@ -493,7 +489,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     actions={[
                         {
                             confirmation: true,
-                            contrast: true,
+                            palette: "secondary",
                             children: (
                                 <Text id="app.special.modals.actions.create" />
                             ),

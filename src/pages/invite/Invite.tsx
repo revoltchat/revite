@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import { defer } from "../../lib/defer";
 import { TextReact } from "../../lib/i18n";
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
 import { useApplicationState } from "../../mobx/State";
 
@@ -22,7 +23,6 @@ import { takeError } from "../../context/revoltjs/util";
 
 import ServerIcon from "../../components/common/ServerIcon";
 import UserIcon from "../../components/common/user/UserIcon";
-import Button from "../../components/ui/Button";
 import Overline from "../../components/ui/Overline";
 import Preloader from "../../components/ui/Preloader";
 
@@ -71,7 +71,7 @@ export default function Invite() {
                                     <Text id="app.special.invite.invalid_desc" />
                                 </h2>
                                 <div style="cursor: pointer;">
-                                    <Button contrast>
+                                    <Button palette="secondary">
                                         <ArrowBack
                                             size={32}
                                             onClick={() =>
@@ -150,7 +150,7 @@ export default function Invite() {
                         </h3>
                         <Overline type="error" error={error} />
                         <Button
-                            contrast
+                            palette="secondary"
                             onClick={async () => {
                                 if (status === ClientStatus.READY) {
                                     return history.push("/");

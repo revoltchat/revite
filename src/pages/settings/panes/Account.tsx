@@ -15,6 +15,7 @@ import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { stopPropagation } from "../../../lib/stopPropagation";
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
@@ -25,7 +26,6 @@ import {
 
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import Button from "../../../components/ui/Button";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
@@ -99,7 +99,9 @@ export const Account = observer(() => {
                     </div>
                 </div>
 
-                <Button onClick={() => switchPage("profile")} contrast>
+                <Button
+                    onClick={() => switchPage("profile")}
+                    palette="secondary">
                     <Text id="app.settings.pages.profile.edit_profile" />
                 </Button>
             </div>

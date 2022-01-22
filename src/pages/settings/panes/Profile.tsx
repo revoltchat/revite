@@ -9,6 +9,7 @@ import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { useTranslation } from "../../../lib/i18n";
+import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
 import { UserProfile } from "../../../context/intermediate/popovers/UserProfile";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -21,7 +22,6 @@ import {
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
-import Button from "../../../components/ui/Button";
 import Tip from "../../../components/ui/Tip";
 
 export const Profile = observer(() => {
@@ -189,7 +189,7 @@ export const Profile = observer(() => {
             </div>
             <p>
                 <Button
-                    contrast
+                    palette="secondary"
                     onClick={() => {
                         setChanged(false);
                         client.users.edit({
