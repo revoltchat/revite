@@ -40,37 +40,43 @@ function Entry({ entry: [x, lang], selected, onSelect }: Props) {
             key={x}
             className={styles.entry}
             value={selected}
-            onChange={onSelect}>
-            <div className={styles.flag}>
-                {lang.i18n === "eo" ? (
-                    <img
-                        src={esperantoFlagSVG}
-                        width={42}
-                        loading="lazy"
-                        style={{ objectFit: "contain", borderRadius: "6px" }}
-                    />
-                ) : lang.i18n === "ta" ? (
-                    <img
-                        src={tamilFlagPNG}
-                        width={42}
-                        loading="lazy"
-                        style={{ objectFit: "contain" }}
-                    />
-                ) : lang.emoji === "🙂" ? (
-                    <img src={tokiponaSVG} width={42} loading="lazy" />
-                ) : lang.emoji === "🪄" ? (
-                    <img
-                        src={enchantingTableWEBP}
-                        width={42}
-                        loading="lazy"
-                        style={{ objectFit: "contain" }}
-                    />
-                ) : (
-                    <Emoji size={42} emoji={lang.emoji} />
-                )}
-            </div>
-            <span className={styles.description}>{lang.display}</span>
-        </Checkbox>
+            title={
+                <>
+                    <div className={styles.flag}>
+                        {lang.i18n === "eo" ? (
+                            <img
+                                src={esperantoFlagSVG}
+                                width={42}
+                                loading="lazy"
+                                style={{
+                                    objectFit: "contain",
+                                    borderRadius: "6px",
+                                }}
+                            />
+                        ) : lang.i18n === "ta" ? (
+                            <img
+                                src={tamilFlagPNG}
+                                width={42}
+                                loading="lazy"
+                                style={{ objectFit: "contain" }}
+                            />
+                        ) : lang.emoji === "🙂" ? (
+                            <img src={tokiponaSVG} width={42} loading="lazy" />
+                        ) : lang.emoji === "🪄" ? (
+                            <img
+                                src={enchantingTableWEBP}
+                                width={42}
+                                loading="lazy"
+                                style={{ objectFit: "contain" }}
+                            />
+                        ) : (
+                            <Emoji size={42} emoji={lang.emoji} />
+                        )}
+                    </div>
+                    <span className={styles.description}>{lang.display}</span>
+                </>
+            }
+            onChange={onSelect}></Checkbox>
     );
 }
 

@@ -24,9 +24,8 @@ export const ExperimentsPage = observer(() => {
                     key={key}
                     value={experiments.isEnabled(key)}
                     onChange={(enabled) => experiments.setEnabled(key, enabled)}
-                    description={EXPERIMENTS[key].description}>
-                    {EXPERIMENTS[key].title}
-                </Checkbox>
+                    title={EXPERIMENTS[key].title}
+                    description={EXPERIMENTS[key].description}></Checkbox>
             ))}
             {AVAILABLE_EXPERIMENTS.length === 0 && (
                 <div className={styles.empty}>

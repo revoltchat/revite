@@ -31,14 +31,13 @@ export const Sync = observer(() => {
                 <Checkbox
                     key={key}
                     value={sync.isEnabled(key)}
+                    title={<Text id={`app.settings.pages.${title}`} />}
                     description={
                         <Text
                             id={`app.settings.pages.sync.descriptions.${key}`}
                         />
                     }
-                    onChange={() => sync.toggle(key)}>
-                    <Text id={`app.settings.pages.${title}`} />
-                </Checkbox>
+                    onChange={() => sync.toggle(key)}></Checkbox>
             ))}
             {/*<h5 style={{ marginTop: "20px", color: "grey" }}>
                 Last sync at 12:00

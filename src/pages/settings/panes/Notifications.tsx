@@ -4,8 +4,10 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { urlBase64ToUint8Array } from "../../../lib/conversion";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
+
+import { urlBase64ToUint8Array } from "../../../lib/conversion";
 
 import { useApplicationState } from "../../../mobx/State";
 
@@ -38,6 +40,9 @@ export const Notifications = observer(() => {
             <Checkbox
                 disabled={!("Notification" in window)}
                 value={settings.get("notifications:desktop", false)!}
+                title={
+                    <Text id="app.settings.pages.notifications.enable_desktop" />
+                }
                 description={
                     <Text id="app.settings.pages.notifications.descriptions.enable_desktop" />
                 }
@@ -55,12 +60,13 @@ export const Notifications = observer(() => {
                     }
 
                     settings.set("notifications:desktop", desktopEnabled);
-                }}>
-                <Text id="app.settings.pages.notifications.enable_desktop" />
-            </Checkbox>
+                }}></Checkbox>
             <Checkbox
                 disabled={typeof pushEnabled === "undefined"}
                 value={pushEnabled ?? false}
+                title={
+                    <Text id="app.settings.pages.notifications.enable_push" />
+                }
                 description={
                     <Text id="app.settings.pages.notifications.descriptions.enable_push" />
                 }
@@ -101,9 +107,8 @@ export const Notifications = observer(() => {
                     } catch (err) {
                         console.error("Failed to enable push!", err);
                     }
-                }}>
-                <Text id="app.settings.pages.notifications.enable_push" />
-            </Checkbox>
+                }}></Checkbox>
+            <LineDivider />
             <h3>
                 <Text id="app.settings.pages.notifications.sounds" />
             </h3>
@@ -111,11 +116,14 @@ export const Notifications = observer(() => {
                 <Checkbox
                     key={id}
                     value={enabled}
+                    title={
+                        <Text
+                            id={`app.settings.pages.notifications.sound.${id}`}
+                        />
+                    }
                     onChange={(enabled) =>
                         settings.sounds.setEnabled(id, enabled)
-                    }>
-                    <Text id={`app.settings.pages.notifications.sound.${id}`} />
-                </Checkbox>
+                    }></Checkbox>
             ))}
         </div>
     );

@@ -6,12 +6,13 @@ import pSBC from "shade-blend-color";
 
 import { Text } from "preact-i18n";
 
-import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
 import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { ColourSwatches } from "@revoltchat/ui/lib/components/atoms/inputs/ColourSwatches";
 import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
 import { Radio } from "@revoltchat/ui/lib/components/atoms/inputs/Radio";
+
+import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
 
 import { useApplicationState } from "../../mobx/State";
 
@@ -201,11 +202,10 @@ export const DisplayLigaturesShim = observer(() => {
             <Checkbox
                 value={settings.get("appearance:ligatures") ?? false}
                 onChange={(v) => settings.set("appearance:ligatures", v)}
+                title={<Text id="app.settings.pages.appearance.ligatures" />}
                 description={
                     <Text id="app.settings.pages.appearance.ligatures_desc" />
-                }>
-                <Text id="app.settings.pages.appearance.ligatures" />
-            </Checkbox>
+                }></Checkbox>
         </>
     );
 });
@@ -220,11 +220,12 @@ export const DisplaySeasonalShim = observer(() => {
         <Checkbox
             value={settings.get("appearance:seasonal") ?? true}
             onChange={(v) => settings.set("appearance:seasonal", v)}
+            title={
+                <Text id="app.settings.pages.appearance.theme_options.seasonal" />
+            }
             description={
                 <Text id="app.settings.pages.appearance.theme_options.seasonal_desc" />
-            }>
-            <Text id="app.settings.pages.appearance.theme_options.seasonal" />
-        </Checkbox>
+            }></Checkbox>
     );
 });
 
@@ -238,11 +239,12 @@ export const DisplayTransparencyShim = observer(() => {
         <Checkbox
             value={settings.get("appearance:transparency") ?? true}
             onChange={(v) => settings.set("appearance:transparency", v)}
+            title={
+                <Text id="app.settings.pages.appearance.theme_options.transparency" />
+            }
             description={
                 <Text id="app.settings.pages.appearance.theme_options.transparency_desc" />
-            }>
-            <Text id="app.settings.pages.appearance.theme_options.transparency" />
-        </Checkbox>
+            }></Checkbox>
     );
 });
 
