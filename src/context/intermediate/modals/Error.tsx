@@ -10,7 +10,7 @@ interface Props {
 export function ErrorModal({ onClose, error }: Props) {
     return (
         <ModalBound
-            onClose={() => false}
+            onClose={onClose}
             title={<Text id="app.special.modals.error" />}
             actions={[
                 {
