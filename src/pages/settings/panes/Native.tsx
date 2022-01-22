@@ -3,8 +3,8 @@ import { Refresh } from "@styled-icons/boxicons-regular";
 import { useEffect, useState } from "preact/hooks";
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 
-import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 import RLogo from "../assets/revolt_r.svg";
@@ -30,7 +30,7 @@ export function Native() {
             <Tip hideSeparator>Some options might require a restart.</Tip>
             <h3>App Behavior</h3>
             <Checkbox
-                checked={autoStart ?? false}
+                value={autoStart ?? false}
                 disabled={typeof autoStart === "undefined"}
                 onChange={async (v) => {
                     if (v) {
@@ -46,7 +46,7 @@ export function Native() {
             </Checkbox>
 
             <Checkbox
-                checked={config.discordRPC}
+                value={config.discordRPC}
                 onChange={(discordRPC) => {
                     window.native.set("discordRPC", discordRPC);
                     setConfig({
@@ -58,7 +58,7 @@ export function Native() {
                 Enable Discord status
             </Checkbox>
             <Checkbox
-                checked={config.build === "nightly"}
+                value={config.build === "nightly"}
                 onChange={(nightly) => {
                     const build = nightly ? "nightly" : "stable";
                     window.native.set("build", build);
@@ -73,7 +73,7 @@ export function Native() {
             </Checkbox>
             <h3>Titlebar</h3>
             <Checkbox
-                checked={!config.frame}
+                value={!config.frame}
                 onChange={(frame) => {
                     window.native.set("frame", !frame);
                     setHintRelaunch(true);
@@ -87,7 +87,7 @@ export function Native() {
             </Checkbox>
             <Checkbox //FIXME: In Titlebar.tsx, enable .quick css
                 disabled={true}
-                checked={!config.frame}
+                value={!config.frame}
                 onChange={(frame) => {
                     window.native.set("frame", !frame);
                     setHintRelaunch(true);
@@ -101,7 +101,7 @@ export function Native() {
             </Checkbox>
             <h3>Advanced</h3>
             <Checkbox
-                checked={config.hardwareAcceleration}
+                value={config.hardwareAcceleration}
                 onChange={async (hardwareAcceleration) => {
                     window.native.set(
                         "hardwareAcceleration",
@@ -149,7 +149,7 @@ export function Native() {
             ) : (
                 <>
                     <Checkbox
-                        checked={confirmDev}
+                        value={confirmDev}
                         onChange={setConfirmDev}
                         description={
                             <>

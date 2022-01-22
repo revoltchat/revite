@@ -44,7 +44,7 @@ export function UserPicker(props: Props) {
                         <UserCheckbox
                             key={x._id}
                             user={x}
-                            checked={selected.includes(x._id)}
+                            value={selected.includes(x._id)}
                             onChange={(v) => {
                                 if (v) {
                                     setSelected([...selected, x._id]);

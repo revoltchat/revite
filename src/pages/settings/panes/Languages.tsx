@@ -4,6 +4,8 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useMemo } from "preact/hooks";
 
+import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+
 import { useApplicationState } from "../../../mobx/State";
 
 import {
@@ -13,7 +15,6 @@ import {
 } from "../../../context/Locale";
 
 import Emoji from "../../../components/common/Emoji";
-import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
 import enchantingTableWEBP from "../assets/enchanting_table.webp";
 import esperantoFlagSVG from "../assets/esperanto.svg";
@@ -37,7 +38,7 @@ function Entry({ entry: [x, lang], selected, onSelect }: Props) {
         <Checkbox
             key={x}
             className={styles.entry}
-            checked={selected}
+            value={selected}
             onChange={onSelect}>
             <div className={styles.flag}>
                 {lang.i18n === "eo" ? (

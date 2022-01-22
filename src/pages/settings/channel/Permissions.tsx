@@ -8,8 +8,8 @@ import { Channel } from "revolt.js/dist/maps/Channels";
 import { useEffect, useState } from "preact/hooks";
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 
-import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
 
 interface Props {
@@ -67,7 +67,7 @@ export default observer(({ channel }: Props) => {
                 return (
                     <Checkbox
                         key={id}
-                        checked={selected === id}
+                        value={selected === id}
                         onChange={(selected) => selected && setSelected(id)}>
                         {role.name}
                     </Checkbox>
@@ -82,7 +82,7 @@ export default observer(({ channel }: Props) => {
                 if (value & DEFAULT_PERMISSION_DM) {
                     return (
                         <Checkbox
-                            checked={(p & value) > 0}
+                            value={(p & value) > 0}
                             onChange={(c) =>
                                 setPerm(c ? p | value : p ^ value)
                             }>

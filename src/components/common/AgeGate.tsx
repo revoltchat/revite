@@ -7,11 +7,10 @@ import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 
 import { useApplicationState } from "../../mobx/State";
 import { SECTION_NSFW } from "../../mobx/stores/Layout";
-
-import Checkbox from "../ui/Checkbox";
 
 import { Children } from "../../types/Preact";
 
@@ -81,7 +80,7 @@ export default observer((props: Props) => {
             </span>
 
             <Checkbox
-                checked={layout.getSectionState(SECTION_NSFW, false)}
+                value={layout.getSectionState(SECTION_NSFW, false)}
                 onChange={() => layout.toggleSectionState(SECTION_NSFW, false)}>
                 <Text id="app.main.channel.nsfw.confirm" />
             </Checkbox>

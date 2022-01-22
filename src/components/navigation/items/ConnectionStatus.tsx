@@ -1,12 +1,12 @@
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
 
+import { Banner } from "@revoltchat/ui/lib/components/atoms/layout/Banner";
+
 import {
     ClientStatus,
     StatusContext,
 } from "../../../context/revoltjs/RevoltClient";
-
-import Banner from "../../ui/Banner";
 
 export default function ConnectionStatus() {
     const status = useContext(StatusContext);

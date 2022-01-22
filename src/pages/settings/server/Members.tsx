@@ -10,10 +10,10 @@ import { Text } from "preact-i18n";
 import { useEffect, useMemo, useState } from "preact/hooks";
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
-import Checkbox from "../../../components/ui/Checkbox";
 import IconButton from "../../../components/ui/IconButton";
 import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
@@ -54,7 +54,7 @@ const Inner = observer(({ member }: InnerProps) => {
                         return (
                             <Checkbox
                                 key={key}
-                                checked={roles.includes(key) ?? false}
+                                value={roles.includes(key) ?? false}
                                 onChange={(v) => {
                                     if (v) {
                                         setRoles([...roles, key]);

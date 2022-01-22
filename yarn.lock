@@ -1464,10 +1464,10 @@
     "@prefresh/utils" "^1.0.0"
     "@rollup/pluginutils" "^4.1.0"
 
-"@revoltchat/ui@1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@revoltchat/ui/-/ui-1.0.7.tgz#c24885f3594b2c7f5cf8e66939fdc758278a6a82"
-  integrity sha512-vvxo5MKIIbmGAOJg70AKTKMzSFOrt3P8V9m/0alOj3Z56A0DQqZavvMtuj9tXJe+lVT0zd6wluX31Fr2KXabKA==
+"@revoltchat/ui@1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@revoltchat/ui/-/ui-1.0.9.tgz#c1fa38392682b783041c533798818debfb803ade"
+  integrity sha512-QLAed0/lxQxWXQTCYaQOGbetVLkwxajPFqY7a7gHr24aGjPgCcBEXGKzBOLrhPQjoCYPJzbvB8VIIiRh0OumHA==
   dependencies:
     "@styled-icons/boxicons-logos" "^10.38.0"
     "@styled-icons/boxicons-regular" "^10.38.0"

@@ -3,10 +3,10 @@ import { observer } from "mobx-react-lite";
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 
+import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+
 import { useApplicationState } from "../../../mobx/State";
 import { SyncKeys } from "../../../mobx/stores/Sync";
-
-import Checkbox from "../../../components/ui/Checkbox";
 
 export const Sync = observer(() => {
     const sync = useApplicationState().sync;
@@ -30,7 +30,7 @@ export const Sync = observer(() => {
             ).map(([key, title]) => (
                 <Checkbox
                     key={key}
-                    checked={sync.isEnabled(key)}
+                    value={sync.isEnabled(key)}
                     description={
                         <Text
                             id={`app.settings.pages.sync.descriptions.${key}`}

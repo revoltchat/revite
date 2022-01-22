@@ -3,13 +3,13 @@ import { observer } from "mobx-react-lite";
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 
+import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+
 import { useApplicationState } from "../../../mobx/State";
 import {
     AVAILABLE_EXPERIMENTS,
     EXPERIMENTS,
 } from "../../../mobx/stores/Experiments";
-
-import Checkbox from "../../../components/ui/Checkbox";
 
 export const ExperimentsPage = observer(() => {
     const experiments = useApplicationState().experiments;
@@ -22,7 +22,7 @@ export const ExperimentsPage = observer(() => {
             {AVAILABLE_EXPERIMENTS.map((key) => (
                 <Checkbox
                     key={key}
-                    checked={experiments.isEnabled(key)}
+                    value={experiments.isEnabled(key)}
                     onChange={(enabled) => experiments.setEnabled(key, enabled)}
                     description={EXPERIMENTS[key].description}>
                     {EXPERIMENTS[key].title}

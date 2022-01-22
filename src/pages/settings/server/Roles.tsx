@@ -15,11 +15,11 @@ import {
 } from "preact/hooks";
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
-import Checkbox from "../../../components/ui/Checkbox";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
 import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
@@ -193,7 +193,7 @@ export const Roles = observer(({ server }: Props) => {
                             <Overline type="subtle">Role Options</Overline>
                             <p>
                                 <Checkbox
-                                    checked={hoist ?? false}
+                                    value={hoist ?? false}
                                     onChange={(v) => setHoist(v)}
                                     description="Display this role above others.">
                                     Hoist Role
@@ -216,7 +216,7 @@ export const Roles = observer(({ server }: Props) => {
                         return (
                             <Checkbox
                                 key={key}
-                                checked={(perm[0] & value) > 0}
+                                value={(perm[0] & value) > 0}
                                 onChange={() =>
                                     setPerm([perm[0] ^ value, perm[1]])
                                 }
@@ -243,7 +243,7 @@ export const Roles = observer(({ server }: Props) => {
                         return (
                             <Checkbox
                                 key={key}
-                                checked={((perm[1] >>> 0) & value) > 0}
+                                value={((perm[1] >>> 0) & value) > 0}
                                 onChange={() =>
                                     setPerm([perm[0], perm[1] ^ value])
                                 }

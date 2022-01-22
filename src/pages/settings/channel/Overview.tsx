@@ -7,10 +7,10 @@ import { useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 
-import Checkbox from "../../../components/ui/Checkbox";
 import InputBox from "../../../components/ui/InputBox";
 
 interface Props {
@@ -119,7 +119,7 @@ export default observer(({ channel }: Props) => {
                 ""
             ) : (
                 <Checkbox
-                    checked={nsfw ?? false}
+                    value={nsfw ?? false}
                     onChange={(nsfwchange) => {
                         setNSFW(nsfwchange);
                         if (!changed) setChanged(true);

@@ -7,6 +7,7 @@ import pSBC from "shade-blend-color";
 import { Text } from "preact-i18n";
 
 import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
+import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 
 import { useApplicationState } from "../../mobx/State";
 
@@ -19,7 +20,6 @@ import {
     MONOSPACE_FONT_KEYS,
 } from "../../context/Theme";
 
-import Checkbox from "../ui/Checkbox";
 import ColourSwatches from "../ui/ColourSwatches";
 import ComboBox from "../ui/ComboBox";
 import Radio from "../ui/Radio";
@@ -200,7 +200,7 @@ export const DisplayLigaturesShim = observer(() => {
     return (
         <>
             <Checkbox
-                checked={settings.get("appearance:ligatures") ?? false}
+                value={settings.get("appearance:ligatures") ?? false}
                 onChange={(v) => settings.set("appearance:ligatures", v)}
                 description={
                     <Text id="app.settings.pages.appearance.ligatures_desc" />
@@ -219,7 +219,7 @@ export const DisplaySeasonalShim = observer(() => {
 
     return (
         <Checkbox
-            checked={settings.get("appearance:seasonal") ?? true}
+            value={settings.get("appearance:seasonal") ?? true}
             onChange={(v) => settings.set("appearance:seasonal", v)}
             description={
                 <Text id="app.settings.pages.appearance.theme_options.seasonal_desc" />
@@ -237,7 +237,7 @@ export const DisplayTransparencyShim = observer(() => {
 
     return (
         <Checkbox
-            checked={settings.get("appearance:transparency") ?? true}
+            value={settings.get("appearance:transparency") ?? true}
             onChange={(v) => settings.set("appearance:transparency", v)}
             description={
                 <Text id="app.settings.pages.appearance.theme_options.transparency_desc" />

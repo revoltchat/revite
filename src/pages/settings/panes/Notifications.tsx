@@ -5,13 +5,12 @@ import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { urlBase64ToUint8Array } from "../../../lib/conversion";
+import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 
 import { useApplicationState } from "../../../mobx/State";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-
-import Checkbox from "../../../components/ui/Checkbox";
 
 export const Notifications = observer(() => {
     const client = useContext(AppContext);
@@ -38,7 +37,7 @@ export const Notifications = observer(() => {
             </h3>
             <Checkbox
                 disabled={!("Notification" in window)}
-                checked={settings.get("notifications:desktop", false)!}
+                value={settings.get("notifications:desktop", false)!}
                 description={
                     <Text id="app.settings.pages.notifications.descriptions.enable_desktop" />
                 }
@@ -61,7 +60,7 @@ export const Notifications = observer(() => {
             </Checkbox>
             <Checkbox
                 disabled={typeof pushEnabled === "undefined"}
-                checked={pushEnabled ?? false}
+                value={pushEnabled ?? false}
                 description={
                     <Text id="app.settings.pages.notifications.descriptions.enable_push" />
                 }
@@ -111,7 +110,7 @@ export const Notifications = observer(() => {
             {settings.sounds.getState().map(({ id, enabled }) => (
                 <Checkbox
                     key={id}
-                    checked={enabled}
+                    value={enabled}
                     onChange={(enabled) =>
                         settings.sounds.setEnabled(id, enabled)
                     }>
