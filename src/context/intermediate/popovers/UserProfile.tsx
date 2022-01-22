@@ -21,6 +21,8 @@ import { noop } from "../../../lib/js";
 import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
+import { Error } from "@revoltchat/ui/lib/components/atoms/layout/Error";
 
 import ChannelIcon from "../../../components/common/ChannelIcon";
 import ServerIcon from "../../../components/common/ServerIcon";
@@ -30,7 +32,6 @@ import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
 import Modal from "../../../components/ui/Modal";
-import Overline from "../../../components/ui/Overline";
 
 import Markdown from "../../../components/markdown/Markdown";
 import {
@@ -280,19 +281,19 @@ export const UserProfile = observer(
                             <div>
                                 {flags & 1 ? (
                                     /** ! FIXME: i18n this area */
-                                    <Overline type="error" block>
-                                        User is suspended
-                                    </Overline>
+                                    <Category>
+                                        <Error error="User is suspended" />
+                                    </Category>
                                 ) : undefined}
                                 {flags & 2 ? (
-                                    <Overline type="error" block>
-                                        User deleted their account
-                                    </Overline>
+                                    <Category>
+                                        <Error error="User deleted their account" />
+                                    </Category>
                                 ) : undefined}
                                 {flags & 4 ? (
-                                    <Overline type="error" block>
-                                        User is banned
-                                    </Overline>
+                                    <Category>
+                                        <Error error="User is banned" />
+                                    </Category>
                                 ) : undefined}
                                 {user.bot ? (
                                     <>

@@ -5,6 +5,7 @@ import { Text } from "preact-i18n";
 import { useMemo } from "preact/hooks";
 
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import { useApplicationState } from "../../../mobx/State";
@@ -16,7 +17,6 @@ import {
 } from "../../../context/Locale";
 
 import Emoji from "../../../components/common/Emoji";
-import LineDivider from "../../../components/ui/LineDivider";
 import enchantingTableWEBP from "../assets/enchanting_table.webp";
 import esperantoFlagSVG from "../assets/esperanto.svg";
 import tamilFlagPNG from "../assets/tamil_nadu_flag.png";

@@ -4,10 +4,12 @@ import { Bot } from "revolt-api/types/Bots";
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
+
 import Modal from "../../../components/ui/Modal";
-import Overline from "../../../components/ui/Overline";
 
 import FormField from "../../../pages/login/FormField";
+import { I18nError } from "../../Locale";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
 
@@ -70,9 +72,11 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
                     error={errors.name?.message}
                 />
                 {error && (
-                    <Overline type="error" error={error}>
-                        <Text id="app.special.popovers.create_bot.failed" />
-                    </Overline>
+                    <Category>
+                        <I18nError error={error}>
+                            <Text id="app.special.popovers.create_bot.failed" />
+                        </I18nError>
+                    </Category>
                 )}
             </form>
         </Modal>

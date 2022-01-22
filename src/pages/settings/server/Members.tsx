@@ -13,10 +13,10 @@ import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
-import Overline from "../../../components/ui/Overline";
 
 interface InnerProps {
     member: Member;
@@ -48,7 +48,7 @@ const Inner = observer(({ member }: InnerProps) => {
             </div>
             {open && (
                 <div className={styles.memberView}>
-                    <Overline type="subtle">Roles</Overline>
+                    <Category>Roles</Category>
                     {Object.keys(server_roles).map((key) => {
                         const role = server_roles[key];
                         return (

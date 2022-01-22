@@ -20,12 +20,12 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import { dayjs } from "../../../context/Locale";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
-import LineDivider from "../../../components/ui/LineDivider";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 dayjs.extend(relativeTime);

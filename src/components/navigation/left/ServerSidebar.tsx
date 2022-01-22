@@ -10,6 +10,7 @@ import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 
 import { useApplicationState } from "../../../mobx/State";
 
@@ -17,7 +18,6 @@ import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import CollapsibleSection from "../../common/CollapsibleSection";
 import ServerHeader from "../../common/ServerHeader";
-import Category from "../../ui/Category";
 
 import { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
@@ -129,7 +129,7 @@ export default observer(() => {
                 <CollapsibleSection
                     id={`category_${category.id}`}
                     defaultValue
-                    summary={<Category text={category.title} />}>
+                    summary={<Category>{category.title}</Category>}>
                     {channels}
                 </CollapsibleSection>,
             );

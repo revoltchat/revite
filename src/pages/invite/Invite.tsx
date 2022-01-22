@@ -11,9 +11,11 @@ import { defer } from "../../lib/defer";
 import { TextReact } from "../../lib/i18n";
 import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 
 import { useApplicationState } from "../../mobx/State";
 
+import { I18nError } from "../../context/Locale";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import {
     AppContext,
@@ -24,7 +26,6 @@ import { takeError } from "../../context/revoltjs/util";
 
 import ServerIcon from "../../components/common/ServerIcon";
 import UserIcon from "../../components/common/user/UserIcon";
-import Overline from "../../components/ui/Overline";
 
 export default function Invite() {
     const history = useHistory();
@@ -148,7 +149,9 @@ export default function Invite() {
                                 }}
                             />
                         </h3>
-                        <Overline type="error" error={error} />
+                        <Category>
+                            <I18nError error={error} />
+                        </Category>
                         <Button
                             palette="secondary"
                             onClick={async () => {

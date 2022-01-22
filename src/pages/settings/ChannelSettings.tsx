@@ -4,10 +4,10 @@ import { Route, Switch, useHistory, useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";
 
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
+
 import { useClient } from "../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../context/revoltjs/util";
-
-import Category from "../../components/ui/Category";
 
 import { GenericSettings } from "./GenericSettings";
 import Overview from "./channel/Overview";

@@ -12,6 +12,7 @@ import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
+import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 
 import { useApplicationState } from "../../../mobx/State";
 import { SIDEBAR_CHANNELS } from "../../../mobx/stores/Layout";
@@ -24,7 +25,6 @@ import ServerIcon from "../../common/ServerIcon";
 import Tooltip from "../../common/Tooltip";
 import UserHover from "../../common/user/UserHover";
 import UserIcon from "../../common/user/UserIcon";
-import LineDivider from "../../ui/LineDivider";
 
 import { Children } from "../../../types/Preact";
 

@@ -8,12 +8,12 @@ import { useEffect, useState } from "preact/hooks";
 import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
-import Overline from "../../components/ui/Overline";
 
 import Markdown from "../../components/markdown/Markdown";
 
@@ -64,7 +64,7 @@ export default function InviteBot() {
                             )}
                         </div>
                     </BotInfo>
-                    <Overline type="subtle">Add to server</Overline>
+                    <Category>Add to server</Category>
                     <Option>
                         <ComboBox
                             value={server}
@@ -91,7 +91,7 @@ export default function InviteBot() {
                             Add
                         </Button>
                     </Option>
-                    <Overline type="subtle">Add to group</Overline>
+                    <Category>Add to group</Category>
                     <Option>
                         <ComboBox
                             value={group}

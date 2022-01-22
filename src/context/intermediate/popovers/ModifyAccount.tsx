@@ -3,8 +3,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
+import { Error } from "@revoltchat/ui/lib/components/atoms/layout/Error";
+
 import Modal from "../../../components/ui/Modal";
-import Overline from "../../../components/ui/Overline";
 
 import FormField from "../../../pages/login/FormField";
 import { AppContext } from "../../revoltjs/RevoltClient";
@@ -140,9 +142,11 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                     disabled={processing}
                 />
                 {error && (
-                    <Overline type="error" error={error}>
-                        <Text id="app.special.modals.account.failed" />
-                    </Overline>
+                    <Category>
+                        <Error error={error}>
+                            <Text id="app.special.modals.account.failed" />
+                        </Error>
+                    </Category>
                 )}
             </form>
         </Modal>

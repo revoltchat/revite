@@ -10,6 +10,7 @@ import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { useTranslation } from "../../../lib/i18n";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import { UserProfile } from "../../../context/intermediate/popovers/UserProfile";
@@ -23,7 +24,6 @@ import {
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
-import LineDivider from "../../../components/ui/LineDivider";
 
 export const Profile = observer(() => {
     const status = useContext(StatusContext);

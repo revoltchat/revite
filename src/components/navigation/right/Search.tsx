@@ -8,11 +8,11 @@ import { useEffect, useState } from "preact/hooks";
 import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Message from "../../common/messaging/Message";
-import Overline from "../../ui/Overline";
 
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 
@@ -103,12 +103,12 @@ export function SearchSidebar({ close }: Props) {
         <GenericSidebarBase data-scroll-offset="with-padding">
             <GenericSidebarList>
                 <SearchBase>
-                    <Overline type="accent" block hover>
+                    <Category>
                         <a onClick={close}>« back to members</a>
-                    </Overline>
-                    <Overline type="subtle" block>
+                    </Category>
+                    <Category>
                         <Text id="app.main.channel.search.title" />
-                    </Overline>
+                    </Category>
                     <InputBox
                         value={query}
                         onKeyDown={(e) => e.key === "Enter" && search()}

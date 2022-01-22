@@ -18,11 +18,10 @@ import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { ColourSwatches } from "@revoltchat/ui/lib/components/atoms/inputs/ColourSwatches";
 import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-
-import Overline from "../../../components/ui/Overline";
 
 import ButtonItem from "../../../components/navigation/items/ButtonItem";
 
@@ -169,7 +168,7 @@ export const Roles = observer(({ server }: Props) => {
                 {role !== "default" && (
                     <>
                         <section>
-                            <Overline type="subtle">Role Name</Overline>
+                            <Category>Role Name</Category>
                             <p>
                                 <InputBox
                                     value={name}
@@ -181,7 +180,7 @@ export const Roles = observer(({ server }: Props) => {
                             </p>
                         </section>
                         <section>
-                            <Overline type="subtle">Role Colour</Overline>
+                            <Category>Role Colour</Category>
                             <p>
                                 <ColourSwatches
                                     value={colour ?? "gray"}
@@ -190,7 +189,7 @@ export const Roles = observer(({ server }: Props) => {
                             </p>
                         </section>
                         <section>
-                            <Overline type="subtle">Role Options</Overline>
+                            <Category>Role Options</Category>
                             <p>
                                 <Checkbox
                                     value={hoist ?? false}
@@ -203,9 +202,9 @@ export const Roles = observer(({ server }: Props) => {
                     </>
                 )}
                 <section>
-                    <Overline type="subtle">
+                    <Category>
                         <Text id="app.settings.permissions.server" />
-                    </Overline>
+                    </Category>
                     {Object.keys(ServerPermission).map((key) => {
                         if (key === "View") return;
                         const value =
@@ -230,9 +229,9 @@ export const Roles = observer(({ server }: Props) => {
                     })}
                 </section>
                 <section>
-                    <Overline type="subtle">
+                    <Category>
                         <Text id="app.settings.permissions.channel" />
-                    </Overline>
+                    </Category>
                     {Object.keys(ChannelPermission).map((key) => {
                         if (key === "ManageChannel") return;
                         const value =
@@ -275,9 +274,7 @@ export const Roles = observer(({ server }: Props) => {
                 {role !== "default" && (
                     <>
                         <section>
-                            <Overline type="subtle">
-                                Experimental Role Ranking
-                            </Overline>
+                            <Category>Experimental Role Ranking</Category>
                             <p>
                                 <InputBox
                                     value={rank ?? 0}

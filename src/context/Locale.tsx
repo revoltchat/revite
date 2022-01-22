@@ -5,12 +5,18 @@ import update from "dayjs/plugin/updateLocale";
 import defaultsDeep from "lodash.defaultsdeep";
 import { observer } from "mobx-react-lite";
 
-import { IntlProvider } from "preact-i18n";
+import { IntlProvider, Text } from "preact-i18n";
 import { useCallback, useEffect, useState } from "preact/hooks";
+
+import {
+    Error,
+    Props as ErrorProps,
+} from "@revoltchat/ui/lib/components/atoms/layout/Error";
 
 import { useApplicationState } from "../mobx/State";
 
 import definition from "../../external/lang/en.json";
+import { takeError } from "./revoltjs/util";
 
 export const dayjs = dayJS;
 
@@ -340,4 +346,16 @@ function transformLanguage(source: Dictionary) {
         );
 
     return obj;
+}
+
+export function I18nError({
+    error,
+    ...props
+}: Omit<ErrorProps, "error"> & { error?: string }) {
+    return (
+        <Error
+            {...props}
+            error={error ? <Text id={error} children={error} /> : undefined}
+        />
+    );
 }

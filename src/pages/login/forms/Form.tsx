@@ -1,21 +1,20 @@
-import { CheckCircle, Envelope } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 
 import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
+import { Error } from "@revoltchat/ui/lib/components/atoms/layout/Error";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
-import Overline from "../../../components/ui/Overline";
 import WaveSVG from "../../settings/assets/wave.svg";
 
 import FormField from "../FormField";
@@ -189,9 +188,9 @@ export const Form = observer(({ page, callback }: Props) => {
                     />
                 )}
                 {error && (
-                    <Overline type="error" error={error}>
-                        <Text id={`login.error.${page}`} />
-                    </Overline>
+                    <Category>
+                        <Error error={<Text id={`login.error.${page}`} />} />
+                    </Category>
                 )}
                 <Button>
                     <Text

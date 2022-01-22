@@ -1,3 +1,4 @@
+import { Plus } from "@styled-icons/boxicons-regular";
 import {
     Home,
     UserDetail,
@@ -15,13 +16,14 @@ import { useContext, useEffect } from "preact/hooks";
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 
 import { useApplicationState } from "../../../mobx/State";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
-import Category from "../../ui/Category";
 import placeholderSVG from "../items/placeholder.svg";
 
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
@@ -123,15 +125,18 @@ export default observer(() => {
                         </ButtonItem>
                     </Link>
                 )}
-                <Category
-                    text={<Text id="app.main.categories.conversations" />}
-                    action={() =>
-                        openScreen({
-                            id: "special_input",
-                            type: "create_group",
-                        })
-                    }
-                />
+                <Category>
+                    <Text id="app.main.categories.conversations" />
+                    <IconButton
+                        onClick={() =>
+                            openScreen({
+                                id: "special_input",
+                                type: "create_group",
+                            })
+                        }>
+                        <Plus size={16} />
+                    </IconButton>
+                </Category>
                 {channels.length === 0 && (
                     <img src={placeholderSVG} loading="eager" />
                 )}

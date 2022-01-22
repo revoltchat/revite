@@ -15,12 +15,12 @@ import {
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
+import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
+import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 
 import { useApplicationState } from "../../mobx/State";
 
-import Category from "../../components/ui/Category";
 import Header from "../../components/ui/Header";
-import LineDivider from "../../components/ui/LineDivider";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { Children } from "../../types/Preact";
@@ -140,10 +140,9 @@ export function GenericSettings({
                                 entry.hidden ? undefined : (
                                     <>
                                         {entry.category && (
-                                            <Category
-                                                variant="uniform"
-                                                text={entry.category}
-                                            />
+                                            <Category>
+                                                {entry.category}
+                                            </Category>
                                         )}
                                         <ButtonItem
                                             active={

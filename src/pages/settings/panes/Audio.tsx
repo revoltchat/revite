@@ -8,7 +8,8 @@ import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
-import Overline from "../../../components/ui/Overline";
+import { I18nError } from "../../../context/Locale";
+
 import opusSVG from "../assets/opus_logo.svg";
 
 {
@@ -167,11 +168,7 @@ export function Audio() {
                                 </Button>
                             )}
                             {error && error.name === "NotAllowedError" && (
-                                <Overline
-                                    error="AudioPermissionBlock"
-                                    type="error"
-                                    block
-                                />
+                                <I18nError error="AudioPermissionBlock" />
                             )}
                         </div>
                     </div>
