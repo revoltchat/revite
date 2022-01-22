@@ -5,15 +5,15 @@ import styled from "styled-components/macro";
 
 import { useEffect, useState } from "preact/hooks";
 
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
+import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import Overline from "../../components/ui/Overline";
-import Preloader from "../../components/ui/Preloader";
-import Tip from "../../components/ui/Tip";
 
 import Markdown from "../../components/markdown/Markdown";
 
@@ -51,9 +51,7 @@ export default function InviteBot() {
 
     return (
         <div style={{ padding: "6em" }}>
-            <Tip warning hideSeparator>
-                This section is under construction.
-            </Tip>
+            <Tip palette="warning">This section is under construction.</Tip>
             {typeof data === "undefined" && <Preloader type="spinner" />}
             {data && (
                 <>

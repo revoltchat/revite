@@ -10,6 +10,7 @@ import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { useTranslation } from "../../../lib/i18n";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import { UserProfile } from "../../../context/intermediate/popovers/UserProfile";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -22,7 +23,7 @@ import {
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
-import Tip from "../../../components/ui/Tip";
+import LineDivider from "../../../components/ui/LineDivider";
 
 export const Profile = observer(() => {
     const status = useContext(StatusContext);
@@ -200,6 +201,7 @@ export const Profile = observer(() => {
                     <Text id="app.special.modals.actions.save" />
                 </Button>
             </p>
+            <LineDivider />
             <Tip>
                 <span>Want to change your username?</span>{" "}
                 <a onClick={() => switchPage("account")}>

@@ -3,7 +3,10 @@ import styled from "styled-components/macro";
 import { RefObject } from "preact";
 import { useEffect, useLayoutEffect, useRef } from "preact/hooks";
 
-import TextArea, { TextAreaProps } from "../components/ui/TextArea";
+import {
+    TextArea,
+    TextAreaProps,
+} from "@revoltchat/ui/lib/components/atoms/inputs/TextArea";
 
 import { internalSubscribe } from "./eventEmitter";
 import { isTouchscreenDevice } from "./isTouchscreenDevice";

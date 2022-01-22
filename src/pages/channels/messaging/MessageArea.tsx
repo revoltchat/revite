@@ -20,6 +20,7 @@ import { defer } from "../../../lib/defer";
 import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { getRenderer } from "../../../lib/renderer/Singleton";
 import { ScrollState } from "../../../lib/renderer/types";
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 
 import { IntermediateContext } from "../../../context/intermediate/Intermediate";
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
@@ -27,8 +28,6 @@ import {
     ClientStatus,
     StatusContext,
 } from "../../../context/revoltjs/RevoltClient";
-
-import Preloader from "../../../components/ui/Preloader";
 
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";

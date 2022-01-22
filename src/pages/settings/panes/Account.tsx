@@ -16,6 +16,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import { stopPropagation } from "../../../lib/stopPropagation";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
@@ -26,7 +27,7 @@ import {
 
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import Tip from "../../../components/ui/Tip";
+import LineDivider from "../../../components/ui/LineDivider";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 export const Account = observer(() => {
@@ -224,6 +225,7 @@ export const Account = observer(() => {
                     <Text id="app.settings.pages.account.manage.delete" />
                 </CategoryButton>
             </a>
+            <LineDivider />
             <Tip>
                 <span>
                     <Text id="app.settings.tips.account.a" />

@@ -18,6 +18,7 @@ import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 
 import { noop } from "../../../lib/js";
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
@@ -30,7 +31,6 @@ import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
-import Preloader from "../../../components/ui/Preloader";
 
 import Markdown from "../../../components/markdown/Markdown";
 import {

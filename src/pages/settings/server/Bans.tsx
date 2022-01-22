@@ -10,10 +10,10 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 
 import UserIcon from "../../../components/common/user/UserIcon";
-import Preloader from "../../../components/ui/Preloader";
 
 interface InnerProps {
     ban: Ban;

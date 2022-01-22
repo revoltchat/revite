@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import { defer } from "../../lib/defer";
 import { TextReact } from "../../lib/i18n";
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
 import { useApplicationState } from "../../mobx/State";
@@ -24,7 +25,6 @@ import { takeError } from "../../context/revoltjs/util";
 import ServerIcon from "../../components/common/ServerIcon";
 import UserIcon from "../../components/common/user/UserIcon";
 import Overline from "../../components/ui/Overline";
-import Preloader from "../../components/ui/Preloader";
 
 export default function Invite() {
     const history = useHistory();

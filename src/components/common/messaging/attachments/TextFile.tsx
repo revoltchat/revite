@@ -4,13 +4,13 @@ import { Attachment } from "revolt-api/types/Autumn";
 import styles from "./Attachment.module.scss";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
+
 import RequiresOnline from "../../../../context/revoltjs/RequiresOnline";
 import {
     AppContext,
     StatusContext,
 } from "../../../../context/revoltjs/RevoltClient";
-
-import Preloader from "../../../ui/Preloader";
 
 interface Props {
     attachment: Attachment;

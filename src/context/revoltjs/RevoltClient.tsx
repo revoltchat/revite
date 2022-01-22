@@ -5,9 +5,9 @@ import { Client } from "revolt.js";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
-import { useApplicationState } from "../../mobx/State";
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 
-import Preloader from "../../components/ui/Preloader";
+import { useApplicationState } from "../../mobx/State";
 
 import { Children } from "../../types/Preact";
 import { useIntermediate } from "../intermediate/Intermediate";

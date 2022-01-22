@@ -18,6 +18,7 @@ import { stopPropagation } from "../../../lib/stopPropagation";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
+import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -29,7 +30,6 @@ import AutoComplete, {
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 interface Data {
@@ -464,9 +464,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
 
             {error && (
                 <div className={styles.botSection}>
-                    <Tip error hideSeparator>
-                        {error}
-                    </Tip>
+                    <Tip palette="error">{error}</Tip>
                 </div>
             )}
 

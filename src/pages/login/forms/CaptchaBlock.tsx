@@ -5,9 +5,9 @@ import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect } from "preact/hooks";
 
-import { useApplicationState } from "../../../mobx/State";
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 
-import Preloader from "../../../components/ui/Preloader";
+import { useApplicationState } from "../../../mobx/State";
 
 export interface CaptchaProps {
     onSuccess: (token?: string) => void;

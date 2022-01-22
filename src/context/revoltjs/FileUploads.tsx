@@ -8,9 +8,8 @@ import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { determineFileSize } from "../../lib/fileSize";
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
-
-import Preloader from "../../components/ui/Preloader";
 
 import { useIntermediate } from "../intermediate/Intermediate";
 import { AppContext } from "./RevoltClient";

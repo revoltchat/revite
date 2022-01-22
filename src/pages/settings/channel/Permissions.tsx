@@ -9,8 +9,7 @@ import { useEffect, useState } from "preact/hooks";
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
-
-import Tip from "../../../components/ui/Tip";
+import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 interface Props {
     channel: Channel;
@@ -58,8 +57,8 @@ export default observer(({ channel }: Props) => {
 
     return (
         <div>
-            <Tip warning>This section is under construction.</Tip>
-            <h2>select role</h2>
+            <Tip palette="warning">This section is under construction.</Tip>
+            <h2>Select role</h2>
             {selected}
             {keys.map((id) => {
                 const role: R = id === "default" ? defaultRole : roles[id];
@@ -73,7 +72,7 @@ export default observer(({ channel }: Props) => {
                     </Checkbox>
                 );
             })}
-            <h2>channel permissions</h2>
+            <h2>Channel permissions</h2>
             {Object.keys(ChannelPermission).map((perm) => {
                 if (perm === "View") return null;
 

@@ -18,13 +18,14 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import { dayjs } from "../../../context/Locale";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
-import Preloader from "../../../components/ui/Preloader";
-import Tip from "../../../components/ui/Tip";
+import LineDivider from "../../../components/ui/LineDivider";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 dayjs.extend(relativeTime);
@@ -238,6 +239,8 @@ export function Sessions() {
                 }>
                 <Text id="app.settings.pages.sessions.logout" />
             </CategoryButton>
+
+            <LineDivider />
 
             <Tip>
                 <span>

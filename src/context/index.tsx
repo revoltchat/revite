@@ -2,9 +2,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { useEffect, useState } from "preact/hooks";
 
-import { hydrateState } from "../mobx/State";
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 
-import Preloader from "../components/ui/Preloader";
+import { hydrateState } from "../mobx/State";
 
 import { Children } from "../types/Preact";
 import Locale from "./Locale";

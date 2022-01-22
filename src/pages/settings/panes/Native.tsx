@@ -4,8 +4,8 @@ import { useEffect, useState } from "preact/hooks";
 
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
-import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 import RLogo from "../assets/revolt_r.svg";
 
@@ -27,7 +27,7 @@ export function Native() {
 
     return (
         <div style={{ marginTop: "10px" }}>
-            <Tip hideSeparator>Some options might require a restart.</Tip>
+            <Tip>Some options might require a restart.</Tip>
             <h3>App Behavior</h3>
             <Checkbox
                 value={autoStart ?? false}

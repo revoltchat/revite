@@ -16,11 +16,12 @@ import styled from "styled-components/macro";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
+import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
+
 import { useApplicationState } from "../../../mobx/State";
 
 import { Theme, generateVariables } from "../../../context/Theme";
 
-import Tip from "../../../components/ui/Tip";
 import previewPath from "../assets/preview.svg";
 
 import { GIT_REVISION } from "../../../revision";
@@ -301,7 +302,7 @@ export function ThemeShop() {
                     connected to the internet and try again.
                 </h5>
             </LoadFail>*/}
-            <Tip warning hideSeparator>
+            <Tip palette="warning">
                 The Theme Shop is currently under construction.
             </Tip>
 

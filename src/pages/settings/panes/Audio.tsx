@@ -6,9 +6,9 @@ import { stopPropagation } from "../../../lib/stopPropagation";
 import { voiceState } from "../../../lib/vortex/VoiceState";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
+import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import Overline from "../../../components/ui/Overline";
-import Tip from "../../../components/ui/Tip";
 import opusSVG from "../assets/opus_logo.svg";
 
 {
@@ -95,13 +95,13 @@ export function Audio() {
         <>
             <div class={styles.audio}>
                 {!permission && (
-                    <Tip error hideSeparator>
+                    <Tip palette="error">
                         <Text id="app.settings.pages.audio.tip_grant_permission" />
                     </Tip>
                 )}
 
                 {error && permission === "prompt" && (
-                    <Tip error hideSeparator>
+                    <Tip palette="error">
                         <Text id="app.settings.pages.audio.tip_retry" />
                         <a onClick={handleAskForPermission}>
                             <Text id="app.settings.pages.audio.button_retry" />

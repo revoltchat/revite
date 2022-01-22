@@ -10,6 +10,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import { defer } from "../../../../lib/defer";
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 
 import {
@@ -21,7 +22,6 @@ import { takeError } from "../../../../context/revoltjs/util";
 
 import ServerIcon from "../../../../components/common/ServerIcon";
 import Overline from "../../../ui/Overline";
-import Preloader from "../../../ui/Preloader";
 
 const EmbedInviteBase = styled.div`
     width: 400px;

@@ -16,6 +16,7 @@ import { useEffect, useState } from "preact/hooks";
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { ChannelRenderer } from "../../../lib/renderer/Singleton";
 import { MessageDivider } from "@revoltchat/ui/lib/components/atoms/indicators/MessageDivider";
+import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 
 import { useApplicationState } from "../../../mobx/State";
 
@@ -24,7 +25,6 @@ import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Message from "../../../components/common/messaging/Message";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
-import Preloader from "../../../components/ui/Preloader";
 
 import { Children } from "../../../types/Preact";
 import ConversationStart from "./ConversationStart";
