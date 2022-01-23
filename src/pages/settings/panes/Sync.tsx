@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 
 import { useApplicationState } from "../../../mobx/State";
@@ -17,9 +18,9 @@ export const Sync = observer(() => {
                 <Text id="app.settings.pages.sync.options" />
             </h3>
             <h5>Sync items automatically</h5>*/}
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.sync.categories" />
-            </h3>
+            </H3>
             {(
                 [
                     ["appearance", "appearance.title"],

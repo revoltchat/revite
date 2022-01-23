@@ -5,11 +5,15 @@ import { Link } from "react-router-dom";
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
 import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 
 export function Feedback() {
     return (
         <div className={styles.feedback}>
+            <H3>
+                <Text id="app.settings.pages.feedback.description" />
+            </H3>
             <a
                 href="https://github.com/revoltchat/revolt/discussions"
                 target="_blank"

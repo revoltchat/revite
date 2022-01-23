@@ -2,9 +2,11 @@ import { Refresh } from "@styled-icons/boxicons-regular";
 
 import { useEffect, useState } from "preact/hooks";
 
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
+import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import RLogo from "../assets/revolt_r.svg";
@@ -28,7 +30,7 @@ export function Native() {
     return (
         <div style={{ marginTop: "10px" }}>
             <Tip>Some options might require a restart.</Tip>
-            <h3>App Behavior</h3>
+            <H3>App Behavior</H3>
             <Checkbox
                 value={autoStart ?? false}
                 disabled={typeof autoStart === "undefined"}
@@ -68,7 +70,7 @@ export function Native() {
                 }}
                 title={"Revolt Nightly"}
                 description="Use the beta branch of Revolt."></Checkbox>
-            <h3>Titlebar</h3>
+            <H3>Titlebar</H3>
             <Checkbox
                 value={!config.frame}
                 onChange={(frame) => {
@@ -95,7 +97,7 @@ export function Native() {
                 description="Show mute/deafen buttons on the titlebar.">
                 Enable quick action buttons
             </Checkbox>*/}
-            <h3>Advanced</h3>
+            <H3>Advanced</H3>
             <Checkbox
                 value={config.hardwareAcceleration}
                 onChange={async (hardwareAcceleration) => {
@@ -127,7 +129,7 @@ export function Native() {
                     Reload App
                 </Button>
             </p>
-            <h3 style={{ marginTop: "4em" }}>Local Development Mode</h3>
+            <H3 style={{ marginTop: "4em" }}>Local Development Mode</H3>
             {config.build === "dev" ? (
                 <>
                     <h5>Development mode is currently on.</h5>
@@ -177,7 +179,7 @@ export function Native() {
                     </p>
                 </>
             )}
-            <hr />
+            <LineDivider />
             <CategoryButton
                 icon={<img src={RLogo} draggable={false} />}
                 description={<span>version {window.nativeVersion}</span>}

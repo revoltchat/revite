@@ -4,6 +4,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 
@@ -34,9 +35,9 @@ export const Notifications = observer(() => {
 
     return (
         <div className={styles.notifications}>
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.notifications.push_notifications" />
-            </h3>
+            </H3>
             <Checkbox
                 disabled={!("Notification" in window)}
                 value={settings.get("notifications:desktop", false)!}
@@ -109,9 +110,9 @@ export const Notifications = observer(() => {
                     }
                 }}></Checkbox>
             <LineDivider />
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.notifications.sounds" />
-            </h3>
+            </H3>
             {settings.sounds.getState().map(({ id, enabled }) => (
                 <Checkbox
                     key={id}

@@ -2,11 +2,13 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { stopPropagation } from "../../../lib/stopPropagation";
-import { voiceState } from "../../../lib/vortex/VoiceState";
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
+
+import { stopPropagation } from "../../../lib/stopPropagation";
+import { voiceState } from "../../../lib/vortex/VoiceState";
 
 import { I18nError } from "../../../context/Locale";
 
@@ -113,9 +115,9 @@ export function Audio() {
 
                 <div className={styles.audioRow}>
                     <div className={styles.select}>
-                        <h3>
+                        <H3>
                             <Text id="app.settings.pages.audio.input_device" />
-                        </h3>
+                        </H3>
                         <div class={styles.audioBox}>
                             <ComboBox
                                 value={
@@ -173,9 +175,9 @@ export function Audio() {
                         </div>
                     </div>
                     <div className={styles.select}>
-                        <h3>
+                        <H3>
                             <Text id="app.settings.pages.audio.output_device" />
-                        </h3>
+                        </H3>
                         {/* TOFIX: create audio output combobox*/}
                         <ComboBox
                             value={

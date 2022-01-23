@@ -11,10 +11,13 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
+import { H5 } from "@revoltchat/ui/lib/components/atoms/heading/H5";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { InputBox } from "@revoltchat/ui/lib/components/atoms/inputs/InputBox";
+import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
@@ -319,9 +322,9 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                 />
                             }>
                             {bot.public ? (
-                                <Globe size={24} />
+                                <Globe size={18} />
                             ) : (
-                                <LockAlt size={24} />
+                                <LockAlt size={18} />
                             )}
                         </Tooltip>
                     )}
@@ -383,9 +386,9 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         defaultValue={false}
                         id={`bot_profile_${bot._id}`}
                         summary={<Text id="app.settings.pages.bots.profile" />}>
-                        <h3>
+                        <H3>
                             <Text id="app.settings.pages.profile.custom_background" />
-                        </h3>
+                        </H3>
                         <FileUploader
                             height={92}
                             style="banner"
@@ -406,9 +409,9 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                     : undefined
                             }
                         />
-                        <h3>
+                        <H3>
                             <Text id="app.settings.pages.profile.info" />
-                        </h3>
+                        </H3>
                         <AutoComplete detached {...autoCompleteProps} />
                         <TextAreaAutoSize
                             maxRows={10}
@@ -443,12 +446,12 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         onChange={(v) =>
                             setData({ ...data, public: v })
                         }></Checkbox>
-                    <h3>
+                    <H3>
                         <Text id="app.settings.pages.bots.interactions_url" />
-                    </h3>
-                    <h5>
+                    </H3>
+                    <H5>
                         <Text id="app.settings.pages.bots.reserved" />
-                    </h5>
+                    </H5>
                     <InputBox
                         ref={setInteractionsRef}
                         value={data.interactions_url}
@@ -543,7 +546,7 @@ export const MyBots = observer(() => {
                 action="chevron">
                 <Text id="app.settings.pages.bots.create_bot" />
             </CategoryButton>
-            <h5>
+            <H5>
                 By creating a bot, you are agreeing to the {` `}
                 <a
                     href="https://revolt.chat/aup"
@@ -552,11 +555,11 @@ export const MyBots = observer(() => {
                     Acceptable Usage Policy
                 </a>
                 .
-            </h5>
-            <hr />
-            <h3>
+            </H5>
+            <LineDivider />
+            <H3>
                 <Text id="app.settings.pages.bots.title" />
-            </h3>
+            </H3>
             <div className={styles.botList}>
                 {bots?.map((bot) => {
                     return (

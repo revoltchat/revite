@@ -7,11 +7,14 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
-import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
-import { useTranslation } from "../../../lib/i18n";
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { TextArea } from "@revoltchat/ui/lib/components/atoms/inputs/TextArea";
 import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
+
+import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
+import { useTranslation } from "../../../lib/i18n";
 
 import { UserProfile } from "../../../context/intermediate/popovers/UserProfile";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
@@ -70,9 +73,9 @@ export const Profile = observer(() => {
 
     return (
         <div className={styles.user}>
-            <h3>
+            <H3>
                 <Text id="app.special.modals.actions.preview" />
-            </h3>
+            </H3>
             <div className={styles.preview}>
                 <UserProfile
                     user_id={client.user!._id}
@@ -80,7 +83,7 @@ export const Profile = observer(() => {
                     dummyProfile={profile}
                 />
             </div>
-            {/*<h3>Badges</h3>
+            {/*<H3>Badges</H3>
             <div className={styles.badgePicker}>
                 <div className={styles.overlay} />
                 <div className={styles.container}>
@@ -93,9 +96,9 @@ export const Profile = observer(() => {
             <hr />
             <div className={styles.row}>
                 <div className={styles.pfp}>
-                    <h3>
+                    <H3>
                         <Text id="app.settings.pages.profile.profile_picture" />
-                    </h3>
+                    </H3>
                     <FileUploader
                         width={92}
                         height={92}
@@ -116,9 +119,9 @@ export const Profile = observer(() => {
                     />
                 </div>
                 <div className={styles.background}>
-                    <h3>
+                    <H3>
                         <Text id="app.settings.pages.profile.custom_background" />
-                    </h3>
+                    </H3>
                     <FileUploader
                         height={92}
                         style="banner"
@@ -149,11 +152,11 @@ export const Profile = observer(() => {
                     />
                 </div>
             </div>
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.profile.info" />
-            </h3>
+            </H3>
             <AutoComplete detached {...autoCompleteProps} />
-            <TextAreaAutoSize
+            <TextArea
                 maxRows={10}
                 minHeight={200}
                 maxLength={2000}
@@ -203,10 +206,12 @@ export const Profile = observer(() => {
             </p>
             <LineDivider />
             <Tip>
-                <span>Want to change your username?</span>{" "}
-                <a onClick={() => switchPage("account")}>
-                    Head over to your account settings.
-                </a>
+                <span>
+                    Want to change your username?{" "}
+                    <a onClick={() => switchPage("account")}>
+                        Head over to your account settings.
+                    </a>
+                </span>
             </Tip>
         </div>
     );

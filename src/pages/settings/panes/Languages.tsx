@@ -4,6 +4,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useMemo } from "preact/hooks";
 
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
@@ -73,7 +74,7 @@ function Entry({ entry: [x, lang], selected, onSelect }: Props) {
                             <Emoji size={42} emoji={lang.emoji} />
                         )}
                     </div>
-                    <span className={styles.description}>{lang.display}</span>
+                    {lang.display}
                 </>
             }
             onChange={onSelect}></Checkbox>
@@ -135,23 +136,23 @@ export const Languages = observer(() => {
 
     return (
         <div className={styles.languages}>
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.language.select" />
-            </h3>
+            </H3>
             <div className={styles.list}>
                 {languages.filter(([, lang]) => !lang.cat).map(EntryFactory)}
             </div>
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.language.const" />
-            </h3>
+            </H3>
             <div className={styles.list}>
                 {languages
                     .filter(([, lang]) => lang.cat === "const")
                     .map(EntryFactory)}
             </div>
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.language.other" />
-            </h3>
+            </H3>
             <div className={styles.list}>
                 {languages
                     .filter(([, lang]) => lang.cat === "alt")
@@ -160,14 +161,14 @@ export const Languages = observer(() => {
             <LineDivider />
             <Tip>
                 <span>
-                    <Text id="app.settings.tips.languages.a" />
-                </span>{" "}
-                <a
-                    href="https://weblate.insrt.uk/engage/revolt/?utm_source=widget"
-                    target="_blank"
-                    rel="noreferrer">
-                    <Text id="app.settings.tips.languages.b" />
-                </a>
+                    <Text id="app.settings.tips.languages.a" />{" "}
+                    <a
+                        href="https://weblate.insrt.uk/engage/revolt/?utm_source=widget"
+                        target="_blank"
+                        rel="noreferrer">
+                        <Text id="app.settings.tips.languages.b" />
+                    </a>
+                </span>
             </Tip>
         </div>
     );

@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 
 import { useApplicationState } from "../../../mobx/State";
@@ -16,9 +17,9 @@ export const ExperimentsPage = observer(() => {
 
     return (
         <div className={styles.experiments}>
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.experiments.features" />
-            </h3>
+            </H3>
             {AVAILABLE_EXPERIMENTS.map((key) => (
                 <Checkbox
                     key={key}
