@@ -46,38 +46,33 @@ interface Props {
 
 export function ThemeBaseSelector({ value, setValue }: Props) {
     return (
-        <>
-            <h3>
-                <Text id="app.settings.pages.appearance.theme" />
-            </h3>
-            <List>
-                <div>
-                    <img
-                        loading="eager"
-                        src={lightSVG}
-                        draggable={false}
-                        data-active={value === "light"}
-                        onClick={() => setValue("light")}
-                        onContextMenu={(e) => e.preventDefault()}
-                    />
-                    <h4>
-                        <Text id="app.settings.pages.appearance.color.light" />
-                    </h4>
-                </div>
-                <div>
-                    <img
-                        loading="eager"
-                        src={darkSVG}
-                        draggable={false}
-                        data-active={value === "dark"}
-                        onClick={() => setValue("dark")}
-                        onContextMenu={(e) => e.preventDefault()}
-                    />
-                    <h4>
-                        <Text id="app.settings.pages.appearance.color.dark" />
-                    </h4>
-                </div>
-            </List>
-        </>
+        <List>
+            <div>
+                <img
+                    loading="eager"
+                    src={lightSVG}
+                    draggable={false}
+                    data-active={value === "light"}
+                    onClick={() => setValue("light")}
+                    onContextMenu={(e) => e.preventDefault()}
+                />
+                <h4>
+                    <Text id="app.settings.pages.appearance.color.light" />
+                </h4>
+            </div>
+            <div>
+                <img
+                    loading="eager"
+                    src={darkSVG}
+                    draggable={false}
+                    data-active={value === "dark"}
+                    onClick={() => setValue("dark")}
+                    onContextMenu={(e) => e.preventDefault()}
+                />
+                <h4>
+                    <Text id="app.settings.pages.appearance.color.dark" />
+                </h4>
+            </div>
+        </List>
     );
 }

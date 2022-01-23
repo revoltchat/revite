@@ -214,16 +214,16 @@
             font-weight: 600;
         }
 
-        h3 {
+        /*h3 {
             font-size: 0.8125rem;
             text-transform: uppercase;
             color: var(--secondary-foreground);
-            /*margin-bottom: 10px;*/
+            margin-bottom: 10px;
 
             &:first-child {
                 margin-top: 0;
             }
-        }
+        }*/
 
         h4 {
             margin: 4px 2px;
@@ -232,7 +232,7 @@
             text-transform: uppercase;
         }
 
-        h5 {
+        /*h5 {
             margin-top: 0;
             font-size: 0.75rem;
             font-weight: 500;
@@ -240,12 +240,12 @@
             > a:hover {
                 text-decoration: underline;
             }
-        }
+        }*/
 
-        h6 {
+        /*h6 {
             font-size: 1rem;
             font-weight: 600;
-        }
+        }*/
 
         details {
             summary {

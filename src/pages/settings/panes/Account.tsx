@@ -14,11 +14,14 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { stopPropagation } from "../../../lib/stopPropagation";
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
+import { H5 } from "@revoltchat/ui/lib/components/atoms/heading/H5";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 import { Tip } from "@revoltchat/ui/lib/components/atoms/layout/Tip";
+
+import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
@@ -169,10 +172,10 @@ export const Account = observer(() => {
                 ))}
             </div>
             <hr />
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.account.2fa.title" />
-            </h3>
-            <h5>
+            </H3>
+            <H5>
                 {/*<Text id="app.settings.pages.account.2fa.description" />*/}
                 Two-factor authentication is currently work-in-progress, see{" "}
                 {` `}
@@ -183,7 +186,7 @@ export const Account = observer(() => {
                     v1 milestone here
                 </a>
                 .
-            </h5>
+            </H5>
             <CategoryButton
                 icon={<Lock size={24} color="var(--error)" />}
                 description={"Set up 2FA on your account."}
@@ -199,12 +202,12 @@ export const Account = observer(() => {
                 View my backup codes
             </CategoryButton>*/}
             <hr />
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.account.manage.title" />
-            </h3>
-            <h5>
+            </H3>
+            <H5>
                 <Text id="app.settings.pages.account.manage.description" />
-            </h5>
+            </H5>
             <CategoryButton
                 icon={<Block size={24} color="var(--error)" />}
                 description={
@@ -228,11 +231,11 @@ export const Account = observer(() => {
             <LineDivider />
             <Tip>
                 <span>
-                    <Text id="app.settings.tips.account.a" />
-                </span>{" "}
-                <a onClick={() => switchPage("profile")}>
-                    <Text id="app.settings.tips.account.b" />
-                </a>
+                    <Text id="app.settings.tips.account.a" />{" "}
+                    <a onClick={() => switchPage("profile")}>
+                        <Text id="app.settings.tips.account.b" />
+                    </a>
+                </span>
             </Tip>
         </div>
     );

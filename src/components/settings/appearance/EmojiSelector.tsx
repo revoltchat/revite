@@ -82,80 +82,75 @@ interface Props {
 
 export function EmojiSelector({ value, setValue }: Props) {
     return (
-        <>
-            <h3>
-                <Text id="app.settings.pages.appearance.emoji_pack" />
-            </h3>
-            <Container>
-                <div class="row">
-                    <div>
-                        <div
-                            class="button"
-                            onClick={() => setValue("mutant")}
-                            data-active={!value || value === "mutant"}>
-                            <img
-                                loading="eager"
-                                src={mutantSVG}
-                                draggable={false}
-                                onContextMenu={(e) => e.preventDefault()}
-                            />
-                        </div>
-                        <h4>
-                            Mutant Remix{" "}
-                            <a
-                                href="https://mutant.revolt.chat"
-                                target="_blank"
-                                rel="noreferrer">
-                                (by Revolt)
-                            </a>
-                        </h4>
+        <Container>
+            <div class="row">
+                <div>
+                    <div
+                        class="button"
+                        onClick={() => setValue("mutant")}
+                        data-active={!value || value === "mutant"}>
+                        <img
+                            loading="eager"
+                            src={mutantSVG}
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
+                        />
                     </div>
-                    <div>
-                        <div
-                            class="button"
-                            onClick={() => setValue("twemoji")}
-                            data-active={value === "twemoji"}>
-                            <img
-                                loading="eager"
-                                src={twemojiSVG}
-                                draggable={false}
-                                onContextMenu={(e) => e.preventDefault()}
-                            />
-                        </div>
-                        <h4>Twemoji</h4>
-                    </div>
+                    <h4>
+                        Mutant Remix{" "}
+                        <a
+                            href="https://mutant.revolt.chat"
+                            target="_blank"
+                            rel="noreferrer">
+                            (by Revolt)
+                        </a>
+                    </h4>
                 </div>
-                <div class="row">
-                    <div>
-                        <div
-                            class="button"
-                            onClick={() => setValue("openmoji")}
-                            data-active={value === "openmoji"}>
-                            <img
-                                loading="eager"
-                                src={openmojiSVG}
-                                draggable={false}
-                                onContextMenu={(e) => e.preventDefault()}
-                            />
-                        </div>
-                        <h4>Openmoji</h4>
+                <div>
+                    <div
+                        class="button"
+                        onClick={() => setValue("twemoji")}
+                        data-active={value === "twemoji"}>
+                        <img
+                            loading="eager"
+                            src={twemojiSVG}
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
+                        />
                     </div>
-                    <div>
-                        <div
-                            class="button"
-                            onClick={() => setValue("noto")}
-                            data-active={value === "noto"}>
-                            <img
-                                loading="eager"
-                                src={notoSVG}
-                                draggable={false}
-                                onContextMenu={(e) => e.preventDefault()}
-                            />
-                        </div>
-                        <h4>Noto Emoji</h4>
-                    </div>
+                    <h4>Twemoji</h4>
                 </div>
-            </Container>
-        </>
+            </div>
+            <div class="row">
+                <div>
+                    <div
+                        class="button"
+                        onClick={() => setValue("openmoji")}
+                        data-active={value === "openmoji"}>
+                        <img
+                            loading="eager"
+                            src={openmojiSVG}
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
+                        />
+                    </div>
+                    <h4>Openmoji</h4>
+                </div>
+                <div>
+                    <div
+                        class="button"
+                        onClick={() => setValue("noto")}
+                        data-active={value === "noto"}>
+                        <img
+                            loading="eager"
+                            src={notoSVG}
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
+                        />
+                    </div>
+                    <h4>Noto Emoji</h4>
+                </div>
+            </div>
+        </Container>
     );
 }

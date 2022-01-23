@@ -6,11 +6,15 @@ import pSBC from "shade-blend-color";
 
 import { Text } from "preact-i18n";
 
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
 import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 import { Checkbox } from "@revoltchat/ui/lib/components/atoms/inputs/Checkbox";
 import { ColourSwatches } from "@revoltchat/ui/lib/components/atoms/inputs/ColourSwatches";
 import { ComboBox } from "@revoltchat/ui/lib/components/atoms/inputs/ComboBox";
 import { Radio } from "@revoltchat/ui/lib/components/atoms/inputs/Radio";
+import { TextArea } from "@revoltchat/ui/lib/components/atoms/inputs/TextArea";
+import { Details } from "@revoltchat/ui/lib/components/atoms/layout/Details";
+import { LineDivider } from "@revoltchat/ui/lib/components/atoms/layout/LineDivider";
 
 import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
 
@@ -25,6 +29,8 @@ import {
     MONOSPACE_FONT_KEYS,
 } from "../../context/Theme";
 
+import ThemeOverrides from "../../components/settings/appearance/ThemeOverrides";
+import ThemeTools from "../../components/settings/appearance/ThemeTools";
 import { EmojiSelector } from "./appearance/EmojiSelector";
 import { ThemeBaseSelector } from "./appearance/ThemeBaseSelector";
 
@@ -34,34 +40,41 @@ import { ThemeBaseSelector } from "./appearance/ThemeBaseSelector";
 export const ThemeBaseSelectorShim = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
-        <ThemeBaseSelector
-            value={theme.isModified() ? undefined : theme.getBase()}
-            setValue={(base) => {
-                theme.setBase(base);
-                theme.reset();
-            }}
-        />
+        <>
+            <H3>
+                <Text id="app.settings.pages.appearance.theme" />
+            </H3>
+            <ThemeBaseSelector
+                value={theme.isModified() ? undefined : theme.getBase()}
+                setValue={(base) => {
+                    theme.setBase(base);
+                    theme.reset();
+                }}
+            />
+        </>
     );
 });
 
 /**
- * Component providing a link to the theme shop.
- * Only appears if experiment is enabled.
+ * Component providing a link to theme discovery.
  * TODO: stabilise
  */
-export const ThemeShopShim = () => {
+export const ThemeDiscoverShim = () => {
     return (
-        <Link to="/discover/themes" replace>
-            <CategoryButton
-                icon={<Brush size={24} />}
-                action="chevron"
-                description={
-                    <Text id="app.settings.pages.appearance.discover.description" />
-                }
-                hover>
-                <Text id="app.settings.pages.appearance.discover.title" />
-            </CategoryButton>
-        </Link>
+        <>
+            <Link to="/discover/themes" replace>
+                <CategoryButton
+                    icon={<Brush size={24} />}
+                    action="chevron"
+                    description={
+                        <Text id="app.settings.pages.appearance.discover.description" />
+                    }
+                    hover>
+                    <Text id="app.settings.pages.appearance.discover.title" />
+                </CategoryButton>
+            </Link>
+            <LineDivider />
+        </>
     );
 };
 
@@ -72,9 +85,9 @@ export const ThemeAccentShim = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
         <>
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.appearance.accent_selector" />
-            </h3>
+            </H3>
             <ColourSwatches
                 value={theme.getVariable("accent")}
                 onChange={(colour) => {
@@ -82,27 +95,7 @@ export const ThemeAccentShim = observer(() => {
                     theme.setVariable("scrollbar-thumb", pSBC(-0.2, colour));
                 }}
             />
-        </>
-    );
-});
-
-/**
- * Component providing a way to edit custom CSS.
- */
-export const ThemeCustomCSSShim = observer(() => {
-    const theme = useApplicationState().settings.theme;
-    return (
-        <>
-            <h3>
-                <Text id="app.settings.pages.appearance.custom_css" />
-            </h3>
-            <TextAreaAutoSize
-                maxRows={20}
-                minHeight={480}
-                code
-                value={theme.getCSS() ?? ""}
-                onChange={(ev) => theme.setCSS(ev.currentTarget.value)}
-            />
+            <LineDivider />
         </>
     );
 });
@@ -110,29 +103,105 @@ export const ThemeCustomCSSShim = observer(() => {
 /**
  * Component providing a way to switch between compact and normal message view.
  */
-export const DisplayCompactShim = () => {
+export const MessageDisplayShim = () => {
     // TODO: WIP feature
     return (
         <>
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.appearance.message_display" />
-            </h3>
-            <div /* className={styles.display} */>
+            </H3>
+            <div style={"display: flex; flex-direction: column; gap: 12px;"}>
                 <Radio
                     value
+                    title={
+                        <Text id="app.settings.pages.appearance.display.default" />
+                    }
                     description={
                         <Text id="app.settings.pages.appearance.display.default_description" />
-                    }>
-                    <Text id="app.settings.pages.appearance.display.default" />
-                </Radio>
+                    }
+                />
                 <Radio
+                    title={
+                        <Text id="app.settings.pages.appearance.display.compact" />
+                    }
                     description={
                         <Text id="app.settings.pages.appearance.display.compact_description" />
                     }
-                    disabled>
-                    <Text id="app.settings.pages.appearance.display.compact" />
-                </Radio>
+                    disabled
+                />
             </div>
+            <LineDivider />
+        </>
+    );
+};
+
+/**
+ * Component that combines all theme option shims.
+ */
+export const ThemeOptionsShim = () => {
+    return (
+        <>
+            <H3>
+                <Text id="app.settings.pages.appearance.theme_options.title" />
+            </H3>
+            <DisplayTransparencyShim />
+            <DisplaySeasonalShim />
+            <LineDivider />
+        </>
+    );
+};
+
+/**
+ * Component providing a way to toggle transparency effects.
+ */
+export const DisplayTransparencyShim = observer(() => {
+    const settings = useApplicationState().settings;
+
+    return (
+        <Checkbox
+            value={settings.get("appearance:transparency") ?? true}
+            onChange={(v) => settings.set("appearance:transparency", v)}
+            title={
+                <Text id="app.settings.pages.appearance.theme_options.transparency" />
+            }
+            description={
+                <Text id="app.settings.pages.appearance.theme_options.transparency_desc" />
+            }></Checkbox>
+    );
+});
+
+/**
+ * Component providing a way to toggle seasonal themes.
+ */
+export const DisplaySeasonalShim = observer(() => {
+    const settings = useApplicationState().settings;
+
+    return (
+        <Checkbox
+            value={settings.get("appearance:seasonal") ?? true}
+            onChange={(v) => settings.set("appearance:seasonal", v)}
+            title={
+                <Text id="app.settings.pages.appearance.theme_options.seasonal" />
+            }
+            description={
+                <Text id="app.settings.pages.appearance.theme_options.seasonal_desc" />
+            }
+        />
+    );
+});
+
+/**
+ * Component that combines all font option shims.
+ */
+export const FontOptionsShim = () => {
+    return (
+        <>
+            <H3>
+                <Text id="app.settings.pages.appearance.font" />
+            </H3>
+            <DisplayFontShim />
+            <DisplayLigaturesShim />
+            <LineDivider />
         </>
     );
 };
@@ -144,45 +213,12 @@ export const DisplayFontShim = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
         <>
-            <h3>
-                <Text id="app.settings.pages.appearance.font" />
-            </h3>
             <ComboBox
                 value={theme.getFont()}
                 onChange={(e) => theme.setFont(e.currentTarget.value as Fonts)}>
                 {FONT_KEYS.map((key) => (
                     <option value={key} key={key}>
                         {FONTS[key as keyof typeof FONTS].name}
-                    </option>
-                ))}
-            </ComboBox>
-        </>
-    );
-});
-
-/**
- * Component providing a way to change secondary, monospace text font.
- */
-export const DisplayMonospaceFontShim = observer(() => {
-    const theme = useApplicationState().settings.theme;
-    return (
-        <>
-            <h3>
-                <Text id="app.settings.pages.appearance.mono_font" />
-            </h3>
-            <ComboBox
-                value={theme.getMonospaceFont()}
-                onChange={(e) =>
-                    theme.setMonospaceFont(
-                        e.currentTarget.value as MonospaceFonts,
-                    )
-                }>
-                {MONOSPACE_FONT_KEYS.map((key) => (
-                    <option value={key} key={key}>
-                        {
-                            MONOSPACE_FONTS[key as keyof typeof MONOSPACE_FONTS]
-                                .name
-                        }
                     </option>
                 ))}
             </ComboBox>
@@ -205,46 +241,9 @@ export const DisplayLigaturesShim = observer(() => {
                 title={<Text id="app.settings.pages.appearance.ligatures" />}
                 description={
                     <Text id="app.settings.pages.appearance.ligatures_desc" />
-                }></Checkbox>
+                }
+            />
         </>
-    );
-});
-
-/**
- * Component providing a way to toggle seasonal themes.
- */
-export const DisplaySeasonalShim = observer(() => {
-    const settings = useApplicationState().settings;
-
-    return (
-        <Checkbox
-            value={settings.get("appearance:seasonal") ?? true}
-            onChange={(v) => settings.set("appearance:seasonal", v)}
-            title={
-                <Text id="app.settings.pages.appearance.theme_options.seasonal" />
-            }
-            description={
-                <Text id="app.settings.pages.appearance.theme_options.seasonal_desc" />
-            }></Checkbox>
-    );
-});
-
-/**
- * Component providing a way to toggle transparency effects.
- */
-export const DisplayTransparencyShim = observer(() => {
-    const settings = useApplicationState().settings;
-
-    return (
-        <Checkbox
-            value={settings.get("appearance:transparency") ?? true}
-            onChange={(v) => settings.set("appearance:transparency", v)}
-            title={
-                <Text id="app.settings.pages.appearance.theme_options.transparency" />
-            }
-            description={
-                <Text id="app.settings.pages.appearance.theme_options.transparency_desc" />
-            }></Checkbox>
     );
 });
 
@@ -254,9 +253,91 @@ export const DisplayTransparencyShim = observer(() => {
 export const DisplayEmojiShim = observer(() => {
     const settings = useApplicationState().settings;
     return (
-        <EmojiSelector
-            value={settings.get("appearance:emoji")}
-            setValue={(v) => settings.set("appearance:emoji", v)}
-        />
+        <>
+            <H3>
+                <Text id="app.settings.pages.appearance.emoji_pack" />
+            </H3>
+            <EmojiSelector
+                value={settings.get("appearance:emoji")}
+                setValue={(v) => settings.set("appearance:emoji", v)}
+            />
+            <LineDivider />
+        </>
+    );
+});
+
+/**
+ * Component that combines all theme option shims.
+ */
+export const AdvancedOptionsShim = () => {
+    return (
+        <>
+            <Details defaultValue={false} id="settings_overrides">
+                <summary>
+                    <Text id="app.settings.pages.appearance.overrides" />
+                </summary>
+                <ThemeTools />
+                <H3>App</H3>
+                <ThemeOverrides />
+            </Details>
+            <Details id="settings_advanced_appearance" defaultValue={false}>
+                <summary>
+                    <Text id="app.settings.pages.appearance.advanced" />
+                </summary>
+                <DisplayMonospaceFontShim />
+                <ThemeCustomCSSShim />
+            </Details>
+        </>
+    );
+};
+
+/**
+ * Component providing a way to change secondary, monospace text font.
+ */
+export const DisplayMonospaceFontShim = observer(() => {
+    const theme = useApplicationState().settings.theme;
+    return (
+        <>
+            <H3>
+                <Text id="app.settings.pages.appearance.mono_font" />
+            </H3>
+            <ComboBox
+                value={theme.getMonospaceFont()}
+                onChange={(e) =>
+                    theme.setMonospaceFont(
+                        e.currentTarget.value as MonospaceFonts,
+                    )
+                }>
+                {MONOSPACE_FONT_KEYS.map((key) => (
+                    <option value={key} key={key}>
+                        {
+                            MONOSPACE_FONTS[key as keyof typeof MONOSPACE_FONTS]
+                                .name
+                        }
+                    </option>
+                ))}
+            </ComboBox>
+        </>
+    );
+});
+
+/**
+ * Component providing a way to edit custom CSS.
+ */
+export const ThemeCustomCSSShim = observer(() => {
+    const theme = useApplicationState().settings.theme;
+    return (
+        <>
+            <H3>
+                <Text id="app.settings.pages.appearance.custom_css" />
+            </H3>
+            <TextArea
+                maxRows={20}
+                minHeight={480}
+                code
+                value={theme.getCSS() ?? ""}
+                onChange={(ev) => theme.setCSS(ev.currentTarget.value)}
+            />
+        </>
     );
 });
