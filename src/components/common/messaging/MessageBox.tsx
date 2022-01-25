@@ -274,11 +274,23 @@ export default observer(({ channel }: Props) => {
             defer(() => renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE));
 
             try {
+                if(content.startsWith("/embed ")) {
+                    
+                    
+                await channel.sendMessage({
+                    content: " ",
+                    nonce,
+                    replies,
+                    embeds: [{icon_url: "https://cdn-icons-png.flaticon.com/512/2099/2099058.png", type: "Text",title: "Embed Message", description: content.replace("/embed ","")}],
+                });
+            } else 
+            {
                 await channel.sendMessage({
                     content,
                     nonce,
                     replies,
                 });
+            }
             } catch (error) {
                 state.queue.fail(nonce, takeError(error));
             }
