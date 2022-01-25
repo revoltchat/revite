@@ -16,8 +16,9 @@ import UserIcon from "./UserIcon";
 
 const BotBadge = styled.div`
     display: inline-block;
+    position: absolute;
+    top: 1px;
 
-    height: 1.4em;
     padding: 2px 4px;
     font-size: 0.6em;
     user-select: none;
