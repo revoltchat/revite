@@ -158,11 +158,6 @@ export function GenericSettings({
                                                 switchPage(entry.id)
                                             }
                                             disabled={entry.disabled}
-                                            style={
-                                                entry.disabled
-                                                    ? "filter: grayscale(70%) brightness(70%);"
-                                                    : undefined
-                                            }
                                             compact>
                                             {entry.icon} {entry.title}
                                         </ButtonItem>
