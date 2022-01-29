@@ -4303,10 +4303,10 @@ revolt-api@0.5.3-alpha.12:
   resolved "https://registry.yarnpkg.com/revolt-api/-/revolt-api-0.5.3-alpha.12.tgz#78f25b567b840c1fd072595526592a422cb01f25"
   integrity sha512-MM42oI5+5JJMnAs3JiOwSQOy/SUYzYs3M8YRC5QI4G6HU7CfyB2HNWh5jFsyRlcLdSi13dGazHm31FUPHsxOzw==
 
-revolt.js@5.2.7:
-  version "5.2.7"
-  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.2.7.tgz#7b887329913494a2caf02c9828685d63551890db"
-  integrity sha512-KNoQqLrdd/B8zryu2fhWim9rO5OEkouhCZj4nU+upwrekz30DjxqWgZCup/apKXE8PSmrhSgWdKT8SHCBXOxFQ==
+revolt.js@5.2.8:
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.2.8.tgz#5c9b3b10d3ea488e74b3208a9309e2106fb8c2c2"
+  integrity sha512-J3n2Rwbqen9UTqfgl/N2RJx/9QaXhuZWdp/Pce0wrw9pP/xCTk87FlHHG0ZWuJvX4fltg9lbCHGMcUIT6UA2wA==
   dependencies:
     "@insertish/exponential-backoff" "3.1.0-patch.0"
     "@insertish/isomorphic-ws" "^4.0.1"
