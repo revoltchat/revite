@@ -218,7 +218,7 @@ export const ServerMemberSidebar = observer(
                 FETCHED.add(server_id);
                 channel
                     .server!.syncMembers(shouldSkipOffline(server_id))
-                    .then(() => FETCHED.delete(server_id));
+                    .catch(() => FETCHED.delete(server_id));
             }
         }, [status, channel]);
 
@@ -227,6 +227,8 @@ export const ServerMemberSidebar = observer(
             () => [...client.members.keys()],
             true,
         );
+
+        console.log("rendering");
 
         return (
             <GenericSidebarBase data-scroll-offset="with-padding">
