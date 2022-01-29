@@ -56,8 +56,10 @@ export default observer(
                             }}
                         />
                     </div>
-                    <div>
-                        <Text id="app.main.channel.misc.jump_beginning" />
+                    <div className="right">
+                        <span>
+                            <Text id="app.main.channel.misc.jump_beginning" />
+                        </span>
                         <UpArrowAlt size={20} />
                     </div>
                 </div>

@@ -4,12 +4,13 @@ import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router-dom";
 import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
-import { useEffect, useMemo } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import ErrorBoundary from "../../lib/ErrorBoundary";
+import { internalSubscribe } from "../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
@@ -123,17 +124,30 @@ export function Channel({ id, server_id }: { id: string; server_id: string }) {
 const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
     const layout = useApplicationState().layout;
 
-    // Cache the unread location.
-    const last_id = useMemo(
+    // Store unread location.
+    const [lastId, setLastId] = useState<string | undefined>(undefined);
+
+    useEffect(
         () =>
-            (channel.unread
-                ? channel.client.unreads?.getUnread(channel._id)?.last_id
-                : undefined) ?? undefined,
-        [channel],
+            internalSubscribe("NewMessages", "hide", () =>
+                setLastId(undefined),
+            ),
+        [],
+    );
+
+    useEffect(
+        () => internalSubscribe("NewMessages", "mark", setLastId as any),
+        [],
     );
 
     // Mark channel as read.
     useEffect(() => {
+        setLastId(
+            channel.unread
+                ? channel.client.unreads?.getUnread(channel._id)?.last_id
+                : undefined ?? undefined,
+        );
+
         const checkUnread = () =>
             channel.unread &&
             channel.client.unreads!.markRead(
@@ -165,8 +179,8 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                 <ErrorBoundary section="renderer">
                     <ChannelContent>
                         <VoiceHeader id={channel._id} />
-                        <NewMessages channel={channel} last_id={last_id} />
-                        <MessageArea channel={channel} last_id={last_id} />
+                        <NewMessages channel={channel} last_id={lastId} />
+                        <MessageArea channel={channel} last_id={lastId} />
                         <TypingIndicator channel={channel} />
                         <JumpToBottom channel={channel} />
                         <MessageBox channel={channel} />

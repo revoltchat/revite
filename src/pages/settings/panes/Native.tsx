@@ -162,6 +162,8 @@ export function Native() {
                                         the app will not load!
                                     </span>
                                 </b>
+                                <br />
+                                <code>yarn dev --port 3001</code>
                             </>
                         }>
                         I understand there's no going back.

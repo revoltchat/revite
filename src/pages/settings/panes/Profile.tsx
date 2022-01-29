@@ -96,8 +96,8 @@ export const Profile = observer(() => {
                         <Text id="app.settings.pages.profile.profile_picture" />
                     </h3>
                     <FileUploader
-                        width={80}
-                        height={80}
+                        width={92}
+                        height={92}
                         style="icon"
                         fileType="avatars"
                         behaviour="upload"

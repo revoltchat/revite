@@ -27,12 +27,17 @@ export default class Layout implements Store, Persistent<Data> {
      * The last 'major section' that the user had open.
      * This is either the home tab or a channel ID (for a server channel).
      */
-    private lastSection: "home" | string;
+    private lastSection: "home" | "discover" | string;
 
     /**
      * The last path the user had open in the home tab.
      */
     private lastHomePath: string;
+
+    /**
+     * Volatile last discover path.
+     */
+    private lastDiscoverPath: string;
 
     /**
      * Map of last channels viewed in servers.
@@ -50,6 +55,7 @@ export default class Layout implements Store, Persistent<Data> {
     constructor() {
         this.lastSection = "home";
         this.lastHomePath = "/";
+        this.lastDiscoverPath = "/discover/servers";
         this.lastOpened = new ObservableMap();
         this.openSections = new ObservableMap();
         makeAutoObservable(this);
@@ -127,7 +133,7 @@ export default class Layout implements Store, Persistent<Data> {
      */
     @action setLastOpened(server: string, channel: string) {
         this.lastOpened.set(server, channel);
-        this.lastSection = "server";
+        this.lastSection = server;
     }
 
     /**
@@ -143,9 +149,23 @@ export default class Layout implements Store, Persistent<Data> {
      * @returns Last path
      */
     @computed getLastPath() {
-        return this.lastSection === "home"
-            ? this.lastHomePath
-            : this.getLastOpened(this.lastSection);
+        return (
+            (this.lastSection === "discover"
+                ? this.lastDiscoverPath
+                : this.lastSection === "home"
+                ? this.lastHomePath
+                : this.getServerPath(this.lastSection)!) ??
+            this.lastHomePath ??
+            "/"
+        );
+    }
+
+    /**
+     * Set the last opened section.
+     * @param section Section name
+     */
+    @action setLastSection(section: string) {
+        this.lastSection = section;
     }
 
     /**
@@ -153,8 +173,20 @@ export default class Layout implements Store, Persistent<Data> {
      * @param path Pathname
      */
     @action setLastHomePath(path: string) {
+        if (path.startsWith("/bot")) return;
+        if (path.startsWith("/invite")) return;
+
         this.lastHomePath = path;
         this.lastSection = "home";
+    }
+
+    /**
+     * Set the last discover path.
+     * @param path Pathname
+     */
+    @action setLastDiscoverPath(path: string) {
+        this.lastDiscoverPath = path;
+        this.lastSection = "discover";
     }
 
     /**

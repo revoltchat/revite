@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Embed } from "revolt-api/types/January";
+import { JanuaryEmbed } from "revolt-api/types/January";
 
 import styles from "./Embed.module.scss";
 
@@ -7,7 +7,7 @@ import { useIntermediate } from "../../../../context/intermediate/Intermediate";
 import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 interface Props {
-    embed: Embed;
+    embed: JanuaryEmbed;
     width?: number;
     height: number;
 }

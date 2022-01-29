@@ -52,6 +52,7 @@ import LineDivider from "../components/ui/LineDivider";
 
 import { Children } from "../types/Preact";
 import { internalEmit } from "./eventEmitter";
+import { getRenderer } from "./renderer/Singleton";
 
 interface ContextMenuData {
     user?: string;
@@ -73,6 +74,7 @@ type Action =
     | { action: "copy_text"; content: string }
     | { action: "mark_as_read"; channel: Channel }
     | { action: "mark_server_as_read"; server: Server }
+    | { action: "mark_unread"; message: Message }
     | { action: "retry_message"; message: QueuedMessage }
     | { action: "cancel_message"; message: QueuedMessage }
     | { action: "mention"; user: string }
@@ -183,6 +185,25 @@ export default function ContextMenus() {
                         );
 
                         data.server.ack();
+                    }
+                    break;
+
+                case "mark_unread":
+                    {
+                        const messages = getRenderer(
+                            data.message.channel!,
+                        ).messages;
+                        const index = messages.findIndex(
+                            (x) => x._id === data.message._id,
+                        );
+
+                        let unread_id = data.message._id;
+                        if (index > 0) {
+                            unread_id = messages[index - 1]._id;
+                        }
+
+                        internalEmit("NewMessages", "mark", unread_id);
+                        data.message.channel?.ack(unread_id, true);
                     }
                     break;
 
@@ -464,7 +485,7 @@ export default function ContextMenus() {
                         lastDivider = false;
                         elements.push(
                             <MenuItem data={action} disabled={disabled}>
-                                <span style={{color}}>
+                                <span style={{ color }}>
                                     <Text
                                         id={`app.context_menu.${
                                             locale ?? action.action
@@ -706,6 +727,11 @@ export default function ContextMenus() {
                                 target: message,
                             });
                         }
+
+                        generateAction({
+                            action: "mark_unread",
+                            message,
+                        });
 
                         if (
                             typeof message.content === "string" &&

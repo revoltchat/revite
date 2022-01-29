@@ -228,9 +228,11 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     ]}
                     content={
                         <>
-                            <Text
-                                id={`app.special.modals.prompt.confirm_delete_message_long`}
-                            />
+                            <h5>
+                                <Text
+                                    id={`app.special.modals.prompt.confirm_delete_message_long`}
+                                />
+                            </h5>
                             <Message
                                 message={props.target}
                                 head={true}

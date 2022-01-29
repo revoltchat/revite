@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { RefObject } from "preact";
 import { useEffect, useLayoutEffect, useRef } from "preact/hooks";

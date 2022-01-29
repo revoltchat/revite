@@ -4,7 +4,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { TextChannel, VoiceChannel } from "revolt-api/types/Channels";
 import { Category } from "revolt-api/types/Servers";
 import { Server } from "revolt.js/dist/maps/Servers";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";

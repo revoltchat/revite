@@ -1,7 +1,7 @@
 import { DownArrowAlt } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
@@ -10,19 +10,41 @@ import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
-    z-index: 10;
+    z-index: 1;
     position: relative;
+
+    @keyframes bottomBounce {
+        0% {
+            transform: translateY(33px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    @keyframes topBounce {
+        0% {
+            transform: translateY(-33px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
 
     ${(props) =>
         props.position === "top" &&
         css`
             top: 0;
+            animation: topBounce 340ms cubic-bezier(0.2, 0.9, 0.5, 1.16)
+                forwards;
         `}
 
     ${(props) =>
         props.position === "bottom" &&
         css`
             top: -28px;
+            animation: bottomBounce 340ms cubic-bezier(0.2, 0.9, 0.5, 1.16)
+                forwards;
 
             ${() =>
                 isTouchscreenDevice &&
@@ -39,10 +61,15 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         align-items: center;
         cursor: pointer;
         font-size: 12px;
+        font-weight: 600;
         padding: 0 8px;
         user-select: none;
         justify-content: space-between;
         transition: color ease-in-out 0.08s;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         ${(props) =>
             props.accent
@@ -85,6 +112,10 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
             display: flex;
             align-items: center;
             gap: 6px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         &:hover {
@@ -102,6 +133,12 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
                 padding: 0 12px;
             `}
     }
+
+    @media only screen and (max-width: 800px) {
+        .right > span {
+            display: none;
+        }
+    }
 `;
 
 export default observer(({ channel }: { channel: Channel }) => {
@@ -118,8 +155,10 @@ export default observer(({ channel }: { channel: Channel }) => {
                 <div>
                     <Text id="app.main.channel.misc.viewing_old" />
                 </div>
-                <div>
-                    <Text id="app.main.channel.misc.jump_present" />{" "}
+                <div className="right">
+                    <span>
+                        <Text id="app.main.channel.misc.jump_present" />
+                    </span>
                     <DownArrowAlt size={18} />
                 </div>
             </div>

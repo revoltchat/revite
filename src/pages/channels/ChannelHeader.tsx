@@ -8,7 +8,7 @@ import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 

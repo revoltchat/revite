@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 export default styled.select`
     width: 100%;
     padding: 10px;
     cursor: pointer;
     border-radius: var(--border-radius);
-
+    font-weight: 500;
     font-family: inherit;
     font-size: var(--text-size);
     color: var(--secondary-foreground);

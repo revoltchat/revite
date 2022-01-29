@@ -1,7 +1,7 @@
-import { Message, Group } from "@styled-icons/boxicons-solid";
+import { Message, Group, Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory, useLocation } from "react-router";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import ConditionalLink from "../../lib/ConditionalLink";
 
@@ -56,7 +56,8 @@ export default observer(() => {
 
     const friendsActive = path.startsWith("/friends");
     const settingsActive = path.startsWith("/settings");
-    const homeActive = !(friendsActive || settingsActive);
+    const discoverActive = path.startsWith("/discover");
+    const homeActive = !(friendsActive || settingsActive || discoverActive);
 
     return (
         <Base>
@@ -66,13 +67,13 @@ export default observer(() => {
                         onClick={() => {
                             if (settingsActive) {
                                 if (history.length > 0) {
-                                    history.goBack();
+                                    history.replace(layout.getLastPath());
                                     return;
                                 }
                             }
 
                             const path = layout.getLastHomePath();
-                            if (path === "/friends") {
+                            if (path.startsWith("/friends")) {
                                 history.push("/");
                             } else {
                                 history.push(path);
@@ -102,6 +103,15 @@ export default observer(() => {
                         </IconButton>
                     </ConditionalLink>
                 </Button>*/}
+                <Button active={discoverActive}>
+                    <ConditionalLink
+                        active={discoverActive}
+                        to="/discover/servers">
+                        <IconButton>
+                            <Compass size={24} />
+                        </IconButton>
+                    </ConditionalLink>
+                </Button>
                 <Button active={settingsActive}>
                     <ConditionalLink active={settingsActive} to="/settings">
                         <IconButton>

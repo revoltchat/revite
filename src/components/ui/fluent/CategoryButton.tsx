@@ -3,7 +3,7 @@ import {
     LinkExternal,
     Pencil,
 } from "@styled-icons/boxicons-regular";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Children } from "../../../types/Preact";
 
@@ -59,11 +59,12 @@ const CategoryBase = styled.div<BaseProps>`
                           font-size: 11px;
                       `}
 
-            font-weight: 400;
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 3;
             overflow: hidden;
+            font-weight: 500;
+            color: var(--secondary-foreground);
 
             a:hover {
                 text-decoration: underline;
@@ -114,7 +115,8 @@ const CategoryBase = styled.div<BaseProps>`
 
                 .description {
                     font-size: 15px;
-
+                    font-weight: 500 !important;
+                    color: var(--foreground);
                     text-overflow: ellipsis;
                     white-space: nowrap;
                     overflow: hidden;

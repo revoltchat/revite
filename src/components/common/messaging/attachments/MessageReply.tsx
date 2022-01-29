@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useLayoutEffect, useState } from "preact/hooks";
@@ -28,30 +28,25 @@ export const ReplyBase = styled.div<{
     fail?: boolean;
     preview?: boolean;
 }>`
-    gap: 4px;
+    gap: 8px;
     min-width: 0;
     display: flex;
     margin-inline-start: 30px;
     margin-inline-end: 12px;
     font-size: 0.8em;
     user-select: none;
-    align-items: center;
+    align-items: end;
     color: var(--secondary-foreground);
 
-    /* nizune's Discord replies,
-        does not scale properly with messages,
-        reverted temporarily
     &::before {
         content: "";
+        flex-shrink: 0;
+        width: 22px;
         height: 10px;
-        width: 28px;
-        margin-inline-end: 2px;
+        border-inline-start: 2px solid var(--message-box);
+        border-top: 2px solid var(--message-box);
         align-self: flex-end;
-        display: flex;
-        border-top: 2.2px solid var(--tertiary-foreground);
-        border-inline-start: 2.2px solid var(--tertiary-foreground);
-        border-start-start-radius: 6px;
-    }*/
+    }
 
     * {
         overflow: hidden;
@@ -60,6 +55,7 @@ export const ReplyBase = styled.div<{
     }
 
     .user {
+        //margin-inline-start: 12px;
         gap: 6px;
         display: flex;
         flex-shrink: 0;
@@ -74,13 +70,6 @@ export const ReplyBase = styled.div<{
                 text-decoration: underline;
             }
         }
-
-        /*&::before {
-            position:relative;
-            width: 50px;
-            height: 2px;
-            background: red;
-        }*/
     }
 
     .content {
@@ -97,6 +86,10 @@ export const ReplyBase = styled.div<{
         transition: filter 1s ease-in-out;
         transition: transform ease-in-out 0.1s;
         filter: brightness(1);
+
+        > svg {
+            flex-shrink: 0;
+        }
 
         > span > p {
             display: flex;
@@ -115,10 +108,6 @@ export const ReplyBase = styled.div<{
         > * {
             pointer-events: none;
         }
-
-        /*> span > p {
-            display: flex;
-        }*/
     }
 
     > svg:first-child {
@@ -137,6 +126,10 @@ export const ReplyBase = styled.div<{
         props.head &&
         css`
             margin-top: 12px;
+
+            &::before {
+                border-start-start-radius: 4px;
+            }
         `}
 
     ${(props) =>
@@ -179,7 +172,8 @@ export const MessageReply = observer(
 
         return (
             <ReplyBase head={index === 0}>
-                <Reply size={16} />
+                {/*<Reply size={16} />*/}
+
                 {message.author?.relationship === RelationshipStatus.Blocked ? (
                     <Text id="app.main.channel.misc.blocked_user" />
                 ) : (
@@ -190,7 +184,7 @@ export const MessageReply = observer(
                             <>
                                 <div className="user">
                                     <UserShort
-                                        size={16}
+                                        size={14}
                                         showServerIdentity
                                         user={message.author}
                                         masquerade={message.masquerade!}

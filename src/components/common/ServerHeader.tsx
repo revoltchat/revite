@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import { ServerPermission } from "revolt.js/dist/api/permissions";
 import { Server } from "revolt.js/dist/maps/Servers";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
@@ -23,7 +23,7 @@ const ServerBanner = styled.div<Omit<Props, "server">>`
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
 
     background-size: cover;
     background-repeat: norepeat;

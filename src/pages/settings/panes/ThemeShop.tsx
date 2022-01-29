@@ -1,3 +1,9 @@
+/**
+ * ! DEPRECATED FILE
+ * ! DO NOT IMPORT
+ *
+ * Replaced by Revolt Discover
+ */
 import { Check } from "@styled-icons/boxicons-regular";
 import {
     Star,
@@ -5,7 +11,7 @@ import {
     Bookmark,
     BarChartAlt2,
 } from "@styled-icons/boxicons-solid";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";

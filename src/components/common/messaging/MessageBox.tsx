@@ -1,9 +1,9 @@
-import { Send, ShieldX } from "@styled-icons/boxicons-solid";
+import { Send, ShieldX, HappyBeaming, Box } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
 import { observer } from "mobx-react-lite";
 import { ChannelPermission } from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
@@ -56,6 +56,7 @@ export type UploadState =
     | { type: "failed"; files: File[]; error: string };
 
 const Base = styled.div`
+    z-index: 1;
     display: flex;
     align-items: flex-start;
     background: var(--message-box);
@@ -78,9 +79,15 @@ const Blocked = styled.div`
     user-select: none;
     font-size: var(--text-size);
     color: var(--tertiary-foreground);
+    flex-grow: 1;
+    cursor: not-allowed;
 
     .text {
-        padding: 14px;
+        padding: var(--message-box-padding);
+    }
+
+    > div > div {
+        cursor: default;
     }
 
     svg {
@@ -91,15 +98,15 @@ const Blocked = styled.div`
 const Action = styled.div`
     > div {
         height: 48px;
-        width: 34px;
+        width: 48px;
         display: flex;
         align-items: center;
-        justify-content: end;
+        justify-content: center;
         /*padding: 14px 0 14px 14px;*/
     }
 
     .mobile {
-        justify-content: start;
+        width: 62px;
     }
 
     ${() =>
@@ -109,6 +116,15 @@ const Action = styled.div`
                 display: none;
             }
         `}
+`;
+
+const FileAction = styled.div`
+    > div {
+        height: 48px;
+        width: 62px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 `;
 
 // For sed replacement
@@ -460,7 +476,7 @@ export default observer(({ channel }: Props) => {
             />
             <Base>
                 {channel.permission & ChannelPermission.UploadFiles ? (
-                    <Action>
+                    <FileAction>
                         <FileUploader
                             size={24}
                             behaviour="multi"
@@ -495,7 +511,7 @@ export default observer(({ channel }: Props) => {
                                 }
                             }}
                         />
-                    </Action>
+                    </FileAction>
                 ) : undefined}
                 <TextAreaAutoSize
                     autoFocus
@@ -575,10 +591,17 @@ export default observer(({ channel }: Props) => {
                     onFocus={onFocus}
                     onBlur={onBlur}
                 />
+                {/*<Action>
+                    <IconButton>
+                        <Box size={24} />
+                    </IconButton>
+                </Action>
                 <Action>
-                    {/*<IconButton onClick={emojiPicker}>
-                        <HappyAlt size={20} />
-                </IconButton>*/}
+                    <IconButton>
+                        <HappyBeaming size={24} />
+                    </IconButton>
+                </Action>*/}
+                <Action>
                     <IconButton
                         className="mobile"
                         onClick={send}

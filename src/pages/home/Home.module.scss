@@ -43,6 +43,10 @@
             @media (max-width: 600px) {
                 grid-template-columns: repeat(1, 1fr);
             }
+
+            > * > * {
+                height: 100%;
+            }
         }
     }
 }

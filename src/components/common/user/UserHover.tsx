@@ -1,5 +1,5 @@
 import { User } from "revolt.js/dist/maps/Users";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import { Children } from "../../../types/Preact";
 import Tooltip from "../Tooltip";
@@ -42,10 +42,7 @@ export default function UserHover({ user, children }: Props) {
             placement="right-end"
             content={
                 <Base>
-                    <Username
-                        className="username"
-                        user={user}
-                    />
+                    <Username className="username" user={user} />
                     <span className="status">
                         <UserStatus user={user} />
                     </span>

@@ -1,6 +1,6 @@
 import { Check } from "@styled-icons/boxicons-regular";
 import { Palette } from "@styled-icons/boxicons-solid";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 
 import { RefObject } from "preact";
 import { useRef } from "preact/hooks";
