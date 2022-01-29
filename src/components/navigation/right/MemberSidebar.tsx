@@ -228,8 +228,6 @@ export const ServerMemberSidebar = observer(
             true,
         );
 
-        console.log("rendering");
-
         return (
             <GenericSidebarBase data-scroll-offset="with-padding">
                 {/*<Container>
