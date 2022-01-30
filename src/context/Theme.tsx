@@ -44,6 +44,7 @@ export type HiddenVariables =
 
 export type Fonts =
     | "Open Sans"
+    | "OpenDyslexic"
     | "Inter"
     | "Atkinson Hyperlegible"
     | "Roboto"
@@ -100,6 +101,16 @@ export const FONTS: Record<Fonts, { name: string; load: () => void }> = {
             await import("@fontsource/open-sans/400-italic.css");
         },
     },
+
+    "OpenDyslexic": {
+        name: "OpenDyslexic",
+        load: async () => {
+            await import("@fontsource/opendyslexic/400.css");
+            await import("@fontsource/opendyslexic/700.css");
+            await import("@fontsource/opendyslexic/400-italic.css");
+        },
+    },
+
     Inter: {
         name: "Inter",
         load: async () => {
