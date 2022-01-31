@@ -331,7 +331,7 @@ export default observer(() => {
         const font = theme.getFont() ?? DEFAULT_FONT;
         root.setProperty("--font", `"${font}"`);
         try {
-            FONTS[font].load();
+            FONTS[font]?.load();
         } catch (err) {
             console.error(`Failed to load font: ${font}`);
         }
@@ -341,7 +341,7 @@ export default observer(() => {
         const font = theme.getMonospaceFont() ?? DEFAULT_MONO_FONT;
         root.setProperty("--monospace-font", `"${font}"`);
         try {
-            MONOSPACE_FONTS[font].load();
+            MONOSPACE_FONTS[font]?.load();
         } catch (err) {
             console.error(`Failed to load monospace font: ${font}`);
         }
