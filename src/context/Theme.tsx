@@ -330,13 +330,21 @@ export default observer(() => {
     useEffect(() => {
         const font = theme.getFont() ?? DEFAULT_FONT;
         root.setProperty("--font", `"${font}"`);
-        FONTS[font].load();
+        try {
+            FONTS[font].load();
+        } catch (err) {
+            console.error(`Failed to load font: ${font}`);
+        }
     }, [root, theme.getFont()]);
 
     useEffect(() => {
         const font = theme.getMonospaceFont() ?? DEFAULT_MONO_FONT;
         root.setProperty("--monospace-font", `"${font}"`);
-        MONOSPACE_FONTS[font].load();
+        try {
+            MONOSPACE_FONTS[font].load();
+        } catch (err) {
+            console.error(`Failed to load monospace font: ${font}`);
+        }
     }, [root, theme.getMonospaceFont()]);
 
     useEffect(() => {
