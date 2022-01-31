@@ -1306,6 +1306,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource/open-sans/-/open-sans-4.5.2.tgz#6953650035d5b42be645013b1465544d0af49d7d"
   integrity sha512-aDQrW8s0KslG2aKb9nM5R6fiQR9iPomqWXf6iZCC30qv/UFlSY14SppodA3rE//+w37EqsJjyUq3BSEYzLdisg==
 
+"@fontsource/opendyslexic@^4.5.2":
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/opendyslexic/-/opendyslexic-4.5.2.tgz#ed17723960a18e330f04e4dfffd90834db946757"
+  integrity sha512-vW+A3Bd1ZEG6nAZuix0OhbS0ygMlhvtc3RvLlDXrTAinrAZHQ0bOGUJRN2iaGbQ1kWNP8/7A+AKMFH5FM/pjKA==
+
 "@fontsource/poppins@^4.4.5":
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-4.5.0.tgz#a419697b85864afbf8363f5c247b1e9d1f117564"
