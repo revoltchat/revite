@@ -28,6 +28,7 @@ import Preloader from "../../../components/ui/Preloader";
 import { Children } from "../../../types/Preact";
 import ConversationStart from "./ConversationStart";
 import MessageEditor from "./MessageEditor";
+import { ChannelPermission } from "revolt.js";
 
 interface Props {
     last_id?: string;
@@ -173,7 +174,7 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
                 />,
             );
         } else if (
-            message.author?.relationship === RelationshipStatus.Blocked
+            !(renderer.channel.permission & ChannelPermission.BypassBlock) && message.author?.relationship === RelationshipStatus.Blocked
         ) {
             blocked++;
         } else {
