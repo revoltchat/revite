@@ -80,9 +80,10 @@ const TRUSTED_HOSTS = [
     "local.revolt.chat:3000",
     "local.revolt.chat:3001",
     "rvlt.gg",
+    "google.com",
 ];
 
-const REMOTE = "https://rvlt.gg";
+const REMOTE = "https://google.com";
 
 export default function Discover() {
     const state = useApplicationState();
