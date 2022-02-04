@@ -26,7 +26,7 @@ import { AppContext } from "../../context/revoltjs/RevoltClient";
 import Tooltip from "../../components/common/Tooltip";
 import { PageHeader } from "../../components/ui/Header";
 import CategoryButton from "../../components/ui/fluent/CategoryButton";
-import wideSVG from "/assets/wide.svg";
+import wideSVG from "/assets/ChatNet.svg";
 
 const Overlay = styled.div`
     display: grid;
