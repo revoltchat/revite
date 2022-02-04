@@ -50,8 +50,8 @@ export default defineConfig({
             filename: "sw.ts",
             strategies: "injectManifest",
             manifest: {
-                name: "Revolt",
-                short_name: "Revolt",
+                name: "ChatNet.Me",
+                short_name: "ChatNet",
                 description: "User-first, privacy-focused chat platform.",
                 categories: ["communication", "chat", "messaging"],
                 start_url: "/",
