@@ -26,7 +26,7 @@ import { AppContext } from "../../context/revoltjs/RevoltClient";
 import Tooltip from "../../components/common/Tooltip";
 import { PageHeader } from "../../components/ui/Header";
 import CategoryButton from "../../components/ui/fluent/CategoryButton";
-import wideSVG from "/assets/wide.svg";
+import wideSVG from "/assets/simple_star_logo.png";
 
 const Overlay = styled.div`
     display: grid;
@@ -103,7 +103,7 @@ export default observer(() => {
                                     <Text id="app.home.group" />
                                 </CategoryButton>
                             </Link>
-                            <Link to="/discover">
+                            <Link to="https://list.chatnet.me">
                                 <a>
                                     <CategoryButton
                                         action="chevron"
@@ -117,9 +117,9 @@ export default observer(() => {
                             </Link>
 
                             {client.servers.get(
-                                "01F7ZSBSFHQ8TA81725KQCSDDP",
+                                "01FV1P7AZM01YAAX4ZTG3JGJPZ",
                             ) ? (
-                                <Link to="/server/01F7ZSBSFHQ8TA81725KQCSDDP">
+                                <Link to="/server/01FV1P7AZM01YAAX4ZTG3JGJPZ">
                                     <CategoryButton
                                         action="chevron"
                                         icon={<RightArrowCircle size={32} />}
@@ -130,7 +130,7 @@ export default observer(() => {
                                     </CategoryButton>
                                 </Link>
                             ) : (
-                                <Link to="/invite/Testers">
+                                <Link to="/invite/nMeAZF2S">
                                     <CategoryButton
                                         action="chevron"
                                         icon={<Group size={32} />}
