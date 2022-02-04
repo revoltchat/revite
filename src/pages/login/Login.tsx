@@ -9,7 +9,7 @@ import { Text } from "preact-i18n";
 import { useApplicationState } from "../../mobx/State";
 
 import LocaleSelector from "../../components/common/LocaleSelector";
-import wideSVG from "/assets/simple_star_logo.png";
+import wideSVG from "/assets/ChatNet.svg";
 
 import { Titlebar } from "../../components/native/Titlebar";
 import { FormCreate } from "./forms/FormCreate";
