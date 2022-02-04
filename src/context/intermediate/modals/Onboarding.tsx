@@ -6,7 +6,7 @@ import { useState } from "preact/hooks";
 
 import Button from "../../../components/ui/Button";
 import Preloader from "../../../components/ui/Preloader";
-import wideSVG from "/assets/wide.svg";
+import wideSVG from "/assets/simple_star_logo.png";
 
 import FormField from "../../../pages/login/FormField";
 import { takeError } from "../../revoltjs/util";
