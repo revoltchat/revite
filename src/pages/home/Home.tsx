@@ -115,7 +115,7 @@ export default observer(() => {
                                         }>
                                         <Text id="app.home.discover" />
                                     </CategoryButton>
-                                </a>
+                            </a></div>
                             </Link>
 
                             {client.servers.get(
