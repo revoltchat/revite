@@ -416,7 +416,7 @@ export default observer(() => {
                             placement="right">
                             <div className="circle">
                                 <IconButton>
-                                    <Link to="/discover">
+                                    <Link to="">
                                         <a>
                                             <Compass size={32} />
                                         </a>
