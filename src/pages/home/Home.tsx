@@ -103,9 +103,11 @@ export default observer(() => {
                                     <Text id="app.home.group" />
                                 </CategoryButton>
                             </Link>
-                            <Link to="//list.chatnet.me">
-                                <a>
-                                    <CategoryButton
+                            <a
+                                href="https://insrt.uk/donate"
+                                target="_blank"
+                                rel="noreferrer">
+                                     <CategoryButton
                                         action="chevron"
                                         icon={<Compass size={32} />}
                                         description={
