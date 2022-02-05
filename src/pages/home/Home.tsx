@@ -103,8 +103,10 @@ export default observer(() => {
                                     <Text id="app.home.group" />
                                 </CategoryButton>
                             </Link>
-                            <Link to="//list.chatnet.me">
-                                <a>
+                            <a
+                                href="https://list.chatnet.me"
+                                target="_blank"
+                                rel="noreferrer">
                                     <CategoryButton
                                         action="chevron"
                                         icon={<Compass size={32} />}
