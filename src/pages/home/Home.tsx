@@ -103,10 +103,8 @@ export default observer(() => {
                                     <Text id="app.home.group" />
                                 </CategoryButton>
                             </Link>
-                            <a
-                                href="https://list.chatnet.me"
-                                target="_blank"
-                                rel="noreferrer">
+                            <Link to="//list.chatnet.me">
+                                <a>
                                     <CategoryButton
                                         action="chevron"
                                         icon={<Compass size={32} />}
@@ -115,7 +113,7 @@ export default observer(() => {
                                         }>
                                         <Text id="app.home.discover" />
                                     </CategoryButton>
-                            </a></div>
+                                </a>
                             </Link>
 
                             {client.servers.get(
