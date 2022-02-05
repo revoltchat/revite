@@ -103,11 +103,9 @@ export default observer(() => {
                                     <Text id="app.home.group" />
                                 </CategoryButton>
                             </Link>
-                            <a
-                                href="https://insrt.uk/donate"
-                                target="_blank"
-                                rel="noreferrer">
-                                     <CategoryButton
+                            <Link to="#">
+                                <a>
+                                    <CategoryButton
                                         action="chevron"
                                         icon={<Compass size={32} />}
                                         description={
