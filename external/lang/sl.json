@@ -1,0 +1,423 @@
+{
+    "error": {
+        "DeniedNotification": "Zavrnili ste dostop do obvestil, preverite nastavitve strani.",
+        "InvalidToken": "Neveljaven žeton",
+        "MissingInvite": "Manjka povabi kodo v zahtevi.",
+        "InvalidInvite": "Napačna koda",
+        "UsernameTaken": "Uporabniško ime je vzeto.",
+        "AlreadyFriends": "Že prijatelj s tem uporabnikom.",
+        "AlreadySentRequest": "Že poslali zahtevo za tega uporabnika.",
+        "Blocked": "Blokirali ste tega uporabnika.",
+        "RequiredField": "Zahtevana",
+        "TooShort": "Prekratko",
+        "TooLong": "Predolgo",
+        "InvalidEmail": "Nepravilen e-naslov",
+        "Unavailable": "Ni na voljo.",
+        "FileTooLarge": "Datoteka je prevelika.",
+        "FailedToReceive": "Strežnik ni uspel prejeti vaše datoteke.",
+        "MissingData": "V zahtevi manjkajo podatki.",
+        "CompromisedPassword": "To geslo je ogroženo.",
+        "IoError": "Strežniku je prišlo do I/O napake.",
+        "UnsupportedBrowser": "Brskalnik nima podpore za to funkcijo.",
+        "EmailFailed": "E -poštnega sporočila ni bilo mogoče poslati.",
+        "InvalidCredentials": "E -poštni naslov ali geslo sta napačna.",
+        "AlreadyOnboarded": "Vključitev je že končana.",
+        "BlockedOther": "Ta uporabnik vas je blokiral.",
+        "NoEffect": "Ta zahteva ni imela učinka.",
+        "ProbeError": "Ni uspelo, da bi dobili datoteko metapodatkov."
+    },
+    "permissions": {
+        "server": {
+            "ManageRoles": {
+                "t": "Upravljanje vlog",
+                "d": "Omogoča članom ustvarjanje, urejanje in brisanje vlog z nižjim rangom od njihovega. Omogoča jim tudi spreminjanje dovoljenj za vloge na kanalih."
+            },
+            "ManageServer": {
+                "d": "Omogoča članom, da spremenijo ime, opis, ikono tega strežnika in druge povezane podatke.",
+                "t": "Upravljanje strežnika"
+            },
+            "KickMembers": {
+                "d": "Omogoča članom, da odstranijo člane s tega strežnika. Izključeni člani se lahko ponovno pridružijo s povabilom.",
+                "t": "Kick Člani"
+            },
+            "ManageNicknames": {
+                "d": "Omogoča članom, da spremenijo vzdevke drugih članov.",
+                "t": "Upravljajte vzdevke"
+            },
+            "RemoveAvatars": {
+                "d": "Omogoča članom, da odstranijo strežniške avatarje drugih članov na tem strežniku.",
+                "t": "Odstranite Avatarje"
+            },
+            "ManageChannels": {
+                "t": "Upravljajte kanale",
+                "d": "Omogoča članom ustvarjanje, urejanje in brisanje kanalov."
+            },
+            "BanMembers": {
+                "t": "Ban Člani",
+                "d": "Omogoča članom, da trajno odstranijo člane s tega strežnika."
+            },
+            "ChangeNickname": {
+                "t": "Spremenite vzdevek",
+                "d": "Omogoča članom, da spremenijo svoj vzdevek na tem strežniku."
+            },
+            "ChangeAvatar": {
+                "t": "sprememba Avatar",
+                "d": "Omogoča članom, da spremenijo svoj avatar strežnika na tem strežniku."
+            }
+        },
+        "channel": {
+            "ManageMessages": {
+                "t": "Upravljanje sporočil",
+                "d": "Omogoča članom, da izbrišejo sporočila drugih članov."
+            },
+            "ManageChannel": {
+                "d": "Omogoča članom urejanje ali brisanje kanala.",
+                "t": "Upravljajte kanale"
+            },
+            "EmbedLinks": {
+                "d": "Omogoča članom, da prikazujejo vdelano vsebino na povezavah, ki jih objavijo v besedilnih kanalih.",
+                "t": "Vdelaj povezave"
+            },
+            "View": {
+                "t": "Ogled kanala",
+                "d": "Omogoča članom ogled vseh kanalov, za katere imajo to dovoljenje."
+            },
+            "SendMessage": {
+                "t": "Pošlji sporočila",
+                "d": "Omogoča članom pošiljanje sporočil v besedilnih kanalih."
+            },
+            "UploadFiles": {
+                "t": "Naloži datoteke",
+                "d": "Omogoča članom nalaganje datotek v besedilne kanale."
+            },
+            "VoiceCall": {
+                "t": "Glasovni klic",
+                "d": "Omogoča članom, da se pridružijo glasovnim kanalom."
+            },
+            "InviteOthers": {
+                "t": "Povabite druge",
+                "d": "Omogoča članom, da povabijo druge uporabnike v kanal."
+            }
+        }
+    },
+    "general": {
+        "on": "Vklopljeno",
+        "about": "O Projektu",
+        "tos": "Pogoji storitve",
+        "privacy": "Politika zasebnosti",
+        "image_by": "Slika avtorja",
+        "loading": "Nalagam…",
+        "off": "Izklopljeno",
+        "disabled": "Onemogočeno",
+        "unavailable": "Ni na voljo"
+    },
+    "login": {
+        "enter": {
+            "invite": "Vpišite vaše povabilo kodo.",
+            "username": "Vnesite uporabniško ime.",
+            "email": "Vpišite svoj elektronski naslov.",
+            "password": "Vpišite svoje geslo.",
+            "current_password": "Vnesite svoje trenutno geslo."
+        },
+        "error": {
+            "resend": "Ni uspelo, da znova!",
+            "create": "Ni uspelo register!",
+            "login": "Prijava ni uspela!",
+            "reset": "Ponastavitev ni uspela!"
+        },
+        "title": "Prijava",
+        "register": "Registrirajte se",
+        "username": "Uporabniško ime",
+        "email": "E -pošta",
+        "password": "Geslo",
+        "invite": "Koda povabila",
+        "current_password": "Trenutni geslo",
+        "forgot": "Ste pozabili geslo?",
+        "reset": "Ponastavi geslo.",
+        "set_password": "Nastavite novo geslo.",
+        "remembered": "Vrnite se na prijavo.",
+        "new": "Ste novi pri Revoltu?",
+        "existing": "Že imate račun?",
+        "create": "Ustvari nov račun.",
+        "missing_verification": "Brez e -pošte?",
+        "resend": "Ponovno pošlji preverjanje.",
+        "cancel": "Prekliči zahtevo.",
+        "check_mail": "Preverite svojo pošto.",
+        "email_delay": "Prosimo, pustite do 10 minut, da prispe.",
+        "check_spam": "Če ga ne najdete, preverite neželeno pošto",
+        "open_mail_provider": "Odpri ponudnika {{provider}}",
+        "successful_registration": "Uspešno registriran!"
+    },
+    "app": {
+        "status": {
+            "invisible": "Nevidno",
+            "online": "Na spletu",
+            "idle": "V prostem teku",
+            "busy": "Ne moti",
+            "offline": "Brez povezave"
+        },
+        "main": {
+            "categories": {
+                "participants": "Udeleženci",
+                "conversations": "Pogovori",
+                "channels": "Kanali",
+                "members": "Člani"
+            },
+            "channel": {
+                "message_who": "Sporočilo {{person}}",
+                "attached_file": "Priloženo {{filename}}",
+                "typing": {
+                    "multiple": "{{userlist}} in {{user}} tipkata…",
+                    "single": "{{user}} piše …",
+                    "several": "Več ljudi so tipkanje…"
+                },
+                "system": {
+                    "user_left": "{{user}} levo",
+                    "channel_renamed": "{{user}} je preimenoval kanal v {{name}}",
+                    "channel_description_changed": "{{user}} je spremenil opis kanala",
+                    "user_joined": "{{user}} pridružila",
+                    "user_kicked": "{{user}} je bil brcnjen",
+                    "user_banned": "{{user}} bila prepovedana",
+                    "added_by": "{{user}} dodamo z {{other_user}}",
+                    "removed_by": "{{user}} odstranimo z {{other_user}}",
+                    "channel_icon_changed": "{{user}} je spremenil ikono kanala"
+                },
+                "voice": {
+                    "unmute": "Vklopi zvok",
+                    "connected": "Glas povezan",
+                    "leave": "Zapusti",
+                    "mute": "Izklopi zvok"
+                },
+                "misc": {
+                    "viewing_old": "Ogled starejših sporočil",
+                    "jump_present": "Skoči na predstavitev",
+                    "failed_load": "Ni bilo mogoče naložiti sporočila.",
+                    "sent_multiple_files": "Poslano več priključki",
+                    "spoiler_attachment": "Spoiler",
+                    "no_sending": "Nimate dovoljenja za pošiljanje sporočil v tem kanalu.",
+                    "blocked_messages": "{{count}} blokiranih sporočil",
+                    "blocked_user": "Blokirani uporabnik",
+                    "sent_file": "Poslali prilogo"
+                },
+                "nsfw": {
+                    "channel": {
+                        "marked": "Ta kanal je označen kot NSFW.",
+                        "confirm": "Vnesite kanal"
+                    },
+                    "confirm": "Potrjujem, da sem star najmanj 18 let."
+                },
+                "notifications": {
+                    "mention": "omenja le",
+                    "default": "Uporabi privzeto",
+                    "all": "Vsa sporočila",
+                    "none": "Nobena",
+                    "muted": "Utišan"
+                },
+                "search": {
+                    "sort": {
+                        "relevance": "Ustreznost",
+                        "latest": "Najnovejše",
+                        "oldest": "Najstarejši"
+                    },
+                    "title": "Iskanje"
+                },
+                "message_where": "Sporočilo {{channel_name}}",
+                "message_saved": "Shranite v zapiske",
+                "uploading_file": "Nalaganje…",
+                "failed_upload": "Nalaganje ni uspelo!",
+                "start": {
+                    "group": "To je začetek vašega pogovora.",
+                    "saved": "To je začetek vaših zapiskov."
+                },
+                "unknown_user": "<Neznan uporabnik>",
+                "edited": "(urejeno)",
+                "bot": "robot",
+                "errors": {
+                    "nochannels": "Ta strežnik nima kanalov ali pa nimaš dostopa do njih.",
+                    "title": "Ups, tukaj ni ničesar!",
+                    "nochannel": "Ni kanala"
+                }
+            },
+            "servers": {
+                "create": "Ustvarite strežnik",
+                "channel_type": "Vrsta kanala",
+                "voice_channel": "Glasovni kanal",
+                "name": "Ime strežnika",
+                "description": "Opis strežnika",
+                "channel_name": "Ime kanala",
+                "channel_description": "Opis kanala",
+                "custom_banner": "Pasica po meri",
+                "owner": "Lastnik strežnika",
+                "text_channel": "Besedilni kanal"
+            },
+            "groups": {
+                "create": "Ustvarite skupino",
+                "name": "Ime skupine",
+                "description": "Opis skupine",
+                "owner": "Lastnik skupine"
+            }
+        },
+        "settings": {
+            "pages": {
+                "account": {
+                    "2fa": {
+                        "remove_auth": "Odstrani Authenticator",
+                        "title": "Dvofaktorska avtentikacija",
+                        "description": "Dodati dodatno plast varnosti z omogočanjem 2FA na svoj račun.",
+                        "add_auth": "Dodajte Authenticator"
+                    },
+                    "manage": {
+                        "description": "Kadar koli onemogočite ali izbrišite svoj račun. S tem dejanjem se boste odjavili in v celoti izbrisali svoj račun, vključno z zgodovino klepeta in prijatelji.",
+                        "title": "Vodenje računa",
+                        "disable": "Onemogoči račun",
+                        "delete": "Izbriši račun"
+                    },
+                    "title": "Moj račun",
+                    "change_field": "Spremenite",
+                    "unique_id": "To je edinstven identifikator uporabnika za vaš račun."
+                },
+                "profile": {
+                    "placeholder": "Napišite nekaj o sebi…",
+                    "edit_background": "Uredi ozadje",
+                    "title": "Profil",
+                    "info": "Informacije",
+                    "fetching": "Pridobivanje vašega profila…",
+                    "profile_picture": "Slika profila",
+                    "custom_background": "Ozadje po meri",
+                    "edit_profile": "Uredi profil"
+                },
+                "sessions": {
+                    "active_sessions": "Aktivne seje",
+                    "created": "Ustvarjeno {{time_ago}}",
+                    "title": "Seje",
+                    "this_device": "Ta naprava",
+                    "logout": "Odjavite se z vseh drugih sej"
+                },
+                "audio": {
+                    "title": "Glasovne nastavitve",
+                    "output_device": "Zvočnik / slušalke",
+                    "input_device": "Mikrofon",
+                    "device_label_NA": "N/A",
+                    "button_retry": "poskusi ponovno"
+                },
+                "appearance": {
+                    "title": "Videz",
+                    "display": {
+                        "compact_description": "Dober stari IRC.",
+                        "default": "Privzeto",
+                        "compact": "Kompakten",
+                        "default_description": "Lepa, elegantna in moderna."
+                    },
+                    "theme": "Tema",
+                    "color": {
+                        "light": "svetloba",
+                        "dark": "temno"
+                    },
+                    "accent_selector": "Barva poudarka",
+                    "emoji_pack": "Paket emojijev",
+                    "message_display": "Prikaz sporočil",
+                    "advanced": "Napredne možnosti",
+                    "overrides": "Tema preglasi",
+                    "reset_overrides": "Ponastavi preglasitve",
+                    "import": "Uvozi temo",
+                    "theme_data": "Tematski podatki",
+                    "custom_css": "CSS po meri",
+                    "sync": "Možnosti sinhronizacije",
+                    "font": "Pisava",
+                    "ligatures": "Pisave Ligatures",
+                    "mono_font": "Izbirnik pisav za en prostor",
+                    "import_theme": "Uvozi temo iz niza",
+                    "ligatures_desc": "Za podprte pisave ligature združujejo znake skupaj, na primer obračajo -> v puščico. Preklopite na Inter in poskusite preklopiti to možnost."
+                },
+                "notifications": {
+                    "title": "Obvestila",
+                    "push_notifications": "Potisna obvestila",
+                    "enable_desktop": "Omogoči namizna obvestila.",
+                    "enable_push": "Omogoči potisna obvestila.",
+                    "sounds": "Sliši se",
+                    "descriptions": {
+                        "enable_push": "Omogočite prejemanje obvestil, ko niste povezani z internetom.",
+                        "enable_desktop": "Tako boste prejemali obvestila, ko je aplikacija odprta."
+                    },
+                    "sound": {
+                        "message": "Sporočilo je prejeto",
+                        "outbound": "Sporočilo poslano",
+                        "call_join": "Uporabnik Pridružil Call",
+                        "call_leave": "Levi klic uporabnika"
+                    }
+                },
+                "language": {
+                    "title": "Jezik",
+                    "select": "Izberite svoj jezik",
+                    "const": "Konstruirani jeziki",
+                    "other": "Druge jezikovne možnosti"
+                },
+                "sync": {
+                    "descriptions": {
+                        "theme": "To bo sinhroniziralo izbrano temo, barve in kateri koli CSS po meri.",
+                        "locale": "S tem boste sinhronizirali trenutno izbrani jezik.",
+                        "appearance": "To bo sinhroniziralo možnosti, kot so paketi emoji in gostota sporočil."
+                    },
+                    "title": "Sinhronizacija",
+                    "categories": "Sinhroniziraj kategorije"
+                },
+                "experiments": {
+                    "not_available": "Trenutno ni na voljo nobenih poskusov.",
+                    "title": "Poskusi",
+                    "features": "Razpoložljive funkcije"
+                },
+                "donate": {
+                    "title": "Donirajte"
+                },
+                "source_code": "Izvorna koda",
+                "native": {
+                    "title": "Nastavitve namizja"
+                },
+                "bots": {
+                    "title": "Moji roboti",
+                    "unique_id": "To je edinstven identifikator vašega robota. To ni žeton robota.",
+                    "interactions_url": "URL Za Interakcije",
+                    "reserved": "Opomba: To polje je rezervirano za prihodnost.",
+                    "create_bot": "Ustvari Robota",
+                    "copy_invite": "Kopirajte Povezavo Za Povabilo",
+                    "add": "Dodaj Robota",
+                    "token": "Žeton",
+                    "public_bot_tip": "Robot je javen. Vsakdo ga lahko povabi.",
+                    "private_bot_tip": "Bot je zaseben. Samo vi ga lahko povabite.",
+                    "public_bot": "Javni Robot",
+                    "public_bot_desc": "Ali dovolite drugim uporabnikom, da povabijo tega robota."
+                },
+                "feedback": {
+                    "title": "Povratne informacije",
+                    "suggest": "Predložite predlog funkcije",
+                    "suggest_desc": "Predlagajte nove funkcije Revolta v razpravah na GitHubu."
+                },
+                "theme_shop": {
+                    "title": "Trgovina Tem"
+                }
+            },
+            "title": "Nastavitve",
+            "categories": {
+                "user_settings": "Uporabniške nastavitve",
+                "client_settings": "Nastavitve odjemalca"
+            },
+            "actions": {
+                "remove": "Odstrani",
+                "upload": "Naloži",
+                "max_filesize": "(največ {{filesize}})"
+            }
+        },
+        "navigation": {
+            "tabs": {
+                "home": "Domov",
+                "dev": "Razvijalec",
+                "friends": "Prijatelji",
+                "unreads": "Neprebrano",
+                "saved": "Shranjeni zapiski"
+            }
+        }
+    },
+    "shortcuts": {
+        "ctrlc": "Ctrl+C"
+    }
+}

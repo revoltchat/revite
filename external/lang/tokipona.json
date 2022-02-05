@@ -1,0 +1,612 @@
+{
+    "app": {
+        "special": {
+            "modals": {
+                "clipboard": {
+                    "copy": "sina ken jo e ijo kepeken ni:",
+                    "unavailable": "mi ken ala kepeken ilo sama!",
+                    "https": "sina kepeken nasin HTTPS ala."
+                },
+                "actions": {
+                    "send_email": "o pana e lipu tawa ilo Email",
+                    "preview": "lipu li sama ni",
+                    "update": "o ante e ni",
+                    "reveal": "o len ala",
+                    "create": "o pali",
+                    "delete": "o weka e ni",
+                    "remove": "o weka e ni",
+                    "leave": "weka",
+                    "close": "pona",
+                    "block": "o weka e jan ni tan lukin sina",
+                    "save": "o awen e ni",
+                    "ban": "o weka suli e jan",
+                    "kick": "o weka e jan",
+                    "ok": "pona",
+                    "back": "o tawa weka",
+                    "cancel": "mi wile ala",
+                    "reload": "o open sin e ilo",
+                    "hide": "o len",
+                    "continue": "pona",
+                    "edit": "o ante"
+                },
+                "account": {
+                    "failed": "mi lukin ante la pakala li lon!",
+                    "change": {
+                        "password": "o ante e nimi open sina",
+                        "email": "o ante e nimi sina pi ilo Email",
+                        "username": "o ante e nimi ilo sina"
+                    }
+                },
+                "prompt": {
+                    "block_user_long": "sina wile ala wile ken ala toki tawa jan {{name}}? ni li weka e ona tan lipu pi jan pona kin.",
+                    "block_user": "jan {{name}} li jan ike anu seme?",
+                    "unfriend_user_long": "ni li ken kama e ni: sina ken toki tawa ona.",
+                    "unfriend_user": "sina wile ala wile weka e jan pona {{name}}?",
+                    "confirm_ban_reason": "weka suli li tan seme?",
+                    "confirm_ban": "sina kama weka suli e jan {{name}}",
+                    "confirm_kick": "sina wile ala wile weka e jan {{name}}?",
+                    "create_invite_created": "ni li nimi kama sin:",
+                    "create_invite_generate": "mi pali e nimi kama…",
+                    "confirm_delete_message_long": "sina wile ala wile weka e ni?",
+                    "confirm_delete_long": "weka li lon tenpo ale. ona li ken ala lon sin.",
+                    "confirm_delete": "sina wile ala wile weka e ijo {{name}}?",
+                    "confirm_close_dm_long": "sina ken open sin e toki lon tenpo kama. taso ona li weka tawa jan tu.",
+                    "confirm_close_dm": "sina wile ala wile weka tan toki pi jan {{name}}?",
+                    "confirm_leave_long": "sina wile kama sin lon tenpo kama la sina wile e nimi kama sin.",
+                    "confirm_leave": "sina wile ala wile weka tan {{name}}?"
+                },
+                "onboarding": {
+                    "pick": "o pali e nimi. jan li ken alasa e sina kepeken nimi ni. sina ken ante e ni lon tenpo kama.",
+                    "welcome": "o kama pona tawa ilo"
+                },
+                "signed_out": "sina kama lon sijelo ala!",
+                "error": "pakala li lon!",
+                "external_links": {
+                    "trust_domain": "kulupu lipu ni li pona",
+                    "short": "sina kama tawa lipu ni:",
+                    "title": "nimi nasin li ken tawa lipu ike!"
+                },
+                "token_reveal": "nimi wawa pi ilo {{name}}"
+            },
+            "friends": {
+                "sent": "wile sina",
+                "pending": "jan ni li wile kama jan pona",
+                "from": {
+                    "several": "tan {{userlist}} tan jan {{count}} kin…",
+                    "multiple": "tan {{userlist}}, {{user}}",
+                    "single": "tan {{user}}"
+                },
+                "nobody": "jan ala li lon!",
+                "outgoing": "sina wile kama jan pona.",
+                "incoming": "jan ni li wile kama jan pona.",
+                "blocked": "jan ike"
+            },
+            "copy_username": "o jo e nimi ilo lon ilo sama",
+            "copy": "o jo lon ilo sama",
+            "invite": {
+                "login": "o lon sijelo",
+                "invited_by": "nimi kama li tan jan {{user}}",
+                "user_count": "jan {{member_count}}",
+                "accept": "o kama lon ma ni",
+                "invalid": "nimi kama li pakala!",
+                "invalid_desc": "sina ken ala kama kepeken nimi ni."
+            },
+            "popovers": {
+                "user_picker": {
+                    "select": "o pana e jan pona."
+                },
+                "user_profile": {
+                    "badges": {
+                        "early_adopter": "mi open kepeken ilo ni lon tenpo pini suli",
+                        "responsible_disclosure": "mi toki e pakala ilo tawa jan pali kepeken nasin pona",
+                        "supporter": "mi pana e mani",
+                        "translator": "mi ante e toki"
+                    },
+                    "sub": {
+                        "connections": "linja",
+                        "information": "lipu",
+                        "badges": "sitelen pi suli jan"
+                    },
+                    "no_users": "sina en ona li jo e jan pona sama ala!",
+                    "empty": "ala li lon ni…",
+                    "mutual_friends": "sina en ona li jo e jan pona sama ni",
+                    "profile": "lipu jan",
+                    "mutual_servers": "sina en ona li lon ma sama ni",
+                    "mutual_groups": "sina en ona li lon kulupu sama ni",
+                    "no_groups": "sina en ona li lon kulupu sama ala!",
+                    "no_servers": "sina en ona li lon ma sama ala!"
+                },
+                "create_bot": {
+                    "title": "o pali e jan ilo sin",
+                    "failed": "mi ken ala pali e ilo sin!"
+                },
+                "server_identity": {
+                    "title": "o ante e nimi lon ma {{server}}",
+                    "nickname": "nimi",
+                    "avatar": "sitelen jan"
+                }
+            },
+            "status": {
+                "reconnecting": "ilo li kama sin lon kulupu…",
+                "connecting": "ilo li kama lon kulupu…",
+                "disconnected": "ilo sina li ken ala toki tawa kulupu ilo.",
+                "offline": "ilo sina li weka tan kulupu ilo."
+            },
+            "requires_online": "sina wile lukin e ijo ni la, ilo sina o ken toki tawa kulupu ilo."
+        },
+        "settings": {
+            "actions": {
+                "max_filesize": "(suli {{filesize}} li ike)",
+                "upload": "o pana",
+                "remove": "o weka"
+            },
+            "tips": {
+                "sessions": {
+                    "b": "o ante e nimi open sina, o pali e nimi open tu.",
+                    "a": "sina lukin e ilo pi sona sina ala lon ni la"
+                },
+                "languages": {
+                    "b": "o pali e ante toki.",
+                    "a": "sina wile e toki ante la"
+                },
+                "account": {
+                    "b": "o tawa lipu lawa pi lipu jan sina.",
+                    "a": "sina wile ante e lipu jan sina la"
+                }
+            },
+            "channel_pages": {
+                "overview": {
+                    "title": "ijo suli",
+                    "description": "lipu pi poki toki",
+                    "name": "nimi pi poki toki"
+                },
+                "permissions": {
+                    "title": "ken jan"
+                }
+            },
+            "pages": {
+                "experiments": {
+                    "features": "nasin sin nasa",
+                    "not_available": "nasin sin ala li lon tenpo ni.",
+                    "title": "nasin sin nasa"
+                },
+                "sync": {
+                    "descriptions": {
+                        "locale": "ni li sama e toki lon selo ilo.",
+                        "theme": "ni li sama e kule e sitelen CSS sina.",
+                        "appearance": "ni li sama e nasin pi sitelen pilin, e suli pi weka sitelen, e ijo ante sama."
+                    },
+                    "categories": "seme li sama lon ilo sina ale",
+                    "title": "kama sama"
+                },
+                "notifications": {
+                    "enable_push": "o mu lon tenpo ale.",
+                    "push_notifications": "mu li ken lon seme",
+                    "sound": {
+                        "call_leave": "jan li weka lon poki kalama",
+                        "call_join": "jan li kama lon poki kalama",
+                        "outbound": "sina toki",
+                        "message": "toki li kama"
+                    },
+                    "descriptions": {
+                        "enable_push": "ni la ilo toki li weka la ona li awen ken mu.",
+                        "enable_desktop": "ni la ilo toki li sinpin ala la ona li awen ken mu."
+                    },
+                    "sounds": "mu li tan seme",
+                    "enable_desktop": "o mu lon ilo ale.",
+                    "title": "mu ilo"
+                },
+                "appearance": {
+                    "ligatures_desc": "nasin sitelen li ken wan namako la, sitelen tu li ken kama wan, sama ni: \"->\" li ken kama \"→\". ni li pona lon nasin sitelen Inter.",
+                    "ligatures": "wan sitelen namako",
+                    "mono_font": "nasin sitelen pi toki ilo",
+                    "font": "nasin sitelen",
+                    "sync": "sama nasin pi ante nasin",
+                    "custom_css": "sitelen CSS",
+                    "theme_data": "sitelen ilo kule",
+                    "import_theme": "o pana e kule tan sitelen ilo",
+                    "import": "o pana e kule tan lipu",
+                    "overrides": "ante pi kule lili",
+                    "reset_overrides": "o weka e ante ni",
+                    "advanced": "nasin ilo wawa (tawa jan sona taso)",
+                    "message_display": "suli pi weka sitelen",
+                    "emoji_pack": "nasin pi sitelen lili",
+                    "accent_selector": "kule namako",
+                    "color": {
+                        "dark": "pimeja",
+                        "light": "walo"
+                    },
+                    "display": {
+                        "compact_description": "sama ilo pona IRC.",
+                        "default_description": "suli. suwi. pona.",
+                        "compact": "lili",
+                        "default": "pona"
+                    },
+                    "theme": "kule selo",
+                    "title": "selo ilo"
+                },
+                "sessions": {
+                    "logout": "o weka e ilo ante",
+                    "active_sessions": "ilo ni li lon sijelo sina lon tenpo ni",
+                    "title": "ilo ante li lon sijelo",
+                    "created": "ona li kama lon tenpo {{time_ago}}",
+                    "this_device": "ilo ni"
+                },
+                "logOut": "o lon sijelo ala",
+                "feedback": {
+                    "send": "o pana e wile sina",
+                    "describe": "o toki e pipi sina.",
+                    "other": "ante",
+                    "feature": "wile pali",
+                    "bug": "lipu pi ike ilo",
+                    "report": "sina wile toki e seme?",
+                    "title": "toki wile",
+                    "issue": "o toki e ike ilo",
+                    "suggest": "o toki e wile sina",
+                    "suggest_desc": "o toki e wile sina kepeken tomo toki pi ilo \"GitHub\".",
+                    "bug_desc": "lipu ni la li toki e sona ni: ilo li pali ike lon kama seme?",
+                    "issue_desc": "ilo li pali ike la, sina ken toki e ni kepeken ilo GitHub. jan pali li sona e ike la ona li ken pona e ilo."
+                },
+                "source_code": "toki ilo pi ilo ni",
+                "donate": {
+                    "title": "o pana e mani"
+                },
+                "native": {
+                    "title": "nasin ilo pi ilo linluwi ala"
+                },
+                "language": {
+                    "other": "nasin toki ante",
+                    "select": "o kepeken toki sina",
+                    "title": "toki",
+                    "const": "toki sin"
+                },
+                "profile": {
+                    "edit_background": "o ante e sitelen suli",
+                    "custom_background": "sitelen suli",
+                    "profile_picture": "sitelen sina",
+                    "placeholder": "o sitelen e sona sina…",
+                    "fetching": "ilo li lukin jo e lipu jan sina…",
+                    "info": "sona",
+                    "title": "lipu jan",
+                    "edit_profile": "o ante e sijelo"
+                },
+                "account": {
+                    "manage": {
+                        "delete": "o weka e sijelo sina",
+                        "disable": "o pini e sijelo sina",
+                        "description": "sina ken weka e sijelo sina. ni li weka e ale, e toki sina e jan pona sina.",
+                        "title": "lawa sijelo"
+                    },
+                    "2fa": {
+                        "remove_auth": "o weka e ilo open nanpa tu",
+                        "add_auth": "o pana e ilo open nanpa tu",
+                        "description": "o pana e ilo open nanpa tu.",
+                        "title": "ilo open tu"
+                    },
+                    "unique_id": "nanpa ni li nimi pi sijelo sina taso.",
+                    "change_field": "ante",
+                    "title": "sijelo mi"
+                },
+                "bots": {
+                    "create_bot": "o pali e ilo jan sin",
+                    "private_bot_tip": "ilo jan ni li tawa kulupu ala. sina taso li ken pana e ona.",
+                    "title": "ilo jan mi",
+                    "copy_invite": "o jo e nasin kama ilo",
+                    "add": "o pana e ilo",
+                    "public_bot_tip": "jan ilo ni li kulupu. jan ale li ken kama jo e ona.",
+                    "public_bot": "jan ilo kulupu",
+                    "token": "nimi wawa",
+                    "unique_id": "nanpa ni li tawa ilo ni taso. nanpa ni li wawa ala li len ala.",
+                    "public_bot_desc": "jan ante li ken ala ken kama jo e ilo ni?",
+                    "reserved": "ijo ala li kepeken ni lon tenpo ni. ken la ni li ante lon tenpo kama."
+                },
+                "audio": {
+                    "output_device": "ilo kalama",
+                    "title": "kalama",
+                    "input_device": "ilo toki",
+                    "tip_retry": "ilo li ken ala kepeken ilo kute sina. sina pana ala e ken. {{retryBtn}}.",
+                    "button_retry": "o sin",
+                    "device_label_NA": "ilo kalama ala"
+                },
+                "theme_shop": {
+                    "title": "tomo esun pi nasin lukin"
+                }
+            },
+            "permissions": {
+                "role_name": "nimi pi poki jan",
+                "create_role": "o pali e poki jan",
+                "channel": "ken pi poki toki",
+                "server": "ken ma",
+                "default_role": "jan ale"
+            },
+            "server_pages": {
+                "categories": {
+                    "title": "kulupu pi poki toki"
+                },
+                "roles": {
+                    "title": "poki jan"
+                },
+                "bans": {
+                    "no_reason": "weka li tan ala.",
+                    "revoke": "o ala e weka",
+                    "reason": "weka li tan ni",
+                    "user": "jan",
+                    "title": "jan pi weka suli"
+                },
+                "invites": {
+                    "revoke": "o weka",
+                    "channel": "poki toki",
+                    "invitor": "jan pali pi nimi ni",
+                    "code": "nimi pi kama jan",
+                    "title": "nimi pi kama jan"
+                },
+                "members": {
+                    "title": "jan"
+                },
+                "overview": {
+                    "system_messages": "ilo li toki lon poki toki lon tenpo ni:",
+                    "description": "lipu pi poki toki",
+                    "name": "nimi ma",
+                    "title": "ijo suli"
+                }
+            },
+            "categories": {
+                "client_settings": "nasin ilo ilo",
+                "user_settings": "nasin ilo jan"
+            },
+            "title": "nasin ilo"
+        },
+        "main": {
+            "channel": {
+                "attached_file": "ijo {{filename}} li lon",
+                "search": {
+                    "sort": {
+                        "oldest": "ijo majuna",
+                        "latest": "ijo sin",
+                        "relevance": "ijo pona"
+                    },
+                    "title": "alasa"
+                },
+                "notifications": {
+                    "muted": "weka tan lukin",
+                    "none": "toki ala",
+                    "mention": "toki taso pi nimi sina",
+                    "all": "toki ale",
+                    "default": "nasin ante ala"
+                },
+                "bot": "ilo",
+                "edited": "(ante)",
+                "unknown_user": "<jan pi sona ala>",
+                "nsfw": {
+                    "confirm": "mi tenpo sike 18.",
+                    "channel": {
+                        "confirm": "ni li pona tawa mi",
+                        "marked": "unpa en jaki li ken lon poki ni."
+                    }
+                },
+                "misc": {
+                    "blocked_user": "jan ike",
+                    "blocked_messages": "toki {{count}} pi jan ike",
+                    "no_sending": "sina ken ala toki lon poki toki ni.",
+                    "failed_load": "ilo li ken ala alasa e toki ni.",
+                    "spoiler_attachment": "o len e sitelen",
+                    "jump_present": "o tawa tenpo lon",
+                    "viewing_old": "ni li lon tenpo pini",
+                    "sent_file": "sitelen",
+                    "sent_multiple_files": "sitelen mute"
+                },
+                "voice": {
+                    "unmute": "o ken e kalama",
+                    "mute": "o ken ala e kalama",
+                    "leave": "o weka",
+                    "connected": "sina lon poki kalama"
+                },
+                "start": {
+                    "group": "ni li open pi toki sina.",
+                    "saved": "ni li open lipu pi sitelen sina taso."
+                },
+                "system": {
+                    "channel_icon_changed": "jan {{user}} li ante e sitelen poki",
+                    "channel_description_changed": "jan {{user}} li ante e lipu poki",
+                    "channel_renamed": "jan {{user}} li ante e nimi poki tawa nimi {{name}}",
+                    "removed_by": "jan {{other_user}} li weka e jan {{user}}",
+                    "added_by": "jan {{other_user}} li kama e jan {{user}}",
+                    "user_banned": "lawa li weka e jan {{user}} lon tenpo ale",
+                    "user_kicked": "lawa li weka e jan {{user}}",
+                    "user_left": "jan {{user}} li weka",
+                    "user_joined": "jan sin {{user}} li kama"
+                },
+                "typing": {
+                    "several": "jan mute li kama toki…",
+                    "multiple": "jan {{userlist}} en jan {{user}} li kama toki…",
+                    "single": "jan {{user}} li kama toki…"
+                },
+                "failed_upload": "pana li pakala!",
+                "uploading_file": "ilo li kama pana e ijo…",
+                "message_saved": "o awen lon lipu pi sina taso",
+                "message_who": "o toki tawa jan {{person}}",
+                "message_where": "o toki lon poki {{channel_name}}",
+                "errors": {
+                    "title": "pakala! ala li lon!",
+                    "nochannels": "ken la poki toki ala li lon ma ni. ken la sina ken lukin e poki toki ala.",
+                    "nochannel": "poki toki ala"
+                }
+            },
+            "servers": {
+                "voice_channel": "poki toki kalama",
+                "text_channel": "poki toki sitelen",
+                "owner": "jan lawa nanpa wan",
+                "custom_banner": "sitelen suli",
+                "channel_description": "lipu pi poki toki",
+                "channel_type": "nasin pi poki toki",
+                "channel_name": "nimi pi poki toki",
+                "description": "lipu ma",
+                "name": "nimi ma",
+                "create": "o pali e ma sin",
+                "category_name": "nimi pi kulupu poki"
+            },
+            "groups": {
+                "owner": "jan lawa",
+                "description": "lipu kulupu",
+                "name": "nimi kulupu",
+                "create": "o pali e kulupu sin"
+            },
+            "categories": {
+                "members": "jan",
+                "channels": "poki toki",
+                "participants": "jan",
+                "conversations": "toki"
+            }
+        },
+        "context_menu": {
+            "open_group_settings": "lawa kulupu",
+            "open_server_settings": "nasin ma",
+            "open_channel_settings": "nasin pi poki toki",
+            "open_notification_options": "ilo o mu tan toki seme",
+            "create_invite": "o pali e nimi kama",
+            "create_channel": "o pali e poki toki",
+            "delete_channel": "o weka e poki toki",
+            "delete_server": "o weka e ma",
+            "close_dm": "o weka e toki",
+            "leave_server": "o weka tan ma",
+            "leave_group": "o weka tan kulupu",
+            "set_custom_status": "o toki e lon sina",
+            "clear_status": "o weka e toki lili",
+            "custom_status": "toki ante pi lon sina",
+            "cancel_friend": "o weka e wile pi jan pona",
+            "remove_friend": "o weka e ona tan lipu pi jan pona",
+            "add_friend": "o pana e ona tawa lipu pi jan pona",
+            "unblock_user": "o ken toki tawa jan ni",
+            "block_user": "o weka e jan ni tan lukin",
+            "open_link": "o kepeken linja",
+            "open_video": "o lukin e sitelen",
+            "save_video": "o awen e sitelen",
+            "save_image": "o awen e sitelen",
+            "open_image": "o lukin e sitelen",
+            "save_file": "o awen e ijo lon ilo sina",
+            "open_file": "o lukin e ijo",
+            "ban_member": "o weka suli e jan",
+            "kick_member": "o weka e jan",
+            "remove_member": "o weka e jan",
+            "delete_message": "o weka e toki",
+            "edit_message": "o ante e toki",
+            "quote_message": "o sama e ni",
+            "reply_message": "o toki tawa ni",
+            "view_profile": "o lukin e lipu pi jan ni",
+            "message_user": "o toki tawa jan ni",
+            "mention": "o kalama tawa jan ni",
+            "copy_cid": "o jo e nanpa pi poki ni lon ilo sama",
+            "cancel_message": "o pana ala",
+            "copy_sid": "o jo e nanpa pi ma ni lon ilo sama",
+            "copy_mid": "o jo e nanpa pi toki ni lon ilo sama",
+            "retry_message": "o lukin pana sin",
+            "copy_id": "o jo e nanpa ijo lon ilo sama",
+            "copy_selection": "o pana tawa poki pana",
+            "copy_uid": "o jo e nanpa pi jan ni lon ilo sama",
+            "copy_message_link": "o jo e linja pi toki ni lon ilo sama",
+            "copy_text": "o jo e sitelen toki lon ilo sama",
+            "mark_as_read": "sitelen ni li sin ala",
+            "edit_identity": "o ante e nimi lon ma",
+            "copy_link": "o jo e linja lon ilo sama",
+            "create_category": "o pali e kulupu pi poki toki"
+        },
+        "navigation": {
+            "tabs": {
+                "saved": "lipu pi sina taso",
+                "unreads": "lipu pi lukin ala",
+                "friends": "jan pona",
+                "dev": "pali ilo",
+                "home": "open"
+            }
+        },
+        "status": {
+            "offline": "lon ala",
+            "invisible": "kon",
+            "busy": "o toki ala",
+            "idle": "weka",
+            "online": "lon"
+        }
+    },
+    "error": {
+        "DatabaseError": "ilo pi sona awen li pakala.",
+        "InvalidCredentials": "nimi pi ilo Email anu nimi open li pakala.",
+        "EmailFailed": "lipu pi ilo Email li pakala.",
+        "EmailInUse": "nimi pi ilo Email li tan sijelo ante.",
+        "MissingHeaders": "sitelen suli li lon ala.",
+        "RenderFail": "sitelen li pakala.",
+        "UnknownError": "o lukin e insa ilo.",
+        "MissingPermission": "sina ken ala.",
+        "InternalError": "ilo Revolt li pakala.",
+        "FailedValidation": "sitelen li ike.",
+        "Unlabelled": "ijo li pakala.",
+        "Unauthorized": "sina ken ala.",
+        "NetworkError": "ilo sona li pakala."
+    },
+    "notifications": {
+        "now_friends": "sina en jan {{person}} li kama jan pona!",
+        "sent_request": "jan {{person}} li wile kama jan pona sina."
+    },
+    "dayjs": {
+        "defaults": {
+            "date_format": "traditional",
+            "date_separator": "/"
+        },
+        "lastDay": "[lon tenpo suno pini lon tenpo] {{time}}",
+        "sameDay": "[lon tenpo suno ni lon tenpo] {{time}}",
+        "nextDay": "[lon tenpo suno kama lon tenpo] {{time}}"
+    },
+    "quantities": {
+        "members": {
+            "many": "jan {{count}}",
+            "one": "jan wan"
+        }
+    },
+    "login": {
+        "cancel": "mi wile ala.",
+        "resend": "o pana sin e lipu pi alasa lon.",
+        "missing_verification": "lipu pi ilo Email li kama ala la",
+        "new": "sina sin tawa ilo Revolt la",
+        "enter": {
+            "email": "o sitelen e nimi sina pi ilo Email.",
+            "username": "o sitelen e nimi ilo.",
+            "current_password": "o sitelen e nimi open pi tenpo ni.",
+            "invite": "o sitelen e nimi kama sina.",
+            "password": "o sitelen e nimi open."
+        },
+        "error": {
+            "resend": "pana sin li pakala!",
+            "reset": "ante pi nimi open li pakala!",
+            "login": "kama sijelo li pakala!",
+            "create": "pali sijelo li pakala!"
+        },
+        "successful_registration": "sijelo li lon!",
+        "open_mail_provider": "o open e ilo {{provider}}",
+        "check_spam": "sina ken ala lukin e ona la o alasa lon lipu jaki",
+        "email_delay": "kama ona li ken kepeken tenpo.",
+        "check_mail": "o lukin e ilo Email sina.",
+        "create": "o pali e sijelo sin.",
+        "existing": "sina jo e sijelo la",
+        "title": "o kama sijelo",
+        "remembered": "o tawa ilo pi kama sijelo.",
+        "set_password": "o ante e nimi open.",
+        "reset": "o ante e nimi open.",
+        "forgot": "sina awen ala sona e nimi open la",
+        "current_password": "nimi open pi tenpo ni",
+        "invite": "nimi kama",
+        "password": "nimi open",
+        "username": "nimi ilo",
+        "email": "ilo Email",
+        "register": "o pali e sijelo"
+    },
+    "general": {
+        "off": "ala",
+        "disabled": "ken ala",
+        "on": "lon",
+        "loading": "o awen…",
+        "image_by": "sitelen li tan",
+        "privacy": "lipu pi lawa pi sona jan",
+        "tos": "lipu pi lawa ilo",
+        "about": "sona",
+        "unavailable": "ken ala"
+    }
+}

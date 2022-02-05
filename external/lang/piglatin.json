@@ -1,0 +1,752 @@
+{
+    "error": {
+        "CompromisedPassword": "Isthay asswordpay isway ompromisedcay.",
+        "DeniedNotification": "Youway eniedday otificationnay accessway, eckchay agepay ettingssay.",
+        "UnsupportedBrowser": "Owserbray isway issingmay upportsay orfay isthay eaturefay.",
+        "IoError": "Erversay encounteredway anway I/oway errorway.",
+        "ProbeError": "Ailedfay otay etgay ilefay etadatamay.",
+        "MissingData": "Equestray isway issingmay ataday.",
+        "FailedToReceive": "Erversay ailedfay otay eceiveray yourway ilefay.",
+        "FileTooLarge": "Ilefay isway ootay argelay.",
+        "Unavailable": "Unavailableway.",
+        "InvalidEmail": "Invalidway emailway addressway",
+        "TooLong": "Ootay onglay",
+        "TooShort": "Ootay ortshay",
+        "RequiredField": "Equiredray",
+        "NoEffect": "Isthay equestray adhay onay effectway.",
+        "BlockedOther": "Isthay userway ashay ockedblay youway.",
+        "Blocked": "Youway avehay ockedblay isthay userway.",
+        "AlreadySentRequest": "Alreadyway entsay away equestray otay isthay userway.",
+        "AlreadyFriends": "Alreadyway iendsfray ithway isthay userway.",
+        "UsernameTaken": "Usernameway isway akentay.",
+        "AlreadyOnboarded": "Alreadyway inishedfay onboardingway.",
+        "InvalidInvite": "Invalidway odecay",
+        "MissingInvite": "Issingmay inviteway odecay inway equestray.",
+        "InvalidToken": "Invalidway okentay",
+        "InvalidCredentials": "Emailway orway asswordpay isway ongwray.",
+        "EmailFailed": "Emailway ailedfay otay endsay.",
+        "EmailInUse": "Emailway inway useway.",
+        "UnknownUser": "Unknownway userway.",
+        "UnverifiedAccount": "Unverifiedway accountway.",
+        "InvalidSession": "Invalidway essionsay.",
+        "MissingHeaders": "Issingmay eadershay.",
+        "RenderFail": "Emplatetay enderingray ailedfay.",
+        "OperationFailed": "Operationway ailedfay.",
+        "UnknownError": "Eesay onsolecay.",
+        "MissingPermission": "Issingmay ermissionpay.",
+        "InternalError": "Internalway errorway.",
+        "DatabaseError": "Atabaseday errorway.",
+        "FailedValidation": "Ailedfay otay alidatevay ieldsfay.",
+        "Unlabelled": "Omethingsay appenedhay.",
+        "Unauthorized": "Unauthorizedway.",
+        "NetworkError": "Etworknay errorway.",
+        "ReachedMaximumBots": "Ou'veyay eachedray ethay aximummay amountyay ofyay otsbay.",
+        "AudioPermissionBlock": "Onay accessyay otay ouryay icrophonemay, easeplay eckchay ouryay owser'sbray onfigurationcay."
+    },
+    "notifications": {
+        "now_friends": "@{{person}}!",
+        "sent_request": "@{{person}} entsay ouyay ayay iendfray equestray."
+    },
+    "dayjs": {
+        "sameElse": "Lay",
+        "nextWeek": "dddday [atyay] {{time}}",
+        "lastWeek": "[astlay] dddday [atyay] {{time}}",
+        "nextDay": "[Omorrowtay atyay] {{time}}",
+        "sameDay": "[Odaytay atyay] {{time}}",
+        "lastDay": "[Esterdayyay atyay] {{time}}",
+        "defaults": {
+            "date_separator": "/",
+            "date_format": "simplified",
+            "twelvehour": "no"
+        }
+    },
+    "quantities": {
+        "members": {
+            "many": "{{count}}",
+            "one": "1 Embermay"
+        }
+    },
+    "app": {
+        "context_menu": {
+            "open_group_settings": "Oupgray ettingssay",
+            "open_channel_settings": "Annelchay ettingssay",
+            "set_custom_status": "Etsay away ustomcay atusstay",
+            "clear_status": "Earclay atusstay",
+            "custom_status": "Ustomcay atusstay",
+            "cancel_friend": "Ancelcay equestray",
+            "remove_friend": "Emoveray iendfray",
+            "add_friend": "Addyay iendfray",
+            "unblock_user": "Unblockyay useryay",
+            "block_user": "Ockblay useryay",
+            "open_link": "Openyay inklay",
+            "copy_link": "Opycay inklay",
+            "save_video": "Avesay ideovay",
+            "open_video": "Openyay ideovay",
+            "save_image": "Avesay imageyay",
+            "open_image": "Openyay imageyay",
+            "save_file": "Avesay ilefay",
+            "open_file": "Openyay ilefay",
+            "remove_member": "Emoveray omfray oupgray",
+            "delete_message": "Eleteday essagemay",
+            "edit_message": "Edityay essagemay",
+            "quote_message": "Uoteqay essagemay",
+            "cancel_message": "Ancelcay endsay",
+            "retry_message": "Etryray endsay",
+            "mark_as_read": "Arkmay asyay eadray",
+            "message_user": "Essagemay",
+            "mention": "Entionmay",
+            "copy_mid": "Opycay essagemay IDyay",
+            "copy_cid": "Opycay annelchay IDyay",
+            "copy_uid": "Opycay useryay IDyay",
+            "copy_text": "Opycay exttay",
+            "copy_selection": "Opycay electionsay",
+            "copy_id": "opycay idyay",
+            "copy_sid": "Opycay erversay IDyay",
+            "ban_member": "Anbay embermay",
+            "create_channel": "Eatecray annelchay",
+            "create_category": "Eatecray ategorycay",
+            "leave_group": "Eavelay oupgray",
+            "copy_message_link": "Opycay essagemay inklay",
+            "view_profile": "Iewvay ofilepray",
+            "reply_message": "Eplyray",
+            "delete_server": "Eleteday erversay",
+            "edit_identity": "Edityay identityyay",
+            "create_invite": "Eatecray inviteyay",
+            "open_notification_options": "Otificationnay optionsyay",
+            "open_server_settings": "Erversay ettingssay",
+            "kick_member": "Ickkay embermay",
+            "leave_server": "Eavelay erversay",
+            "close_dm": "Oseclay mday",
+            "delete_channel": "Eleteday annelchay"
+        },
+        "special": {
+            "requires_online": "Youway eednay otay ebay onlineway otay iewvay isthay.",
+            "popovers": {
+                "user_picker": {
+                    "select": "Electsay iendsfray otay addway."
+                },
+                "user_profile": {
+                    "badges": {
+                        "early_adopter": "Earlyway Adopterway",
+                        "supporter": "Upportersay",
+                        "translator": "Anslatortray",
+                        "responsible_disclosure": "Esponsiblyray Isclosedday Ugbay(s)"
+                    },
+                    "sub": {
+                        "connections": "Onnectionscay",
+                        "information": "Informationway",
+                        "badges": "Adgesbay"
+                    },
+                    "no_groups": "Onay utualmay oupsgray!",
+                    "no_users": "Onay utualmay iendsfray!",
+                    "empty": "It'syay ayay itbay emptyyay inyay erehay…",
+                    "mutual_groups": "Utualmay Oupsgray",
+                    "mutual_friends": "Utualmay Iendsfray",
+                    "profile": "Ofilepray",
+                    "mutual_servers": "Utualmay Erverssay",
+                    "no_servers": "Onay utualmay erverssay!"
+                },
+                "server_identity": {
+                    "nickname": "Icknamenay",
+                    "avatar": "Avataryay",
+                    "title": "Cngechay identityyay onyay {{server}}"
+                },
+                "create_bot": {
+                    "title": "Eatecray ayay ewnay otbay",
+                    "failed": "Ailedfay otay eatecray ayay otbay!"
+                }
+            },
+            "modals": {
+                "actions": {
+                    "cancel": "Ancelcay",
+                    "continue": "Ontinuecay",
+                    "reload": "Eloadray Appway",
+                    "send_email": "Endsay Emailway",
+                    "preview": "Eviewpray",
+                    "update": "Updateway",
+                    "close": "Oseclay",
+                    "save": "Avesay",
+                    "ok": "Okway",
+                    "kick": "Ickkay",
+                    "hide": "Idehay",
+                    "edit": "Edityay",
+                    "reveal": "Evealray",
+                    "leave": "Eavelay",
+                    "remove": "Emoveray",
+                    "ban": "Anbay",
+                    "back": "Ogay ackbay",
+                    "block": "Ockblay",
+                    "delete": "Eleteday",
+                    "create": "Eatecray"
+                },
+                "account": {
+                    "failed": "Ailedfay otay angechay!",
+                    "change": {
+                        "password": "Angechay yourway asswordpay",
+                        "email": "Angechay yourway emailway",
+                        "username": "Angechay yourway usernameway"
+                    }
+                },
+                "prompt": {
+                    "confirm_leave_long": "Youway on'tway ebay ableway otay ejoinray unlessway youway areway e-invitedray.",
+                    "confirm_leave": "Eavelay {{name}}?",
+                    "confirm_delete_message_long": "Areyay ouyay uresay ouyay antway otay eleteday isthay?",
+                    "unfriend_user": "Emoveray {{name}}?",
+                    "block_user": "Ockblay {{name}}?",
+                    "create_invite_generate": "Eneratinggay inviteyay…",
+                    "confirm_ban": "Ouyay areyay aboutyay otay anbay {{name}}",
+                    "confirm_close_dm": "Oseclay onversationcay ithway {{name}}?",
+                    "confirm_close_dm_long": "Ouyay ancay e-openray ityay aterlay utbay ityay illway isappearday onyay othbay idessay.",
+                    "confirm_delete": "Eleteday {{name}}?",
+                    "confirm_delete_long": "Onceyay it'syay eletedday, ere'sthay onay oinggay ackbay.",
+                    "confirm_kick": "Areyay ouyay uresay ouyay antway otay ickkay {{name}}?",
+                    "confirm_ban_reason": "Anbay Easonray",
+                    "unfriend_user_long": "Ouyay aymay otnay ebay ableyay otay alktay otay emthay againyay untilyay ouyay addyay emthay ackbay.",
+                    "create_invite_created": "Erehay isyay ouryay ewnay inviteyay odecay:",
+                    "block_user_long": "Areyay ouyay uresay ouyay antway otay ockblay {{name}}? Eythay illway alsoyay ebay emovedray omfray ouryay iendsfray istlay."
+                },
+                "onboarding": {
+                    "pick": "Ickpay away usernameway atthay youway antway eoplepay otay ebay ableway otay indfay youway byay, isthay ancay ebay angedchay aterlay inway ettingssay.",
+                    "welcome": "Elcomeway otay"
+                },
+                "signed_out": "Youway ereway ignedsay outway!",
+                "clipboard": {
+                    "copy": "Anualmay Opycay:",
+                    "https": "Ouyay areyay urrentlycay otnay inyay ayay SHTTPay ontextcay.",
+                    "unavailable": "Ipboardclay isway unavailableway!"
+                },
+                "error": "Anway errorway occurredway!",
+                "token_reveal": "{{name}}'s Okentay",
+                "external_links": {
+                    "short": "Ouyay areyay oinggay otay isthay inklay:",
+                    "title": "Externalyay inkslay ancay ebay angerousday!",
+                    "trust_domain": "Usttray isthay omainday"
+                }
+            },
+            "status": {
+                "reconnecting": "Econnectingray…",
+                "connecting": "Onnectingcay…",
+                "disconnected": "Isconnectedday.",
+                "offline": "Offlineway."
+            },
+            "friends": {
+                "nobody": "Obodynay erehay yetway!",
+                "outgoing": "Outgoingway iendfray equestray.",
+                "incoming": "Incomingway iendfray equestray.",
+                "blocked": "Ockedblay",
+                "pending": "Endingpay equestsray",
+                "sent": "Outgoingyay",
+                "from": {
+                    "multiple": "Omfray {{userlist}} andyay {{user}}",
+                    "several": "Omfray {{userlist}} andyay {{count}} oremay…",
+                    "single": "Omfray {{user}}"
+                }
+            },
+            "copy_username": "Ickclay otay opycay usernameway",
+            "invite": {
+                "invalid_desc": "Ethay inviteyay aymay otnay existyay oryay ouyay on'tday avehay ermissionpay otay oinjay.",
+                "invalid": "Invalidyay inviteyay!",
+                "invited_by": "Invitedyay ybay {{user}}",
+                "login": "Oginlay otay Evoltray",
+                "accept": "Acceptyay Inviteyay",
+                "user_count": "{{member_count}} usersyay"
+            },
+            "copy": "Ickclay otay opycay",
+            "server-badges": {
+                "official": "Officialyay Erversay",
+                "verified": "Erifiedvay Erversay"
+            }
+        },
+        "settings": {
+            "tips": {
+                "sessions": {
+                    "b": "ecuresay yourway accountway byay angingchay yourway asswordpay andway usingway A2fay.",
+                    "a": "Ifway youway eesay anway unknownway essionsay onway ethay istlay,"
+                },
+                "languages": {
+                    "b": "Elphay ontributecay oremay anslationstray.",
+                    "a": "Issingmay away anguagelay youway antway?"
+                },
+                "account": {
+                    "b": "Eadhay overway otay yourway ofilepray ettingssay.",
+                    "a": "Ookinglay otay ustomisecay yourway ublicpay ofilepray?"
+                }
+            },
+            "channel_pages": {
+                "overview": {
+                    "description": "Annelchay Escriptionday",
+                    "name": "Annelchay Amenay",
+                    "title": "Overviewway"
+                },
+                "permissions": {
+                    "title": "Ermissionspay"
+                }
+            },
+            "pages": {
+                "logOut": "Oglay Outway",
+                "feedback": {
+                    "send": "Endsay Eedbackfay",
+                    "describe": "Easeplay escribeday ethay issueway.",
+                    "other": "Otherway",
+                    "feature": "Eaturefay Equestray",
+                    "bug": "Ugbay rackertay",
+                    "report": "Atwhay oday youway antway otay eportray?",
+                    "title": "Eedbackfay",
+                    "suggest": "Ubmitsay eaturefay uggestionsay",
+                    "suggest_desc": "Uggestsay ewnay Evoltray eaturesfay onyay Ithubgay iscussionsday.",
+                    "issue": "Eatecray ayay ewnay issueyay",
+                    "issue_desc": "Otay elphay usyay oremay easilyyay iagetray issuesyay, ouyay ancay eatecray anyay issueyay onyay Ithubgay.",
+                    "bug_desc": "Iewvay urrentlycay activeyay ugbay eportsray erehay."
+                },
+                "source_code": "Ourcesay odecay",
+                "donate": {
+                    "title": "Onateday"
+                },
+                "language": {
+                    "select": "Electsay yourway anguagelay",
+                    "title": "Anguagelay",
+                    "other": "Otheryay anguagelay optionsyay",
+                    "const": "Onstructedcay anguageslay"
+                },
+                "notifications": {
+                    "descriptions": {
+                        "enable_outgoing_sound": "Enableway otay ayplay oundsay enwhay youway endsay away essagemay.",
+                        "enable_sound": "Enableway orfay incomingway essagemay oundssay.",
+                        "enable_push": "Enableway otay eceiveray otificationsnay enwhay you'reway offlineway.",
+                        "enable_desktop": "Isthay illway ivegay youway otificationsnay ilewhay yourway appway isway openway."
+                    },
+                    "enable_outgoing_sound": "Ayplay Endsay Oundsay.",
+                    "enable_sound": "Ayplay Oundsay onway Essagemay.",
+                    "sounds": "Oundssay",
+                    "enable_push": "Enableway Ushpay Otificationsnay.",
+                    "enable_desktop": "Enableway Esktopday Otificationsnay.",
+                    "push_notifications": "Ushpay Otificationsnay",
+                    "title": "Otificationsnay",
+                    "sound": {
+                        "outbound": "Essagemay entsay",
+                        "call_leave": "Useryay Eftlay Allcay",
+                        "message": "Essagemay eceivedray",
+                        "call_join": "Useryay Oinedjay Allcay"
+                    }
+                },
+                "appearance": {
+                    "sync": "Csynay Optionsway",
+                    "custom_css": "Ustomcay Cssay",
+                    "theme_data": "Emethay Ataday",
+                    "import_theme": "Importway emethay omfray ingstray",
+                    "import_manual": "Importway anuallymay",
+                    "import_clipboard": "Importway omfray ipboardclay",
+                    "export_clipboard": "Exportway otay ipboardclay",
+                    "reset_overrides": "Esetray overridesway",
+                    "overrides": "Emethay Overridesway",
+                    "advanced": "Advancedway Optionsway",
+                    "message_display": "Essagemay Isplayday",
+                    "emoji_pack": "Emojiway Ackpay",
+                    "accent_selector": "Accentway Olourcay",
+                    "color": {
+                        "dark": "arkday",
+                        "light": "ightlay"
+                    },
+                    "display": {
+                        "compact_description": "Oodgay oldway Ircway.",
+                        "default_description": "Eautifulbay, eekslay andway odernmay.",
+                        "compact": "Ompactcay",
+                        "default": "Efaultday"
+                    },
+                    "theme": "Emethay",
+                    "title": "Appearanceway",
+                    "ligatures_desc": "Orfay upportedsay ontsfay, igatureslay ombinecay aracterschay ogethertay, orfay exampleyay, urningtay -> intoyay anyay arrowyay. Itchsway otay interyay andyay ytray ogglingtay isthay optionyay.",
+                    "mono_font": "Onospacemay Ontfay Electorsay",
+                    "ligatures": "Ontfay igatureslay",
+                    "font": "Ontfay",
+                    "import": "Importyay ayay emethay"
+                },
+                "sessions": {
+                    "created": "{{time_ago}}",
+                    "this_device": "Isthay Eviceday",
+                    "active_sessions": "Activeway Essionssay",
+                    "title": "Essionssay",
+                    "logout": "Oglay outyay ofyay allyay otheryay essionssay"
+                },
+                "profile": {
+                    "edit_background": "Editway Ackgroundbay",
+                    "custom_background": "Ustomcay Ackgroundbay",
+                    "profile_picture": "Ofilepray Icturepay",
+                    "placeholder": "Itewray omethingsay aboutyay ourselfyay…",
+                    "fetching": "Etchingfay ouryay ofilepray…",
+                    "info": "Informationway",
+                    "title": "Ofilepray",
+                    "edit_profile": "Edityay Ofilepray"
+                },
+                "account": {
+                    "change_field": "Angechay",
+                    "title": "Myay Accountway",
+                    "unique_id": "Histay siay aay niqueay seruay dentifieriay orfay ouryay ccountaay.",
+                    "2fa": {
+                        "title": "Wotay-actorfay Uthenticationaay",
+                        "description": "Addyay anyay extrayay ayerlay ofyay ecuritysay ybay enablingyay 2fa onyay ouryay accountyay.",
+                        "add_auth": "Addyay authenticatoryay",
+                        "remove_auth": "Authenticatoryay"
+                    },
+                    "manage": {
+                        "disable": "Isableday accountyay",
+                        "delete": "Eleteday accountyay",
+                        "title": "Accountyay Anagementmay",
+                        "description": "Isableday oryay eleteday ouryay accountyay atyay anyyay imetay. isthay actionyay illway oglay ouyay outyay andyay ullyfay eleteday ouryay accountyay, includingyay ouryay atchay istoryhay andyay iendsfray."
+                    }
+                },
+                "bots": {
+                    "copy_invite": "Opycay Inviteyay Inklay",
+                    "add": "Addyay Otbay",
+                    "token": "Okentay",
+                    "public_bot": "Ublicpay Otbay",
+                    "title": "Ymay Otsbay",
+                    "create_bot": "Eatecray ayay Otbay",
+                    "public_bot_desc": "Etherwhay otay allowyay otheryay usersyay otay inviteyay isthay otbay.",
+                    "reserved": "Note: isthay ieldfay isyay eservedray orfay ethay uturefay.",
+                    "unique_id": "Isthay isyay ayay uniqueyay identifieryay orfay ouryay otbay. isthay isyay otnay ethay ot'sbay okentay.",
+                    "public_bot_tip": "Otbay isyay ublicpay. Anyoneyay ancay inviteyay ityay.",
+                    "private_bot_tip": "Otbay isyay ivatepray. Onlyyay ouyay ancay inviteyay ityay.",
+                    "interactions_url": "Interactionsyay URLyay"
+                },
+                "sync": {
+                    "categories": "Csynay Ategoriescay",
+                    "title": "Csynay",
+                    "descriptions": {
+                        "appearance": "Isthay illway csynay optionsyay uchsay asyay emojiyay ackspay andyay essagemay ensityday.",
+                        "theme": "Isthay illway csynay ouryay osenchay emethay, olourscay andyay anyyay ustomcay scsay.",
+                        "locale": "Isthay illway csynay ouryay urrentlycay osenchay anguagelay."
+                    }
+                },
+                "experiments": {
+                    "not_available": "Onay experimentsyay areyay availableyay atyay isthay imetay.",
+                    "features": "Availableyay Eaturesfay",
+                    "title": "Experimentsyay"
+                },
+                "native": {
+                    "title": "Esktopday Ettingssay"
+                },
+                "audio": {
+                    "input_device": "Icrophonemay",
+                    "output_device": "Eakerspay / Eadsethay",
+                    "device_label_NA": "N/Ayay",
+                    "tip_retry": "Ouyay idn'tday ivegay ethay ermissionpay otay accessyay ouryay icrophonemay, easeplay {{retryBtn}}.",
+                    "title": "Oicevay Ettingssay",
+                    "button_retry": "etryray",
+                    "tip_grant_permission": "Ouyay eednay otay antgray ermissionpay otay accessyay audioyay ettingssay.",
+                    "button_grant": "Antgray ermissionpay"
+                },
+                "theme_shop": {
+                    "title": "Emethay Opshay"
+                }
+            },
+            "actions": {
+                "upload": "Uploadyay",
+                "remove": "Emoveray",
+                "max_filesize": "(axmay {{filesize}})"
+            },
+            "categories": {
+                "client_settings": "Ientclay Ettingssay",
+                "user_settings": "Userway Ettingssay"
+            },
+            "title": "Ettingssay",
+            "permissions": {
+                "default_role": "Efaultday",
+                "channel": "Annelchay Ermissionspay",
+                "create_role": "Eatecray ayay ewnay oleray",
+                "server": "Erversay Ermissionspay",
+                "role_name": "Oleray amenay"
+            },
+            "server_pages": {
+                "overview": {
+                    "name": "Erversay amenay",
+                    "description": "Annelchay Escriptionday",
+                    "title": "Overviewyay",
+                    "system_messages": "Emsystay Essagemay Annelschay"
+                },
+                "bans": {
+                    "title": "Ansbay",
+                    "user": "Useryay",
+                    "reason": "Anbay Easonray",
+                    "revoke": "Evokeray",
+                    "no_reason": "Onay anbay easonray."
+                },
+                "invites": {
+                    "revoke": "Evokeray",
+                    "code": "Inviteyay Odecay",
+                    "invitor": "Inviteryay",
+                    "title": "Invitesyay",
+                    "channel": "Annelchay"
+                },
+                "members": {
+                    "title": "Embersmay"
+                },
+                "roles": {
+                    "title": "Olesray"
+                },
+                "categories": {
+                    "title": "Ategoriescay"
+                }
+            }
+        },
+        "main": {
+            "groups": {
+                "owner": "Oupgray Ownerway",
+                "name": "Oupgray Amenay",
+                "create": "Eatecray ayay oupgray",
+                "description": "Roupgay Escriptionday"
+            },
+            "channel": {
+                "bot": "otbay",
+                "edited": "edited)(ay",
+                "unknown_user": "Nknown<uay User>way",
+                "misc": {
+                    "spoiler_attachment": "Oilerspay",
+                    "jump_present": "Umpjay otay esentpray",
+                    "viewing_old": "Iewingvay olderway essagesmay",
+                    "failed_load": "Ouldn'tcay oadlay essagemay.",
+                    "blocked_messages": "{{count}} lockedbay essagesmay",
+                    "no_sending": "Ouyay on'tday avehay ermissionpay otay endsay essagesay niay histay hannelcay.",
+                    "sent_file": "Entsay naay ttachmentaay",
+                    "sent_multiple_files": "Entsay ultiplemay ttachmentsaay",
+                    "blocked_user": "Lockedbay Seruay"
+                },
+                "voice": {
+                    "unmute": "Unmuteway",
+                    "mute": "Utemay",
+                    "leave": "Eavelay",
+                    "connected": "Oicevay onnectedcay"
+                },
+                "start": {
+                    "group": "Isthay isway ethay artstay ofway yourway onversationcay.",
+                    "saved": "Isthay isyay ethay artstay ofyay ouryay otesnay."
+                },
+                "system": {
+                    "channel_renamed": "{{user}} enamedray ethay annelchay otay {{name}}",
+                    "removed_by": "{{user}} asway emovedray byay {{other_user}}",
+                    "added_by": "{{user}} addedway byay ybay {{other_user}}",
+                    "user_left": "{{user}} eftlay",
+                    "user_joined": "{{user}} oinedjay",
+                    "channel_description_changed": "{{user}} angedchay ethay annelchay escriptionday",
+                    "channel_icon_changed": "{{user}} angedchay ethay annelchay coniay",
+                    "user_banned": "{{user}} asway annedbay",
+                    "user_kicked": "{{user}} Asway ickeday"
+                },
+                "typing": {
+                    "several": "Everalsay eoplepay areyay ingtypay…",
+                    "multiple": "{{userlist}} andyay {{user}} areyay ingtypay…",
+                    "single": "{{user}} isyay ingtypay…"
+                },
+                "attached_file": "{{filename}}",
+                "failed_upload": "Ailedfay otay uploadway!",
+                "uploading_file": "Uploadingway…",
+                "message_saved": "Avesay otay yourway otesnay",
+                "message_who": "{{person}}",
+                "message_where": "{{channel_name}}",
+                "notifications": {
+                    "all": "Llaay Essagesmay",
+                    "mention": "Entionsmay Nlyoay",
+                    "muted": "Utedmay",
+                    "default": "Seuay Efaultday",
+                    "none": "Onenay"
+                },
+                "errors": {
+                    "nochannels": "Histay erversay ashay onay hannelsay, roay ouyay on'tday avehay ccessaay otay nyaay.",
+                    "nochannel": "Onay hannelay",
+                    "title": "Opsoay, here'stay othingnay erehay!"
+                },
+                "nsfw": {
+                    "channel": {
+                        "confirm": "Ntereay Hannelcay",
+                        "marked": "Histay hannelsay siay arkedsay saay SFWNay."
+                    },
+                    "confirm": "Iay onfirmcay hattay Iay maay taay eastlay 81ay earsyay ldoay."
+                },
+                "search": {
+                    "sort": {
+                        "latest": "Atestlay",
+                        "oldest": "Ldestoay",
+                        "relevance": "Elevanceray"
+                    },
+                    "title": "Earchsay"
+                }
+            },
+            "categories": {
+                "members": "Embersmay",
+                "channels": "Annelschay",
+                "participants": "Articipantspay",
+                "conversations": "Onversationscay"
+            },
+            "servers": {
+                "create": "Rreatecay aay erversay",
+                "description": "Erversay Escriptionday",
+                "channel_description": "Hannelcay Escriptionday",
+                "text_channel": "Exttay Hannelcay",
+                "voice_channel": "Oicevay Hannelcay",
+                "channel_type": "Hannelcay Ypetay",
+                "name": "Erversay Amenay",
+                "custom_banner": "Ustomcay Annerbay",
+                "owner": "Erversay Wneroay",
+                "channel_name": "Hannelcay Amenay",
+                "category_name": "Ategorycay amenay"
+            }
+        },
+        "navigation": {
+            "tabs": {
+                "saved": "Avedsay Otesnay",
+                "unreads": "Unreadsway",
+                "friends": "Iendsfray",
+                "dev": "Eveloperday",
+                "home": "Omehay"
+            }
+        },
+        "status": {
+            "offline": "Offlineway",
+            "invisible": "Invisibleway",
+            "busy": "Oday Otnay Isturbday",
+            "idle": "Idleway",
+            "online": "Onlineway"
+        },
+        "permissions": {
+            "required": "Ermissionspay equiredray"
+        },
+        "home": {
+            "join-testers": "Oinjay ethay esterstay server",
+            "goto-testers": "Ogay otay ethay esterstay server",
+            "donate": "Onateday otay Revolt",
+            "feedback": "Ivegay eedbackfay onyay Evoltray",
+            "settings": "ettingssay",
+            "settings-tooltip": "Ouyay ancay alsoyay ight-clickray ethay useryay iconyay inyay ethay optay eftlay , oryay eftlay ickclay ityay ifyay ou'reyay alreadyyay omehay .",
+            "social": "Indfay erverssay & otsbay"
+        }
+    },
+    "login": {
+        "error": {
+            "resend": "Ailedfay otay esendray!",
+            "reset": "Ailedfay otay esetray!",
+            "login": "Ailedfay otay oginlay!",
+            "create": "Ailedfay otay egisterray!"
+        },
+        "successful_registration": "Uccessfullysay egisteredray!",
+        "open_mail_provider": "{{provider}}",
+        "check_spam": "Easeplay eckchay amspay ifway youway an'tcay indfay itway",
+        "check_mail": "Eckchay yourway ailmay.",
+        "cancel": "Ancelcay equestray.",
+        "resend": "Esendray erificationvay.",
+        "missing_verification": "Issingmay e-mailyay",
+        "create": "Eatecray away ewnay accountway.",
+        "existing": "Alreadyway avehay anway accountway?",
+        "new": "Ewnay otay Evoltray?",
+        "remembered": "Ogay ackbay otay oginlay.",
+        "set_password": "Etsay ewnay asswordpay.",
+        "reset": "Esetray asswordpay.",
+        "forgot": "Orgotfay yourway asswordpay?",
+        "enter": {
+            "current_password": "Enterway yourway urrentcay asswordpay.",
+            "invite": "Enterway yourway inviteway odecay.",
+            "password": "Enterway yourway asswordpay.",
+            "email": "Enteryay ouryay emailyay .",
+            "username": "Enterway yourway preferredway usernameway."
+        },
+        "current_password": "Urrentcay Asswordpay",
+        "invite": "Inviteway Odecay",
+        "password": "Asswordpay",
+        "email": "Emailway",
+        "username": "Usernameway",
+        "register": "Egisterray",
+        "title": "Oginlay",
+        "email_delay": "Lease allow up to 10 minutes for it to arrivepay."
+    },
+    "general": {
+        "loading": "Oadinglay…",
+        "image_by": "Imageway byay",
+        "privacy": "Ivacypray Olicypay",
+        "tos": "Ermstay ofway Ervicesay",
+        "about": "Aboutyay",
+        "on": "Noay",
+        "off": "Fofay",
+        "disabled": "Isabledday",
+        "unavailable": "Navailableuay"
+    },
+    "permissions": {
+        "channel": {
+            "InviteOthers": {
+                "t": "Inviteyay Othersyay",
+                "d": "Allowsyay embersmay otay inviteyay otheryay usersyay otay ayay annelchay."
+            },
+            "SendMessage": {
+                "t": "Endsay Essagesmay",
+                "d": "Allowsyay embersmay otay endsay essagesmay inyay exttay annelschay."
+            },
+            "VoiceCall": {
+                "t": "Oicevay Allcay",
+                "d": "Allowsyay embersmay otay oinjay oicevay annelschay."
+            },
+            "ManageMessages": {
+                "t": "Anagemay Essagesmay",
+                "d": "Allowsyay embersmay otay eleteday essagesmay entsay ybay otheryay embersmay."
+            },
+            "ManageChannel": {
+                "t": "Anagemay Annelschay",
+                "d": "Allowsyay embersmay otay edityay oryay eleteday ayay annelchay."
+            },
+            "EmbedLinks": {
+                "d": "Allowsyay embersmay otay owshay embeddedyay ontentcay onyay inkslay eythay ostpay inyay exttay annelschay.",
+                "t": "Embedyay Inkslay"
+            },
+            "View": {
+                "d": "Allowsyay embersmay otay iewvay anyyay annelschay eythay avehay isthay ermissionpay onyay.",
+                "t": "Iewvay Annelchay"
+            },
+            "UploadFiles": {
+                "t": "Uploadyay Ilesfay",
+                "d": "Allowsyay embersmay otay uploadyay ilesfay inyay exttay annelschay."
+            },
+            "Masquerade": {
+                "t": "Asquerademay",
+                "d": "Allowsyay embersmay otay angechay eirthay amenay andyay avataryay er-messagepay."
+            }
+        },
+        "server": {
+            "BanMembers": {
+                "t": "Anbay Embersmay",
+                "d": "Allowsyay embersmay otay ermanentlypay emoveray embersmay omfray isthay erversay."
+            },
+            "KickMembers": {
+                "t": "Ickkay Embersmay",
+                "d": "Allowsyay embersmay otay emoveray embersmay omfray isthay erversay. ickedkay embersmay aymay ejoinray ithway anyay inviteyay."
+            },
+            "ChangeNickname": {
+                "d": "Allowsyay embersmay otay angechay eirthay icknamenay onyay isthay erversay.",
+                "t": "Angechay Icknamenay"
+            },
+            "ChangeAvatar": {
+                "d": "Allowsyay embersmay otay angechay eirthay erversay avataryay onyay isthay erversay.",
+                "t": "Angechay Avataryay"
+            },
+            "ManageRoles": {
+                "t": "Anagemay Olesray",
+                "d": "Allowsyay embersmay otay eatecray, edityay andyay eleteday olesray ithway ayay owerlay ankray anthay eirsthay. alsoyay allowsyay emthay otay odifymay oleray ermissionspay onyay annelschay."
+            },
+            "ManageChannels": {
+                "t": "Anagemay Annelschay",
+                "d": "Allowsyay embersmay otay eatecray, edityay andyay eleteday annelschay."
+            },
+            "ManageNicknames": {
+                "t": "Anagemay Icknamesnay",
+                "d": "Allowsyay embersmay otay angechay ethay icknamesnay ofyay otheryay embersmay."
+            },
+            "RemoveAvatars": {
+                "t": "Emoveray Avatarsyay",
+                "d": "Allowsyay embersmay otay emoveray ethay erversay avatarsyay ofyay otheryay embersmay onyay isthay erversay."
+            },
+            "ManageServer": {
+                "t": "Anagemay Erversay",
+                "d": "Allowsyay embersmay otay angechay isthay erver'ssay amenay, escriptionday, iconyay andyay otheryay elatedray informationyay."
+            }
+        }
+    },
+    "shortcuts": {
+        "ctrlc": "Lctray + C"
+    }
+}

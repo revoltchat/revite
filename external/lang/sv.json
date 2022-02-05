@@ -1,0 +1,780 @@
+{
+    "general": {
+        "about": "Om",
+        "tos": "Användarvillkor",
+        "privacy": "Integritetspolicy",
+        "image_by": "Bild av",
+        "loading": "Laddar…",
+        "on": "På",
+        "off": "Av",
+        "disabled": "Inaktiverad",
+        "unavailable": "Otillgänglig"
+    },
+    "login": {
+        "title": "Logga in",
+        "email": "E-post",
+        "password": "Lösenord",
+        "enter": {
+            "email": "Ange din e-postadress.",
+            "password": "Ange ditt lösenord.",
+            "username": "Ange ett användarnamn.",
+            "current_password": "Ange ditt nuvarande lösenord.",
+            "invite": "Ange din inbjudningskod."
+        },
+        "forgot": "Glömt ditt lösenord?",
+        "new": "Ny till Revolt?",
+        "create": "Skapa ett nytt konto",
+        "cancel": "Avbryt",
+        "existing": "Har du redan ett konto?",
+        "remembered": "Tillbaka till inloggningssidan",
+        "reset": "Återställ lösenord",
+        "username": "Användarnamn",
+        "register": "Registrera",
+        "successful_registration": "Du har registrerat dig!",
+        "open_mail_provider": "Öppna {{provider}}",
+        "check_mail": "Kolla din e-post!",
+        "missing_verification": "Fick ni inget e-postmeddelande?",
+        "error": {
+            "resend": "Kunde inte återsända!",
+            "reset": "Kunde inte återställa!",
+            "login": "Kunde inte logga in!",
+            "create": "Misslyckades att registrera!"
+        },
+        "check_spam": "Kontrollera skräppost om du inte hittar det",
+        "resend": "Skicka verifiering igen",
+        "set_password": "Ange nytt lösenord",
+        "current_password": "Nuvarande Lösenord",
+        "invite": "Inbjudningskod",
+        "email_delay": "Tillåt upp till 10 minuter för det att anlända.",
+        "welcome2": "Hej!",
+        "subtitle2": "Skapa ett konto",
+        "welcome": "Välkommen tillbaka!",
+        "subtitle": "Logga in till Revolt"
+    },
+    "app": {
+        "main": {
+            "channel": {
+                "message": "Meddela {{name}}",
+                "message_who": "Meddela {{person}}",
+                "message_where": "Meddela {{channel_name}}",
+                "system": {
+                    "removed_by": "{{user}} var borttagen av {{other_user}}",
+                    "added_by": "{{user}} var tillagd av {{other_user}}",
+                    "user_left": "{{user}} lämnade",
+                    "user_joined": "{{user}} gick med",
+                    "channel_renamed": "{{user}} döpte om kanalen till {{name}}",
+                    "channel_description_changed": "{{user}} ändrade kanalens beskrivning",
+                    "channel_icon_changed": "{{user}} ändrade kanalens ikon",
+                    "user_banned": "{{user}} blev bannlyst",
+                    "user_kicked": "{{user}} blev sparkad"
+                },
+                "typing": {
+                    "several": "Flera personer skriver…",
+                    "multiple": "{{userlist}} och {{user}} skriver…",
+                    "single": "{{user}} skriver…"
+                },
+                "attached_file": "Bifogade {{filename}}",
+                "failed_upload": "Misslyckades att ladda upp!",
+                "uploading_file": "Laddar upp…",
+                "message_saved": "Spara till dina anteckningar",
+                "bot": "robot",
+                "unknown_user": "<Okänd Användare>",
+                "edited": "(redigerat)",
+                "start": {
+                    "group": "Det här är början av er konversation.",
+                    "saved": "Detta är starten av dina anteckningar."
+                },
+                "misc": {
+                    "spoiler_attachment": "Spoiler",
+                    "jump_present": "Hoppa till senaste",
+                    "viewing_old": "Visar äldre meddelanden",
+                    "no_sending": "Du har inte behörighet att skicka meddelanden i denna kanal.",
+                    "blocked_user": "Blockerad Användare",
+                    "failed_load": "Kunde inte ladda in meddelande.",
+                    "blocked_messages": "{{count}} blockerade meddelanden",
+                    "sent_file": "Laddade upp bilagan",
+                    "sent_multiple_files": "Laddade upp bilagorna",
+                    "jump_beginning": "Gå till början",
+                    "new_messages": "Nya meddelanden sedan {{time_ago}}"
+                },
+                "voice": {
+                    "unmute": "Sluta tysta",
+                    "mute": "Tysta",
+                    "leave": "Lämna",
+                    "connected": "Röst ansluten"
+                },
+                "nsfw": {
+                    "channel": {
+                        "marked": "Denna kanal är markerad som olämplig på arbetsplatser (NSFW).",
+                        "confirm": "Fortsätt"
+                    },
+                    "confirm": "Jag bekräftar att jag är åtminstone 18 år gammal."
+                },
+                "notifications": {
+                    "default": "Använd standardinställningar",
+                    "all": "Alla meddelanden",
+                    "mention": "Endast omnämnander",
+                    "none": "Inga",
+                    "muted": "Tystad"
+                },
+                "search": {
+                    "title": "Sök",
+                    "sort": {
+                        "relevance": "Relevans",
+                        "latest": "Senaste",
+                        "oldest": "Äldsta"
+                    }
+                },
+                "errors": {
+                    "title": "Det finns inget här!",
+                    "nochannels": "Den här servern har inga kanaler eller så har du inte åtkomst till några.",
+                    "nochannel": "Ingen kanal"
+                }
+            },
+            "categories": {
+                "members": "Medlemmar",
+                "channels": "Kanaler",
+                "conversations": "Konversationer",
+                "participants": "Deltagare"
+            },
+            "groups": {
+                "name": "Gruppnamn",
+                "create": "Skapa en grupp",
+                "owner": "Gruppägare",
+                "description": "Gruppbeskrivning"
+            },
+            "servers": {
+                "create": "Skapa en server",
+                "name": "Servernamn",
+                "channel_name": "Kanalnamn",
+                "owner": "Serverägare",
+                "description": "Serverbeskrivning",
+                "channel_type": "Kanaltyp",
+                "channel_description": "Kanalbeskrivning",
+                "custom_banner": "Anpassad Baner",
+                "text_channel": "Textkanal",
+                "voice_channel": "Röstkanal",
+                "category_name": "Kategorinamn"
+            }
+        },
+        "navigation": {
+            "tabs": {
+                "unreads": "Oläst",
+                "friends": "Vänner",
+                "home": "Hem",
+                "dev": "Utvecklare",
+                "saved": "Sparade Anteckningar"
+            }
+        },
+        "status": {
+            "offline": "Offline",
+            "invisible": "Osynlig",
+            "busy": "Stör ej",
+            "idle": "Inaktiv",
+            "online": "Online"
+        },
+        "special": {
+            "friends": {
+                "outgoing": "Utgående vänförfrågning.",
+                "incoming": "Inkommande vänförfrågning.",
+                "blocked": "Blockerade",
+                "pending": "Väntande förfrågningar",
+                "nobody": "Ingen här än!",
+                "from": {
+                    "multiple": "Från {{userlist}} och {{user}}",
+                    "single": "Från {{user}}",
+                    "several": "Från {{userlist}} och {{count}} mer…"
+                },
+                "sent": "Utgående"
+            },
+            "requires_online": "Du behöver vara online för att visa detta.",
+            "modals": {
+                "actions": {
+                    "reload": "Ladda Om Appen",
+                    "close": "Stäng",
+                    "ok": "Okej",
+                    "cancel": "Avbryt",
+                    "continue": "Fortsätt",
+                    "send_email": "Skicka e-post",
+                    "update": "Uppdatera",
+                    "preview": "Förhandsvisning",
+                    "save": "Spara",
+                    "leave": "Lämna",
+                    "remove": "Ta bort",
+                    "delete": "Radera",
+                    "create": "Skapa",
+                    "reveal": "Avslöja",
+                    "ban": "Bannlys",
+                    "kick": "Sparka",
+                    "block": "Blockera",
+                    "back": "Gå tillbaka",
+                    "hide": "Göm",
+                    "edit": "Redigera"
+                },
+                "signed_out": "Du blev utloggad!",
+                "clipboard": {
+                    "copy": "Kopiera Manuellt:",
+                    "https": "Du använder just nu inte HTTPS.",
+                    "unavailable": "Urklippet är otillgängligt!"
+                },
+                "error": "Ett fel inträffades!",
+                "onboarding": {
+                    "pick": "Välj ett användarnamn som du vill att folk ska kunna hitta dig med, detta kan ändras senare genom inställningarna.",
+                    "welcome": "Välkommen till"
+                },
+                "prompt": {
+                    "confirm_leave_long": "Du kommer inte kunna gå med igen om inte du blir inbjuden.",
+                    "confirm_leave": "Lämna {{name}}?",
+                    "create_invite_generate": "Genererar inbjudan…",
+                    "confirm_close_dm": "Stäng konversationen med {{name}}?",
+                    "confirm_close_dm_long": "Du kan öppna den senare igen men den kommer att försvinna för er båda.",
+                    "confirm_delete": "Ta bort {{name}}?",
+                    "confirm_delete_long": "När det är borttaget så kommer det inte tillbaka.",
+                    "create_invite_created": "Här är din nya inbjudningskod:",
+                    "confirm_delete_message_long": "Är du säker på att du vill ta bort detta?",
+                    "unfriend_user": "Ta bort {{name}}?",
+                    "unfriend_user_long": "Du kanske inte kommer kunna prata med dem tills du har lagt till dem igen.",
+                    "confirm_ban": "Du är på väg att bannlysa {{name}}",
+                    "confirm_kick": "Är du säker på att du vill sparka {{name}}?",
+                    "block_user": "Blockera {{name}}?",
+                    "block_user_long": "Är du säker på att du vill blockera {{name}}? De kommer bli borttagna från din vänlista.",
+                    "confirm_ban_reason": "Anledning"
+                },
+                "account": {
+                    "failed": "Misslyckades att ändra!",
+                    "change": {
+                        "password": "Ändra ditt lösenord",
+                        "email": "Ändra din e-postadress",
+                        "username": "Byt ditt användarnamn"
+                    }
+                },
+                "external_links": {
+                    "trust_domain": "Lita på den här domänen",
+                    "short": "Är du säker på att du vill gå till:",
+                    "title": "Externa länkar kan vara farliga!"
+                },
+                "token_reveal": "Token för {{name}}"
+            },
+            "status": {
+                "reconnecting": "Återansluter…",
+                "connecting": "Ansluter…",
+                "disconnected": "Frånkopplad.",
+                "offline": "Offline."
+            },
+            "popovers": {
+                "user_profile": {
+                    "no_groups": "Inga gemensamma grupper!",
+                    "no_users": "Inga gemensamma vänner!",
+                    "mutual_groups": "Gemensamma Grupper",
+                    "mutual_friends": "Gemensamma Vänner",
+                    "profile": "Profil",
+                    "badges": {
+                        "translator": "Översättare",
+                        "early_adopter": "Tidig Adopterare",
+                        "supporter": "Stödjare",
+                        "responsible_disclosure": "Asvslöjade Ansvarsligt Buggar",
+                        "moderation": "Plattformsmoderering",
+                        "founder": "Utvecklare"
+                    },
+                    "sub": {
+                        "connections": "Anslutningar",
+                        "information": "Information",
+                        "badges": "Märken"
+                    },
+                    "empty": "Det är lite tomt här…",
+                    "no_servers": "Inga gemensamma servrar!",
+                    "mutual_servers": "Gemensamma servrar"
+                },
+                "user_picker": {
+                    "select": "Välj vänner att lägga till."
+                },
+                "server_identity": {
+                    "title": "Ändra identitet på {{server}}",
+                    "nickname": "Smeknamn",
+                    "avatar": "Avatar"
+                },
+                "create_bot": {
+                    "title": "Skapa en ny bot",
+                    "failed": "Det gick inte att skapa en bot!"
+                }
+            },
+            "copy_username": "Klicka för att kopiera användarnamn",
+            "copy": "Klicka för att kopiera",
+            "invite": {
+                "invited_by": "Inbjuden av {{user}}",
+                "login": "Logga in till Revolt",
+                "accept": "Acceptera Inbjudan",
+                "user_count": "{{member_count}} användarna",
+                "invalid": "Ogiltig inbjudan!",
+                "invalid_desc": "Inbjudan kanske inte finns eller så har du inte behörighet att ansluta."
+            },
+            "server-badges": {
+                "official": "Officiell Server",
+                "verified": "Verifierad Server"
+            }
+        },
+        "context_menu": {
+            "block_user": "Blockera användare",
+            "copy_id": "Kopiera ID",
+            "message_user": "Meddela",
+            "cancel_friend": "Avbryt förfrågan",
+            "remove_friend": "Ta bort vän",
+            "add_friend": "Lägg till vän",
+            "unblock_user": "Avblockera användare",
+            "delete_message": "Radera meddelande",
+            "edit_message": "Redigera meddelande",
+            "mark_as_read": "Markera som läst",
+            "copy_mid": "Kopiera Meddelande-ID",
+            "copy_cid": "Kopiera kanal-ID",
+            "copy_uid": "Kopiera användar-ID",
+            "remove_member": "Ta bort från grupp",
+            "quote_message": "Citera meddelande",
+            "copy_text": "Kopiera text",
+            "save_video": "Spara video",
+            "open_video": "Öppna video",
+            "save_image": "Spara bild",
+            "open_image": "Öppna bild",
+            "save_file": "Spara fil",
+            "open_file": "Öppna fil",
+            "cancel_message": "Avbryt sändning",
+            "retry_message": "Försök att skicka igen",
+            "mention": "Nämn",
+            "open_link": "Öppna länk",
+            "copy_link": "Kopiera länk",
+            "set_custom_status": "Sätt en anpassad status",
+            "clear_status": "Rensa status",
+            "custom_status": "Anpassad status",
+            "open_channel_settings": "Kanalinställningar",
+            "open_group_settings": "Gruppinställningar",
+            "leave_group": "Lämna grupp",
+            "copy_selection": "Kopiera urval",
+            "copy_sid": "Kopiera server-ID",
+            "leave_server": "Lämna server",
+            "close_dm": "Stäng DM",
+            "delete_server": "Radera server",
+            "delete_channel": "Radera kanal",
+            "create_channel": "Skapa kanal",
+            "create_invite": "Skapa inbjudan",
+            "open_server_settings": "Serverinställningar",
+            "view_profile": "Visa profil",
+            "kick_member": "Sparka medlem",
+            "open_notification_options": "Aviseringsinställningar",
+            "ban_member": "Bannlys medlem",
+            "reply_message": "Svara",
+            "copy_message_link": "Kopiera meddelandelänk",
+            "edit_identity": "Redigera identitet",
+            "create_category": "Skapa kategori"
+        },
+        "settings": {
+            "pages": {
+                "logOut": "Logga ut",
+                "appearance": {
+                    "title": "Utseende",
+                    "theme_data": "Tema-Data",
+                    "import_theme": "Importera tema från sträng",
+                    "import_manual": "Importera manuellt",
+                    "import_clipboard": "Importera från urklipp",
+                    "export_clipboard": "Exportera till urklipp",
+                    "reset_overrides": "Nollställ ändringar",
+                    "overrides": "Överskridande Teman",
+                    "sync": "Synkroniseringsalternativ",
+                    "custom_css": "Egen CSS",
+                    "advanced": "Avancerade Inställningar",
+                    "message_display": "Meddelandets Format",
+                    "accent_selector": "Accentfärg",
+                    "color": {
+                        "dark": "mörkt",
+                        "light": "ljust"
+                    },
+                    "display": {
+                        "compact_description": "Gamla goda IRC.",
+                        "default_description": "Vackert, elegant och modernt.",
+                        "compact": "Kompakt",
+                        "default": "Standard"
+                    },
+                    "theme": "Tema",
+                    "emoji_pack": "Emoji Paket",
+                    "font": "Typsnitt",
+                    "ligatures_desc": "För teckensnitt som stöds kombinerar ligaturer tecken tillsammans, exempelvis omvandling av -> till en pil.",
+                    "import": "Importera ett tema",
+                    "mono_font": "Monospace Typsnitt",
+                    "ligatures": "Ligaturer",
+                    "theme_options": {
+                        "transparency": "Transparenseffekter",
+                        "title": "Temainställningar",
+                        "follow": "Följ systemtema",
+                        "seasonal": "Säsongstema"
+                    }
+                },
+                "sessions": {
+                    "title": "Sessioner",
+                    "created": "Skapat {{time_ago}}",
+                    "this_device": "Den här enheten",
+                    "active_sessions": "Aktiva Sessioner",
+                    "logout": "Logga ut från alla andra sessioner"
+                },
+                "account": {
+                    "title": "Mitt Konto",
+                    "change_field": "Ändra",
+                    "manage": {
+                        "disable": "Inaktivera Konto",
+                        "delete": "Radera Konto",
+                        "description": "Inaktivera eller ta bort ditt konto när som helst. Det här kommer logga ut dig samt helt och hållet radera ditt konto, inkluderande din chatt historik och dina vänner.",
+                        "title": "Kontohantering"
+                    },
+                    "2fa": {
+                        "description": "Lägg på ett extra lager säkerhet genom att aktivera 2FA på ditt konto.",
+                        "title": "Tvåfaktorsautentisering",
+                        "add_auth": "Lägg till Autentiserare",
+                        "remove_auth": "Ta bort Autentiserare"
+                    },
+                    "unique_id": "Det här är en unik identifierare för ditt konto."
+                },
+                "language": {
+                    "title": "Språk",
+                    "select": "Välj ditt språk",
+                    "other": "Andra språkalternativ",
+                    "const": "Konstruerade språk"
+                },
+                "notifications": {
+                    "enable_sound": "Spela Ljud vid Meddelande.",
+                    "enable_desktop": "Notifikationer på Skrivbordet.",
+                    "title": "Notifikationer",
+                    "descriptions": {
+                        "enable_outgoing_sound": "Tillåt att ljud spelas när du skickar ett meddelande.",
+                        "enable_sound": "Aktivera Ljud för Inkommande Meddelanden.",
+                        "enable_push": "Aktivera för att få notifikationer medans du är offline.",
+                        "enable_desktop": "Det här kommer ge dig notifikationer medans appen är öppen."
+                    },
+                    "enable_outgoing_sound": "Aktivera Ljud för Skickade Meddelanden.",
+                    "enable_push": "Aktivera Pushmeddelanden.",
+                    "sounds": "Ljud",
+                    "push_notifications": "Pushmeddelanden",
+                    "sound": {
+                        "message": "Meddelande mottaget",
+                        "outbound": "Meddelande skickat",
+                        "call_join": "Användare gick med samtal",
+                        "call_leave": "Användare gick ur samtal"
+                    }
+                },
+                "donate": {
+                    "title": "Donera"
+                },
+                "source_code": "Källkod",
+                "feedback": {
+                    "title": "Feedback",
+                    "send": "Skicka Feedback",
+                    "describe": "Beskriv problemet.",
+                    "other": "Annat",
+                    "feature": "Funktionsförfrågan",
+                    "bug": "Buggspårare",
+                    "report": "Vad vill du rapportera?",
+                    "suggest": "Lämna förslag",
+                    "issue_desc": "För att hjälpa oss lättare triage frågor, kan du skapa ett problem på GitHub.",
+                    "suggest_desc": "Föreslå nya Revolt funktioner på GitHub diskussioner.",
+                    "issue": "Skapa ett nytt ärende",
+                    "bug_desc": "Visa aktuella felrapporter här."
+                },
+                "profile": {
+                    "info": "Information",
+                    "title": "Profil",
+                    "placeholder": "Skriv något om dig själv…",
+                    "fetching": "Hämtar din profil…",
+                    "edit_background": "Redigera Bakgrund",
+                    "custom_background": "Profilbakgrund",
+                    "profile_picture": "Profilbild",
+                    "edit_profile": "Redigera profil"
+                },
+                "sync": {
+                    "title": "synkronisera",
+                    "categories": "Synkronisera kategorier",
+                    "descriptions": {
+                        "appearance": "Detta kommer att synkronisera alternativ som emoji -paket och meddelandetäthet.",
+                        "theme": "Detta synkroniserar ditt valda tema, färger och anpassad CSS.",
+                        "locale": "Detta kommer att synkronisera det språk du väljer just nu."
+                    },
+                    "options": "Synkroniseringsalternativ"
+                },
+                "experiments": {
+                    "not_available": "Inga experiment är tillgängliga just nu.",
+                    "title": "Experiment",
+                    "features": "Tillgängliga funktioner"
+                },
+                "native": {
+                    "title": "Skrivbordsinställningar"
+                },
+                "audio": {
+                    "title": "Röstinställningar",
+                    "output_device": "Högtalare / Hörlurar",
+                    "input_device": "Mikrofon",
+                    "device_label_NA": "EJ TILLÄMPLIGT",
+                    "button_retry": "försök igen",
+                    "tip_retry": "Du gav inte tillstånd att använda din mikrofon, försök igen {{retryBtn}}.",
+                    "tip_grant_permission": "Du behöver ge behörighet för att ändra ljudinställningar.",
+                    "button_grant": "Ge behörighet"
+                },
+                "bots": {
+                    "title": "Min bottar",
+                    "public_bot_tip": "Botten är offentlig. Vem som helst kan bjuda in den.",
+                    "public_bot": "Offentlig Bot",
+                    "public_bot_desc": "Om andra ska kunna bjuda in denna botten.",
+                    "reserved": "Obs: Det här fältet är reserverat för framtida användning.",
+                    "token": "Token",
+                    "private_bot_tip": "Botten är privat. Endast du kan bjuda in den.",
+                    "copy_invite": "Kopiera Inbjudninglänk",
+                    "create_bot": "Skapa en Bot",
+                    "add": "Lägg till Bot",
+                    "interactions_url": "Interaktions-URL",
+                    "unique_id": "Detta är en unik identifierare för din bot. Detta är inte botens token.",
+                    "profile": "Botprofil"
+                },
+                "theme_shop": {
+                    "title": "Temabutik",
+                    "category": {
+                        "saved": "Sparad",
+                        "new": "Nytt denna veckan"
+                    }
+                }
+            },
+            "categories": {
+                "client_settings": "Klientinställningar",
+                "user_settings": "Användarinställningar"
+            },
+            "title": "Inställningar",
+            "tips": {
+                "sessions": {
+                    "b": "säkra ditt konto genom att ändra ditt lösenord och att använda 2FA.",
+                    "a": "Om du ser en okänd session på listan,"
+                },
+                "languages": {
+                    "b": "Hjälp oss bidra med fler översättningar.",
+                    "a": "Saknar du ett språk som du vill ha?"
+                },
+                "account": {
+                    "b": "Gå till profilinställningarna.",
+                    "a": "Vill du anpassa din offlentiga profil?"
+                }
+            },
+            "channel_pages": {
+                "overview": {
+                    "description": "Kanalbeskrivning",
+                    "name": "Kanalnamn",
+                    "title": "Översikt"
+                },
+                "permissions": {
+                    "title": "Behörigheter"
+                }
+            },
+            "actions": {
+                "upload": "Ladda upp",
+                "remove": "Ta bort",
+                "max_filesize": "(max {{filesize}})"
+            },
+            "permissions": {
+                "server": "Serverbehörigheter",
+                "create_role": "Skapa en ny roll",
+                "role_name": "Rollnamn",
+                "channel": "Kanalbehörigheter",
+                "default_role": "Standard"
+            },
+            "server_pages": {
+                "roles": {
+                    "title": "Roller"
+                },
+                "overview": {
+                    "title": "Översikt",
+                    "name": "Servernamn",
+                    "description": "Kanalbeskrivning",
+                    "system_messages": "Systemmeddelande Kanaler"
+                },
+                "members": {
+                    "title": "Medlemmar"
+                },
+                "invites": {
+                    "title": "Inbjudningar",
+                    "invitor": "Inbjudare",
+                    "channel": "Kanal",
+                    "revoke": "Upphäv",
+                    "code": "Inbjudningskod"
+                },
+                "bans": {
+                    "title": "Förbud",
+                    "user": "Användare",
+                    "reason": "Anledning till bannlysning",
+                    "revoke": "Upphäv",
+                    "no_reason": "Ingen anledning till bannlysning."
+                },
+                "categories": {
+                    "title": "Kategorier"
+                }
+            }
+        },
+        "permissions": {
+            "required": "Saknar behörigheter"
+        },
+        "home": {
+            "join-testers": "Gå med i vår testserver",
+            "feedback": "Ge feedback till Revolt",
+            "settings-tooltip": "Du kan också högerklicka på användarikonen uppe till vänster, eller vänsterklicka om du redan är på hem-menyn.",
+            "goto-testers": "Gå till vår testserver",
+            "donate": "Donera till Revolt",
+            "settings": "Öppna inställningar",
+            "social": "Hitta servrar & bottar",
+            "directs": "Direktmeddelanden",
+            "donate_desc": "Stöd projektet genom att donera - tack!",
+            "discover": "Upptäck Revolt",
+            "group": "Skapa en grupp"
+        }
+    },
+    "dayjs": {
+        "at": "vid",
+        "last": "Förra",
+        "nextDay": "[Imorgon vid] {{time}}",
+        "sameDay": "[Idag vid] {{time}}",
+        "lastDay": "[Igår vid] {{time}}",
+        "sameElse": "L",
+        "nextWeek": "dddd [vid] {{time}}",
+        "lastWeek": "[Förra] dddd [vid] {{time}}",
+        "defaults": {
+            "date_separator": "-",
+            "date_format": "simplified",
+            "twelvehour": "no"
+        }
+    },
+    "quantities": {
+        "members": {
+            "many": "{{count}} Medlemmar",
+            "one": "1 Medlem"
+        }
+    },
+    "notifications": {
+        "now_friends": "Du är nu vän med @{{person}}!",
+        "sent_request": "@{{person}} skickade dig en vänförfrågan."
+    },
+    "error": {
+        "EmailInUse": "E-post används redan.",
+        "UsernameTaken": "Användarnamnet är upptaget.",
+        "BlockedOther": "Användaren har blockerat dig.",
+        "Blocked": "Du har blockerat användaren.",
+        "AlreadySentRequest": "Skickade redan en förfrågning till användaren.",
+        "AlreadyFriends": "Redan vän med användaren.",
+        "InvalidEmail": "Ogiltig e-postadress",
+        "TooLong": "För långt",
+        "TooShort": "För kort",
+        "RequiredField": "Nödvändigt",
+        "NoEffect": "Denna förfrågan hade ingen effekt.",
+        "AlreadyOnboarded": "Avklarade redan uppstarten.",
+        "WrongPassword": "Fel lösenord.",
+        "UnknownUser": "Okänd användare.",
+        "UnverifiedAccount": "Overifierat konto.",
+        "InvalidSession": "Ogiltig session.",
+        "MissingHeaders": "Saknar headers.",
+        "OperationFailed": "Operationen misslyckades.",
+        "UnknownError": "Se konsolen.",
+        "InternalError": "Internt fel.",
+        "DatabaseError": "Databasfel.",
+        "FailedValidation": "Kunde inte validera fält.",
+        "Unlabelled": "Något hände.",
+        "Unavailable": "Ej tillgängligt.",
+        "IoError": "Servern påträffade ett I/O fel.",
+        "ProbeError": "Kunde inte få filens metadata.",
+        "MissingData": "Förfrågan saknar data.",
+        "FailedToReceive": "Servern kunde inte ta emot din fil.",
+        "FileTooLarge": "Filen är för stor.",
+        "InvalidInvite": "Ogiltig kod",
+        "MissingInvite": "Saknar inbjudningskod i förfrågan.",
+        "InvalidToken": "Ogiltig token",
+        "InvalidCredentials": "E-postadress eller lösenord är fel.",
+        "EmailFailed": "E-postmeddelande kunde inte skickas.",
+        "RenderFail": "Mallrendering misslyckades.",
+        "MissingPermission": "Saknar behörigheter.",
+        "DeniedNotification": "Du förnekade notifikations-åtkomst, kolla inställningarna för sidan.",
+        "UnsupportedBrowser": "Webbläsaren saknar support för den här funktionen.",
+        "Unauthorized": "Obefogad.",
+        "NetworkError": "Nätverksfel.",
+        "CompromisedPassword": "Det här lösenordet har äventyrats.",
+        "ReachedMaximumBots": "Du har nått maxantalet botar.",
+        "AudioPermissionBlock": "Ingen åtkomst till din mikrofon. Kontrollera webbläsarens konfiguration."
+    },
+    "shortcuts": {
+        "ctrlc": "Ctrl + C"
+    },
+    "permissions": {
+        "channel": {
+            "SendMessage": {
+                "t": "Skicka Meddelanden",
+                "d": "Tillåter medlemmar att skicka meddelanden i textkanaler."
+            },
+            "View": {
+                "t": "Se Kanal",
+                "d": "Tillåter medlemmar att se kanaler som de har denna behörigheten på."
+            },
+            "ManageMessages": {
+                "d": "Tillåter medlemmar att radera meddelanden skickade av andra medlemmar.",
+                "t": "Hantera Meddelanden"
+            },
+            "InviteOthers": {
+                "t": "Bjud In Andra",
+                "d": "Tillåter medlemmar att bjuda in andra användare till en kanal."
+            },
+            "UploadFiles": {
+                "d": "Tillåter medlemmar att skicka filer i textkanaler.",
+                "t": "Ladda Upp Filer"
+            },
+            "ManageChannel": {
+                "t": "Hantera Kanaler",
+                "d": "Tillåter medlemmar att redigera eller radera en kanal."
+            },
+            "VoiceCall": {
+                "t": "Röstsamtal",
+                "d": "Tillåter medlemmar att gå med röstkanaler."
+            },
+            "EmbedLinks": {
+                "t": "Bädda in Länkar",
+                "d": "Tillåter medlemmar att visa inbäddat innehåll på länkar de skickar i textkanaler."
+            },
+            "Masquerade": {
+                "t": "Maskerad",
+                "d": "Tillåter medlemmar att ändra namn och avatar för varje meddelande."
+            }
+        },
+        "server": {
+            "BanMembers": {
+                "t": "Bannlys Medlemmar",
+                "d": "Tillåter medlemmar att permanent ta bort andra medlemmar från denna server."
+            },
+            "ManageChannels": {
+                "t": "Hantera Kanaler",
+                "d": "Tillåter medlemmar att skapa, redigera och radera kanaler."
+            },
+            "ManageRoles": {
+                "t": "Hantera Roller",
+                "d": "Tillåter medlemmar att skapa, redigera och radera roller med en lägre rank än deras. Tillåter dem också att modifiera rollers behörigheter på kanaler."
+            },
+            "ManageServer": {
+                "d": "Tillåter medlemmar att ändra denna serverns namn, beskrivning, ikon och annan relaterad information.",
+                "t": "Hantera Server"
+            },
+            "ChangeNickname": {
+                "t": "Ändra Smeknamn",
+                "d": "Tillåter medlemmar att ändra deras smeknamn på denna server."
+            },
+            "ChangeAvatar": {
+                "t": "Ändra Avatar",
+                "d": "Tillåter medlemmar att ändra deras serveravatar."
+            },
+            "KickMembers": {
+                "t": "Sparka Medlemmar",
+                "d": "Tillåter medlemmar att ta bort andra medlemmar från denna server. Sparkade medlemmar kan fortfarande gå med igen genom en inbjudan."
+            },
+            "ManageNicknames": {
+                "t": "Hantera Smeknamn",
+                "d": "Tillåter medlemmar att ändra smeknamnet av andra medlemmar."
+            },
+            "RemoveAvatars": {
+                "t": "Ta Bort Avatarer",
+                "d": "Tillåter användare att ta bort serveravatarer av andra medlemmar på denna server."
+            }
+        }
+    }
+}

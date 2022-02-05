@@ -1,0 +1,92 @@
+{
+    "general": {
+        "about": "Be",
+        "tos": "T'rms of s'rvice",
+        "privacy": "díegolnes Policy",
+        "image_by": "Onlicnes fore",
+        "loading": "Loading…"
+    },
+    "app": {
+        "settings": {
+            "tips": {
+                "sessions": {
+                    "b": "secureth thy account by changing thy passw'rd and using 2FA."
+                }
+            },
+            "pages": {
+                "bots": {
+                    "public_bot_desc": "Wheth'r to alloweth oth'r us'rs to inviteth this bot."
+                },
+                "feedback": {
+                    "bug_desc": "View currently factious bug rep'rts h're.",
+                    "issue_desc": "To holp us m're easily triage issues, thee can maketh an issue on GitHub."
+                },
+                "sync": {
+                    "descriptions": {
+                        "locale": "This shall sync thy currently chosen language.",
+                        "theme": "This shall sync thy chosen theme, colours and any custom CSS."
+                    }
+                },
+                "profile": {
+                    "placeholder": "Writeth something about yourself…"
+                },
+                "appearance": {
+                    "color": {
+                        "light": "lighteth",
+                        "dark": "dark"
+                    }
+                },
+                "audio": {
+                    "tip_retry": "Thee didn't giveth the p'rmission to access thy microphone, prithee {{retryBtn}}."
+                }
+            }
+        },
+        "special": {
+            "modals": {
+                "prompt": {
+                    "confirm_leave_long": "Thee wonneth't beest able to rejoin unless thou art re-invit'd.",
+                    "confirm_close_dm_long": "Thee can re-open t lat'r but 'twill disappeareth on both sides.",
+                    "unfriend_user_long": "Thee may not beest able to talketh to those folk again until thee addeth those folk backeth."
+                },
+                "signed_out": "Thee w're sign'd out!",
+                "external_links": {
+                    "trust_domain": "Trusteth this domain"
+                }
+            },
+            "popovers": {
+                "user_profile": {
+                    "badges": {
+                        "translator": "Translat'r"
+                    }
+                }
+            },
+            "requires_online": "Thee needeth to beest online to view this."
+        },
+        "main": {
+            "channel": {
+                "typing": {
+                    "multiple": "{{userlist}} and {{user}} be scribing…",
+                    "single": "{{user}} be scribing…"
+                },
+                "misc": {
+                    "no_sending": "Thee has't not p'rmission to sendeth messages in this channel."
+                }
+            }
+        }
+    },
+    "notifications": {
+        "now_friends": "Thou art anon cater-cousins with @{{person}}!"
+    },
+    "error": {
+        "TooShort": "Too sh'rt",
+        "TooLong": "Too longeth",
+        "DeniedNotification": "Thee did deny notification access, checketh page settings.",
+        "ReachedMaximumBots": "Thee've hath reached the maximum amount of bots."
+    },
+    "login": {
+        "check_mail": "Check ye mail.",
+        "error": {
+            "reset": "Failed to reset ye!"
+        }
+    }
+}
