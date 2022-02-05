@@ -111,7 +111,7 @@ export default observer(() => {
                                         action="chevron"
                                         icon={<Compass size={32} />}
                                         description={
-                                            <Text id="app.home.discover_desc" test />
+                                            <Text id="app.home.discover_desc" />
                                         }>
                                         <Text id="app.home.discover" />
                                     </CategoryButton>
