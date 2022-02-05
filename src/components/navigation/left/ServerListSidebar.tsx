@@ -254,7 +254,7 @@ export default observer(() => {
     const homeActive =
         typeof server === "undefined" &&
         !path.startsWith("/invite") &&
-        !path.startsWith("/discover");
+        !path.startsWith("");
 
     return (
         <ServersBase>
@@ -401,7 +401,7 @@ export default observer(() => {
                                         alignItems: "center",
                                         gap: "6px",
                                     }}>
-                                    <div>Discover Revolt</div>
+                                    <div>Discover ChatNet.Me</div>
                                     <div
                                         style={{
                                             padding: "1px 5px",
