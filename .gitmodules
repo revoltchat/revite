@@ -1,0 +1,3 @@
+[submodule "external/lang"]
+	path = external
+	url = https://github.com/dislistme/translations.git
