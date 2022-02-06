@@ -17,12 +17,14 @@ import styles from "./UserProfile.module.scss";
 import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 
-import { noop } from "../../../lib/js";
 import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
+import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
 import { IconButton } from "@revoltchat/ui/lib/components/atoms/inputs/IconButton";
 import { Category } from "@revoltchat/ui/lib/components/atoms/layout/Category";
 import { Error } from "@revoltchat/ui/lib/components/atoms/layout/Error";
+
+import { noop } from "../../../lib/js";
 
 import ChannelIcon from "../../../components/common/ChannelIcon";
 import ServerIcon from "../../../components/common/ServerIcon";
@@ -338,7 +340,27 @@ export const UserProfile = observer(
                                     </div>
                                 )}
                                 <Markdown content={profile?.content} />
-                                {/*<div className={styles.category}><Text id="app.special.popovers.user_profile.sub.connections" /></div>*/}
+                                {user.bot ? (
+                                    <>
+                                        <div className={styles.category}>
+                                            Links
+                                        </div>
+                                        <div className={styles.botLinks}>
+                                            <CategoryButton
+                                                action="chevron"
+                                                description="test"
+                                                account>
+                                                Terms of Service
+                                            </CategoryButton>
+                                            <CategoryButton
+                                                action="chevron"
+                                                description="test"
+                                                account>
+                                                Privacy Policy
+                                            </CategoryButton>
+                                        </div>
+                                    </>
+                                ) : undefined}
                             </div>
                         ) : (
                             <div className={styles.empty}>

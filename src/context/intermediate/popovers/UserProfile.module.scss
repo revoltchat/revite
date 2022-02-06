@@ -171,3 +171,12 @@
         text-overflow: ellipsis;
     }
 }
+
+.botLinks {
+    display: flex;
+    gap: 10px;
+
+    > div {
+        width: 100%;
+    }
+}
