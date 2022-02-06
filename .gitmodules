@@ -1,4 +1,0 @@
-[submodule "external/lang"]
-	path = external/lang
-	url = https://github.com/revoltchat/translations.git
-	branch = master
