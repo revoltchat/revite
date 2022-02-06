@@ -409,14 +409,14 @@ export default observer(() => {
                                             background: "var(--status-busy)",
                                             borderRadius: "60px",
                                         }}>
-                                        NEW
+                                        IN DEVELOPMENT
                                     </div>
                                 </div>
                             }
                             placement="right">
                             <div className="circle">
                                 <IconButton>
-                                    <Link to="">
+                                    <Link to="/discover">
                                         <a>
                                             <Compass size={32} />
                                         </a>
