@@ -13,6 +13,7 @@ const List = styled.div`
 
     > div {
         min-width: 0;
+        width: 100%;
         display: flex;
         flex-direction: column;
     }

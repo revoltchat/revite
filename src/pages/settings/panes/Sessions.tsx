@@ -18,6 +18,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { H3 } from "@revoltchat/ui/lib/components/atoms/heading/H3";
 import { Preloader } from "@revoltchat/ui/lib/components/atoms/indicators/Preloader";
 import { Button } from "@revoltchat/ui/lib/components/atoms/inputs/Button";
 import { CategoryButton } from "@revoltchat/ui/lib/components/atoms/inputs/CategoryButton";
@@ -120,9 +121,9 @@ export function Sessions() {
 
     return (
         <div className={styles.sessions}>
-            <h3>
+            <H3>
                 <Text id="app.settings.pages.sessions.active_sessions" />
-            </h3>
+            </H3>
             {render.map((session) => {
                 const systemIcon = getSystemIcon(session);
                 return (
@@ -243,11 +244,11 @@ export function Sessions() {
 
             <Tip>
                 <span>
-                    <Text id="app.settings.tips.sessions.a" />
-                </span>{" "}
-                <a onClick={() => switchPage("account")}>
-                    <Text id="app.settings.tips.sessions.b" />
-                </a>
+                    <Text id="app.settings.tips.sessions.a" />{" "}
+                    <a onClick={() => switchPage("account")}>
+                        <Text id="app.settings.tips.sessions.b" />
+                    </a>
+                </span>
             </Tip>
         </div>
     );
