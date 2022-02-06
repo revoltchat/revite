@@ -186,7 +186,8 @@
             flex-direction: column;
 
             // This prevents members, invites and ban list from being able to properly display.
-            // height: fit-content;
+            // the above is an issue with the virtual list, should be fixed on your side instead of removing height from settings.
+            height: fit-content;
         }
 
         details {
