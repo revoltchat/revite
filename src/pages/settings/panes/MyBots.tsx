@@ -248,24 +248,27 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                 }
                             />
                         ) : (
-                            <FileUploader
-                                width={42}
-                                height={42}
-                                style="icon"
-                                fileType="avatars"
-                                behaviour="upload"
-                                maxFileSize={4_000_000}
-                                onUpload={(avatar) => editBotAvatar(avatar)}
-                                remove={() => editBotAvatar()}
-                                defaultPreview={user.generateAvatarURL(
-                                    { max_side: 256 },
-                                    true,
-                                )}
-                                previewURL={user.generateAvatarURL(
-                                    { max_side: 256 },
-                                    true,
-                                )}
-                            />
+                            <div className={styles.flexColumn}>
+                                <H3>Avatar</H3>
+                                <FileUploader
+                                    width={42}
+                                    height={42}
+                                    style="icon"
+                                    fileType="avatars"
+                                    behaviour="upload"
+                                    maxFileSize={4_000_000}
+                                    onUpload={(avatar) => editBotAvatar(avatar)}
+                                    remove={() => editBotAvatar()}
+                                    defaultPreview={user.generateAvatarURL(
+                                        { max_side: 256 },
+                                        true,
+                                    )}
+                                    previewURL={user.generateAvatarURL(
+                                        { max_side: 256 },
+                                        true,
+                                    )}
+                                />
+                            </div>
                         )}
 
                         {!editMode ? (
@@ -298,17 +301,20 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                 </div>
                             </div>
                         ) : (
-                            <InputBox
-                                ref={setUsernameRef}
-                                value={data.username}
-                                disabled={saving}
-                                onChange={(e) =>
-                                    setData({
-                                        ...data,
-                                        username: e.currentTarget.value,
-                                    })
-                                }
-                            />
+                            <div className={styles.flexColumn}>
+                                <H3>Bot username</H3>
+                                <InputBox
+                                    ref={setUsernameRef}
+                                    value={data.username}
+                                    disabled={saving}
+                                    onChange={(e) =>
+                                        setData({
+                                            ...data,
+                                            username: e.currentTarget.value,
+                                        })
+                                    }
+                                />
+                            </div>
                         )}
                     </div>
 
@@ -446,9 +452,53 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         onChange={(v) =>
                             setData({ ...data, public: v })
                         }></Checkbox>
+                    <H3>Tags</H3>
+                    <H5>Use tags to increase discoverability (up to 5)</H5>
+                    <InputBox
+                        ref={setInteractionsRef}
+                        value={data.interactions_url}
+                        disabled={saving}
+                        onChange={(e) =>
+                            setData({
+                                ...data,
+                                interactions_url: e.currentTarget.value,
+                            })
+                        }
+                    />
+                    <LineDivider />
                     <H3>
                         <Text id="app.settings.pages.bots.interactions_url" />
                     </H3>
+                    <H5>
+                        <Text id="app.settings.pages.bots.reserved" />
+                    </H5>
+                    <InputBox
+                        ref={setInteractionsRef}
+                        value={data.interactions_url}
+                        disabled={saving}
+                        onChange={(e) =>
+                            setData({
+                                ...data,
+                                interactions_url: e.currentTarget.value,
+                            })
+                        }
+                    />
+                    <H3>Terms of Service URL</H3>
+                    <H5>
+                        <Text id="app.settings.pages.bots.reserved" />
+                    </H5>
+                    <InputBox
+                        ref={setInteractionsRef}
+                        value={data.interactions_url}
+                        disabled={saving}
+                        onChange={(e) =>
+                            setData({
+                                ...data,
+                                interactions_url: e.currentTarget.value,
+                            })
+                        }
+                    />
+                    <H3>Privacy Policy URL</H3>
                     <H5>
                         <Text id="app.settings.pages.bots.reserved" />
                     </H5>
@@ -490,7 +540,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                     cb: onDelete,
                                 });
                             }}>
-                            <Text id="app.special.modals.actions.delete" />
+                            Delete Bot
                         </Button>
                     </>
                 )}
