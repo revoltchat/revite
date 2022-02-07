@@ -161,7 +161,7 @@
     },
     "name": "client",
     "main": "index.js",
-    "repository": "https://github.com/revoltchat/revite.git",
+    "repository": "https://github.com/dislistme/revite.git",
     "author": "Paul <paulmakles@gmail.com>",
     "license": "MIT"
 }
