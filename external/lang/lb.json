@@ -1,0 +1,491 @@
+{
+    "general": {
+        "tos": "Voorwaarden van de Dienst",
+        "privacy": "Privacybeleid",
+        "loading": "Laden…",
+        "on": "Op",
+        "off": "Uit",
+        "disabled": "Uitgeschakeld",
+        "about": "Iwwer",
+        "image_by": "Afbeelding door",
+        "unavailable": "Niet beschikbaar"
+    },
+    "login": {
+        "title": "Inloggen",
+        "register": "Registreren",
+        "username": "Gebruikersnaam",
+        "email": "E-mail",
+        "password": "Passwort",
+        "invite": "Uitnodigen Code",
+        "enter": {
+            "username": "Vul een gebruikersnaam in.",
+            "password": "Voer uw wachtwoord in.",
+            "invite": "Voer uw uitnodigingscode in.",
+            "email": "Voer uw e-mail in.",
+            "current_password": "Voer uw huidige wachtwoord in."
+        },
+        "forgot": "Wachtwoord vergeten?",
+        "reset": "Wachtwoord opnieuw instellen.",
+        "remembered": "Ga terug naar login.",
+        "new": "Nieuw bij Revolt?",
+        "existing": "Heb je al een account?",
+        "resend": "Verificatie opnieuw verzenden.",
+        "cancel": "Annuleer verzoek.",
+        "check_mail": "Controleer je mail.",
+        "check_spam": "Controleer de spam-map als u het niet kunt vinden",
+        "open_mail_provider": "Open {{provider}}",
+        "error": {
+            "create": "Mislukt te registreren!",
+            "login": "Mislukt om in te loggen!",
+            "reset": "Mislukt te resetten!",
+            "resend": "Mislukt om opnieuw te verzenden!"
+        },
+        "current_password": "Huidig wachtwoord",
+        "set_password": "Stel een nieuw wachtwoord in.",
+        "create": "Maak een nieuwe account aan.",
+        "missing_verification": "Geen e-mail?",
+        "email_delay": "Het kan tot 10 minuten duren voor het aankomt.",
+        "successful_registration": "Succesvol geregistreerd!"
+    },
+    "app": {
+        "status": {
+            "online": "Online",
+            "idle": "Inactief",
+            "busy": "Niet storen",
+            "offline": "Offline",
+            "invisible": "Onzichtbaar"
+        },
+        "navigation": {
+            "tabs": {
+                "home": "Home",
+                "friends": "Vrienden",
+                "unreads": "Ongelezen",
+                "saved": "Opgeslagen notities",
+                "dev": "Ontwikkelaar"
+            }
+        },
+        "main": {
+            "categories": {
+                "participants": "Deelnemers",
+                "members": "Leden",
+                "conversations": "Gesprekken",
+                "channels": "Kanalen"
+            },
+            "channel": {
+                "message_where": "Bericht {{channel_name}}",
+                "message_saved": "Opslaan in uw notities",
+                "uploading_file": "Uploaden…",
+                "failed_upload": "Het uploaden is mislukt!",
+                "message_who": "Bericht {{person}}",
+                "typing": {
+                    "single": "{{user}} tippt…",
+                    "multiple": "{{userlist}} an {{user}} tippt…",
+                    "several": "E puer Leit schreiwen…"
+                },
+                "system": {
+                    "user_banned": "{{user}} gouf verbannt",
+                    "user_left": "{{user}} verlooss",
+                    "removed_by": "{{user}} gouf vun engem {{other_user}} ewechgaangen",
+                    "channel_renamed": "{{user}} ëmbenannt de Kanal fir {{name}}",
+                    "channel_description_changed": "{{user}} huet de Kanal Beschreiwung geännert",
+                    "channel_icon_changed": "{{user}} huet de Kanal Ikon geännert",
+                    "user_kicked": "{{user}} géif gekickt ginn",
+                    "user_joined": "{{user}} ass bäikomm",
+                    "added_by": "{{user}} gouf vun engem {{other_user}} derbäigesat"
+                },
+                "start": {
+                    "group": "Dëst ass de Start vun Ärem Gespréich."
+                },
+                "voice": {
+                    "leave": "Loosst",
+                    "unmute": "Unmute",
+                    "mute": "Mute",
+                    "connected": "Stëmm verbonne"
+                },
+                "misc": {
+                    "viewing_old": "Eeler Messagen kucken",
+                    "failed_load": "Konnt kee Message lueden.",
+                    "no_sending": "Dir hutt keng Erlaabnis fir Messagen an dësem Kanal ze schécken.",
+                    "blocked_messages": "{{count}} blockéiert Messagen",
+                    "sent_multiple_files": "Huet verschidde Uschlëss geschéckt",
+                    "sent_file": "Huet en Uschloss geschéckt",
+                    "spoiler_attachment": "Spoiler",
+                    "blocked_user": "Blockéiert Benotzer"
+                },
+                "nsfw": {
+                    "channel": {
+                        "marked": "Dëse Kanal ass als NSFW markéiert.",
+                        "confirm": "Kanal matmaachen"
+                    },
+                    "confirm": "Ech konfirméieren datt ech op d'mannst 18 Joer al sinn."
+                },
+                "edited": "(geännert)",
+                "bot": "Bot",
+                "notifications": {
+                    "all": "All Messagen",
+                    "none": "Keen",
+                    "muted": "Gemuted"
+                },
+                "search": {
+                    "title": "Sichen",
+                    "sort": {
+                        "relevance": "Relevanz",
+                        "latest": "Lescht"
+                    }
+                },
+                "attached_file": "Befestegt {{filename}}",
+                "unknown_user": "<Onbekannt Benotzer>",
+                "errors": {
+                    "nochannels": "Dëse Server huet keng Kanalen, oder Dir hutt keen Zougang zu all.",
+                    "title": "Oops, et ass hei näischt!",
+                    "nochannel": "Kee Kanal"
+                }
+            },
+            "groups": {
+                "name": "Grupp Numm",
+                "description": "Group Beschreiwung",
+                "create": "Erstellt e Grupp",
+                "owner": "Group Besëtzer"
+            },
+            "servers": {
+                "name": "Server Numm",
+                "create": "Erstellt e Server",
+                "channel_type": "Kanal Type",
+                "channel_name": "Kanal Numm",
+                "custom_banner": "Benotzerdefinéiert Banner",
+                "owner": "Server Besëtzer",
+                "voice_channel": "Stëmm Kanal",
+                "description": "Server Beschreiwung",
+                "channel_description": "Kanal Beschreiwung",
+                "text_channel": "Text Kanal"
+            }
+        },
+        "context_menu": {
+            "open_file": "Open bestand",
+            "save_file": "Bestand opslaan",
+            "save_image": "Beeld opslaan",
+            "save_video": "Video opslaan",
+            "open_link": "Open link",
+            "add_friend": "Vriend toevoegen",
+            "quote_message": "Citaat bericht",
+            "edit_message": "Bericht bewerken",
+            "delete_message": "Bericht verwijderen",
+            "remove_member": "Uit de groep verwijderen",
+            "kick_member": "Kick lid",
+            "ban_member": "Ban lid",
+            "open_image": "Open afbeelding",
+            "open_video": "Open video",
+            "copy_link": "Kopieer link",
+            "block_user": "Gebruiker blokkeren",
+            "unblock_user": "Deblokkeer gebruiker",
+            "remove_friend": "Verwijder vriend",
+            "cancel_friend": "Verzoek annuleren"
+        },
+        "special": {
+            "modals": {
+                "prompt": {
+                    "confirm_delete_long": "Eemol ass et geläscht, et gëtt kee Réck.",
+                    "confirm_leave": "Verloossen {{name}}?",
+                    "confirm_leave_long": "Dir kënnt net fäeg sinn ze rejoin ausser Dir sidd nei invitéiert.",
+                    "confirm_close_dm": "Zoumaachen Gespréich mat {{name}}?",
+                    "confirm_close_dm_long": "Dir kënnt se méi spéit opmaachen, awer et gëtt op béide Säiten verschwonnen.",
+                    "confirm_delete": "Läschen {{name}}?",
+                    "confirm_delete_message_long": "Sidd Dir sécher, datt Dir dëst läsche wëllt?",
+                    "create_invite_generate": "Generéieren invitéieren…",
+                    "create_invite_created": "Hei ass Ären neie Invitatiounscode:",
+                    "confirm_kick": "Sidd Dir sécher, datt Dir wëllt kick {{name}}?",
+                    "confirm_ban_reason": "Ban Grond",
+                    "unfriend_user": "Ewechzehuelen {{name}}?",
+                    "unfriend_user_long": "Dir kënnt net fäeg sinn mat hinnen erëm ze schwätzen bis Dir se zréck addt.",
+                    "block_user": "Block {{name}}?",
+                    "block_user_long": "Sidd Dir sécher, datt Dir wëllt {{name}} blockéieren? Si ginn och vun Ärer Frëndschaftslëscht ewechgeholl."
+                },
+                "clipboard": {
+                    "unavailable": "Clipboard ass net verfügbar!",
+                    "https": "Dir sidd am Moment net an engem HTTPS Kontext.",
+                    "copy": "Manuelle Kopie:"
+                },
+                "error": "E Feeler ass geschitt!",
+                "signed_out": "Dir sidd ausgeloggt!",
+                "onboarding": {
+                    "welcome": "Wëllkomm no",
+                    "pick": "Wielt e Benotzernumm deen Dir wëllt datt d'Leit Iech fäeg sinn ze fannen, dëst kann méi spéit am Astellunge geännert ginn."
+                },
+                "account": {
+                    "change": {
+                        "username": "Ännert Äre Benotzernumm",
+                        "email": "Ännert Är E-Mail",
+                        "password": "Äert Passwuert änneren"
+                    },
+                    "failed": "Feeler bei änneren!"
+                },
+                "external_links": {
+                    "title": "Extern Links kënne geféierlech sinn!",
+                    "short": "Sidd Dir sécher, datt Dir weider wëllt op dëse Link goen: ",
+                    "trust_domain": "Vertrauen dës Domain"
+                },
+                "token_reveal": "{{name}}'s Token",
+                "actions": {
+                    "delete": "Läschen",
+                    "ok": "Ok",
+                    "ban": "Ban",
+                    "kick": "Kick",
+                    "hide": "Verstoppen",
+                    "close": "Zoumaachen",
+                    "block": "Block",
+                    "leave": "Loosst",
+                    "back": "Géi zréck",
+                    "update": "Aktualiséierung",
+                    "cancel": "Ofbriechen",
+                    "continue": "Weidergitt",
+                    "send_email": "Schéckt E-Mail",
+                    "edit": "Änneren",
+                    "preview": "Virschau",
+                    "reload": "Reload App"
+                }
+            },
+            "copy": "Klickt fir ze kopéieren",
+            "friends": {
+                "blocked": "Blockéiert",
+                "sent": "Erausgänger",
+                "incoming": "Inkommende Frëndschaftsufro.",
+                "outgoing": "Erausgänger Frëndschaftsufro.",
+                "nobody": "Ass keen hei!",
+                "from": {
+                    "single": "Vum {{user}}",
+                    "multiple": "Vum {{userlist}} a {{user}}",
+                    "several": "Vum {{userlist}} a {{count}} méi…"
+                }
+            },
+            "status": {
+                "offline": "Offline.",
+                "connecting": "Verbindung…",
+                "reconnecting": "Connect erëm…",
+                "disconnected": "Getrennt."
+            },
+            "copy_username": "Klickt fir Benotzernumm ze kopéieren",
+            "popovers": {
+                "user_profile": {
+                    "profile": "Profil",
+                    "mutual_friends": "Allgemeng Frënn",
+                    "mutual_groups": "Allgemeng Gruppéie",
+                    "mutual_servers": "Allgemeng Servers",
+                    "empty": "Et ass e bëssen eidel hei…",
+                    "no_servers": "Keng gemeinsam Servers!",
+                    "no_users": "Keng gemeinsam Frënn!",
+                    "no_groups": "Keng gemeinsam Gruppéie!"
+                }
+            }
+        },
+        "settings": {
+            "pages": {
+                "bots": {
+                    "unique_id": "Dëst ass en eenzegaartegen Identifizéierer fir Äre Bot. Dëst ass net de Bot-Token.",
+                    "public_bot_tip": "Bot ass ëffentlech. Jidderee kann et invitéieren.",
+                    "title": "Meng Bots",
+                    "create_bot": "Erstellen e Bot",
+                    "add": "Füügt Bot",
+                    "token": "Token",
+                    "private_bot_tip": "Bot ass privat. Nëmmen Dir kënnt et invitéieren.",
+                    "public_bot": "Ëffentlech Bot",
+                    "public_bot_desc": "Ob aner Benotzer erlaabt dës Bot ze invitéieren.",
+                    "copy_invite": "Kopie Invitéieren Link",
+                    "interactions_url": "Interaktiounen URL",
+                    "reserved": "Notiz: Dëst Feld ass fir d'Zukunft reservéiert."
+                },
+                "feedback": {
+                    "issue_desc": "Fir eis méi einfachen problemer ze hëllefen, kënnt Dir en issue op GitHub kreéieren.",
+                    "suggest": "Gitt Feature Virschlag",
+                    "bug": "Bug Tracker",
+                    "bug_desc": "Show aktiv Bug Rapport hei.",
+                    "issue": "Erstellt en neit Issue",
+                    "suggest_desc": "Proposéiert nei Revolt Features op Github discussions."
+                },
+                "account": {
+                    "change_field": "Änneren",
+                    "unique_id": "Dëst ass en eenzegaartegen User Identifizéierer fir Äre Kont.",
+                    "2fa": {
+                        "description": "Füügt eng extra Layer vun der Sécherheet andeems Dir 2FA op Ärem Kont erakënnt.",
+                        "add_auth": "Füügt Authenticator",
+                        "remove_auth": "Ewechzehuelen Authenticator",
+                        "title": "Zwee-Faktor Authentifikatioun"
+                    },
+                    "manage": {
+                        "title": "Benotzergestanagement",
+                        "description": "Desaktivéiere oder läschen Äre Kont zu all Moment. Dës Aktioun loggt Iech eraus a voll läscht Äre Kont, inklusiv Är Chatgeschicht a Frënn.",
+                        "delete": "De Kont läschen",
+                        "disable": "Desaktivéiere Kont"
+                    },
+                    "title": "Mäi Kont"
+                },
+                "profile": {
+                    "info": "Informatioun",
+                    "title": "Profil",
+                    "placeholder": "Schreift eppes iwwer Iech selwer…",
+                    "fetching": "Rufft Äre Profil un…",
+                    "profile_picture": "Profilfice",
+                    "edit_background": "Änneren Hannergrond",
+                    "custom_background": "Benotzerdefinéiert Hannergrond",
+                    "edit_profile": "Änneren Profil"
+                },
+                "sessions": {
+                    "created": "Huet virun {{time_ago}} erstallt",
+                    "logout": "Log aus all aner Sessiounen",
+                    "active_sessions": "Aktiv Sessiounen",
+                    "this_device": "Dësen Apparat",
+                    "title": "Sessiounen"
+                },
+                "audio": {
+                    "input_device": "Mikrofon",
+                    "output_device": "Spriecher / Headset",
+                    "tip_retry": "Wir hutt net d'Erlaabnis kritt fir Zougang zu Ärem Mikrofon ze kréien, wann ech glift {{retryBtn}}.",
+                    "device_label_NA": "N/A",
+                    "button_retry": "widderhuelen",
+                    "title": "Stëmm Astellungen"
+                },
+                "appearance": {
+                    "display": {
+                        "default": "Standard",
+                        "compact": "Kompact",
+                        "compact_description": "Gutt al IRC.",
+                        "default_description": "Schéin, glänzend a modern."
+                    },
+                    "color": {
+                        "light": "Liicht",
+                        "dark": "Däischter"
+                    },
+                    "accent_selector": "Akzent Faarf",
+                    "message_display": "Message weisen",
+                    "emoji_pack": "Emoji Pack",
+                    "advanced": "Fortgeschratt Optiounen",
+                    "reset_overrides": "Iwwerschreiwe zrécksetzen",
+                    "overrides": "Theme Iwwerschreiwe",
+                    "import": "Importéiert en theme",
+                    "custom_css": "Benotzerdefinéiert CSS",
+                    "sync": "Sync Optiounen",
+                    "theme_data": "Theme Daten",
+                    "mono_font": "Monospace Schrëfte Selector",
+                    "ligatures": "Schrëfte Ligaturen",
+                    "import_theme": "Import Theme vu String",
+                    "font": "Schrëfte",
+                    "ligatures_desc": "Fir ënnerstëtzt Schrëften, Liggen kombinéiere Charaktere zesummen, zum Beispill, dréinen -> an engem Pfeil. Wiesselt op Inter a probéiert dës Optioun ze wiesselen.",
+                    "theme": "Theme"
+                },
+                "notifications": {
+                    "title": "Notifikatiounen",
+                    "push_notifications": "Push Notifikatiounen",
+                    "enable_desktop": "Aktivéiert Desktop Notifikatiounen.",
+                    "descriptions": {
+                        "enable_push": "Aktivéiert Notifikatiounen ze kréien wann Dir offline sidd.",
+                        "enable_desktop": "Dëst gëtt Iech Notifikatiounen, während Är App op ass."
+                    },
+                    "sound": {
+                        "message": "Message kritt",
+                        "outbound": "Message geschéckt",
+                        "call_leave": "Benotzer lénks Ruff",
+                        "call_join": "Benotzer ass bäikomm Ruff"
+                    },
+                    "enable_push": "Aktivéiert Push Notifikatiounen."
+                },
+                "language": {
+                    "title": "Sprooche",
+                    "select": "Wielt Är Sprooch",
+                    "const": "Sprooche konstruenter",
+                    "other": "Aner Speechen Optiounen"
+                },
+                "sync": {
+                    "title": "Sync",
+                    "categories": "Sync Kategorien",
+                    "descriptions": {
+                        "appearance": "Dëst wäert Sync Optiounen wéi Emoji Pack a Message Dicht.",
+                        "theme": "Dëst gëtt Äert gewielt Theme synchroniséiert, Faarwen an all personaliséierte CSS.",
+                        "locale": "Dëst wäert Är aktuell Spooche synchroniséieren."
+                    }
+                },
+                "native": {
+                    "title": "Desktop Astellunge"
+                },
+                "experiments": {
+                    "features": "Verfügbar Funktiounen",
+                    "not_available": "Keng Experimenter sinn zu dësem Zäitpunkt verfügbar.",
+                    "title": "Experimenter"
+                },
+                "source_code": "Quellecocode",
+                "donate": {
+                    "title": "Spenden"
+                },
+                "logOut": "Ausloggen",
+                "theme_shop": {
+                    "title": "Theme Shop"
+                }
+            },
+            "categories": {
+                "client_settings": "Cliente-Astellungen",
+                "user_settings": "Benotzer -stellungen"
+            },
+            "title": "Astellunge",
+            "actions": {
+                "max_filesize": "(max {{filesize}})",
+                "upload": "Eroplueden"
+            },
+            "channel_pages": {
+                "overview": {
+                    "name": "Kanal Numm",
+                    "description": "Kanal Beschreiwung"
+                },
+                "permissions": {
+                    "title": "Permissiounen"
+                }
+            },
+            "server_pages": {
+                "overview": {
+                    "name": "Server Numm",
+                    "description": "Kanal Beschreiwung"
+                },
+                "invites": {
+                    "title": "Invitatiounen",
+                    "code": "Invitéiere Code",
+                    "channel": "Kanal",
+                    "invitor": "Inviter",
+                    "revoke": "Zréckzéien"
+                },
+                "members": {
+                    "title": "Memberen"
+                },
+                "categories": {
+                    "title": "Kategorien"
+                },
+                "bans": {
+                    "title": "Bans",
+                    "user": "Benotzer",
+                    "reason": "Ban Grond",
+                    "revoke": "Zréckzéien",
+                    "no_reason": "Kee Ban Grond."
+                },
+                "roles": {
+                    "title": "Roles"
+                }
+            },
+            "tips": {
+                "account": {
+                    "a": "Dir sicht Äre ëffentleche Profil ze personaliséieren?",
+                    "b": "Kapp iwwer op Äre Profil Astellunge."
+                },
+                "languages": {
+                    "a": "Vermësst eng Sprooch déi Dir wëllt?",
+                    "b": "Hëllef méi bäi méi Iwwersetzungen bäidroen."
+                },
+                "sessions": {
+                    "a": "Wann Dir eng onbekannt Sessioun op der Lëscht gesitt,",
+                    "b": "Séchert Äre Kont andeems Dir Äert Passwuert ännert an 2FA benotzen."
+                }
+            },
+            "permissions": {
+                "server": "Server Permissiounen",
+                "create_role": "Eng nei Roll erstellen",
+                "role_name": "Numm vum Roll",
+                "channel": "Kanal Permissiounen"
+            }
+        }
+    }
+}

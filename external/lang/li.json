@@ -1,0 +1,82 @@
+{
+    "general": {
+        "unavailable": "Neet beshikbaar",
+        "disabled": "Oetgezatte",
+        "off": "Oet",
+        "on": "Aan",
+        "loading": "Bezig met laaie…",
+        "image_by": "Foto van",
+        "privacy": "Privacybeleid",
+        "tos": "Serviceveurwaarde",
+        "about": "Euver"
+    },
+    "login": {
+        "title": "Inlogge",
+        "username": "Gebroekersnaam",
+        "email": "E-mailadres",
+        "password": "Wachtwoord",
+        "invite": "Oetneudigingscode",
+        "current_password": "Huidige wachtwoord",
+        "enter": {
+            "email": "Vul dien e-mailadres in.",
+            "password": "Vul dien wachtwoord in.",
+            "invite": "Vul dien oetneudigingscode in.",
+            "current_password": "Vul die huidige wachtwoord in.",
+            "username": "Vul unne gebroekersnaam in."
+        },
+        "reset": "Wachtwoord resetten.",
+        "set_password": "Un nuuj wachtwoord instellen.",
+        "new": "Bisse nuuj bie Revolt?",
+        "existing": "Hub se al un account?",
+        "create": "Un nuuj account aanmaken.",
+        "missing_verification": "Gen e-mailadres?",
+        "cancel": "Aanvroag annuleren.",
+        "check_mail": "Kiek in diene mail.",
+        "check_spam": "Missjien zit ut in diene spam",
+        "open_mail_provider": "Oapen {{provider}}",
+        "error": {
+            "create": "Helaes, ut registreren lukte neet!",
+            "login": "Helaes, ut inloggen lukte neet!",
+            "reset": "Heleas, het resetten van dien wachtwoord lukte neet!",
+            "resend": "Helaes, ut versturen van un nuuje activatiemail lukte neet!"
+        },
+        "register": "Registreren",
+        "forgot": "Bisse dien wachtwoord vergaete?",
+        "remembered": "Truuk noar de login.",
+        "resend": "De verificatie nog uns sturen.",
+        "email_delay": "Wacht nog uns effkes veur 10 minuten. Ut kin effe duren.",
+        "successful_registration": "Succesvol geregistreerd!"
+    },
+    "app": {
+        "navigation": {
+            "tabs": {
+                "home": "Thoes",
+                "friends": "Wieksers",
+                "saved": "Aanteikeningen",
+                "dev": "Ontwikkelaer",
+                "unreads": "Ongelaezen"
+            }
+        },
+        "main": {
+            "categories": {
+                "participants": "Deilnehmers",
+                "channels": "Kanalen",
+                "members": "Leejen",
+                "conversations": "Geproat"
+            },
+            "channel": {
+                "message_where": "Proat in {{channel_name}}",
+                "message_who": "Proat mit {{person}}",
+                "message_saved": "Opsloan als notitie",
+                "uploading_file": "Uploaden…"
+            }
+        },
+        "status": {
+            "busy": "Loat Mich Mit Rust",
+            "online": "Online",
+            "idle": "Aafwezig",
+            "offline": "Weg",
+            "invisible": "Onzichtbaar"
+        }
+    }
+}

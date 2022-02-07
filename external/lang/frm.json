@@ -1,0 +1,424 @@
+{
+    "login": {
+        "forgot": "Mot de passe oublié?",
+        "reset": "Réinitialiser le mot de passe",
+        "set_password": "Definir un nouveau mot de passe",
+        "new": "Nouveau dans Revolt?",
+        "create": "Créer un nouveau compte",
+        "cancel": "Demande d'annulation",
+        "email_delay": "Veuillez prévoir jusqu'à 10 minutes pour qu'il arrive.",
+        "check_spam": "Veuillez vérifier les spams si vous ne le trouvez pas",
+        "open_mail_provider": "Ouvrir {{provider}}",
+        "successful_registration": "Enregistré avec succès!",
+        "error": {
+            "create": "Échec de l'inscription !",
+            "login": "Échec de la connexion !",
+            "reset": "Échec de la réinitialisation!",
+            "resend": "Échec du renvoi!"
+        },
+        "enter": {
+            "current_password": "Entrer votre mot de passe actuel.",
+            "password": "Tapez votre mot de passe.",
+            "invite": "Entrez votre code d'invitation.",
+            "email": "Entrer votre Email.",
+            "username": "Entrez votre nom d'utilisateur préféré."
+        },
+        "remembered": "Revenez à la connexion",
+        "existing": "Vous avez déjà un compte?",
+        "resend": "Renvoyer la vérification",
+        "check_mail": "Vérifier votre courrier!",
+        "missing_verification": "Vous n'avez pas reçu d'e-mail ?",
+        "register": "Enregister",
+        "username": "Nom d'utilisateur",
+        "email": "Email",
+        "password": "Mot de passe",
+        "invite": "Code d'invitation",
+        "current_password": "Mot de passe actuel",
+        "title": "Commencer la session",
+        "welcome": "Bienvenue à nouveau!",
+        "subtitle": "Connectez-vous sur Revolt",
+        "welcome2": "Salut!",
+        "subtitle2": "Créer un compte"
+    },
+    "app": {
+        "status": {
+            "online": "En ligne",
+            "idle": "Inactif",
+            "busy": "Ne pas déranger",
+            "invisible": "Invisible",
+            "offline": "Hors ligne"
+        },
+        "navigation": {
+            "tabs": {
+                "home": "Accueil",
+                "dev": "Développeur",
+                "friends": "Amis",
+                "unreads": "Non lu",
+                "saved": "Notes enregistrées"
+            }
+        },
+        "main": {
+            "categories": {
+                "conversations": "Conversations",
+                "participants": "Participants",
+                "channels": "Canaux",
+                "members": "Membres"
+            },
+            "channel": {
+                "uploading_file": "Téléchargement…",
+                "nsfw": {
+                    "channel": {
+                        "confirm": "Entrer dans la chaîne",
+                        "marked": "Ce canal est marqué comme NSFW."
+                    },
+                    "confirm": "Je confirme que j'ai au moins 18 ans."
+                },
+                "edited": "(édité)",
+                "bot": "robot",
+                "notifications": {
+                    "all": "Tous les messages",
+                    "mention": "Mentions seulement",
+                    "muted": "En sourdine",
+                    "default": "L'utilisation par défaut",
+                    "none": "Rien"
+                },
+                "search": {
+                    "sort": {
+                        "oldest": "Le plus vieux",
+                        "latest": "Dernières",
+                        "relevance": "Pertinence"
+                    },
+                    "title": "Chercher"
+                },
+                "errors": {
+                    "title": "Oops, il n'y a rien ici!",
+                    "nochannel": "Aucune chaîne",
+                    "nochannels": "Ce serveur n'a pas de canaux, ou vous n'avez accès à aucun."
+                },
+                "message_saved": "Enregistrer dans vos notes",
+                "typing": {
+                    "multiple": "{{userlist}} et {{user}} sont en train de taper…",
+                    "single": "{{user}} est en train de taper…",
+                    "several": "Plusieurs personnes tapent…"
+                },
+                "system": {
+                    "added_by": "{{user}} a été ajouté par {{other_user}}",
+                    "channel_renamed": "{{user}} a renommé la chaîne en {{name}}",
+                    "channel_description_changed": "{{user}} a modifié la description de la chaîne",
+                    "channel_icon_changed": "{{user}} a changé l'icône de la chaîne",
+                    "user_joined": "{{user}} a rejoint",
+                    "user_left": "{{user}} est parti",
+                    "user_kicked": "{{user}} a été expulsé",
+                    "user_banned": "{{user}} a été banni",
+                    "removed_by": "{{user}} a été supprimé par {{other_user}}"
+                },
+                "start": {
+                    "group": "C'est le début de votre conversation.",
+                    "saved": "C'est le début de vos notes."
+                },
+                "misc": {
+                    "jump_present": "Aller au présent",
+                    "no_sending": "Vous n'êtes pas autorisé à envoyer des messages sur ce canal.",
+                    "viewing_old": "Affichage des messages plus anciens",
+                    "spoiler_attachment": "Divulgacher",
+                    "failed_load": "Impossible de charger le message.",
+                    "blocked_messages": "{{count}} messages bloqués",
+                    "blocked_user": "Utilisateur bloqué",
+                    "sent_file": "Envoyé une pièce jointe",
+                    "sent_multiple_files": "Envoyé plusieurs pièces jointes",
+                    "jump_beginning": "Retour au début",
+                    "new_messages": "Nnouveaux messages de {{time_ago}}"
+                },
+                "unknown_user": "<Utilisateur inconnu>",
+                "message_where": "Message {{channel_name}}",
+                "message_who": "Envoyer un message à {{person}}",
+                "failed_upload": "Échec du téléversement !",
+                "attached_file": "Pièce jointe {{filename}}",
+                "voice": {
+                    "connected": "Voix connectée",
+                    "leave": "Laisser",
+                    "mute": "Muet",
+                    "unmute": "Rétablir le son"
+                }
+            },
+            "groups": {
+                "create": "Créer un groupe",
+                "owner": "Propriétaire du groupe",
+                "description": "Description du groupe",
+                "name": "Nom de groupe"
+            },
+            "servers": {
+                "create": "Créer un serveur",
+                "name": "Nom du Serveur",
+                "description": "Description du serveur",
+                "channel_name": "Nom du canal",
+                "channel_type": "Type de canal",
+                "channel_description": "Description de la chaîne",
+                "custom_banner": "Bannière personnalisée",
+                "owner": "Propriétaire du serveur",
+                "category_name": "Nom de catégorie",
+                "text_channel": "Canal de texte",
+                "voice_channel": "Canal vocal"
+            }
+        },
+        "home": {
+            "donate": "Faire un don à la Revolt",
+            "settings-tooltip": "Vous pouvez également cliquer avec le bouton droit sur l'icône de l'utilisateur en haut à gauche ou cliquer dessus si vous êtes déjà chez vous.",
+            "join-testers": "Rejoignez le serveur des testeurs",
+            "goto-testers": "Aller sur le serveur des testeurs",
+            "feedback": "Donnez votre avis sur Revolt",
+            "settings": "Ouvrir les paramètres",
+            "social": "Trouver des serveurs et des bots",
+            "directs": "Messages Directs"
+        },
+        "settings": {
+            "categories": {
+                "client_settings": "Réglages des clients",
+                "user_settings": "Paramètres utilisateur"
+            },
+            "pages": {
+                "account": {
+                    "manage": {
+                        "delete": "Supprimer compte",
+                        "description": "Désactivez ou supprimez votre compte à tout moment. Cette action vous déconnectera et supprimera complètement votre compte, y compris votre historique de discussion et vos amis.",
+                        "title": "Gestion de compte",
+                        "disable": "Désactiver compte"
+                    },
+                    "title": "Mon compte",
+                    "change_field": "Changer",
+                    "2fa": {
+                        "title": "Authentification à deux facteurs",
+                        "add_auth": "Ajouter authenticator",
+                        "description": "Ajoutez une couche de sécurité supplémentaire en activant 2FA sur votre compte.",
+                        "remove_auth": "Supprimer authenticator"
+                    },
+                    "unique_id": "Il s'agit d'un identifiant d'utilisateur unique pour votre compte."
+                },
+                "profile": {
+                    "title": "Profil",
+                    "placeholder": "Écris quelque chose à propos de toi…",
+                    "profile_picture": "Image de profil",
+                    "edit_background": "Modifier arrière-plan",
+                    "info": "Information",
+                    "fetching": "Récupération de votre profil…",
+                    "custom_background": "Arrière-plan personnalisé",
+                    "edit_profile": "Editer profil"
+                },
+                "sessions": {
+                    "active_sessions": "Sessions actives",
+                    "title": "Séances",
+                    "this_device": "Cet appareil",
+                    "created": "Créé il y a {{time_ago}}",
+                    "logout": "Déconnectez-vous de toutes les autres sessions"
+                },
+                "audio": {
+                    "device_label_NA": "Indisponible",
+                    "button_retry": "retenter",
+                    "output_device": "Haut-parleur / Casque",
+                    "input_device": "Microphone",
+                    "tip_retry": "Vous n'avez pas donné l'autorisation d'accéder à votre microphone, veuillez {{retryBtn}}.",
+                    "tip_grant_permission": "Vous devez accorder l'autorisation d'accéder aux paramètres audio.",
+                    "button_grant": "Donner permission",
+                    "title": "Paramètres de voix"
+                },
+                "appearance": {
+                    "display": {
+                        "compact_description": "Bon vieil IRC.",
+                        "default": "Par défaut",
+                        "default_description": "Beau, élégant et moderne.",
+                        "compact": "Compact"
+                    },
+                    "color": {
+                        "light": "lumière",
+                        "dark": "foncé"
+                    },
+                    "message_display": "Affichage des messages",
+                    "title": "Apparence",
+                    "theme": "Thème",
+                    "theme_options": {
+                        "seasonal_desc": "Affiche les effets dans l'onglet d'accueil pendant les périodes de vacances.",
+                        "transparency": "Effets de transparence",
+                        "transparency_desc": "Active effets de transparence dans toute l'application.",
+                        "title": "Options du thème",
+                        "follow": "Suivre thème du système",
+                        "follow_desc": "Une fois marqué, vous ne pourrez pas modifier votre thème ou utiliser un thème personnalisé.",
+                        "seasonal": "Thème saisonnier"
+                    },
+                    "advanced": "Options avancées",
+                    "accent_selector": "Couleur d'accent",
+                    "emoji_pack": "Pack d'émojis",
+                    "import": "Importer un thème",
+                    "theme_data": "Données du thème",
+                    "import_theme": "Importer un thème depuis une chaîne de caractères"
+                },
+                "notifications": {
+                    "sounds": "Sons",
+                    "title": "Notifications",
+                    "descriptions": {
+                        "enable_desktop": "Ceci va vous envoyer des notifications quand cette application est ouverte."
+                    }
+                },
+                "language": {
+                    "title": "Langage"
+                }
+            },
+            "actions": {
+                "remove": "Effacer",
+                "upload": "Téléverser",
+                "max_filesize": "(maximum {{filesize}})"
+            },
+            "title": "Réglages"
+        },
+        "context_menu": {
+            "unblock_user": "Débloquer l'utilisateur",
+            "remove_friend": "Retirer des amis",
+            "copy_text": "Copier le texte",
+            "copy_uid": "Copier l'ID de l'utilisateur",
+            "copy_mid": "Copier l'ID du message",
+            "copy_message_link": "Copier le lien du message",
+            "save_video": "Sauvegarder la vidéo",
+            "add_friend": "Ajouter en ami",
+            "open_notification_options": "Options de notifications",
+            "open_channel_settings": "Paramètres du salon",
+            "save_file": "Sauvegarder le fichier",
+            "copy_selection": "Copier la sélection",
+            "mention": "Mentionner",
+            "open_link": "Ouvrir le lien",
+            "cancel_friend": "Annuler la requête",
+            "close_dm": "Fermer les MP",
+            "leave_server": "Quitter le serveur",
+            "delete_server": "Supprimer le serveur",
+            "edit_identity": "Modifier l'identité",
+            "delete_channel": "Supprimer le salon",
+            "create_channel": "Créer un salon",
+            "create_category": "Créer une catégorie",
+            "copy_sid": "Copier l'ID du serveur",
+            "save_image": "Sauvegarder l'image",
+            "open_video": "Ouvrir la vidéo",
+            "copy_link": "Copier le lien",
+            "block_user": "Bloquer l'utilisateur",
+            "leave_group": "Quitter le groupe",
+            "create_invite": "Créer une invitation",
+            "open_server_settings": "Paramètres du serveur",
+            "open_group_settings": "Paramètres du groupe",
+            "open_file": "Ouvrir un fichier",
+            "open_image": "Ouvrir l'image",
+            "copy_id": "Copier l'identifiant",
+            "copy_cid": "Copier l'ID du salon",
+            "view_profile": "Voir le profil"
+        },
+        "special": {
+            "invite": {
+                "invalid": "Invitation invalide !",
+                "invalid_desc": "Cette invitation n'existe pas ou vous n'avez pas la permission de rejoindre."
+            }
+        },
+        "permissions": {
+            "required": "Permissions nécessaires"
+        }
+    },
+    "general": {
+        "image_by": "Photo de",
+        "loading": "Chargement…",
+        "about": "À propos de",
+        "tos": "Conditions d'utilisation",
+        "privacy": "Politique de confidentialité",
+        "on": "Allumage",
+        "off": "Éteint",
+        "unavailable": "Indisponible",
+        "disabled": "Désactiver"
+    },
+    "permissions": {
+        "channel": {
+            "Masquerade": {
+                "t": "Mascarade",
+                "d": "Permettre les membres à changer leur nom et leur avatar par message."
+            },
+            "SendMessage": {
+                "t": "Envoyer des messages",
+                "d": "Permettre aux membres d'envoyer des messages dans les salons textuels."
+            },
+            "View": {
+                "t": "Voir un salon"
+            },
+            "VoiceCall": {
+                "t": "Appel vocal",
+                "d": "Permettre aux membres de rejoindre les salons vocaux."
+            },
+            "ManageChannel": {
+                "d": "Permettre aux membres d'éditer ou de supprimer un salon.",
+                "t": "Gérer les salons"
+            },
+            "ManageMessages": {
+                "d": "Permettre aux membres de supprimer les messages envoyés par les autres membres.",
+                "t": "Gérer les messages"
+            },
+            "InviteOthers": {
+                "d": "Permettre aux membres d'inviter d'autres utilisateurs dans un salon."
+            },
+            "UploadFiles": {
+                "t": "Envoyer des fichiers"
+            }
+        },
+        "server": {
+            "ManageNicknames": {
+                "t": "Gérer les surnoms",
+                "d": "Permettre de changer le surnom des autres membres."
+            },
+            "ChangeAvatar": {
+                "t": "Changer d'avatar"
+            },
+            "ManageChannels": {
+                "t": "Gérer les salons",
+                "d": "Permettre aux membres de créer, éditer et supprimer des salons."
+            },
+            "KickMembers": {
+                "t": "Expulser des membres"
+            },
+            "ManageServer": {
+                "t": "Gérer le serveur"
+            },
+            "ManageRoles": {
+                "t": "Gérer les rôles"
+            },
+            "BanMembers": {
+                "t": "Bannir des membres"
+            },
+            "ChangeNickname": {
+                "t": "Changer de surnom"
+            }
+        }
+    },
+    "notifications": {
+        "now_friends": "Vous êtes désormais ami avec @{{person}} !",
+        "sent_request": "@{{person}} vous a envoyé une demande d'ami."
+    },
+    "error": {
+        "NetworkError": "Erreur du réseau.",
+        "Unauthorized": "Non autorisé.",
+        "CompromisedPassword": "Ce mot de passe est compromis.",
+        "Unlabelled": "Quelque chose s'est produit.",
+        "MissingPermission": "Permission manquante.",
+        "UnknownError": "Voir la console.",
+        "OperationFailed": "Échec de l'opération.",
+        "FileTooLarge": "Le fichier est trop volumineux.",
+        "ReachedMaximumBots": "Vous avez atteint la limite maximale de bots.",
+        "DatabaseError": "Erreur de base de données.",
+        "InternalError": "Erreur interne."
+    },
+    "shortcuts": {
+        "ctrlc": "Ctrl + C"
+    },
+    "dayjs": {
+        "sameDay": "[Aujourd'hui à] {{time}}",
+        "lastDay": "[Hier à] {{time}}",
+        "nextDay": "[Demain à]{{time}}",
+        "lastWeek": "[Dernier] dddd [à] {{time}}"
+    },
+    "quantities": {
+        "members": {
+            "one": "1 Membre",
+            "many": "{{count}} Membres"
+        }
+    }
+}

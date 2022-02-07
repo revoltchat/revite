@@ -1,0 +1,372 @@
+{
+    "general": {
+        "about": "'Obout",
+        "privacy": "Policy o' Shipshape",
+        "tos": "Terms o' Service",
+        "loading": "Loadin…",
+        "image_by": "Image by",
+        "disabled": "Disebl'd",
+        "on": "On",
+        "off": "Off",
+        "unavailable": "Un'vail'ble"
+    },
+    "app": {
+        "main": {
+            "categories": {
+                "participants": "In the Cabins",
+                "members": "Crew",
+                "channels": "Oceans",
+                "conversations": "Natters"
+            },
+            "channel": {
+                "failed_upload": "Failed t' upload!",
+                "system": {
+                    "channel_renamed": "{{user}} renamed thar channel t' {{name}}",
+                    "channel_description_changed": "{{user}} changed thar channel description",
+                    "channel_icon_changed": "{{user}} changed thar channel icon",
+                    "removed_by": "{{user}} be removed by {{other_user}}",
+                    "user_left": "{{user}} has deserted",
+                    "user_banned": "{{user}} has walked the plank",
+                    "user_joined": "{{user}} has docked their ship",
+                    "added_by": "{{other_user}} added {{user}} to yer' crew",
+                    "user_kicked": "{{user}} was thrown aboard"
+                },
+                "typing": {
+                    "single": "{{user}} be typing…",
+                    "several": "Several scallywags be typing…",
+                    "multiple": "{{userlist}} n' {{user}} be typing…"
+                },
+                "start": {
+                    "group": "Dis be thar start o' yer conversation.",
+                    "saved": "This is the start of yer notes."
+                },
+                "misc": {
+                    "jump_present": "Jump t' present",
+                    "no_sending": "Ye don't have permission t' send messages in dis channel.",
+                    "viewing_old": "Viewin' older messages",
+                    "sent_file": "Sent a parcel",
+                    "sent_multiple_files": "Sent numerous parcels",
+                    "failed_load": "Yer message could not make it.",
+                    "blocked_messages": "{{count}} obscured messages",
+                    "jump_beginning": "Start from ye starts",
+                    "blocked_user": "Dead men tell no tales",
+                    "spoiler_attachment": "Blimey, spoiler"
+                },
+                "nsfw": {
+                    "channel": {
+                        "marked": "Dis channel be marked as NSFW.",
+                        "confirm": "Board Channel"
+                    },
+                    "confirm": "I confirm that I am at least 18 years ole."
+                },
+                "message_saved": "Save t' yer notes",
+                "message_who": "Message {{person}}",
+                "message_where": "Message {{channel_name}}",
+                "uploading_file": "Uploadin'…",
+                "voice": {
+                    "leave": "Set sail",
+                    "unmute": "Talk",
+                    "connected": "Voice be connected",
+                    "mute": "Mute"
+                },
+                "attached_file": "'tached {{filename}}",
+                "search": {
+                    "title": "Sear'",
+                    "sort": {
+                        "oldest": "Olest",
+                        "latest": "Newest",
+                        "relevance": "Handsomeness"
+                    }
+                },
+                "notifications": {
+                    "none": "None",
+                    "muted": "Mutd'",
+                    "default": "Use Ol' Faithful",
+                    "all": "Entire Messageboard",
+                    "mention": "Shouts Only"
+                },
+                "unknown_user": "<Unknown User>",
+                "errors": {
+                    "title": "Oops, there be no booty to be found 'ere!",
+                    "nochannels": "Tis' ship contains no booty, or ye can't find any.",
+                    "nochannel": "No plunder"
+                },
+                "bot": "Landlubber",
+                "edited": "(scribbled)"
+            },
+            "groups": {
+                "description": "Maties Description",
+                "create": "Create a maties",
+                "name": "Maties Name",
+                "owner": "Maties Owner"
+            },
+            "servers": {
+                "create": "Build a cog",
+                "name": "Cog Name",
+                "description": "Cog Tale",
+                "channel_name": "Board Name",
+                "custom_banner": "Custom Sail",
+                "text_channel": "Scribin' deck",
+                "channel_type": "Board Type",
+                "owner": "Ship Captain",
+                "channel_description": "Board Description",
+                "voice_channel": "Speakin' deck",
+                "category_name": "Yer category name"
+            }
+        },
+        "navigation": {
+            "tabs": {
+                "friends": "Crewmates",
+                "dev": "Ship Builder",
+                "home": "Mainland",
+                "saved": "Saved Relics",
+                "unreads": "Unreads"
+            }
+        },
+        "status": {
+            "offline": "On leave",
+            "invisible": "On leave",
+            "busy": "In Th' Cabins",
+            "idle": "On a voyage",
+            "online": "On-deck"
+        },
+        "settings": {
+            "pages": {
+                "sessions": {
+                    "created": "Created {{time_ago}}",
+                    "logout": "Log out o' all other sessions",
+                    "this_device": "Dis Device",
+                    "title": "Swashbucklin’ session",
+                    "active_sessions": "active swashbucklin’ session"
+                },
+                "appearance": {
+                    "title": "Appearance",
+                    "theme": "Theme",
+                    "display": {
+                        "default": "Default",
+                        "compact_description": "Jolly good barnacle-covered IRC.",
+                        "default_description": "Beautiful, sleek n' modern."
+                    },
+                    "ligatures_desc": "Fer supported fonts, ligatures combine characters t'gether, fer example, turning -> into a arrow. Switch t' Inter n' try toggling dis option.",
+                    "discover": {
+                        "title": "Sail for Themes"
+                    }
+                },
+                "profile": {
+                    "fetching": "Fetching yer profile…",
+                    "placeholder": "Write sometin' 'bout yer self…",
+                    "title": "Captain’s quarters",
+                    "edit_background": "Edit yer jolly roger",
+                    "edit_profile": "Edit yer captain’s quarters",
+                    "info": "'nformation",
+                    "custom_background": "Yer own jolly roger",
+                    "profile_picture": "Yer Jack"
+                },
+                "account": {
+                    "title": "Me Account",
+                    "unique_id": "Dis be a unique user identifier fer yer account.",
+                    "2fa": {
+                        "description": "Add a extra layer o' security by enabling 2FA on yer account.",
+                        "title": "Double-booty Protection"
+                    },
+                    "manage": {
+                        "description": "Disable or delete yer account at any time. Dis action will log ye out n' fully delete yer account, including yer chat history n' crew.",
+                        "title": "Manage the captain's quarter",
+                        "delete": "Burn down captain's quarter"
+                    },
+                    "change_field": "Change yarr"
+                },
+                "experiments": {
+                    "not_available": "Nay experiments be available at dis time."
+                },
+                "notifications": {
+                    "descriptions": {
+                        "enable_push": "Enable t' receive notifications when you be offline.",
+                        "enable_desktop": "Dis will give ye notifications while yer app be open."
+                    },
+                    "enable_push": "'Nable Push Notification."
+                },
+                "language": {
+                    "select": "Select yer language"
+                },
+                "sync": {
+                    "descriptions": {
+                        "theme": "Dis will sync yer chosen theme, colours n' any custom CSS.",
+                        "appearance": "Dis will sync options such as emoji packs n' message density.",
+                        "locale": "Dis will sync yer currently chosen language."
+                    }
+                },
+                "bots": {
+                    "public_bot_tip": "Bot be public. Anyone can invite it.",
+                    "public_bot_desc": "Whether t' allow other users t' invite dis bot.",
+                    "reserved": "Note: Dis field be reserved fer thar future.",
+                    "title": "Me Bots",
+                    "private_bot_tip": "Bot be private. Only ye can invite it.",
+                    "unique_id": "Dis be a unique identifier fer yer bot. Dis be nay thar bot's token."
+                },
+                "audio": {
+                    "tip_retry": "Ye didn't give thar permission t' access yer microphone, {{retryBtn}}.",
+                    "input_device": "Speakin' horn",
+                    "title": "Speakin' Settins'",
+                    "output_device": "Listenin' horn",
+                    "tip_grant_permission": "Ye need t' grant permission t' access audio settins'."
+                }
+            },
+            "actions": {
+                "upload": "Ye upload",
+                "max_filesize": "(ye max {{filesize}})",
+                "remove": "Blow the dog down"
+            },
+            "title": "Settins'",
+            "categories": {
+                "user_settings": "Pirate Settins'",
+                "client_settings": "Client Settins'"
+            }
+        },
+        "context_menu": {
+            "open_video": "Open yer video",
+            "cancel_friend": "Cancel request",
+            "open_file": "Open yer coffer",
+            "remove_friend": "Remove me bucko",
+            "save_image": "Save yer image",
+            "copy_link": "Copy yer link",
+            "save_video": "Save yer video",
+            "ban_member": "Hang ‘em from the yardarm",
+            "open_image": "Open yer image",
+            "unblock_user": "Unkeelhaul the shark bait",
+            "open_link": "Open yer link",
+            "leave_group": "Maroon ye crew",
+            "clear_status": "Clear ye status",
+            "set_custom_status": "Set ye own status",
+            "save_file": "Save yer coffer",
+            "block_user": "Keelhaul the shark bait",
+            "custom_status": "Ye own status",
+            "leave_server": "Maroon ye ship",
+            "create_invite": "Start 'iring 'ands",
+            "close_dm": "No more o' ye chatter",
+            "add_friend": "Hire 'ands",
+            "open_group_settings": "'and settins'"
+        },
+        "special": {
+            "popovers": {
+                "user_profile": {
+                    "badges": {
+                        "translator": "Pirate"
+                    }
+                }
+            }
+        },
+        "home": {
+            "join-testers": "Join they testers server",
+            "settings-tooltip": "Ye can also right-skewer the user icon in the top left, or left skewer it if ye're already home.",
+            "goto-testers": "Go t' the testers server",
+            "donate": "Donate t' Mutiny",
+            "feedback": "Give feedback o' Mutiny",
+            "settings": "Open Settins",
+            "social": "Find servers 'n bots",
+            "directs": "Sail, Ho!",
+            "discover_desc": "Onto the Crowsnest.",
+            "group": "Hire a crew o' hearties",
+            "group_desc": "Get some 'ands on deck!",
+            "donate_desc": "Yarrr give some doubloons, ye bilge rat!",
+            "join-testers_desc": "Ye can report issues and discuss improvements with us d'rectly here yarr.",
+            "goto-testers_desc": "Ye can report issues and discuss improvements with us d'rectly here yarr.",
+            "discover": "Sail the 7 seas",
+            "feedback_desc": "Ye be lettin' us know how t' improve."
+        }
+    },
+    "login": {
+        "error": {
+            "resend": "Failed t' resend!",
+            "reset": "Failed t' reset!",
+            "login": "Failed t' login!",
+            "create": "Failed t' register!"
+        },
+        "check_spam": "Please check spam if ye can nah find it",
+        "existing": "Already 'ave an account?",
+        "forgot": "Forgot yer codeword?",
+        "enter": {
+            "current_password": "Enter yer current codeword.",
+            "invite": "Enter yer invite code.",
+            "password": "Enter yer codeword.",
+            "email": "Enter yer email.",
+            "username": "Enter yer preferred username."
+        },
+        "register": "Register",
+        "title": "Login",
+        "username": "Usarname",
+        "current_password": "Current secret codeword",
+        "password": "Secret codeword",
+        "open_mail_provider": "Check yer {{provider}}",
+        "invite": "Invite Code",
+        "email": "Email",
+        "new": "New t' Revolt?",
+        "reset": "Reset codeword",
+        "successful_registration": "Ahoy! Successfully registered!",
+        "set_password": "Set new codeword",
+        "remembered": "Go back t' login",
+        "missing_verification": "Did yer' not get an letter?",
+        "email_delay": "Please allow up t' 10 minutes fer it t' arrive.",
+        "resend": "Resend verification",
+        "create": "Go on Account",
+        "check_mail": "Check yer mail!",
+        "cancel": "Scuttle th offer",
+        "welcome2": "Ahoy!",
+        "welcome": "Ahoy!",
+        "subtitle2": "More 'ands on deck",
+        "subtitle": "Tarrr be aft"
+    },
+    "dayjs": {
+        "defaults": {
+            "date_format": "traditional",
+            "twelvehour": "no",
+            "date_separator": "."
+        },
+        "lastDay": "['esterday at] {{time}}",
+        "sameDay": "[T'day at] {{time}}",
+        "nextDay": "[T'morrow at] {{time}}"
+    },
+    "permissions": {
+        "channel": {
+            "View": {
+                "t": "View Channel"
+            },
+            "InviteOthers": {
+                "t": "Invite Others to the Ship",
+                "d": "Tarr can hire 'ands!"
+            },
+            "UploadFiles": {
+                "t": "Share ye booty!"
+            },
+            "SendMessage": {
+                "t": "Sail, Ho!"
+            },
+            "Masquerade": {
+                "t": "Be lyin'"
+            }
+        },
+        "server": {
+            "ChangeNickname": {
+                "t": "Change ye crew name"
+            }
+        }
+    },
+    "notifications": {
+        "sent_request": "@{{person}} wants to be yer bucko.",
+        "now_friends": "{{person}} be yer heartie now!"
+    },
+    "error": {
+        "FileTooLarge": "Too much booty.",
+        "InternalError": "Yarr ships mistake.",
+        "NetworkError": "Shiver me timbers, problem with network.",
+        "Unlabelled": "Shiver me timbers!",
+        "CompromisedPassword": "Tis' pass phrase be spooked by the red ensign.",
+        "ReachedMaximumBots": "To many landlubbers."
+    },
+    "quantities": {
+        "members": {
+            "many": "{{count}} Hearties",
+            "one": "1 Hearty"
+        }
+    }
+}
