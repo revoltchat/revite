@@ -1,6 +1,0 @@
-[submodule "external/lang"]
-	path = external/lang
-	url = https://github.com/dislistme/translations.git
-	branch = master
-[submodule "lang"]
-	branch = master
