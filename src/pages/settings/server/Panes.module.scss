@@ -160,4 +160,27 @@
         display: flex;
         padding: 8px 0;
     }
+    .roleid {
+        font-size: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--tertiary-foreground);
+
+        > :nth-child(2) {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        a {
+            color: inherit;
+            cursor: pointer;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
 }

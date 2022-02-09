@@ -1,4 +1,5 @@
 import { Plus } from "@styled-icons/boxicons-regular";
+import { HelpCircle } from "@styled-icons/boxicons-solid";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
 import { ChannelPermission, ServerPermission } from "revolt.js";
@@ -17,6 +18,7 @@ import {
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
+import Tooltip from "../../../components/common/Tooltip";
 import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 import ColourSwatches from "../../../components/ui/ColourSwatches";
@@ -35,7 +37,7 @@ const I32ToU32 = (arr: number[]) => arr.map((x) => x >>> 0);
 export const Roles = observer(({ server }: Props) => {
     const client = useContext(AppContext);
     const [role, setRole] = useState("default");
-    const { openScreen } = useIntermediate();
+    const { openScreen, writeClipboard } = useIntermediate();
     const roles = server.roles || {};
 
     if (role !== "default" && typeof roles[role] === "undefined") {
@@ -175,6 +177,21 @@ export const Roles = observer(({ server }: Props) => {
                                     contrast
                                 />
                             </p>
+
+                            <div className={styles.roleid}>
+                                <Tooltip
+                                    content={
+                                        <Text id="app.settings.pages.server_pages.role.unique_id" />
+                                    }>
+                                    <HelpCircle size={16} />
+                                </Tooltip>
+                                <Tooltip
+                                    content={<Text id="app.special.copy" />}>
+                                    <a onClick={() => writeClipboard(role)}>
+                                        {role}
+                                    </a>
+                                </Tooltip>
+                            </div>
                         </section>
                         <section>
                             <Overline type="subtle">Role Colour</Overline>
