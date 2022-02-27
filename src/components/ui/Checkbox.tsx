@@ -89,7 +89,7 @@ export interface CheckboxProps {
     disabled?: boolean;
     contrast?: boolean;
     className?: string;
-    children: Children;
+    children?: Children;
     description?: Children;
     onChange: (state: boolean) => void;
 }

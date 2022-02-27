@@ -126,6 +126,7 @@
         "localforage": "^1.9.0",
         "lodash.defaultsdeep": "^4.6.1",
         "lodash.isequal": "^4.5.0",
+        "long": "^5.2.0",
         "markdown-it": "^12.0.6",
         "markdown-it-emoji": "^2.0.0",
         "markdown-it-sub": "^1.0.0",

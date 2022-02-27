@@ -2,13 +2,11 @@ import { Check } from "@styled-icons/boxicons-regular";
 import { Cog } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
-import { ServerPermission } from "revolt.js/dist/api/permissions";
+import { Permission } from "revolt.js/dist/api/permissions";
 import { Server } from "revolt.js/dist/maps/Servers";
 import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
-
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import IconButton from "../ui/IconButton";
 
@@ -125,7 +123,7 @@ export default observer(({ server }: Props) => {
                     </Tooltip>
                 ) : undefined}
                 <div className="title">{server.name}</div>
-                {(server.permission & ServerPermission.ManageServer) > 0 && (
+                {server.havePermission("ManageServer") && (
                     <Link to={`/server/${server._id}/settings`}>
                         <IconButton>
                             <Cog size={20} />

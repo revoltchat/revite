@@ -4,12 +4,14 @@ import { useContext } from "preact/hooks";
 import {
     ClientStatus,
     StatusContext,
+    useClient,
 } from "../../../context/revoltjs/RevoltClient";
 
 import Banner from "../../ui/Banner";
 
 export default function ConnectionStatus() {
     const status = useContext(StatusContext);
+    const client = useClient();
 
     if (status === ClientStatus.OFFLINE) {
         return (
@@ -20,7 +22,8 @@ export default function ConnectionStatus() {
     } else if (status === ClientStatus.DISCONNECTED) {
         return (
             <Banner>
-                <Text id="app.special.status.disconnected" />
+                <Text id="app.special.status.disconnected" /> <br />
+                <a onClick={() => client.websocket.connect()}>Reconnect</a>
             </Banner>
         );
     } else if (status === ClientStatus.CONNECTING) {

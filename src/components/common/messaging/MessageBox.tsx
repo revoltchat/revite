@@ -1,7 +1,7 @@
 import { Send, ShieldX, HappyBeaming, Box } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
 import { observer } from "mobx-react-lite";
-import { ChannelPermission } from "revolt.js/dist/api/permissions";
+import { Permission } from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
@@ -125,6 +125,7 @@ const FileAction = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+    }
 `;
 
 // For sed replacement
@@ -147,7 +148,7 @@ export default observer(({ channel }: Props) => {
 
     const renderer = getRenderer(channel);
 
-    if (!(channel.permission & ChannelPermission.SendMessage)) {
+    if (!(channel.permission & Permission.SendMessage)) {
         return (
             <Base>
                 <Blocked>
@@ -475,7 +476,7 @@ export default observer(({ channel }: Props) => {
                 setReplies={setReplies}
             />
             <Base>
-                {channel.permission & ChannelPermission.UploadFiles ? (
+                {channel.permission & Permission.UploadFiles ? (
                     <FileAction>
                         <FileUploader
                             size={24}

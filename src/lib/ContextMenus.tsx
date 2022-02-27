@@ -14,11 +14,7 @@ import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
 import { Attachment } from "revolt-api/types/Autumn";
 import { Presence, RelationshipStatus } from "revolt-api/types/Users";
-import {
-    ChannelPermission,
-    ServerPermission,
-    UserPermission,
-} from "revolt.js/dist/api/permissions";
+import { Permission, UserPermission } from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
 import { Server } from "revolt.js/dist/maps/Servers";
@@ -505,9 +501,8 @@ export default function ContextMenus() {
 
                     if (server_list) {
                         const server = client.servers.get(server_list)!;
-                        const permissions = server.permission;
                         if (server) {
-                            if (permissions & ServerPermission.ManageChannels) {
+                            if (server.havePermission("ManageChannel")) {
                                 generateAction({
                                     action: "create_category",
                                     target: server,
@@ -517,7 +512,8 @@ export default function ContextMenus() {
                                     target: server,
                                 });
                             }
-                            if (permissions & ServerPermission.ManageServer)
+
+                            if (server.havePermission("ManageServer"))
                                 generateAction({
                                     action: "open_server_settings",
                                     id: server_list,
@@ -673,9 +669,7 @@ export default function ContextMenus() {
                             userId !== uid &&
                             uid !== server.owner
                         ) {
-                            if (
-                                serverPermissions & ServerPermission.KickMembers
-                            )
+                            if (serverPermissions & Permission.KickMembers)
                                 generateAction(
                                     {
                                         action: "kick_member",
@@ -688,7 +682,7 @@ export default function ContextMenus() {
                                     "var(--error)", // the only relevant part really
                                 );
 
-                            if (serverPermissions & ServerPermission.BanMembers)
+                            if (serverPermissions & Permission.BanMembers)
                                 generateAction(
                                     {
                                         action: "ban_member",
@@ -718,8 +712,7 @@ export default function ContextMenus() {
                     if (message && !queued) {
                         const sendPermission =
                             message.channel &&
-                            message.channel.permission &
-                                ChannelPermission.SendMessage;
+                            message.channel.permission & Permission.SendMessage;
 
                         if (sendPermission) {
                             generateAction({
@@ -759,8 +752,7 @@ export default function ContextMenus() {
 
                         if (
                             message.author_id === userId ||
-                            channelPermissions &
-                                ChannelPermission.ManageMessages
+                            channelPermissions & Permission.ManageMessages
                         ) {
                             generateAction({
                                 action: "delete_message",
@@ -903,7 +895,7 @@ export default function ContextMenus() {
                                 case "VoiceChannel":
                                     if (
                                         channelPermissions &
-                                        ChannelPermission.InviteOthers
+                                        Permission.InviteOthers
                                     ) {
                                         generateAction({
                                             action: "create_invite",
@@ -913,7 +905,7 @@ export default function ContextMenus() {
 
                                     if (
                                         serverPermissions &
-                                        ServerPermission.ManageServer
+                                        Permission.ManageServer
                                     )
                                         generateAction(
                                             {
@@ -926,7 +918,7 @@ export default function ContextMenus() {
 
                                     if (
                                         serverPermissions &
-                                        ServerPermission.ManageChannels
+                                        Permission.ManageChannel
                                     )
                                         generateAction({
                                             action: "delete_channel",
@@ -958,20 +950,15 @@ export default function ContextMenus() {
                                 );
 
                             if (
-                                serverPermissions &
-                                    ServerPermission.ChangeNickname ||
-                                serverPermissions &
-                                    ServerPermission.ChangeAvatar
+                                serverPermissions & Permission.ChangeNickname ||
+                                serverPermissions & Permission.ChangeAvatar
                             )
                                 generateAction(
                                     { action: "edit_identity", target: server },
                                     "edit_identity",
                                 );
 
-                            if (
-                                serverPermissions &
-                                ServerPermission.ManageServer
-                            )
+                            if (serverPermissions & Permission.ManageServer)
                                 generateAction(
                                     {
                                         action: "open_server_settings",

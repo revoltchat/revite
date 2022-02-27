@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { ServerPermission } from "revolt.js";
+import { Permission } from "revolt.js";
 import { Route } from "revolt.js/dist/api/routes";
 import styled from "styled-components/macro";
 
@@ -74,8 +74,7 @@ export default function InviteBot() {
                             {[...client.servers.values()]
                                 .filter(
                                     (x) =>
-                                        x.permission &
-                                        ServerPermission.ManageServer,
+                                        x.permission & Permission.ManageServer,
                                 )
                                 .map((server) => (
                                     <option value={server._id} key={server._id}>
