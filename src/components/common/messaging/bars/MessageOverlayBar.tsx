@@ -7,7 +7,7 @@ import {
     Notification,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { ChannelPermission } from "revolt.js";
+import { Permission } from "revolt.js";
 import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 
@@ -131,8 +131,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
             )}
             {isAuthor ||
             (message.channel &&
-                message.channel.permission &
-                    ChannelPermission.ManageMessages) ? (
+                message.channel.permission & Permission.ManageMessages) ? (
                 <Tooltip content="Delete">
                     <Entry
                         onClick={(e) =>

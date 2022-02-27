@@ -1,23 +1,114 @@
+import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import {
-    ChannelPermission,
-    DEFAULT_PERMISSION_DM,
-} from "revolt.js/dist/api/permissions";
+import { OverrideField } from "revolt-api/types/_common";
 import { Channel } from "revolt.js/dist/maps/Channels";
 
-import { useEffect, useState } from "preact/hooks";
+import { useLayoutEffect, useState } from "preact/hooks";
 
-import Button from "../../../components/ui/Button";
-import Checkbox from "../../../components/ui/Checkbox";
-import Tip from "../../../components/ui/Tip";
+import { PermissionList } from "../../../components/settings/roles/PermissionList";
+import {
+    RoleOrDefault,
+    RoleSelection,
+} from "../../../components/settings/roles/RoleSelection";
+import { UnsavedChanges } from "../../../components/settings/roles/UnsavedChanges";
+import { useRoles } from "../server/Roles";
 
 interface Props {
     channel: Channel;
 }
 
-// ! FIXME: bad code :)
 export default observer(({ channel }: Props) => {
+    // Consolidate all permissions that we can change right now.
+    const currentRoles =
+        channel.channel_type === "Group"
+            ? ([
+                  {
+                      id: "default",
+                      name: "Default",
+                      permissions: channel.permissions,
+                  },
+              ] as RoleOrDefault[])
+            : (useRoles(channel.server!).map((role) => {
+                  return {
+                      ...role,
+                      permissions: (role.id === "default"
+                          ? channel.default_permissions
+                          : channel.role_permissions?.[role.id]) ?? {
+                          a: 0,
+                          d: 0,
+                      },
+                  };
+              }) as RoleOrDefault[]);
+
+    // Keep track of whatever role we're editing right now.
     const [selected, setSelected] = useState("default");
+    const [value, setValue] = useState<OverrideField | number | undefined>(
+        undefined,
+    );
+    const currentPermission = currentRoles.find(
+        (x) => x.id === selected,
+    )!.permissions;
+    const currentValue = value ?? currentPermission;
+
+    // If a role gets deleted, unselect it immediately.
+    useLayoutEffect(() => {
+        if (!channel?.server?.roles) return;
+        if (!channel.server.roles[selected]) {
+            setSelected("default");
+        }
+    }, [channel.server?.roles]);
+
+    // Upload new role information to server.
+    function save() {
+        channel.setPermissions(
+            selected,
+            typeof currentValue === "number"
+                ? currentValue
+                : {
+                      allow: currentValue.a,
+                      deny: currentValue.d,
+                  },
+        );
+    }
+
+    return (
+        <div style={{ height: "100%", overflowY: "scroll" }}>
+            <h1>Select Role</h1>
+            <RoleSelection
+                selected={selected}
+                onSelect={(id) => {
+                    setValue(undefined);
+                    setSelected(id);
+                }}
+                roles={currentRoles}
+            />
+            {!isEqual(currentPermission, currentValue) && (
+                <>
+                    <hr />
+                    <UnsavedChanges save={save} />
+                </>
+            )}
+            <hr />
+            <h1>Edit Permissions</h1>
+            <PermissionList
+                value={currentValue}
+                onChange={setValue}
+                filter={[
+                    "ViewChannel",
+                    "ReadMessageHistory",
+                    "SendMessage",
+                    "ManageMessages",
+                    "ManageWebhooks",
+                    "InviteOthers",
+                    "SendEmbeds",
+                    "UploadFiles",
+                    "Masquerade",
+                ]}
+            />
+        </div>
+    );
+
+    /*const [selected, setSelected] = useState("default");
 
     type R = { name: string; permissions: number };
     const roles: { [key: string]: R } = {};
@@ -98,5 +189,5 @@ export default observer(({ channel }: Props) => {
                 click here to save permissions for role
             </Button>
         </div>
-    );
+    );*/
 });
