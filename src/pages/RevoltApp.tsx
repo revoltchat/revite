@@ -138,9 +138,11 @@ export default function App() {
                 <OverlappingPanels
                     width="100vw"
                     height={
-                        window.isNative && !window.native.getConfig().frame
+                        (statusBar ? "calc(" : "") +
+                        (window.isNative && !window.native.getConfig().frame
                             ? "calc(var(--app-height) - var(--titlebar-height))"
-                            : "var(--app-height)"
+                            : "var(--app-height)") +
+                        (statusBar ? " - 40px)" : "")
                     }
                     leftPanel={
                         inSpecial
