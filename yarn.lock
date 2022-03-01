@@ -4298,12 +4298,12 @@ reusify@^1.0.4:
   resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
   integrity sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
 
-revolt-api@0.5.3-alpha.12:
+revolt-api@0.5.3-alpha.12, revolt-api@^0.5.3-alpha.12:
   version "0.5.3-alpha.12"
   resolved "https://registry.yarnpkg.com/revolt-api/-/revolt-api-0.5.3-alpha.12.tgz#78f25b567b840c1fd072595526592a422cb01f25"
   integrity sha512-MM42oI5+5JJMnAs3JiOwSQOy/SUYzYs3M8YRC5QI4G6HU7CfyB2HNWh5jFsyRlcLdSi13dGazHm31FUPHsxOzw==
 
-revolt.js@5.2.8:
+revolt.js@^5.2.8:
   version "5.2.8"
   resolved "https://registry.yarnpkg.com/revolt.js/-/revolt.js-5.2.8.tgz#5c9b3b10d3ea488e74b3208a9309e2106fb8c2c2"
   integrity sha512-J3n2Rwbqen9UTqfgl/N2RJx/9QaXhuZWdp/Pce0wrw9pP/xCTk87FlHHG0ZWuJvX4fltg9lbCHGMcUIT6UA2wA==
