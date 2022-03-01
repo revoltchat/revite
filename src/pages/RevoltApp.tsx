@@ -112,7 +112,7 @@ export default function App() {
         path.startsWith("/invite") ||
         path.includes("/settings");
 
-    const [statusBar, setStatusBar] = useState(true);
+    const [statusBar, setStatusBar] = useState(false);
 
     return (
         <>
