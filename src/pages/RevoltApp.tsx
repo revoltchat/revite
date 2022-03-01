@@ -120,7 +120,7 @@ export default function App() {
                 <StatusBar>
                     <div className="title">Partial outage: CDN</div>
                     <div class="actions">
-                        <Link to="/invites/Testers">
+                        <Link to="/invite/Testers">
                             <a>
                                 <div className="button">Updates</div>
                             </a>
