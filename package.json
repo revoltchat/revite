@@ -159,6 +159,7 @@
         "vite-plugin-pwa": "^0.11.13",
         "workbox-precaching": "^6.1.5"
     },
+    "packageManager": "yarn@1.22.17",
     "name": "client",
     "main": "index.js",
     "repository": "https://github.com/revoltchat/revite.git",
