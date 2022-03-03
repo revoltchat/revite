@@ -2,6 +2,7 @@ import { ChevronDown } from "@styled-icons/boxicons-regular";
 import { isEqual } from "lodash";
 import { observer } from "mobx-react-lite";
 import { Virtuoso } from "react-virtuoso";
+import { ServerPermission } from "revolt.js";
 import { Member } from "revolt.js/dist/maps/Members";
 import { Server } from "revolt.js/dist/maps/Servers";
 
@@ -31,19 +32,24 @@ const Inner = observer(({ member }: InnerProps) => {
 
     const server_roles = member.server?.roles ?? {};
     const user = member.user;
+    const canManageRoles =
+        ((member.server?.permission ?? 0) & ServerPermission.ManageRoles) > 0;
     return (
         <>
             <div
                 className={styles.member}
                 data-open={open}
-                onClick={() => setOpen(!open)}>
+                onClick={() => canManageRoles && setOpen(!open)}>
                 <span>
                     <UserIcon target={user} size={24} />{" "}
                     <Username user={member.user} showServerIdentity="both" />
                 </span>
-                <IconButton className={styles.chevron}>
-                    <ChevronDown size={24} />
-                </IconButton>
+
+                {canManageRoles && (
+                    <IconButton className={styles.chevron}>
+                        <ChevronDown size={24} />
+                    </IconButton>
+                )}
             </div>
             {open && (
                 <div className={styles.memberView}>

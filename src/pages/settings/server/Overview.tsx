@@ -1,6 +1,7 @@
 import { Markdown } from "@styled-icons/boxicons-logos";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
+import { ServerPermission } from "revolt.js";
 import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
@@ -50,6 +51,9 @@ export const Overview = observer(({ server }: Props) => {
         setChanged(false);
     }
 
+    const hasManagePerm =
+        (server.permission & ServerPermission.ManageServer) > 0;
+
     return (
         <div className={styles.overview}>
             <div className={styles.row}>
@@ -60,6 +64,7 @@ export const Overview = observer(({ server }: Props) => {
                     fileType="icons"
                     behaviour="upload"
                     maxFileSize={2_500_000}
+                    disabled={!hasManagePerm}
                     onUpload={(icon) => server.edit({ icon })}
                     previewURL={server.generateIconURL({ max_side: 256 }, true)}
                     remove={() => server.edit({ remove: "Icon" })}
@@ -72,6 +77,7 @@ export const Overview = observer(({ server }: Props) => {
                         contrast
                         value={name}
                         maxLength={32}
+                        disabled={!hasManagePerm}
                         onChange={(e) => {
                             setName(e.currentTarget.value);
                             if (!changed) setChanged(true);
@@ -88,6 +94,7 @@ export const Overview = observer(({ server }: Props) => {
                 minHeight={120}
                 maxLength={1024}
                 value={description}
+                disabled={!hasManagePerm}
                 placeholder={"Add a topic..."}
                 onChange={(ev) => {
                     setDescription(ev.currentTarget.value);
@@ -117,6 +124,7 @@ export const Overview = observer(({ server }: Props) => {
                 fileType="banners"
                 behaviour="upload"
                 maxFileSize={6_000_000}
+                disabled={!hasManagePerm}
                 onUpload={(banner) => server.edit({ banner })}
                 previewURL={server.generateBannerURL({ width: 1000 }, true)}
                 remove={() => server.edit({ remove: "Banner" })}
@@ -146,6 +154,7 @@ export const Overview = observer(({ server }: Props) => {
                                 key as keyof typeof systemMessages
                             ] ?? "disabled"
                         }
+                        disabled={!hasManagePerm}
                         onChange={(e) => {
                             if (!changed) setChanged(true);
                             const v = e.currentTarget.value;
@@ -181,7 +190,10 @@ export const Overview = observer(({ server }: Props) => {
             ))}
 
             <p>
-                <Button onClick={save} contrast disabled={!changed}>
+                <Button
+                    onClick={save}
+                    contrast
+                    disabled={!changed || !hasManagePerm}>
                     <Text id="app.special.modals.actions.save" />
                 </Button>
             </p>

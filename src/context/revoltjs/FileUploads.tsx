@@ -20,33 +20,40 @@ type BehaviourType =
     | { behaviour: "ask"; onChange: (file: File) => void }
     | { behaviour: "upload"; onUpload: (id: string) => Promise<void> }
     | {
-        behaviour: "multi";
-        onChange: (files: File[]) => void;
-        append?: (files: File[]) => void;
-    }
+          behaviour: "multi";
+          onChange: (files: File[]) => void;
+          append?: (files: File[]) => void;
+      };
 
 type StyleType =
     | {
-        style: "icon" | "banner";
-        width?: number;
-        height?: number;
-        previewURL?: string;
-        defaultPreview?: string;
-        desaturateDefault?: boolean
-    }
+          style: "icon" | "banner";
+          width?: number;
+          height?: number;
+          previewURL?: string;
+          defaultPreview?: string;
+          desaturateDefault?: boolean;
+      }
     | {
-        style: "attachment";
-        attached: boolean;
-        uploading: boolean;
-        cancel: () => void;
-        size?: number;
-    }
+          style: "attachment";
+          attached: boolean;
+          uploading: boolean;
+          cancel: () => void;
+          size?: number;
+      };
 
-type Props = BehaviourType & StyleType & {
-    fileType: "backgrounds" | "icons" | "avatars" | "attachments" | "banners";
-    maxFileSize: number;
-    remove: () => Promise<void>;
-}
+type Props = BehaviourType &
+    StyleType & {
+        fileType:
+            | "backgrounds"
+            | "icons"
+            | "avatars"
+            | "attachments"
+            | "banners";
+        maxFileSize: number;
+        disabled?: boolean;
+        remove: () => Promise<void>;
+    };
 
 export async function uploadFile(
     autumnURL: string,
@@ -100,7 +107,7 @@ export function FileUploader(props: Props) {
     const [uploading, setUploading] = useState(false);
 
     function onClick() {
-        if (uploading) return;
+        if (uploading || props.disabled) return;
 
         grabFiles(
             maxFileSize,
@@ -181,13 +188,19 @@ export function FileUploader(props: Props) {
             function dragover(e: DragEvent) {
                 e.stopPropagation();
                 e.preventDefault();
-                if (e.dataTransfer) e.dataTransfer.dropEffect = "copy";
+                if (e.dataTransfer && !props.disabled)
+                    e.dataTransfer.dropEffect = "copy";
             }
 
             // File dropping.
             function drop(e: DragEvent) {
                 e.preventDefault();
-                if (props.behaviour !== "multi" || !props.append) return;
+                if (
+                    props.behaviour !== "multi" ||
+                    !props.append ||
+                    props.disabled
+                )
+                    return;
 
                 const dropped = e.dataTransfer?.files;
                 if (dropped) {
@@ -226,14 +239,19 @@ export function FileUploader(props: Props) {
                 })}
                 data-uploading={uploading}>
                 <div
-                    className={classNames(styles.image, props.desaturateDefault && previewURL == null && styles.desaturate)}
+                    className={classNames(
+                        styles.image,
+                        ((props.desaturateDefault && previewURL == null) ||
+                            props.disabled) &&
+                            styles.desaturate,
+                    )}
                     style={{
                         backgroundImage:
                             style === "icon"
                                 ? `url('${previewURL ?? defaultPreview}')`
                                 : previewURL
-                                    ? `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('${previewURL}')`
-                                    : "none",
+                                ? `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('${previewURL}')`
+                                : "none",
                         width,
                         height,
                     }}
@@ -249,7 +267,7 @@ export function FileUploader(props: Props) {
                     )}
                 </div>
                 <div className={styles.modify}>
-                    <span onClick={removeOrUpload}>
+                    <span onClick={() => !props.disabled && removeOrUpload}>
                         {uploading ? (
                             <Text id="app.main.channel.uploading_file" />
                         ) : props.previewURL ? (

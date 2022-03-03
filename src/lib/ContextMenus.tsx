@@ -141,6 +141,17 @@ export default function ContextMenus() {
     const state = useApplicationState();
     const history = useHistory();
 
+    function shouldShowServerSettings(permissions: number) {
+        for (const perm of [
+            ServerPermission.ManageServer,
+            ServerPermission.BanMembers,
+            ServerPermission.ManageRoles,
+            ServerPermission.ManageChannels,
+        ]) {
+            if ((permissions & perm) > 0) return true;
+        }
+    }
+
     function contextClick(data?: Action) {
         if (typeof data === "undefined") return;
 
@@ -517,7 +528,8 @@ export default function ContextMenus() {
                                     target: server,
                                 });
                             }
-                            if (permissions & ServerPermission.ManageServer)
+
+                            if (shouldShowServerSettings(permissions))
                                 generateAction({
                                     action: "open_server_settings",
                                     id: server_list,
@@ -913,7 +925,9 @@ export default function ContextMenus() {
 
                                     if (
                                         serverPermissions &
-                                        ServerPermission.ManageServer
+                                            ServerPermission.ManageServer ||
+                                        channelPermissions &
+                                            ChannelPermission.ManageChannel
                                     )
                                         generateAction(
                                             {
@@ -926,7 +940,9 @@ export default function ContextMenus() {
 
                                     if (
                                         serverPermissions &
-                                        ServerPermission.ManageChannels
+                                            ServerPermission.ManageChannels ||
+                                        channelPermissions &
+                                            ChannelPermission.ManageChannel
                                     )
                                         generateAction({
                                             action: "delete_channel",
@@ -968,10 +984,7 @@ export default function ContextMenus() {
                                     "edit_identity",
                                 );
 
-                            if (
-                                serverPermissions &
-                                ServerPermission.ManageServer
-                            )
+                            if (shouldShowServerSettings(serverPermissions))
                                 generateAction(
                                     {
                                         action: "open_server_settings",

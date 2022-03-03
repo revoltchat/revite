@@ -219,6 +219,7 @@ type ButtonProps = CommonProps & {
     children?: Children;
     className?: string;
     compact?: boolean;
+    disabled?: boolean;
 };
 
 export default function ButtonItem(props: ButtonProps) {
@@ -241,7 +242,12 @@ export default function ButtonItem(props: ButtonProps) {
                 { [styles.compact]: compact, [styles.normal]: !compact },
                 className,
             )}
-            onClick={onClick}
+            style={
+                props.disabled
+                    ? "filter: grayscale(70%) brightness(70%);"
+                    : undefined
+            }
+            onClick={() => !props.disabled && onClick && onClick()}
             data-active={active}
             data-alert={typeof alert === "string"}>
             <div className={styles.content}>{children}</div>

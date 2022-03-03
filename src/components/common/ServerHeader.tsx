@@ -125,7 +125,7 @@ export default observer(({ server }: Props) => {
                     </Tooltip>
                 ) : undefined}
                 <div className="title">{server.name}</div>
-                {(server.permission & ServerPermission.ManageServer) > 0 && (
+                {shouldShowSettingIcon() && (
                     <Link to={`/server/${server._id}/settings`}>
                         <IconButton>
                             <Cog size={20} />
@@ -135,4 +135,17 @@ export default observer(({ server }: Props) => {
             </div>
         </ServerBanner>
     );
+
+    function shouldShowSettingIcon() {
+        for (const perm of [
+            ServerPermission.ManageServer,
+            ServerPermission.BanMembers,
+            ServerPermission.ManageRoles,
+            ServerPermission.ManageChannels,
+        ]) {
+            if ((server.permission & perm) > 0) return true;
+        }
+
+        return false;
+    }
 });

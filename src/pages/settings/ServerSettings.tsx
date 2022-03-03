@@ -9,6 +9,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
+import { ServerPermission } from "revolt.js";
 
 import styles from "./Settings.module.scss";
 import { Text } from "preact-i18n";
@@ -63,12 +64,17 @@ export default observer(() => {
                     title: (
                         <Text id="app.settings.server_pages.categories.title" />
                     ),
+                    disabled:
+                        (server.permission & ServerPermission.ManageChannels) ==
+                        0,
                     hideTitle: true,
                 },
                 {
                     id: "roles",
                     icon: <FlagAlt size={20} />,
                     title: <Text id="app.settings.server_pages.roles.title" />,
+                    disabled:
+                        (server.permission & ServerPermission.ManageRoles) == 0,
                     hideTitle: true,
                 },
                 {
@@ -87,11 +93,16 @@ export default observer(() => {
                     title: (
                         <Text id="app.settings.server_pages.invites.title" />
                     ),
+                    disabled:
+                        (server.permission & ServerPermission.ManageServer) ==
+                        0,
                 },
                 {
                     id: "bans",
                     icon: <UserX size={20} />,
                     title: <Text id="app.settings.server_pages.bans.title" />,
+                    disabled:
+                        (server.permission & ServerPermission.BanMembers) == 0,
                 },
             ]}
             children={
