@@ -115,6 +115,7 @@
         "@types/twemoji": "^12.1.1",
         "@typescript-eslint/eslint-plugin": "^4.27.0",
         "@typescript-eslint/parser": "^4.27.0",
+        "@vitejs/plugin-legacy": "^1.7.1",
         "classnames": "^2.3.1",
         "dayjs": "^1.10.6",
         "detect-browser": "^5.2.0",
