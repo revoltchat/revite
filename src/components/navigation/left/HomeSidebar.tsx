@@ -5,7 +5,7 @@ import {
     Notepad,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, Redirect, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components/macro";
 
@@ -47,14 +47,16 @@ export default observer(() => {
     const { pathname } = useLocation();
     const client = useContext(AppContext);
     const state = useApplicationState();
-    const { channel: currentChannel } = useParams<{ channel: string }>();
+    const { channel: channel_id } = useParams<{ channel: string }>();
     const { openScreen } = useIntermediate();
 
     const channels = [...client.channels.values()].filter(
-        (x) => x.channel_type === "DirectMessage" || x.channel_type === "Group",
+        (x) =>
+            (x.channel_type === "DirectMessage" && x.active) ||
+            x.channel_type === "Group",
     );
 
-    const obj = client.channels.get(currentChannel);
+    const channel = client.channels.get(channel_id);
 
     // ! FIXME: move this globally
     // Track what page the user was last on (in home page).
@@ -104,9 +106,10 @@ export default observer(() => {
                     </>
                 )}
                 <ConditionalLink
-                    active={obj?.channel_type === "SavedMessages"}
+                    active={channel?.channel_type === "SavedMessages"}
                     to="/open/saved">
-                    <ButtonItem active={obj?.channel_type === "SavedMessages"}>
+                    <ButtonItem
+                        active={channel?.channel_type === "SavedMessages"}>
                         <Notepad size={20} />
                         <span>
                             <Text id="app.navigation.tabs.saved" />
@@ -152,7 +155,7 @@ export default observer(() => {
                     return (
                         <ConditionalLink
                             key={channel._id}
-                            active={channel._id === currentChannel}
+                            active={channel._id === channel_id}
                             to={`/channel/${channel._id}`}>
                             <ChannelButton
                                 user={user}
@@ -165,7 +168,7 @@ export default observer(() => {
                                         : undefined
                                 }
                                 alertCount={mentionCount}
-                                active={channel._id === currentChannel}
+                                active={channel._id === channel_id}
                             />
                         </ConditionalLink>
                     );

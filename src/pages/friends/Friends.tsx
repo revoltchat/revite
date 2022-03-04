@@ -34,6 +34,7 @@ export default observer(() => {
     const friends = users.filter(
         (x) => x.relationship === RelationshipStatus.Friend,
     );
+
     const lists = [
         [
             "",

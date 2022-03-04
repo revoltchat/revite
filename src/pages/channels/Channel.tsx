@@ -97,29 +97,35 @@ const PlaceholderBase = styled.div`
     }
 `;
 
-export function Channel({ id, server_id }: { id: string; server_id: string }) {
-    const client = useClient();
-    const channel = client.channels.get(id);
+export const Channel = observer(
+    ({ id, server_id }: { id: string; server_id: string }) => {
+        const client = useClient();
 
-    if (server_id && !channel) {
-        const server = client.servers.get(server_id);
-        if (server && server.channel_ids.length > 0) {
-            return (
-                <Redirect
-                    to={`/server/${server_id}/channel/${server.channel_ids[0]}`}
-                />
-            );
+        if (!client.channels.exists(id)) {
+            if (server_id) {
+                const server = client.servers.get(server_id);
+                if (server && server.channel_ids.length > 0) {
+                    return (
+                        <Redirect
+                            to={`/server/${server_id}/channel/${server.channel_ids[0]}`}
+                        />
+                    );
+                }
+            } else {
+                return <Redirect to="/" />;
+            }
+
+            return <ChannelPlaceholder />;
         }
-    }
 
-    if (!channel) return <ChannelPlaceholder />;
+        const channel = client.channels.get(id)!;
+        if (channel.channel_type === "VoiceChannel") {
+            return <VoiceChannel channel={channel} />;
+        }
 
-    if (channel.channel_type === "VoiceChannel") {
-        return <VoiceChannel channel={channel} />;
-    }
-
-    return <TextChannel channel={channel} />;
-}
+        return <TextChannel channel={channel} />;
+    },
+);
 
 const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
     const layout = useApplicationState().layout;
