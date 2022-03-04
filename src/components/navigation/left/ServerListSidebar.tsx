@@ -290,7 +290,7 @@ export default observer(() => {
                 {channels
                     .filter(
                         (x) =>
-                            (x.channel_type === "DirectMessage" ||
+                            ((x.channel_type === "DirectMessage" && x.active) ||
                                 x.channel_type === "Group") &&
                             x.unread,
                     )
