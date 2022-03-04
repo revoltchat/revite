@@ -254,7 +254,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
 
                 props.target
                     .createInvite()
-                    .then((code) => setCode(code))
+                    .then(({ _id }) => setCode(_id))
                     .catch((err) => setError(takeError(err)))
                     .finally(() => setProcessing(false));
             }, [props.target]);
