@@ -66,6 +66,7 @@ export function InputModal({
             )}
             <InputBox
                 value={value}
+                style={{ width: "100%" }}
                 onChange={(e) => setValue(e.currentTarget.value)}
             />
         </Modal>
