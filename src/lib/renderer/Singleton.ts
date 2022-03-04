@@ -222,3 +222,7 @@ export function getRenderer(channel: Channel) {
 
     return renderer;
 }
+
+export function deleteRenderer(channel_id: string) {
+    delete renderers[channel_id];
+}
