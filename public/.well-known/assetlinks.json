@@ -1,10 +1,22 @@
-[{
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-        "namespace": "android_app",
-        "package_name": "chat.revolt.app.twa",
-        "sha256_cert_fingerprints": [
-            "6E:62:C1:BF:5A:2D:11:31:A3:22:91:8D:22:2B:2C:49:D3:70:F3:A1:45:DF:11:6A:97:DC:4C:A9:3B:C3:AA:FB"
-        ]
+[
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "chat.revolt.app.twa",
+            "sha256_cert_fingerprints": [
+                "6E:62:C1:BF:5A:2D:11:31:A3:22:91:8D:22:2B:2C:49:D3:70:F3:A1:45:DF:11:6A:97:DC:4C:A9:3B:C3:AA:FB"
+            ]
+        }
+    },
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "chat.revolt.app.twa",
+            "sha256_cert_fingerprints": [
+                "2B:C7:89:87:BD:62:88:38:7B:C0:D7:5F:D1:10:F4:91:D5:24:A6:B3:25:3A:75:C2:3A:91:07:1B:63:C0:98:67"
+            ]
+        }
     }
-}]
+]
