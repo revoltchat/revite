@@ -1,5 +1,6 @@
 import macrosPlugin from "@insertish/vite-plugin-babel-macros";
 import replace from "@rollup/plugin-replace";
+import legacy from "@vitejs/plugin-legacy";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { defineConfig } from "vite";
@@ -45,6 +46,9 @@ export default defineConfig({
     plugins: [
         preact(),
         macrosPlugin(),
+        legacy({
+            targets: ["defaults", "not IE 11"],
+        }),
         VitePWA({
             srcDir: "src",
             filename: "sw.ts",
