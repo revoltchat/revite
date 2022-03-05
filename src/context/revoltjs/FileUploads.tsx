@@ -73,18 +73,25 @@ export async function uploadFile(
     return res.data.id;
 }
 
+var input: HTMLInputElement;
 export function grabFiles(
     maxFileSize: number,
     cb: (files: File[]) => void,
     tooLarge: () => void,
     multiple?: boolean,
 ) {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "*";
-    input.multiple = multiple ?? false;
+    if (input) {
+        input.remove();
+    }
 
-    input.onchange = async (e) => {
+    input = document.createElement("input");
+
+    input.accept = "*";
+    input.type = "file";
+    input.multiple = multiple ?? false;
+    input.style.display = "none";
+
+    input.addEventListener("change", async (e) => {
         const files = (e.currentTarget as HTMLInputElement)?.files;
         if (!files) return;
         for (const file of files) {
@@ -94,8 +101,11 @@ export function grabFiles(
         }
 
         cb(Array.from(files));
-    };
+    });
 
+    // iOS requires us to append the file input
+    // to DOM to allow us to add any images
+    document.body.appendChild(input);
     input.click();
 }
 
