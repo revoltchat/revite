@@ -2,7 +2,7 @@ import { Attachment as AttachmentI } from "revolt-api/types/Autumn";
 
 import styles from "./Attachment.module.scss";
 import classNames from "classnames";
-import { attachContextMenu } from "preact-context-menu";
+import { refContextMenu } from "preact-context-menu";
 import { useContext, useState } from "preact/hooks";
 
 import { AppContext } from "../../../../context/revoltjs/RevoltClient";
@@ -37,7 +37,7 @@ export default function Attachment({ attachment, hasContent }: Props) {
                 <SizedGrid
                     width={metadata.width}
                     height={metadata.height}
-                    onContextMenu={attachContextMenu("Menu", {
+                    innerRef={refContextMenu("Menu", {
                         attachment,
                     })}
                     className={classNames({

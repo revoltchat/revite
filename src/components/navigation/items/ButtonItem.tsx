@@ -7,7 +7,8 @@ import { User } from "revolt.js/dist/maps/Users";
 
 import styles from "./Item.module.scss";
 import classNames from "classnames";
-import { attachContextMenu } from "preact-context-menu";
+import { Ref } from "preact";
+import { refContextMenu } from "preact-context-menu";
 import { Localizer, Text } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
@@ -66,12 +67,14 @@ export const UserButton = observer((props: UserProps) => {
                 typeof channel !== "undefined" ||
                 (user.online && user.status?.presence !== Presence.Invisible)
             }
-            onContextMenu={attachContextMenu("Menu", {
-                user: user._id,
-                channel: channel?._id,
-                unread: alert,
-                contextualChannel: context?._id,
-            })}>
+            ref={
+                refContextMenu("Menu", {
+                    user: user._id,
+                    channel: channel?._id,
+                    unread: alert,
+                    contextualChannel: context?._id,
+                }) as Ref<HTMLDivElement>
+            }>
             <UserIcon
                 className={styles.avatar}
                 target={user}
@@ -163,10 +166,12 @@ export const ChannelButton = observer((props: ChannelProps) => {
             data-muted={muted}
             aria-label={channel.name}
             className={classNames(styles.item, { [styles.compact]: compact })}
-            onContextMenu={attachContextMenu("Menu", {
-                channel: channel._id,
-                unread: !!alert,
-            })}>
+            ref={
+                refContextMenu("Menu", {
+                    channel: channel._id,
+                    unread: !!alert,
+                }) as Ref<HTMLDivElement>
+            }>
             <ChannelIcon
                 className={styles.avatar}
                 target={channel}

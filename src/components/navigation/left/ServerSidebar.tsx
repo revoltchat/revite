@@ -3,7 +3,8 @@ import { Redirect, useParams } from "react-router";
 import { Server } from "revolt.js/dist/maps/Servers";
 import styled, { css } from "styled-components/macro";
 
-import { attachContextMenu } from "preact-context-menu";
+import { Ref } from "preact";
+import { refContextMenu } from "preact-context-menu";
 import { useEffect } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
@@ -145,9 +146,11 @@ export default observer(() => {
             <ServerHeader server={server} />
             <ConnectionStatus />
             <ServerList
-                onContextMenu={attachContextMenu("Menu", {
-                    server_list: server._id,
-                })}>
+                ref={
+                    refContextMenu("Menu", {
+                        server_list: server._id,
+                    }) as Ref<HTMLDivElement>
+                }>
                 {elements}
             </ServerList>
             <PaintCounter small />
