@@ -5,8 +5,8 @@ import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components/macro";
 
-import { attachContextMenu } from "preact-context-menu";
-import { Text } from "preact-i18n";
+import { Ref } from "preact";
+import { refContextMenu } from "preact-context-menu";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
@@ -265,7 +265,9 @@ export default observer(() => {
                     <ServerEntry home active={homeActive}>
                         <Swoosh />
                         <div
-                            onContextMenu={attachContextMenu("Status")}
+                            ref={
+                                refContextMenu("Status") as Ref<HTMLDivElement>
+                            }
                             onClick={() =>
                                 homeActive && history.push("/settings")
                             }>
@@ -301,10 +303,12 @@ export default observer(() => {
                                 <ServerEntry
                                     home
                                     active={false}
-                                    onContextMenu={attachContextMenu("Menu", {
-                                        channel: x._id,
-                                        unread: true,
-                                    })}>
+                                    ref={
+                                        refContextMenu("Menu", {
+                                            channel: x._id,
+                                            unread: true,
+                                        }) as Ref<HTMLDivElement>
+                                    }>
                                     <div>
                                         <Icon
                                             size={42}
@@ -350,10 +354,12 @@ export default observer(() => {
                             to={state.layout.getServerPath(server._id)}>
                             <ServerEntry
                                 active={active}
-                                onContextMenu={attachContextMenu("Menu", {
-                                    server: server._id,
-                                    unread: isUnread,
-                                })}>
+                                ref={
+                                    refContextMenu("Menu", {
+                                        server: server._id,
+                                        unread: isUnread,
+                                    }) as Ref<HTMLDivElement>
+                                }>
                                 <Swoosh />
                                 <Tooltip
                                     content={server.name}

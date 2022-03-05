@@ -1,7 +1,8 @@
 import { observer } from "mobx-react-lite";
 import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
 
-import { attachContextMenu } from "preact-context-menu";
+import { Ref } from "preact";
+import { refContextMenu } from "preact-context-menu";
 import { memo } from "preact/compat";
 import { useEffect, useState } from "preact/hooks";
 
@@ -64,7 +65,7 @@ const Message = observer(
         // ! TODO: tell fatal to make this type generic
         // bree: Fatal please...
         const userContext = attachContext
-            ? (attachContextMenu("Menu", {
+            ? (refContextMenu("Menu", {
                   user: message.author_id,
                   contextualChannel: message.channel_id,
                   // eslint-disable-next-line
@@ -119,13 +120,13 @@ const Message = observer(
                     sending={typeof queued !== "undefined"}
                     mention={message.mention_ids?.includes(client.user!._id)}
                     failed={typeof queued?.error !== "undefined"}
-                    onContextMenu={
+                    ref={
                         attachContext
-                            ? attachContextMenu("Menu", {
+                            ? (refContextMenu("Menu", {
                                   message,
                                   contextualChannel: message.channel_id,
                                   queued,
-                              })
+                              }) as Ref<HTMLDivElement>)
                             : undefined
                     }
                     onMouseEnter={() => setAnimate(true)}
@@ -137,7 +138,7 @@ const Message = observer(
                                 url={message.generateMasqAvatarURL()}
                                 target={user}
                                 size={36}
-                                onContextMenu={userContext}
+                                innerRef={userContext}
                                 onClick={handleUserClick}
                                 animate={mouseHovering}
                                 showServerIdentity
@@ -154,7 +155,7 @@ const Message = observer(
                                     className="author"
                                     showServerIdentity
                                     onClick={handleUserClick}
-                                    onContextMenu={userContext}
+                                    innerRef={userContext}
                                     masquerade={message.masquerade!}
                                 />
                                 <MessageDetail

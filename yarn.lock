@@ -2251,15 +2251,10 @@ camelize@^1.0.0:
   resolved "https://registry.yarnpkg.com/camelize/-/camelize-1.0.0.tgz#164a5483e630fa4321e5af07020e531831b2609b"
   integrity sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
 
-caniuse-lite@^1.0.30001251:
-  version "1.0.30001252"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001252.tgz#cb16e4e3dafe948fc4a9bb3307aea054b912019a"
-  integrity sha512-I56jhWDGMtdILQORdusxBOH+Nl/KgQSdDmpJezYddnAkVOmnoU8zwjTV9xAjMIYxr0iPreEAVylCGcmHCjfaOw==
-
-caniuse-lite@^1.0.30001286:
-  version "1.0.30001299"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001299.tgz#d753bf6444ed401eb503cbbe17aa3e1451b5a68c"
-  integrity sha512-iujN4+x7QzqA2NCSrS5VUy+4gLmRd4xv6vbBBsmfVqTx8bLAD8097euLqQgKxSVLvxjSDcvF1T/i9ocgnUFexw==
+caniuse-lite@^1.0.30001251, caniuse-lite@^1.0.30001286:
+  version "1.0.30001313"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001313.tgz"
+  integrity sha512-rI1UN0koZUiKINjysQDuRi2VeSCce3bYJNmDcj3PIKREiAmjakugBul1QSkg/fPrlULYl6oWfGg3PbgOSY9X4Q==
 
 chalk@^2.0.0, chalk@^2.4.2:
   version "2.4.2"
@@ -4004,10 +3999,10 @@ postcss@^8.3.8:
     picocolors "^1.0.0"
     source-map-js "^0.6.2"
 
-preact-context-menu@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/preact-context-menu/-/preact-context-menu-0.2.2.tgz#0092c3bbbdf7d4a958d2feecbaa47d97c3d552c8"
-  integrity sha512-qFUUa5ygjYzta6F96NCGpwmoZU+AKHg3SYb8yOCkJGzr8Dqv13P5NY7aZp6eVztxjpJCpF4ILFr1nOcPupIpYQ==
+preact-context-menu@0.3.0-patch.0:
+  version "0.3.0-patch.0"
+  resolved "https://registry.yarnpkg.com/preact-context-menu/-/preact-context-menu-0.3.0-patch.0.tgz#d24a415271d51aec2c66eae138584a9c456ee051"
+  integrity sha512-Dm5eOMb/2yn3K66xtg+k9u1SR/DgNqDbDO89ZWprqXcAa8zQmd4jgWn4mWoglVlcarBqBYcMnwoBZArzoGfqxA==
   dependencies:
     preact "^10.5.14"
 

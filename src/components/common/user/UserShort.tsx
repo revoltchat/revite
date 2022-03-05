@@ -5,6 +5,7 @@ import { User } from "revolt.js/dist/maps/Users";
 import { Nullable } from "revolt.js/dist/util/null";
 import styled from "styled-components/macro";
 
+import { Ref } from "preact";
 import { Text } from "preact-i18n";
 
 import { internalEmit } from "../../../lib/eventEmitter";
@@ -33,6 +34,8 @@ type UsernameProps = JSX.HTMLAttributes<HTMLElement> & {
     prefixAt?: boolean;
     masquerade?: Masquerade;
     showServerIdentity?: boolean | "both";
+
+    innerRef?: Ref<any>;
 };
 
 export const Username = observer(
@@ -41,6 +44,7 @@ export const Username = observer(
         prefixAt,
         masquerade,
         showServerIdentity,
+        innerRef,
         ...otherProps
     }: UsernameProps) => {
         let username = user?.username;
@@ -83,7 +87,7 @@ export const Username = observer(
         if (user?.bot) {
             return (
                 <>
-                    <span {...otherProps} style={{ color }}>
+                    <span {...otherProps} ref={innerRef} style={{ color }}>
                         {masquerade?.name ?? username ?? (
                             <Text id="app.main.channel.unknown_user" />
                         )}
@@ -96,7 +100,7 @@ export const Username = observer(
         }
 
         return (
-            <span {...otherProps} style={{ color }}>
+            <span {...otherProps} ref={innerRef} style={{ color }}>
                 {prefixAt ? "@" : undefined}
                 {masquerade?.name ?? username ?? (
                     <Text id="app.main.channel.unknown_user" />

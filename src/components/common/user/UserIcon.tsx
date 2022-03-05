@@ -70,6 +70,7 @@ export default observer(
             hover,
             showServerIdentity,
             masquerade,
+            innerRef,
             ...svgProps
         } = props;
 
@@ -103,6 +104,7 @@ export default observer(
         return (
             <IconBase
                 {...svgProps}
+                ref={innerRef}
                 width={size}
                 height={size}
                 hover={hover}
