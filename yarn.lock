@@ -3999,10 +3999,10 @@ postcss@^8.3.8:
     picocolors "^1.0.0"
     source-map-js "^0.6.2"
 
-preact-context-menu@0.3.0-patch.1:
-  version "0.3.0-patch.1"
-  resolved "https://registry.yarnpkg.com/preact-context-menu/-/preact-context-menu-0.3.0-patch.1.tgz#0dcaa794f30f83bf1e1a94e93403dc1cf80fe2ec"
-  integrity sha512-K/Fe7/F2fZmuPw9farSyd/IDu0+ScM2fvopRHk681mMlVKBRVHRwJQWyDL1hEY3E7uTe7TwyyU09knsfu48ycw==
+preact-context-menu@0.4.0-patch.0:
+  version "0.4.0-patch.0"
+  resolved "https://registry.yarnpkg.com/preact-context-menu/-/preact-context-menu-0.4.0-patch.0.tgz#6a4da06b2e304e7a1cb6e940bad7e15a428ff18c"
+  integrity sha512-eYR4xjvZVlw2HZmPFZHi+PehCldUupsIZXYHkpc96Se9Y4QwkBkHs7YFy2PqTbWXAJwaDFdX+OA0VzXUtVXlyg==
   dependencies:
     preact "^10.5.14"
 

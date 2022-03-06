@@ -8,9 +8,8 @@ import { User } from "revolt.js/dist/maps/Users";
 import styles from "./Friend.module.scss";
 import classNames from "classnames";
 import { Ref } from "preact";
-import { refContextMenu } from "preact-context-menu";
+import { useTriggerEvents } from "preact-context-menu";
 import { Text } from "preact-i18n";
-import { useContext } from "preact/hooks";
 
 import { stopPropagation } from "../../lib/stopPropagation";
 import { voiceState } from "../../lib/vortex/VoiceState";
@@ -133,11 +132,9 @@ export const Friend = observer(({ user }: Props) => {
         <div
             className={styles.friend}
             onClick={() => openScreen({ id: "profile", user_id: user._id })}
-            ref={
-                refContextMenu("Menu", {
-                    user: user._id,
-                }) as Ref<HTMLDivElement>
-            }>
+            {...useTriggerEvents("Menu", {
+                user: user._id,
+            })}>
             <UserIcon target={user} size={36} status />
             <div className={styles.name}>
                 <span>{user.username}</span>

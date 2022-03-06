@@ -6,7 +6,7 @@ import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components/macro";
 
 import { Ref } from "preact";
-import { refContextMenu } from "preact-context-menu";
+import { useTriggerEvents } from "preact-context-menu";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
@@ -265,9 +265,7 @@ export default observer(() => {
                     <ServerEntry home active={homeActive}>
                         <Swoosh />
                         <div
-                            ref={
-                                refContextMenu("Status") as Ref<HTMLDivElement>
-                            }
+                            {...useTriggerEvents("Status")}
                             onClick={() =>
                                 homeActive && history.push("/settings")
                             }>
@@ -303,12 +301,10 @@ export default observer(() => {
                                 <ServerEntry
                                     home
                                     active={false}
-                                    ref={
-                                        refContextMenu("Menu", {
-                                            channel: x._id,
-                                            unread: true,
-                                        }) as Ref<HTMLDivElement>
-                                    }>
+                                    {...useTriggerEvents("Menu", {
+                                        channel: x._id,
+                                        unread: true,
+                                    })}>
                                     <div>
                                         <Icon
                                             size={42}
@@ -354,12 +350,10 @@ export default observer(() => {
                             to={state.layout.getServerPath(server._id)}>
                             <ServerEntry
                                 active={active}
-                                ref={
-                                    refContextMenu("Menu", {
-                                        server: server._id,
-                                        unread: isUnread,
-                                    }) as Ref<HTMLDivElement>
-                                }>
+                                {...useTriggerEvents("Menu", {
+                                    server: server._id,
+                                    unread: isUnread,
+                                })}>
                                 <Swoosh />
                                 <Tooltip
                                     content={server.name}
