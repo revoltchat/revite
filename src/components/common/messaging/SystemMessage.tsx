@@ -15,8 +15,7 @@ import { SystemMessage as SystemMessageI } from "revolt-api/types/Channels";
 import { Message } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components/macro";
 
-import { Ref } from "preact";
-import { refContextMenu } from "preact-context-menu";
+import { useTriggerEvents } from "preact-context-menu";
 
 import { TextReact } from "../../../lib/i18n";
 
@@ -139,14 +138,12 @@ export const SystemMessage = observer(
         return (
             <MessageBase
                 highlight={highlight}
-                ref={
-                    attachContext
-                        ? (refContextMenu("Menu", {
-                              message,
-                              contextualChannel: message.channel,
-                          }) as Ref<HTMLDivElement>)
-                        : undefined
-                }>
+                {...(attachContext
+                    ? useTriggerEvents("Menu", {
+                          message,
+                          contextualChannel: message.channel,
+                      })
+                    : undefined)}>
                 {!hideInfo && (
                     <MessageInfo click={false}>
                         <MessageDetail message={message} position="left" />

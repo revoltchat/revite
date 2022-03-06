@@ -4,7 +4,7 @@ import { Server } from "revolt.js/dist/maps/Servers";
 import styled, { css } from "styled-components/macro";
 
 import { Ref } from "preact";
-import { refContextMenu } from "preact-context-menu";
+import { useTriggerEvents } from "preact-context-menu";
 import { useEffect } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
@@ -49,10 +49,6 @@ const ServerList = styled.div`
         width: 100%;
     }
 `;
-
-interface Props {
-    server: Server;
-}
 
 export default observer(() => {
     const client = useClient();
@@ -146,11 +142,9 @@ export default observer(() => {
             <ServerHeader server={server} />
             <ConnectionStatus />
             <ServerList
-                ref={
-                    refContextMenu("Menu", {
-                        server_list: server._id,
-                    }) as Ref<HTMLDivElement>
-                }>
+                {...useTriggerEvents("Menu", {
+                    server_list: server._id,
+                })}>
                 {elements}
             </ServerList>
             <PaintCounter small />
