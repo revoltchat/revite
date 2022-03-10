@@ -130,6 +130,9 @@ const FileAction = styled.div`
 // For sed replacement
 const RE_SED = new RegExp("^s/([^])*/([^])*$");
 
+// Tests for code block delimiters (``` at start of line)
+const RE_CODE_DELIMITER = new RegExp("^```", "gm");
+
 // ! FIXME: add to app config and load from app config
 export const CAN_UPLOAD_AT_ONCE = 5;
 
@@ -415,6 +418,21 @@ export default observer(({ channel }: Props) => {
         }
     }
 
+    function isInCodeBlock(cursor: number): boolean {
+        const content = state.draft.get(channel._id) || "";
+        const contentBeforeCursor = content.substring(0, cursor);
+
+        let delimiterCount = 0;
+        for (const delimiter of contentBeforeCursor.matchAll(
+            RE_CODE_DELIMITER,
+        )) {
+            delimiterCount++;
+        }
+
+        // Odd number of ``` delimiters before cursor => we are in code block
+        return delimiterCount % 2 === 1;
+    }
+
     // TODO: change to useDebounceCallback
     // eslint-disable-next-line
     const debouncedStopTyping = useCallback(
@@ -543,7 +561,8 @@ export default observer(({ channel }: Props) => {
                             !e.shiftKey &&
                             !e.isComposing &&
                             e.key === "Enter" &&
-                            !isTouchscreenDevice
+                            !isTouchscreenDevice &&
+                            !isInCodeBlock(e.currentTarget.selectionStart)
                         ) {
                             e.preventDefault();
                             return send();
