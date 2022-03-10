@@ -67,6 +67,7 @@ export enum Language {
     UKRANIAN = "uk",
     VIETNAMESE = "vi",
     CHINESE_SIMPLIFIED = "zh_Hans",
+    LATVIAN = "lv",
 
     TOKIPONA = "tokipona",
     ESPERANTO = "esperanto",
@@ -157,6 +158,7 @@ export const Languages: { [key in Language]: LanguageEntry } = {
         i18n: "zh_Hans",
         dayjs: "zh",
     },
+    lv: { display: "Latviešu", emoji: "🇱🇻", i18n: "lv" },
 
     tokipona: {
         display: "Toki Pona",
