@@ -7,7 +7,8 @@ import { User } from "revolt.js/dist/maps/Users";
 
 import styles from "./Item.module.scss";
 import classNames from "classnames";
-import { attachContextMenu } from "preact-context-menu";
+import { Ref } from "preact";
+import { useTriggerEvents } from "preact-context-menu";
 import { Localizer, Text } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
@@ -66,7 +67,7 @@ export const UserButton = observer((props: UserProps) => {
                 typeof channel !== "undefined" ||
                 (user.online && user.status?.presence !== Presence.Invisible)
             }
-            onContextMenu={attachContextMenu("Menu", {
+            {...useTriggerEvents("Menu", {
                 user: user._id,
                 channel: channel?._id,
                 unread: alert,
@@ -162,7 +163,7 @@ export const ChannelButton = observer((props: ChannelProps) => {
             data-muted={muted}
             aria-label={channel.name}
             className={classNames(styles.item, { [styles.compact]: compact })}
-            onContextMenu={attachContextMenu("Menu", {
+            {...useTriggerEvents("Menu", {
                 channel: channel._id,
                 unread: !!alert,
             })}

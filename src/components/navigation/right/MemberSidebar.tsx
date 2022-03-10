@@ -215,12 +215,12 @@ export const ServerMemberSidebar = observer(
         useEffect(() => {
             const server_id = channel.server_id!;
             if (status === ClientStatus.ONLINE && !FETCHED.has(server_id)) {
+                FETCHED.add(server_id);
                 channel
                     .server!.syncMembers(shouldSkipOffline(server_id))
-                    .then(() => FETCHED.add(server_id));
+                    .catch(() => FETCHED.delete(server_id));
             }
-            // eslint-disable-next-line
-        }, [status, channel.server_id]);
+        }, [status, channel]);
 
         const entries = useEntries(
             channel,

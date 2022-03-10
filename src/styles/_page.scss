@@ -5,6 +5,8 @@
 
     box-sizing: border-box;
     scrollbar-width: var(--scrollbar-thickness-ff);
+
+    -webkit-touch-callout: none;
 }
 
 html {

@@ -1,6 +1,8 @@
 import { Attachment } from "revolt-api/types/Autumn";
 import styled, { css } from "styled-components/macro";
 
+import { Ref } from "preact";
+
 export interface IconBaseProps<T> {
     target?: T;
     url?: string;
@@ -9,6 +11,8 @@ export interface IconBaseProps<T> {
     size: number;
     hover?: boolean;
     animate?: boolean;
+
+    innerRef?: Ref<any>;
 }
 
 interface IconModifiers {

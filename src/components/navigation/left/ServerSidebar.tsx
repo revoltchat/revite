@@ -3,7 +3,8 @@ import { Redirect, useParams } from "react-router";
 import { Server } from "revolt.js/dist/maps/Servers";
 import styled, { css } from "styled-components/macro";
 
-import { attachContextMenu } from "preact-context-menu";
+import { Ref } from "preact";
+import { useTriggerEvents } from "preact-context-menu";
 import { useEffect } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
@@ -51,10 +52,6 @@ const ServerList = styled.div.attrs({
         width: 100%;
     }
 `;
-
-interface Props {
-    server: Server;
-}
 
 export default observer(() => {
     const client = useClient();
@@ -154,7 +151,7 @@ export default observer(() => {
             <ConnectionStatus />
             <ServerList
                 id="channelList"
-                onContextMenu={attachContextMenu("Menu", {
+                {...useTriggerEvents("Menu", {
                     server_list: server._id,
                 })}>
                 {elements}

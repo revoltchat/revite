@@ -29,7 +29,7 @@ interface Props {
 }
 
 const Base = styled.div`
-    @keyframes bounce-from-bottom {
+    @keyframes bottomBounce {
         0% {
             transform: translateY(33px);
         }
@@ -43,16 +43,8 @@ const Base = styled.div`
     padding: 0 20px;
     user-select: none;
     align-items: center;
-    /*background: var(--message-box);*/
     background: var(--secondary-background);
-
-    /*animation: fadeIn 5s;*/
-
-    animation-name: bounce-from-bottom;
-    animation-duration: 340ms;
-    animation-delay: 0ms;
-    animation-timing-function: cubic-bezier(0.2, 0.9, 0.5, 1.16);
-    animation-fill-mode: forwards;
+    animation: bottomBounce 340ms cubic-bezier(0.2, 0.9, 0.5, 1.16) forwards;
 
     > div {
         flex-grow: 1;
