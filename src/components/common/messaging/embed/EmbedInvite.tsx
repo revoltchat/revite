@@ -194,7 +194,7 @@ const INVITE_PATHS = [
     "app.revolt.chat/invite",
     "nightly.revolt.chat/invite",
     "local.revolt.chat/invite",
-    "rvlt.gg",
+    "(?<!wiki.)rvlt.gg",
 ];
 
 const RE_INVITE = new RegExp(
