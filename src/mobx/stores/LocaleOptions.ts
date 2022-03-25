@@ -1,7 +1,6 @@
 import { action, computed, makeAutoObservable } from "mobx";
 
-import { Language, Languages } from "../../context/Locale";
-
+import { Languages, Language } from "../../../external/lang/Languages";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 import Syncable from "../interfaces/Syncable";
