@@ -1,8 +1,8 @@
 import { useApplicationState } from "../../mobx/State";
 
-import { Language, Languages } from "../../context/Locale";
-
 import ComboBox from "../ui/ComboBox";
+
+import { Language, Languages } from "../../../external/lang/Languages";
 
 /**
  * Component providing a language selector combobox.

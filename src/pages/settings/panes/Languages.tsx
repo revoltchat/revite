@@ -6,12 +6,6 @@ import { useMemo } from "preact/hooks";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import {
-    Language,
-    LanguageEntry,
-    Languages as Langs,
-} from "../../../context/Locale";
-
 import Emoji from "../../../components/common/Emoji";
 import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
@@ -19,6 +13,12 @@ import enchantingTableWEBP from "../assets/enchanting_table.webp";
 import esperantoFlagSVG from "../assets/esperanto.svg";
 import tamilFlagPNG from "../assets/tamil_nadu_flag.png";
 import tokiponaSVG from "../assets/toki_pona.svg";
+
+import {
+    Language,
+    LanguageEntry,
+    Languages as Langs,
+} from "../../../../external/lang/Languages";
 
 type Key = [Language, LanguageEntry];
 
