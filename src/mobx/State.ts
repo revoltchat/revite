@@ -17,6 +17,7 @@ import Layout from "./stores/Layout";
 import LocaleOptions from "./stores/LocaleOptions";
 import MessageQueue from "./stores/MessageQueue";
 import NotificationOptions from "./stores/NotificationOptions";
+import Plugins from "./stores/Plugins";
 import ServerConfig from "./stores/ServerConfig";
 import Settings from "./stores/Settings";
 import Sync, { Data as DataSync, SyncKeys } from "./stores/Sync";
@@ -39,9 +40,12 @@ export default class State {
     queue: MessageQueue;
     settings: Settings;
     sync: Sync;
+    plugins: Plugins;
 
     private persistent: [string, Persistent<unknown>][] = [];
     private disabled: Set<string> = new Set();
+
+    client?: Client;
 
     /**
      * Construct new State.
@@ -57,6 +61,7 @@ export default class State {
         this.queue = new MessageQueue();
         this.settings = new Settings();
         this.sync = new Sync(this);
+        this.plugins = new Plugins(this);
 
         makeAutoObservable(this);
         this.register();
@@ -118,6 +123,11 @@ export default class State {
      * @returns Function to dispose of listeners
      */
     registerListeners(client?: Client) {
+        if (client) {
+            this.client = client;
+            this.plugins.onClient(client);
+        }
+
         const listeners = this.persistent.map(([id, store]) => {
             return reaction(
                 () => stringify(store.toJSON()),
@@ -191,7 +201,10 @@ export default class State {
             );
         });
 
-        return () => listeners.forEach((x) => x());
+        return () => {
+            delete this.client;
+            listeners.forEach((x) => x());
+        };
     }
 
     /**
@@ -228,6 +241,9 @@ export default class State {
 
         // Dump stores back to disk.
         await this.save();
+
+        // Post-hydration, init plugins.
+        this.plugins.init();
     }
 }
 

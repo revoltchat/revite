@@ -10,12 +10,16 @@ import Store from "../interfaces/Store";
 /**
  * Union type of available experiments.
  */
-export type Experiment = "dummy" | "offline_users";
+export type Experiment = "dummy" | "offline_users" | "plugins";
 
 /**
  * Currently active experiments.
  */
-export const AVAILABLE_EXPERIMENTS: Experiment[] = ["dummy", "offline_users"];
+export const AVAILABLE_EXPERIMENTS: Experiment[] = [
+    "dummy",
+    "offline_users",
+    "plugins",
+];
 
 /**
  * Definitions for experiments listed by {@link Experiment}.
@@ -31,6 +35,11 @@ export const EXPERIMENTS: {
         title: "Re-enable offline users in large servers (>10k members)",
         description:
             "If you can take the performance hit (for example, you're on desktop), you can re-enable offline users for big servers such as Revolt Lounge.",
+    },
+    plugins: {
+        title: "Experimental Plugin API",
+        description:
+            "This will enable the experimental plugin API. Only touch this if you know what you're doing.",
     },
 };
 
