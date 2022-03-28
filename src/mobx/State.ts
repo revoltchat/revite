@@ -66,6 +66,8 @@ export default class State {
         makeAutoObservable(this);
         this.register();
         this.setDisabled = this.setDisabled.bind(this);
+
+        this.client = undefined;
     }
 
     /**
@@ -202,7 +204,17 @@ export default class State {
         });
 
         return () => {
-            delete this.client;
+            // ! FIXME: quick fix
+            try {
+                try {
+                    this.client = undefined;
+                } catch (err) {
+                    reportError(err as any, "state_L207");
+                }
+            } catch (err) {
+                /** just for good measure */
+            }
+
             listeners.forEach((x) => x());
         };
     }
