@@ -88,10 +88,11 @@ function PluginCard({ plugin }: CardProps) {
                 </div>
                 <div className={styles.buttonRow}>
                     <Button
+                        error
                         onClick={() =>
                             plugins.remove(plugin.namespace, plugin.id)
                         }>
-                        <p>Delete</p>
+                        <Text id="app.settings.pages.plugins.delete_plugin" />
                     </Button>
                 </div>
             </div>
@@ -104,7 +105,7 @@ export const PluginsPage = observer(() => {
     return (
         <div className={styles.plugins}>
             <Tip error hideSeparator>
-                Warning: This feature is still in development.
+                <Text id="app.settings.pages.plugins.wip" />
             </Tip>
             {plugins.list().map((plugin) => {
                 return <PluginCard key={plugin.id} plugin={plugin} />;
