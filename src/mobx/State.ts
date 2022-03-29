@@ -63,7 +63,10 @@ export default class State {
         this.sync = new Sync(this);
         this.plugins = new Plugins(this);
 
-        makeAutoObservable(this);
+        makeAutoObservable(this, {
+            client: false,
+        });
+
         this.register();
         this.setDisabled = this.setDisabled.bind(this);
 
@@ -75,6 +78,10 @@ export default class State {
      */
     private register() {
         for (const key of Object.keys(this)) {
+            // Skip `client`.
+            if (key === "client") continue;
+
+            // Pull out the relevant object.
             const obj = (
                 this as unknown as Record<string, Record<string, unknown>>
             )[key];
@@ -125,20 +132,26 @@ export default class State {
      * @returns Function to dispose of listeners
      */
     registerListeners(client?: Client) {
+        // If a client is present currently, expose it and provide it to plugins.
         if (client) {
             this.client = client;
             this.plugins.onClient(client);
         }
 
+        // Register all the listeners required for saving and syncing state.
         const listeners = this.persistent.map(([id, store]) => {
             return reaction(
                 () => stringify(store.toJSON()),
                 async (value) => {
                     try {
+                        // Save updated store to local storage.
                         await localforage.setItem(id, JSON.parse(value));
+
+                        // Skip if meta store or client not available.
                         if (id === "sync") return;
                         if (!client) return;
 
+                        // Generate a new revision and upload changes.
                         const revision = +new Date();
                         switch (id) {
                             case "settings": {
@@ -204,17 +217,10 @@ export default class State {
         });
 
         return () => {
-            // ! FIXME: quick fix
-            try {
-                try {
-                    this.client = undefined;
-                } catch (err) {
-                    reportError(err as any, "state_L207");
-                }
-            } catch (err) {
-                /** just for good measure */
-            }
+            // Stop exposing the client.
+            this.client = undefined;
 
+            // Wipe all listeners.
             listeners.forEach((x) => x());
         };
     }
