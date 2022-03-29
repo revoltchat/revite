@@ -3,7 +3,7 @@ import styled, { css } from "styled-components/macro";
 
 import { Children } from "../../types/Preact";
 
-const CheckboxBase = styled.label`
+export const CheckboxBase = styled.label`
     gap: 4px;
     z-index: 1;
     display: flex;
@@ -52,7 +52,7 @@ const CheckboxDescription = styled.span`
     color: var(--secondary-foreground);
 `;
 
-const Checkmark = styled.div<{ checked: boolean; contrast?: boolean }>`
+export const Checkmark = styled.div<{ checked: boolean; contrast?: boolean }>`
     margin: 4px;
     width: 24px;
     height: 24px;
