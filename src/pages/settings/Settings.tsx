@@ -166,8 +166,7 @@ export default observer(() => {
                 {
                     id: "plugins",
                     icon: <Plug size={20} />,
-                    // TODO(lexisother): Replace this with the actual i18n <Text />
-                    title: <p>Plugins</p>,
+                    title: <Text id="app.settings.pages.plugins.title" />,
                     hidden: !experiments.isEnabled("plugins"),
                 },
                 {
