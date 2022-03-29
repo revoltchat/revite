@@ -1,4 +1,4 @@
-image: node:14-buster
+image: node:16-buster
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
