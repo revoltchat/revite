@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 
 import styles from "./Panes.module.scss";
+import { Text } from "preact-i18n";
 
 import { useApplicationState } from "../../../mobx/State";
 
@@ -11,12 +12,11 @@ export const PluginsPage = observer(() => {
     const plugins = useApplicationState().plugins;
     return (
         <div className={styles.plugins}>
-            {/* TODO(lexisother): Wrap in <h3><Text /></h3> */}
-            <h1>Plugins</h1>
             <Tip error hideSeparator>
                 Warning: This feature is still in development.
             </Tip>
             {plugins.list().map((plugin) => {
+                // TODO(lexisother): Stop using Checkbox, write a custom component
                 return (
                     <Checkbox
                         key={plugin.id}
@@ -31,6 +31,12 @@ export const PluginsPage = observer(() => {
                     </Checkbox>
                 );
             })}
+
+            {plugins.list().length === 0 && (
+                <div className={styles.empty}>
+                    <Text id="app.settings.pages.plugins.no_plugins" />
+                </div>
+            )}
         </div>
     );
 });

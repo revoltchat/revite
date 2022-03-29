@@ -532,6 +532,13 @@
     h1 {
         margin-bottom: 20px !important;
     }
+
+    .empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1rem;
+    }
 }
 
 .myBots {
