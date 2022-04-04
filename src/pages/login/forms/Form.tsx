@@ -146,10 +146,10 @@ export const Form = observer(({ page, callback }: Props) => {
             <div className={styles.welcome}>
                 <div className={styles.title}>
                     <img src={WaveSVG} draggable={false} />
-                    <Text id="login.welcome" />
+                    <Text id={page === "create" ? "login.welcome2" : "login.welcome"}/>
                 </div>
                 <div className={styles.subtitle}>
-                    <Text id="login.subtitle" />
+                    <Text id={page === "create" ? "login.subtitle2" : "login.subtitle"}/>
                     <div>(app.revolt.chat)</div>
                 </div>
             </div>
