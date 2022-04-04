@@ -9,7 +9,8 @@ import { InputModal } from "./modals/Input";
 import { OnboardingModal } from "./modals/Onboarding";
 import { PromptModal } from "./modals/Prompt";
 import { SignedOutModal } from "./modals/SignedOut";
-import {ExternalLinkModal} from "./modals/ExternalLinkPrompt";
+import { ExternalLinkModal } from "./modals/ExternalLinkPrompt";
+import { SessionsModal } from "./modals/SessionsPrompt";
 import { TokenRevealModal } from "./modals/TokenReveal";
 
 export interface Props {
@@ -40,6 +41,8 @@ export default function Modals({ screen, openScreen }: Props) {
             return <OnboardingModal onClose={onClose} {...screen} />;
         case "external_link_prompt":
             return <ExternalLinkModal onClose={onClose} {...screen} />;
+        case "sessions":
+            return <SessionsModal onClose={onClose} {...screen} />;
     }
 
     return null;

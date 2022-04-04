@@ -20,6 +20,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 
 import { dayjs } from "../../../context/Locale";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import Button from "../../../components/ui/Button";
 import Preloader from "../../../components/ui/Preloader";
@@ -32,6 +33,8 @@ export function Sessions() {
     const client = useContext(AppContext);
     const deviceId =
         typeof client.session === "object" ? client.session._id : undefined;
+
+    const { confirmSessionsDelete } = useIntermediate();
 
     const [sessions, setSessions] = useState<SessionInfo[] | undefined>(
         undefined,
@@ -210,25 +213,27 @@ export function Sessions() {
             })}
             <hr />
             <CategoryButton
-                onClick={async () => {
-                    // ! FIXME: add to rAuth
-                    const del: string[] = [];
-                    render.forEach((session) => {
-                        if (deviceId !== session._id) {
-                            del.push(session._id);
+                onClick={() => {
+                    confirmSessionsDelete(async () => {
+                        // ! FIXME: add to rAuth 
+                        const del: string[] = [];
+                        render.forEach((session) => {
+                            if (deviceId !== session._id) {
+                                del.push(session._id);
+                            }
+                        });
+    
+                        setDelete(del);
+    
+                        for (const id of del) {
+                            await client.req(
+                                "DELETE",
+                                `/auth/session/${id}` as "/auth/session/id",
+                            );
                         }
-                    });
-
-                    setDelete(del);
-
-                    for (const id of del) {
-                        await client.req(
-                            "DELETE",
-                            `/auth/session/${id}` as "/auth/session/id",
-                        );
-                    }
-
-                    setSessions(sessions.filter((x) => x._id === deviceId));
+    
+                        setSessions(sessions.filter((x) => x._id === deviceId));
+                    })
                 }}
                 icon={<LogOut size={24} color={"var(--error)"} />}
                 action={"chevron"}
