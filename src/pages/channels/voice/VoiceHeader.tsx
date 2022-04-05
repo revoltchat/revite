@@ -56,11 +56,14 @@ const VoiceBase = styled.div`
     display: flex;
     flex-direction: column;
 
+    overflow-y: scroll;
+
     .participants {
         margin: 40px 20px;
         justify-content: center;
         user-select: none;
         display: flex;
+        flex-flow: row wrap;
         gap: 16px;
 
         div:hover img {
