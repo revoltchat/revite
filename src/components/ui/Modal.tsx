@@ -104,6 +104,11 @@ const ModalContent = styled.div<
         }
     }
 
+    .description {
+        color: var(--tertiary-foreground);
+        font-size: 90%;
+    }
+
     ${(props) =>
         !props.noBackground &&
         css`
@@ -174,6 +179,7 @@ export default function Modal(props: Props) {
             border={props.border}
             padding={props.padding ?? !props.dontModal}>
             {props.title && <h3>{props.title}</h3>}
+
             {props.description && <h5>{props.description}</h5>}
             {props.children}
         </ModalContent>
