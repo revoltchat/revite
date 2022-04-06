@@ -31,7 +31,6 @@ export type Screen =
     | { id: "clipboard"; text: string }
     | { id: "token_reveal"; token: string; username: string }
     | { id: "external_link_prompt"; link: string }
-    | { id: "sessions", confirmDelete: () => void }
     | {
           id: "_prompt";
           question: Children;
@@ -119,12 +118,10 @@ export const IntermediateContext = createContext({
 
 export const IntermediateActionsContext = createContext<{
     openLink: (href?: string, trusted?: boolean) => boolean;
-    confirmSessionsDelete: (confirmDelete: () => void) => void;
     openScreen: (screen: Screen) => void;
     writeClipboard: (text: string) => void;
 }>({
     openLink: null!,
-    confirmSessionsDelete: null!,
     openScreen: null!,
     writeClipboard: null!,
 });
@@ -176,10 +173,6 @@ export default function Intermediate(props: Props) {
 
                 return true;
             },
-            confirmSessionsDelete: (confirmDelete: () => void) => openScreen({
-                id: "sessions",
-                confirmDelete: confirmDelete
-            }),
             openScreen: (screen: Screen) => openScreen(screen),
             writeClipboard: (text: string) => {
                 if (navigator.clipboard) {
