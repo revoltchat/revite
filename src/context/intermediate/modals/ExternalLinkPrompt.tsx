@@ -1,5 +1,7 @@
 import { Text } from "preact-i18n";
 
+import { useTranslation } from "../../../lib/i18n";
+
 import { useApplicationState } from "../../../mobx/State";
 
 import Modal from "../../../components/ui/Modal";
@@ -14,6 +16,7 @@ interface Props {
 export function ExternalLinkModal({ onClose, link }: Props) {
     const { openLink } = useIntermediate();
     const settings = useApplicationState().settings;
+    const translate = useTranslation();
 
     return (
         <Modal
@@ -29,12 +32,12 @@ export function ExternalLinkModal({ onClose, link }: Props) {
                     confirmation: true,
                     contrast: true,
                     accent: true,
-                    children: "Continue",
+                    children: translate("app.special.modals.actions.continue"),
                 },
                 {
                     onClick: onClose,
                     confirmation: false,
-                    children: "Cancel",
+                    children: translate("app.special.modals.actions.cancel"),
                 },
                 {
                     onClick: () => {

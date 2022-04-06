@@ -6,6 +6,7 @@ import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
+import { useTranslation } from "../../../lib/i18n";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 
@@ -34,6 +35,7 @@ export default observer(({ channel }: Props) => {
     const [name, setName] = useState(channel.name ?? undefined);
     const [description, setDescription] = useState(channel.description ?? "");
     const [nsfw, setNSFW] = useState(channel.nsfw ?? false);
+    const translate = useTranslation();
 
     useEffect(() => setName(channel.name ?? undefined), [channel.name]);
     useEffect(
@@ -108,7 +110,9 @@ export default observer(({ channel }: Props) => {
                 minHeight={60}
                 maxLength={1024}
                 value={description}
-                placeholder={"Add a description..."}
+                placeholder={translate(
+                    "app.settings.channel_pages.overview.add_description",
+                )}
                 onChange={(ev) => {
                     setDescription(ev.currentTarget.value);
                     if (!changed) setChanged(true);
@@ -124,7 +128,9 @@ export default observer(({ channel }: Props) => {
                         setNSFW(nsfwchange);
                         if (!changed) setChanged(true);
                     }}
-                    description="Set this channel to NSFW.">
+                    description={translate(
+                        "app.settings.channel_pages.overview.mark_as_nsfw",
+                    )}>
                     NSFW
                 </Checkbox>
             )}

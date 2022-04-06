@@ -12,6 +12,7 @@ import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components";
 
 import { openContextMenu } from "preact-context-menu";
+import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import { internalEmit } from "../../../../lib/eventEmitter";
@@ -109,14 +110,16 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
 
     return (
         <OverlayBar>
-            <Tooltip content="Reply">
+            <Tooltip
+                content={<Text id="app.context_menu.reply_message"></Text>}>
                 <Entry onClick={() => internalEmit("ReplyBar", "add", message)}>
                     <Share size={18} />
                 </Entry>
             </Tooltip>
 
             {isAuthor && (
-                <Tooltip content="Edit">
+                <Tooltip
+                    content={<Text id="app.context_menu.edit_message"></Text>}>
                     <Entry
                         onClick={() =>
                             internalEmit(
@@ -133,7 +136,10 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
             (message.channel &&
                 message.channel.permission &
                     ChannelPermission.ManageMessages) ? (
-                <Tooltip content="Delete">
+                <Tooltip
+                    content={
+                        <Text id="app.context_menu.delete_message"></Text>
+                    }>
                     <Entry
                         onClick={(e) =>
                             e.shiftKey
@@ -148,7 +154,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                     </Entry>
                 </Tooltip>
             ) : undefined}
-            <Tooltip content="More">
+            <Tooltip content={<Text id="app.context_menu.more"></Text>}>
                 <Entry
                     onClick={() =>
                         openContextMenu("Menu", {
@@ -163,7 +169,10 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
             {extraActions && (
                 <>
                     <Divider />
-                    <Tooltip content="Mark as Unread">
+                    <Tooltip
+                        content={
+                            <Text id="app.context_menu.mark_unread"></Text>
+                        }>
                         <Entry
                             onClick={() => {
                                 // ! FIXME: deduplicate this code with ctx menu
@@ -186,7 +195,13 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                         </Entry>
                     </Tooltip>
                     <Tooltip
-                        content={copied === "link" ? "Copied!" : "Copy Link"}
+                        content={
+                            copied === "link" ? (
+                                <Text id="general.copied"></Text>
+                            ) : (
+                                <Text id="app.context_menu.copy_link"></Text>
+                            )
+                        }
                         hideOnClick={false}>
                         <Entry
                             onClick={() => {
@@ -197,7 +212,13 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                         </Entry>
                     </Tooltip>
                     <Tooltip
-                        content={copied === "id" ? "Copied!" : "Copy ID"}
+                        content={
+                            copied === "id" ? (
+                                <Text id="general.copied"></Text>
+                            ) : (
+                                <Text id="app.context_menu.copy_id"></Text>
+                            )
+                        }
                         hideOnClick={false}>
                         <Entry
                             onClick={() => {

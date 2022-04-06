@@ -8,6 +8,7 @@ import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
+import { useTranslation } from "../../../lib/i18n";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { getChannelName } from "../../../context/revoltjs/util";
@@ -26,6 +27,7 @@ export const Overview = observer(({ server }: Props) => {
     const [systemMessages, setSystemMessages] = useState(
         server.system_messages,
     );
+    const translate = useTranslation();
 
     useEffect(() => setName(server.name), [server.name]);
     useEffect(
@@ -88,7 +90,9 @@ export const Overview = observer(({ server }: Props) => {
                 minHeight={120}
                 maxLength={1024}
                 value={description}
-                placeholder={"Add a topic..."}
+                placeholder={translate(
+                    "app.settings.server_pages.overview.add_topic",
+                )}
                 onChange={(ev) => {
                     setDescription(ev.currentTarget.value);
                     if (!changed) setChanged(true);
@@ -97,14 +101,13 @@ export const Overview = observer(({ server }: Props) => {
             <div className={styles.markdown}>
                 <Markdown size="24" />
                 <h5>
-                    Descriptions support Markdown formatting,{" "}
+                    <Text id="general.markdown_tip.a" />{" "}
                     <a
                         href="https://developers.revolt.chat/markdown"
                         target="_blank"
                         rel="noreferrer">
-                        learn more here
+                        <Text id="general.markdown_tip.b" />
                     </a>
-                    .
                 </h5>
             </div>
             <hr />
@@ -126,10 +129,19 @@ export const Overview = observer(({ server }: Props) => {
                 <Text id="app.settings.server_pages.overview.system_messages" />
             </h3>
             {[
-                ["User Joined", "user_joined"],
-                ["User Left", "user_left"],
-                ["User Kicked", "user_kicked"],
-                ["User Banned", "user_banned"],
+                [
+                    translate("general.system_messages.user_joined"),
+                    "user_joined",
+                ],
+                [translate("general.system_messages.user_left"), "user_left"],
+                [
+                    translate("general.system_messages.user_kicked"),
+                    "user_kicked",
+                ],
+                [
+                    translate("general.system_messages.user_banned"),
+                    "user_banned",
+                ],
             ].map(([i18n, key]) => (
                 // ! FIXME: temporary code just so we can expose the options
                 <p

@@ -1,5 +1,6 @@
 import { Refresh } from "@styled-icons/boxicons-regular";
 
+import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import Button from "../../../components/ui/Button";
@@ -26,8 +27,12 @@ export function Native() {
 
     return (
         <div style={{ marginTop: "10px" }}>
-            <Tip hideSeparator>Some options might require a restart.</Tip>
-            <h3>App Behavior</h3>
+            <Tip hideSeparator>
+                <Text id="app.settings.pages.native.description"></Text>
+            </Tip>
+            <h3>
+                <Text id="app.settings.pages.native.app_behavior"></Text>
+            </h3>
             <Checkbox
                 checked={autoStart ?? false}
                 disabled={typeof autoStart === "undefined"}
@@ -40,8 +45,10 @@ export function Native() {
 
                     setAutoStart(v);
                 }}
-                description="Launch Revolt when you log into your computer.">
-                Start with computer
+                description={
+                    <Text id="app.settings.pages.native.start_revolt_startup_desc"></Text>
+                }>
+                <Text id="app.settings.pages.native.start_revolt_startup"></Text>
             </Checkbox>
 
             <Checkbox
@@ -53,8 +60,10 @@ export function Native() {
                         discordRPC,
                     });
                 }}
-                description="Rep Revolt on your Discord status.">
-                Enable Discord status
+                description={
+                    <Text id="app.settings.pages.native.discord_status"></Text>
+                }>
+                <Text id="app.settings.pages.native.discord_status_desc"></Text>
             </Checkbox>
             <Checkbox
                 checked={config.build === "nightly"}
@@ -67,10 +76,14 @@ export function Native() {
                         build,
                     });
                 }}
-                description="Use the beta branch of Revolt.">
-                Revolt Nightly
+                description={
+                    <Text id="app.settings.pages.native.revolt_nightly"></Text>
+                }>
+                <Text id="app.settings.pages.native.revolt_nightly_desc"></Text>
             </Checkbox>
-            <h3>Titlebar</h3>
+            <h3>
+                <Text id="app.settings.pages.native.titlebar"></Text>
+            </h3>
             <Checkbox
                 checked={!config.frame}
                 onChange={(frame) => {
@@ -81,8 +94,10 @@ export function Native() {
                         frame: !frame,
                     });
                 }}
-                description={<>Let Revolt use its own window frame.</>}>
-                Custom window frame
+                description={
+                    <Text id="app.settings.pages.native.custom_window_frame_desc"></Text>
+                }>
+                <Text id="app.settings.pages.native.custom_window_frame"></Text>
             </Checkbox>
             <Checkbox //FIXME: In Titlebar.tsx, enable .quick css
                 disabled={true}
@@ -95,10 +110,14 @@ export function Native() {
                         frame: !frame,
                     });
                 }}
-                description="Show mute/deafen buttons on the titlebar.">
-                Enable quick action buttons
+                description={
+                    <Text id="app.settings.pages.native.quick_actions_desc"></Text>
+                }>
+                <Text id="app.settings.pages.native.quick_actions"></Text>
             </Checkbox>
-            <h3>Advanced</h3>
+            <h3>
+                <Text id="app.settings.pages.native.advanced"></Text>
+            </h3>
             <Checkbox
                 checked={config.hardwareAcceleration}
                 onChange={async (hardwareAcceleration) => {
@@ -112,8 +131,10 @@ export function Native() {
                         hardwareAcceleration,
                     });
                 }}
-                description="Uses your GPU to render the app, disable if you run into visual issues.">
-                Hardware Acceleration
+                description={
+                    <Text id="app.settings.pages.native.hardware_acceleration_desc"></Text>
+                }>
+                <Text id="app.settings.pages.native.hardware_acceleration"></Text>
             </Checkbox>
             <p style={{ display: "flex", gap: "8px" }}>
                 <Button
@@ -121,20 +142,24 @@ export function Native() {
                     compact
                     disabled={!hintReload}
                     onClick={window.native.reload}>
-                    Reload Page
+                    <Text id="app.settings.pages.native.buttons.reload_page"></Text>
                 </Button>
                 <Button
                     contrast
                     compact
                     disabled={!hintRelaunch}
                     onClick={window.native.relaunch}>
-                    Reload App
+                    <Text id="app.settings.pages.native.buttons.reload_app"></Text>
                 </Button>
             </p>
-            <h3 style={{ marginTop: "4em" }}>Local Development Mode</h3>
+            <h3 style={{ marginTop: "4em" }}>
+                <Text id="app.settings.pages.native.local_development_mode"></Text>
+            </h3>
             {config.build === "dev" ? (
                 <>
-                    <h5>Development mode is currently on.</h5>
+                    <h5>
+                        <Text id="app.settings.pages.native.development_mode"></Text>
+                    </h5>
                     <Button
                         contrast
                         compact
@@ -142,7 +167,7 @@ export function Native() {
                             window.native.set("build", "stable");
                             window.native.reload();
                         }}>
-                        Exit Development Mode
+                        <Text id="app.settings.pages.native.buttons.exit_development_mode"></Text>
                     </Button>
                 </>
             ) : (
@@ -152,21 +177,19 @@ export function Native() {
                         onChange={setConfirmDev}
                         description={
                             <>
-                                This will change the app to the 'dev' branch,
-                                instead loading the app from a local server on
-                                your machine.
+                                <Text id="app.settings.pages.native.local_development_mode_desc.a"></Text>
                                 <br />
                                 <b>
-                                    Without a server running,{" "}
+                                    <Text id="app.settings.pages.native.local_development_mode_desc.b"></Text>{" "}
                                     <span style={{ color: "var(--error)" }}>
-                                        the app will not load!
+                                        <Text id="app.settings.pages.native.local_development_mode_desc.c"></Text>
                                     </span>
                                 </b>
                                 <br />
                                 <code>yarn dev --port 3001</code>
                             </>
                         }>
-                        I understand there's no going back.
+                        <Text id="app.settings.pages.native.actions.enable_dev_mode"></Text>
                     </Checkbox>
                     <p>
                         <Button
@@ -177,7 +200,7 @@ export function Native() {
                                 window.native.set("build", "dev");
                                 window.native.reload();
                             }}>
-                            Enter Development Mode
+                            <Text id="app.settings.pages.native.buttons.development_mode"></Text>
                         </Button>
                     </p>
                 </>
@@ -185,9 +208,13 @@ export function Native() {
             <hr />
             <CategoryButton
                 icon={<img src={RLogo} draggable={false} />}
-                description={<span>version {window.nativeVersion}</span>}
+                description={
+                    <Text
+                        id="app.settings.pages.native.revolt_desktop_desc"
+                        fields={{ version: window.nativeVersion }}></Text>
+                }
                 action={<Refresh size={24} />}>
-                Revolt for Desktop
+                <Text id="app.settings.pages.native.revolt_desktop"></Text>
             </CategoryButton>
         </div>
     );

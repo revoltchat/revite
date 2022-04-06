@@ -1,6 +1,7 @@
 import { Message } from "revolt.js/dist/maps/Messages";
 import styled from "styled-components/macro";
 
+import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
@@ -125,8 +126,14 @@ export default function MessageEditor({ message, finish }: Props) {
                 onBlur={onBlur}
             />
             <span className="caption">
-                escape to <a onClick={finish}>cancel</a> &middot; enter to{" "}
-                <a onClick={save}>save</a>
+                <Text id="app.main.channel.edit_message_tip.a"></Text>{" "}
+                <a onClick={finish}>
+                    <Text id="app.main.channel.edit_message_tip.b"></Text>
+                </a>{" "}
+                <Text id="app.main.channel.edit_message_tip.c"></Text>{" "}
+                <a onClick={save}>
+                    <Text id="app.main.channel.edit_message_tip.d"></Text>
+                </a>
             </span>
         </EditorBase>
     );

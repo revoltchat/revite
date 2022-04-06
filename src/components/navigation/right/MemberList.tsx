@@ -134,19 +134,20 @@ export default function MemberList({
                     return (
                         <NoOomfie>
                             <div>
-                                Offline users temporarily disabled for this
-                                server, see issue{" "}
+                                <Text id="app.main.channel.members_offline_tip.a"></Text>{" "}
                                 <a
                                     href="https://github.com/revoltchat/delta/issues/128"
                                     target="_blank">
                                     #128
                                 </a>{" "}
-                                for when this will be resolved.
+                                <Text id="app.main.channel.members_offline_tip.b"></Text>
                             </div>
                             <div>
-                                You may re-enable them in{" "}
+                                <Text id="app.main.channel.members_offline_enable_tip.a"></Text>{" "}
                                 <Link to="/settings/experiments">
-                                    <a>experiments</a>
+                                    <a>
+                                        <Text id="app.main.channel.members_offline_enable_tip.b"></Text>
+                                    </a>
                                 </Link>
                                 .
                             </div>

@@ -12,6 +12,7 @@ import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 
 import { useAutosave } from "../../../lib/debounce";
 import { Draggable, Droppable } from "../../../lib/dnd";
+import { useTranslation } from "../../../lib/i18n";
 import { noop } from "../../../lib/js";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
@@ -138,6 +139,7 @@ export const Categories = observer(({ server }: Props) => {
     const [categories, setCategories] = useState<Category[]>(
         server.categories ?? [],
     );
+    const translate = useTranslation();
 
     useAutosave(
         async () => {
@@ -152,7 +154,9 @@ export const Categories = observer(({ server }: Props) => {
 
     const defaultCategory = useMemo(() => {
         return {
-            title: "Uncategorized",
+            title: translate(
+                "app.settings.server_pages.categories.uncategorized",
+            ),
             channels: [...server.channels]
                 .filter((x) => x)
                 .map((x) => x!._id)
@@ -298,7 +302,9 @@ export const Categories = observer(({ server }: Props) => {
                                                         ...categories,
                                                         {
                                                             id: ulid(),
-                                                            title: "New Category",
+                                                            title: translate(
+                                                                "app.settings.server_pages.categories.new_category",
+                                                            ),
                                                             channels: [],
                                                         },
                                                     ])

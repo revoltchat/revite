@@ -58,8 +58,10 @@ export function Feedback() {
                         hover
                         action="chevron"
                         icon={<Group size={24} />}
-                        description="You can report issues and discuss improvements with us directly here.">
-                        Join Testers server.
+                        description={
+                            <Text id="app.settings.pages.feedback.teste_server_desc" />
+                        }>
+                        <Text id="app.settings.pages.feedback.tester_server" />
                     </CategoryButton>
                 </a>
             </Link>

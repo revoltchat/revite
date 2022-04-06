@@ -377,7 +377,9 @@ export default observer(() => {
                 })}
                 {/*<LineDivider />*/}
                 <ServerCircle>
-                    <Tooltip content="Add a Server" placement="right">
+                    <Tooltip
+                        content={<Text id="app.main.servers.create"></Text>}
+                        placement="right">
                         <div className="circle">
                             <IconButton
                                 onClick={() =>
@@ -409,7 +411,7 @@ export default observer(() => {
                                             background: "var(--status-busy)",
                                             borderRadius: "60px",
                                         }}>
-                                        NEW
+                                        <Text id="general.new"></Text>
                                     </div>
                                 </div>
                             }
@@ -429,7 +431,9 @@ export default observer(() => {
             </ServerList>
 
             {!isTouchscreenDevice && (
-                <Tooltip content={"Settings"} placement="right">
+                <Tooltip
+                    content={<Text id="app.settings.title"></Text>}
+                    placement="right">
                     <ServerCircle>
                         <Link to="/settings">
                             <div className="circle">

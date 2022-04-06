@@ -125,6 +125,7 @@ const FileAction = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+    }
 `;
 
 // For sed replacement
