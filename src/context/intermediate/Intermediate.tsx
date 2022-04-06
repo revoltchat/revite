@@ -31,6 +31,7 @@ export type Screen =
     | { id: "clipboard"; text: string }
     | { id: "token_reveal"; token: string; username: string }
     | { id: "external_link_prompt"; link: string }
+    | { id: "sessions", confirm: () => void }
     | {
           id: "_prompt";
           question: Children;
