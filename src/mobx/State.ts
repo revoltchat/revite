@@ -248,6 +248,8 @@ export default class State {
             this.settings = new Settings();
             this.sync = new Sync(this);
 
+            this.save();
+
             this.persistent = [];
             this.register();
         });
