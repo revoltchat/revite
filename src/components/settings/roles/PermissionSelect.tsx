@@ -1,5 +1,5 @@
 import Long from "long";
-import { OverrideField } from "revolt-api/types/_common";
+import { API } from "revolt.js";
 import { Permission } from "revolt.js";
 import styled from "styled-components";
 
@@ -13,8 +13,8 @@ import { OverrideSwitch } from "./OverrideSwitch";
 interface PermissionSelectProps {
     id: keyof typeof Permission;
     permission: number;
-    value: OverrideField | number;
-    onChange: (value: OverrideField | number) => void;
+    value: API.OverrideField | number;
+    onChange: (value: API.OverrideField | number) => void;
 }
 
 type State = "Allow" | "Neutral" | "Deny";

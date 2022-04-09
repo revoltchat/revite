@@ -50,7 +50,7 @@ export default observer(({ children }: Props) => {
 
     useEffect(() => {
         if (navigator.onLine) {
-            state.config.createClient().req("GET", "/").then(state.config.set);
+            state.config.createClient().api.get("/").then(state.config.set);
         }
     }, []);
 
@@ -79,7 +79,7 @@ export default observer(({ children }: Props) => {
         }
     }, [state.auth.getSession()]);
 
-    useEffect(() => registerEvents(state.auth, setStatus, client), [client]);
+    useEffect(() => registerEvents(state, setStatus, client), [client]);
 
     if (!loaded || status === ClientStatus.LOADING) {
         return <Preloader type="spinner" />;

@@ -4,7 +4,7 @@ import {
     Download,
 } from "@styled-icons/boxicons-regular";
 import { File, Video } from "@styled-icons/boxicons-solid";
-import { Attachment } from "revolt-api/types/Autumn";
+import { API } from "revolt.js";
 
 import styles from "./AttachmentActions.module.scss";
 import classNames from "classnames";
@@ -17,7 +17,7 @@ import { AppContext } from "../../../../context/revoltjs/RevoltClient";
 import IconButton from "../../../ui/IconButton";
 
 interface Props {
-    attachment: Attachment;
+    attachment: API.File;
 }
 
 export default function AttachmentActions({ attachment }: Props) {

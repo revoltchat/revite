@@ -12,13 +12,8 @@ import {
 } from "@styled-icons/boxicons-regular";
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
-import { Attachment } from "revolt-api/types/Autumn";
-import { Presence, RelationshipStatus } from "revolt-api/types/Users";
+import { Channel, Message, Server, User, API } from "revolt.js";
 import { Permission, UserPermission } from "revolt.js/dist/api/permissions";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Message } from "revolt.js/dist/maps/Messages";
-import { Server } from "revolt.js/dist/maps/Servers";
-import { User } from "revolt.js/dist/maps/Users";
 
 import {
     ContextMenuWithData,
@@ -56,7 +51,7 @@ interface ContextMenuData {
     server_list?: string;
     channel?: string;
     message?: Message;
-    attachment?: Attachment;
+    attachment?: API.File;
 
     unread?: boolean;
     queued?: QueuedMessage;
@@ -78,9 +73,9 @@ type Action =
     | { action: "quote_message"; content: string }
     | { action: "edit_message"; id: string }
     | { action: "delete_message"; target: Message }
-    | { action: "open_file"; attachment: Attachment }
-    | { action: "save_file"; attachment: Attachment }
-    | { action: "copy_file_link"; attachment: Attachment }
+    | { action: "open_file"; attachment: API.File }
+    | { action: "save_file"; attachment: API.File }
+    | { action: "copy_file_link"; attachment: API.File }
     | { action: "open_link"; link: string }
     | { action: "copy_link"; link: string }
     | { action: "remove_member"; channel: Channel; user: User }
@@ -93,7 +88,7 @@ type Action =
     | { action: "add_friend"; user: User }
     | { action: "remove_friend"; user: User }
     | { action: "cancel_friend"; user: User }
-    | { action: "set_presence"; presence: Presence }
+    | { action: "set_presence"; presence: API.Presence }
     | { action: "set_status" }
     | { action: "clear_status" }
     | { action: "create_channel"; target: Server }
@@ -588,29 +583,29 @@ export default function ContextMenus() {
                         if (!user.bot) {
                             let actions: Action["action"][];
                             switch (user.relationship) {
-                                case RelationshipStatus.User:
+                                case "User":
                                     actions = [];
                                     break;
-                                case RelationshipStatus.Friend:
+                                case "Friend":
                                     actions = ["remove_friend", "block_user"];
                                     break;
-                                case RelationshipStatus.Incoming:
+                                case "Incoming":
                                     actions = [
                                         "add_friend",
                                         "cancel_friend",
                                         "block_user",
                                     ];
                                     break;
-                                case RelationshipStatus.Outgoing:
+                                case "Outgoing":
                                     actions = ["cancel_friend", "block_user"];
                                     break;
-                                case RelationshipStatus.Blocked:
+                                case "Blocked":
                                     actions = ["unblock_user"];
                                     break;
-                                case RelationshipStatus.BlockedOther:
+                                case "BlockedOther":
                                     actions = ["block_user"];
                                     break;
-                                case RelationshipStatus.None:
+                                case "None":
                                 default:
                                     if (
                                         (user.flags && 2) ||
@@ -1047,7 +1042,7 @@ export default function ContextMenus() {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Presence.Online,
+                                    presence: "Online",
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator online" />
@@ -1056,7 +1051,7 @@ export default function ContextMenus() {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Presence.Idle,
+                                    presence: "Idle",
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator idle" />
@@ -1065,7 +1060,7 @@ export default function ContextMenus() {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Presence.Busy,
+                                    presence: "Busy",
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator busy" />
@@ -1074,7 +1069,7 @@ export default function ContextMenus() {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Presence.Invisible,
+                                    presence: "Invisible",
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator invisible" />

@@ -1,10 +1,11 @@
-import { Attachment } from "revolt-api/types/Autumn";
+import { API } from "revolt.js";
+import { Nullable } from "revolt.js/dist/util/null";
 import styled, { css } from "styled-components/macro";
 
 export interface IconBaseProps<T> {
     target?: T;
     url?: string;
-    attachment?: Attachment;
+    attachment?: Nullable<API.File>;
 
     size: number;
     hover?: boolean;

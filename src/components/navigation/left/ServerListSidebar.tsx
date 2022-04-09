@@ -2,11 +2,9 @@ import { Plus } from "@styled-icons/boxicons-regular";
 import { Cog, Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory, useLocation, useParams } from "react-router-dom";
-import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components/macro";
 
 import { attachContextMenu } from "preact-context-menu";
-import { Text } from "preact-i18n";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
@@ -248,7 +246,7 @@ export default observer(() => {
     const { openScreen } = useIntermediate();
 
     let alertCount = [...client.users.values()].filter(
-        (x) => x.relationship === RelationshipStatus.Incoming,
+        (x) => x.relationship === "Incoming",
     ).length;
 
     const homeActive =

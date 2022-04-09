@@ -5,8 +5,7 @@ import {
     Notepad,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Link, Redirect, useLocation, useParams } from "react-router-dom";
-import { RelationshipStatus } from "revolt-api/types/Users";
+import { Link, useLocation, useParams } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
@@ -68,7 +67,7 @@ export default observer(() => {
 
     // ! FIXME: must be a better way
     const incoming = [...client.users.values()].filter(
-        (user) => user?.relationship === RelationshipStatus.Incoming,
+        (user) => user?.relationship === "Incoming",
     );
 
     return (

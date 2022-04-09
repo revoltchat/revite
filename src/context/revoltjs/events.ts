@@ -1,17 +1,16 @@
-import { Client } from "revolt.js/dist";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Client, Server } from "revolt.js";
 
 import { StateUpdater } from "preact/hooks";
 
 import { deleteRenderer } from "../../lib/renderer/Singleton";
 
-import Auth from "../../mobx/stores/Auth";
+import State from "../../mobx/State";
 
 import { resetMemberSidebarFetched } from "../../components/navigation/right/MemberSidebar";
 import { ClientStatus } from "./RevoltClient";
 
 export function registerEvents(
-    auth: Auth,
+    state: State,
     setStatus: StateUpdater<ClientStatus>,
     client: Client,
 ) {
@@ -28,7 +27,8 @@ export function registerEvents(
         },
 
         logout: () => {
-            auth.logout();
+            state.auth.logout();
+            state.reset();
             setStatus(ClientStatus.READY);
         },
 

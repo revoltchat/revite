@@ -1,14 +1,12 @@
 import { Group } from "@styled-icons/boxicons-solid";
-import { autorun, reaction } from "mobx";
+import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { RetrievedInvite } from "revolt-api/types/Invites";
-import { Message } from "revolt.js/dist/maps/Messages";
+import { Message, API } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { defer } from "../../../../lib/defer";
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 
 import {
@@ -85,9 +83,9 @@ export function EmbedInvite({ code }: Props) {
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [joinError, setJoinError] = useState<string | undefined>(undefined);
-    const [invite, setInvite] = useState<RetrievedInvite | undefined>(
-        undefined,
-    );
+    const [invite, setInvite] = useState<
+        (API.InviteResponse & { type: "Server" }) | undefined
+    >(undefined);
 
     useEffect(() => {
         if (
@@ -96,7 +94,9 @@ export function EmbedInvite({ code }: Props) {
         ) {
             client
                 .fetchInvite(code)
-                .then((data) => setInvite(data))
+                .then((data) =>
+                    setInvite(data as API.InviteResponse & { type: "Server" }),
+                )
                 .catch((err) => setError(takeError(err)));
         }
     }, [client, code, invite, status]);

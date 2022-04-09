@@ -149,9 +149,9 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
     // Mark channel as read.
     useEffect(() => {
         setLastId(
-            channel.unread
+            (channel.unread
                 ? channel.client.unreads?.getUnread(channel._id)?.last_id
-                : undefined ?? undefined,
+                : undefined) ?? undefined,
         );
 
         const checkUnread = () =>

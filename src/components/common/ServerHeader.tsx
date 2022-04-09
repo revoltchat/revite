@@ -2,8 +2,7 @@ import { Check } from "@styled-icons/boxicons-regular";
 import { Cog } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
-import { Permission } from "revolt.js/dist/api/permissions";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Server } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";

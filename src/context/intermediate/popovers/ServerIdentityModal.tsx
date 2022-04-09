@@ -1,10 +1,11 @@
 import { observer } from "mobx-react-lite";
-import { Server } from "revolt.js/dist/maps/Servers";
-import styled, { css } from "styled-components/macro";
+import { Server } from "revolt.js";
 
 import styles from "./ServerIdentityModal.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
+
+import { noop } from "../../../lib/js";
 
 import Button from "../../../components/ui/Button";
 import InputBox from "../../../components/ui/InputBox";
@@ -57,8 +58,12 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
                         fileType="avatars"
                         behaviour="upload"
                         maxFileSize={4_000_000}
-                        onUpload={(avatar) => member.edit({ avatar })}
-                        remove={() => member.edit({ remove: "Avatar" })}
+                        onUpload={(avatar) =>
+                            member.edit({ avatar }).then(noop)
+                        }
+                        remove={() =>
+                            member.edit({ remove: ["Avatar"] }).then(noop)
+                        }
                         defaultPreview={client.user?.generateAvatarURL(
                             {
                                 max_side: 256,
@@ -92,7 +97,7 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
                             <Button
                                 plain
                                 onClick={() =>
-                                    member.edit({ remove: "Nickname" })
+                                    member.edit({ remove: ["Nickname"] })
                                 }>
                                 <Text id="app.special.modals.actions.remove" />
                             </Button>

@@ -1,9 +1,7 @@
 import { ChevronRight } from "@styled-icons/boxicons-regular";
 import { UserDetail, MessageAdd, UserPlus } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { RelationshipStatus, Presence } from "revolt-api/types/Users";
 import { User } from "revolt.js/dist/maps/Users";
-import styled, { css } from "styled-components/macro";
 
 import styles from "./Friend.module.scss";
 import classNames from "classnames";
@@ -31,37 +29,32 @@ export default observer(() => {
     const users = [...client.users.values()];
     users.sort((a, b) => a.username.localeCompare(b.username));
 
-    const friends = users.filter(
-        (x) => x.relationship === RelationshipStatus.Friend,
-    );
+    const friends = users.filter((x) => x.relationship === "Friend");
 
     const lists = [
-        [
-            "",
-            users.filter((x) => x.relationship === RelationshipStatus.Incoming),
-        ],
+        ["", users.filter((x) => x.relationship === "Incoming")],
         [
             "app.special.friends.sent",
-            users.filter((x) => x.relationship === RelationshipStatus.Outgoing),
+            users.filter((x) => x.relationship === "Outgoing"),
             "outgoing",
         ],
         [
             "app.status.online",
             friends.filter(
-                (x) => x.online && x.status?.presence !== Presence.Invisible,
+                (x) => x.online && x.status?.presence !== "Invisible",
             ),
             "online",
         ],
         [
             "app.status.offline",
             friends.filter(
-                (x) => !x.online || x.status?.presence === Presence.Invisible,
+                (x) => !x.online || x.status?.presence === "Invisible",
             ),
             "offline",
         ],
         [
             "app.special.friends.blocked",
-            users.filter((x) => x.relationship === RelationshipStatus.Blocked),
+            users.filter((x) => x.relationship === "Blocked"),
             "blocked",
         ],
     ] as [string, User[], string][];

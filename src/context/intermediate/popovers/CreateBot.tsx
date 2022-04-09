@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Bot } from "revolt-api/types/Bots";
+import { API } from "revolt.js";
 
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
@@ -13,7 +13,7 @@ import { takeError } from "../../revoltjs/util";
 
 interface Props {
     onClose: () => void;
-    onCreate: (bot: Bot) => void;
+    onCreate: (bot: API.Bot) => void;
 }
 
 interface FormInputs {

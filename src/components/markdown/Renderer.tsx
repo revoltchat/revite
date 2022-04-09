@@ -129,7 +129,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
     const { openLink } = useIntermediate();
 
     if (typeof content === "undefined") return null;
-    if (content.length === 0) return null;
+    if (!content || content.length === 0) return null;
 
     // We replace the message with the mention at the time of render.
     // We don't care if the mention changes.
