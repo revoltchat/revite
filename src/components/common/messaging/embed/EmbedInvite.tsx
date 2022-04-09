@@ -139,42 +139,17 @@ export function EmbedInvite({ code }: Props) {
                 ) : (
                     <Button
                         onClick={async () => {
+                            setProcessing(true);
+
                             try {
-                                setProcessing(true);
+                                await client.joinInvite(invite);
 
-                                if (invite.type === "Server") {
-                                    if (client.servers.get(invite.server_id)) {
-                                        history.push(
-                                            `/server/${invite.server_id}/channel/${invite.channel_id}`,
-                                        );
-
-                                        return;
-                                    }
-
-                                    const dispose = reaction(
-                                        () =>
-                                            client.servers.get(
-                                                invite.server_id,
-                                            ),
-                                        (server) => {
-                                            if (server) {
-                                                client.unreads!.markMultipleRead(
-                                                    server.channel_ids,
-                                                );
-
-                                                history.push(
-                                                    `/server/${server._id}/channel/${invite.channel_id}`,
-                                                );
-
-                                                dispose();
-                                            }
-                                        },
-                                    );
-                                }
-
-                                await client.joinInvite(code);
+                                history.push(
+                                    `/server/${invite.server_id}/channel/${invite.channel_id}`,
+                                );
                             } catch (err) {
                                 setJoinError(takeError(err));
+                            } finally {
                                 setProcessing(false);
                             }
                         }}>

@@ -158,42 +158,17 @@ export default function Invite() {
                                     return history.push("/");
                                 }
 
+                                setProcessing(true);
+
                                 try {
-                                    setProcessing(true);
+                                    await client.joinInvite(invite);
 
-                                    if (invite.type === "Server") {
-                                        if (
-                                            client.servers.get(invite.server_id)
-                                        ) {
-                                            history.push(
-                                                `/server/${invite.server_id}/channel/${invite.channel_id}`,
-                                            );
-                                        }
-
-                                        const dispose = autorun(() => {
-                                            const server = client.servers.get(
-                                                invite.server_id,
-                                            );
-
-                                            defer(() => {
-                                                if (server) {
-                                                    client.unreads!.markMultipleRead(
-                                                        server.channel_ids,
-                                                    );
-
-                                                    history.push(
-                                                        `/server/${server._id}/channel/${invite.channel_id}`,
-                                                    );
-                                                }
-                                            });
-
-                                            dispose();
-                                        });
-                                    }
-
-                                    await client.joinInvite(code);
+                                    history.push(
+                                        `/server/${invite.server_id}/channel/${invite.channel_id}`,
+                                    );
                                 } catch (err) {
                                     setError(takeError(err));
+                                } finally {
                                     setProcessing(false);
                                 }
                             }}>
