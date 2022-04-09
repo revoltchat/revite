@@ -1,9 +1,9 @@
-import { Role } from "revolt-api/types/Servers";
+import { API } from "revolt.js";
 
 import Checkbox from "../../ui/Checkbox";
 
 export type RoleOrDefault = (
-    | Role
+    | API.Role
     | {
           name: string;
           permissions: number;

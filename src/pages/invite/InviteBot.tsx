@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Permission } from "revolt.js";
-import { Route } from "revolt.js/dist/api/routes";
+import { API, Permission } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { useEffect, useState } from "preact/hooks";
@@ -37,8 +36,7 @@ const Option = styled.div`
 export default function InviteBot() {
     const { id } = useParams<{ id: string }>();
     const client = useClient();
-    const [data, setData] =
-        useState<Route<"GET", "/bots/id/invite">["response"]>();
+    const [data, setData] = useState<API.PublicBot>();
 
     useEffect(() => {
         client.bots.fetchPublic(id).then(setData);

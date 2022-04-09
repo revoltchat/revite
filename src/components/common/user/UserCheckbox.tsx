@@ -1,4 +1,4 @@
-import { User } from "revolt.js/dist/maps/Users";
+import { User } from "revolt.js";
 
 import Checkbox, { CheckboxProps } from "../../ui/Checkbox";
 

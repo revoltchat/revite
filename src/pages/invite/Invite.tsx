@@ -1,7 +1,7 @@
 import { ArrowBack } from "@styled-icons/boxicons-regular";
 import { autorun } from "mobx";
 import { Redirect, useHistory, useParams } from "react-router-dom";
-import { RetrievedInvite } from "revolt-api/types/Invites";
+import { API } from "revolt.js";
 
 import styles from "./Invite.module.scss";
 import { Text } from "preact-i18n";
@@ -36,7 +36,7 @@ export default function Invite() {
     const { code } = useParams<{ code: string }>();
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
-    const [invite, setInvite] = useState<RetrievedInvite | undefined>(
+    const [invite, setInvite] = useState<API.InviteResponse | undefined>(
         undefined,
     );
 
@@ -91,6 +91,8 @@ export default function Invite() {
             </div>
         );
     }
+
+    if (invite.type === "Group") return <h1>unimplemented</h1>;
 
     return (
         <div

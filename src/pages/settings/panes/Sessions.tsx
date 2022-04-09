@@ -11,7 +11,7 @@ import {
 } from "@styled-icons/simple-icons";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useHistory } from "react-router-dom";
-import { SessionInfo } from "revolt-api/types/Auth";
+import { API } from "revolt.js";
 import { decodeTime } from "ulid";
 
 import styles from "./Panes.module.scss";
@@ -33,7 +33,7 @@ export function Sessions() {
     const deviceId =
         typeof client.session === "object" ? client.session._id : undefined;
 
-    const [sessions, setSessions] = useState<SessionInfo[] | undefined>(
+    const [sessions, setSessions] = useState<API.SessionInfo[] | undefined>(
         undefined,
     );
     const [attemptingDelete, setDelete] = useState<string[]>([]);
@@ -44,7 +44,7 @@ export function Sessions() {
     }
 
     useEffect(() => {
-        client.req("GET", "/auth/session/all").then((data) => {
+        client.api.get("/auth/session/all").then((data) => {
             data.sort(
                 (a, b) =>
                     (b._id === deviceId ? 1 : 0) - (a._id === deviceId ? 1 : 0),
@@ -61,7 +61,7 @@ export function Sessions() {
         );
     }
 
-    function getIcon(session: SessionInfo) {
+    function getIcon(session: API.SessionInfo) {
         const name = session.name;
         switch (true) {
             case /firefox/i.test(name):
@@ -83,7 +83,7 @@ export function Sessions() {
         }
     }
 
-    function getSystemIcon(session: SessionInfo) {
+    function getSystemIcon(session: API.SessionInfo) {
         const name = session.name;
         switch (true) {
             case /linux/i.test(name):
@@ -187,9 +187,10 @@ export function Sessions() {
                                             ...attemptingDelete,
                                             session._id,
                                         ]);
-                                        await client.req(
-                                            "DELETE",
-                                            `/auth/session/${session._id}` as "/auth/session/id",
+                                        await client.api.delete(
+                                            `/auth/session/${
+                                                session._id as ""
+                                            }`,
                                         );
                                         setSessions(
                                             sessions?.filter(
@@ -222,10 +223,7 @@ export function Sessions() {
                     setDelete(del);
 
                     for (const id of del) {
-                        await client.req(
-                            "DELETE",
-                            `/auth/session/${id}` as "/auth/session/id",
-                        );
+                        await client.api.delete(`/auth/session/${id as ""}`);
                     }
 
                     setSessions(sessions.filter((x) => x._id === deviceId));

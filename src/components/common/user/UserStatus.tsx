@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { Presence } from "revolt-api/types/Users";
-import { User } from "revolt.js/dist/maps/Users";
+import { User, API } from "revolt.js";
 
 import { Text } from "preact-i18n";
 
@@ -25,15 +24,15 @@ export default observer(({ user, tooltip }: Props) => {
             return <>{user.status.text}</>;
         }
 
-        if (user.status?.presence === Presence.Busy) {
+        if (user.status?.presence === "Busy") {
             return <Text id="app.status.busy" />;
         }
 
-        if (user.status?.presence === Presence.Idle) {
+        if (user.status?.presence === "Idle") {
             return <Text id="app.status.idle" />;
         }
 
-        if (user.status?.presence === Presence.Invisible) {
+        if (user.status?.presence === "Invisible") {
             return <Text id="app.status.offline" />;
         }
 

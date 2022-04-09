@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { GroupedVirtuoso } from "react-virtuoso";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { User } from "revolt.js/dist/maps/Users";
+import { Channel, User } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";

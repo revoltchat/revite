@@ -2,8 +2,7 @@
 import { X } from "@styled-icons/boxicons-regular";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import { Masquerade } from "revolt-api/types/Channels";
-import { RelationshipStatus } from "revolt-api/types/Users";
+import { API } from "revolt.js";
 import { Message as MessageI } from "revolt.js/dist/maps/Messages";
 import { Nullable } from "revolt.js/dist/util/null";
 import styled from "styled-components/macro";
@@ -99,10 +98,10 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
     function compare(
         current: string,
         curAuthor: string,
-        currentMasq: Nullable<Masquerade>,
+        currentMasq: Nullable<API.Masquerade>,
         previous: string,
         prevAuthor: string,
-        previousMasq: Nullable<Masquerade>,
+        previousMasq: Nullable<API.Masquerade>,
     ) {
         head = false;
         const atime = decodeTime(current),
@@ -172,9 +171,7 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
                     highlight={highlight === message._id}
                 />,
             );
-        } else if (
-            message.author?.relationship === RelationshipStatus.Blocked
-        ) {
+        } else if (message.author?.relationship === "Blocked") {
             blocked++;
         } else {
             if (blocked > 0) pushBlocked();

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Attachment } from "revolt-api/types/Autumn";
+import { API } from "revolt.js";
 
 import styles from "./Attachment.module.scss";
 import { useContext, useEffect, useState } from "preact/hooks";
@@ -13,7 +13,7 @@ import {
 import Preloader from "../../../ui/Preloader";
 
 interface Props {
-    attachment: Attachment;
+    attachment: API.File;
 }
 
 const fileCache: { [key: string]: string } = {};

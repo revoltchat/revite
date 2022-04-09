@@ -1,4 +1,4 @@
-import { Channel } from "revolt.js/dist/maps/Channels";
+import { Channel } from "revolt.js";
 
 import { Text } from "preact-i18n";
 

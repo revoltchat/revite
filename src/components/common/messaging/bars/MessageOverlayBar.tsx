@@ -8,7 +8,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Permission } from "revolt.js";
-import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
+import { Message as MessageObject } from "revolt.js";
 import styled from "styled-components";
 
 import { openContextMenu } from "preact-context-menu";

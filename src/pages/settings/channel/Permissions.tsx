@@ -1,7 +1,6 @@
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import { OverrideField } from "revolt-api/types/_common";
-import { Channel } from "revolt.js/dist/maps/Channels";
+import { Channel, API } from "revolt.js";
 
 import { useLayoutEffect, useState } from "preact/hooks";
 
@@ -42,7 +41,7 @@ export default observer(({ channel }: Props) => {
 
     // Keep track of whatever role we're editing right now.
     const [selected, setSelected] = useState("default");
-    const [value, setValue] = useState<OverrideField | number | undefined>(
+    const [value, setValue] = useState<API.OverrideField | number | undefined>(
         undefined,
     );
     const currentPermission = currentRoles.find(
@@ -64,10 +63,10 @@ export default observer(({ channel }: Props) => {
             selected,
             typeof currentValue === "number"
                 ? currentValue
-                : {
+                : ({
                       allow: currentValue.a,
                       deny: currentValue.d,
-                  },
+                  } as any),
         );
     }
 

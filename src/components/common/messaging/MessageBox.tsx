@@ -1,8 +1,7 @@
-import { Send, ShieldX, HappyBeaming, Box } from "@styled-icons/boxicons-solid";
+import { Send, ShieldX } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
 import { observer } from "mobx-react-lite";
-import { Permission } from "revolt.js/dist/api/permissions";
-import { Channel } from "revolt.js/dist/maps/Channels";
+import { Channel, Permission } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
 

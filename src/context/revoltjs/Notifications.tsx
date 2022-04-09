@@ -1,7 +1,5 @@
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
-import { Presence, RelationshipStatus } from "revolt-api/types/Users";
-import { Message } from "revolt.js/dist/maps/Messages";
-import { User } from "revolt.js/dist/maps/Users";
+import { Message, User } from "revolt.js";
 import { decodeTime } from "ulid";
 
 import { useCallback, useContext, useEffect } from "preact/hooks";
@@ -210,17 +208,17 @@ function Notifier() {
 
     const relationship = useCallback(
         async (user: User) => {
-            if (client.user?.status?.presence === Presence.Busy) return;
+            if (client.user?.status?.presence === "Busy") return;
             if (!showNotification) return;
 
             let event;
             switch (user.relationship) {
-                case RelationshipStatus.Incoming:
+                case "Incoming":
                     event = translate("notifications.sent_request", {
                         person: user.username,
                     });
                     break;
-                case RelationshipStatus.Friend:
+                case "Friend":
                     event = translate("notifications.now_friends", {
                         person: user.username,
                     });

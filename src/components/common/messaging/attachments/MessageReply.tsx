@@ -2,9 +2,7 @@ import { Reply } from "@styled-icons/boxicons-regular";
 import { File } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { RelationshipStatus } from "revolt-api/types/Users";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Message } from "revolt.js/dist/maps/Messages";
+import { Channel, Message, API } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
@@ -174,7 +172,7 @@ export const MessageReply = observer(
             <ReplyBase head={index === 0}>
                 {/*<Reply size={16} />*/}
 
-                {message.author?.relationship === RelationshipStatus.Blocked ? (
+                {message.author?.relationship === "Blocked" ? (
                     <Text id="app.main.channel.misc.blocked_user" />
                 ) : (
                     <>

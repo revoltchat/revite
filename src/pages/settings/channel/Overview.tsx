@@ -69,7 +69,7 @@ export default observer(({ channel }: Props) => {
                         { max_side: 256 },
                         true,
                     )}
-                    remove={() => channel.edit({ remove: "Icon" })}
+                    remove={() => channel.edit({ remove: ["Icon"] })}
                     defaultPreview={
                         channel.channel_type === "Group"
                             ? "/assets/group.png"

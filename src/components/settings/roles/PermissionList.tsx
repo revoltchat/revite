@@ -1,11 +1,11 @@
-import { OverrideField } from "revolt-api/types/_common";
+import { API } from "revolt.js";
 import { Permission } from "revolt.js";
 
 import { PermissionSelect } from "./PermissionSelect";
 
 interface Props {
-    value: OverrideField | number;
-    onChange: (v: OverrideField | number) => void;
+    value: API.OverrideField | number;
+    onChange: (v: API.OverrideField | number) => void;
 
     filter?: (keyof typeof Permission)[];
 }

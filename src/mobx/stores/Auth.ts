@@ -1,5 +1,5 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
-import { Session } from "revolt-api/types/Auth";
+import { API } from "revolt.js";
 import { Nullable } from "revolt.js/dist/util/null";
 
 import { mapToRecord } from "../../lib/conversion";
@@ -8,7 +8,7 @@ import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
 interface Account {
-    session: Session;
+    session: API.Session;
 }
 
 export interface Data {
@@ -82,7 +82,7 @@ export default class Auth implements Store, Persistent<Data> {
      * Add a new session to the auth manager.
      * @param session Session
      */
-    @action setSession(session: Session) {
+    @action setSession(session: API.Session) {
         this.sessions.set(session.user_id, { session });
         this.current = session.user_id;
     }

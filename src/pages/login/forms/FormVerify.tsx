@@ -20,7 +20,7 @@ export function FormResend() {
         <Form
             page="resend"
             callback={async (data) => {
-                await client.req("POST", "/auth/account/reverify", data);
+                await client.api.post("/auth/account/reverify", data);
             }}
         />
     );
@@ -34,11 +34,8 @@ export function FormVerify() {
     const history = useHistory();
 
     useEffect(() => {
-        client
-            .req(
-                "POST",
-                `/auth/account/verify/${token}` as "/auth/account/verify/:code",
-            )
+        client.api
+            .post(`/auth/account/verify/${token as ""}`)
             .then(() => history.push("/login"))
             .catch((err) => setError(takeError(err)));
         // eslint-disable-next-line

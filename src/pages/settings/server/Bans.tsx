@@ -1,9 +1,7 @@
 import { XCircle } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { Virtuoso } from "react-virtuoso";
-import { Ban } from "revolt-api/types/Servers";
-import { User } from "revolt-api/types/Users";
-import { Route } from "revolt.js/dist/api/routes";
+import { API } from "revolt.js";
 import { Server } from "revolt.js/dist/maps/Servers";
 
 import styles from "./Panes.module.scss";
@@ -15,8 +13,8 @@ import IconButton from "../../../components/ui/IconButton";
 import Preloader from "../../../components/ui/Preloader";
 
 interface InnerProps {
-    ban: Ban;
-    users: Pick<User, "username" | "avatar" | "_id">[];
+    ban: API.ServerBan;
+    users: Pick<API.User, "username" | "avatar" | "_id">[];
     server: Server;
     removeSelf: () => void;
 }
@@ -53,9 +51,7 @@ interface Props {
 }
 
 export const Bans = observer(({ server }: Props) => {
-    const [data, setData] = useState<
-        Route<"GET", "/servers/id/bans">["response"] | undefined
-    >(undefined);
+    const [data, setData] = useState<API.BanListResult | undefined>(undefined);
 
     useEffect(() => {
         server.fetchBans().then(setData);

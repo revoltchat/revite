@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Attachment, AttachmentMetadata } from "revolt-api/types/Autumn";
-import { EmbedImage } from "revolt-api/types/January";
+import { API } from "revolt.js";
 
 import styles from "./ImageViewer.module.scss";
 
@@ -12,11 +11,11 @@ import { useClient } from "../../revoltjs/RevoltClient";
 
 interface Props {
     onClose: () => void;
-    embed?: EmbedImage;
-    attachment?: Attachment;
+    embed?: API.Image;
+    attachment?: API.File;
 }
 
-type ImageMetadata = AttachmentMetadata & { type: "Image" };
+type ImageMetadata = API.Metadata & { type: "Image" };
 
 export function ImageViewer({ attachment, embed, onClose }: Props) {
     if (attachment && attachment.metadata.type !== "Image") {

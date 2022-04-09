@@ -1,5 +1,5 @@
 import { runInAction } from "mobx";
-import { Session } from "revolt-api/types/Auth";
+import { API } from "revolt.js";
 
 import { Language } from "../../context/Locale";
 import {
@@ -63,7 +63,7 @@ export interface LegacySyncOptions {
 export interface LegacyAuthState {
     accounts: {
         [key: string]: {
-            session: Session;
+            session: API.Session;
         };
     };
     active?: string;
