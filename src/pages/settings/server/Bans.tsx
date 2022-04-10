@@ -12,6 +12,7 @@ import { useEffect, useState } from "preact/hooks";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import IconButton from "../../../components/ui/IconButton";
+import InputBox from "../../../components/ui/InputBox";
 import Preloader from "../../../components/ui/Preloader";
 
 interface InnerProps {
@@ -53,6 +54,7 @@ interface Props {
 }
 
 export const Bans = observer(({ server }: Props) => {
+    const [query, setQuery] = useState("");
     const [data, setData] = useState<
         Route<"GET", "/servers/id/bans">["response"] | undefined
     >(undefined);
@@ -63,6 +65,12 @@ export const Bans = observer(({ server }: Props) => {
 
     return (
         <div className={styles.userList}>
+            <InputBox
+                placeholder="Search for a specific user..."
+                value={query}
+                onChange={(e) => setQuery(e.currentTarget.value)}
+                contrast
+            />
             <div className={styles.subtitle}>
                 <span>
                     <Text id="app.settings.server_pages.bans.user" />
@@ -79,24 +87,33 @@ export const Bans = observer(({ server }: Props) => {
                 <div className={styles.virtual}>
                     <Virtuoso
                         totalCount={data.bans.length}
-                        itemContent={(index) => (
-                            <Inner
-                                key={data.bans[index]._id.user}
-                                server={server}
-                                users={data.users}
-                                ban={data.bans[index]}
-                                removeSelf={() => {
-                                    setData({
-                                        bans: data.bans.filter(
-                                            (y) =>
-                                                y._id.user !==
-                                                data.bans[index]._id.user,
-                                        ),
-                                        users: data.users,
-                                    });
-                                }}
-                            />
-                        )}
+                        itemContent={(index) =>
+                            (!query ||
+                                data.users
+                                    .find(
+                                        (u) =>
+                                            u._id == data.bans[index]._id.user,
+                                    )
+                                    ?.username.toLowerCase()
+                                    .includes(query.toLowerCase())) && (
+                                <Inner
+                                    key={data.bans[index]._id.user}
+                                    server={server}
+                                    users={data.users}
+                                    ban={data.bans[index]}
+                                    removeSelf={() => {
+                                        setData({
+                                            bans: data.bans.filter(
+                                                (y) =>
+                                                    y._id.user !==
+                                                    data.bans[index]._id.user,
+                                            ),
+                                            users: data.users,
+                                        });
+                                    }}
+                                />
+                            )
+                        }
                     />
                 </div>
             )}
