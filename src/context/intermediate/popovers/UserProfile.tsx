@@ -177,13 +177,17 @@ export const UserProfile = observer(
                         />
                         <div className={styles.details}>
                             <Localizer>
-                                <span
+                                <Tooltip
+                                 content="Click to copy username"
+                                    >
+                                    <span
                                     className={styles.username}
                                     onClick={() =>
                                         writeClipboard(user.username)
                                     }>
                                     @{user.username}
                                 </span>
+                                </Tooltip>
                             </Localizer>
                             {user.status?.text && (
                                 <span className={styles.status}>
