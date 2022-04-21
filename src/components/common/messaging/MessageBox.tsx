@@ -127,6 +127,10 @@ const FileAction = styled.div`
     }
 `;
 
+const ThisCodeWillBeReplacedAnywaysSoIMightAsWellJustDoItThisWay__Padding = styled.div`
+    width: 16px;
+`;
+
 // For sed replacement
 const RE_SED = new RegExp("^s/([^])*/([^])*$");
 
@@ -512,7 +516,9 @@ export default observer(({ channel }: Props) => {
                             }}
                         />
                     </FileAction>
-                ) : undefined}
+                ) : (
+                    <ThisCodeWillBeReplacedAnywaysSoIMightAsWellJustDoItThisWay__Padding />
+                )}
                 <TextAreaAutoSize
                     autoFocus
                     hideBorder
