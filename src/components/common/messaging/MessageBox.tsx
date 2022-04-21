@@ -228,7 +228,7 @@ export default observer(({ channel }: Props) => {
             );
             renderer.messages.reverse();
 
-            if (msg) {
+            if (msg?.content) {
                 // eslint-disable-next-line prefer-const
                 let [_, toReplace, newText, flags] = content.split(/\//);
 

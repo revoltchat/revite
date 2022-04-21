@@ -77,11 +77,8 @@ export const SystemMessage = observer(
             iconDictionary[data.type as API.SystemMessage["type"]] ??
             InfoCircle;
 
-        let children;
+        let children = null;
         switch (data.type) {
-            case "text":
-                children = <span>{data.content}</span>;
-                break;
             case "user_added":
             case "user_remove":
                 children = (
