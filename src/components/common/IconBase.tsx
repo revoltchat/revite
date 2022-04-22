@@ -1,5 +1,5 @@
 import { API } from "revolt.js";
-import { Nullable } from "revolt.js/dist/util/null";
+import { Nullable } from "revolt.js/esm/util/null";
 import styled, { css } from "styled-components/macro";
 
 export interface IconBaseProps<T> {

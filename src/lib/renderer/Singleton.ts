@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { action, makeAutoObservable } from "mobx";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Message } from "revolt.js/dist/maps/Messages";
-import { Nullable } from "revolt.js/dist/util/null";
+import { Channel } from "revolt.js/esm/maps/Channels";
+import { Message } from "revolt.js/esm/maps/Messages";
+import { Nullable } from "revolt.js/esm/util/null";
 
 import { SimpleRenderer } from "./simple/SimpleRenderer";
 import { RendererRoutines, ScrollState } from "./types";

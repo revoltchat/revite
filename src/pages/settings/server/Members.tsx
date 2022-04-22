@@ -2,8 +2,8 @@ import { ChevronDown } from "@styled-icons/boxicons-regular";
 import { isEqual } from "lodash";
 import { observer } from "mobx-react-lite";
 import { Virtuoso } from "react-virtuoso";
-import { Member } from "revolt.js/dist/maps/Members";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Member } from "revolt.js/esm/maps/Members";
+import { Server } from "revolt.js/esm/maps/Servers";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";

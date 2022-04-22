@@ -1,7 +1,7 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Message } from "revolt.js/dist/maps/Messages";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Channel } from "revolt.js/esm/maps/Channels";
+import { Message } from "revolt.js/esm/maps/Messages";
+import { Server } from "revolt.js/esm/maps/Servers";
 
 import { mapToRecord } from "../../lib/conversion";
 

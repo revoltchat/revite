@@ -7,8 +7,7 @@ import { Text } from "preact-i18n";
 import { useMemo } from "preact/hooks";
 
 import Checkbox from "../../ui/Checkbox";
-
-import { OverrideSwitch } from "./OverrideSwitch";
+import { OverrideSwitch } from "@revoltchat/ui";
 
 interface PermissionSelectProps {
     id: keyof typeof Permission;
@@ -20,6 +19,7 @@ interface PermissionSelectProps {
 type State = "Allow" | "Neutral" | "Deny";
 
 const PermissionEntry = styled.label`
+    gap: 8px;
     width: 100%;
     margin: 8px 0;
     display: flex;
@@ -100,9 +100,9 @@ export function PermissionSelect({
     return (
         <PermissionEntry>
             <span class="title">
-                <Text id={`permissions.server.${id}.t`}>{id}</Text>
+                <Text id={`permissions.${id}.t`}>{id}</Text>
                 <span class="description">
-                    <Text id={`permissions.server.${id}.d`} />
+                    <Text id={`permissions.${id}.d`} />
                 </span>
             </span>
             {typeof value === "object" ? (

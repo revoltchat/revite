@@ -13,7 +13,7 @@ import {
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { useHistory } from "react-router-dom";
 import { Channel, Message, Server, User, API } from "revolt.js";
-import { Permission, UserPermission } from "revolt.js/dist/api/permissions";
+import { Permission, UserPermission } from "revolt.js/esm/api/permissions";
 
 import {
     ContextMenuWithData,

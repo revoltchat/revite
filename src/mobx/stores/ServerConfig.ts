@@ -1,7 +1,7 @@
 import { action, computed, makeAutoObservable } from "mobx";
 import { API } from "revolt.js";
 import { Client } from "revolt.js";
-import { Nullable } from "revolt.js/dist/util/null";
+import { Nullable } from "revolt.js/esm/util/null";
 
 import { isDebug } from "../../revision";
 import Persistent from "../interfaces/Persistent";
