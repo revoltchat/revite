@@ -1,4 +1,4 @@
-import { Message } from "revolt.js/dist/maps/Messages";
+import { Message } from "revolt.js/esm/maps/Messages";
 
 import { ChannelRenderer } from "./Singleton";
 

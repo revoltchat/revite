@@ -3,8 +3,8 @@ import { X } from "@styled-icons/boxicons-regular";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
 import { API } from "revolt.js";
-import { Message as MessageI } from "revolt.js/dist/maps/Messages";
-import { Nullable } from "revolt.js/dist/util/null";
+import { Message as MessageI } from "revolt.js/esm/maps/Messages";
+import { Nullable } from "revolt.js/esm/util/null";
 import styled from "styled-components/macro";
 import { decodeTime } from "ulid";
 

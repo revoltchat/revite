@@ -16,7 +16,16 @@ export function PermissionList({ value, onChange, filter }: Props) {
             {(Object.keys(Permission) as (keyof typeof Permission)[])
                 .filter(
                     (key) =>
-                        key !== "GrantAllSafe" &&
+                        ![
+                            "GrantAllSafe",
+                            "TimeoutMembers",
+                            "ReadMessageHistory",
+                            "Speak",
+                            "Video",
+                            "MuteMembers",
+                            "DeafenMembers",
+                            "MoveMembers",
+                        ].includes(key) &&
                         (!filter || filter.includes(key)),
                 )
                 .map((x) => (
