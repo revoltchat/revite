@@ -38,6 +38,8 @@ yarn
 yarn dev
 ```
 
+You can now access the client at http://local.revolt.chat:3000.
+
 ## CLI Commands
 
 | Command             | Description                                  |
