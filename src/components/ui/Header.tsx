@@ -23,7 +23,7 @@ interface Props {
     placement: "primary" | "secondary";
 }
 
-const Header = styled.div<Props>`
+const Header = styled.header<Props>`
     gap: 10px;
     flex: 0 auto;
     display: flex;

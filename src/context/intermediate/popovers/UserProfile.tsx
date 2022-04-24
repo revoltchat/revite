@@ -47,6 +47,11 @@ interface Props {
     dummyProfile?: Profile;
 }
 
+interface TabProps {
+    name: string;
+    text: string;
+}
+
 export const UserProfile = observer(
     ({ user_id, onClose, dummy, dummyProfile }: Props) => {
         const { openScreen, writeClipboard } = useIntermediate();
@@ -144,6 +149,17 @@ export const UserProfile = observer(
         const badges = user.badges ?? 0;
         const flags = user.flags ?? 0;
 
+        const Tab = ({ name, text }: TabProps) => (
+            // TODO: implement focus-switching with arrow keys (see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tab_role)
+            <button
+                role="tab"
+                aria-selected={tab === name}
+                aria-controls="profileContent"
+                onClick={() => setTab(name)}>
+                <Text id={text} />
+            </button>
+        );
+
         return (
             <Modal
                 visible
@@ -161,20 +177,24 @@ export const UserProfile = observer(
                         paddingBottom: "1px",
                     }}>
                     <div className={styles.profile}>
-                        <UserIcon
-                            size={80}
-                            target={user}
-                            status
-                            animate
-                            hover={typeof user.avatar !== "undefined"}
+                        <a
+                            href="#"
+                            aria-label="View Avatar"
                             onClick={() =>
                                 user.avatar &&
                                 openScreen({
                                     id: "image_viewer",
                                     attachment: user.avatar,
                                 })
-                            }
-                        />
+                            }>
+                            <UserIcon
+                                size={80}
+                                target={user}
+                                status
+                                animate
+                                hover={typeof user.avatar !== "undefined"}
+                            />
+                        </a>
                         <div className={styles.details}>
                             <Localizer>
                                 <span
@@ -241,34 +261,30 @@ export const UserProfile = observer(
                             </IconButton>
                         )}
                     </div>
-                    <div className={styles.tabs}>
-                        <div
-                            data-active={tab === "profile"}
-                            onClick={() => setTab("profile")}>
-                            <Text id="app.special.popovers.user_profile.profile" />
-                        </div>
+                    <div className={styles.tabs} aria-role="tablist">
+                        <Tab
+                            name="profile"
+                            text="app.special.popovers.user_profile.profile"
+                        />
                         {user.relationship !== RelationshipStatus.User && (
                             <>
-                                <div
-                                    data-active={tab === "friends"}
-                                    onClick={() => setTab("friends")}>
-                                    <Text id="app.special.popovers.user_profile.mutual_friends" />
-                                </div>
-                                <div
-                                    data-active={tab === "groups"}
-                                    onClick={() => setTab("groups")}>
-                                    <Text id="app.special.popovers.user_profile.mutual_groups" />
-                                </div>
-                                <div
-                                    data-active={tab === "servers"}
-                                    onClick={() => setTab("servers")}>
-                                    <Text id="app.special.popovers.user_profile.mutual_servers" />
-                                </div>
+                                <Tab
+                                    name="friends"
+                                    text="app.special.popovers.user_profile.mutual_friends"
+                                />
+                                <Tab
+                                    name="groups"
+                                    text="app.special.popovers.user_profile.mutual_groups"
+                                />
+                                <Tab
+                                    name="servers"
+                                    text="app.special.popovers.user_profile.mutual_servers"
+                                />
                             </>
                         )}
                     </div>
                 </div>
-                <div className={styles.content}>
+                <div id="profileContent" className={styles.content}>
                     {tab === "profile" &&
                         (profile?.content ||
                         badges > 0 ||

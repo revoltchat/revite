@@ -55,7 +55,7 @@ export type UploadState =
     | { type: "sending"; files: File[] }
     | { type: "failed"; files: File[]; error: string };
 
-const Base = styled.div`
+const Base = styled.div.attrs({ "aria-label": "Message Box" })`
     z-index: 1;
     display: flex;
     align-items: flex-start;
@@ -96,7 +96,7 @@ const Blocked = styled.div`
 `;
 
 const Action = styled.div`
-    > div {
+    > button {
         height: 48px;
         width: 48px;
         display: flex;
@@ -119,12 +119,13 @@ const Action = styled.div`
 `;
 
 const FileAction = styled.div`
-    > div {
+    > button {
         height: 48px;
         width: 62px;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
 `;
 
 // For sed replacement

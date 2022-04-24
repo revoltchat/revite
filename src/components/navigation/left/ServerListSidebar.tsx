@@ -89,7 +89,10 @@ const ServersBase = styled.div`
     `}
 `;
 
-const ServerList = styled.div`
+const ServerList = styled.div.attrs({
+    role: "tablist",
+    "aria-orientation": "vertical",
+})`
     flex-grow: 1;
     display: flex;
     overflow-y: scroll;
@@ -107,7 +110,17 @@ const ServerList = styled.div`
     }
 `;
 
-const ServerEntry = styled.div<{ active: boolean; home?: boolean }>`
+interface ServerEntryProps {
+    active: boolean;
+    home?: boolean;
+}
+
+// TODO: implement focus-switching with arrow keys (see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tab_role)
+const ServerEntry = styled.div.attrs((props: ServerEntryProps) => ({
+    role: "tab",
+    "aria-selected": props.active,
+    "aria-controls": "serverSidebar",
+}))<ServerEntryProps>`
     height: 54px;
     display: flex;
     align-items: center;

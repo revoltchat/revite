@@ -65,21 +65,24 @@
     gap: 8px;
     display: flex;
     padding: 0 1.5em;
-    font-size: 0.875rem;
-    font-weight: 500;
 
-    > div {
+    > button {
         padding: 8px;
+        color: inherit;
+        background: transparent;
+        border: none;
+        font-size: 0.875rem;
+        font-weight: 500;
         cursor: pointer;
         border-bottom: 2px solid transparent;
         transition: border-bottom 0.3s;
 
-        &[data-active="true"] {
+        &[aria-selected="true"] {
             border-bottom: 2px solid var(--foreground);
             cursor: default;
         }
 
-        &:hover:not([data-active="true"]) {
+        &[aria-selected="false"]:hover {
             border-bottom: 2px solid var(--tertiary-foreground);
         }
     }

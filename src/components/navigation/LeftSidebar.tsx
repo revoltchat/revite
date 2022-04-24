@@ -20,7 +20,7 @@ export default observer(() => {
         (isTouchscreenDevice || layout.getSectionState(SIDEBAR_CHANNELS, true));
 
     return (
-        <SidebarBase>
+        <SidebarBase as="nav">
             <Switch>
                 <Route path="/settings" />
                 <Route path="/server/:server/channel/:channel">

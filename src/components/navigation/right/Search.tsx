@@ -30,6 +30,14 @@ type SearchState =
 const SearchBase = styled.div`
     padding: 6px;
 
+    .btn-link {
+        background: transparent;
+        border: 0;
+        color: inherit;
+        font-weight: inherit;
+        cursor: pointer;
+    }
+
     input {
         width: 100%;
     }
@@ -103,7 +111,9 @@ export function SearchSidebar({ close }: Props) {
             <GenericSidebarList>
                 <SearchBase>
                     <Overline type="accent" block hover>
-                        <a onClick={close}>« back to members</a>
+                        <button class="btn-link" onClick={close}>
+                            « back to members
+                        </button>
                     </Overline>
                     <Overline type="subtle" block>
                         <Text id="app.main.channel.search.title" />

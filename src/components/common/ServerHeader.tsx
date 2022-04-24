@@ -19,7 +19,9 @@ interface Props {
     background?: boolean;
 }
 
-const ServerBanner = styled.div<Omit<Props, "server">>`
+const ServerBanner = styled.h1<Omit<Props, "server">>`
+    margin: 0;
+    font-size: inherit;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;

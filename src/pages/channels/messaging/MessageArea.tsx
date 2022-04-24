@@ -33,7 +33,10 @@ import Preloader from "../../../components/ui/Preloader";
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
 
-const Area = styled.div.attrs({ "data-scroll-offset": "with-padding" })`
+const Area = styled.div.attrs({
+    "data-scroll-offset": "with-padding",
+    role: "feed",
+})`
     height: 100%;
     flex-grow: 1;
     min-height: 0;

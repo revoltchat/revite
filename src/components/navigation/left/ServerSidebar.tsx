@@ -23,7 +23,7 @@ import Category from "../../ui/Category";
 import { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
 
-const ServerBase = styled.div`
+const ServerBase = styled.div.attrs({ id: "serverSidebar" })`
     height: 100%;
     width: 232px;
     display: flex;
@@ -40,7 +40,10 @@ const ServerBase = styled.div`
     `}
 `;
 
-const ServerList = styled.div`
+const ServerList = styled.div.attrs({
+    "aria-role": "tablist",
+    "aria-orientation": "vertical",
+})`
     padding: 6px;
     flex-grow: 1;
     overflow-y: scroll;
@@ -82,7 +85,12 @@ export default observer(() => {
         const mentionCount = entry.getMentions(state.notifications);
 
         return (
+            // TODO: implement focus-switching with arrow keys (see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tab_role)
             <ConditionalLink
+                role="tab"
+                aria-selected={active}
+                aria-controls="main"
+                aria-label={entry.name ?? undefined} // typescript complains about entry.name being Nullable<string> without this
                 onClick={(e) => {
                     if (e.shiftKey) {
                         internalEmit(
@@ -142,6 +150,7 @@ export default observer(() => {
             <ServerHeader server={server} />
             <ConnectionStatus />
             <ServerList
+                id="channelList"
                 {...useTriggerEvents("Menu", {
                     server_list: server._id,
                 })}>

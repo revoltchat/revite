@@ -53,7 +53,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
                 `}
         `}
 
-    > div {
+    > button {
         height: 28px;
         width: 100%;
         position: absolute;
@@ -63,6 +63,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
         font-size: 12px;
         font-weight: 600;
         padding: 0 8px;
+        border: 0;
         user-select: none;
         justify-content: space-between;
         transition: color ease-in-out 0.08s;
@@ -147,7 +148,7 @@ export default observer(({ channel }: { channel: Channel }) => {
 
     return (
         <Bar position="bottom">
-            <div
+            <button
                 onClick={() => {
                     renderer.jumpToBottom(true);
                     internalEmit("NewMessages", "hide");
@@ -161,7 +162,7 @@ export default observer(({ channel }: { channel: Channel }) => {
                     </span>
                     <DownArrowAlt size={18} />
                 </div>
-            </div>
+            </button>
         </Bar>
     );
 });

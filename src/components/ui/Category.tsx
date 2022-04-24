@@ -18,6 +18,12 @@ const CategoryBase = styled.div<Pick<Props, "variant">>`
     flex-direction: row;
     justify-content: space-between;
 
+    > button {
+        background: 0;
+        border: 0;
+        color: inherit;
+    }
+
     svg {
         cursor: pointer;
     }
@@ -49,7 +55,11 @@ export default function Category(props: Props) {
     return (
         <CategoryBase {...otherProps}>
             {text}
-            {action && <Plus size={16} onClick={action} />}
+            {action && (
+                <button onClick={action}>
+                    <Plus size={16} />
+                </button>
+            )}
         </CategoryBase>
     );
 }
