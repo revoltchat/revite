@@ -1,7 +1,9 @@
-import { X } from "@styled-icons/boxicons-regular";
+import { X, UserPlus, Cog } from "@styled-icons/boxicons-regular";
 import { Crown } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
+import { Link } from "react-router-dom";
 import { Presence } from "revolt-api/types/Users";
+import { ChannelPermission } from "revolt.js/dist/api/permissions";
 import { Channel } from "revolt.js/dist/maps/Channels";
 import { User } from "revolt.js/dist/maps/Users";
 
@@ -210,6 +212,31 @@ export const ChannelButton = observer((props: ChannelProps) => {
                         <X size={24} />
                     </IconButton>
                 )}
+                {!isTouchscreenDevice && channel.channel_type === "TextChannel" && (channel.permission & ChannelPermission.InviteOthers) && (
+                    <IconButton
+                        className={styles.icon}
+                        onClick={() =>
+                            openScreen({
+                                id: "special_prompt",
+                                type: "create_invite",
+                                target: channel,
+                            })
+                        }>
+                        <UserPlus size={24} />
+                    </IconButton>
+                )}
+                {!isTouchscreenDevice &&
+                    channel.channel_type === "TextChannel" &&
+                    channel.permission & ChannelPermission.ManageChannel && (
+                        <div className="actions">
+                            <Link to={`/channel/${channel._id}/settings`}>
+                                <IconButton>
+                                    <Cog size={24} />
+                                </IconButton>
+                            </Link>
+                        </div>
+                    )
+                }
             </div>
         </div>
     );
