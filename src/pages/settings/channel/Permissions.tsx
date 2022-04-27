@@ -1,9 +1,12 @@
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
 import { Channel, API } from "revolt.js";
-import { DEFAULT_PERMISSION_DIRECT_MESSAGE } from "revolt.js/esm/api/permissions";
+import { DEFAULT_PERMISSION_DIRECT_MESSAGE } from "revolt.js";
 
+import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
+
+import { TextReact } from "../../../lib/i18n";
 
 import { PermissionsLayout, Button, SpaceBetween, H1 } from "@revoltchat/ui";
 
@@ -75,7 +78,12 @@ export default observer(({ channel }: Props) => {
                 return (
                     <div>
                         <SpaceBetween>
-                            <H1>Permissions for {currentRole.name}</H1>
+                            <H1>
+                                <TextReact
+                                    id="app.settings.permissions.title"
+                                    fields={{ role: currentRole.name }}
+                                />
+                            </H1>
                             <Button
                                 palette="secondary"
                                 disabled={isEqual(
@@ -83,7 +91,7 @@ export default observer(({ channel }: Props) => {
                                     currentValue,
                                 )}
                                 onClick={save}>
-                                Save
+                                <Text id="app.special.modals.actions.save" />
                             </Button>
                         </SpaceBetween>
                         <PermissionList

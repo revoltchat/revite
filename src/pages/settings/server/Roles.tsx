@@ -1,6 +1,6 @@
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import { Server } from "revolt.js/esm/maps/Servers";
+import { Server } from "revolt.js";
 
 import { useMemo, useState } from "preact/hooks";
 

@@ -2,7 +2,7 @@ import { X, Plus } from "@styled-icons/boxicons-regular";
 import { PhoneCall, Envelope, UserX } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { User } from "revolt.js/esm/maps/Users";
+import { User } from "revolt.js";
 
 import styles from "./Friend.module.scss";
 import classNames from "classnames";

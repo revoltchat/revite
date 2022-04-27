@@ -1,4 +1,4 @@
-import { Message } from "revolt.js/esm/maps/Messages";
+import { Message } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { useContext, useEffect, useState } from "preact/hooks";

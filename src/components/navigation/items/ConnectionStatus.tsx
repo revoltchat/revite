@@ -23,7 +23,9 @@ export default function ConnectionStatus() {
         return (
             <Banner>
                 <Text id="app.special.status.disconnected" /> <br />
-                <a onClick={() => client.websocket.connect()}>Reconnect</a>
+                <a onClick={() => client.websocket.connect()}>
+                    <Text id="app.special.status.reconnect" />
+                </a>
             </Banner>
         );
     } else if (status === ClientStatus.CONNECTING) {

@@ -1881,10 +1881,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@insertish/exponential-backoff@npm:3.1.0-patch.0":
-  version: 3.1.0-patch.0
-  resolution: "@insertish/exponential-backoff@npm:3.1.0-patch.0"
-  checksum: 3fca4d1990ba7d8488e7e121928d89df166dadacf93c4f2dfb61e7145d903dcfc2679377289d4d5739176c5d0b76e043a18fa6191d5345d61286d0bc73b331e3
+"@insertish/exponential-backoff@npm:3.1.0-patch.2":
+  version: 3.1.0-patch.2
+  resolution: "@insertish/exponential-backoff@npm:3.1.0-patch.2"
+  checksum: 510a531965965c8cc633a91653ca09ffa8408925eb403d07c072bed065ec8ce429b4fd42fb0639a3dbee73d300d4422c306ebaaab3292b06778a224a2b5b0bf1
   languageName: node
   linkType: hard
 
@@ -3404,7 +3404,7 @@ __metadata:
     react-scroll: ^1.8.2
     react-virtualized-auto-sizer: ^1.0.5
     react-virtuoso: ^1.10.4
-    revolt.js: 6.0.0-rc.15
+    revolt.js: 6.0.0-rc.19
     rimraf: ^3.0.2
     sass: ^1.35.1
     shade-blend-color: ^1.0.0
@@ -6710,11 +6710,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revolt.js@npm:6.0.0-rc.15":
-  version: 6.0.0-rc.15
-  resolution: "revolt.js@npm:6.0.0-rc.15"
+"revolt.js@npm:6.0.0-rc.19":
+  version: 6.0.0-rc.19
+  resolution: "revolt.js@npm:6.0.0-rc.19"
   dependencies:
-    "@insertish/exponential-backoff": 3.1.0-patch.0
+    "@insertish/exponential-backoff": 3.1.0-patch.2
     "@insertish/isomorphic-ws": ^4.0.1
     axios: ^0.21.4
     eventemitter3: ^4.0.7
@@ -6726,7 +6726,7 @@ __metadata:
     revolt-api: 0.5.3-rc.15
     ulid: ^2.3.0
     ws: ^8.2.2
-  checksum: 51260c43426029c0dd9336be3d7136f8b43803585a15a026922eee83b7a56fe821a8b4c08cbf00c18e78375142be543a6dd0f3432c3fdcd01f63c588af60a49b
+  checksum: 8cbc4a40c10dce858cdd792be11681580e1fdb9ee48feeac9a826ae5e797496fe5c750a41ec3a4f5610c40197e7baea7b7ae109d8b0165938d845d0251bb7d66
   languageName: node
   linkType: hard
 

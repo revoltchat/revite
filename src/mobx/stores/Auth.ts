@@ -1,6 +1,6 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 import { API } from "revolt.js";
-import { Nullable } from "revolt.js/esm/util/null";
+import { Nullable } from "revolt.js";
 
 import { mapToRecord } from "../../lib/conversion";
 

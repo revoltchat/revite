@@ -4,7 +4,7 @@ import { LockAlt, HelpCircle } from "@styled-icons/boxicons-solid";
 import type { AxiosError } from "axios";
 import { observer } from "mobx-react-lite";
 import { API } from "revolt.js";
-import { User } from "revolt.js/esm/maps/Users";
+import { User } from "revolt.js";
 import styled from "styled-components/macro";
 
 import styles from "./Panes.module.scss";
