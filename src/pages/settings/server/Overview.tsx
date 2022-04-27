@@ -1,7 +1,7 @@
 import { Markdown } from "@styled-icons/boxicons-logos";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import { Server } from "revolt.js/esm/maps/Servers";
+import { Server } from "revolt.js";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";

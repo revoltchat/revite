@@ -3,7 +3,7 @@ import { Ghost } from "@styled-icons/boxicons-solid";
 import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router-dom";
-import { Channel as ChannelI } from "revolt.js/esm/maps/Channels";
+import { Channel as ChannelI } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
