@@ -131,7 +131,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
             )}
             {isAuthor ||
             (message.channel &&
-                message.channel.permission & Permission.ManageMessages) ? (
+                message.channel.havePermission("ManageMessages")) ? (
                 <Tooltip content="Delete">
                     <Entry
                         onClick={(e) =>

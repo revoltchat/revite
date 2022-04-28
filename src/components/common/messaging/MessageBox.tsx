@@ -151,7 +151,7 @@ export default observer(({ channel }: Props) => {
 
     const renderer = getRenderer(channel);
 
-    if (!(channel.permission & Permission.SendMessage)) {
+    if (!channel.havePermission("SendMessage")) {
         return (
             <Base>
                 <Blocked>
@@ -479,7 +479,7 @@ export default observer(({ channel }: Props) => {
                 setReplies={setReplies}
             />
             <Base>
-                {channel.permission & Permission.UploadFiles ? (
+                {channel.havePermission("UploadFiles") ? (
                     <FileAction>
                         <FileUploader
                             size={24}

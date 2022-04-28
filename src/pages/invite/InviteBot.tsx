@@ -70,10 +70,7 @@ export default function InviteBot() {
                             onChange={(e) => setServer(e.currentTarget.value)}>
                             <option value="none">Select a server</option>
                             {[...client.servers.values()]
-                                .filter(
-                                    (x) =>
-                                        x.permission & Permission.ManageServer,
-                                )
+                                .filter((x) => x.havePermission("ManageServer"))
                                 .map((server) => (
                                     <option value={server._id} key={server._id}>
                                         {server.name}
