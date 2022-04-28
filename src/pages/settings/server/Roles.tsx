@@ -2,6 +2,7 @@ import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
 import { Server } from "revolt.js";
 
+import { Text } from "preact-i18n";
 import { useMemo, useState } from "preact/hooks";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
@@ -109,7 +110,12 @@ export const Roles = observer(({ server }: Props) => {
                 return (
                     <div>
                         <SpaceBetween>
-                            <H1>Edit {currentRole.name}</H1>
+                            <H1>
+                                <Text
+                                    id="app.settings.actions.edit"
+                                    fields={{ name: currentRole.name }}
+                                />
+                            </H1>
                             <Button
                                 palette="secondary"
                                 disabled={isEqual(
@@ -117,14 +123,16 @@ export const Roles = observer(({ server }: Props) => {
                                     currentRoleValue,
                                 )}
                                 onClick={save}>
-                                Save
+                                <Text id="app.special.modals.actions.save" />
                             </Button>
                         </SpaceBetween>
                         <hr />
                         {selected !== "default" && (
                             <>
                                 <section>
-                                    <Overline type="subtle">Role Name</Overline>
+                                    <Overline type="subtle">
+                                        <Text id="app.settings.permissions.role_name" />
+                                    </Overline>
                                     <p>
                                         <InputBox
                                             value={currentRoleValue.name}
@@ -140,7 +148,7 @@ export const Roles = observer(({ server }: Props) => {
                                 </section>
                                 <section>
                                     <Overline type="subtle">
-                                        Role Colour
+                                        <Text id="app.settings.permissions.role_colour" />
                                     </Overline>
                                     <p>
                                         <ColourSwatches
@@ -156,7 +164,7 @@ export const Roles = observer(({ server }: Props) => {
                                 </section>
                                 <section>
                                     <Overline type="subtle">
-                                        Role Options
+                                        <Text id="app.settings.permissions.role_options" />
                                     </Overline>
                                     <p>
                                         <Checkbox
@@ -166,14 +174,16 @@ export const Roles = observer(({ server }: Props) => {
                                             onChange={(hoist) =>
                                                 setValue({ ...value, hoist })
                                             }
-                                            description="Display this role above others.">
-                                            Hoist Role
+                                            description={
+                                                <Text id="app.settings.permissions.hoist_desc" />
+                                            }>
+                                            <Text id="app.settings.permissions.hoist_role" />
                                         </Checkbox>
                                     </p>
                                 </section>
                                 <section>
                                     <Overline type="subtle">
-                                        Role Ranking
+                                        <Text id="app.settings.permissions.role_ranking" />
                                     </Overline>
                                     <p>
                                         <InputBox
@@ -193,7 +203,9 @@ export const Roles = observer(({ server }: Props) => {
                                 </section>
                             </>
                         )}
-                        <h1>Edit Permissions</h1>
+                        <h1>
+                            <Text id="app.settings.permissions.edit_title" />
+                        </h1>
                         <PermissionList
                             value={currentRoleValue.permissions}
                             onChange={(permissions) =>
@@ -206,12 +218,14 @@ export const Roles = observer(({ server }: Props) => {
                         {selected !== "default" && (
                             <>
                                 <hr />
-                                <h1>Danger Zone</h1>
+                                <h1>
+                                    <Text id="app.settings.categories.danger_zone" />
+                                </h1>
                                 <Button
                                     palette="error"
                                     compact
                                     onClick={deleteRole}>
-                                    Delete Role
+                                    <Text id="app.settings.permissions.delete_role" />
                                 </Button>
                             </>
                         )}
