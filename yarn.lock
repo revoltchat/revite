@@ -3404,7 +3404,7 @@ __metadata:
     react-scroll: ^1.8.2
     react-virtualized-auto-sizer: ^1.0.5
     react-virtuoso: ^1.10.4
-    revolt.js: 6.0.0-rc.20
+    revolt.js: 6.0.0-rc.21
     rimraf: ^3.0.2
     sass: ^1.35.1
     shade-blend-color: ^1.0.0
@@ -6710,9 +6710,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revolt.js@npm:6.0.0-rc.20":
-  version: 6.0.0-rc.20
-  resolution: "revolt.js@npm:6.0.0-rc.20"
+"revolt.js@npm:6.0.0-rc.21":
+  version: 6.0.0-rc.21
+  resolution: "revolt.js@npm:6.0.0-rc.21"
   dependencies:
     "@insertish/exponential-backoff": 3.1.0-patch.2
     "@insertish/isomorphic-ws": ^4.0.1
@@ -6726,7 +6726,7 @@ __metadata:
     revolt-api: 0.5.3-rc.15
     ulid: ^2.3.0
     ws: ^8.2.2
-  checksum: a8d6e3eca6a6d7ea96911b40262763bfc9a0cf0dc8f36b63615f4c4c0a18430fa95e49f020f153299ac518019b5c2ef7c2de5940fe83332d8edb8957e7d9e3ed
+  checksum: 547cf4a11ef591351523f19707c8d6ee306a82f965da6db2b63217067dea19244fc8125c362bcf0c32f727f2ba351b748f176a633f2420ee37599bef35942c6f
   languageName: node
   linkType: hard
 
