@@ -1,7 +1,16 @@
 import { Send, ShieldX } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
+import Long from "long";
 import { observer } from "mobx-react-lite";
-import { Channel, Permission } from "revolt.js";
+import {
+    Channel,
+    DEFAULT_PERMISSION_DIRECT_MESSAGE,
+    DEFAULT_PERMISSION_VIEW_ONLY,
+    Permission,
+    Server,
+    U32_MAX,
+    UserPermission,
+} from "revolt.js";
 import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
 
