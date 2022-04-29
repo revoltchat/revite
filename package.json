@@ -69,7 +69,7 @@
         "vite": "^2.6.14"
     },
     "devDependencies": {
-        "@babel/plugin-proposal-decorators": "^7.16.7",
+        "@babel/plugin-proposal-decorators": "^7.17.9",
         "@fontsource/atkinson-hyperlegible": "^4.4.5",
         "@fontsource/comic-neue": "^4.4.5",
         "@fontsource/fira-code": "^4.4.5",
