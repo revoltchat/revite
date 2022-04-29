@@ -184,6 +184,7 @@
             padding: 80px 32px;
             width: 100%;
             flex-direction: column;
+            height: max-content;
 
             // This prevents members, invites and ban list from being able to properly display.
             // height: fit-content;
