@@ -1,4 +1,4 @@
-import { Channel } from "revolt.js/dist/maps/Channels";
+import { Channel } from "revolt.js";
 
 import { Text } from "preact-i18n";
 
@@ -6,23 +6,23 @@ import { Children } from "../../types/Preact";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function takeError(error: any): string {
-    const type = error?.response?.data?.type;
-    const id = type;
-    if (!type) {
-        if (
-            error?.response?.status === 401 ||
-            error?.response?.status === 403
-        ) {
-            return "Unauthorized";
-        } else if (error && !!error.isAxiosError && !error.response) {
-            return "NetworkError";
+    if (error.response) {
+        const status = error.response.status;
+        switch (status) {
+            case 429:
+                return "TooManyRequests";
+            case 401:
+            case 403:
+                return "Unauthorized";
+            default:
+                return error.response.type ?? "UnknownError";
         }
-
-        console.error(error);
-        return "UnknownError";
+    } else if (error.request) {
+        return "NetworkError";
     }
 
-    return id;
+    console.error(error);
+    return "UnknownError";
 }
 
 export function getChannelName(

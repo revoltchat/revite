@@ -1,8 +1,16 @@
-import { Send, ShieldX, HappyBeaming, Box } from "@styled-icons/boxicons-solid";
+import { Send, ShieldX } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
+import Long from "long";
 import { observer } from "mobx-react-lite";
-import { ChannelPermission } from "revolt.js/dist/api/permissions";
-import { Channel } from "revolt.js/dist/maps/Channels";
+import {
+    Channel,
+    DEFAULT_PERMISSION_DIRECT_MESSAGE,
+    DEFAULT_PERMISSION_VIEW_ONLY,
+    Permission,
+    Server,
+    U32_MAX,
+    UserPermission,
+} from "revolt.js";
 import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
 
@@ -125,6 +133,11 @@ const FileAction = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+`;
+
+const ThisCodeWillBeReplacedAnywaysSoIMightAsWellJustDoItThisWay__Padding = styled.div`
+    width: 16px;
 `;
 
 // For sed replacement
@@ -150,7 +163,7 @@ export default observer(({ channel }: Props) => {
 
     const renderer = getRenderer(channel);
 
-    if (!(channel.permission & ChannelPermission.SendMessage)) {
+    if (!channel.havePermission("SendMessage")) {
         return (
             <Base>
                 <Blocked>
@@ -231,7 +244,7 @@ export default observer(({ channel }: Props) => {
             );
             renderer.messages.reverse();
 
-            if (msg) {
+            if (msg?.content) {
                 // eslint-disable-next-line prefer-const
                 let [_, toReplace, newText, flags] = content.split(/\//);
 
@@ -493,7 +506,7 @@ export default observer(({ channel }: Props) => {
                 setReplies={setReplies}
             />
             <Base>
-                {channel.permission & ChannelPermission.UploadFiles ? (
+                {channel.havePermission("UploadFiles") ? (
                     <FileAction>
                         <FileUploader
                             size={24}
@@ -530,7 +543,9 @@ export default observer(({ channel }: Props) => {
                             }}
                         />
                     </FileAction>
-                ) : undefined}
+                ) : (
+                    <ThisCodeWillBeReplacedAnywaysSoIMightAsWellJustDoItThisWay__Padding />
+                )}
                 <TextAreaAutoSize
                     autoFocus
                     hideBorder

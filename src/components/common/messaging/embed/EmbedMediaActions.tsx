@@ -1,12 +1,12 @@
 import { LinkExternal } from "@styled-icons/boxicons-regular";
-import { EmbedImage } from "revolt-api/types/January";
+import { API } from "revolt.js";
 
 import styles from "./Embed.module.scss";
 
 import IconButton from "../../../ui/IconButton";
 
 interface Props {
-    embed: EmbedImage;
+    embed: API.Image;
 }
 
 export default function EmbedMediaActions({ embed }: Props) {

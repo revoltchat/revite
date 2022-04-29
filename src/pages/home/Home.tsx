@@ -21,9 +21,9 @@ import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
 
+import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
-import Tooltip from "../../components/common/Tooltip";
 import { PageHeader } from "../../components/ui/Header";
 import CategoryButton from "../../components/ui/fluent/CategoryButton";
 import wideSVG from "/assets/wide.svg";
@@ -42,6 +42,7 @@ const Overlay = styled.div`
 `;
 
 export default observer(() => {
+    const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
     const state = useApplicationState();
 
@@ -93,7 +94,13 @@ export default observer(() => {
                             <img src={wideSVG} />
                         </h3>
                         <div className={styles.actions}>
-                            <Link to="/settings">
+                            <a
+                                onClick={() =>
+                                    openScreen({
+                                        id: "special_input",
+                                        type: "create_group",
+                                    })
+                                }>
                                 <CategoryButton
                                     action="chevron"
                                     icon={<PlusCircle size={32} />}
@@ -102,7 +109,7 @@ export default observer(() => {
                                     }>
                                     <Text id="app.home.group" />
                                 </CategoryButton>
-                            </Link>
+                            </a>
                             <Link to="/discover">
                                 <a>
                                     <CategoryButton

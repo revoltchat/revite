@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { Channel } from "revolt.js/dist/maps/Channels";
+import { Channel } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
@@ -69,7 +69,7 @@ export default observer(({ channel }: Props) => {
                         { max_side: 256 },
                         true,
                     )}
-                    remove={() => channel.edit({ remove: "Icon" })}
+                    remove={() => channel.edit({ remove: ["Icon"] })}
                     defaultPreview={
                         channel.channel_type === "Group"
                             ? "/assets/group.png"

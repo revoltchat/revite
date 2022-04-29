@@ -1,7 +1,7 @@
 import { ArrowBack } from "@styled-icons/boxicons-regular";
 import { autorun } from "mobx";
 import { Redirect, useHistory, useParams } from "react-router-dom";
-import { RetrievedInvite } from "revolt-api/types/Invites";
+import { API } from "revolt.js";
 
 import styles from "./Invite.module.scss";
 import { Text } from "preact-i18n";
@@ -36,7 +36,7 @@ export default function Invite() {
     const { code } = useParams<{ code: string }>();
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
-    const [invite, setInvite] = useState<RetrievedInvite | undefined>(
+    const [invite, setInvite] = useState<API.InviteResponse | undefined>(
         undefined,
     );
 
@@ -91,6 +91,8 @@ export default function Invite() {
             </div>
         );
     }
+
+    if (invite.type === "Group") return <h1>unimplemented</h1>;
 
     return (
         <div
@@ -156,42 +158,17 @@ export default function Invite() {
                                     return history.push("/");
                                 }
 
+                                setProcessing(true);
+
                                 try {
-                                    setProcessing(true);
+                                    await client.joinInvite(invite);
 
-                                    if (invite.type === "Server") {
-                                        if (
-                                            client.servers.get(invite.server_id)
-                                        ) {
-                                            history.push(
-                                                `/server/${invite.server_id}/channel/${invite.channel_id}`,
-                                            );
-                                        }
-
-                                        const dispose = autorun(() => {
-                                            const server = client.servers.get(
-                                                invite.server_id,
-                                            );
-
-                                            defer(() => {
-                                                if (server) {
-                                                    client.unreads!.markMultipleRead(
-                                                        server.channel_ids,
-                                                    );
-
-                                                    history.push(
-                                                        `/server/${server._id}/channel/${invite.channel_id}`,
-                                                    );
-                                                }
-                                            });
-
-                                            dispose();
-                                        });
-                                    }
-
-                                    await client.joinInvite(code);
+                                    history.push(
+                                        `/server/${invite.server_id}/channel/${invite.channel_id}`,
+                                    );
                                 } catch (err) {
                                     setError(takeError(err));
+                                } finally {
                                     setProcessing(false);
                                 }
                             }}>

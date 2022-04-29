@@ -1,7 +1,7 @@
 /**
  * This file monitors changes to settings and syncs them to the server.
  */
-import { ClientboundNotification } from "revolt.js/dist/websocket/notifications";
+import { ClientboundNotification } from "revolt.js";
 
 import { useEffect } from "preact/hooks";
 

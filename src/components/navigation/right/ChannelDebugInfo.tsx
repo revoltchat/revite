@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { observer } from "mobx-react-lite";
-import { Channel } from "revolt.js/dist/maps/Channels";
+import { Channel } from "revolt.js";
 
 import { getRenderer } from "../../../lib/renderer/Singleton";
 
