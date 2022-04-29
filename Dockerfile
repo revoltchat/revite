@@ -9,7 +9,7 @@ COPY . .
 COPY .env.build .env
 RUN yarn add --dev @babel/plugin-proposal-decorators
 RUN yarn typecheck
-RUN yarn build
+RUN yarn build:highmem
 RUN npm prune --production
 
 FROM node:16-buster

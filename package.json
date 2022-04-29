@@ -4,6 +4,7 @@
         "dev": "node scripts/setup_assets.js --check && vite",
         "pull": "node scripts/setup_assets.js",
         "build": "rimraf build && node scripts/setup_assets.js --check && vite build",
+        "build:highmem": "NODE_OPTIONS='--max-old-space-size=4096' yarn build",
         "preview": "vite preview",
         "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
         "fmt": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
