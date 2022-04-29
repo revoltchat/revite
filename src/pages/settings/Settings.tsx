@@ -347,7 +347,9 @@ export default observer(() => {
                             <Trash
                                 size={24}
                                 onClick={() =>
-                                    client.users.edit({ remove: "StatusText" })
+                                    client.users.edit({
+                                        remove: ["StatusText"],
+                                    })
                                 }
                             />
                         )}

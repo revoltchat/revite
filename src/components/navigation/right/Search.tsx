@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { Message as MessageI } from "revolt.js/dist/maps/Messages";
+import { Message as MessageI } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";

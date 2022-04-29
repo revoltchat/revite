@@ -1,9 +1,7 @@
 import { Plus, X } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { DragDropContext } from "react-beautiful-dnd";
-import { TextChannel, VoiceChannel } from "revolt-api/types/Channels";
-import { Category } from "revolt-api/types/Servers";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Channel, Server, API } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
 
@@ -135,7 +133,7 @@ interface Props {
 
 export const Categories = observer(({ server }: Props) => {
     const [status, setStatus] = useState<EditStatus>("saved");
-    const [categories, setCategories] = useState<Category[]>(
+    const [categories, setCategories] = useState<API.Category[]>(
         server.categories ?? [],
     );
 
@@ -327,12 +325,14 @@ function ListElement({
     addChannel,
     draggable,
 }: {
-    category: Category;
+    category: API.Category;
     server: Server;
     index: number;
     setTitle?: (title: string) => void;
     deleteSelf?: () => void;
-    addChannel: (channel: TextChannel | VoiceChannel) => void;
+    addChannel: (
+        channel: Channel & { channel_type: "TextChannel" | "VoiceChannel" },
+    ) => void;
     draggable?: boolean;
 }) {
     const { openScreen } = useIntermediate();

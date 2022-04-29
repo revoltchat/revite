@@ -2,8 +2,7 @@ import { X, Plus } from "@styled-icons/boxicons-regular";
 import { PhoneCall, Envelope, UserX } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { RelationshipStatus } from "revolt-api/types/Users";
-import { User } from "revolt.js/dist/maps/Users";
+import { User } from "revolt.js";
 
 import styles from "./Friend.module.scss";
 import classNames from "classnames";
@@ -33,7 +32,7 @@ export const Friend = observer(({ user }: Props) => {
     const actions: Children[] = [];
     let subtext: Children = null;
 
-    if (user.relationship === RelationshipStatus.Friend) {
+    if (user.relationship === "Friend") {
         subtext = <UserStatus user={user} />;
         actions.push(
             <>
@@ -70,7 +69,7 @@ export const Friend = observer(({ user }: Props) => {
         );
     }
 
-    if (user.relationship === RelationshipStatus.Incoming) {
+    if (user.relationship === "Incoming") {
         actions.push(
             <IconButton
                 type="circle"
@@ -83,14 +82,14 @@ export const Friend = observer(({ user }: Props) => {
         subtext = <Text id="app.special.friends.incoming" />;
     }
 
-    if (user.relationship === RelationshipStatus.Outgoing) {
+    if (user.relationship === "Outgoing") {
         subtext = <Text id="app.special.friends.outgoing" />;
     }
 
     if (
-        user.relationship === RelationshipStatus.Friend ||
-        user.relationship === RelationshipStatus.Outgoing ||
-        user.relationship === RelationshipStatus.Incoming
+        user.relationship === "Friend" ||
+        user.relationship === "Outgoing" ||
+        user.relationship === "Incoming"
     ) {
         actions.push(
             <IconButton
@@ -103,7 +102,7 @@ export const Friend = observer(({ user }: Props) => {
                 onClick={(ev) =>
                     stopPropagation(
                         ev,
-                        user.relationship === RelationshipStatus.Friend
+                        user.relationship === "Friend"
                             ? openScreen({
                                   id: "special_prompt",
                                   type: "unfriend_user",
@@ -117,7 +116,7 @@ export const Friend = observer(({ user }: Props) => {
         );
     }
 
-    if (user.relationship === RelationshipStatus.Blocked) {
+    if (user.relationship === "Blocked") {
         actions.push(
             <IconButton
                 type="circle"

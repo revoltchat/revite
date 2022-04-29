@@ -1,5 +1,3 @@
-import { RelationshipStatus } from "revolt-api/types/Users";
-
 import styles from "./UserPicker.module.scss";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
@@ -37,7 +35,7 @@ export function UserPicker(props: Props) {
                     .filter(
                         (x) =>
                             x &&
-                            x.relationship === RelationshipStatus.Friend &&
+                            x.relationship === "Friend" &&
                             !omit.includes(x._id),
                     )
                     .map((x) => (

@@ -3,7 +3,7 @@ import { Suspense, lazy } from "preact/compat";
 const Renderer = lazy(() => import("./Renderer"));
 
 export interface MarkdownProps {
-    content?: string;
+    content?: string | null;
     disallowBigEmoji?: boolean;
 }
 

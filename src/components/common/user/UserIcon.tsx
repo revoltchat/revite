@@ -1,9 +1,7 @@
 import { VolumeMute, MicrophoneOff } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
-import { Masquerade } from "revolt-api/types/Channels";
-import { Presence } from "revolt-api/types/Users";
-import { User } from "revolt.js/dist/maps/Users";
+import { User, API } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 
 import { useApplicationState } from "../../../mobx/State";
@@ -18,17 +16,17 @@ type VoiceStatus = "muted" | "deaf";
 interface Props extends IconBaseProps<User> {
     status?: boolean;
     voice?: VoiceStatus;
-    masquerade?: Masquerade;
+    masquerade?: API.Masquerade;
     showServerIdentity?: boolean;
 }
 
 export function useStatusColour(user?: User) {
     const theme = useApplicationState().settings.theme;
 
-    return user?.online && user?.status?.presence !== Presence.Invisible
-        ? user?.status?.presence === Presence.Idle
+    return user?.online && user?.status?.presence !== "Invisible"
+        ? user?.status?.presence === "Idle"
             ? theme.getVariable("status-away")
-            : user?.status?.presence === Presence.Busy
+            : user?.status?.presence === "Busy"
             ? theme.getVariable("status-busy")
             : theme.getVariable("status-online")
         : theme.getVariable("status-invisible");
@@ -95,7 +93,7 @@ export default observer(
 
             url =
                 client.generateFileURL(
-                    override ?? target?.avatar ?? attachment,
+                    override ?? target?.avatar ?? attachment ?? undefined,
                     { max_side: 256 },
                     animate,
                 ) ?? (target ? target.defaultAvatarURL : fallback);

@@ -7,7 +7,6 @@ import {
     runInAction,
 } from "mobx";
 import { Client } from "revolt.js";
-import { UserSettings } from "revolt-api/types/Sync";
 
 import { mapToRecord } from "../../lib/conversion";
 
@@ -104,7 +103,7 @@ export default class Sync implements Store, Persistent<Data> {
         return this.revision.get(key);
     }
 
-    @action apply(data: UserSettings) {
+    @action apply(data: Record<string, [number, string]>) {
         const tryRead = (key: string) => {
             if (key in data) {
                 const revision = data[key][0];

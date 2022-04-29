@@ -1,8 +1,7 @@
 import { XCircle } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { Virtuoso } from "react-virtuoso";
-import { Invite, ServerInvite } from "revolt-api/types/Invites";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { API, Server } from "revolt.js";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
@@ -16,7 +15,7 @@ import IconButton from "../../../components/ui/IconButton";
 import Preloader from "../../../components/ui/Preloader";
 
 interface InnerProps {
-    invite: Invite;
+    invite: API.Invite;
     server: Server;
     removeSelf: () => void;
 }
@@ -52,12 +51,10 @@ interface Props {
 }
 
 export const Invites = ({ server }: Props) => {
-    const [invites, setInvites] = useState<ServerInvite[] | undefined>(
-        undefined,
-    );
+    const [invites, setInvites] = useState<API.Invite[] | undefined>(undefined);
 
     useEffect(() => {
-        server.fetchInvites().then(setInvites);
+        server.fetchInvites().then((v) => setInvites(v));
     }, [server, setInvites]);
 
     return (

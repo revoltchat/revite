@@ -81,7 +81,7 @@ export const Notifications = observer(() => {
                                 // tell the server we just subscribed
                                 const json = sub.toJSON();
                                 if (json.keys) {
-                                    client.req("POST", "/push/subscribe", {
+                                    client.api.post("/push/subscribe", {
                                         endpoint: sub.endpoint,
                                         ...(json.keys as {
                                             p256dh: string;
@@ -96,7 +96,7 @@ export const Notifications = observer(() => {
                                 sub?.unsubscribe();
                                 setPushEnabled(false);
 
-                                client.req("POST", "/push/unsubscribe");
+                                client.api.post("/push/unsubscribe");
                             }
                         }
                     } catch (err) {
