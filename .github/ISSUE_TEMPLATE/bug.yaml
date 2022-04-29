@@ -52,7 +52,7 @@ body:
     id: desktop
     attributes:
       label: Desktop
-      description: Is this bug specific to [the desktop client](https://gihtub.com/revoltchat/desktop)? (If not, leave this unchecked.)
+      description: Is this bug specific to [the desktop client](https://github.com/revoltchat/desktop)? (If not, leave this unchecked.)
       options:
         - label: Yes, this bug is specific to Revolt Desktop and is *not* an issue with Revolt Desktop itself.
           required: false
