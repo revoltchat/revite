@@ -27,6 +27,7 @@ runs:
           env:
               BUILD_FOLDER: ${{ inputs.folder }}
               BASE: ${{ inputs.base }}
+              NODE_OPTIONS: --max-old-space-size=4096
           run: |
               cd "$BUILD_FOLDER"
               yarn install
