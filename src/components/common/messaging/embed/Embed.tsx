@@ -1,4 +1,4 @@
-import { Embed as EmbedI } from "revolt-api/types/Channels";
+import { API } from "revolt.js";
 
 import styles from "./Embed.module.scss";
 import classNames from "classnames";
@@ -13,7 +13,7 @@ import Attachment from "../attachments/Attachment";
 import EmbedMedia from "./EmbedMedia";
 
 interface Props {
-    embed: EmbedI;
+    embed: API.Embed;
 }
 
 const MAX_EMBED_WIDTH = 480;
@@ -128,7 +128,7 @@ export default function Embed({ embed }: Props) {
                                 <a
                                     onMouseDown={(ev) =>
                                         (ev.button === 0 || ev.button === 1) &&
-                                        openLink(embed.url)
+                                        openLink(embed.url!)
                                     }
                                     className={styles.title}>
                                     {embed.title}

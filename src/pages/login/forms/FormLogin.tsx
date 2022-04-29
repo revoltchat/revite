@@ -1,6 +1,5 @@
 import { detect } from "detect-browser";
-import { Session } from "revolt-api/types/Auth";
-import { Client } from "revolt.js";
+import { API } from "revolt.js";
 
 import { useApplicationState } from "../../../mobx/State";
 
@@ -44,25 +43,26 @@ export function FormLogin() {
                 // This should be replaced in the future.
                 const client = state.config.createClient();
                 await client.fetchConfiguration();
-                const session = (await client.req(
-                    "POST",
-                    "/auth/session/login",
-                    { ...data, friendly_name },
-                )) as unknown as Session;
+                const session = await client.api.post("/auth/session/login", {
+                    ...data,
+                    friendly_name,
+                });
 
-                client.session = session;
-                (client as any).Axios.defaults.headers = {
-                    "x-session-token": session?.token,
-                };
-
-                async function login() {
-                    state.auth.setSession(session);
+                if (session.result !== "Success") {
+                    alert("unsupported!");
+                    return;
                 }
 
-                const { onboarding } = await client.req(
-                    "GET",
-                    "/onboard/hello",
-                );
+                const s = session;
+
+                client.session = session;
+                (client as any).$updateHeaders();
+
+                async function login() {
+                    state.auth.setSession(s);
+                }
+
+                const { onboarding } = await client.api.get("/onboard/hello");
 
                 if (onboarding) {
                     openScreen({

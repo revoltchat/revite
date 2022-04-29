@@ -1,3 +1,4 @@
+// @ts-expect-error No typings.
 import rgba from "color-rgba";
 import { observer } from "mobx-react-lite";
 import { Helmet } from "react-helmet";

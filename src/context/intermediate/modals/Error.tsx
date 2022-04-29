@@ -11,7 +11,7 @@ export function ErrorModal({ onClose, error }: Props) {
     return (
         <Modal
             visible={true}
-            onClose={() => false}
+            onClose={onClose}
             title={<Text id="app.special.modals.error" />}
             actions={[
                 {

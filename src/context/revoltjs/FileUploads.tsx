@@ -94,6 +94,7 @@ export function grabFiles(
     input.addEventListener("change", async (e) => {
         const files = (e.currentTarget as HTMLInputElement)?.files;
         if (!files) return;
+
         for (const file of files) {
             if (file.size > maxFileSize) {
                 return tooLarge();
@@ -184,6 +185,7 @@ export function FileUploader(props: Props) {
                                     id: "error",
                                     error: "FileTooLarge",
                                 });
+                                continue;
                             }
 
                             files.push(blob);
@@ -212,6 +214,7 @@ export function FileUploader(props: Props) {
                     for (const item of dropped) {
                         if (item.size > props.maxFileSize) {
                             openScreen({ id: "error", error: "FileTooLarge" });
+                            continue;
                         }
 
                         files.push(item);

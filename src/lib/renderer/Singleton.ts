@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { action, makeAutoObservable } from "mobx";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Message } from "revolt.js/dist/maps/Messages";
-import { Nullable } from "revolt.js/dist/util/null";
+import { Channel } from "revolt.js";
+import { Message } from "revolt.js";
+import { Nullable } from "revolt.js";
 
 import { SimpleRenderer } from "./simple/SimpleRenderer";
 import { RendererRoutines, ScrollState } from "./types";
@@ -221,4 +221,8 @@ export function getRenderer(channel: Channel) {
     }
 
     return renderer;
+}
+
+export function deleteRenderer(channel_id: string) {
+    delete renderers[channel_id];
 }

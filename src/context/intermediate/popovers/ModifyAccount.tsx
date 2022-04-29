@@ -43,19 +43,19 @@ export function ModifyAccountModal({ onClose, field }: Props) {
 
         try {
             if (field === "email") {
-                await client.req("PATCH", "/auth/account/change/email", {
+                await client.api.patch("/auth/account/change/email", {
                     current_password: password,
                     email: new_email,
                 });
                 onClose();
             } else if (field === "password") {
-                await client.req("PATCH", "/auth/account/change/password", {
+                await client.api.patch("/auth/account/change/password", {
                     current_password: password,
                     password: new_password,
                 });
                 onClose();
             } else if (field === "username") {
-                await client.req("PATCH", "/users/id/username", {
+                await client.api.patch("/users/@me/username", {
                     username: new_username,
                     password,
                 });

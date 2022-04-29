@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
+import { Message as MessageObject } from "revolt.js";
 
 import { useTriggerEvents } from "preact-context-menu";
 import { memo } from "preact/compat";

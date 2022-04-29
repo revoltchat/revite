@@ -1,7 +1,7 @@
 /**
  * This file monitors the message cache to delete any queued messages that have already sent.
  */
-import { Message } from "revolt.js/dist/maps/Messages";
+import { Message } from "revolt.js";
 
 import { useContext, useEffect } from "preact/hooks";
 

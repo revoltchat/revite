@@ -1,7 +1,7 @@
 import { UpArrowAlt } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { Channel } from "revolt.js/dist/maps/Channels";
+import { Channel } from "revolt.js";
 import { decodeTime } from "ulid";
 
 import { Text } from "preact-i18n";
