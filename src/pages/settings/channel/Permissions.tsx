@@ -46,6 +46,7 @@ export default observer(({ channel }: Props) => {
     return (
         <PermissionsLayout
             channel={channel}
+            rank={channel.server?.member?.ranking ?? Infinity}
             editor={({ selected }) => {
                 const currentRole = currentRoles.find(
                     (x) => x.id === selected,
@@ -110,6 +111,7 @@ export default observer(({ channel }: Props) => {
                                 "UploadFiles",
                                 "Masquerade",
                             ]}
+                            target={channel}
                         />
                     </div>
                 );

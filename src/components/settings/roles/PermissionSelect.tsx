@@ -1,7 +1,8 @@
+import { Lock } from "@styled-icons/boxicons-solid";
 import Long from "long";
-import { API } from "revolt.js";
+import { API, Channel, Member, Server } from "revolt.js";
 import { Permission } from "revolt.js";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
 import { useMemo } from "preact/hooks";
@@ -11,6 +12,7 @@ import { OverrideSwitch } from "@revoltchat/ui";
 
 interface PermissionSelectProps {
     id: keyof typeof Permission;
+    target?: Channel | Server;
     permission: number;
     value: API.OverrideField | number;
     onChange: (value: API.OverrideField | number) => void;
@@ -18,7 +20,7 @@ interface PermissionSelectProps {
 
 type State = "Allow" | "Neutral" | "Deny";
 
-const PermissionEntry = styled.label`
+const PermissionEntry = styled.label<{ disabled?: boolean }>`
     gap: 8px;
     width: 100%;
     margin: 8px 0;
@@ -33,10 +35,20 @@ const PermissionEntry = styled.label`
         flex-direction: column;
     }
 
+    .lock {
+        margin-inline-start: 4px;
+    }
+
     .description {
         font-size: 0.8em;
         color: var(--secondary-foreground);
     }
+
+    ${(props) =>
+        props.disabled &&
+        css`
+            color: var(--tertiary-foreground);
+        `}
 `;
 
 export function PermissionSelect({
@@ -44,6 +56,7 @@ export function PermissionSelect({
     permission,
     value,
     onChange,
+    target,
 }: PermissionSelectProps) {
     const state: State = useMemo(() => {
         if (typeof value === "object") {
@@ -97,18 +110,32 @@ export function PermissionSelect({
         });
     }
 
+    const member =
+        target &&
+        (target instanceof Server ? target.member : target.server?.member);
+
+    const disabled = member && !member.hasPermission(target!, id);
+
     return (
-        <PermissionEntry>
+        <PermissionEntry disabled={disabled}>
             <span class="title">
-                <Text id={`permissions.${id}.t`}>{id}</Text>
+                <span>
+                    <Text id={`permissions.${id}.t`}>{id}</Text>
+                    {disabled && <Lock className="lock" size={14} />}
+                </span>
                 <span class="description">
                     <Text id={`permissions.${id}.d`} />
                 </span>
             </span>
             {typeof value === "object" ? (
-                <OverrideSwitch state={state} onChange={onSwitch} />
+                <OverrideSwitch
+                    disabled={disabled}
+                    state={state}
+                    onChange={onSwitch}
+                />
             ) : (
                 <Checkbox
+                    disabled={disabled}
                     checked={state === "Allow"}
                     onChange={() =>
                         onChange(

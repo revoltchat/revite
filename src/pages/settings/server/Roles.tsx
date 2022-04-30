@@ -55,6 +55,7 @@ export const Roles = observer(({ server }: Props) => {
     return (
         <PermissionsLayout
             server={server}
+            rank={server.member?.ranking ?? Infinity}
             onCreateRole={(callback) =>
                 openScreen({
                     id: "special_input",
@@ -214,6 +215,7 @@ export const Roles = observer(({ server }: Props) => {
                                     permissions,
                                 } as RoleOrDefault)
                             }
+                            target={server}
                         />
                         {selected !== "default" && (
                             <>

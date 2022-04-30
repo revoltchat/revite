@@ -2096,9 +2096,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revoltchat/ui@npm:1.0.28":
-  version: 1.0.28
-  resolution: "@revoltchat/ui@npm:1.0.28"
+"@revoltchat/ui@npm:1.0.31":
+  version: 1.0.31
+  resolution: "@revoltchat/ui@npm:1.0.31"
   dependencies:
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
@@ -2107,7 +2107,7 @@ __metadata:
     mobx-react-lite: ^3.3.0
   peerDependencies:
     revolt-api: "*"
-  checksum: 7998050ddcc31eade913da402509382e27a39e68697d8d31500a95dd40a7cffa1eadbec2a8630c82c6fc83e90a8d536b802858030aa6d6193fffcf78dac85bfb
+  checksum: 8f93757d131ae7d784e744b774f6f6b9bea4e09a3fb48762334caf23e4ab08db209649eba1435f9fa82bdf7bfbfb78100fef6d13e7e0f715d0e2c82c52abf74d
   languageName: node
   linkType: hard
 
@@ -3395,7 +3395,7 @@ __metadata:
     "@hcaptcha/react-hcaptcha": ^0.3.6
     "@insertish/vite-plugin-babel-macros": ^1.0.5
     "@preact/preset-vite": ^2.0.0
-    "@revoltchat/ui": 1.0.28
+    "@revoltchat/ui": 1.0.31
     "@rollup/plugin-replace": ^2.4.2
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
@@ -3456,7 +3456,7 @@ __metadata:
     react-scroll: ^1.8.2
     react-virtualized-auto-sizer: ^1.0.5
     react-virtuoso: ^1.10.4
-    revolt.js: 6.0.0-rc.21
+    revolt.js: 6.0.0-rc.24
     rimraf: ^3.0.2
     sass: ^1.35.1
     shade-blend-color: ^1.0.0
@@ -6762,9 +6762,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revolt.js@npm:6.0.0-rc.21":
-  version: 6.0.0-rc.21
-  resolution: "revolt.js@npm:6.0.0-rc.21"
+"revolt.js@npm:6.0.0-rc.24":
+  version: 6.0.0-rc.24
+  resolution: "revolt.js@npm:6.0.0-rc.24"
   dependencies:
     "@insertish/exponential-backoff": 3.1.0-patch.2
     "@insertish/isomorphic-ws": ^4.0.1
@@ -6778,7 +6778,7 @@ __metadata:
     revolt-api: 0.5.3-rc.15
     ulid: ^2.3.0
     ws: ^8.2.2
-  checksum: 547cf4a11ef591351523f19707c8d6ee306a82f965da6db2b63217067dea19244fc8125c362bcf0c32f727f2ba351b748f176a633f2420ee37599bef35942c6f
+  checksum: 1ecfd839632f38ef16e85165c97b236e7f1b17ee918604bc28d82a8af4a8375c0bac1f91ba977be0e9e65137b55e2a9f767dc1dc14c62fe81c44a3d41eb7f581
   languageName: node
   linkType: hard
 
