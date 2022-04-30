@@ -16,6 +16,7 @@ import Checkbox from "../../../components/ui/Checkbox";
 import IconButton from "../../../components/ui/IconButton";
 import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
+import { Preloader } from "@revoltchat/ui";
 
 interface InnerProps {
     member: Member;
@@ -124,7 +125,7 @@ export const Members = ({ server }: Props) => {
                 contrast
             />
             <div className={styles.subtitle}>{data?.length ?? 0} Members</div>
-            {members && (
+            {members ? (
                 <div className={styles.virtual}>
                     <Virtuoso
                         totalCount={members.length}
@@ -133,6 +134,8 @@ export const Members = ({ server }: Props) => {
                         )}
                     />
                 </div>
+            ) : (
+                <Preloader type="ring" />
             )}
         </div>
     );
