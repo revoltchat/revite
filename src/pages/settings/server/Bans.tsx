@@ -6,7 +6,7 @@ import { Server } from "revolt.js";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import IconButton from "../../../components/ui/IconButton";
@@ -59,6 +59,16 @@ export const Bans = observer(({ server }: Props) => {
         server.fetchBans().then(setData);
     }, [server, setData]);
 
+    const filterUsers = useCallback(
+        (index: number) =>
+            !query ||
+            data?.users
+                .find((u) => u._id == data.bans[index]._id.user)
+                ?.username.toLowerCase()
+                .includes(query.toLowerCase()),
+        [query, data],
+    );
+
     return (
         <div className={styles.userList}>
             <InputBox
@@ -84,14 +94,7 @@ export const Bans = observer(({ server }: Props) => {
                     <Virtuoso
                         totalCount={data.bans.length}
                         itemContent={(index) =>
-                            (!query ||
-                                data.users
-                                    .find(
-                                        (u) =>
-                                            u._id == data.bans[index]._id.user,
-                                    )
-                                    ?.username.toLowerCase()
-                                    .includes(query.toLowerCase())) && (
+                            filterUsers(index) && (
                                 <Inner
                                     key={data.bans[index]._id.user}
                                     server={server}
