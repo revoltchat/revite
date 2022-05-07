@@ -149,7 +149,7 @@
         "react-scroll": "^1.8.2",
         "react-virtualized-auto-sizer": "^1.0.5",
         "react-virtuoso": "^1.10.4",
-        "revolt.js": "6.0.0-rc.24",
+        "revolt.js": "6.0.0-rc.26",
         "rimraf": "^3.0.2",
         "sass": "^1.35.1",
         "shade-blend-color": "^1.0.0",
