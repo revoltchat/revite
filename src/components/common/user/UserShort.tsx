@@ -91,7 +91,11 @@ export const Username = observer(
                         )}
                     </span>
                     <BotBadge>
-                        <Text id="app.main.channel.bot" />
+                        {masquerade ? (
+                            <Text id="app.main.channel.bridge" />
+                        ) : (
+                            <Text id="app.main.channel.bot" />
+                        )}
                     </BotBadge>
                 </>
             );
