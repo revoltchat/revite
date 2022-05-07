@@ -26,6 +26,7 @@ export function PermissionList({ value, onChange, filter, target }: Props) {
                             "MuteMembers",
                             "DeafenMembers",
                             "MoveMembers",
+                            "ManageWebhooks",
                         ].includes(key) &&
                         (!filter || filter.includes(key)),
                 )
