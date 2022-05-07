@@ -105,11 +105,12 @@ export default observer(({ channel }: Props) => {
                                 "ReadMessageHistory",
                                 "SendMessage",
                                 "ManageMessages",
-                                "ManageWebhooks",
                                 "InviteOthers",
                                 "SendEmbeds",
                                 "UploadFiles",
                                 "Masquerade",
+                                "ManageChannel",
+                                "ManagePermissions",
                             ]}
                             target={channel}
                         />
