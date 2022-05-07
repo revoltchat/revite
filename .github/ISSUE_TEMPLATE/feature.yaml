@@ -1,6 +1,6 @@
 name: Feature request
 description: Make a feature request
-title: "[Feature Request]"
+title: "feature request: "
 labels: ["enhancement"]
 body:
   - type: markdown
