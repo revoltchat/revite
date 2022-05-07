@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Server } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { useContext } from "preact/hooks";
@@ -39,7 +39,7 @@ export default observer(
         const { target, attachment, size, animate, server_name, ...imgProps } =
             props;
         const iconURL = client.generateFileURL(
-            target?.icon ?? attachment,
+            target?.icon ?? attachment ?? undefined,
             { max_side: 256 },
             animate,
         );

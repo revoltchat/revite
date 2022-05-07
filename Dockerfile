@@ -1,18 +1,15 @@
 FROM node:16-buster AS builder
 
 WORKDIR /usr/src/app
-COPY package*.json ./
-
-RUN yarn --no-cache
-
 COPY . .
 COPY .env.build .env
-RUN yarn add --dev @babel/plugin-proposal-decorators
-RUN yarn typecheck
-RUN yarn build
-RUN npm prune --production
 
-FROM node:16-buster
+RUN yarn install --frozen-lockfile
+RUN yarn typecheck
+RUN yarn build:highmem
+RUN yarn workspaces focus --production --all
+
+FROM node:16-alpine
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app .
 

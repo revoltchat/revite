@@ -1,6 +1,6 @@
 import { DownArrowAlt } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
-import { Channel } from "revolt.js/dist/maps/Channels";
+import { Channel } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";

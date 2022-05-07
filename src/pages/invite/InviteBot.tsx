@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
-import { ServerPermission } from "revolt.js";
-import { Route } from "revolt.js/dist/api/routes";
+import { API, Permission } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { useEffect, useState } from "preact/hooks";
@@ -37,8 +36,7 @@ const Option = styled.div`
 export default function InviteBot() {
     const { id } = useParams<{ id: string }>();
     const client = useClient();
-    const [data, setData] =
-        useState<Route<"GET", "/bots/id/invite">["response"]>();
+    const [data, setData] = useState<API.PublicBot>();
 
     useEffect(() => {
         client.bots.fetchPublic(id).then(setData);
@@ -72,11 +70,7 @@ export default function InviteBot() {
                             onChange={(e) => setServer(e.currentTarget.value)}>
                             <option value="none">Select a server</option>
                             {[...client.servers.values()]
-                                .filter(
-                                    (x) =>
-                                        x.permission &
-                                        ServerPermission.ManageServer,
-                                )
+                                .filter((x) => x.havePermission("ManageServer"))
                                 .map((server) => (
                                     <option value={server._id} key={server._id}>
                                         {server.name}

@@ -1,7 +1,5 @@
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
-import { Presence, RelationshipStatus } from "revolt-api/types/Users";
-import { Message } from "revolt.js/dist/maps/Messages";
-import { User } from "revolt.js/dist/maps/Users";
+import { Message, User } from "revolt.js";
 import { decodeTime } from "ulid";
 
 import { useCallback, useContext, useEffect } from "preact/hooks";
@@ -84,7 +82,7 @@ function Notifier() {
             }
 
             let body, icon;
-            if (typeof msg.content === "string") {
+            if (msg.content) {
                 body = client.markdownToText(msg.content);
 
                 if (msg.masquerade?.avatar) {
@@ -92,22 +90,23 @@ function Notifier() {
                 } else {
                     icon = msg.author?.generateAvatarURL({ max_side: 256 });
                 }
-            } else {
+            } else if (msg.system) {
                 const users = client.users;
-                switch (msg.content.type) {
+
+                switch (msg.system.type) {
                     case "user_added":
                     case "user_remove":
                         {
-                            const user = users.get(msg.content.id);
+                            const user = users.get(msg.system.id);
                             body = translate(
                                 `app.main.channel.system.${
-                                    msg.content.type === "user_added"
+                                    msg.system.type === "user_added"
                                         ? "added_by"
                                         : "removed_by"
                                 }`,
                                 {
                                     user: user?.username,
-                                    other_user: users.get(msg.content.by)
+                                    other_user: users.get(msg.system.by)
                                         ?.username,
                                 },
                             );
@@ -121,9 +120,9 @@ function Notifier() {
                     case "user_kicked":
                     case "user_banned":
                         {
-                            const user = users.get(msg.content.id);
+                            const user = users.get(msg.system.id);
                             body = translate(
-                                `app.main.channel.system.${msg.content.type}`,
+                                `app.main.channel.system.${msg.system.type}`,
                                 { user: user?.username },
                             );
                             icon = user?.generateAvatarURL({
@@ -133,12 +132,12 @@ function Notifier() {
                         break;
                     case "channel_renamed":
                         {
-                            const user = users.get(msg.content.by);
+                            const user = users.get(msg.system.by);
                             body = translate(
                                 `app.main.channel.system.channel_renamed`,
                                 {
-                                    user: users.get(msg.content.by)?.username,
-                                    name: msg.content.name,
+                                    user: users.get(msg.system.by)?.username,
+                                    name: msg.system.name,
                                 },
                             );
                             icon = user?.generateAvatarURL({
@@ -149,10 +148,10 @@ function Notifier() {
                     case "channel_description_changed":
                     case "channel_icon_changed":
                         {
-                            const user = users.get(msg.content.by);
+                            const user = users.get(msg.system.by);
                             body = translate(
-                                `app.main.channel.system.${msg.content.type}`,
-                                { user: users.get(msg.content.by)?.username },
+                                `app.main.channel.system.${msg.system.type}`,
+                                { user: users.get(msg.system.by)?.username },
                             );
                             icon = user?.generateAvatarURL({
                                 max_side: 256,
@@ -210,17 +209,17 @@ function Notifier() {
 
     const relationship = useCallback(
         async (user: User) => {
-            if (client.user?.status?.presence === Presence.Busy) return;
+            if (client.user?.status?.presence === "Busy") return;
             if (!showNotification) return;
 
             let event;
             switch (user.relationship) {
-                case RelationshipStatus.Incoming:
+                case "Incoming":
                     event = translate("notifications.sent_request", {
                         person: user.username,
                     });
                     break;
-                case RelationshipStatus.Friend:
+                case "Friend":
                     event = translate("notifications.now_friends", {
                         person: user.username,
                     });

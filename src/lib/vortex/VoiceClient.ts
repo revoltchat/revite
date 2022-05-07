@@ -4,6 +4,8 @@ import { types } from "mediasoup-client";
 
 import { Device, Producer, Transport } from "mediasoup-client/lib/types";
 
+import { useApplicationState } from "../../mobx/State";
+
 import Signaling from "./Signaling";
 import {
     ProduceType,
@@ -58,6 +60,8 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
 
         this.isDeaf = false;
 
+        const state = useApplicationState();
+
         this.signaling.on(
             "data",
             (json) => {
@@ -65,11 +69,13 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
                 switch (json.type) {
                     case WSEventType.UserJoined: {
                         this.participants.set(data.id, {});
+                        state.settings.sounds.playSound("call_join");
                         this.emit("userJoined", data.id);
                         break;
                     }
                     case WSEventType.UserLeft: {
                         this.participants.delete(data.id);
+                        state.settings.sounds.playSound("call_leave");
                         this.emit("userLeft", data.id);
 
                         if (this.recvTransport) this.stopConsume(data.id);

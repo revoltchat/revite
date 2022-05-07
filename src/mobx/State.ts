@@ -1,7 +1,7 @@
 // @ts-expect-error No typings.
 import stringify from "json-stringify-deterministic";
 import localforage from "localforage";
-import { makeAutoObservable, reaction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { Client } from "revolt.js";
 
 import { reportError } from "../lib/ErrorBoundary";
@@ -184,10 +184,12 @@ export default class State {
                                 }
 
                                 if (Object.keys(obj).length > 0) {
-                                    client.syncSetSettings(
-                                        obj as any,
-                                        revision,
-                                    );
+                                    if (client.websocket.connected) {
+                                        client.syncSetSettings(
+                                            obj as any,
+                                            revision,
+                                        );
+                                    }
                                 }
                                 break;
                             }
@@ -198,12 +200,14 @@ export default class State {
                                     }
 
                                     this.sync.setRevision(id, revision);
-                                    client.syncSetSettings(
-                                        (
-                                            store as unknown as Syncable
-                                        ).toSyncable(),
-                                        revision,
-                                    );
+                                    if (client.websocket.connected) {
+                                        client.syncSetSettings(
+                                            (
+                                                store as unknown as Syncable
+                                            ).toSyncable(),
+                                            revision,
+                                        );
+                                    }
                                 }
                             }
                         }
@@ -262,6 +266,26 @@ export default class State {
 
         // Post-hydration, init plugins.
         this.plugins.init();
+    }
+
+    /**
+     * Reset known state values.
+     */
+    reset() {
+        runInAction(() => {
+            this.draft = new Draft();
+            this.experiments = new Experiments();
+            this.layout = new Layout();
+            this.notifications = new NotificationOptions();
+            this.queue = new MessageQueue();
+            this.settings = new Settings();
+            this.sync = new Sync(this);
+
+            this.save();
+
+            this.persistent = [];
+            this.register();
+        });
     }
 }
 

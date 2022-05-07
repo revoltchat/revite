@@ -1,5 +1,5 @@
 import { useHistory } from "react-router";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Server } from "revolt.js";
 import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
@@ -69,6 +69,7 @@ export function InputModal({
             )}
             <InputBox
                 value={value}
+                style={{ width: "100%" }}
                 onChange={(e) => setValue(e.currentTarget.value)}
             />
         </Modal>
@@ -101,7 +102,6 @@ export function SpecialInputModal(props: SpecialProps) {
                     callback={async (name) => {
                         const group = await client.channels.createGroup({
                             name,
-                            nonce: ulid(),
                             users: [],
                         });
 
@@ -130,7 +130,6 @@ export function SpecialInputModal(props: SpecialProps) {
                     callback={async (name) => {
                         const server = await client.servers.createServer({
                             name,
-                            nonce: ulid(),
                         });
 
                         history.push(`/server/${server._id}`);
@@ -159,7 +158,7 @@ export function SpecialInputModal(props: SpecialProps) {
                     onClose={onClose}
                     question={<Text id="app.context_menu.set_custom_status" />}
                     field={<Text id="app.context_menu.custom_status" />}
-                    defaultValue={client.user?.status?.text}
+                    defaultValue={client.user?.status?.text ?? undefined}
                     callback={(text) =>
                         client.users.edit({
                             status: {
@@ -177,11 +176,8 @@ export function SpecialInputModal(props: SpecialProps) {
                     onClose={onClose}
                     question={"Add Friend"}
                     callback={(username) =>
-                        client
-                            .req(
-                                "PUT",
-                                `/users/${username}/friend` as "/users/id/friend",
-                            )
+                        client.api
+                            .put(`/users/${username as ""}/friend`)
                             .then(undefined)
                     }
                 />

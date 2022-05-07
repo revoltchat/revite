@@ -1,13 +1,14 @@
 import { Markdown } from "@styled-icons/boxicons-logos";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Server } from "revolt.js";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
+import { noop } from "../../../lib/js";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { getChannelName } from "../../../context/revoltjs/util";
@@ -60,9 +61,9 @@ export const Overview = observer(({ server }: Props) => {
                     fileType="icons"
                     behaviour="upload"
                     maxFileSize={2_500_000}
-                    onUpload={(icon) => server.edit({ icon })}
+                    onUpload={(icon) => server.edit({ icon }).then(noop)}
                     previewURL={server.generateIconURL({ max_side: 256 }, true)}
-                    remove={() => server.edit({ remove: "Icon" })}
+                    remove={() => server.edit({ remove: ["Icon"] }).then(noop)}
                 />
                 <div className={styles.name}>
                     <h3>
@@ -117,9 +118,9 @@ export const Overview = observer(({ server }: Props) => {
                 fileType="banners"
                 behaviour="upload"
                 maxFileSize={6_000_000}
-                onUpload={(banner) => server.edit({ banner })}
+                onUpload={(banner) => server.edit({ banner }).then(noop)}
                 previewURL={server.generateBannerURL({ width: 1000 }, true)}
-                remove={() => server.edit({ remove: "Banner" })}
+                remove={() => server.edit({ remove: ["Banner"] }).then(noop)}
             />
             <hr />
             <h3>
