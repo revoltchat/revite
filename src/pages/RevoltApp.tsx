@@ -112,19 +112,21 @@ export default function App() {
         path.startsWith("/invite") ||
         path.includes("/settings");
 
-    const [statusBar, setStatusBar] = useState(false);
+    const [statusBar, setStatusBar] = useState(true);
 
     return (
         <>
             {statusBar && (
                 <StatusBar>
-                    <div className="title">Partial outage: CDN</div>
+                    <div className="title">
+                        Planned Maintenance at 18:00 UTC (7th May 2022)
+                    </div>
                     <div class="actions">
-                        <Link to="/invite/Testers">
-                            <a>
-                                <div className="button">Updates</div>
-                            </a>
-                        </Link>
+                        <a
+                            href="https://github.com/revoltchat/revolt/issues/322#issuecomment-1120176609"
+                            target="_blank">
+                            <div className="button">Updates</div>
+                        </a>
                         <a onClick={() => setStatusBar(false)}>
                             <div className="button">Dismiss</div>
                         </a>
