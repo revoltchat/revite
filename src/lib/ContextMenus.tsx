@@ -580,64 +580,70 @@ export default function ContextMenus() {
                     }
 
                     if (user) {
-                        if (!user.bot) {
-                            let actions: Action["action"][];
-                            switch (user.relationship) {
-                                case "User":
-                                    actions = [];
-                                    break;
-                                case "Friend":
-                                    actions = ["remove_friend", "block_user"];
-                                    break;
-                                case "Incoming":
+                        let actions: (Action["action"] | boolean)[];
+                        switch (user.relationship) {
+                            case "User":
+                                actions = [];
+                                break;
+                            case "Friend":
+                                actions = [
+                                    !user.bot && "remove_friend",
+                                    "block_user",
+                                ];
+                                break;
+                            case "Incoming":
+                                actions = [
+                                    "add_friend",
+                                    "cancel_friend",
+                                    "block_user",
+                                ];
+                                break;
+                            case "Outgoing":
+                                actions = [
+                                    !user.bot && "cancel_friend",
+                                    "block_user",
+                                ];
+                                break;
+                            case "Blocked":
+                                actions = ["unblock_user"];
+                                break;
+                            case "BlockedOther":
+                                actions = ["block_user"];
+                                break;
+                            case "None":
+                            default:
+                                if ((user.flags && 2) || (user.flags && 4)) {
+                                    actions = ["block_user"];
+                                } else {
                                     actions = [
-                                        "add_friend",
-                                        "cancel_friend",
+                                        !user.bot && "add_friend",
                                         "block_user",
                                     ];
-                                    break;
-                                case "Outgoing":
-                                    actions = ["cancel_friend", "block_user"];
-                                    break;
-                                case "Blocked":
-                                    actions = ["unblock_user"];
-                                    break;
-                                case "BlockedOther":
-                                    actions = ["block_user"];
-                                    break;
-                                case "None":
-                                default:
-                                    if (
-                                        (user.flags && 2) ||
-                                        (user.flags && 4)
-                                    ) {
-                                        actions = ["block_user"];
-                                    } else {
-                                        actions = ["add_friend", "block_user"];
-                                    }
-                            }
+                                }
+                        }
 
-                            if (userPermissions & UserPermission.ViewProfile) {
-                                generateAction({
-                                    action: "view_profile",
-                                    user,
-                                });
-                            }
+                        if (userPermissions & UserPermission.ViewProfile) {
+                            generateAction({
+                                action: "view_profile",
+                                user,
+                            });
+                        }
 
-                            if (
-                                user._id !== userId &&
-                                userPermissions & UserPermission.SendMessage
-                            ) {
-                                generateAction({
-                                    action: "message_user",
-                                    user,
-                                });
-                            }
+                        if (
+                            user._id !== userId &&
+                            userPermissions & UserPermission.SendMessage
+                        ) {
+                            generateAction({
+                                action: "message_user",
+                                user,
+                            });
+                        }
 
-                            for (let i = 0; i < actions.length; i++) {
-                                // Typescript can't determine that user the actions are linked together correctly
+                        for (let i = 0; i < actions.length; i++) {
+                            let action = actions[i];
+                            if (action) {
                                 generateAction({
-                                    action: actions[i],
+                                    action,
                                     user,
                                 } as unknown as Action);
                             }
