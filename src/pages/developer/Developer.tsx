@@ -45,7 +45,7 @@ export default function Developer() {
                 />
             </div>
             <div style={{ padding: "16px" }}>
-                <a onClick={() => setCrash(true)}>click to crash app</a>
+                <a style={"cursor: pointer;"} onClick={() => setCrash(true)}>click to crash app</a>
                 {crash && (window as any).sus.sus()}
                 {/*<span>
                     <b>Voice Status:</b> {VoiceStatus[voice.status]}
