@@ -6,22 +6,23 @@ import { Server } from "revolt.js";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useMemo, useState } from "preact/hooks";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import IconButton from "../../../components/ui/IconButton";
 import Preloader from "../../../components/ui/Preloader";
+import { InputBox } from "@revoltchat/ui";
 
 interface InnerProps {
     ban: API.ServerBan;
-    users: Pick<API.User, "username" | "avatar" | "_id">[];
+    users: Record<string, API.BannedUser>;
     server: Server;
     removeSelf: () => void;
 }
 
 const Inner = observer(({ ban, users, server, removeSelf }: InnerProps) => {
     const [deleting, setDelete] = useState(false);
-    const user = users.find((x) => x._id === ban._id.user);
+    const user = users[ban._id.user];
 
     return (
         <div className={styles.ban} data-deleting={deleting}>
@@ -51,14 +52,51 @@ interface Props {
 }
 
 export const Bans = observer(({ server }: Props) => {
-    const [data, setData] = useState<API.BanListResult | undefined>(undefined);
+    const [query, setQuery] = useState("");
+    const [result, setData] = useState<
+        | {
+              users: Record<string, API.BannedUser>;
+              bans: API.BanListResult["bans"];
+          }
+        | undefined
+    >(undefined);
 
     useEffect(() => {
-        server.fetchBans().then(setData);
+        server
+            .fetchBans()
+            .then((data) => {
+                const users: Record<string, API.BannedUser> = {};
+                for (const user of data.users) {
+                    users[user._id] = user;
+                }
+
+                return {
+                    users,
+                    bans: data.bans,
+                };
+            })
+            .then(setData);
     }, [server, setData]);
+
+    const bans = useMemo(() => {
+        if (!result) return;
+
+        if (query)
+            return result.bans.filter(({ _id }) =>
+                result.users[_id.user]?.username.includes(query),
+            );
+
+        return result.bans;
+    }, [query, result]);
 
     return (
         <div className={styles.userList}>
+            <InputBox
+                placeholder="Search for a specific user..."
+                value={query}
+                onChange={(e) => setQuery(e.currentTarget.value)}
+                palette="secondary"
+            />
             <div className={styles.subtitle}>
                 <span>
                     <Text id="app.settings.server_pages.bans.user" />
@@ -70,25 +108,25 @@ export const Bans = observer(({ server }: Props) => {
                     <Text id="app.settings.server_pages.bans.revoke" />
                 </span>
             </div>
-            {typeof data === "undefined" && <Preloader type="ring" />}
-            {data && (
+            {typeof bans === "undefined" && <Preloader type="ring" />}
+            {bans && (
                 <div className={styles.virtual}>
                     <Virtuoso
-                        totalCount={data.bans.length}
+                        totalCount={bans.length}
                         itemContent={(index) => (
                             <Inner
-                                key={data.bans[index]._id.user}
+                                key={bans[index]._id.user}
                                 server={server}
-                                users={data.users}
-                                ban={data.bans[index]}
+                                users={result!.users}
+                                ban={bans[index]}
                                 removeSelf={() => {
                                     setData({
-                                        bans: data.bans.filter(
+                                        bans: result!.bans.filter(
                                             (y) =>
                                                 y._id.user !==
-                                                data.bans[index]._id.user,
+                                                bans[index]._id.user,
                                         ),
-                                        users: data.users,
+                                        users: result!.users,
                                     });
                                 }}
                             />
