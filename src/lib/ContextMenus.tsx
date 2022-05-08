@@ -287,7 +287,7 @@ export default function ContextMenus() {
                                     "attachments",
                                     "attachments/download",
                                 ),
-                            isFirefox ? "_blank" : "_self",
+                            isFirefox || window.native ? "_blank" : "_self",
                         );
                     }
                     break;

@@ -52,7 +52,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target={isFirefox ? "_blank" : "_self"}
+                        target={isFirefox || window.native ? "_blank" : "_self"}
                         rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
@@ -70,7 +70,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target={isFirefox ? "_blank" : "_self"}
+                        target={isFirefox || window.native ? "_blank" : "_self"}
                         rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
@@ -90,7 +90,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target={isFirefox ? "_blank" : "_self"}
+                        target={isFirefox || window.native ? "_blank" : "_self"}
                         rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
@@ -119,7 +119,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target={isFirefox ? "_blank" : "_self"}
+                        target={isFirefox || window.native ? "_blank" : "_self"}
                         rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
