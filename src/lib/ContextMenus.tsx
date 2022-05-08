@@ -11,6 +11,7 @@ import {
     Trash,
 } from "@styled-icons/boxicons-regular";
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
+import { isFirefox } from "react-device-detect";
 import { useHistory } from "react-router-dom";
 import { Channel, Message, Server, User, API } from "revolt.js";
 import { Permission, UserPermission } from "revolt.js";
@@ -286,7 +287,7 @@ export default function ContextMenus() {
                                     "attachments",
                                     "attachments/download",
                                 ),
-                            "_blank",
+                            isFirefox ? "_blank" : "_self",
                         );
                     }
                     break;

@@ -4,6 +4,7 @@ import {
     Download,
 } from "@styled-icons/boxicons-regular";
 import { File, Video } from "@styled-icons/boxicons-solid";
+import { isFirefox } from "react-device-detect";
 import { API } from "revolt.js";
 
 import styles from "./AttachmentActions.module.scss";
@@ -51,7 +52,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target="_blank"
+                        target={isFirefox ? "_blank" : "_self"}
                         rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
@@ -69,7 +70,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target="_blank"
+                        target={isFirefox ? "_blank" : "_self"}
                         rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
@@ -89,7 +90,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target="_blank"
+                        target={isFirefox ? "_blank" : "_self"}
                         rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
@@ -118,7 +119,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         href={download_url}
                         className={styles.downloadIcon}
                         download
-                        target="_blank"
+                        target={isFirefox ? "_blank" : "_self"}
                         rel="noreferrer">
                         <IconButton>
                             <Download size={24} />
