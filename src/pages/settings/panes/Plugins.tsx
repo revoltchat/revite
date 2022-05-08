@@ -5,9 +5,10 @@ import styled from "styled-components";
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 
+import { Button } from "@revoltchat/ui";
+
 import { useApplicationState } from "../../../mobx/State";
 
-import Button from "../../../components/ui/Button";
 import { CheckboxBase, Checkmark } from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
 
@@ -88,7 +89,7 @@ function PluginCard({ plugin }: CardProps) {
                 </div>
                 <div className={styles.buttonRow}>
                     <Button
-                        error
+                        palette="error"
                         onClick={() =>
                             plugins.remove(plugin.namespace, plugin.id)
                         }>
