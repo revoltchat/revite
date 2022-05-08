@@ -229,7 +229,8 @@ export const UserProfile = observer(
                             flags != 2 &&
                             flags != 4 &&
                             (user.relationship === "Incoming" ||
-                                user.relationship === "None") && (
+                                user.relationship === "None" ||
+                                user.relationship === null) && (
                                 <IconButton onClick={() => user.addFriend()}>
                                     <UserPlus size={28} />
                                 </IconButton>
