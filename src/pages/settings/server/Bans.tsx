@@ -6,7 +6,7 @@ import { Server } from "revolt.js";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useCallback, useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import IconButton from "../../../components/ui/IconButton";
@@ -59,13 +59,49 @@ export const Bans = observer(({ server }: Props) => {
         server.fetchBans().then(setData);
     }, [server, setData]);
 
-    const filterUsers = useCallback(
-        (index: number) =>
-            !query ||
-            data?.users
-                .find((u) => u._id == data.bans[index]._id.user)
-                ?.username.toLowerCase()
-                .includes(query.toLowerCase()),
+    const getBanUser = useCallback(
+        (ban: API.ServerBan) => data?.users.find((u) => u._id == ban._id.user),
+        [data],
+    );
+
+    const userList = useMemo(
+        () =>
+            data && (
+                <div className={styles.virtual}>
+                    <Virtuoso
+                        totalCount={
+                            data.bans.filter((ban) =>
+                                getBanUser(ban)
+                                    ?.username.toLowerCase()
+                                    .includes(query.toLowerCase()),
+                            ).length
+                        }
+                        itemContent={(index) =>
+                            (!query ||
+                                getBanUser(data.bans[index])
+                                    ?.username.toLowerCase()
+                                    .includes(query.toLowerCase())) && (
+                                <Inner
+                                    key={getBanUser(data.bans[index])}
+                                    server={server}
+                                    users={data.users}
+                                    ban={data.bans[index]}
+                                    removeSelf={() => {
+                                        setData({
+                                            bans: data.bans.filter(
+                                                (y) =>
+                                                    y._id.user !==
+                                                    data.bans[index]._id.user,
+                                            ),
+                                            users: data.users,
+                                        });
+                                    }}
+                                />
+                            )
+                        }
+                    />
+                </div>
+            ),
         [query, data],
     );
 
@@ -89,33 +125,7 @@ export const Bans = observer(({ server }: Props) => {
                 </span>
             </div>
             {typeof data === "undefined" && <Preloader type="ring" />}
-            {data && (
-                <div className={styles.virtual}>
-                    <Virtuoso
-                        totalCount={data.bans.length}
-                        itemContent={(index) =>
-                            filterUsers(index) && (
-                                <Inner
-                                    key={data.bans[index]._id.user}
-                                    server={server}
-                                    users={data.users}
-                                    ban={data.bans[index]}
-                                    removeSelf={() => {
-                                        setData({
-                                            bans: data.bans.filter(
-                                                (y) =>
-                                                    y._id.user !==
-                                                    data.bans[index]._id.user,
-                                            ),
-                                            users: data.users,
-                                        });
-                                    }}
-                                />
-                            )
-                        }
-                    />
-                </div>
-            )}
+            {userList}
         </div>
     );
 });
