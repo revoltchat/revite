@@ -582,8 +582,9 @@ export const MyBots = observer(() => {
                                                 x.interactions_url =
                                                     changes.interactions_url;
                                             if (
-                                                changes.remove ===
-                                                ["InteractionsURL"]
+                                                changes.remove?.includes(
+                                                    "InteractionsURL",
+                                                )
                                             )
                                                 x.interactions_url = undefined;
                                         }
