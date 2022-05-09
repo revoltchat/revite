@@ -103,7 +103,7 @@ export const FONTS: Record<Fonts, { name: string; load: () => void }> = {
         },
     },
 
-    "OpenDyslexic": {
+    OpenDyslexic: {
         name: "OpenDyslexic",
         load: async () => {
             await import("@fontsource/opendyslexic/400.css");
@@ -320,6 +320,14 @@ const GlobalTheme = createGlobalStyle<{ theme: Theme }>`
 :root {
 	${(props) => generateVariables(props.theme)}
 }
+
+${(props) =>
+    props.theme["min-opacity"] === 1 &&
+    `
+        * {
+            backdrop-filter: unset !important;
+        }
+    `}
 `;
 
 export const generateVariables = (theme: Theme) => {
