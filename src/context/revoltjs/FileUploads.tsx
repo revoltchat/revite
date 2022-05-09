@@ -244,6 +244,9 @@ export function FileUploader(props: Props) {
                     [styles.icon]: style === "icon",
                     [styles.banner]: style === "banner",
                 })}
+                style={{
+                    alignItems: props.style === "icon" ? "center" : "none",
+                }}
                 data-uploading={uploading}>
                 <div
                     className={classNames(
