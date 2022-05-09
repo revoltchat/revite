@@ -59,7 +59,7 @@ export default function Embed({ embed }: Props) {
 
             if (embed.type === "Text") {
                 mw = MAX_EMBED_WIDTH;
-                mh = 0;
+                mh = 1;
             } else {
                 switch (embed.special?.type) {
                     case "YouTube":
