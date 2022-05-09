@@ -160,7 +160,7 @@ function useEntries(
     useEffect(() => {
         return autorun(() => sort(generateKeys()));
         // eslint-disable-next-line
-    }, []);
+    }, [channel]);
 
     return entries;
 }
