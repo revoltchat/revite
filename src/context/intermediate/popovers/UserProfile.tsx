@@ -338,7 +338,9 @@ export const UserProfile = observer(
                                         <Text id="app.special.popovers.user_profile.sub.information" />
                                     </div>
                                 )}
-                                <Markdown content={profile?.content} />
+                                <div className={styles.markdown}>
+                                    <Markdown content={profile?.content} />
+                                </div>
                                 {/*<div className={styles.category}><Text id="app.special.popovers.user_profile.sub.connections" /></div>*/}
                             </div>
                         ) : (
