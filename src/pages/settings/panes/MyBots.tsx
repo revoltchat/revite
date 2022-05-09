@@ -296,6 +296,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                             </div>
                         ) : (
                             <InputBox
+                                style={{ width: "100%" }}
                                 ref={setUsernameRef}
                                 value={data.username}
                                 disabled={saving}
