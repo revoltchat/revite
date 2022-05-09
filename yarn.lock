@@ -2565,15 +2565,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-virtualized-auto-sizer@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@types/react-virtualized-auto-sizer@npm:1.0.1"
-  dependencies:
-    "@types/react": "*"
-  checksum: 67eff0670a1991c2b16992274ada5f0b3f9d5c2d6209ef38e8f8ae2c0218211a3292882f5b7dd6f09519000dc20847629f049c9acc267e000626b7141e5927a6
-  languageName: node
-  linkType: hard
-
 "@types/react@npm:*":
   version: 17.0.19
   resolution: "@types/react@npm:17.0.19"
@@ -3415,7 +3406,6 @@ __metadata:
     "@types/react-helmet": ^6.1.1
     "@types/react-router-dom": ^5.1.7
     "@types/react-scroll": ^1.8.2
-    "@types/react-virtualized-auto-sizer": ^1.0.1
     "@types/styled-components": ^5.1.10
     "@types/twemoji": ^12.1.1
     "@typescript-eslint/eslint-plugin": ^4.27.0
@@ -3454,7 +3444,6 @@ __metadata:
     react-overlapping-panels: 1.2.2
     react-router-dom: ^5.2.0
     react-scroll: ^1.8.2
-    react-virtualized-auto-sizer: ^1.0.5
     react-virtuoso: ^1.10.4
     revolt.js: 6.0.0-rc.28
     rimraf: ^3.0.2
@@ -6533,16 +6522,6 @@ __metadata:
   peerDependencies:
     react: ^16.3.0 || ^17.0.0
   checksum: 324511ea8f6669555e166b4af280cdf46034bf0e33c486711e3ce17f88f6f21fed17055098408be1347657d0cbcd614bca944cf9f8e4ecfa96a21d13893fe9fc
-  languageName: node
-  linkType: hard
-
-"react-virtualized-auto-sizer@npm:^1.0.5":
-  version: 1.0.6
-  resolution: "react-virtualized-auto-sizer@npm:1.0.6"
-  peerDependencies:
-    react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0
-    react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0
-  checksum: 81270e9d328e9b779515f42b6aa8dea2f21097f69fc776906d6b7d31ada03706d34408a6318baf59531f180402fbf74fdb9928ab65d53442a134b7ee5ba01265
   languageName: node
   linkType: hard
 
