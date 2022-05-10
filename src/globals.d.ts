@@ -4,6 +4,7 @@ type NativeConfig = {
     frame: boolean;
     build: Build;
     discordRPC: boolean;
+    minimiseToTray: boolean;
     hardwareAcceleration: boolean;
 };
 
