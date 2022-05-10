@@ -137,7 +137,7 @@
         "preact-context-menu": "0.4.0-patch.0",
         "preact-i18n": "^2.4.0-preactx",
         "prettier": "^2.3.1",
-        "prismjs": "^1.23.0",
+        "prismjs": "^1.27.0",
         "react-device-detect": "^1.17.0",
         "react-helmet": "^6.1.0",
         "react-hook-form": "6.3.0",
