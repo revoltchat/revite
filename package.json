@@ -130,8 +130,6 @@
         "long": "^5.2.0",
         "markdown-it": "^12.0.6",
         "markdown-it-emoji": "^2.0.0",
-        "markdown-it-sub": "^1.0.0",
-        "markdown-it-sup": "^1.0.0",
         "mediasoup-client": "npm:@insertish/mediasoup-client@3.6.36-esnext",
         "mobx": "^6.3.2",
         "mobx-react-lite": "^3.3.0",

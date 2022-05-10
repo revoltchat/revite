@@ -3427,8 +3427,6 @@ __metadata:
     long: ^5.2.0
     markdown-it: ^12.0.6
     markdown-it-emoji: ^2.0.0
-    markdown-it-sub: ^1.0.0
-    markdown-it-sup: ^1.0.0
     mediasoup-client: "npm:@insertish/mediasoup-client@3.6.36-esnext"
     mobx: ^6.3.2
     mobx-react-lite: ^3.3.0
@@ -5638,20 +5636,6 @@ __metadata:
   version: 2.0.0
   resolution: "markdown-it-emoji@npm:2.0.0"
   checksum: 7d25844134d98a4e2cf70d9a14ea4ec5afc3f64740d69c88012795c8a24ed2f286850b72fd4437d60d2fe34f73cc1889a7e8e3ab4663f4fc3a4899991601bbba
-  languageName: node
-  linkType: hard
-
-"markdown-it-sub@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "markdown-it-sub@npm:1.0.0"
-  checksum: 8b5a71a11f718d787e591e22ed028adc789ba62dac6ca0e22a4714c9533868431a4227dbefb921be39ad3388c25fa019d9a510dffed865811ebcb2cbecbbf53d
-  languageName: node
-  linkType: hard
-
-"markdown-it-sup@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "markdown-it-sup@npm:1.0.0"
-  checksum: 9e593acb8c79dbb917645affde3c46ecb50baa59c740ffe4ecc7bfa470b5b746338f12c65219d6c4112f9f2b01b68cbd151aaabbac878f34e07c7120e5959324
   languageName: node
   linkType: hard
 
