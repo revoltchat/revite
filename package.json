@@ -128,7 +128,7 @@
         "lodash.defaultsdeep": "^4.6.1",
         "lodash.isequal": "^4.5.0",
         "long": "^5.2.0",
-        "markdown-it": "^12.0.6",
+        "markdown-it": "^12.3.2",
         "markdown-it-emoji": "^2.0.0",
         "mediasoup-client": "npm:@insertish/mediasoup-client@3.6.36-esnext",
         "mobx": "^6.3.2",
