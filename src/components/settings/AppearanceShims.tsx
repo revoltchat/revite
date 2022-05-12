@@ -212,6 +212,24 @@ export const DisplayLigaturesShim = observer(() => {
 });
 
 /**
+ * Component providing a way to toggle showing the send button on desktop.
+ */
+export const ShowSendButtonShim = observer(() => {
+    const settings = useApplicationState().settings;
+
+    return (
+        <Checkbox
+            checked={settings.get("appearance:show_send_button") ?? false}
+            onChange={(v) => settings.set("appearance:show_send_button", v)}
+            description={
+                <Text id="app.settings.pages.appearance.appearance_options.show_send_desc" />
+            }>
+            <Text id="app.settings.pages.appearance.appearance_options.show_send" />
+        </Checkbox>
+    );
+});
+
+/**
  * Component providing a way to toggle seasonal themes.
  */
 export const DisplaySeasonalShim = observer(() => {
