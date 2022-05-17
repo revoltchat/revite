@@ -15,7 +15,7 @@ import {
     User,
     Megaphone,
     Speaker,
-    Store,
+    Plug,
     Bot,
     Trash,
 } from "@styled-icons/boxicons-solid";
@@ -53,6 +53,7 @@ import { Languages } from "./panes/Languages";
 import { MyBots } from "./panes/MyBots";
 import { Native } from "./panes/Native";
 import { Notifications } from "./panes/Notifications";
+import { PluginsPage } from "./panes/Plugins";
 import { Profile } from "./panes/Profile";
 import { Sessions } from "./panes/Sessions";
 import { Sync } from "./panes/Sync";
@@ -163,6 +164,12 @@ export default observer(() => {
                     title: <Text id="app.settings.pages.appearance.title" />,
                 },
                 {
+                    id: "plugins",
+                    icon: <Plug size={20} />,
+                    title: <Text id="app.settings.pages.plugins.title" />,
+                    hidden: !experiments.isEnabled("plugins"),
+                },
+                {
                     id: "notifications",
                     icon: <Bell size={20} />,
                     title: <Text id="app.settings.pages.notifications.title" />,
@@ -213,6 +220,9 @@ export default observer(() => {
                     </Route>
                     <Route path="/settings/appearance">
                         <Appearance />
+                    </Route>
+                    <Route path="/settings/plugins">
+                        <PluginsPage />
                     </Route>
                     <Route path="/settings/audio">
                         <Audio />
@@ -337,7 +347,9 @@ export default observer(() => {
                             <Trash
                                 size={24}
                                 onClick={() =>
-                                    client.users.edit({ remove: "StatusText" })
+                                    client.users.edit({
+                                        remove: ["StatusText"],
+                                    })
                                 }
                             />
                         )}

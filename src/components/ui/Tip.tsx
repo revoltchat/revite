@@ -18,6 +18,7 @@ export const Separator = styled.div<Props>`
 export const TipBase = styled.div<Props>`
     display: flex;
     padding: 12px;
+    font-weight: 500;
     overflow: hidden;
     align-items: center;
 

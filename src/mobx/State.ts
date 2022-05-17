@@ -1,7 +1,7 @@
 // @ts-expect-error No typings.
 import stringify from "json-stringify-deterministic";
 import localforage from "localforage";
-import { makeAutoObservable, reaction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { Client } from "revolt.js";
 
 import { reportError } from "../lib/ErrorBoundary";
@@ -17,6 +17,7 @@ import Layout from "./stores/Layout";
 import LocaleOptions from "./stores/LocaleOptions";
 import MessageQueue from "./stores/MessageQueue";
 import NotificationOptions from "./stores/NotificationOptions";
+import Plugins from "./stores/Plugins";
 import ServerConfig from "./stores/ServerConfig";
 import Settings from "./stores/Settings";
 import Sync, { Data as DataSync, SyncKeys } from "./stores/Sync";
@@ -39,9 +40,12 @@ export default class State {
     queue: MessageQueue;
     settings: Settings;
     sync: Sync;
+    plugins: Plugins;
 
     private persistent: [string, Persistent<unknown>][] = [];
     private disabled: Set<string> = new Set();
+
+    client?: Client;
 
     /**
      * Construct new State.
@@ -57,10 +61,16 @@ export default class State {
         this.queue = new MessageQueue();
         this.settings = new Settings();
         this.sync = new Sync(this);
+        this.plugins = new Plugins(this);
 
-        makeAutoObservable(this);
+        makeAutoObservable(this, {
+            client: false,
+        });
+
         this.register();
         this.setDisabled = this.setDisabled.bind(this);
+
+        this.client = undefined;
     }
 
     /**
@@ -68,6 +78,10 @@ export default class State {
      */
     private register() {
         for (const key of Object.keys(this)) {
+            // Skip `client`.
+            if (key === "client") continue;
+
+            // Pull out the relevant object.
             const obj = (
                 this as unknown as Record<string, Record<string, unknown>>
             )[key];
@@ -118,15 +132,26 @@ export default class State {
      * @returns Function to dispose of listeners
      */
     registerListeners(client?: Client) {
+        // If a client is present currently, expose it and provide it to plugins.
+        if (client) {
+            this.client = client;
+            this.plugins.onClient(client);
+        }
+
+        // Register all the listeners required for saving and syncing state.
         const listeners = this.persistent.map(([id, store]) => {
             return reaction(
                 () => stringify(store.toJSON()),
                 async (value) => {
                     try {
+                        // Save updated store to local storage.
                         await localforage.setItem(id, JSON.parse(value));
+
+                        // Skip if meta store or client not available.
                         if (id === "sync") return;
                         if (!client) return;
 
+                        // Generate a new revision and upload changes.
                         const revision = +new Date();
                         switch (id) {
                             case "settings": {
@@ -159,10 +184,12 @@ export default class State {
                                 }
 
                                 if (Object.keys(obj).length > 0) {
-                                    client.syncSetSettings(
-                                        obj as any,
-                                        revision,
-                                    );
+                                    if (client.websocket.connected) {
+                                        client.syncSetSettings(
+                                            obj as any,
+                                            revision,
+                                        );
+                                    }
                                 }
                                 break;
                             }
@@ -173,12 +200,14 @@ export default class State {
                                     }
 
                                     this.sync.setRevision(id, revision);
-                                    client.syncSetSettings(
-                                        (
-                                            store as unknown as Syncable
-                                        ).toSyncable(),
-                                        revision,
-                                    );
+                                    if (client.websocket.connected) {
+                                        client.syncSetSettings(
+                                            (
+                                                store as unknown as Syncable
+                                            ).toSyncable(),
+                                            revision,
+                                        );
+                                    }
                                 }
                             }
                         }
@@ -191,7 +220,13 @@ export default class State {
             );
         });
 
-        return () => listeners.forEach((x) => x());
+        return () => {
+            // Stop exposing the client.
+            this.client = undefined;
+
+            // Wipe all listeners.
+            listeners.forEach((x) => x());
+        };
     }
 
     /**
@@ -228,6 +263,29 @@ export default class State {
 
         // Dump stores back to disk.
         await this.save();
+
+        // Post-hydration, init plugins.
+        this.plugins.init();
+    }
+
+    /**
+     * Reset known state values.
+     */
+    reset() {
+        runInAction(() => {
+            this.draft = new Draft();
+            this.experiments = new Experiments();
+            this.layout = new Layout();
+            this.notifications = new NotificationOptions();
+            this.queue = new MessageQueue();
+            this.settings = new Settings();
+            this.sync = new Sync(this);
+
+            this.save();
+
+            this.persistent = [];
+            this.register();
+        });
     }
 }
 

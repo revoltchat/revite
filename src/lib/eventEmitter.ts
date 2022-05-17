@@ -30,3 +30,4 @@ export function internalEmit(ns: string, event: string, ...args: unknown[]) {
 // - Modal/close
 // - PWA/update
 // - NewMessages/hide
+// - NewMessages/mark

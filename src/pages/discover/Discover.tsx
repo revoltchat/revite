@@ -28,6 +28,7 @@ const Container = styled.div`
                   width: 100%;
                   height: 100%;
                   position: fixed;
+
                   padding-bottom: 50px;
                   background: var(--background);
               `
@@ -37,7 +38,7 @@ const Container = styled.div`
 `;
 
 const Frame = styled.iframe<{ loaded: boolean }>`
-    border: 0;
+    border: none;
 
     ${() =>
         !isTouchscreenDevice &&
@@ -47,10 +48,16 @@ const Frame = styled.iframe<{ loaded: boolean }>`
             border-end-start-radius: 8px;
         `}
 
+    ${() =>
+        isTouchscreenDevice &&
+        css`
+            padding-top: 56px;
+        `}
+
     ${(props) =>
         props.loaded
             ? css`
-                  flex-grow: 1;
+                  height: 100%;
               `
             : css`
                   display: none;
@@ -157,7 +164,7 @@ export default function Discover() {
     return (
         <Container>
             {isTouchscreenDevice && (
-                <Header placement="primary">
+                <Header placement="primary" transparent>
                     <Compass size={27} />
                     Discover
                 </Header>

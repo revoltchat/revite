@@ -1,8 +1,7 @@
-import { At, Reply as ReplyIcon } from "@styled-icons/boxicons-regular";
+import { At } from "@styled-icons/boxicons-regular";
 import { File, XCircle } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Message } from "revolt.js/dist/maps/Messages";
+import { Channel, Message } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
@@ -14,6 +13,7 @@ import { useApplicationState } from "../../../../mobx/State";
 import { SECTION_MENTION } from "../../../../mobx/stores/Layout";
 import { Reply } from "../../../../mobx/stores/MessageQueue";
 
+import Tooltip from "../../../common/Tooltip";
 import IconButton from "../../../ui/IconButton";
 
 import Markdown from "../../../markdown/Markdown";
@@ -28,12 +28,22 @@ interface Props {
 }
 
 const Base = styled.div`
+    @keyframes bottomBounce {
+        0% {
+            transform: translateY(33px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
     display: flex;
     height: 30px;
-    padding: 0 12px;
+    padding: 0 20px;
     user-select: none;
     align-items: center;
-    background: var(--message-box);
+    background: var(--secondary-background);
+    animation: bottomBounce 340ms cubic-bezier(0.2, 0.9, 0.5, 1.16) forwards;
 
     > div {
         flex-grow: 1;
@@ -49,21 +59,34 @@ const Base = styled.div`
         display: flex;
         font-size: 12px;
         align-items: center;
-        font-weight: 600;
+        font-weight: 800;
         text-transform: uppercase;
         min-width: 6ch;
     }
 
-    .username {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-weight: 600;
+    .replyto {
+        align-self: center;
+        font-weight: 500;
+        flex-shrink: 0;
     }
 
-    .message {
+    .content {
         display: flex;
-        max-height: 26px;
+        pointer-events: none;
+
+        .username {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .message {
+            display: flex;
+            max-height: 26px;
+            gap: 4px;
+        }
     }
 
     .actions {
@@ -129,39 +152,48 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                 return (
                     <Base key={reply.id}>
                         <ReplyBase preview>
-                            <ReplyIcon size={22} />
-                            <div class="username">
-                                <UserShort
-                                    size={16}
-                                    showServerIdentity
-                                    user={message.author}
-                                    masquerade={message.masquerade!}
-                                />
+                            <div class="replyto">
+                                <Text id="app.main.channel.reply.replying" />
                             </div>
-                            <div class="message">
-                                {message.attachments && (
-                                    <>
-                                        <File size={16} />
-                                        <em>
-                                            {message.attachments.length > 1 ? (
-                                                <Text id="app.main.channel.misc.sent_multiple_files" />
-                                            ) : (
-                                                <Text id="app.main.channel.misc.sent_file" />
-                                            )}
-                                        </em>
-                                    </>
-                                )}
-                                {message.author_id ===
-                                "00000000000000000000000000" ? (
-                                    <SystemMessage message={message} hideInfo />
-                                ) : (
-                                    <Markdown
-                                        disallowBigEmoji
-                                        content={(
-                                            message.content as string
-                                        ).replace(/\n/g, " ")}
+                            <div class="content">
+                                <div class="username">
+                                    <UserShort
+                                        size={16}
+                                        showServerIdentity
+                                        user={message.author}
+                                        masquerade={message.masquerade!}
                                     />
-                                )}
+                                </div>
+                                <div class="message">
+                                    {message.attachments && (
+                                        <>
+                                            <File size={16} />
+                                            <em>
+                                                {message.attachments.length >
+                                                1 ? (
+                                                    <Text id="app.main.channel.misc.sent_multiple_files" />
+                                                ) : (
+                                                    <Text id="app.main.channel.misc.sent_file" />
+                                                )}
+                                            </em>
+                                        </>
+                                    )}
+                                    {message.author_id ===
+                                    "00000000000000000000000000" ? (
+                                        <SystemMessage
+                                            message={message}
+                                            hideInfo
+                                        />
+                                    ) : (
+                                        <Markdown
+                                            disallowBigEmoji
+                                            content={message.content?.replace(
+                                                /\n/g,
+                                                " ",
+                                            )}
+                                        />
+                                    )}
+                                </div>
                             </div>
                         </ReplyBase>
                         <span class="actions">
@@ -189,16 +221,21 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                             false,
                                         );
                                     }}>
-                                    <span class="toggle">
-                                        <At size={15} />
-                                        <Text
-                                            id={
-                                                reply.mention
-                                                    ? "general.on"
-                                                    : "general.off"
-                                            }
-                                        />
-                                    </span>
+                                    <Tooltip
+                                        content={
+                                            <Text id="app.main.channel.reply.toggle" />
+                                        }>
+                                        <span class="toggle">
+                                            <At size={15} />
+                                            <Text
+                                                id={
+                                                    reply.mention
+                                                        ? "general.on"
+                                                        : "general.off"
+                                                }
+                                            />
+                                        </span>
+                                    </Tooltip>
                                 </IconButton>
                             )}
                             <IconButton

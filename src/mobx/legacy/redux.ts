@@ -1,14 +1,9 @@
 import { runInAction } from "mobx";
-import { Session } from "revolt-api/types/Auth";
+import { API } from "revolt.js";
 
-import { Language } from "../../context/Locale";
-import {
-    Fonts,
-    MonospaceFonts,
-    Overrides,
-    ThemeOptions,
-} from "../../context/Theme";
+import { Fonts, MonospaceFonts, Overrides } from "../../context/Theme";
 
+import { Language } from "../../../external/lang/Languages";
 import State from "../State";
 import { Data as DataAuth } from "../stores/Auth";
 import { Data as DataLocaleOptions } from "../stores/LocaleOptions";
@@ -63,7 +58,7 @@ export interface LegacySyncOptions {
 export interface LegacyAuthState {
     accounts: {
         [key: string]: {
-            session: Session;
+            session: API.Session;
         };
     };
     active?: string;

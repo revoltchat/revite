@@ -1,6 +1,8 @@
 import { Docked, OverlappingPanels, ShowIf } from "react-overlapping-panels";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route, useLocation, Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
+
+import { useState } from "preact/hooks";
 
 import ContextMenus from "../lib/ContextMenus";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
@@ -39,12 +41,31 @@ const StatusBar = styled.div`
     align-items: center;
     justify-content: center;
     font-size: 13px;
-    gap: 14px;
+    //gap: 14px;
+    gap: 8px;
+
+    user-select: none;
 
     .button {
         padding: 5px;
         border: 1px solid white;
         border-radius: var(--border-radius);
+    }
+
+    a {
+        cursor: pointer;
+        color: var(--foreground);
+    }
+
+    .title {
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .actions {
+        gap: 12px;
+        display: flex;
+        padding-right: 4px;
     }
 `;
 
@@ -91,12 +112,25 @@ export default function App() {
         path.startsWith("/invite") ||
         path.includes("/settings");
 
+    const [statusBar, setStatusBar] = useState(false);
+
     return (
         <>
-            {/*<StatusBar>
-                <div className="title">Planned outage: CDN (~2 hours)</div>
-                <div className="button">View status</div>
-            </StatusBar>*/}
+            {statusBar && (
+                <StatusBar>
+                    <div className="title">Partial outage: CDN</div>
+                    <div class="actions">
+                        <Link to="/invite/Testers">
+                            <a>
+                                <div className="button">Updates</div>
+                            </a>
+                        </Link>
+                        <a onClick={() => setStatusBar(false)}>
+                            <div className="button">Dismiss</div>
+                        </a>
+                    </div>
+                </StatusBar>
+            )}
             <AppContainer>
                 {window.isNative && !window.native.getConfig().frame && (
                     <Titlebar />
@@ -104,14 +138,16 @@ export default function App() {
                 <OverlappingPanels
                     width="100vw"
                     height={
-                        window.isNative && !window.native.getConfig().frame
+                        (statusBar ? "calc(" : "") +
+                        (window.isNative && !window.native.getConfig().frame
                             ? "calc(var(--app-height) - var(--titlebar-height))"
-                            : "var(--app-height)"
+                            : "var(--app-height)") +
+                        (statusBar ? " - 40px)" : "")
                     }
                     leftPanel={
                         inSpecial
                             ? undefined
-                            : { width: 288, component: <LeftSidebar /> }
+                            : { width: 290, component: <LeftSidebar /> }
                     }
                     rightPanel={
                         !inSpecial && inChannel

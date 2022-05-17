@@ -2,11 +2,7 @@
 import { autorun } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
-import { Role } from "revolt-api/types/Servers";
-import { Presence } from "revolt-api/types/Users";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Server } from "revolt.js/dist/maps/Servers";
-import { User } from "revolt.js/dist/maps/Users";
+import { Channel, Server, User, API } from "revolt.js";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
@@ -62,7 +58,7 @@ function useEntries(
                     .map((id) => {
                         return [id, roles![id], roles![id].rank ?? 0] as [
                             string,
-                            Role,
+                            API.Role,
                             number,
                         ];
                     })
@@ -96,7 +92,7 @@ function useEntries(
             const sort = member?.nickname ?? u.username;
             const entry = [u, sort] as [User, string];
 
-            if (!u.online || u.status?.presence === Presence.Invisible) {
+            if (!u.online || u.status?.presence === "Invisible") {
                 categories.offline.push(entry);
             } else {
                 if (isServer) {
@@ -164,7 +160,7 @@ function useEntries(
     useEffect(() => {
         return autorun(() => sort(generateKeys()));
         // eslint-disable-next-line
-    }, []);
+    }, [channel]);
 
     return entries;
 }
@@ -215,12 +211,12 @@ export const ServerMemberSidebar = observer(
         useEffect(() => {
             const server_id = channel.server_id!;
             if (status === ClientStatus.ONLINE && !FETCHED.has(server_id)) {
+                FETCHED.add(server_id);
                 channel
                     .server!.syncMembers(shouldSkipOffline(server_id))
-                    .then(() => FETCHED.add(server_id));
+                    .catch(() => FETCHED.delete(server_id));
             }
-            // eslint-disable-next-line
-        }, [status, channel.server_id]);
+        }, [status, channel]);
 
         const entries = useEntries(
             channel,

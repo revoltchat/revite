@@ -1,11 +1,12 @@
 import { observer } from "mobx-react-lite";
-import { Message as MessageObject } from "revolt.js/dist/maps/Messages";
+import { Message as MessageObject } from "revolt.js";
 
-import { attachContextMenu } from "preact-context-menu";
+import { useTriggerEvents } from "preact-context-menu";
 import { memo } from "preact/compat";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { internalEmit } from "../../../lib/eventEmitter";
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 
@@ -25,6 +26,7 @@ import MessageBase, {
 } from "./MessageBase";
 import Attachment from "./attachments/Attachment";
 import { MessageReply } from "./attachments/MessageReply";
+import { MessageOverlayBar } from "./bars/MessageOverlayBar";
 import Embed from "./embed/Embed";
 import InviteList from "./embed/EmbedInvite";
 
@@ -59,14 +61,12 @@ const Message = observer(
         const head =
             preferHead || (message.reply_ids && message.reply_ids.length > 0);
 
-        // ! TODO: tell fatal to make this type generic
-        // bree: Fatal please...
         const userContext = attachContext
-            ? (attachContextMenu("Menu", {
+            ? useTriggerEvents("Menu", {
                   user: message.author_id,
                   contextualChannel: message.channel_id,
                   // eslint-disable-next-line
-              }) as any)
+              })
             : undefined;
 
         const openProfile = () =>
@@ -86,7 +86,8 @@ const Message = observer(
         };
 
         // ! FIXME(?): animate on hover
-        const [animate, setAnimate] = useState(false);
+        const [mouseHovering, setAnimate] = useState(false);
+        useEffect(() => setAnimate(false), [replacement]);
 
         return (
             <div id={message._id}>
@@ -116,26 +117,25 @@ const Message = observer(
                     sending={typeof queued !== "undefined"}
                     mention={message.mention_ids?.includes(client.user!._id)}
                     failed={typeof queued?.error !== "undefined"}
-                    onContextMenu={
-                        attachContext
-                            ? attachContextMenu("Menu", {
-                                  message,
-                                  contextualChannel: message.channel_id,
-                                  queued,
-                              })
-                            : undefined
-                    }
+                    {...(attachContext
+                        ? useTriggerEvents("Menu", {
+                              message,
+                              contextualChannel: message.channel_id,
+                              queued,
+                          })
+                        : undefined)}
                     onMouseEnter={() => setAnimate(true)}
                     onMouseLeave={() => setAnimate(false)}>
-                    <MessageInfo>
+                    <MessageInfo click={typeof head !== "undefined"}>
                         {head ? (
                             <UserIcon
+                                className="avatar"
                                 url={message.generateMasqAvatarURL()}
                                 target={user}
                                 size={36}
-                                onContextMenu={userContext}
                                 onClick={handleUserClick}
-                                animate={animate}
+                                animate={mouseHovering}
+                                {...(userContext as any)}
                                 showServerIdentity
                             />
                         ) : (
@@ -150,8 +150,8 @@ const Message = observer(
                                     className="author"
                                     showServerIdentity
                                     onClick={handleUserClick}
-                                    onContextMenu={userContext}
                                     masquerade={message.masquerade!}
+                                    {...userContext}
                                 />
                                 <MessageDetail
                                     message={message}
@@ -174,6 +174,14 @@ const Message = observer(
                         {message.embeds?.map((embed, index) => (
                             <Embed key={index} embed={embed} />
                         ))}
+                        {mouseHovering &&
+                            !replacement &&
+                            !isTouchscreenDevice && (
+                                <MessageOverlayBar
+                                    message={message}
+                                    queued={queued}
+                                />
+                            )}
                     </MessageContent>
                 </MessageBase>
             </div>

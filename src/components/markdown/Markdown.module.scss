@@ -27,6 +27,7 @@
 
         &[data-type="mention"] {
             padding: 0 6px;
+            flex-shrink: 0;
             font-weight: 600;
             display: inline-block;
             background: var(--secondary-background);
@@ -92,12 +93,12 @@
 
     p > code {
         padding: 1px 4px;
+        flex-shrink: 0;
     }
 
     code {
         color: white;
         font-size: 90%;
-        padding-inline-end: 1em;
         background: var(--block);
         border-radius: var(--border-radius);
         font-family: var(--monospace-font), monospace;

@@ -11,18 +11,10 @@ import {
     Trash,
 } from "@styled-icons/boxicons-regular";
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
+import { isFirefox } from "react-device-detect";
 import { useHistory } from "react-router-dom";
-import { Attachment } from "revolt-api/types/Autumn";
-import { Presence, RelationshipStatus } from "revolt-api/types/Users";
-import {
-    ChannelPermission,
-    ServerPermission,
-    UserPermission,
-} from "revolt.js/dist/api/permissions";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Message } from "revolt.js/dist/maps/Messages";
-import { Server } from "revolt.js/dist/maps/Servers";
-import { User } from "revolt.js/dist/maps/Users";
+import { Channel, Message, Server, User, API } from "revolt.js";
+import { Permission, UserPermission } from "revolt.js";
 
 import {
     ContextMenuWithData,
@@ -52,6 +44,7 @@ import LineDivider from "../components/ui/LineDivider";
 
 import { Children } from "../types/Preact";
 import { internalEmit } from "./eventEmitter";
+import { getRenderer } from "./renderer/Singleton";
 
 interface ContextMenuData {
     user?: string;
@@ -59,7 +52,7 @@ interface ContextMenuData {
     server_list?: string;
     channel?: string;
     message?: Message;
-    attachment?: Attachment;
+    attachment?: API.File;
 
     unread?: boolean;
     queued?: QueuedMessage;
@@ -73,6 +66,7 @@ type Action =
     | { action: "copy_text"; content: string }
     | { action: "mark_as_read"; channel: Channel }
     | { action: "mark_server_as_read"; server: Server }
+    | { action: "mark_unread"; message: Message }
     | { action: "retry_message"; message: QueuedMessage }
     | { action: "cancel_message"; message: QueuedMessage }
     | { action: "mention"; user: string }
@@ -80,9 +74,9 @@ type Action =
     | { action: "quote_message"; content: string }
     | { action: "edit_message"; id: string }
     | { action: "delete_message"; target: Message }
-    | { action: "open_file"; attachment: Attachment }
-    | { action: "save_file"; attachment: Attachment }
-    | { action: "copy_file_link"; attachment: Attachment }
+    | { action: "open_file"; attachment: API.File }
+    | { action: "save_file"; attachment: API.File }
+    | { action: "copy_file_link"; attachment: API.File }
     | { action: "open_link"; link: string }
     | { action: "copy_link"; link: string }
     | { action: "remove_member"; channel: Channel; user: User }
@@ -95,7 +89,7 @@ type Action =
     | { action: "add_friend"; user: User }
     | { action: "remove_friend"; user: User }
     | { action: "cancel_friend"; user: User }
-    | { action: "set_presence"; presence: Presence }
+    | { action: "set_presence"; presence: API.Presence }
     | { action: "set_status" }
     | { action: "clear_status" }
     | { action: "create_channel"; target: Server }
@@ -183,6 +177,25 @@ export default function ContextMenus() {
                         );
 
                         data.server.ack();
+                    }
+                    break;
+
+                case "mark_unread":
+                    {
+                        const messages = getRenderer(
+                            data.message.channel!,
+                        ).messages;
+                        const index = messages.findIndex(
+                            (x) => x._id === data.message._id,
+                        );
+
+                        let unread_id = data.message._id;
+                        if (index > 0) {
+                            unread_id = messages[index - 1]._id;
+                        }
+
+                        internalEmit("NewMessages", "mark", unread_id);
+                        data.message.channel?.ack(unread_id, true);
                     }
                     break;
 
@@ -274,7 +287,7 @@ export default function ContextMenus() {
                                     "attachments",
                                     "attachments/download",
                                 ),
-                            "_blank",
+                            isFirefox || window.native ? "_blank" : "_self",
                         );
                     }
                     break;
@@ -464,7 +477,7 @@ export default function ContextMenus() {
                         lastDivider = false;
                         elements.push(
                             <MenuItem data={action} disabled={disabled}>
-                                <span style={{color}}>
+                                <span style={{ color }}>
                                     <Text
                                         id={`app.context_menu.${
                                             locale ?? action.action
@@ -484,9 +497,8 @@ export default function ContextMenus() {
 
                     if (server_list) {
                         const server = client.servers.get(server_list)!;
-                        const permissions = server.permission;
                         if (server) {
-                            if (permissions & ServerPermission.ManageChannels) {
+                            if (server.havePermission("ManageChannel")) {
                                 generateAction({
                                     action: "create_category",
                                     target: server,
@@ -496,7 +508,8 @@ export default function ContextMenus() {
                                     target: server,
                                 });
                             }
-                            if (permissions & ServerPermission.ManageServer)
+
+                            if (server.havePermission("ManageServer"))
                                 generateAction({
                                     action: "open_server_settings",
                                     id: server_list,
@@ -568,64 +581,70 @@ export default function ContextMenus() {
                     }
 
                     if (user) {
-                        if (!user.bot) {
-                            let actions: Action["action"][];
-                            switch (user.relationship) {
-                                case RelationshipStatus.User:
-                                    actions = [];
-                                    break;
-                                case RelationshipStatus.Friend:
-                                    actions = ["remove_friend", "block_user"];
-                                    break;
-                                case RelationshipStatus.Incoming:
+                        let actions: (Action["action"] | boolean)[];
+                        switch (user.relationship) {
+                            case "User":
+                                actions = [];
+                                break;
+                            case "Friend":
+                                actions = [
+                                    !user.bot && "remove_friend",
+                                    "block_user",
+                                ];
+                                break;
+                            case "Incoming":
+                                actions = [
+                                    "add_friend",
+                                    "cancel_friend",
+                                    "block_user",
+                                ];
+                                break;
+                            case "Outgoing":
+                                actions = [
+                                    !user.bot && "cancel_friend",
+                                    "block_user",
+                                ];
+                                break;
+                            case "Blocked":
+                                actions = ["unblock_user"];
+                                break;
+                            case "BlockedOther":
+                                actions = ["block_user"];
+                                break;
+                            case "None":
+                            default:
+                                if ((user.flags && 2) || (user.flags && 4)) {
+                                    actions = ["block_user"];
+                                } else {
                                     actions = [
-                                        "add_friend",
-                                        "cancel_friend",
+                                        !user.bot && "add_friend",
                                         "block_user",
                                     ];
-                                    break;
-                                case RelationshipStatus.Outgoing:
-                                    actions = ["cancel_friend", "block_user"];
-                                    break;
-                                case RelationshipStatus.Blocked:
-                                    actions = ["unblock_user"];
-                                    break;
-                                case RelationshipStatus.BlockedOther:
-                                    actions = ["block_user"];
-                                    break;
-                                case RelationshipStatus.None:
-                                default:
-                                    if (
-                                        (user.flags && 2) ||
-                                        (user.flags && 4)
-                                    ) {
-                                        actions = ["block_user"];
-                                    } else {
-                                        actions = ["add_friend", "block_user"];
-                                    }
-                            }
+                                }
+                        }
 
-                            if (userPermissions & UserPermission.ViewProfile) {
-                                generateAction({
-                                    action: "view_profile",
-                                    user,
-                                });
-                            }
+                        if (userPermissions & UserPermission.ViewProfile) {
+                            generateAction({
+                                action: "view_profile",
+                                user,
+                            });
+                        }
 
-                            if (
-                                user._id !== userId &&
-                                userPermissions & UserPermission.SendMessage
-                            ) {
-                                generateAction({
-                                    action: "message_user",
-                                    user,
-                                });
-                            }
+                        if (
+                            user._id !== userId &&
+                            userPermissions & UserPermission.SendMessage
+                        ) {
+                            generateAction({
+                                action: "message_user",
+                                user,
+                            });
+                        }
 
-                            for (let i = 0; i < actions.length; i++) {
-                                // Typescript can't determine that user the actions are linked together correctly
+                        for (let i = 0; i < actions.length; i++) {
+                            let action = actions[i];
+                            if (action) {
                                 generateAction({
-                                    action: actions[i],
+                                    action,
                                     user,
                                 } as unknown as Action);
                             }
@@ -652,9 +671,7 @@ export default function ContextMenus() {
                             userId !== uid &&
                             uid !== server.owner
                         ) {
-                            if (
-                                serverPermissions & ServerPermission.KickMembers
-                            )
+                            if (serverPermissions & Permission.KickMembers)
                                 generateAction(
                                     {
                                         action: "kick_member",
@@ -667,7 +684,7 @@ export default function ContextMenus() {
                                     "var(--error)", // the only relevant part really
                                 );
 
-                            if (serverPermissions & ServerPermission.BanMembers)
+                            if (serverPermissions & Permission.BanMembers)
                                 generateAction(
                                     {
                                         action: "ban_member",
@@ -697,8 +714,7 @@ export default function ContextMenus() {
                     if (message && !queued) {
                         const sendPermission =
                             message.channel &&
-                            message.channel.permission &
-                                ChannelPermission.SendMessage;
+                            message.channel.permission & Permission.SendMessage;
 
                         if (sendPermission) {
                             generateAction({
@@ -706,6 +722,11 @@ export default function ContextMenus() {
                                 target: message,
                             });
                         }
+
+                        generateAction({
+                            action: "mark_unread",
+                            message,
+                        });
 
                         if (
                             typeof message.content === "string" &&
@@ -733,8 +754,7 @@ export default function ContextMenus() {
 
                         if (
                             message.author_id === userId ||
-                            channelPermissions &
-                                ChannelPermission.ManageMessages
+                            channelPermissions & Permission.ManageMessages
                         ) {
                             generateAction({
                                 action: "delete_message",
@@ -877,7 +897,7 @@ export default function ContextMenus() {
                                 case "VoiceChannel":
                                     if (
                                         channelPermissions &
-                                        ChannelPermission.InviteOthers
+                                        Permission.InviteOthers
                                     ) {
                                         generateAction({
                                             action: "create_invite",
@@ -887,7 +907,7 @@ export default function ContextMenus() {
 
                                     if (
                                         serverPermissions &
-                                        ServerPermission.ManageServer
+                                        Permission.ManageServer
                                     )
                                         generateAction(
                                             {
@@ -900,7 +920,7 @@ export default function ContextMenus() {
 
                                     if (
                                         serverPermissions &
-                                        ServerPermission.ManageChannels
+                                        Permission.ManageChannel
                                     )
                                         generateAction({
                                             action: "delete_channel",
@@ -932,20 +952,15 @@ export default function ContextMenus() {
                                 );
 
                             if (
-                                serverPermissions &
-                                    ServerPermission.ChangeNickname ||
-                                serverPermissions &
-                                    ServerPermission.ChangeAvatar
+                                serverPermissions & Permission.ChangeNickname ||
+                                serverPermissions & Permission.ChangeAvatar
                             )
                                 generateAction(
                                     { action: "edit_identity", target: server },
                                     "edit_identity",
                                 );
 
-                            if (
-                                serverPermissions &
-                                ServerPermission.ManageServer
-                            )
+                            if (serverPermissions & Permission.ManageServer)
                                 generateAction(
                                     {
                                         action: "open_server_settings",
@@ -1034,7 +1049,7 @@ export default function ContextMenus() {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Presence.Online,
+                                    presence: "Online",
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator online" />
@@ -1043,7 +1058,7 @@ export default function ContextMenus() {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Presence.Idle,
+                                    presence: "Idle",
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator idle" />
@@ -1052,7 +1067,7 @@ export default function ContextMenus() {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Presence.Busy,
+                                    presence: "Busy",
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator busy" />
@@ -1061,7 +1076,7 @@ export default function ContextMenus() {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
-                                    presence: Presence.Invisible,
+                                    presence: "Invisible",
                                 }}
                                 disabled={!isOnline}>
                                 <div className="indicator invisible" />

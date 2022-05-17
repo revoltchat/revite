@@ -1,14 +1,19 @@
-import { Attachment } from "revolt-api/types/Autumn";
+import { API } from "revolt.js";
+import { Nullable } from "revolt.js";
 import styled, { css } from "styled-components/macro";
+
+import { Ref } from "preact";
 
 export interface IconBaseProps<T> {
     target?: T;
     url?: string;
-    attachment?: Attachment;
+    attachment?: Nullable<API.File>;
 
     size: number;
     hover?: boolean;
     animate?: boolean;
+
+    innerRef?: Ref<any>;
 }
 
 interface IconModifiers {
@@ -21,7 +26,7 @@ interface IconModifiers {
 
 export default styled.svg<IconModifiers>`
     flex-shrink: 0;
-
+    cursor: pointer;
     img {
         width: 100%;
         height: 100%;

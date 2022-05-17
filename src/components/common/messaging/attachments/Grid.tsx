@@ -1,5 +1,7 @@
 import styled from "styled-components/macro";
 
+import { Ref } from "preact";
+
 import { Children } from "../../../../types/Preact";
 
 const Grid = styled.div<{ width: number; height: number }>`
@@ -71,13 +73,14 @@ type Props = Omit<
     children?: Children;
     width: number;
     height: number;
+    innerRef?: Ref<any>;
 };
 
 export function SizedGrid(props: Props) {
-    const { width, height, children, ...divProps } = props;
+    const { width, height, children, innerRef, ...divProps } = props;
 
     return (
-        <Grid {...divProps} width={width} height={height}>
+        <Grid {...divProps} width={width} height={height} ref={innerRef}>
             {children}
         </Grid>
     );

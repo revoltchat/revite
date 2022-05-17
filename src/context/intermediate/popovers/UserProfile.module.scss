@@ -66,6 +66,7 @@
     display: flex;
     padding: 0 1.5em;
     font-size: 0.875rem;
+    font-weight: 500;
 
     > div {
         padding: 8px;
@@ -98,6 +99,10 @@
     flex-direction: column;
     background: var(--primary-background);
     border-radius: 0 0 var(--border-radius) var(--border-radius);
+
+    .markdown {
+        user-select: text;
+    }
 
     .empty {
         display: flex;
@@ -141,14 +146,15 @@
 }
 
 .entry {
-    gap: 8px;
+    gap: 12px;
+    font-weight: 500;
     min-width: 0;
     padding: 12px;
     display: flex;
     cursor: pointer;
     align-items: center;
     transition: background-color 0.1s;
-    color: var(--secondary-foreground);
+    color: var(--foreground);
     border-radius: var(--border-radius);
     background-color: var(--secondary-background);
 

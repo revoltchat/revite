@@ -2,13 +2,10 @@ import { Check } from "@styled-icons/boxicons-regular";
 import { Cog } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
-import { ServerPermission } from "revolt.js/dist/api/permissions";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Server } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
-
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import IconButton from "../ui/IconButton";
 
@@ -23,7 +20,7 @@ const ServerBanner = styled.div<Omit<Props, "server">>`
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
 
     background-size: cover;
     background-repeat: norepeat;
@@ -125,7 +122,7 @@ export default observer(({ server }: Props) => {
                     </Tooltip>
                 ) : undefined}
                 <div className="title">{server.name}</div>
-                {(server.permission & ServerPermission.ManageServer) > 0 && (
+                {server.havePermission("ManageServer") && (
                     <Link to={`/server/${server._id}/settings`}>
                         <IconButton>
                             <Cog size={20} />

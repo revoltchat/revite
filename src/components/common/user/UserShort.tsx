@@ -1,10 +1,9 @@
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
-import { Masquerade } from "revolt-api/types/Channels";
-import { User } from "revolt.js/dist/maps/Users";
-import { Nullable } from "revolt.js/dist/util/null";
+import { User, API } from "revolt.js";
 import styled from "styled-components/macro";
 
+import { Ref } from "preact";
 import { Text } from "preact-i18n";
 
 import { internalEmit } from "../../../lib/eventEmitter";
@@ -31,8 +30,10 @@ const BotBadge = styled.div`
 type UsernameProps = JSX.HTMLAttributes<HTMLElement> & {
     user?: User;
     prefixAt?: boolean;
-    masquerade?: Masquerade;
+    masquerade?: API.Masquerade;
     showServerIdentity?: boolean | "both";
+
+    innerRef?: Ref<any>;
 };
 
 export const Username = observer(
@@ -41,6 +42,7 @@ export const Username = observer(
         prefixAt,
         masquerade,
         showServerIdentity,
+        innerRef,
         ...otherProps
     }: UsernameProps) => {
         let username = user?.username;
@@ -83,20 +85,24 @@ export const Username = observer(
         if (user?.bot) {
             return (
                 <>
-                    <span {...otherProps} style={{ color }}>
+                    <span {...otherProps} ref={innerRef} style={{ color }}>
                         {masquerade?.name ?? username ?? (
                             <Text id="app.main.channel.unknown_user" />
                         )}
                     </span>
                     <BotBadge>
-                        <Text id="app.main.channel.bot" />
+                        {masquerade ? (
+                            <Text id="app.main.channel.bridge" />
+                        ) : (
+                            <Text id="app.main.channel.bot" />
+                        )}
                     </BotBadge>
                 </>
             );
         }
 
         return (
-            <span {...otherProps} style={{ color }}>
+            <span {...otherProps} ref={innerRef} style={{ color }}>
                 {prefixAt ? "@" : undefined}
                 {masquerade?.name ?? username ?? (
                     <Text id="app.main.channel.unknown_user" />
@@ -116,7 +122,7 @@ export default function UserShort({
     user?: User;
     size?: number;
     prefixAt?: boolean;
-    masquerade?: Masquerade;
+    masquerade?: API.Masquerade;
     showServerIdentity?: boolean;
 }) {
     const { openScreen } = useIntermediate();

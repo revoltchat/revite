@@ -1,13 +1,12 @@
 import { X } from "@styled-icons/boxicons-regular";
 import { Crown } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Presence } from "revolt-api/types/Users";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { User } from "revolt.js/dist/maps/Users";
+import { User, Channel } from "revolt.js";
 
 import styles from "./Item.module.scss";
 import classNames from "classnames";
-import { attachContextMenu } from "preact-context-menu";
+import { Ref } from "preact";
+import { useTriggerEvents } from "preact-context-menu";
 import { Localizer, Text } from "preact-i18n";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
@@ -64,9 +63,9 @@ export const UserButton = observer((props: UserProps) => {
             data-alert={typeof alert === "string"}
             data-online={
                 typeof channel !== "undefined" ||
-                (user.online && user.status?.presence !== Presence.Invisible)
+                (user.online && user.status?.presence !== "Invisible")
             }
-            onContextMenu={attachContextMenu("Menu", {
+            {...useTriggerEvents("Menu", {
                 user: user._id,
                 channel: channel?._id,
                 unread: alert,
@@ -153,16 +152,17 @@ export const ChannelButton = observer((props: ChannelProps) => {
     }
 
     const { openScreen } = useIntermediate();
+    const alerting = alert && !muted && !active;
 
     return (
         <div
             {...divProps}
             data-active={active}
-            data-alert={typeof alert === "string" && !muted}
+            data-alert={alerting}
             data-muted={muted}
             aria-label={channel.name}
             className={classNames(styles.item, { [styles.compact]: compact })}
-            onContextMenu={attachContextMenu("Menu", {
+            {...useTriggerEvents("Menu", {
                 channel: channel._id,
                 unread: !!alert,
             })}>
@@ -190,7 +190,7 @@ export const ChannelButton = observer((props: ChannelProps) => {
                 )}
             </div>
             <div className={styles.button}>
-                {alert && !muted && (
+                {alerting && (
                     <div className={styles.alert} data-style={alert}>
                         {alertCount}
                     </div>

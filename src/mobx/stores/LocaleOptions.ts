@@ -1,9 +1,9 @@
 import { action, computed, makeAutoObservable } from "mobx";
 
-import { Language, Languages } from "../../context/Locale";
-
+import { Languages, Language } from "../../../external/lang/Languages";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
+import Syncable from "../interfaces/Syncable";
 
 export interface Data {
     lang: Language;
@@ -51,7 +51,9 @@ export function findLanguage(lang?: string): Language {
 /**
  * Keeps track of user's language settings.
  */
-export default class LocaleOptions implements Store, Persistent<Data> {
+export default class LocaleOptions
+    implements Store, Persistent<Data>, Syncable
+{
     private lang: Language;
 
     /**
@@ -69,6 +71,16 @@ export default class LocaleOptions implements Store, Persistent<Data> {
     toJSON() {
         return {
             lang: this.lang,
+        };
+    }
+
+    apply(_key: "locale", data: unknown, _revision: number): void {
+        this.hydrate(data as Data);
+    }
+
+    @computed toSyncable(): { [key: string]: object } {
+        return {
+            locale: this.toJSON(),
         };
     }
 

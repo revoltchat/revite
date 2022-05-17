@@ -1,9 +1,10 @@
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Server } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 
-import { attachContextMenu } from "preact-context-menu";
+import { Ref } from "preact";
+import { useTriggerEvents } from "preact-context-menu";
 import { useEffect } from "preact/hooks";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
@@ -48,10 +49,6 @@ const ServerList = styled.div`
         width: 100%;
     }
 `;
-
-interface Props {
-    server: Server;
-}
 
 export default observer(() => {
     const client = useClient();
@@ -145,7 +142,7 @@ export default observer(() => {
             <ServerHeader server={server} />
             <ConnectionStatus />
             <ServerList
-                onContextMenu={attachContextMenu("Menu", {
+                {...useTriggerEvents("Menu", {
                     server_list: server._id,
                 })}>
                 {elements}

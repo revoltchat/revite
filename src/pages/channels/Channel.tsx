@@ -3,13 +3,14 @@ import { Ghost } from "@styled-icons/boxicons-solid";
 import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router-dom";
-import { Channel as ChannelI } from "revolt.js/dist/maps/Channels";
+import { Channel as ChannelI } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
-import { useEffect, useMemo } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import ErrorBoundary from "../../lib/ErrorBoundary";
+import { internalSubscribe } from "../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
@@ -96,44 +97,63 @@ const PlaceholderBase = styled.div`
     }
 `;
 
-export function Channel({ id, server_id }: { id: string; server_id: string }) {
-    const client = useClient();
-    const channel = client.channels.get(id);
+export const Channel = observer(
+    ({ id, server_id }: { id: string; server_id: string }) => {
+        const client = useClient();
 
-    if (server_id && !channel) {
-        const server = client.servers.get(server_id);
-        if (server && server.channel_ids.length > 0) {
-            return (
-                <Redirect
-                    to={`/server/${server_id}/channel/${server.channel_ids[0]}`}
-                />
-            );
+        if (!client.channels.exists(id)) {
+            if (server_id) {
+                const server = client.servers.get(server_id);
+                if (server && server.channel_ids.length > 0) {
+                    return (
+                        <Redirect
+                            to={`/server/${server_id}/channel/${server.channel_ids[0]}`}
+                        />
+                    );
+                }
+            } else {
+                return <Redirect to="/" />;
+            }
+
+            return <ChannelPlaceholder />;
         }
-    }
 
-    if (!channel) return <ChannelPlaceholder />;
+        const channel = client.channels.get(id)!;
+        if (channel.channel_type === "VoiceChannel") {
+            return <VoiceChannel channel={channel} />;
+        }
 
-    if (channel.channel_type === "VoiceChannel") {
-        return <VoiceChannel channel={channel} />;
-    }
-
-    return <TextChannel channel={channel} />;
-}
+        return <TextChannel channel={channel} />;
+    },
+);
 
 const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
     const layout = useApplicationState().layout;
 
-    // Cache the unread location.
-    const last_id = useMemo(
+    // Store unread location.
+    const [lastId, setLastId] = useState<string | undefined>(undefined);
+
+    useEffect(
         () =>
-            (channel.unread
-                ? channel.client.unreads?.getUnread(channel._id)?.last_id
-                : undefined) ?? undefined,
-        [channel],
+            internalSubscribe("NewMessages", "hide", () =>
+                setLastId(undefined),
+            ),
+        [],
+    );
+
+    useEffect(
+        () => internalSubscribe("NewMessages", "mark", setLastId as any),
+        [],
     );
 
     // Mark channel as read.
     useEffect(() => {
+        setLastId(
+            (channel.unread
+                ? channel.client.unreads?.getUnread(channel._id)?.last_id
+                : undefined) ?? undefined,
+        );
+
         const checkUnread = () =>
             channel.unread &&
             channel.client.unreads!.markRead(
@@ -165,8 +185,8 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                 <ErrorBoundary section="renderer">
                     <ChannelContent>
                         <VoiceHeader id={channel._id} />
-                        <NewMessages channel={channel} last_id={last_id} />
-                        <MessageArea channel={channel} last_id={last_id} />
+                        <NewMessages channel={channel} last_id={lastId} />
+                        <MessageArea channel={channel} last_id={lastId} />
                         <TypingIndicator channel={channel} />
                         <JumpToBottom channel={channel} />
                         <MessageBox channel={channel} />

@@ -1,3 +1,4 @@
+// @ts-expect-error No typings.
 import rgba from "color-rgba";
 import { makeAutoObservable, computed, action } from "mobx";
 
@@ -220,8 +221,11 @@ function getContrastingColour(hex: string, fallback?: string): string {
     const colour = rgba(hex);
     if (!colour) return fallback ? getContrastingColour(fallback) : "black";
 
+    // https://awik.io/determine-color-bright-dark-using-javascript/
+    // http://alienryderflex.com/hsp.html
     const [r, g, b] = colour;
-    return (r / 255) * 0.299 + (g / 255) * 0.587 + (b / 255) * 0.114 >= 0.186
-        ? "black"
-        : "white";
+    // const hsp = Math.sqrt(0.299 * r ** 2 + 0.587 * g ** 2 + 0.114 * b ** 2);
+    // Using Skia numbers.
+    const hsp = Math.sqrt(0.2126 * r ** 2 + 0.7152 * g ** 2 + 0.0722 * b ** 2);
+    return hsp > 175 ? "black" : "white";
 }

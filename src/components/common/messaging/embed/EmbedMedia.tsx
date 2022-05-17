@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Embed } from "revolt-api/types/January";
+import { API } from "revolt.js";
 
 import styles from "./Embed.module.scss";
 
@@ -7,7 +7,7 @@ import { useIntermediate } from "../../../../context/intermediate/Intermediate";
 import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 interface Props {
-    embed: Embed;
+    embed: API.Embed;
     width?: number;
     height: number;
 }
@@ -94,7 +94,7 @@ export default function EmbedMedia({ embed, width, height }: Props) {
                         onClick={() =>
                             openScreen({
                                 id: "image_viewer",
-                                embed: embed.image,
+                                embed: embed.image!,
                             })
                         }
                         onMouseDown={(ev) =>

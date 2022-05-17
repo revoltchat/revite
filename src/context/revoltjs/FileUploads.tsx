@@ -20,33 +20,39 @@ type BehaviourType =
     | { behaviour: "ask"; onChange: (file: File) => void }
     | { behaviour: "upload"; onUpload: (id: string) => Promise<void> }
     | {
-        behaviour: "multi";
-        onChange: (files: File[]) => void;
-        append?: (files: File[]) => void;
-    }
+          behaviour: "multi";
+          onChange: (files: File[]) => void;
+          append?: (files: File[]) => void;
+      };
 
 type StyleType =
     | {
-        style: "icon" | "banner";
-        width?: number;
-        height?: number;
-        previewURL?: string;
-        defaultPreview?: string;
-        desaturateDefault?: boolean
-    }
+          style: "icon" | "banner";
+          width?: number;
+          height?: number;
+          previewURL?: string;
+          defaultPreview?: string;
+          desaturateDefault?: boolean;
+      }
     | {
-        style: "attachment";
-        attached: boolean;
-        uploading: boolean;
-        cancel: () => void;
-        size?: number;
-    }
+          style: "attachment";
+          attached: boolean;
+          uploading: boolean;
+          cancel: () => void;
+          size?: number;
+      };
 
-type Props = BehaviourType & StyleType & {
-    fileType: "backgrounds" | "icons" | "avatars" | "attachments" | "banners";
-    maxFileSize: number;
-    remove: () => Promise<void>;
-}
+type Props = BehaviourType &
+    StyleType & {
+        fileType:
+            | "backgrounds"
+            | "icons"
+            | "avatars"
+            | "attachments"
+            | "banners";
+        maxFileSize: number;
+        remove: () => Promise<void>;
+    };
 
 export async function uploadFile(
     autumnURL: string,
@@ -67,19 +73,28 @@ export async function uploadFile(
     return res.data.id;
 }
 
+var input: HTMLInputElement;
 export function grabFiles(
     maxFileSize: number,
     cb: (files: File[]) => void,
     tooLarge: () => void,
     multiple?: boolean,
 ) {
-    const input = document.createElement("input");
+    if (input) {
+        input.remove();
+    }
+
+    input = document.createElement("input");
+
+    input.accept = "*";
     input.type = "file";
     input.multiple = multiple ?? false;
+    input.style.display = "none";
 
-    input.onchange = async (e) => {
+    input.addEventListener("change", async (e) => {
         const files = (e.currentTarget as HTMLInputElement)?.files;
         if (!files) return;
+
         for (const file of files) {
             if (file.size > maxFileSize) {
                 return tooLarge();
@@ -87,8 +102,11 @@ export function grabFiles(
         }
 
         cb(Array.from(files));
-    };
+    });
 
+    // iOS requires us to append the file input
+    // to DOM to allow us to add any images
+    document.body.appendChild(input);
     input.click();
 }
 
@@ -167,6 +185,7 @@ export function FileUploader(props: Props) {
                                     id: "error",
                                     error: "FileTooLarge",
                                 });
+                                continue;
                             }
 
                             files.push(blob);
@@ -195,6 +214,7 @@ export function FileUploader(props: Props) {
                     for (const item of dropped) {
                         if (item.size > props.maxFileSize) {
                             openScreen({ id: "error", error: "FileTooLarge" });
+                            continue;
                         }
 
                         files.push(item);
@@ -226,14 +246,19 @@ export function FileUploader(props: Props) {
                 })}
                 data-uploading={uploading}>
                 <div
-                    className={classNames(styles.image, props.desaturateDefault && previewURL == null && styles.desaturate)}
+                    className={classNames(
+                        styles.image,
+                        props.desaturateDefault &&
+                            previewURL == null &&
+                            styles.desaturate,
+                    )}
                     style={{
                         backgroundImage:
                             style === "icon"
                                 ? `url('${previewURL ?? defaultPreview}')`
                                 : previewURL
-                                    ? `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('${previewURL}')`
-                                    : "none",
+                                ? `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('${previewURL}')`
+                                : "none",
                         width,
                         height,
                     }}

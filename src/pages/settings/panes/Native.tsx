@@ -45,6 +45,18 @@ export function Native() {
             </Checkbox>
 
             <Checkbox
+                checked={config.minimiseToTray}
+                onChange={(minimiseToTray) => {
+                    window.native.set("minimiseToTray", minimiseToTray);
+                    setConfig({
+                        ...config,
+                        minimiseToTray,
+                    });
+                }}
+                description="Instead of closing, Revolt will hide in your tray.">
+                Minimise to Tray
+            </Checkbox>
+            <Checkbox
                 checked={config.discordRPC}
                 onChange={(discordRPC) => {
                     window.native.set("discordRPC", discordRPC);
@@ -162,6 +174,8 @@ export function Native() {
                                         the app will not load!
                                     </span>
                                 </b>
+                                <br />
+                                <code>yarn dev --port 3001</code>
                             </>
                         }>
                         I understand there's no going back.
