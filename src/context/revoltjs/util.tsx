@@ -8,6 +8,10 @@ import { Children } from "../../types/Preact";
 export function takeError(error: any): string {
     if (error.response) {
         const status = error.response.status;
+        if (error.response.type) {
+            return error.response.type;
+        }
+
         switch (status) {
             case 429:
                 return "TooManyRequests";
@@ -15,7 +19,7 @@ export function takeError(error: any): string {
             case 403:
                 return "Unauthorized";
             default:
-                return error.response.type ?? "UnknownError";
+                return "UnknownError";
         }
     } else if (error.request) {
         return "NetworkError";
