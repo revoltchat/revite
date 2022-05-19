@@ -47,6 +47,17 @@ export default function EmbedMedia({ embed, width, height }: Props) {
                     style={{ height }}
                 />
             );
+        case "Lightspeed":
+            return (
+                <iframe
+                    src={`https://next.lightspeed.tv/embed/${embed.special.id}`}
+                    frameBorder="0"
+                    allowFullScreen
+                    scrolling="no"
+                    loading="lazy"
+                    style={{ height }}
+                />
+            );
         case "Spotify":
             return (
                 <iframe
@@ -83,7 +94,21 @@ export default function EmbedMedia({ embed, width, height }: Props) {
             );
         }
         default: {
-            if (embed.image) {
+            if (embed.video) {
+                const url = embed.video.url;
+                return (
+                    <video
+                        loading="lazy"
+                        className={styles.image}
+                        style={{ width, height }}
+                        src={client.proxyFile(url)}
+                        loop={embed.special?.type === "GIF"}
+                        controls={embed.special?.type !== "GIF"}
+                        autoPlay={embed.special?.type === "GIF"}
+                        muted={embed.special?.type === "GIF" ? true : undefined}
+                    />
+                );
+            } else if (embed.image) {
                 const url = embed.image.url;
                 return (
                     <img

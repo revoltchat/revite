@@ -68,7 +68,8 @@ export default function Embed({ embed }: Props) {
                         mh = embed.video?.height ?? 720;
                         break;
                     }
-                    case "Twitch": {
+                    case "Twitch":
+                    case "Lightspeed": {
                         mw = 1280;
                         mh = 720;
                         break;
