@@ -124,6 +124,9 @@ export default defineConfig({
         },
     },
     optimizeDeps: {
-        exclude: ["revolt.js", "preact-context-menu"],
+        exclude: ["revolt.js", "preact-context-menu", "@revoltchat/ui"],
+    },
+    resolve: {
+        preserveSymlinks: true,
     },
 });

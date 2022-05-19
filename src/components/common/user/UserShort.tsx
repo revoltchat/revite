@@ -1,8 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
-import { Masquerade } from "revolt-api/types/Channels";
-import { User } from "revolt.js/dist/maps/Users";
-import { Nullable } from "revolt.js/dist/util/null";
+import { User, API } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { Ref } from "preact";
@@ -32,7 +30,7 @@ const BotBadge = styled.div`
 type UsernameProps = JSX.HTMLAttributes<HTMLElement> & {
     user?: User;
     prefixAt?: boolean;
-    masquerade?: Masquerade;
+    masquerade?: API.Masquerade;
     showServerIdentity?: boolean | "both";
 
     innerRef?: Ref<any>;
@@ -93,7 +91,11 @@ export const Username = observer(
                         )}
                     </span>
                     <BotBadge>
-                        <Text id="app.main.channel.bot" />
+                        {masquerade ? (
+                            <Text id="app.main.channel.bridge" />
+                        ) : (
+                            <Text id="app.main.channel.bot" />
+                        )}
                     </BotBadge>
                 </>
             );
@@ -120,7 +122,7 @@ export default function UserShort({
     user?: User;
     size?: number;
     prefixAt?: boolean;
-    masquerade?: Masquerade;
+    masquerade?: API.Masquerade;
     showServerIdentity?: boolean;
 }) {
     const { openScreen } = useIntermediate();

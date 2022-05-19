@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { User } from "revolt.js/dist/maps/Users";
+import { User } from "revolt.js";
 
 import styles from "./UserPicker.module.scss";
 import { Text } from "preact-i18n";

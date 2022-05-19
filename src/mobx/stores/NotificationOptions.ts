@@ -1,8 +1,7 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
-import { Presence, RelationshipStatus } from "revolt-api/types/Users";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Message } from "revolt.js/dist/maps/Messages";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Channel } from "revolt.js";
+import { Message } from "revolt.js";
+import { Server } from "revolt.js";
 
 import { mapToRecord } from "../../lib/conversion";
 
@@ -113,7 +112,7 @@ export default class NotificationOptions
      */
     shouldNotify(message: Message) {
         // Make sure the author is not blocked.
-        if (message.author?.relationship === RelationshipStatus.Blocked) {
+        if (message.author?.relationship === "Blocked") {
             return false;
         }
 
@@ -124,7 +123,7 @@ export default class NotificationOptions
         }
 
         // Check whether we are busy.
-        if (user.status?.presence === Presence.Busy) {
+        if (user.status?.presence === "Busy") {
             return false;
         }
 

@@ -1,7 +1,7 @@
 import { Markdown } from "@styled-icons/boxicons-logos";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { Profile as ProfileI } from "revolt-api/types/Users";
+import { API } from "revolt.js";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
@@ -30,7 +30,9 @@ export const Profile = observer(() => {
     const client = useClient();
     const history = useHistory();
 
-    const [profile, setProfile] = useState<undefined | ProfileI>(undefined);
+    const [profile, setProfile] = useState<undefined | API.UserProfile>(
+        undefined,
+    );
 
     // ! FIXME: temporary solution
     // ! we should just announce profile changes through WS
@@ -103,7 +105,7 @@ export const Profile = observer(() => {
                         behaviour="upload"
                         maxFileSize={4_000_000}
                         onUpload={(avatar) => client.users.edit({ avatar })}
-                        remove={() => client.users.edit({ remove: "Avatar" })}
+                        remove={() => client.users.edit({ remove: ["Avatar"] })}
                         defaultPreview={client.user!.generateAvatarURL(
                             { max_side: 256 },
                             true,
@@ -132,7 +134,7 @@ export const Profile = observer(() => {
                         }}
                         remove={async () => {
                             await client.users.edit({
-                                remove: "ProfileBackground",
+                                remove: ["ProfileBackground"],
                             });
                             setProfile({ ...profile, background: undefined });
                         }}

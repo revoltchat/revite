@@ -1,4 +1,4 @@
-import { Attachment as AttachmentI } from "revolt-api/types/Autumn";
+import { API } from "revolt.js";
 
 import styles from "./Attachment.module.scss";
 import classNames from "classnames";
@@ -14,7 +14,7 @@ import Spoiler from "./Spoiler";
 import TextFile from "./TextFile";
 
 interface Props {
-    attachment: AttachmentI;
+    attachment: API.File;
     hasContent?: boolean;
 }
 

@@ -1,7 +1,7 @@
 import { action, computed, makeAutoObservable } from "mobx";
-import { RevoltConfiguration } from "revolt-api/types/Core";
+import { API } from "revolt.js";
 import { Client } from "revolt.js";
-import { Nullable } from "revolt.js/dist/util/null";
+import { Nullable } from "revolt.js";
 
 import { isDebug } from "../../revision";
 import Persistent from "../interfaces/Persistent";
@@ -11,9 +11,9 @@ import Store from "../interfaces/Store";
  * Stores server configuration data.
  */
 export default class ServerConfig
-    implements Store, Persistent<RevoltConfiguration>
+    implements Store, Persistent<API.RevoltConfig>
 {
-    private config: Nullable<RevoltConfiguration>;
+    private config: Nullable<API.RevoltConfig>;
 
     /**
      * Construct new ServerConfig store.
@@ -32,7 +32,7 @@ export default class ServerConfig
         return JSON.parse(JSON.stringify(this.config));
     }
 
-    @action hydrate(data: RevoltConfiguration) {
+    @action hydrate(data: API.RevoltConfig) {
         this.config = data ?? null;
     }
 
@@ -68,7 +68,7 @@ export default class ServerConfig
      * Set server configuration.
      * @param config Server configuration
      */
-    @action set(config: RevoltConfiguration) {
+    @action set(config: API.RevoltConfig) {
         this.config = config;
     }
 }

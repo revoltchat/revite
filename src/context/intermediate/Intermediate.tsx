@@ -1,13 +1,6 @@
 import { Prompt } from "react-router";
 import { useHistory } from "react-router-dom";
-import type { Attachment } from "revolt-api/types/Autumn";
-import { Bot } from "revolt-api/types/Bots";
-import { TextChannel, VoiceChannel } from "revolt-api/types/Channels";
-import type { EmbedImage } from "revolt-api/types/January";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Message } from "revolt.js/dist/maps/Messages";
-import { Server } from "revolt.js/dist/maps/Servers";
-import { User } from "revolt.js/dist/maps/Users";
+import { API, Channel, Message, Server, User } from "revolt.js";
 
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
@@ -31,6 +24,7 @@ export type Screen =
     | { id: "clipboard"; text: string }
     | { id: "token_reveal"; token: string; username: string }
     | { id: "external_link_prompt"; link: string }
+    | { id: "sessions", confirm: () => void }
     | {
           id: "_prompt";
           question: Children;
@@ -61,7 +55,11 @@ export type Screen =
           | {
                 type: "create_channel";
                 target: Server;
-                cb?: (channel: TextChannel | VoiceChannel) => void;
+                cb?: (
+                    channel: Channel & {
+                        channel_type: "TextChannel" | "VoiceChannel";
+                    },
+                ) => void;
             }
           | { type: "create_category"; target: Server }
       ))
@@ -101,11 +99,11 @@ export type Screen =
           omit?: string[];
           callback: (users: string[]) => Promise<void>;
       }
-    | { id: "image_viewer"; attachment?: Attachment; embed?: EmbedImage }
+    | { id: "image_viewer"; attachment?: API.File; embed?: API.Image }
     | { id: "channel_info"; channel: Channel }
     | { id: "pending_requests"; users: User[] }
     | { id: "modify_account"; field: "username" | "email" | "password" }
-    | { id: "create_bot"; onCreate: (bot: Bot) => void }
+    | { id: "create_bot"; onCreate: (bot: API.Bot) => void }
     | {
           id: "server_identity";
           server: Server;

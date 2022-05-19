@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router";
-import { Server } from "revolt.js/dist/maps/Servers";
+import { Server } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 
 import { Ref } from "preact";

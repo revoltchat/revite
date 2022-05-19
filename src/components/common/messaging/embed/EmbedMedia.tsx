@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { JanuaryEmbed } from "revolt-api/types/January";
+import { API } from "revolt.js";
 
 import styles from "./Embed.module.scss";
 
@@ -7,7 +7,7 @@ import { useIntermediate } from "../../../../context/intermediate/Intermediate";
 import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
 interface Props {
-    embed: JanuaryEmbed;
+    embed: API.Embed;
     width?: number;
     height: number;
 }
@@ -40,6 +40,17 @@ export default function EmbedMedia({ embed, width, height }: Props) {
                     src={`https://player.twitch.tv/?${embed.special.content_type.toLowerCase()}=${
                         embed.special.id
                     }&parent=${window.location.hostname}&autoplay=false`}
+                    frameBorder="0"
+                    allowFullScreen
+                    scrolling="no"
+                    loading="lazy"
+                    style={{ height }}
+                />
+            );
+        case "Lightspeed":
+            return (
+                <iframe
+                    src={`https://next.lightspeed.tv/embed/${embed.special.id}`}
                     frameBorder="0"
                     allowFullScreen
                     scrolling="no"
@@ -83,7 +94,21 @@ export default function EmbedMedia({ embed, width, height }: Props) {
             );
         }
         default: {
-            if (embed.image) {
+            if (embed.video) {
+                const url = embed.video.url;
+                return (
+                    <video
+                        loading="lazy"
+                        className={styles.image}
+                        style={{ width, height }}
+                        src={client.proxyFile(url)}
+                        loop={embed.special?.type === "GIF"}
+                        controls={embed.special?.type !== "GIF"}
+                        autoPlay={embed.special?.type === "GIF"}
+                        muted={embed.special?.type === "GIF" ? true : undefined}
+                    />
+                );
+            } else if (embed.image) {
                 const url = embed.image.url;
                 return (
                     <img
@@ -94,7 +119,7 @@ export default function EmbedMedia({ embed, width, height }: Props) {
                         onClick={() =>
                             openScreen({
                                 id: "image_viewer",
-                                embed: embed.image,
+                                embed: embed.image!,
                             })
                         }
                         onMouseDown={(ev) =>
