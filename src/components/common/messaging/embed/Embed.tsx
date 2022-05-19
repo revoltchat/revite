@@ -89,6 +89,20 @@ export default function Embed({ embed }: Props) {
             }
 
             const { width, height } = calculateSize(mw, mh);
+            if (embed.type === "Website" && embed.special?.type === "GIF") {
+                return (
+                    <EmbedMedia
+                        embed={embed}
+                        width={
+                            height *
+                            ((embed.image?.width ?? 0) /
+                                (embed.image?.height ?? 0))
+                        }
+                        height={height}
+                    />
+                );
+            }
+
             return (
                 <div
                     className={classNames(styles.embed, styles.website)}
@@ -178,6 +192,18 @@ export default function Embed({ embed }: Props) {
                     loading="lazy"
                     onClick={() => openScreen({ id: "image_viewer", embed })}
                     onMouseDown={(ev) => ev.button === 1 && openLink(embed.url)}
+                />
+            );
+        }
+        case "Video": {
+            return (
+                <video
+                    className={classNames(styles.embed, styles.image)}
+                    style={calculateSize(embed.width, embed.height)}
+                    src={client.proxyFile(embed.url)}
+                    frameBorder="0"
+                    loading="lazy"
+                    controls
                 />
             );
         }
