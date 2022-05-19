@@ -159,7 +159,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                     // Remove user headers for this request
                     delete headers?.["x-user-id"];
                     delete headers?.["x-session-token"];
-                    return data;
+                    return JSON.stringify(data);
                 },
             },
         );
@@ -184,7 +184,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                     // Remove user headers for this request
                     delete headers?.["x-user-id"];
                     delete headers?.["x-session-token"];
-                    return data;
+                    return JSON.stringify(data);
                 },
             },
         );
