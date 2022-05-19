@@ -2,10 +2,8 @@ import { Plus } from "@styled-icons/boxicons-regular";
 import { Cog, Compass } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory, useLocation, useParams } from "react-router-dom";
-import { RelationshipStatus } from "revolt-api/types/Users";
 import styled, { css } from "styled-components/macro";
 
-import { Ref } from "preact";
 import { useTriggerEvents } from "preact-context-menu";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
@@ -248,7 +246,7 @@ export default observer(() => {
     const { openScreen } = useIntermediate();
 
     let alertCount = [...client.users.values()].filter(
-        (x) => x.relationship === RelationshipStatus.Incoming,
+        (x) => x.relationship === "Incoming",
     ).length;
 
     const homeActive =
@@ -290,7 +288,7 @@ export default observer(() => {
                 {channels
                     .filter(
                         (x) =>
-                            (x.channel_type === "DirectMessage" ||
+                            ((x.channel_type === "DirectMessage" && x.active) ||
                                 x.channel_type === "Group") &&
                             x.unread,
                     )

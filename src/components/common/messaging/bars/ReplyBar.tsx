@@ -1,8 +1,7 @@
-import { At, Reply as ReplyIcon } from "@styled-icons/boxicons-regular";
+import { At } from "@styled-icons/boxicons-regular";
 import { File, XCircle } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Message } from "revolt.js/dist/maps/Messages";
+import { Channel, Message } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
@@ -188,9 +187,10 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                     ) : (
                                         <Markdown
                                             disallowBigEmoji
-                                            content={(
-                                                message.content as string
-                                            ).replace(/\n/g, " ")}
+                                            content={message.content?.replace(
+                                                /\n/g,
+                                                " ",
+                                            )}
                                         />
                                     )}
                                 </div>

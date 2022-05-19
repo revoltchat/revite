@@ -1,4 +1,4 @@
-import { At, Key, Block, ListOl } from "@styled-icons/boxicons-regular";
+import { At, Key, Block } from "@styled-icons/boxicons-regular";
 import {
     Envelope,
     HelpCircle,
@@ -8,7 +8,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { Profile } from "revolt-api/types/Users";
+import { API } from "revolt.js";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
@@ -37,7 +37,9 @@ export const Account = observer(() => {
 
     const [email, setEmail] = useState("...");
     const [revealEmail, setRevealEmail] = useState(false);
-    const [profile, setProfile] = useState<undefined | Profile>(undefined);
+    const [profile, setProfile] = useState<undefined | API.UserProfile>(
+        undefined,
+    );
     const history = useHistory();
 
     function switchPage(to: string) {
@@ -46,8 +48,8 @@ export const Account = observer(() => {
 
     useEffect(() => {
         if (email === "..." && status === ClientStatus.ONLINE) {
-            client
-                .req("GET", "/auth/account")
+            client.api
+                .get("/auth/account/")
                 .then((account) => setEmail(account.email));
         }
 

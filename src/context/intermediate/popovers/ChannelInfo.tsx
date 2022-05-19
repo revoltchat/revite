@@ -1,6 +1,6 @@
 import { X } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
-import { Channel } from "revolt.js/dist/maps/Channels";
+import { Channel } from "revolt.js";
 
 import styles from "./ChannelInfo.module.scss";
 

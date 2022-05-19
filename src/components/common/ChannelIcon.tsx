@@ -1,13 +1,14 @@
 import { Hash, VolumeFull } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
-import { Channel } from "revolt.js/dist/maps/Channels";
+import { Channel } from "revolt.js";
 
 import { useContext } from "preact/hooks";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
-import { ImageIconBase, IconBaseProps } from "./IconBase";
 import fallback from "./assets/group.png";
+
+import { ImageIconBase, IconBaseProps } from "./IconBase";
 
 interface Props extends IconBaseProps<Channel> {
     isServerChannel?: boolean;
@@ -32,7 +33,7 @@ export default observer(
             ...imgProps
         } = props;
         const iconURL = client.generateFileURL(
-            target?.icon ?? attachment,
+            target?.icon ?? attachment ?? undefined,
             { max_side: 256 },
             animate,
         );

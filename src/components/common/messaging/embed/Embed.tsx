@@ -1,4 +1,4 @@
-import { Embed as EmbedI } from "revolt-api/types/Channels";
+import { API } from "revolt.js";
 
 import styles from "./Embed.module.scss";
 import classNames from "classnames";
@@ -13,7 +13,7 @@ import Attachment from "../attachments/Attachment";
 import EmbedMedia from "./EmbedMedia";
 
 interface Props {
-    embed: EmbedI;
+    embed: API.Embed;
 }
 
 const MAX_EMBED_WIDTH = 480;
@@ -68,7 +68,8 @@ export default function Embed({ embed }: Props) {
                         mh = embed.video?.height ?? 720;
                         break;
                     }
-                    case "Twitch": {
+                    case "Twitch":
+                    case "Lightspeed": {
                         mw = 1280;
                         mh = 720;
                         break;
@@ -89,6 +90,20 @@ export default function Embed({ embed }: Props) {
             }
 
             const { width, height } = calculateSize(mw, mh);
+            if (embed.type === "Website" && embed.special?.type === "GIF") {
+                return (
+                    <EmbedMedia
+                        embed={embed}
+                        width={
+                            height *
+                            ((embed.image?.width ?? 0) /
+                                (embed.image?.height ?? 0))
+                        }
+                        height={height}
+                    />
+                );
+            }
+
             return (
                 <div
                     className={classNames(styles.embed, styles.website)}
@@ -128,7 +143,7 @@ export default function Embed({ embed }: Props) {
                                 <a
                                     onMouseDown={(ev) =>
                                         (ev.button === 0 || ev.button === 1) &&
-                                        openLink(embed.url)
+                                        openLink(embed.url!)
                                     }
                                     className={styles.title}>
                                     {embed.title}
@@ -178,6 +193,18 @@ export default function Embed({ embed }: Props) {
                     loading="lazy"
                     onClick={() => openScreen({ id: "image_viewer", embed })}
                     onMouseDown={(ev) => ev.button === 1 && openLink(embed.url)}
+                />
+            );
+        }
+        case "Video": {
+            return (
+                <video
+                    className={classNames(styles.embed, styles.image)}
+                    style={calculateSize(embed.width, embed.height)}
+                    src={client.proxyFile(embed.url)}
+                    frameBorder="0"
+                    loading="lazy"
+                    controls
                 />
             );
         }

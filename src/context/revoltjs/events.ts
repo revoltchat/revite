@@ -1,14 +1,16 @@
-import { Client } from "revolt.js/dist";
+import { Client, Server } from "revolt.js";
 
 import { StateUpdater } from "preact/hooks";
 
-import Auth from "../../mobx/stores/Auth";
+import { deleteRenderer } from "../../lib/renderer/Singleton";
+
+import State from "../../mobx/State";
 
 import { resetMemberSidebarFetched } from "../../components/navigation/right/MemberSidebar";
 import { ClientStatus } from "./RevoltClient";
 
 export function registerEvents(
-    auth: Auth,
+    state: State,
     setStatus: StateUpdater<ClientStatus>,
     client: Client,
 ) {
@@ -25,8 +27,21 @@ export function registerEvents(
         },
 
         logout: () => {
-            auth.logout();
+            state.auth.logout();
+            state.reset();
             setStatus(ClientStatus.READY);
+        },
+
+        "channel/delete": (channel_id: string) => {
+            deleteRenderer(channel_id);
+        },
+
+        "server/delete": (_, server: Server) => {
+            if (server) {
+                for (const channel_id of server.channel_ids) {
+                    deleteRenderer(channel_id);
+                }
+            }
         },
     };
 

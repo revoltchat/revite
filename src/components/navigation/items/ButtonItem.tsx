@@ -1,9 +1,7 @@
 import { X } from "@styled-icons/boxicons-regular";
 import { Crown } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Presence } from "revolt-api/types/Users";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { User } from "revolt.js/dist/maps/Users";
+import { User, Channel } from "revolt.js";
 
 import styles from "./Item.module.scss";
 import classNames from "classnames";
@@ -65,7 +63,7 @@ export const UserButton = observer((props: UserProps) => {
             data-alert={typeof alert === "string"}
             data-online={
                 typeof channel !== "undefined" ||
-                (user.online && user.status?.presence !== Presence.Invisible)
+                (user.online && user.status?.presence !== "Invisible")
             }
             {...useTriggerEvents("Menu", {
                 user: user._id,

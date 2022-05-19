@@ -5,10 +5,6 @@ import "katex/dist/katex.min.css";
 import MarkdownIt from "markdown-it";
 // @ts-expect-error No typings.
 import MarkdownEmoji from "markdown-it-emoji/dist/markdown-it-emoji-bare";
-// @ts-expect-error No typings.
-import MarkdownSub from "markdown-it-sub";
-// @ts-expect-error No typings.
-import MarkdownSup from "markdown-it-sup";
 import { RE_MENTIONS } from "revolt.js";
 
 import styles from "./Markdown.module.scss";
@@ -64,8 +60,6 @@ export const md: MarkdownIt = MarkdownIt({
     .disable("image")
     .use(MarkdownEmoji, { defs: emojiDictionary })
     .use(MarkdownSpoilers)
-    .use(MarkdownSup)
-    .use(MarkdownSub)
     .use(MarkdownKatex, {
         throwOnError: false,
         maxExpand: 0,
@@ -129,7 +123,7 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
     const { openLink } = useIntermediate();
 
     if (typeof content === "undefined") return null;
-    if (content.length === 0) return null;
+    if (!content || content.length === 0) return null;
 
     // We replace the message with the mention at the time of render.
     // We don't care if the mention changes.

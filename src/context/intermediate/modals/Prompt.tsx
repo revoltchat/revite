@@ -1,10 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { TextChannel, VoiceChannel } from "revolt-api/types/Channels";
-import { Channel } from "revolt.js/dist/maps/Channels";
-import { Message as MessageI } from "revolt.js/dist/maps/Messages";
-import { Server } from "revolt.js/dist/maps/Servers";
-import { User } from "revolt.js/dist/maps/Users";
+import { Channel, Message as MessageI, Server, User } from "revolt.js";
 import { ulid } from "ulid";
 
 import styles from "./Prompt.module.scss";
@@ -74,7 +70,11 @@ type SpecialProps = { onClose: () => void } & (
     | {
           type: "create_channel";
           target: Server;
-          cb?: (channel: TextChannel | VoiceChannel) => void;
+          cb?: (
+              channel: Channel & {
+                  channel_type: "TextChannel" | "VoiceChannel";
+              },
+          ) => void;
       }
     | { type: "create_category"; target: Server }
 );
@@ -254,7 +254,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
 
                 props.target
                     .createInvite()
-                    .then((code) => setCode(code))
+                    .then(({ _id }) => setCode(_id))
                     .catch((err) => setError(takeError(err)))
                     .finally(() => setProcessing(false));
             }, [props.target]);
@@ -429,11 +429,10 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                         await props.target.createChannel({
                                             type,
                                             name,
-                                            nonce: ulid(),
                                         });
 
                                     if (props.cb) {
-                                        props.cb(channel);
+                                        props.cb(channel as any);
                                     } else {
                                         history.push(
                                             `/server/${props.target._id}/channel/${channel._id}`,
