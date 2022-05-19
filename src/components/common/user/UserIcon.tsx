@@ -74,7 +74,7 @@ export default observer(
 
         let { url } = props;
         if (masquerade?.avatar) {
-            url = masquerade.avatar;
+            url = client.proxyFile(masquerade.avatar);
         } else if (!url) {
             let override;
             if (target && showServerIdentity) {
