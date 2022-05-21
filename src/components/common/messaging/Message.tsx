@@ -57,7 +57,7 @@ const Message = observer(
 
         const { openScreen } = useIntermediate();
 
-        const content = message.content as string;
+        const content = message.content;
         const head =
             preferHead || (message.reply_ids && message.reply_ids.length > 0);
 
@@ -168,7 +168,10 @@ const Message = observer(
                             <Attachment
                                 key={index}
                                 attachment={attachment}
-                                hasContent={index > 0 || content.length > 0}
+                                hasContent={
+                                    index > 0 ||
+                                    (content ? content.length > 0 : false)
+                                }
                             />
                         ))}
                         {message.embeds?.map((embed, index) => (

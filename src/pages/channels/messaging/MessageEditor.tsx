@@ -48,7 +48,7 @@ interface Props {
 }
 
 export default function MessageEditor({ message, finish }: Props) {
-    const [content, setContent] = useState((message.content as string) ?? "");
+    const [content, setContent] = useState(message.content ?? "");
     const { focusTaken } = useContext(IntermediateContext);
     const { openScreen } = useIntermediate();
 

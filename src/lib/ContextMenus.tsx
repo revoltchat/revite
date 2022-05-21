@@ -209,7 +209,7 @@ export default function ContextMenus() {
                             .get(data.message.channel)!
                             .sendMessage({
                                 nonce: data.message.id,
-                                content: data.message.data.content as string,
+                                content: data.message.data.content,
                                 replies: data.message.data.replies,
                             })
                             .catch(fail);
