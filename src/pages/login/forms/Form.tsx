@@ -16,6 +16,7 @@ import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
 import WaveSVG from "../../settings/assets/wave.svg";
+import { Tip } from "@revoltchat/ui";
 
 import FormField from "../FormField";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
@@ -146,10 +147,22 @@ export const Form = observer(({ page, callback }: Props) => {
             <div className={styles.welcome}>
                 <div className={styles.title}>
                     <img src={WaveSVG} draggable={false} />
-                    <Text id={page === "create" ? "login.welcome2" : "login.welcome"} />
+                    <Text
+                        id={
+                            page === "create"
+                                ? "login.welcome2"
+                                : "login.welcome"
+                        }
+                    />
                 </div>
                 <div className={styles.subtitle}>
-                    <Text id={page === "create" ? "login.subtitle2" : "login.subtitle"} />
+                    <Text
+                        id={
+                            page === "create"
+                                ? "login.subtitle2"
+                                : "login.subtitle"
+                        }
+                    />
                     <div>(app.revolt.chat)</div>
                 </div>
             </div>
@@ -238,6 +251,16 @@ export const Form = observer(({ page, callback }: Props) => {
                             <Text id="login.reset" />
                         </Link>
                     </span>
+                    {import.meta.env.VITE_API_URL &&
+                        import.meta.env.VITE_API_URL !=
+                            "https://api.revolt.chat" && (
+                            <>
+                                <br />
+                                <Tip>
+                                    <Text id="login.unofficial_instance" />
+                                </Tip>
+                            </>
+                        )}
                 </>
             )}
             {(page === "reset" ||
