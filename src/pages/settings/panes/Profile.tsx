@@ -7,6 +7,8 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
+import { Button } from "@revoltchat/ui";
+
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { useTranslation } from "../../../lib/i18n";
 
@@ -21,7 +23,6 @@ import {
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
-import Button from "../../../components/ui/Button";
 import Tip from "../../../components/ui/Tip";
 
 export const Profile = observer(() => {
@@ -191,7 +192,7 @@ export const Profile = observer(() => {
             </div>
             <p>
                 <Button
-                    contrast
+                    palette="secondary"
                     onClick={() => {
                         setChanged(false);
                         client.users.edit({

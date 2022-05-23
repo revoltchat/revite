@@ -7,6 +7,8 @@ import styled, { css } from "styled-components/macro";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { Button } from "@revoltchat/ui";
+
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 
 import {
@@ -17,7 +19,6 @@ import {
 import { takeError } from "../../../../context/revoltjs/util";
 
 import ServerIcon from "../../../../components/common/ServerIcon";
-import Button from "../../../../components/ui/Button";
 import Overline from "../../../ui/Overline";
 import Preloader from "../../../ui/Preloader";
 

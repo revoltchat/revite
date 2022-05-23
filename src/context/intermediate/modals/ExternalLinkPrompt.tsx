@@ -27,8 +27,7 @@ export function ExternalLinkModal({ onClose, link }: Props) {
                         onClose();
                     },
                     confirmation: true,
-                    contrast: true,
-                    accent: true,
+                    palette: "accent",
                     children: "Continue",
                 },
                 {
@@ -46,7 +45,7 @@ export function ExternalLinkModal({ onClose, link }: Props) {
                         openLink(link, true);
                         onClose();
                     },
-                    plain: true,
+                    palette: "plain",
                     children: (
                         <Text id="app.special.modals.external_links.trust_domain" />
                     ),

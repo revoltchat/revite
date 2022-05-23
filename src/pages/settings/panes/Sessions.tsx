@@ -18,11 +18,12 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { dayjs } from "../../../context/Locale";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { Button } from "@revoltchat/ui";
 
-import Button from "../../../components/ui/Button";
+import { dayjs } from "../../../context/Locale";
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { AppContext } from "../../../context/revoltjs/RevoltClient";
+
 import Preloader from "../../../components/ui/Preloader";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
@@ -229,12 +230,16 @@ export function Sessions() {
                             setDelete(del);
 
                             for (const id of del) {
-                                await client.api.delete(`/auth/session/${id as ""}`);
+                                await client.api.delete(
+                                    `/auth/session/${id as ""}`,
+                                );
                             }
 
-                            setSessions(sessions.filter((x) => x._id === deviceId));
-                        }
-                    })
+                            setSessions(
+                                sessions.filter((x) => x._id === deviceId),
+                            );
+                        },
+                    });
                 }}
                 icon={<LogOut size={24} color={"var(--error)"} />}
                 action={"chevron"}
@@ -255,4 +260,3 @@ export function Sessions() {
         </div>
     );
 }
-

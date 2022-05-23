@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
-import { API, Permission } from "revolt.js";
+import { API } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { useEffect, useState } from "preact/hooks";
 
+import { Button } from "@revoltchat/ui";
+
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
-import Button from "../../components/ui/Button";
 import ComboBox from "../../components/ui/ComboBox";
 import Overline from "../../components/ui/Overline";
 import Preloader from "../../components/ui/Preloader";
@@ -78,7 +79,7 @@ export default function InviteBot() {
                                 ))}
                         </ComboBox>
                         <Button
-                            contrast
+                            palette="secondary"
                             onClick={() =>
                                 server !== "none" &&
                                 client.bots.invite(data._id, { server })
@@ -103,7 +104,7 @@ export default function InviteBot() {
                                 ))}
                         </ComboBox>
                         <Button
-                            contrast
+                            palette="secondary"
                             onClick={() =>
                                 group !== "none" &&
                                 client.bots.invite(data._id, { group })

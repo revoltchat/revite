@@ -2,11 +2,11 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { TextReact } from "../../../lib/i18n";
+import { Button } from "@revoltchat/ui";
+
 import { stopPropagation } from "../../../lib/stopPropagation";
 import { voiceState } from "../../../lib/vortex/VoiceState";
 
-import Button from "../../../components/ui/Button";
 import ComboBox from "../../../components/ui/ComboBox";
 import Overline from "../../../components/ui/Overline";
 import Tip from "../../../components/ui/Tip";
@@ -162,8 +162,10 @@ export function Audio() {
                             {!permission && (
                                 <Button
                                     compact
-                                    onClick={(e) => handleAskForPermission(e)}
-                                    error>
+                                    onClick={(e: any) =>
+                                        handleAskForPermission(e)
+                                    }
+                                    palette="error">
                                     <Text id="app.settings.pages.audio.button_grant" />
                                 </Button>
                             )}

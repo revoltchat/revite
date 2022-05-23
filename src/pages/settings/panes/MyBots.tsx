@@ -11,6 +11,8 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
+import { Button } from "@revoltchat/ui";
+
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { internalEmit } from "../../../lib/eventEmitter";
 import { useTranslation } from "../../../lib/i18n";
@@ -26,7 +28,6 @@ import AutoComplete, {
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import Button from "../../../components/ui/Button";
 import Checkbox from "../../../components/ui/Checkbox";
 import InputBox from "../../../components/ui/InputBox";
 import Tip from "../../../components/ui/Tip";
@@ -343,7 +344,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                             setEditMode(false);
                         } else setEditMode(true);
                     }}
-                    contrast>
+                    palette="secondary">
                     <Text
                         id={`app.special.modals.actions.${
                             editMode ? "cancel" : "edit"
@@ -479,7 +480,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                             <Text id="app.special.modals.actions.save" />
                         </Button>
                         <Button
-                            error
+                            palette="error"
                             onClick={async () => {
                                 setSaving(true);
                                 openScreen({
