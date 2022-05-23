@@ -1,9 +1,12 @@
+import { autorun } from "mobx";
 import { useHistory } from "react-router";
 import { Server } from "revolt.js";
 import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
+
+import { defer } from "../../../lib/defer";
 
 import InputBox from "../../../components/ui/InputBox";
 import Modal from "../../../components/ui/Modal";
@@ -81,6 +84,7 @@ type SpecialProps = { onClose: () => void } & (
           type:
               | "create_group"
               | "create_server"
+              | "join_server"
               | "set_custom_status"
               | "add_friend";
       }
@@ -148,6 +152,50 @@ export function SpecialInputModal(props: SpecialProps) {
                     callback={async (name) => {
                         const role = await props.server.createRole(name);
                         props.callback(role.id);
+                    }}
+                />
+            );
+        }
+        case "join_server": {
+            return (
+                <InputModal
+                    onClose={onClose}
+                    question={<Text id="app.main.servers.join" />}
+                    field={"Invite code"}
+                    callback={async (rawCode) => {
+                        // if the user provides an invite link, get rid of the url and just pass the invite code
+                        // prettier-ignore
+                        const regex = new RegExp(
+                            "http(s?):\/\/(app|nightly|rvlt|localhost).(revolt.chat|gg\/|\d{3,5})(\/invite\/)?", // localhost doesn't quite work yet
+                        );
+                        const code = rawCode.replace(regex, "");
+                        const serv = await client.fetchInvite(code);
+                        if (typeof serv === "undefined")
+                            console.log("Something went wrong.");
+
+                        if (client.servers.get(serv.server_id)) {
+                            history.push(
+                                `/server/${serv.server_id}/channel/${serv.channel_id}`,
+                            );
+                        }
+                        const dispose = autorun(() => {
+                            const server = client.servers.get(serv.server_id);
+
+                            defer(() => {
+                                if (server) {
+                                    client.unreads!.markMultipleRead(
+                                        server.channel_ids,
+                                    );
+
+                                    history.push(
+                                        `/server/${server._id}/channel/${serv.channel_id}`,
+                                    );
+                                }
+                            });
+
+                            dispose();
+                        });
+                        await client.joinInvite(code);
                     }}
                 />
             );

@@ -68,6 +68,7 @@ export type Screen =
                 type:
                     | "create_group"
                     | "create_server"
+                    | "join_server"
                     | "set_custom_status"
                     | "add_friend";
             }
@@ -104,6 +105,7 @@ export type Screen =
     | { id: "pending_requests"; users: User[] }
     | { id: "modify_account"; field: "username" | "email" | "password" }
     | { id: "create_bot"; onCreate: (bot: API.Bot) => void }
+    | { id: "new_server" }
     | {
           id: "server_identity";
           server: Server;
