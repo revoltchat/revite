@@ -47,7 +47,10 @@ export default function ThemeTools() {
                 content={
                     <Text id="app.settings.pages.appearance.reset_overrides" />
                 }>
-                <Button palette="secondary" onClick={theme.reset}>
+                <Button
+                    palette="secondary"
+                    compact="icon"
+                    onClick={theme.reset}>
                     <Reset size={22} />
                 </Button>
             </Tooltip>
@@ -63,6 +66,7 @@ export default function ThemeTools() {
                 content={<Text id="app.settings.pages.appearance.import" />}>
                 <Button
                     palette="secondary"
+                    compact="icon"
                     onClick={async () => {
                         try {
                             const text = await navigator.clipboard.readText();
