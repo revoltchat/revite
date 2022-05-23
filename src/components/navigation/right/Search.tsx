@@ -5,10 +5,11 @@ import styled from "styled-components/macro";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
+import { Button } from "@revoltchat/ui";
+
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Message from "../../common/messaging/Message";
-import Button from "../../ui/Button";
 import InputBox from "../../ui/InputBox";
 import Overline from "../../ui/Overline";
 import Preloader from "../../ui/Preloader";
@@ -118,7 +119,7 @@ export function SearchSidebar({ close }: Props) {
                             <Button
                                 key={key}
                                 compact
-                                accent={sort === key}
+                                palette={sort === key ? "accent" : "primary"}
                                 onClick={() => setSort(key as Sort)}>
                                 <Text
                                     id={`app.main.channel.search.sort.${key.toLowerCase()}`}

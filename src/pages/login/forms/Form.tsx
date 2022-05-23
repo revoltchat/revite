@@ -1,18 +1,17 @@
-import { CheckCircle, Envelope } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
+
+import { Button } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
-import Button from "../../../components/ui/Button";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
 import WaveSVG from "../../settings/assets/wave.svg";
@@ -146,10 +145,22 @@ export const Form = observer(({ page, callback }: Props) => {
             <div className={styles.welcome}>
                 <div className={styles.title}>
                     <img src={WaveSVG} draggable={false} />
-                    <Text id={page === "create" ? "login.welcome2" : "login.welcome"} />
+                    <Text
+                        id={
+                            page === "create"
+                                ? "login.welcome2"
+                                : "login.welcome"
+                        }
+                    />
                 </div>
                 <div className={styles.subtitle}>
-                    <Text id={page === "create" ? "login.subtitle2" : "login.subtitle"} />
+                    <Text
+                        id={
+                            page === "create"
+                                ? "login.subtitle2"
+                                : "login.subtitle"
+                        }
+                    />
                     <div>(app.revolt.chat)</div>
                 </div>
             </div>

@@ -3,12 +3,13 @@ import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
+import { Button } from "@revoltchat/ui";
+
 import { useApplicationState } from "../../../mobx/State";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import Tooltip from "../../common/Tooltip";
-import Button from "../../ui/Button";
 
 const Actions = styled.div`
     gap: 8px;
@@ -46,7 +47,10 @@ export default function ThemeTools() {
                 content={
                     <Text id="app.settings.pages.appearance.reset_overrides" />
                 }>
-                <Button contrast iconbutton onClick={theme.reset}>
+                <Button
+                    palette="secondary"
+                    compact="icon"
+                    onClick={theme.reset}>
                     <Reset size={22} />
                 </Button>
             </Tooltip>
@@ -61,8 +65,8 @@ export default function ThemeTools() {
             <Tooltip
                 content={<Text id="app.settings.pages.appearance.import" />}>
                 <Button
-                    contrast
-                    iconbutton
+                    palette="secondary"
+                    compact="icon"
                     onClick={async () => {
                         try {
                             const text = await navigator.clipboard.readText();

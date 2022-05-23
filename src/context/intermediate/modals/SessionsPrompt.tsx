@@ -7,32 +7,31 @@ interface Props {
     confirm: () => void;
 }
 
-export function SessionsModal({ onClose, confirm}: Props) {
+export function SessionsModal({ onClose, confirm }: Props) {
     return (
         <Modal
-        visible={true}
-        onClose={onClose}
-        title={<Text id={"app.special.modals.sessions.title"} />}
-        actions={[
-            {
-                onClick: () => {
-                    onClose()
+            visible={true}
+            onClose={onClose}
+            title={<Text id={"app.special.modals.sessions.title"} />}
+            actions={[
+                {
+                    onClick: () => {
+                        onClose();
+                    },
+                    confirmation: true,
+                    palette: "accent",
+                    children: <Text id="app.special.modals.actions.back" />,
                 },
-                confirmation: true,
-                contrast: true,
-                accent: true,
-                children: <Text id="app.special.modals.actions.back"/>
-            },
-            {
-                onClick: () => {
-                    confirm()
-                    onClose()
+                {
+                    onClick: () => {
+                        confirm();
+                        onClose();
+                    },
+                    confirmation: true,
+                    children: <Text id="app.special.modals.sessions.accept" />,
                 },
-                confirmation: true,
-                children: <Text id="app.special.modals.sessions.accept"/>
-            }
-        ]}>
-        <Text id="app.special.modals.sessions.short" /> <br />
+            ]}>
+            <Text id="app.special.modals.sessions.short" /> <br />
         </Modal>
-    )   
-} 
+    );
+}
