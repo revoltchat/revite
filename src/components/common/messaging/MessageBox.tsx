@@ -637,7 +637,11 @@ export default observer(({ channel }: Props) => {
                 </Action>*/}
                 <Action>
                     <IconButton
-                        className="mobile"
+                        className={
+                            state.settings.get("appearance:show_send_button")
+                                ? ""
+                                : "mobile"
+                        }
                         onClick={send}
                         onMouseDown={(e) => e.preventDefault()}>
                         <Send size={20} />
