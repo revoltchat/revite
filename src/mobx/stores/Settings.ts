@@ -30,6 +30,7 @@ export interface ISettings {
     "appearance:ligatures": boolean;
     "appearance:seasonal": boolean;
     "appearance:transparency": boolean;
+    "appearance:show_send_button": boolean;
 
     "appearance:theme:base": "dark" | "light";
     "appearance:theme:overrides": Partial<Overrides>;
