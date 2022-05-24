@@ -15,6 +15,7 @@ import { takeError } from "../../../context/revoltjs/util";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
 import WaveSVG from "../../settings/assets/wave.svg";
+import { Tip } from "@revoltchat/ui";
 
 import FormField from "../FormField";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
@@ -249,6 +250,24 @@ export const Form = observer(({ page, callback }: Props) => {
                             <Text id="login.reset" />
                         </Link>
                     </span>
+                    {import.meta.env.VITE_API_URL &&
+                        import.meta.env.VITE_API_URL !=
+                            "https://api.revolt.chat" && (
+                            <>
+                                <br />
+                                <Tip palette="primary">
+                                    <span>
+                                        <Text id="login.unofficial_instance" />{" "}
+                                        <a
+                                            href="https://developers.revolt.chat/faq/instances#what-is-a-third-party-instance"
+                                            style={{ color: "var(--accent)" }}
+                                            target="_blank">
+                                            <Text id="general.learn_more" />
+                                        </a>
+                                    </span>
+                                </Tip>
+                            </>
+                        )}
                 </>
             )}
             {(page === "reset" ||
