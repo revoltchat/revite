@@ -256,8 +256,16 @@ export const Form = observer(({ page, callback }: Props) => {
                             "https://api.revolt.chat" && (
                             <>
                                 <br />
-                                <Tip>
-                                    <Text id="login.unofficial_instance" />
+                                <Tip palette="primary">
+                                    <span>
+                                        <Text id="login.unofficial_instance" />{" "}
+                                        <a
+                                            href="https://developers.revolt.chat/faq/instances#what-is-a-third-party-instance"
+                                            style={{ color: "var(--accent)" }}
+                                            target="_blank">
+                                            <Text id="general.learn_more" />
+                                        </a>
+                                    </span>
                                 </Tip>
                             </>
                         )}
