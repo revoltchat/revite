@@ -3,8 +3,8 @@ const { copy, remove, access } = require("fs-extra");
 const { exec: cexec } = require("child_process");
 const { resolve } = require("path");
 
-let target = process.env.REVOLT_SASS;
-let branch = process.env.REVOLT_SASS_BRANCH;
+let target = process.env.REVOLT_SAAS;
+let branch = process.env.REVOLT_SAAS_BRANCH;
 let DEFAULT_DIRECTORY = "public/assets_default";
 let OUT_DIRECTORY = "public/assets";
 
