@@ -2096,19 +2096,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revoltchat/ui@portal:../components::locator=client%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@revoltchat/ui@portal:../components::locator=client%40workspace%3A."
+"@revoltchat/ui@npm:^1.0.31":
+  version: 1.0.31
+  resolution: "@revoltchat/ui@npm:1.0.31"
   dependencies:
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
     "@styled-icons/boxicons-solid": ^10.38.0
-    mobx: ^6.6.0
+    mobx: ^6.5.0
     mobx-react-lite: ^3.3.0
   peerDependencies:
     revolt-api: "*"
+  checksum: 8f93757d131ae7d784e744b774f6f6b9bea4e09a3fb48762334caf23e4ab08db209649eba1435f9fa82bdf7bfbfb78100fef6d13e7e0f715d0e2c82c52abf74d
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@rollup/plugin-babel@npm:^5.2.0":
   version: 5.3.0
@@ -5866,7 +5867,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mobx@npm:^6.6.0":
+"mobx@npm:^6.5.0, mobx@npm:^6.6.0":
   version: 6.6.0
   resolution: "mobx@npm:6.6.0"
   checksum: 369b8d6830ec286e9c856c80002c7a554d46bca739b7f76432cb56b3ce1fe0a7ed7e5a994b9793d30023beeff0dd16300a501e831fa97107104e4fedc7d4af8f

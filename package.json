@@ -162,8 +162,5 @@
     "repository": "https://github.com/revoltchat/revite.git",
     "author": "Paul <paulmakles@gmail.com>",
     "license": "MIT",
-    "packageManager": "yarn@3.2.0",
-    "resolutions": {
-        "@revoltchat/ui": "portal:../components"
-    }
+    "packageManager": "yarn@3.2.0"
 }
