@@ -31,6 +31,7 @@ export function findLanguage(lang?: string): Language {
         const value = Language[key as keyof typeof Language];
 
         // Skip alternative/joke languages
+        if (Languages[value].cat === "const") continue;
         if (Languages[value].cat === "alt") continue;
 
         values.push(value);

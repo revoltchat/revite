@@ -62,6 +62,7 @@
     "dependencies": {
         "@fontsource/bitter": "^4.5.0",
         "@insertish/vite-plugin-babel-macros": "^1.0.5",
+        "@revoltchat/ui": "^1.0.31",
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
         "react-beautiful-dnd": "^13.1.0",
@@ -91,7 +92,6 @@
         "@fontsource/ubuntu-mono": "^4.4.5",
         "@hcaptcha/react-hcaptcha": "^0.3.6",
         "@preact/preset-vite": "^2.0.0",
-        "@revoltchat/ui": "1.0.31",
         "@rollup/plugin-replace": "^2.4.2",
         "@styled-icons/boxicons-logos": "^10.38.0",
         "@styled-icons/boxicons-regular": "^10.38.0",
@@ -131,7 +131,7 @@
         "markdown-it": "^12.0.6",
         "markdown-it-emoji": "^2.0.0",
         "mediasoup-client": "npm:@insertish/mediasoup-client@3.6.36-esnext",
-        "mobx": "^6.3.2",
+        "mobx": "^6.6.0",
         "mobx-react-lite": "^3.3.0",
         "preact": "^10.5.14",
         "preact-context-menu": "0.4.0-patch.0",
@@ -162,5 +162,8 @@
     "repository": "https://github.com/revoltchat/revite.git",
     "author": "Paul <paulmakles@gmail.com>",
     "license": "MIT",
-    "packageManager": "yarn@3.2.0"
+    "packageManager": "yarn@3.2.0",
+    "resolutions": {
+        "@revoltchat/ui": "portal:../components"
+    }
 }
