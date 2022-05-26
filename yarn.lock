@@ -2096,20 +2096,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revoltchat/ui@npm:^1.0.31":
-  version: 1.0.31
-  resolution: "@revoltchat/ui@npm:1.0.31"
+"@revoltchat/ui@portal:../components::locator=client%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@revoltchat/ui@portal:../components::locator=client%40workspace%3A."
   dependencies:
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
     "@styled-icons/boxicons-solid": ^10.38.0
-    mobx: ^6.5.0
-    mobx-react-lite: ^3.3.0
+    mobx: ^6.6.0
+    mobx-react-lite: ^3.4.0
+    react-beautiful-dnd: ^13.1.0
+    react-virtuoso: ^2.12.0
   peerDependencies:
     revolt-api: "*"
-  checksum: 8f93757d131ae7d784e744b774f6f6b9bea4e09a3fb48762334caf23e4ab08db209649eba1435f9fa82bdf7bfbfb78100fef6d13e7e0f715d0e2c82c52abf74d
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@rollup/plugin-babel@npm:^5.2.0":
   version: 5.3.0
@@ -2748,21 +2749,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@virtuoso.dev/react-urx@npm:^0.2.5":
-  version: 0.2.6
-  resolution: "@virtuoso.dev/react-urx@npm:0.2.6"
+"@virtuoso.dev/react-urx@npm:^0.2.12":
+  version: 0.2.13
+  resolution: "@virtuoso.dev/react-urx@npm:0.2.13"
   dependencies:
-    "@virtuoso.dev/urx": ^0.2.6
+    "@virtuoso.dev/urx": ^0.2.13
   peerDependencies:
     react: ">=16"
-  checksum: 877760d0f4e56e4514a1f4f2e0160a99834b06b3c24bab32e569cadd06a3cb18e651bb60824a105d0abf4cc943630c2f68d0f461931b89f9e5f3ffff497f5c2b
+  checksum: 173e91c21f6a8cd506ad3b72af10656897fe1951124ed9eeb1fd85575534993bea2f97cba3f81c08ae1e88a2613df348e2c80d0ceecb3021f8c8c8fe0e053ee2
   languageName: node
   linkType: hard
 
-"@virtuoso.dev/urx@npm:^0.2.5, @virtuoso.dev/urx@npm:^0.2.6":
-  version: 0.2.6
-  resolution: "@virtuoso.dev/urx@npm:0.2.6"
-  checksum: d1942a81a828e250030a1a3dbf66545b1539c29c62d519b1bcaa1a45badf4e1baaa9efecf13238ca6c45555673fe5e12f3aba7d1c4fa2d7ab3e0a9a1504cf153
+"@virtuoso.dev/urx@npm:^0.2.12, @virtuoso.dev/urx@npm:^0.2.13":
+  version: 0.2.13
+  resolution: "@virtuoso.dev/urx@npm:0.2.13"
+  checksum: 682a99cf40ccc429241268dd37495cd1ed4695ae58b5a1169c75df1630d5dc3fd8eb3aaa655f71c37f39ba9c23c0aaf4401b76d8a986986d1a38a422d596a6ba
   languageName: node
   linkType: hard
 
@@ -3429,7 +3430,7 @@ __metadata:
     markdown-it-emoji: ^2.0.0
     mediasoup-client: "npm:@insertish/mediasoup-client@3.6.36-esnext"
     mobx: ^6.6.0
-    mobx-react-lite: ^3.3.0
+    mobx-react-lite: 3.4.0
     preact: ^10.5.14
     preact-context-menu: 0.4.0-patch.0
     preact-i18n: ^2.4.0-preactx
@@ -3442,7 +3443,7 @@ __metadata:
     react-overlapping-panels: 1.2.2
     react-router-dom: ^5.2.0
     react-scroll: ^1.8.2
-    react-virtuoso: ^1.10.4
+    react-virtuoso: ^2.12.0
     revolt.js: 6.0.0-2
     rimraf: ^3.0.2
     sass: ^1.35.1
@@ -5845,18 +5846,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mobx-react-lite@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "mobx-react-lite@npm:3.3.0"
+"mobx-react-lite@npm:3.4.0, mobx-react-lite@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "mobx-react-lite@npm:3.4.0"
   peerDependencies:
     mobx: ^6.1.0
-    react: ^16.8.0 || ^17
+    react: ^16.8.0 || ^17 || ^18
   peerDependenciesMeta:
     react-dom:
       optional: true
     react-native:
       optional: true
-  checksum: 0f55bd2009a9cedc6b81d70b88b57dc4161362a16ba6ae0af341e673ca1c627bc3c4088c0cb13133e57e6fa6748b09b4c26aff7fab26c60ed95d27e939846fa3
+  checksum: 9294e127e281c8b37ec7bcaf17de479f50519e6ad485b58d7b991291900511541a5a718653759d3cf6503462c70325d025e1c2ed376d4584fb1b2d3aac9d9b48
   languageName: node
   linkType: hard
 
@@ -5867,7 +5868,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mobx@npm:^6.5.0, mobx@npm:^6.6.0":
+"mobx@npm:^6.6.0":
   version: 6.6.0
   resolution: "mobx@npm:6.6.0"
   checksum: 369b8d6830ec286e9c856c80002c7a554d46bca739b7f76432cb56b3ce1fe0a7ed7e5a994b9793d30023beeff0dd16300a501e831fa97107104e4fedc7d4af8f
@@ -6509,16 +6510,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-virtuoso@npm:^1.10.4":
-  version: 1.11.0
-  resolution: "react-virtuoso@npm:1.11.0"
+"react-virtuoso@npm:^2.12.0":
+  version: 2.12.0
+  resolution: "react-virtuoso@npm:2.12.0"
   dependencies:
-    "@virtuoso.dev/react-urx": ^0.2.5
-    "@virtuoso.dev/urx": ^0.2.5
-    resize-observer-polyfill: ^1.5.1
+    "@virtuoso.dev/react-urx": ^0.2.12
+    "@virtuoso.dev/urx": ^0.2.12
   peerDependencies:
-    react: ">=16"
-  checksum: bd0ba533a0a8a318d1fe5bd082a32ffcf1447a22dc8c9affa0d77c4ac9d7e8874ea806387e135788632dc27e189b7c0c26e78994d21c5db6015d563247ed2655
+    react: ">=16 || >=17 || >= 18"
+    react-dom: ">=16 || >=17 || >= 18"
+  checksum: b40309cb6d5175bcfa8a6c648af35f14e051b31e2cb811298cbc5c37dd5179f0a307c20fa9e7232b4179d1ff3fd31599c747249899d1da5d11afd8ee659d7368
   languageName: node
   linkType: hard
 
@@ -6636,13 +6637,6 @@ __metadata:
   version: 2.0.2
   resolution: "require-from-string@npm:2.0.2"
   checksum: a03ef6895445f33a4015300c426699bc66b2b044ba7b670aa238610381b56d3f07c686251740d575e22f4c87531ba662d06937508f0f3c0f1ddc04db3130560b
-  languageName: node
-  linkType: hard
-
-"resize-observer-polyfill@npm:^1.5.1":
-  version: 1.5.1
-  resolution: "resize-observer-polyfill@npm:1.5.1"
-  checksum: 57e7f79489867b00ba43c9c051524a5c8f162a61d5547e99333549afc23e15c44fd43f2f318ea0261ea98c0eb3158cca261e6f48d66e1ed1cd1f340a43977094
   languageName: node
   linkType: hard
 
