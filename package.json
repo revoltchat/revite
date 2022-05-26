@@ -132,7 +132,7 @@
         "markdown-it-emoji": "^2.0.0",
         "mediasoup-client": "npm:@insertish/mediasoup-client@3.6.36-esnext",
         "mobx": "^6.6.0",
-        "mobx-react-lite": "^3.3.0",
+        "mobx-react-lite": "3.4.0",
         "preact": "^10.5.14",
         "preact-context-menu": "0.4.0-patch.0",
         "preact-i18n": "^2.4.0-preactx",
@@ -144,7 +144,7 @@
         "react-overlapping-panels": "1.2.2",
         "react-router-dom": "^5.2.0",
         "react-scroll": "^1.8.2",
-        "react-virtuoso": "^1.10.4",
+        "react-virtuoso": "^2.12.0",
         "revolt.js": "6.0.0-2",
         "rimraf": "^3.0.2",
         "sass": "^1.35.1",
@@ -162,5 +162,8 @@
     "repository": "https://github.com/revoltchat/revite.git",
     "author": "Paul <paulmakles@gmail.com>",
     "license": "MIT",
-    "packageManager": "yarn@3.2.0"
+    "packageManager": "yarn@3.2.0",
+    "resolutions": {
+        "@revoltchat/ui": "portal:../components"
+    }
 }
