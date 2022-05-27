@@ -35,6 +35,8 @@ export default observer(() => {
             createServer={createServer}
             permit={state.notifications}
             home={state.layout.getLastHomePath}
+            servers={state.ordering.orderedServers}
+            reorder={state.ordering.reorderServer}
         />
     );
 });

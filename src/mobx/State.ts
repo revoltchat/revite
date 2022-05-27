@@ -17,6 +17,7 @@ import Layout from "./stores/Layout";
 import LocaleOptions from "./stores/LocaleOptions";
 import MessageQueue from "./stores/MessageQueue";
 import NotificationOptions from "./stores/NotificationOptions";
+import Ordering from "./stores/Ordering";
 import Plugins from "./stores/Plugins";
 import ServerConfig from "./stores/ServerConfig";
 import Settings from "./stores/Settings";
@@ -41,6 +42,7 @@ export default class State {
     settings: Settings;
     sync: Sync;
     plugins: Plugins;
+    ordering: Ordering;
 
     private persistent: [string, Persistent<unknown>][] = [];
     private disabled: Set<string> = new Set();
@@ -62,6 +64,7 @@ export default class State {
         this.settings = new Settings();
         this.sync = new Sync(this);
         this.plugins = new Plugins(this);
+        this.ordering = new Ordering(this);
 
         makeAutoObservable(this, {
             client: false,
@@ -280,6 +283,7 @@ export default class State {
             this.queue = new MessageQueue();
             this.settings = new Settings();
             this.sync = new Sync(this);
+            this.ordering = new Ordering(this);
 
             this.save();
 
