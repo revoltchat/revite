@@ -14,13 +14,19 @@ import State from "../State";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
-export type SyncKeys = "theme" | "appearance" | "locale" | "notifications";
+export type SyncKeys =
+    | "theme"
+    | "appearance"
+    | "locale"
+    | "notifications"
+    | "ordering";
 
 export const SYNC_KEYS: SyncKeys[] = [
     "theme",
     "appearance",
     "locale",
     "notifications",
+    "ordering",
 ];
 
 export interface Data {
@@ -150,6 +156,13 @@ export default class Sync implements Store, Persistent<Data> {
                     notifications[0],
                 );
                 this.setRevision("notifications", notifications[0]);
+            }
+
+            const ordering = tryRead("ordering");
+            if (ordering) {
+                this.state.setDisabled("ordering");
+                this.state.ordering.apply("ordering", ordering[1], ordering[0]);
+                this.setRevision("ordering", ordering[0]);
             }
         });
     }
