@@ -2220,9 +2220,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revoltchat/ui@npm:^1.0.32":
-  version: 1.0.32
-  resolution: "@revoltchat/ui@npm:1.0.32"
+"@revoltchat/ui@npm:1.0.33":
+  version: 1.0.33
+  resolution: "@revoltchat/ui@npm:1.0.33"
   dependencies:
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
@@ -2235,7 +2235,7 @@ __metadata:
     react-device-detect: "*"
     react-virtuoso: "*"
     revolt.js: "*"
-  checksum: 7004add041a66932a7efc836f33648e905bd9820dd1d65890bccc93bc95cbc643ccede67dc570341fcc9c9993fffb57702dbd6ed41dac014553be18400bc313e
+  checksum: 503fbf8557d205be153343776b8803335b6444b8767e0b1fccf6a34470e4cb333118f7cb614bf16e20d22cb811e7e1160622b9557b73414ad554f8b4bbfb565b
   languageName: node
   linkType: hard
 
@@ -2384,15 +2384,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tippyjs/react@npm:4.2.5":
-  version: 4.2.5
-  resolution: "@tippyjs/react@npm:4.2.5"
+"@tippyjs/react@npm:4.2.6":
+  version: 4.2.6
+  resolution: "@tippyjs/react@npm:4.2.6"
   dependencies:
     tippy.js: ^6.3.1
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 68a6bb8922597df105f601953f14c593a8179328026dc425db0cd5d8521cdd8ad8c6ec7b6d0707708c8ed25e5ad01c488e95a6b3de0b2f404bd71137e2b8fce9
+  checksum: 8f0fba591c9dae2e1af1ae632bbc775ba5c9dd4498e50e242be70302b4c27115c6740eec44e885e294b27cb28515777b52af5b34aac9d4bab627d948add938ae
   languageName: node
   linkType: hard
 
@@ -3521,13 +3521,13 @@ __metadata:
     "@hcaptcha/react-hcaptcha": ^0.3.6
     "@insertish/vite-plugin-babel-macros": ^1.0.5
     "@preact/preset-vite": ^2.0.0
-    "@revoltchat/ui": ^1.0.32
+    "@revoltchat/ui": 1.0.33
     "@rollup/plugin-replace": ^2.4.2
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
     "@styled-icons/boxicons-solid": ^10.38.0
     "@styled-icons/simple-icons": ^10.33.0
-    "@tippyjs/react": "npm:4.2.5"
+    "@tippyjs/react": 4.2.6
     "@traptitech/markdown-it-katex": ^3.4.3
     "@traptitech/markdown-it-spoiler": ^1.1.6
     "@trivago/prettier-plugin-sort-imports": ^2.0.2
@@ -3571,14 +3571,14 @@ __metadata:
     prettier: ^2.3.1
     prismjs: ^1.23.0
     react-beautiful-dnd: ^13.1.0
-    react-device-detect: "npm:2.2.2"
+    react-device-detect: 2.2.2
     react-helmet: ^6.1.0
     react-hook-form: 6.3.0
     react-overlapping-panels: 1.2.2
     react-router-dom: ^5.2.0
     react-scroll: ^1.8.2
     react-virtuoso: ^2.12.0
-    revolt.js: "npm:6.0.1"
+    revolt.js: 6.0.1
     rimraf: ^3.0.2
     sass: ^1.35.1
     shade-blend-color: ^1.0.0
