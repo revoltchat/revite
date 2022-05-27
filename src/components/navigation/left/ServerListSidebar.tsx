@@ -1,25 +1,40 @@
 import { observer } from "mobx-react-lite";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import { useCallback } from "preact/hooks";
 
 import { ServerList } from "@revoltchat/ui";
 
+import { useApplicationState } from "../../../mobx/State";
+
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
+/**
+ * Server list sidebar shim component
+ */
 export default observer(() => {
     const client = useClient();
-
+    const state = useApplicationState();
+    const { openScreen } = useIntermediate();
     const { server: server_id } = useParams<{ server?: string }>();
-    const servers = [...client.servers.values()];
+
+    const createServer = useCallback(
+        () =>
+            openScreen({
+                id: "special_input",
+                type: "create_server",
+            }),
+        [],
+    );
 
     return (
         <ServerList
-            active={server_id!}
-            servers={servers as any}
-            linkComponent={({ id, children }) => (
-                <Link to={`/server/${id}`}>
-                    <a>{children}</a>
-                </Link>
-            )}
+            client={client}
+            active={server_id}
+            createServer={createServer}
+            permit={state.notifications}
+            home={state.layout.getLastHomePath}
         />
     );
 });

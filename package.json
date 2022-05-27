@@ -60,18 +60,15 @@
         }
     },
     "dependencies": {
-        "@fontsource/bitter": "^4.5.0",
-        "@insertish/vite-plugin-babel-macros": "^1.0.5",
-        "@revoltchat/ui": "^1.0.31",
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
-        "react-beautiful-dnd": "^13.1.0",
         "sirv-cli": "^1.0.14",
         "vite": "^2.6.14"
     },
     "devDependencies": {
         "@babel/plugin-proposal-decorators": "^7.17.9",
         "@fontsource/atkinson-hyperlegible": "^4.4.5",
+        "@fontsource/bitter": "^4.5.7",
         "@fontsource/comic-neue": "^4.4.5",
         "@fontsource/fira-code": "^4.4.5",
         "@fontsource/inter": "^4.4.5",
@@ -91,13 +88,15 @@
         "@fontsource/ubuntu": "^4.4.5",
         "@fontsource/ubuntu-mono": "^4.4.5",
         "@hcaptcha/react-hcaptcha": "^0.3.6",
+        "@insertish/vite-plugin-babel-macros": "^1.0.5",
         "@preact/preset-vite": "^2.0.0",
+        "@revoltchat/ui": "^1.0.32",
         "@rollup/plugin-replace": "^2.4.2",
         "@styled-icons/boxicons-logos": "^10.38.0",
         "@styled-icons/boxicons-regular": "^10.38.0",
         "@styled-icons/boxicons-solid": "^10.38.0",
         "@styled-icons/simple-icons": "^10.33.0",
-        "@tippyjs/react": "^4.2.5",
+        "@tippyjs/react": "npm:4.2.5",
         "@traptitech/markdown-it-katex": "^3.4.3",
         "@traptitech/markdown-it-spoiler": "^1.1.6",
         "@trivago/prettier-plugin-sort-imports": "^2.0.2",
@@ -107,7 +106,7 @@
         "@types/node": "^15.12.4",
         "@types/preact-i18n": "^2.3.0",
         "@types/prismjs": "^1.16.5",
-        "@types/react-beautiful-dnd": "^13.1.2",
+        "@types/react-beautiful-dnd": "^13",
         "@types/react-helmet": "^6.1.1",
         "@types/react-router-dom": "^5.1.7",
         "@types/react-scroll": "^1.8.2",
@@ -138,14 +137,15 @@
         "preact-i18n": "^2.4.0-preactx",
         "prettier": "^2.3.1",
         "prismjs": "^1.23.0",
-        "react-device-detect": "^1.17.0",
+        "react-beautiful-dnd": "^13.1.0",
+        "react-device-detect": "npm:2.2.2",
         "react-helmet": "^6.1.0",
         "react-hook-form": "6.3.0",
         "react-overlapping-panels": "1.2.2",
         "react-router-dom": "^5.2.0",
         "react-scroll": "^1.8.2",
         "react-virtuoso": "^2.12.0",
-        "revolt.js": "6.0.0-2",
+        "revolt.js": "npm:6.0.1",
         "rimraf": "^3.0.2",
         "sass": "^1.35.1",
         "shade-blend-color": "^1.0.0",
@@ -162,8 +162,5 @@
     "repository": "https://github.com/revoltchat/revite.git",
     "author": "Paul <paulmakles@gmail.com>",
     "license": "MIT",
-    "packageManager": "yarn@3.2.0",
-    "resolutions": {
-        "@revoltchat/ui": "portal:../components"
-    }
+    "packageManager": "yarn@3.2.0"
 }

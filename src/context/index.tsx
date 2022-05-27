@@ -1,11 +1,14 @@
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
+import { ContextMenuTrigger } from "preact-context-menu";
+import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
+
+import { LinkProvider, TextProvider, TrigProvider } from "@revoltchat/ui";
 
 import { hydrateState } from "../mobx/State";
 
 import Preloader from "../components/ui/Preloader";
-
 import { Children } from "../types/Preact";
 import Locale from "./Locale";
 import Theme from "./Theme";
@@ -28,14 +31,20 @@ export default function Context({ children }: { children: Children }) {
 
     return (
         <Router basename={import.meta.env.BASE_URL}>
-            <Locale>
-                <Intermediate>
-                    <Client>
-                        {children}
-                        <SyncManager />
-                    </Client>
-                </Intermediate>
-            </Locale>
+            <LinkProvider value={Link}>
+                <TextProvider value={Text as any}>
+                    <TrigProvider value={ContextMenuTrigger}>
+                        <Locale>
+                            <Intermediate>
+                                <Client>
+                                    {children}
+                                    <SyncManager />
+                                </Client>
+                            </Intermediate>
+                        </Locale>
+                    </TrigProvider>
+                </TextProvider>
+            </LinkProvider>
             <Theme />
         </Router>
     );
