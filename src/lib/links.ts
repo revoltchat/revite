@@ -15,6 +15,7 @@ const ALLOWED_ORIGINS = [
     "app.revolt.chat",
     "nightly.revolt.chat",
     "local.revolt.chat",
+    "rvlt.gg",
 ];
 
 const CHANNEL_PATH_RE =
