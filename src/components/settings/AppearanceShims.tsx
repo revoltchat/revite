@@ -6,7 +6,7 @@ import pSBC from "shade-blend-color";
 
 import { Text } from "preact-i18n";
 
-import { Checkbox } from "@revoltchat/ui";
+import { Checkbox, ColourSwatches, ComboBox } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
 
@@ -21,8 +21,6 @@ import {
     MONOSPACE_FONT_KEYS,
 } from "../../context/Theme";
 
-import ColourSwatches from "../ui/ColourSwatches";
-import ComboBox from "../ui/ComboBox";
 import Radio from "../ui/Radio";
 import CategoryButton from "../ui/fluent/CategoryButton";
 import { EmojiSelector } from "./appearance/EmojiSelector";
