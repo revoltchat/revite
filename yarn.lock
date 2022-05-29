@@ -2220,9 +2220,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revoltchat/ui@npm:1.0.34":
-  version: 1.0.34
-  resolution: "@revoltchat/ui@npm:1.0.34"
+"@revoltchat/ui@portal:../components::locator=client%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@revoltchat/ui@portal:../components::locator=client%40workspace%3A."
   dependencies:
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
@@ -2235,9 +2235,8 @@ __metadata:
     react-device-detect: "*"
     react-virtuoso: "*"
     revolt.js: "*"
-  checksum: 576a147c945cc3c9c8fb0555007b1048017551139d6b6dd7f0e9af66a1f5e595a46e73b853258a5048563af80c470230048ab214784cf14f347cf61b56dbbc07
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@rollup/plugin-babel@npm:^5.2.0":
   version: 5.3.0

@@ -1,11 +1,11 @@
 import { User } from "revolt.js";
 
-import Checkbox, { CheckboxProps } from "../../ui/Checkbox";
+import { Checkbox } from "@revoltchat/ui";
 
 import UserIcon from "./UserIcon";
 import { Username } from "./UserShort";
 
-type UserProps = Omit<CheckboxProps, "children"> & { user: User };
+type UserProps = { value: boolean; onChange: (v: boolean) => void; user: User };
 
 export default function UserCheckbox({ user, ...props }: UserProps) {
     return (
