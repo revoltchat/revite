@@ -5,6 +5,8 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useMemo } from "preact/hooks";
 
+import { Checkbox } from "@revoltchat/ui";
+
 import { useApplicationState } from "../../../mobx/State";
 
 import britannyFlagSVG from "../assets/flags/brittany.svg";
@@ -21,7 +23,6 @@ import {
     Languages as Langs,
 } from "../../../../external/lang/Languages";
 import Emoji from "../../../components/common/Emoji";
-import Checkbox from "../../../components/ui/Checkbox";
 import Tip from "../../../components/ui/Tip";
 
 type Key = [Language, LanguageEntry];
@@ -41,66 +42,82 @@ function Entry({ entry: [x, lang], selected, onSelect }: Props) {
         <Checkbox
             key={x}
             className={styles.entry}
-            checked={selected}
-            onChange={onSelect}>
-            <div className={styles.flag}>
-                {lang.i18n === "vec" ? (
-                    <img
-                        src={venetoFlagSVG}
-                        width={42}
-                        loading="lazy"
-                        style={{ objectFit: "cover", borderRadius: "6px" }}
-                    />
-                ) : lang.i18n === "br" ? (
-                    <img
-                        src={britannyFlagSVG}
-                        width={42}
-                        loading="lazy"
-                        style={{ objectFit: "cover", borderRadius: "6px" }}
-                    />
-                ) : lang.i18n === "ckb" ? (
-                    <img
-                        src={kurdistanFlagSVG}
-                        width={42}
-                        loading="lazy"
-                        style={{ objectFit: "cover", borderRadius: "6px" }}
-                    />
-                ) : lang.i18n === "eo" ? (
-                    <img
-                        src={esperantoFlagSVG}
-                        width={42}
-                        loading="lazy"
-                        style={{ objectFit: "cover", borderRadius: "6px" }}
-                    />
-                ) : lang.i18n === "ta" ? (
-                    <img
-                        src={tamilFlagPNG}
-                        width={42}
-                        loading="lazy"
-                        style={{ objectFit: "cover" }}
-                    />
-                ) : lang.emoji === "🙂" ? (
-                    <img
-                        src={tokiponaSVG}
-                        width={42}
-                        loading="lazy"
-                        style={{ borderRadius: "6px" }}
-                    />
-                ) : lang.emoji === "🪄" ? (
-                    <img
-                        src={enchantingTableWEBP}
-                        width={42}
-                        loading="lazy"
-                        style={{ objectFit: "contain" }}
-                    />
-                ) : (
-                    <Emoji size={42} emoji={lang.emoji} />
-                )}
-            </div>
-            <span className={styles.description}>
-                {lang.display} {lang.verified && <Check size={16} />}
-            </span>
-        </Checkbox>
+            value={selected}
+            onChange={onSelect}
+            title={
+                <>
+                    <div className={styles.flag}>
+                        {lang.i18n === "vec" ? (
+                            <img
+                                src={venetoFlagSVG}
+                                width={42}
+                                loading="lazy"
+                                style={{
+                                    objectFit: "cover",
+                                    borderRadius: "6px",
+                                }}
+                            />
+                        ) : lang.i18n === "br" ? (
+                            <img
+                                src={britannyFlagSVG}
+                                width={42}
+                                loading="lazy"
+                                style={{
+                                    objectFit: "cover",
+                                    borderRadius: "6px",
+                                }}
+                            />
+                        ) : lang.i18n === "ckb" ? (
+                            <img
+                                src={kurdistanFlagSVG}
+                                width={42}
+                                loading="lazy"
+                                style={{
+                                    objectFit: "cover",
+                                    borderRadius: "6px",
+                                }}
+                            />
+                        ) : lang.i18n === "eo" ? (
+                            <img
+                                src={esperantoFlagSVG}
+                                width={42}
+                                loading="lazy"
+                                style={{
+                                    objectFit: "cover",
+                                    borderRadius: "6px",
+                                }}
+                            />
+                        ) : lang.i18n === "ta" ? (
+                            <img
+                                src={tamilFlagPNG}
+                                width={42}
+                                loading="lazy"
+                                style={{ objectFit: "cover" }}
+                            />
+                        ) : lang.emoji === "🙂" ? (
+                            <img
+                                src={tokiponaSVG}
+                                width={42}
+                                loading="lazy"
+                                style={{ borderRadius: "6px" }}
+                            />
+                        ) : lang.emoji === "🪄" ? (
+                            <img
+                                src={enchantingTableWEBP}
+                                width={42}
+                                loading="lazy"
+                                style={{ objectFit: "contain" }}
+                            />
+                        ) : (
+                            <Emoji size={42} emoji={lang.emoji} />
+                        )}
+                    </div>
+                    <span className={styles.description}>
+                        {lang.display} {lang.verified && <Check size={16} />}
+                    </span>
+                </>
+            }
+        />
     );
 }
 

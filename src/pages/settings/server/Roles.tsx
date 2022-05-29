@@ -5,16 +5,21 @@ import { Server } from "revolt.js";
 import { Text } from "preact-i18n";
 import { useMemo, useState } from "preact/hooks";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import {
+    Button,
+    PermissionsLayout,
+    SpaceBetween,
+    H1,
+    Checkbox,
+} from "@revoltchat/ui";
 
-import Checkbox from "../../../components/ui/Checkbox";
-import ColourSwatches from "../../../components/ui/ColourSwatches";
-import InputBox from "../../../components/ui/InputBox";
-import Overline from "../../../components/ui/Overline";
-import { Button, PermissionsLayout, SpaceBetween, H1 } from "@revoltchat/ui";
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import { PermissionList } from "../../../components/settings/roles/PermissionList";
 import { RoleOrDefault } from "../../../components/settings/roles/RoleSelection";
+import ColourSwatches from "../../../components/ui/ColourSwatches";
+import InputBox from "../../../components/ui/InputBox";
+import Overline from "../../../components/ui/Overline";
 
 interface Props {
     server: Server;
@@ -169,17 +174,19 @@ export const Roles = observer(({ server }: Props) => {
                                     </Overline>
                                     <p>
                                         <Checkbox
-                                            checked={
+                                            value={
                                                 currentRoleValue.hoist ?? false
                                             }
                                             onChange={(hoist) =>
                                                 setValue({ ...value, hoist })
                                             }
+                                            title={
+                                                <Text id="app.settings.permissions.hoist_role" />
+                                            }
                                             description={
                                                 <Text id="app.settings.permissions.hoist_desc" />
-                                            }>
-                                            <Text id="app.settings.permissions.hoist_role" />
-                                        </Checkbox>
+                                            }
+                                        />
                                     </p>
                                 </section>
                                 <section>
