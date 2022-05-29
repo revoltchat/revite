@@ -11,6 +11,8 @@ import { decodeTime } from "ulid";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
+import { MessageDivider } from "@revoltchat/ui";
+
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { ChannelRenderer } from "../../../lib/renderer/Singleton";
 
@@ -21,12 +23,11 @@ import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Message from "../../../components/common/messaging/Message";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
-import DateDivider from "../../../components/ui/DateDivider";
 import Preloader from "../../../components/ui/Preloader";
-
 import { Children } from "../../../types/Preact";
 import ConversationStart from "./ConversationStart";
 import MessageEditor from "./MessageEditor";
+import dayjs from "dayjs";
 
 interface Props {
     last_id?: string;
@@ -125,7 +126,7 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
         }
 
         if (unread || date) {
-            render.push(<DateDivider date={date} unread={unread} />);
+            render.push(<MessageDivider date={dayjs(date).format("LL")} unread={unread} />);
             head = true;
         }
 
