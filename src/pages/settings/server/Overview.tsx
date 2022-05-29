@@ -7,7 +7,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import { Button, ComboBox } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { noop } from "../../../lib/js";
@@ -15,7 +15,6 @@ import { noop } from "../../../lib/js";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { getChannelName } from "../../../context/revoltjs/util";
 
-import ComboBox from "../../../components/ui/ComboBox";
 import InputBox from "../../../components/ui/InputBox";
 
 interface Props {

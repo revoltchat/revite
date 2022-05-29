@@ -11,13 +11,13 @@ import {
     SpaceBetween,
     H1,
     Checkbox,
+    ColourSwatches,
 } from "@revoltchat/ui";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import { PermissionList } from "../../../components/settings/roles/PermissionList";
 import { RoleOrDefault } from "../../../components/settings/roles/RoleSelection";
-import ColourSwatches from "../../../components/ui/ColourSwatches";
 import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
 
