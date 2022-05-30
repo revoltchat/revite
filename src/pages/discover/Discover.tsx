@@ -5,6 +5,8 @@ import styled, { css } from "styled-components/macro";
 
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
+import { Preloader } from "@revoltchat/ui";
+
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
@@ -13,7 +15,6 @@ import { Overrides } from "../../context/Theme";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 
 import Header from "../../components/ui/Header";
-import Preloader from "../../components/ui/Preloader";
 
 const Container = styled.div`
     flex-grow: 1;

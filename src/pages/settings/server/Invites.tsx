@@ -7,13 +7,12 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { IconButton } from "@revoltchat/ui";
+import { IconButton, Preloader } from "@revoltchat/ui";
 
 import { getChannelName } from "../../../context/revoltjs/util";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
-import Preloader from "../../../components/ui/Preloader";
 
 interface InnerProps {
     invite: API.Invite;

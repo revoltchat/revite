@@ -13,12 +13,11 @@ import { Route, Switch, useHistory, useParams } from "react-router-dom";
 import styles from "./Settings.module.scss";
 import { Text } from "preact-i18n";
 
+import { LineDivider } from "@revoltchat/ui";
+
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import { useClient } from "../../context/revoltjs/RevoltClient";
-
-import Category from "../../components/ui/Category";
-import LineDivider from "../../components/ui/LineDivider";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { GenericSettings } from "./GenericSettings";

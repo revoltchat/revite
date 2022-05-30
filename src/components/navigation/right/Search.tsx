@@ -5,13 +5,12 @@ import styled from "styled-components/macro";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Button, InputBox } from "@revoltchat/ui";
+import { Button, InputBox, Preloader } from "@revoltchat/ui";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Message from "../../common/messaging/Message";
 import Overline from "../../ui/Overline";
-import Preloader from "../../ui/Preloader";
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 
 type SearchState =

@@ -7,7 +7,7 @@ import styled, { css } from "styled-components/macro";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import { Button, Preloader } from "@revoltchat/ui";
 
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 
@@ -20,7 +20,6 @@ import { takeError } from "../../../../context/revoltjs/util";
 
 import ServerIcon from "../../../../components/common/ServerIcon";
 import Overline from "../../../ui/Overline";
-import Preloader from "../../../ui/Preloader";
 
 const EmbedInviteBase = styled.div`
     width: 400px;
