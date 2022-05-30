@@ -73,7 +73,6 @@ export function ModifyAccountModal({ onClose, field }: Props) {
             disabled={processing}
             actions={[
                 {
-                    disabled: processing,
                     confirmation: true,
                     onClick: handleSubmit(onSubmit),
                     children:

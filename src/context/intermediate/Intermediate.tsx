@@ -5,7 +5,7 @@ import { API, Channel, Message, Server, User } from "revolt.js";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
-import type { Action } from "@revoltchat/ui/esm/components/design/atoms/layout/Modal";
+import type { Action } from "@revoltchat/ui/esm/components/design/atoms/display/Modal";
 
 import { internalSubscribe } from "../../lib/eventEmitter";
 import { determineLink } from "../../lib/links";
