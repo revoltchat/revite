@@ -13,13 +13,13 @@ import {
     Checkbox,
     ColourSwatches,
     InputBox,
+    Category,
 } from "@revoltchat/ui";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import { PermissionList } from "../../../components/settings/roles/PermissionList";
 import { RoleOrDefault } from "../../../components/settings/roles/RoleSelection";
-import Overline from "../../../components/ui/Overline";
 
 interface Props {
     server: Server;
@@ -136,9 +136,9 @@ export const Roles = observer(({ server }: Props) => {
                         {selected !== "default" && (
                             <>
                                 <section>
-                                    <Overline type="subtle">
+                                    <Category>
                                         <Text id="app.settings.permissions.role_name" />
-                                    </Overline>
+                                    </Category>
                                     <p>
                                         <InputBox
                                             value={currentRoleValue.name}
@@ -153,9 +153,9 @@ export const Roles = observer(({ server }: Props) => {
                                     </p>
                                 </section>
                                 <section>
-                                    <Overline type="subtle">
+                                    <Category>
                                         <Text id="app.settings.permissions.role_colour" />
-                                    </Overline>
+                                    </Category>
                                     <p>
                                         <ColourSwatches
                                             value={
@@ -169,9 +169,9 @@ export const Roles = observer(({ server }: Props) => {
                                     </p>
                                 </section>
                                 <section>
-                                    <Overline type="subtle">
+                                    <Category>
                                         <Text id="app.settings.permissions.role_options" />
-                                    </Overline>
+                                    </Category>
                                     <p>
                                         <Checkbox
                                             value={
@@ -190,9 +190,9 @@ export const Roles = observer(({ server }: Props) => {
                                     </p>
                                 </section>
                                 <section>
-                                    <Overline type="subtle">
+                                    <Category>
                                         <Text id="app.settings.permissions.role_ranking" />
-                                    </Overline>
+                                    </Category>
                                     <p>
                                         <InputBox
                                             type="number"

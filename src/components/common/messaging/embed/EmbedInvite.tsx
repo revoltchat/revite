@@ -7,10 +7,11 @@ import styled, { css } from "styled-components/macro";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { Button, Preloader } from "@revoltchat/ui";
+import { Button, Category, Preloader } from "@revoltchat/ui";
 
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 
+import { I18nError } from "../../../../context/Locale";
 import {
     AppContext,
     ClientStatus,
@@ -19,7 +20,6 @@ import {
 import { takeError } from "../../../../context/revoltjs/util";
 
 import ServerIcon from "../../../../components/common/ServerIcon";
-import Overline from "../../../ui/Overline";
 
 const EmbedInviteBase = styled.div`
     width: 400px;
@@ -159,7 +159,11 @@ export function EmbedInvite({ code }: Props) {
                     </Button>
                 )}
             </EmbedInviteBase>
-            {joinError && <Overline type="error" error={joinError} />}
+            {joinError && (
+                <Category>
+                    <I18nError error={joinError} />
+                </Category>
+            )}
         </>
     );
 }

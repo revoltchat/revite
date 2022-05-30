@@ -7,7 +7,7 @@ import styles from "./Invite.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { Button, Preloader } from "@revoltchat/ui";
+import { Button, Category, Error, Preloader } from "@revoltchat/ui";
 
 import { TextReact } from "../../lib/i18n";
 
@@ -23,7 +23,6 @@ import { takeError } from "../../context/revoltjs/util";
 
 import ServerIcon from "../../components/common/ServerIcon";
 import UserIcon from "../../components/common/user/UserIcon";
-import Overline from "../../components/ui/Overline";
 
 export default function Invite() {
     const history = useHistory();
@@ -149,7 +148,9 @@ export default function Invite() {
                                 }}
                             />
                         </h3>
-                        <Overline type="error" error={error} />
+                        <Category>
+                            <Error error={error} />
+                        </Category>
                         <Button
                             palette="secondary"
                             onClick={async () => {

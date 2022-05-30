@@ -5,23 +5,15 @@ import { useHistory, useParams } from "react-router-dom";
 import styles from "./Settings.module.scss";
 import classNames from "classnames";
 import { Text } from "preact-i18n";
-import {
-    useCallback,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from "preact/hooks";
+import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 
-import { IconButton, LineDivider } from "@revoltchat/ui";
+import { Category, Header, IconButton, LineDivider } from "@revoltchat/ui";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
-import Category from "../../components/ui/Category";
-import Header from "../../components/ui/Header";
 import { Children } from "../../types/Preact";
 
 interface Props {
@@ -98,7 +90,7 @@ export function GenericSettings({
                 />
             </Helmet>
             {isTouchscreenDevice && (
-                <Header placement="primary" transparent>
+                <Header palette="primary" withTransparency>
                     {typeof page === "undefined" ? (
                         <>
                             {showExitButton && (
@@ -139,10 +131,9 @@ export function GenericSettings({
                                 entry.hidden ? undefined : (
                                     <>
                                         {entry.category && (
-                                            <Category
-                                                variant="uniform"
-                                                text={entry.category}
-                                            />
+                                            <Category>
+                                                {entry.category}
+                                            </Category>
                                         )}
                                         <ButtonItem
                                             active={
@@ -155,7 +146,9 @@ export function GenericSettings({
                                             compact>
                                             {entry.icon} {entry.title}
                                         </ButtonItem>
-                                        {entry.divider && <LineDivider />}
+                                        {entry.divider && (
+                                            <LineDivider compact />
+                                        )}
                                     </>
                                 ),
                             )}

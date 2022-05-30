@@ -7,6 +7,8 @@ import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 
+import { Header } from "@revoltchat/ui";
+
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
@@ -18,81 +20,10 @@ interface Props {
     topBorder?: boolean;
     bottomBorder?: boolean;
 
-    background?: boolean;
-    transparent?: boolean;
+    withBackground?: boolean;
+    withTransparency?: boolean;
     placement: "primary" | "secondary";
 }
-
-const Header = styled.div<Props>`
-    gap: 10px;
-    flex: 0 auto;
-    display: flex;
-    flex-shrink: 0;
-    padding: 0 16px;
-    font-weight: 600;
-    user-select: none;
-    align-items: center;
-
-    height: var(--header-height);
-
-    background-size: cover !important;
-    background-position: center !important;
-
-    svg {
-        flex-shrink: 0;
-    }
-
-    .menu {
-        margin-inline-end: 8px;
-        color: var(--secondary-foreground);
-    }
-
-    ${(props) =>
-        props.transparent
-            ? css`
-                  background-color: rgba(
-                      var(--primary-header-rgb),
-                      max(var(--min-opacity), 0.75)
-                  );
-                  backdrop-filter: blur(20px);
-                  z-index: 20;
-                  position: absolute;
-                  width: 100%;
-              `
-            : css`
-                  background-color: var(--primary-header);
-              `}
-
-    ${(props) =>
-        props.background &&
-        css`
-            height: 120px !important;
-            align-items: flex-end;
-
-            text-shadow: 0px 0px 1px black;
-        `}
-
-    ${(props) =>
-        props.placement === "secondary" &&
-        css`
-            background-color: var(--secondary-header);
-            padding: 14px;
-        `}
-
-    ${(props) =>
-        props.topBorder &&
-        css`
-            border-start-start-radius: 8px;
-        `}
-
-    ${(props) =>
-        props.bottomBorder &&
-        css`
-            border-end-start-radius: 8px;
-        `}
-`;
-
-export default Header;
 
 const IconContainer = styled.div`
     display: flex;
@@ -128,7 +59,7 @@ export const PageHeader = observer(
         return (
             <Header
                 {...props}
-                placement="primary"
+                palette="primary"
                 topBorder={!visible}
                 bottomBorder={!pathname.includes("/server")}>
                 {!noBurger && <HamburgerAction />}
