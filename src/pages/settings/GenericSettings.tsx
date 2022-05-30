@@ -13,16 +13,16 @@ import {
     useState,
 } from "preact/hooks";
 
+import { IconButton } from "@revoltchat/ui";
+
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
 
+import ButtonItem from "../../components/navigation/items/ButtonItem";
 import Category from "../../components/ui/Category";
 import Header from "../../components/ui/Header";
-import IconButton from "../../components/ui/IconButton";
 import LineDivider from "../../components/ui/LineDivider";
-
-import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { Children } from "../../types/Preact";
 
 interface Props {

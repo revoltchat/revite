@@ -1,15 +1,4 @@
-import {
-    At,
-    Bell,
-    BellOff,
-    Check,
-    CheckSquare,
-    ChevronRight,
-    Block,
-    Square,
-    LeftArrowAlt,
-    Trash,
-} from "@styled-icons/boxicons-regular";
+import { ChevronRight, Trash } from "@styled-icons/boxicons-regular";
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { isFirefox } from "react-device-detect";
 import { useHistory } from "react-router-dom";
@@ -23,6 +12,8 @@ import {
 } from "preact-context-menu";
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
+
+import { IconButton } from "@revoltchat/ui";
 
 import { useApplicationState } from "../mobx/State";
 import { QueuedMessage } from "../mobx/stores/MessageQueue";
@@ -39,9 +30,7 @@ import CMNotifications from "./contextmenu/CMNotifications";
 
 import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
-import IconButton from "../components/ui/IconButton";
 import LineDivider from "../components/ui/LineDivider";
-
 import { Children } from "../types/Preact";
 import { internalEmit } from "./eventEmitter";
 import { getRenderer } from "./renderer/Singleton";

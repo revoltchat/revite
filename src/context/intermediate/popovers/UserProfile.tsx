@@ -15,7 +15,7 @@ import styles from "./UserProfile.module.scss";
 import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import { Button, IconButton } from "@revoltchat/ui";
 
 import { noop } from "../../../lib/js";
 
@@ -26,12 +26,10 @@ import UserBadges from "../../../components/common/user/UserBadges";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
-import IconButton from "../../../components/ui/IconButton";
+import Markdown from "../../../components/markdown/Markdown";
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
 import Preloader from "../../../components/ui/Preloader";
-
-import Markdown from "../../../components/markdown/Markdown";
 import {
     ClientStatus,
     StatusContext,
