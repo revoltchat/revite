@@ -481,6 +481,8 @@
             border-radius: var(--border-radius);
             margin-top: 0;
 
+            transition: 0.1s ease background-color;
+
             &:hover {
                 background: var(--secondary-background);
             }
