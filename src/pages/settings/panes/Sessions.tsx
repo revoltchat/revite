@@ -18,13 +18,12 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { Button, Preloader } from "@revoltchat/ui";
+import { Button, LineDivider, Preloader, Tip } from "@revoltchat/ui";
 
 import { dayjs } from "../../../context/Locale";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
-import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 dayjs.extend(relativeTime);
@@ -248,13 +247,14 @@ export function Sessions() {
                 <Text id="app.settings.pages.sessions.logout" />
             </CategoryButton>
 
+            <LineDivider />
             <Tip>
                 <span>
-                    <Text id="app.settings.tips.sessions.a" />
-                </span>{" "}
-                <a onClick={() => switchPage("account")}>
-                    <Text id="app.settings.tips.sessions.b" />
-                </a>
+                    <Text id="app.settings.tips.sessions.a" />{" "}
+                    <a onClick={() => switchPage("account")}>
+                        <Text id="app.settings.tips.sessions.b" />
+                    </a>
+                </span>
             </Tip>
         </div>
     );

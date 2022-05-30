@@ -4,14 +4,13 @@ import styled from "styled-components/macro";
 
 import { useEffect, useState } from "preact/hooks";
 
-import { Button, ComboBox, Preloader } from "@revoltchat/ui";
+import { Button, ComboBox, Preloader, Tip } from "@revoltchat/ui";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import Markdown from "../../components/markdown/Markdown";
 import Overline from "../../components/ui/Overline";
-import Tip from "../../components/ui/Tip";
 
 const BotInfo = styled.div`
     gap: 12px;
@@ -46,9 +45,7 @@ export default function InviteBot() {
 
     return (
         <div style={{ padding: "6em" }}>
-            <Tip warning hideSeparator>
-                This section is under construction.
-            </Tip>
+            <Tip palette="warning">This section is under construction.</Tip>
             {typeof data === "undefined" && <Preloader type="spinner" />}
             {data && (
                 <>
