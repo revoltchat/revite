@@ -11,7 +11,13 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-import { Button, Checkbox, InputBox, Tip } from "@revoltchat/ui";
+import {
+    Button,
+    CategoryButton,
+    Checkbox,
+    InputBox,
+    Tip,
+} from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { internalEmit } from "../../../lib/eventEmitter";
@@ -28,7 +34,6 @@ import AutoComplete, {
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 interface Data {
     _id: string;

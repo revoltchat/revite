@@ -18,13 +18,17 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { Button, LineDivider, Preloader, Tip } from "@revoltchat/ui";
+import {
+    Button,
+    CategoryButton,
+    LineDivider,
+    Preloader,
+    Tip,
+} from "@revoltchat/ui";
 
 import { dayjs } from "../../../context/Locale";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
-
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 dayjs.extend(relativeTime);
 

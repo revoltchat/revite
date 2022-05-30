@@ -6,7 +6,13 @@ import pSBC from "shade-blend-color";
 
 import { Text } from "preact-i18n";
 
-import { Checkbox, ColourSwatches, ComboBox, Radio } from "@revoltchat/ui";
+import {
+    CategoryButton,
+    Checkbox,
+    ColourSwatches,
+    ComboBox,
+    Radio,
+} from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
 
@@ -21,7 +27,6 @@ import {
     MONOSPACE_FONT_KEYS,
 } from "../../context/Theme";
 
-import CategoryButton from "../ui/fluent/CategoryButton";
 import { EmojiSelector } from "./appearance/EmojiSelector";
 import { ThemeBaseSelector } from "./appearance/ThemeBaseSelector";
 
@@ -54,8 +59,7 @@ export const ThemeShopShim = () => {
                 action="chevron"
                 description={
                     <Text id="app.settings.pages.appearance.discover.description" />
-                }
-                hover>
+                }>
                 <Text id="app.settings.pages.appearance.discover.title" />
             </CategoryButton>
         </Link>

@@ -17,6 +17,8 @@ import "./snow.scss";
 import { Text } from "preact-i18n";
 import { useContext, useMemo } from "preact/hooks";
 
+import { CategoryButton } from "@revoltchat/ui";
+
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
@@ -24,9 +26,9 @@ import { useApplicationState } from "../../mobx/State";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
-import { PageHeader } from "../../components/ui/Header";
-import CategoryButton from "../../components/ui/fluent/CategoryButton";
 import wideSVG from "/assets/wide.svg";
+
+import { PageHeader } from "../../components/ui/Header";
 
 const Overlay = styled.div`
     display: grid;
