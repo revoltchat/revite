@@ -5,7 +5,7 @@ import styled, { css } from "styled-components/macro";
 
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
-import { Preloader } from "@revoltchat/ui";
+import { Header, Preloader } from "@revoltchat/ui";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -13,8 +13,6 @@ import { useApplicationState } from "../../mobx/State";
 
 import { Overrides } from "../../context/Theme";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-
-import Header from "../../components/ui/Header";
 
 const Container = styled.div`
     flex-grow: 1;
@@ -165,7 +163,7 @@ export default function Discover() {
     return (
         <Container>
             {isTouchscreenDevice && (
-                <Header placement="primary" transparent>
+                <Header palette="primary" withTransparency>
                     <Compass size={27} />
                     Discover
                 </Header>

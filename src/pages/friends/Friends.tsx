@@ -68,7 +68,10 @@ export default observer(() => {
     const isEmpty = lists.reduce((p: number, n) => p + n.length, 0) === 0;
     return (
         <>
-            <PageHeader icon={<UserDetail size={24} />} transparent noBurger>
+            <PageHeader
+                icon={<UserDetail size={24} />}
+                withTransparency
+                noBurger>
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />
                 </div>

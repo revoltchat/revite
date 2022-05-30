@@ -2,14 +2,14 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Button, ComboBox, Tip } from "@revoltchat/ui";
+import { Button, Category, ComboBox, Tip } from "@revoltchat/ui";
 
 import { stopPropagation } from "../../../lib/stopPropagation";
 import { voiceState } from "../../../lib/vortex/VoiceState";
 
-import opusSVG from "../assets/opus_logo.svg";
+import { I18nError } from "../../../context/Locale";
 
-import Overline from "../../../components/ui/Overline";
+import opusSVG from "../assets/opus_logo.svg";
 
 {
     /*import OpusSVG from "../assets/opus_logo.svg";*/
@@ -169,11 +169,9 @@ export function Audio() {
                                 </Button>
                             )}
                             {error && error.name === "NotAllowedError" && (
-                                <Overline
-                                    error="AudioPermissionBlock"
-                                    type="error"
-                                    block
-                                />
+                                <Category>
+                                    <I18nError error="AudioPermissionBlock" />
+                                </Category>
                             )}
                         </div>
                     </div>

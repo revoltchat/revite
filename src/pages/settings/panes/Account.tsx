@@ -220,7 +220,6 @@ export const Account = observer(() => {
                     description={
                         "Delete your account, including all of your data. (sends an email to contact@revolt.chat)"
                     }
-                    hover
                     action="external">
                     <Text id="app.settings.pages.account.manage.delete" />
                 </CategoryButton>

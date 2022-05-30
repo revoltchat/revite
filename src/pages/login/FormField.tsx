@@ -2,9 +2,9 @@ import { UseFormMethods } from "react-hook-form";
 
 import { Text, Localizer } from "preact-i18n";
 
-import { InputBox } from "@revoltchat/ui";
+import { Category, InputBox } from "@revoltchat/ui";
 
-import Overline from "../../components/ui/Overline";
+import { I18nError } from "../../context/Locale";
 
 type FieldType =
     | "email"
@@ -32,9 +32,11 @@ export default function FormField({
     return (
         <>
             {showOverline && (
-                <Overline error={error}>
-                    <Text id={`login.${type}`} />
-                </Overline>
+                <Category compact>
+                    <I18nError error={error}>
+                        <Text id={`login.${type}`} />
+                    </I18nError>
+                </Category>
             )}
             <Localizer>
                 <InputBox
