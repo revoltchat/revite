@@ -6,7 +6,7 @@ import pSBC from "shade-blend-color";
 
 import { Text } from "preact-i18n";
 
-import { Checkbox, ColourSwatches, ComboBox } from "@revoltchat/ui";
+import { Checkbox, ColourSwatches, ComboBox, Radio } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
 
@@ -21,7 +21,6 @@ import {
     MONOSPACE_FONT_KEYS,
 } from "../../context/Theme";
 
-import Radio from "../ui/Radio";
 import CategoryButton from "../ui/fluent/CategoryButton";
 import { EmojiSelector } from "./appearance/EmojiSelector";
 import { ThemeBaseSelector } from "./appearance/ThemeBaseSelector";
@@ -117,19 +116,24 @@ export const DisplayCompactShim = () => {
             </h3>
             <div /* className={styles.display} */>
                 <Radio
+                    title={
+                        <Text id="app.settings.pages.appearance.display.default" />
+                    }
                     description={
                         <Text id="app.settings.pages.appearance.display.default_description" />
                     }
-                    checked>
-                    <Text id="app.settings.pages.appearance.display.default" />
-                </Radio>
+                    value={true}
+                />
                 <Radio
+                    title={
+                        <Text id="app.settings.pages.appearance.display.compact" />
+                    }
                     description={
                         <Text id="app.settings.pages.appearance.display.compact_description" />
                     }
-                    disabled>
-                    <Text id="app.settings.pages.appearance.display.compact" />
-                </Radio>
+                    value={false}
+                    disabled
+                />
             </div>
         </>
     );
