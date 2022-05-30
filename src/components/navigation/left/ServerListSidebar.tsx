@@ -30,14 +30,11 @@ export default observer(() => {
 
     return (
         <ServerList
-            // @ts-expect-error FIXME
             client={client}
             active={server_id}
             createServer={createServer}
-            // @ts-expect-error FIXME
             permit={state.notifications}
             home={state.layout.getLastHomePath}
-            // @ts-expect-error FIXME
             servers={state.ordering.orderedServers}
             reorder={state.ordering.reorderServer}
         />

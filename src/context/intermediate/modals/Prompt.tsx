@@ -8,7 +8,7 @@ import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { Category, Modal, InputBox, Radio } from "@revoltchat/ui";
-import type { Action } from "@revoltchat/ui/esm/components/design/atoms/layout/Modal";
+import type { Action } from "@revoltchat/ui/esm/components/design/atoms/display/Modal";
 
 import { TextReact } from "../../../lib/i18n";
 
