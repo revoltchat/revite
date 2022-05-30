@@ -1,16 +1,15 @@
 import { internalEmit } from "../../lib/eventEmitter";
 
-import { isModalClosing } from "../../components/ui/Modal";
-
+//import { isModalClosing } from "../../components/ui/Modal";
 import { Screen } from "./Intermediate";
 import { ClipboardModal } from "./modals/Clipboard";
 import { ErrorModal } from "./modals/Error";
+import { ExternalLinkModal } from "./modals/ExternalLinkPrompt";
 import { InputModal } from "./modals/Input";
 import { OnboardingModal } from "./modals/Onboarding";
 import { PromptModal } from "./modals/Prompt";
-import { SignedOutModal } from "./modals/SignedOut";
-import { ExternalLinkModal} from "./modals/ExternalLinkPrompt";
 import { SessionsModal } from "./modals/SessionsPrompt";
+import { SignedOutModal } from "./modals/SignedOut";
 import { TokenRevealModal } from "./modals/TokenReveal";
 
 export interface Props {
@@ -20,9 +19,9 @@ export interface Props {
 
 export default function Modals({ screen, openScreen }: Props) {
     const onClose = () =>
-        isModalClosing || screen.id === "onboarding"
-            ? openScreen({ id: "none" })
-            : internalEmit("Modal", "close");
+        //isModalClosing || screen.id === "onboarding"
+        openScreen({ id: "none" });
+    //            : internalEmit("Modal", "close");
 
     switch (screen.id) {
         case "_prompt":

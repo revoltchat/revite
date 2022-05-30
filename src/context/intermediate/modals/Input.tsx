@@ -4,9 +4,8 @@ import { Server } from "revolt.js";
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
-import { Category, InputBox } from "@revoltchat/ui";
+import { Category, InputBox, Modal } from "@revoltchat/ui";
 
-import Modal from "../../../components/ui/Modal";
 import { Children } from "../../../types/Preact";
 import { I18nError } from "../../Locale";
 import { AppContext } from "../../revoltjs/RevoltClient";
@@ -35,7 +34,6 @@ export function InputModal({
 
     return (
         <Modal
-            visible={true}
             title={question}
             description={description}
             disabled={processing}
