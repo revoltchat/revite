@@ -2,11 +2,10 @@ import { Refresh } from "@styled-icons/boxicons-regular";
 
 import { useEffect, useState } from "preact/hooks";
 
-import { Button, Checkbox } from "@revoltchat/ui";
+import { Button, Checkbox, Tip } from "@revoltchat/ui";
 
 import RLogo from "../assets/revolt_r.svg";
 
-import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 export function Native() {
@@ -27,7 +26,7 @@ export function Native() {
 
     return (
         <div style={{ marginTop: "10px" }}>
-            <Tip hideSeparator>Some options might require a restart.</Tip>
+            <Tip>Some options might require a restart.</Tip>
             <h3>App Behavior</h3>
             <Checkbox
                 value={autoStart ?? false}

@@ -3,11 +3,9 @@ import { observer } from "mobx-react-lite";
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 
-import { Button, Checkbox } from "@revoltchat/ui";
+import { Button, Checkbox, Tip } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../../mobx/State";
-
-import Tip from "../../../components/ui/Tip";
 
 // Just keeping this here for general purpose. Should probably be exported
 // elsewhere, though.
@@ -69,7 +67,7 @@ export const PluginsPage = observer(() => {
     const plugins = useApplicationState().plugins;
     return (
         <div className={styles.plugins}>
-            <Tip error hideSeparator>
+            <Tip palette="error">
                 <Text id="app.settings.pages.plugins.wip" />
             </Tip>
             {plugins.list().map((plugin) => {

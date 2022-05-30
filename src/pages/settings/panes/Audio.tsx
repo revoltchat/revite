@@ -2,7 +2,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Button, ComboBox } from "@revoltchat/ui";
+import { Button, ComboBox, Tip } from "@revoltchat/ui";
 
 import { stopPropagation } from "../../../lib/stopPropagation";
 import { voiceState } from "../../../lib/vortex/VoiceState";
@@ -10,7 +10,6 @@ import { voiceState } from "../../../lib/vortex/VoiceState";
 import opusSVG from "../assets/opus_logo.svg";
 
 import Overline from "../../../components/ui/Overline";
-import Tip from "../../../components/ui/Tip";
 
 {
     /*import OpusSVG from "../assets/opus_logo.svg";*/
@@ -96,13 +95,13 @@ export function Audio() {
         <>
             <div class={styles.audio}>
                 {!permission && (
-                    <Tip error hideSeparator>
+                    <Tip palette="error">
                         <Text id="app.settings.pages.audio.tip_grant_permission" />
                     </Tip>
                 )}
 
                 {error && permission === "prompt" && (
-                    <Tip error hideSeparator>
+                    <Tip palette="error">
                         <Text id="app.settings.pages.audio.tip_retry" />
                         <a onClick={handleAskForPermission}>
                             <Text id="app.settings.pages.audio.button_retry" />

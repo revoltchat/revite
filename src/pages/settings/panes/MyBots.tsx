@@ -11,7 +11,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-import { Button, Checkbox, InputBox } from "@revoltchat/ui";
+import { Button, Checkbox, InputBox, Tip } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { internalEmit } from "../../../lib/eventEmitter";
@@ -28,7 +28,6 @@ import AutoComplete, {
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 interface Data {
@@ -465,9 +464,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
 
             {error && (
                 <div className={styles.botSection}>
-                    <Tip error hideSeparator>
-                        {error}
-                    </Tip>
+                    <Tip palette="error">{error}</Tip>
                 </div>
             )}
 
