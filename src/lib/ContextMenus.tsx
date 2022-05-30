@@ -480,7 +480,7 @@ export default function ContextMenus() {
                     function pushDivider() {
                         if (lastDivider || elements.length === 0) return;
                         lastDivider = true;
-                        elements.push(<LineDivider />);
+                        elements.push(<LineDivider compact />);
                     }
 
                     if (server_list) {
@@ -1033,7 +1033,7 @@ export default function ContextMenus() {
                                     </MenuItem>
                                 </IconButton>
                             </div>
-                            <LineDivider />
+                            <LineDivider compact />
                             <MenuItem
                                 data={{
                                     action: "set_presence",
@@ -1070,7 +1070,7 @@ export default function ContextMenus() {
                                 <div className="indicator invisible" />
                                 <Text id={`app.status.invisible`} />
                             </MenuItem>
-                            <LineDivider />
+                            <LineDivider compact />
                             <MenuItem
                                 data={{ action: "set_status" }}
                                 disabled={!isOnline}>
