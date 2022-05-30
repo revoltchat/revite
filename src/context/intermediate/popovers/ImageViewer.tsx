@@ -3,10 +3,10 @@ import { API } from "revolt.js";
 
 import styles from "./ImageViewer.module.scss";
 
+import { Modal } from "@revoltchat/ui";
+
 import AttachmentActions from "../../../components/common/messaging/attachments/AttachmentActions";
 import EmbedMediaActions from "../../../components/common/messaging/embed/EmbedMediaActions";
-import Modal from "../../../components/ui/Modal";
-
 import { useClient } from "../../revoltjs/RevoltClient";
 
 interface Props {
@@ -28,7 +28,7 @@ export function ImageViewer({ attachment, embed, onClose }: Props) {
     const client = useClient();
 
     return (
-        <Modal visible={true} onClose={onClose} noBackground>
+        <Modal onClose={onClose} transparent maxHeight="100vh" maxWidth="100vw">
             <div className={styles.viewer}>
                 {attachment && (
                     <>

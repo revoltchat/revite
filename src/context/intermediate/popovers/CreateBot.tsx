@@ -4,9 +4,8 @@ import { API } from "revolt.js";
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
-import { Category } from "@revoltchat/ui";
+import { Category, Modal } from "@revoltchat/ui";
 
-import Modal from "../../../components/ui/Modal";
 import FormField from "../../../pages/login/FormField";
 import { I18nError } from "../../Locale";
 import { AppContext } from "../../revoltjs/RevoltClient";
@@ -38,7 +37,6 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
 
     return (
         <Modal
-            visible={true}
             onClose={onClose}
             title={<Text id="app.special.popovers.create_bot.title" />}
             actions={[

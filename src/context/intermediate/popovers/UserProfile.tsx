@@ -15,7 +15,14 @@ import styles from "./UserProfile.module.scss";
 import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 
-import { Button, Category, Error, IconButton, Preloader } from "@revoltchat/ui";
+import {
+    Button,
+    Category,
+    Error,
+    IconButton,
+    Modal,
+    Preloader,
+} from "@revoltchat/ui";
 
 import { noop } from "../../../lib/js";
 
@@ -27,7 +34,6 @@ import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
 import Markdown from "../../../components/markdown/Markdown";
-import Modal from "../../../components/ui/Modal";
 import {
     ClientStatus,
     StatusContext,
@@ -143,13 +149,8 @@ export const UserProfile = observer(
         const badges = user.badges ?? 0;
         const flags = user.flags ?? 0;
 
-        return (
-            <Modal
-                visible
-                border={dummy}
-                padding={false}
-                onClose={onClose}
-                dontModal={dummy}>
+        const children = (
+            <>
                 <div
                     className={styles.header}
                     data-force={profile?.background ? "light" : undefined}
@@ -437,6 +438,18 @@ export const UserProfile = observer(
                             </div>
                         ))}
                 </div>
+            </>
+        );
+
+        if (dummy) return <div>{children}</div>;
+
+        return (
+            <Modal
+                onClose={onClose}
+                nonDismissable={dummy}
+                transparent
+                maxWidth="560px">
+                {children}
             </Modal>
         );
     },

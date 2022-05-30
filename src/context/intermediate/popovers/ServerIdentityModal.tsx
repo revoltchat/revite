@@ -5,11 +5,10 @@ import styles from "./ServerIdentityModal.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Button, Category, InputBox } from "@revoltchat/ui";
+import { Button, Category, InputBox, Modal } from "@revoltchat/ui";
 
 import { noop } from "../../../lib/js";
 
-import Modal from "../../../components/ui/Modal";
 import { FileUploader } from "../../revoltjs/FileUploads";
 import { useClient } from "../../revoltjs/RevoltClient";
 
@@ -36,7 +35,6 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
 
     return (
         <Modal
-            visible={true}
             title={
                 <Text
                     id={"app.special.popovers.server_identity.title"}

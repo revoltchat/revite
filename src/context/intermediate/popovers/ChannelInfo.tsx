@@ -4,7 +4,7 @@ import { Channel } from "revolt.js";
 
 import styles from "./ChannelInfo.module.scss";
 
-import Modal from "../../../components/ui/Modal";
+import { Modal } from "@revoltchat/ui";
 
 import Markdown from "../../../components/markdown/Markdown";
 import { getChannelName } from "../../revoltjs/util";
@@ -24,7 +24,7 @@ export const ChannelInfo = observer(({ channel, onClose }: Props) => {
     }
 
     return (
-        <Modal visible={true} onClose={onClose}>
+        <Modal onClose={onClose}>
             <div className={styles.info}>
                 <div className={styles.header}>
                     <h1>{getChannelName(channel, true)}</h1>

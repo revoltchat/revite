@@ -2,8 +2,9 @@ import styles from "./UserPicker.module.scss";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
+import { Modal } from "@revoltchat/ui";
+
 import UserCheckbox from "../../../components/common/user/UserCheckbox";
-import Modal from "../../../components/ui/Modal";
 import { useClient } from "../../revoltjs/RevoltClient";
 
 interface Props {
@@ -20,7 +21,6 @@ export function UserPicker(props: Props) {
 
     return (
         <Modal
-            visible={true}
             title={<Text id="app.special.popovers.user_picker.select" />}
             onClose={props.onClose}
             actions={[

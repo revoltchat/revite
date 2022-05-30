@@ -7,13 +7,13 @@ import styles from "./Prompt.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { Category, Error, InputBox, Radio } from "@revoltchat/ui";
+import { Category, Modal, InputBox, Radio } from "@revoltchat/ui";
+import type { Action } from "@revoltchat/ui/esm/components/design/atoms/layout/Modal";
 
 import { TextReact } from "../../../lib/i18n";
 
 import Message from "../../../components/common/messaging/Message";
 import UserIcon from "../../../components/common/user/UserIcon";
-import Modal, { Action } from "../../../components/ui/Modal";
 import { Children } from "../../../types/Preact";
 import { I18nError } from "../../Locale";
 import { AppContext } from "../../revoltjs/RevoltClient";
@@ -39,7 +39,6 @@ export function PromptModal({
 }: Props) {
     return (
         <Modal
-            visible={true}
             title={question}
             actions={actions}
             onClose={onClose}

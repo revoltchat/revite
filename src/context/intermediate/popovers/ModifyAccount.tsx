@@ -3,9 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
-import { Category, Error } from "@revoltchat/ui";
+import { Category, Error, Modal } from "@revoltchat/ui";
 
-import Modal from "../../../components/ui/Modal";
 import FormField from "../../../pages/login/FormField";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
@@ -69,7 +68,6 @@ export function ModifyAccountModal({ onClose, field }: Props) {
 
     return (
         <Modal
-            visible={true}
             onClose={onClose}
             title={<Text id={`app.special.modals.account.change.${field}`} />}
             disabled={processing}
