@@ -2,11 +2,9 @@ import { Refresh } from "@styled-icons/boxicons-regular";
 
 import { useEffect, useState } from "preact/hooks";
 
-import { Button, Checkbox, Tip } from "@revoltchat/ui";
+import { Button, CategoryButton, Checkbox, Tip } from "@revoltchat/ui";
 
 import RLogo from "../assets/revolt_r.svg";
-
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 export function Native() {
     if (typeof window.native === "undefined") return null;

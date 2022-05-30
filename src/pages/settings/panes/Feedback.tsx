@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
+import { CategoryButton } from "@revoltchat/ui";
 
 export function Feedback() {
     return (
@@ -15,7 +15,6 @@ export function Feedback() {
                 target="_blank"
                 rel="noreferrer">
                 <CategoryButton
-                    hover
                     action="external"
                     icon={<Github size={24} />}
                     description={
@@ -29,7 +28,6 @@ export function Feedback() {
                 target="_blank"
                 rel="noreferrer">
                 <CategoryButton
-                    hover
                     action="external"
                     icon={<ListOl size={24} />}
                     description={
@@ -43,7 +41,6 @@ export function Feedback() {
                 target="_blank"
                 rel="noreferrer">
                 <CategoryButton
-                    hover
                     action="external"
                     icon={<BugAlt size={24} />}
                     description={
@@ -55,7 +52,6 @@ export function Feedback() {
             <Link to="/invite/Testers">
                 <a>
                     <CategoryButton
-                        hover
                         action="chevron"
                         icon={<Group size={24} />}
                         description="You can report issues and discuss improvements with us directly here.">

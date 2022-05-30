@@ -14,7 +14,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { Button, LineDivider, Tip } from "@revoltchat/ui";
+import { Button, CategoryButton, LineDivider, Tip } from "@revoltchat/ui";
 
 import { stopPropagation } from "../../../lib/stopPropagation";
 
@@ -27,7 +27,6 @@ import {
 
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 export const Account = observer(() => {
     const { openScreen, writeClipboard } = useIntermediate();
