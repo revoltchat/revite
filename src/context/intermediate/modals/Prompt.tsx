@@ -7,15 +7,15 @@ import styles from "./Prompt.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { InputBox } from "@revoltchat/ui";
+
 import { TextReact } from "../../../lib/i18n";
 
 import Message from "../../../components/common/messaging/Message";
 import UserIcon from "../../../components/common/user/UserIcon";
-import InputBox from "../../../components/ui/InputBox";
 import Modal, { Action } from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
 import Radio from "../../../components/ui/Radio";
-
 import { Children } from "../../../types/Preact";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";

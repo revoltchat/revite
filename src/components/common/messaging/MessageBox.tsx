@@ -95,7 +95,7 @@ const Blocked = styled.div`
 `;
 
 const Action = styled.div`
-    > div {
+    > a {
         height: 48px;
         width: 48px;
         display: flex;
@@ -118,7 +118,7 @@ const Action = styled.div`
 `;
 
 const FileAction = styled.div`
-    > div {
+    > a {
         height: 48px;
         width: 62px;
         display: flex;

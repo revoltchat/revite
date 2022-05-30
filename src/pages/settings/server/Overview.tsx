@@ -7,15 +7,13 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Button, ComboBox } from "@revoltchat/ui";
+import { Button, ComboBox, InputBox } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { noop } from "../../../lib/js";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { getChannelName } from "../../../context/revoltjs/util";
-
-import InputBox from "../../../components/ui/InputBox";
 
 interface Props {
     server: Server;
@@ -70,9 +68,9 @@ export const Overview = observer(({ server }: Props) => {
                         <Text id="app.main.servers.name" />
                     </h3>
                     <InputBox
-                        contrast
                         value={name}
                         maxLength={32}
+                        palette="secondary"
                         onChange={(e) => {
                             setName(e.currentTarget.value);
                             if (!changed) setChanged(true);

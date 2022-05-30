@@ -2,13 +2,13 @@ import { Pencil } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import styled from "styled-components/macro";
 
+import { InputBox } from "@revoltchat/ui";
+
 import { useDebounceCallback } from "../../../lib/debounce";
 
 import { useApplicationState } from "../../../mobx/State";
 
 import { Variables } from "../../../context/Theme";
-
-import InputBox from "../../ui/InputBox";
 
 const Container = styled.div`
     row-gap: 8px;

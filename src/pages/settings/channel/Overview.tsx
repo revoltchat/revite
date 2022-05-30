@@ -5,13 +5,11 @@ import styled from "styled-components/macro";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Button, Checkbox } from "@revoltchat/ui";
+import { Button, Checkbox, InputBox } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
-
-import InputBox from "../../../components/ui/InputBox";
 
 interface Props {
     channel: Channel;
@@ -85,7 +83,7 @@ export default observer(({ channel }: Props) => {
                         )}
                     </h3>
                     <InputBox
-                        contrast
+                        palette="secondary"
                         value={name}
                         maxLength={32}
                         onChange={(e) => {
