@@ -6,17 +6,16 @@ import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import { Button, Preloader } from "@revoltchat/ui";
+import { Tip } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../../mobx/State";
 
 import { takeError } from "../../../context/revoltjs/util";
 
-import Overline from "../../../components/ui/Overline";
-import Preloader from "../../../components/ui/Preloader";
 import WaveSVG from "../../settings/assets/wave.svg";
-import { Tip } from "@revoltchat/ui";
 
+import Overline from "../../../components/ui/Overline";
 import FormField from "../FormField";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
 import { MailProvider } from "./MailProvider";

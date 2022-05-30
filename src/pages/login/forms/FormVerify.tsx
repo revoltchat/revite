@@ -2,14 +2,13 @@ import { useHistory, useParams } from "react-router-dom";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { Preloader } from "@revoltchat/ui";
+
 import { useApplicationState } from "../../../mobx/State";
 
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
 import Overline from "../../../components/ui/Overline";
-import Preloader from "../../../components/ui/Preloader";
-
 import { Form } from "./Form";
 
 export function FormResend() {

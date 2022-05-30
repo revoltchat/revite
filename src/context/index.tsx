@@ -4,11 +4,15 @@ import { ContextMenuTrigger } from "preact-context-menu";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { LinkProvider, TextProvider, TrigProvider } from "@revoltchat/ui";
+import {
+    LinkProvider,
+    Preloader,
+    TextProvider,
+    TrigProvider,
+} from "@revoltchat/ui";
 
 import { hydrateState } from "../mobx/State";
 
-import Preloader from "../components/ui/Preloader";
 import { Children } from "../types/Preact";
 import Locale from "./Locale";
 import Theme from "./Theme";

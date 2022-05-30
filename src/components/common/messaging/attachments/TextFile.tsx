@@ -5,14 +5,13 @@ import styles from "./Attachment.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { Button, Preloader } from "@revoltchat/ui";
+
 import RequiresOnline from "../../../../context/revoltjs/RequiresOnline";
 import {
     AppContext,
     StatusContext,
 } from "../../../../context/revoltjs/RevoltClient";
-
-import Preloader from "../../../ui/Preloader";
-import { Button } from "@revoltchat/ui";
 
 interface Props {
     attachment: API.File;

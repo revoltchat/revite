@@ -4,14 +4,13 @@ import styled from "styled-components/macro";
 
 import { useEffect, useState } from "preact/hooks";
 
-import { Button, ComboBox } from "@revoltchat/ui";
+import { Button, ComboBox, Preloader } from "@revoltchat/ui";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import Markdown from "../../components/markdown/Markdown";
 import Overline from "../../components/ui/Overline";
-import Preloader from "../../components/ui/Preloader";
 import Tip from "../../components/ui/Tip";
 
 const BotInfo = styled.div`
