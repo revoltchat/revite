@@ -7,7 +7,7 @@ import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
-import IconButton from "../ui/IconButton";
+import { IconButton } from "@revoltchat/ui";
 
 import Tooltip from "./Tooltip";
 

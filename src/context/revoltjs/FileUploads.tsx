@@ -7,11 +7,11 @@ import classNames from "classnames";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { IconButton } from "@revoltchat/ui";
+
 import { determineFileSize } from "../../lib/fileSize";
 
-import IconButton from "../../components/ui/IconButton";
 import Preloader from "../../components/ui/Preloader";
-
 import { useIntermediate } from "../intermediate/Intermediate";
 import { AppContext } from "./RevoltClient";
 import { takeError } from "./util";

@@ -7,6 +7,8 @@ import styles from "./Friend.module.scss";
 import classNames from "classnames";
 import { Text } from "preact-i18n";
 
+import { IconButton } from "@revoltchat/ui";
+
 import { TextReact } from "../../lib/i18n";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
@@ -17,8 +19,6 @@ import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
 import UserIcon from "../../components/common/user/UserIcon";
 import { PageHeader } from "../../components/ui/Header";
-import IconButton from "../../components/ui/IconButton";
-
 import { Children } from "../../types/Preact";
 import { Friend } from "./Friend";
 

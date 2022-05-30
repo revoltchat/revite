@@ -7,6 +7,8 @@ import styled from "styled-components/macro";
 import { Text } from "preact-i18n";
 import { StateUpdater, useEffect } from "preact/hooks";
 
+import { IconButton } from "@revoltchat/ui";
+
 import { internalSubscribe } from "../../../../lib/eventEmitter";
 
 import { useApplicationState } from "../../../../mobx/State";
@@ -14,8 +16,6 @@ import { SECTION_MENTION } from "../../../../mobx/stores/Layout";
 import { Reply } from "../../../../mobx/stores/MessageQueue";
 
 import Tooltip from "../../../common/Tooltip";
-import IconButton from "../../../ui/IconButton";
-
 import Markdown from "../../../markdown/Markdown";
 import UserShort from "../../user/UserShort";
 import { SystemMessage } from "../SystemMessage";

@@ -1,21 +1,14 @@
 import { Send, ShieldX } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
-import Long from "long";
 import { observer } from "mobx-react-lite";
-import {
-    Channel,
-    DEFAULT_PERMISSION_DIRECT_MESSAGE,
-    DEFAULT_PERMISSION_VIEW_ONLY,
-    Permission,
-    Server,
-    U32_MAX,
-    UserPermission,
-} from "revolt.js";
+import { Channel } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
+
+import { IconButton } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { debounce } from "../../../lib/debounce";
@@ -39,8 +32,6 @@ import {
 } from "../../../context/revoltjs/FileUploads";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
-
-import IconButton from "../../ui/IconButton";
 
 import AutoComplete, { useAutoComplete } from "../AutoComplete";
 import { PermissionTooltip } from "../Tooltip";

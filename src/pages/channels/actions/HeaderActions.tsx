@@ -11,6 +11,8 @@ import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 
+import { IconButton } from "@revoltchat/ui";
+
 import { chainedDefer, defer } from "../../../lib/defer";
 import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
@@ -22,8 +24,6 @@ import { SIDEBAR_MEMBERS } from "../../../mobx/stores/Layout";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import UpdateIndicator from "../../../components/common/UpdateIndicator";
-import IconButton from "../../../components/ui/IconButton";
-
 import { ChannelHeaderProps } from "../ChannelHeader";
 
 const Container = styled.div`

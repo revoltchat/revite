@@ -3,11 +3,11 @@ import { Download, CloudDownload } from "@styled-icons/boxicons-regular";
 
 import { useEffect, useState } from "preact/hooks";
 
+import { IconButton } from "@revoltchat/ui";
+
 import { internalSubscribe } from "../../lib/eventEmitter";
 
 import { useApplicationState } from "../../mobx/State";
-
-import IconButton from "../ui/IconButton";
 
 import { updateSW } from "../../main";
 import Tooltip from "./Tooltip";

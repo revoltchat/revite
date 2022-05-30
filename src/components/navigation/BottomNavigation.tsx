@@ -3,6 +3,8 @@ import { observer } from "mobx-react-lite";
 import { useHistory, useLocation } from "react-router";
 import styled, { css } from "styled-components/macro";
 
+import { IconButton } from "@revoltchat/ui";
+
 import ConditionalLink from "../../lib/ConditionalLink";
 
 import { useApplicationState } from "../../mobx/State";
@@ -10,7 +12,6 @@ import { useApplicationState } from "../../mobx/State";
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../common/user/UserIcon";
-import IconButton from "../ui/IconButton";
 
 const Base = styled.div`
     background: var(--secondary-background);

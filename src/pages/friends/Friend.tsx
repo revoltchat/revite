@@ -6,9 +6,10 @@ import { User } from "revolt.js";
 
 import styles from "./Friend.module.scss";
 import classNames from "classnames";
-import { Ref } from "preact";
 import { useTriggerEvents } from "preact-context-menu";
 import { Text } from "preact-i18n";
+
+import { IconButton } from "@revoltchat/ui";
 
 import { stopPropagation } from "../../lib/stopPropagation";
 import { voiceState } from "../../lib/vortex/VoiceState";
@@ -17,8 +18,6 @@ import { useIntermediate } from "../../context/intermediate/Intermediate";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
-import IconButton from "../../components/ui/IconButton";
-
 import { Children } from "../../types/Preact";
 
 interface Props {
