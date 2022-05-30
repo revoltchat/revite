@@ -7,7 +7,7 @@ import styles from "./Prompt.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { InputBox } from "@revoltchat/ui";
+import { InputBox, Radio } from "@revoltchat/ui";
 
 import { TextReact } from "../../../lib/i18n";
 
@@ -15,7 +15,6 @@ import Message from "../../../components/common/messaging/Message";
 import UserIcon from "../../../components/common/user/UserIcon";
 import Modal, { Action } from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
-import Radio from "../../../components/ui/Radio";
 import { Children } from "../../../types/Preact";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
@@ -457,15 +456,19 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                 <Text id="app.main.servers.channel_type" />
                             </Overline>
                             <Radio
-                                checked={type === "Text"}
-                                onSelect={() => setType("Text")}>
-                                <Text id="app.main.servers.text_channel" />
-                            </Radio>
+                                title={
+                                    <Text id="app.main.servers.text_channel" />
+                                }
+                                value={type === "Text"}
+                                onSelect={() => setType("Text")}
+                            />
                             <Radio
-                                checked={type === "Voice"}
-                                onSelect={() => setType("Voice")}>
-                                <Text id="app.main.servers.voice_channel" />
-                            </Radio>
+                                title={
+                                    <Text id="app.main.servers.voice_channel" />
+                                }
+                                value={type === "Voice"}
+                                onSelect={() => setType("Voice")}
+                            />
                             <Overline block type="subtle">
                                 <Text id="app.main.servers.channel_name" />
                             </Overline>
