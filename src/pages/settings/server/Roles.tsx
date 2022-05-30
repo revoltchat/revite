@@ -12,13 +12,13 @@ import {
     H1,
     Checkbox,
     ColourSwatches,
+    InputBox,
 } from "@revoltchat/ui";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import { PermissionList } from "../../../components/settings/roles/PermissionList";
 import { RoleOrDefault } from "../../../components/settings/roles/RoleSelection";
-import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
 
 interface Props {
@@ -148,7 +148,7 @@ export const Roles = observer(({ server }: Props) => {
                                                     name: e.currentTarget.value,
                                                 })
                                             }
-                                            contrast
+                                            palette="secondary"
                                         />
                                     </p>
                                 </section>
@@ -205,7 +205,7 @@ export const Roles = observer(({ server }: Props) => {
                                                     ),
                                                 })
                                             }
-                                            contrast
+                                            palette="secondary"
                                         />
                                     </p>
                                 </section>

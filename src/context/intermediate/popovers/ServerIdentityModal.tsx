@@ -5,14 +5,12 @@ import styles from "./ServerIdentityModal.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import { Button, InputBox } from "@revoltchat/ui";
 
 import { noop } from "../../../lib/js";
 
-import InputBox from "../../../components/ui/InputBox";
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
-
 import { FileUploader } from "../../revoltjs/FileUploads";
 import { useClient } from "../../revoltjs/RevoltClient";
 

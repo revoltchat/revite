@@ -1,14 +1,13 @@
 import { useHistory } from "react-router";
 import { Server } from "revolt.js";
-import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
-import InputBox from "../../../components/ui/InputBox";
+import { InputBox } from "@revoltchat/ui";
+
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
-
 import { Children } from "../../../types/Preact";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";

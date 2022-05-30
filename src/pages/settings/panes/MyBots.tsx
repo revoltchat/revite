@@ -11,7 +11,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-import { Button, Checkbox } from "@revoltchat/ui";
+import { Button, Checkbox, InputBox } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { internalEmit } from "../../../lib/eventEmitter";
@@ -28,7 +28,6 @@ import AutoComplete, {
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import InputBox from "../../../components/ui/InputBox";
 import Tip from "../../../components/ui/Tip";
 import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
@@ -450,6 +449,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         <Text id="app.settings.pages.bots.reserved" />
                     </h5>
                     <InputBox
+                        palette="secondary"
                         ref={setInteractionsRef}
                         value={data.interactions_url}
                         disabled={saving}

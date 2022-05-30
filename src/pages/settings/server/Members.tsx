@@ -9,11 +9,16 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useMemo, useState } from "preact/hooks";
 
-import { Button, Checkbox, IconButton, Preloader } from "@revoltchat/ui";
+import {
+    Button,
+    Checkbox,
+    IconButton,
+    InputBox,
+    Preloader,
+} from "@revoltchat/ui";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
-import InputBox from "../../../components/ui/InputBox";
 import Overline from "../../../components/ui/Overline";
 
 interface InnerProps {
@@ -122,7 +127,7 @@ export const Members = ({ server }: Props) => {
                 placeholder="Search for a specific user..."
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
-                contrast
+                palette="secondary"
             />
             <div className={styles.subtitle}>{data?.length ?? 0} Members</div>
             {members ? (
