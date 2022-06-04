@@ -14,14 +14,13 @@ import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
+import { Children } from "../../../types/Preact";
 import ChannelIcon from "../../common/ChannelIcon";
 import Tooltip from "../../common/Tooltip";
 import UserIcon from "../../common/user/UserIcon";
 import { Username } from "../../common/user/UserShort";
 import UserStatus from "../../common/user/UserStatus";
 import IconButton from "../../ui/IconButton";
-
-import { Children } from "../../../types/Preact";
 
 type CommonProps = Omit<
     JSX.HTMLAttributes<HTMLDivElement>,
