@@ -166,11 +166,9 @@ export const ChannelButton = observer((props: ChannelProps) => {
                 channel: channel._id,
                 unread: !!alert,
             })}>
-            <ChannelIcon
-                className={styles.avatar}
-                target={channel}
-                size={compact ? 24 : 32}
-            />
+            <div className={styles.avatar}>
+                <ChannelIcon target={channel} size={compact ? 24 : 32} />
+            </div>
             <div className={styles.name}>
                 <div>{channel.name}</div>
                 {channel.channel_type === "Group" && (
