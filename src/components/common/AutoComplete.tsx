@@ -88,7 +88,7 @@ export function useAutoComplete(
                             ? "emoji"
                             : "user",
                         search.toLowerCase(),
-                        j + 1,
+                        current === ":" ? j + 1 : j,
                     ];
                 }
             }
@@ -242,7 +242,7 @@ export function useAutoComplete(
                     );
                 } else if (state.type === "user") {
                     content.splice(
-                        index - 1,
+                        index,
                         search.length + 1,
                         "<@",
                         state.matches[state.selected]._id,
