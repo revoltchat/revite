@@ -250,7 +250,7 @@ export function useAutoComplete(
                     );
                 } else {
                     content.splice(
-                        index - 1,
+                        index,
                         search.length + 1,
                         "<#",
                         state.matches[state.selected]._id,
