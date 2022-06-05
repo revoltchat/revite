@@ -5,7 +5,7 @@ import { Text, Localizer } from "preact-i18n";
 import InputBox from "../../components/ui/InputBox";
 import Overline from "../../components/ui/Overline";
 
-type FieldType = "email" | "username" | "password" | "invite" | "current_password";
+type FieldType = "email" | "username" | "password" | "invite" | "current_password" | "new_password";
 
 type Props = Omit<JSX.HTMLAttributes<HTMLInputElement>, "children" | "as"> & {
     type: FieldType;
