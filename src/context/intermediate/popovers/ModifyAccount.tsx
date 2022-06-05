@@ -5,7 +5,6 @@ import { useContext, useState } from "preact/hooks";
 
 import Modal from "../../../components/ui/Modal";
 import Overline from "../../../components/ui/Overline";
-
 import FormField from "../../../pages/login/FormField";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
