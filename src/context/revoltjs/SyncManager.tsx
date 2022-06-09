@@ -22,9 +22,6 @@ export default function SyncManager() {
         }
     }, [client]);
 
-    // Keep data synced.
-    useEffect(() => state.registerListeners(client), [client]);
-
     // Take data updates from Revolt.
     useEffect(() => {
         if (!client) return;
