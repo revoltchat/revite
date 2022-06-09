@@ -8,7 +8,6 @@ import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import { useApplicationState } from "../../mobx/State";
 
 import Preloader from "../../components/ui/Preloader";
-
 import { Children } from "../../types/Preact";
 import { useIntermediate } from "../intermediate/Intermediate";
 import { registerEvents } from "./events";
@@ -80,6 +79,7 @@ export default observer(({ children }: Props) => {
     }, [state.auth.getSession()]);
 
     useEffect(() => registerEvents(state, setStatus, client), [client]);
+    useEffect(() => state.registerListeners(client), [client]);
 
     if (!loaded || status === ClientStatus.LOADING) {
         return <Preloader type="spinner" />;
