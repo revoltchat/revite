@@ -9,7 +9,6 @@ import { Preloader } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../mobx/State";
 
-import Preloader from "../../components/ui/Preloader";
 import { Children } from "../../types/Preact";
 import { useIntermediate } from "../intermediate/Intermediate";
 import { registerEvents } from "./events";

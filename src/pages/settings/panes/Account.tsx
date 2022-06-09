@@ -217,7 +217,6 @@ export const Account = observer(() => {
                 description={
                     "Your account will be queued for deletion, a confirmation email will be sent."
                 }
-                hover
                 action="chevron"
                 onClick={() => {
                     //
