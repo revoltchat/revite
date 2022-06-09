@@ -4,6 +4,18 @@
 
 This is the web client for Revolt, which is also available live at [app.revolt.chat](https://app.revolt.chat).
 
+## Pending Rewrite
+
+The following code is pending a partial or full rewrite:
+
+-   `src/components`: components are being migrated to [revoltchat/components](https://github.com/revoltchat/components)
+-   `src/styles`: needs to be migrated to [revoltchat/components](https://github.com/revoltchat/components)
+-   `src/context/intermediate`: modal system is being rewritten from scratch
+-   `src/context/revoltjs`: client state management needs to be rewritten and include support for concurrent clients
+-   `src/lib`: this needs to be organised
+-   `src/*.ts(x)`: half of these files should be moved
+-   `src/*.d.ts`: should be in dedicated types folder
+
 ## Stack
 
 -   [Preact](https://preactjs.com/)
