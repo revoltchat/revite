@@ -73,13 +73,9 @@ export default class Ordering implements Store, Persistent<Data>, Syncable {
             }
         }
 
-        console.info("out1", out);
-
         for (const id of known) {
             out.push(this.state.client!.servers.get(id)!);
         }
-
-        console.info("out2", out);
 
         return out;
     }
