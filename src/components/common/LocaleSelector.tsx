@@ -1,6 +1,6 @@
-import { useApplicationState } from "../../mobx/State";
+import { ComboBox } from "@revoltchat/ui";
 
-import ComboBox from "../ui/ComboBox";
+import { useApplicationState } from "../../mobx/State";
 
 import { Language, Languages } from "../../../external/lang/Languages";
 

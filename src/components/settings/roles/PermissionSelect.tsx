@@ -7,8 +7,7 @@ import styled, { css } from "styled-components";
 import { Text } from "preact-i18n";
 import { useMemo } from "preact/hooks";
 
-import Checkbox from "../../ui/Checkbox";
-import { OverrideSwitch } from "@revoltchat/ui";
+import { Checkbox, OverrideSwitch } from "@revoltchat/ui";
 
 interface PermissionSelectProps {
     id: keyof typeof Permission;
@@ -136,7 +135,7 @@ export function PermissionSelect({
             ) : (
                 <Checkbox
                     disabled={disabled}
-                    checked={state === "Allow"}
+                    value={state === "Allow"}
                     onChange={() =>
                         onChange(
                             Long.fromNumber(value, false)

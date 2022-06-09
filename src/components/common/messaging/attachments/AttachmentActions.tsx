@@ -11,11 +11,11 @@ import styles from "./AttachmentActions.module.scss";
 import classNames from "classnames";
 import { useContext } from "preact/hooks";
 
+import { IconButton } from "@revoltchat/ui";
+
 import { determineFileSize } from "../../../../lib/fileSize";
 
 import { AppContext } from "../../../../context/revoltjs/RevoltClient";
-
-import IconButton from "../../../ui/IconButton";
 
 interface Props {
     attachment: API.File;

@@ -5,13 +5,18 @@ import { Server } from "revolt.js";
 import { Text } from "preact-i18n";
 import { useMemo, useState } from "preact/hooks";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import {
+    Button,
+    PermissionsLayout,
+    SpaceBetween,
+    H1,
+    Checkbox,
+    ColourSwatches,
+    InputBox,
+    Category,
+} from "@revoltchat/ui";
 
-import Checkbox from "../../../components/ui/Checkbox";
-import ColourSwatches from "../../../components/ui/ColourSwatches";
-import InputBox from "../../../components/ui/InputBox";
-import Overline from "../../../components/ui/Overline";
-import { Button, PermissionsLayout, SpaceBetween, H1 } from "@revoltchat/ui";
+import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import { PermissionList } from "../../../components/settings/roles/PermissionList";
 import { RoleOrDefault } from "../../../components/settings/roles/RoleSelection";
@@ -131,9 +136,9 @@ export const Roles = observer(({ server }: Props) => {
                         {selected !== "default" && (
                             <>
                                 <section>
-                                    <Overline type="subtle">
+                                    <Category>
                                         <Text id="app.settings.permissions.role_name" />
-                                    </Overline>
+                                    </Category>
                                     <p>
                                         <InputBox
                                             value={currentRoleValue.name}
@@ -143,14 +148,14 @@ export const Roles = observer(({ server }: Props) => {
                                                     name: e.currentTarget.value,
                                                 })
                                             }
-                                            contrast
+                                            palette="secondary"
                                         />
                                     </p>
                                 </section>
                                 <section>
-                                    <Overline type="subtle">
+                                    <Category>
                                         <Text id="app.settings.permissions.role_colour" />
-                                    </Overline>
+                                    </Category>
                                     <p>
                                         <ColourSwatches
                                             value={
@@ -164,28 +169,30 @@ export const Roles = observer(({ server }: Props) => {
                                     </p>
                                 </section>
                                 <section>
-                                    <Overline type="subtle">
+                                    <Category>
                                         <Text id="app.settings.permissions.role_options" />
-                                    </Overline>
+                                    </Category>
                                     <p>
                                         <Checkbox
-                                            checked={
+                                            value={
                                                 currentRoleValue.hoist ?? false
                                             }
                                             onChange={(hoist) =>
                                                 setValue({ ...value, hoist })
                                             }
+                                            title={
+                                                <Text id="app.settings.permissions.hoist_role" />
+                                            }
                                             description={
                                                 <Text id="app.settings.permissions.hoist_desc" />
-                                            }>
-                                            <Text id="app.settings.permissions.hoist_role" />
-                                        </Checkbox>
+                                            }
+                                        />
                                     </p>
                                 </section>
                                 <section>
-                                    <Overline type="subtle">
+                                    <Category>
                                         <Text id="app.settings.permissions.role_ranking" />
-                                    </Overline>
+                                    </Category>
                                     <p>
                                         <InputBox
                                             type="number"
@@ -198,7 +205,7 @@ export const Roles = observer(({ server }: Props) => {
                                                     ),
                                                 })
                                             }
-                                            contrast
+                                            palette="secondary"
                                         />
                                     </p>
                                 </section>

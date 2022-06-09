@@ -7,8 +7,6 @@ import { Text } from "preact-i18n";
 import { useClient } from "../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../context/revoltjs/util";
 
-import Category from "../../components/ui/Category";
-
 import { GenericSettings } from "./GenericSettings";
 import Overview from "./channel/Overview";
 import Permissions from "./channel/Permissions";

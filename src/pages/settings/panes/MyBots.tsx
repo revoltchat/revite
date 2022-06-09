@@ -11,7 +11,13 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import {
+    Button,
+    CategoryButton,
+    Checkbox,
+    InputBox,
+    Tip,
+} from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { internalEmit } from "../../../lib/eventEmitter";
@@ -28,10 +34,6 @@ import AutoComplete, {
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
-import Checkbox from "../../../components/ui/Checkbox";
-import InputBox from "../../../components/ui/InputBox";
-import Tip from "../../../components/ui/Tip";
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
 
 interface Data {
     _id: string;
@@ -436,15 +438,14 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         />
                     </CollapsibleSection>
                     <Checkbox
-                        checked={data.public}
+                        value={data.public}
                         disabled={saving}
-                        contrast
+                        title={<Text id="app.settings.pages.bots.public_bot" />}
                         description={
                             <Text id="app.settings.pages.bots.public_bot_desc" />
                         }
-                        onChange={(v) => setData({ ...data, public: v })}>
-                        <Text id="app.settings.pages.bots.public_bot" />
-                    </Checkbox>
+                        onChange={(v) => setData({ ...data, public: v })}
+                    />
                     <h3>
                         <Text id="app.settings.pages.bots.interactions_url" />
                     </h3>
@@ -452,6 +453,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         <Text id="app.settings.pages.bots.reserved" />
                     </h5>
                     <InputBox
+                        palette="secondary"
                         ref={setInteractionsRef}
                         value={data.interactions_url}
                         disabled={saving}
@@ -467,9 +469,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
 
             {error && (
                 <div className={styles.botSection}>
-                    <Tip error hideSeparator>
-                        {error}
-                    </Tip>
+                    <Tip palette="error">{error}</Tip>
                 </div>
             )}
 

@@ -1,15 +1,13 @@
 import { useHistory } from "react-router";
 import { Server } from "revolt.js";
-import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
-import InputBox from "../../../components/ui/InputBox";
-import Modal from "../../../components/ui/Modal";
-import Overline from "../../../components/ui/Overline";
+import { Category, InputBox, Modal } from "@revoltchat/ui";
 
 import { Children } from "../../../types/Preact";
+import { I18nError } from "../../Locale";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
 
@@ -36,7 +34,6 @@ export function InputModal({
 
     return (
         <Modal
-            visible={true}
             title={question}
             description={description}
             disabled={processing}
@@ -61,11 +58,15 @@ export function InputModal({
             ]}
             onClose={onClose}>
             {field ? (
-                <Overline error={error} block>
-                    {field}
-                </Overline>
+                <Category>
+                    <I18nError error={error}>{field}</I18nError>
+                </Category>
             ) : (
-                error && <Overline error={error} type="error" block />
+                error && (
+                    <Category>
+                        <I18nError error={error} />
+                    </Category>
+                )
             )}
             <InputBox
                 value={value}

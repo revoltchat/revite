@@ -6,16 +6,15 @@ import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import { Button, Category, Preloader } from "@revoltchat/ui";
+import { Tip } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../../mobx/State";
 
+import { I18nError } from "../../../context/Locale";
 import { takeError } from "../../../context/revoltjs/util";
 
-import Overline from "../../../components/ui/Overline";
-import Preloader from "../../../components/ui/Preloader";
 import WaveSVG from "../../settings/assets/wave.svg";
-import { Tip } from "@revoltchat/ui";
 
 import FormField from "../FormField";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
@@ -200,9 +199,11 @@ export const Form = observer(({ page, callback }: Props) => {
                     />
                 )}
                 {error && (
-                    <Overline type="error" error={error}>
-                        <Text id={`login.error.${page}`} />
-                    </Overline>
+                    <Category>
+                        <I18nError error={error}>
+                            <Text id={`login.error.${page}`} />
+                        </I18nError>
+                    </Category>
                 )}
                 <Button>
                     <Text

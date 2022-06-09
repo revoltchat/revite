@@ -5,13 +5,9 @@ import styles from "./ServerIdentityModal.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import { Button, Category, InputBox, Modal } from "@revoltchat/ui";
 
 import { noop } from "../../../lib/js";
-
-import InputBox from "../../../components/ui/InputBox";
-import Modal from "../../../components/ui/Modal";
-import Overline from "../../../components/ui/Overline";
 
 import { FileUploader } from "../../revoltjs/FileUploads";
 import { useClient } from "../../revoltjs/RevoltClient";
@@ -39,7 +35,6 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
 
     return (
         <Modal
-            visible={true}
             title={
                 <Text
                     id={"app.special.popovers.server_identity.title"}
@@ -49,9 +44,9 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
             onClose={onClose}>
             <div className={styles.identityMain}>
                 <div>
-                    <Overline type="subtle">
+                    <Category>
                         <Text id="app.special.popovers.server_identity.avatar" />
-                    </Overline>
+                    </Category>
                     <FileUploader
                         width={80}
                         height={80}
@@ -80,9 +75,9 @@ export const ServerIdentityModal = observer(({ server, onClose }: Props) => {
                     />
                 </div>
                 <div>
-                    <Overline type="subtle">
+                    <Category>
                         <Text id="app.special.popovers.server_identity.nickname" />
-                    </Overline>
+                    </Category>
                     <InputBox
                         value={nickname}
                         placeholder={client.user!.username}

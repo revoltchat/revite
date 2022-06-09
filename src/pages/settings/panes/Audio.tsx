@@ -2,14 +2,13 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import { Button, Category, ComboBox, Tip } from "@revoltchat/ui";
 
 import { stopPropagation } from "../../../lib/stopPropagation";
 import { voiceState } from "../../../lib/vortex/VoiceState";
 
-import ComboBox from "../../../components/ui/ComboBox";
-import Overline from "../../../components/ui/Overline";
-import Tip from "../../../components/ui/Tip";
+import { I18nError } from "../../../context/Locale";
+
 import opusSVG from "../assets/opus_logo.svg";
 
 {
@@ -96,13 +95,13 @@ export function Audio() {
         <>
             <div class={styles.audio}>
                 {!permission && (
-                    <Tip error hideSeparator>
+                    <Tip palette="error">
                         <Text id="app.settings.pages.audio.tip_grant_permission" />
                     </Tip>
                 )}
 
                 {error && permission === "prompt" && (
-                    <Tip error hideSeparator>
+                    <Tip palette="error">
                         <Text id="app.settings.pages.audio.tip_retry" />
                         <a onClick={handleAskForPermission}>
                             <Text id="app.settings.pages.audio.button_retry" />
@@ -170,11 +169,9 @@ export function Audio() {
                                 </Button>
                             )}
                             {error && error.name === "NotAllowedError" && (
-                                <Overline
-                                    error="AudioPermissionBlock"
-                                    type="error"
-                                    block
-                                />
+                                <Category>
+                                    <I18nError error="AudioPermissionBlock" />
+                                </Category>
                             )}
                         </div>
                     </div>
