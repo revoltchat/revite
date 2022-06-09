@@ -174,13 +174,9 @@ export const Account = observer(() => {
             </h3>
             <h5>
                 {/*<Text id="app.settings.pages.account.2fa.description" />*/}
-                Two-factor authentication is currently work-in-progress, see{" "}
-                {` `}
-                <a
-                    href="https://github.com/insertish/rauth/milestone/1"
-                    target="_blank"
-                    rel="noreferrer">
-                    v1 milestone here
+                Two-factor authentication is currently in-development, see{" "}
+                <a href="https://github.com/revoltchat/revite/issues/675">
+                    tracking issue here
                 </a>
                 .
             </h5>
@@ -208,23 +204,26 @@ export const Account = observer(() => {
             <CategoryButton
                 icon={<Block size={24} color="var(--error)" />}
                 description={
-                    "Disable your account. You won't be able to access it unless you log back in."
+                    "Disable your account. You won't be able to access it unless you contact support."
                 }
-                disabled
-                action={<Text id="general.unavailable" />}>
+                action="chevron"
+                onClick={() => {
+                    //
+                }}>
                 <Text id="app.settings.pages.account.manage.disable" />
             </CategoryButton>
-            <a href="mailto:contact@revolt.chat?subject=Delete%20my%20account">
-                <CategoryButton
-                    icon={<Trash size={24} color="var(--error)" />}
-                    description={
-                        "Delete your account, including all of your data. (sends an email to contact@revolt.chat)"
-                    }
-                    action="external">
-                    <Text id="app.settings.pages.account.manage.delete" />
-                </CategoryButton>
-            </a>
-            <LineDivider />
+            <CategoryButton
+                icon={<Trash size={24} color="var(--error)" />}
+                description={
+                    "Your account will be queued for deletion, a confirmation email will be sent."
+                }
+                hover
+                action="chevron"
+                onClick={() => {
+                    //
+                }}>
+                <Text id="app.settings.pages.account.manage.delete" />
+            </CategoryButton>
             <Tip>
                 <span>
                     <Text id="app.settings.tips.account.a" />
