@@ -7,12 +7,12 @@ import { Children } from "../../types/Preact";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function takeError(error: any): string {
     if (error.response) {
-        const status = error.response.status;
-        if (error.response.type) {
-            return error.response.type;
+        const type = error.response.data?.type;
+        if (type) {
+            return type;
         }
 
-        switch (status) {
+        switch (error.response.status) {
             case 429:
                 return "TooManyRequests";
             case 401:
