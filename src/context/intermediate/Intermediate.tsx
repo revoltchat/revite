@@ -5,12 +5,12 @@ import { API, Channel, Message, Server, User } from "revolt.js";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 
+import type { Action } from "@revoltchat/ui/esm/components/design/atoms/display/Modal";
+
 import { internalSubscribe } from "../../lib/eventEmitter";
 import { determineLink } from "../../lib/links";
 
 import { useApplicationState } from "../../mobx/State";
-
-import { Action } from "../../components/ui/Modal";
 
 import { Children } from "../../types/Preact";
 import Modals from "./Modals";
@@ -24,7 +24,7 @@ export type Screen =
     | { id: "clipboard"; text: string }
     | { id: "token_reveal"; token: string; username: string }
     | { id: "external_link_prompt"; link: string }
-    | { id: "sessions", confirm: () => void }
+    | { id: "sessions"; confirm: () => void }
     | {
           id: "_prompt";
           question: Children;

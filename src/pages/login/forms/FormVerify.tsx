@@ -1,14 +1,13 @@
 import { useHistory, useParams } from "react-router-dom";
 
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
+
+import { Category, Preloader } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { I18nError } from "../../../context/Locale";
 import { takeError } from "../../../context/revoltjs/util";
-
-import Overline from "../../../components/ui/Overline";
-import Preloader from "../../../components/ui/Preloader";
 
 import { Form } from "./Form";
 
@@ -42,7 +41,9 @@ export function FormVerify() {
     }, []);
 
     return error ? (
-        <Overline type="error" error={error} />
+        <Category>
+            <I18nError error={error} />
+        </Category>
     ) : (
         <Preloader type="ring" />
     );

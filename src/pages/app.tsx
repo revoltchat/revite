@@ -2,7 +2,7 @@ import { Route, Switch } from "react-router-dom";
 
 import { lazy, Suspense } from "preact/compat";
 
-import { Masks } from "@revoltchat/ui";
+import { Masks, Preloader } from "@revoltchat/ui";
 
 import ErrorBoundary from "../lib/ErrorBoundary";
 import FakeClient from "../lib/FakeClient";
@@ -10,7 +10,6 @@ import FakeClient from "../lib/FakeClient";
 import Context from "../context";
 import { CheckAuth } from "../context/revoltjs/CheckAuth";
 
-import Preloader from "../components/ui/Preloader";
 import Invite from "./invite/Invite";
 
 const Login = lazy(() => import("./login/Login"));

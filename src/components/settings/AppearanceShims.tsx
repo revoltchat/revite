@@ -6,6 +6,14 @@ import pSBC from "shade-blend-color";
 
 import { Text } from "preact-i18n";
 
+import {
+    CategoryButton,
+    Checkbox,
+    ColourSwatches,
+    ComboBox,
+    Radio,
+} from "@revoltchat/ui";
+
 import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
 
 import { useApplicationState } from "../../mobx/State";
@@ -18,12 +26,6 @@ import {
     MONOSPACE_FONTS,
     MONOSPACE_FONT_KEYS,
 } from "../../context/Theme";
-
-import Checkbox from "../ui/Checkbox";
-import ColourSwatches from "../ui/ColourSwatches";
-import ComboBox from "../ui/ComboBox";
-import Radio from "../ui/Radio";
-import CategoryButton from "../ui/fluent/CategoryButton";
 
 import { EmojiSelector } from "./appearance/EmojiSelector";
 import { ThemeBaseSelector } from "./appearance/ThemeBaseSelector";
@@ -57,8 +59,7 @@ export const ThemeShopShim = () => {
                 action="chevron"
                 description={
                     <Text id="app.settings.pages.appearance.discover.description" />
-                }
-                hover>
+                }>
                 <Text id="app.settings.pages.appearance.discover.title" />
             </CategoryButton>
         </Link>
@@ -119,19 +120,24 @@ export const DisplayCompactShim = () => {
             </h3>
             <div /* className={styles.display} */>
                 <Radio
+                    title={
+                        <Text id="app.settings.pages.appearance.display.default" />
+                    }
                     description={
                         <Text id="app.settings.pages.appearance.display.default_description" />
                     }
-                    checked>
-                    <Text id="app.settings.pages.appearance.display.default" />
-                </Radio>
+                    value={true}
+                />
                 <Radio
+                    title={
+                        <Text id="app.settings.pages.appearance.display.compact" />
+                    }
                     description={
                         <Text id="app.settings.pages.appearance.display.compact_description" />
                     }
-                    disabled>
-                    <Text id="app.settings.pages.appearance.display.compact" />
-                </Radio>
+                    value={false}
+                    disabled
+                />
             </div>
         </>
     );
@@ -200,13 +206,13 @@ export const DisplayLigaturesShim = observer(() => {
     return (
         <>
             <Checkbox
-                checked={settings.get("appearance:ligatures") ?? false}
+                value={settings.get("appearance:ligatures") ?? false}
                 onChange={(v) => settings.set("appearance:ligatures", v)}
+                title={<Text id="app.settings.pages.appearance.ligatures" />}
                 description={
                     <Text id="app.settings.pages.appearance.ligatures_desc" />
-                }>
-                <Text id="app.settings.pages.appearance.ligatures" />
-            </Checkbox>
+                }
+            />
         </>
     );
 });
@@ -219,13 +225,15 @@ export const ShowSendButtonShim = observer(() => {
 
     return (
         <Checkbox
-            checked={settings.get("appearance:show_send_button") ?? false}
+            value={settings.get("appearance:show_send_button") ?? false}
             onChange={(v) => settings.set("appearance:show_send_button", v)}
+            title={
+                <Text id="app.settings.pages.appearance.appearance_options.show_send" />
+            }
             description={
                 <Text id="app.settings.pages.appearance.appearance_options.show_send_desc" />
-            }>
-            <Text id="app.settings.pages.appearance.appearance_options.show_send" />
-        </Checkbox>
+            }
+        />
     );
 });
 
@@ -237,13 +245,15 @@ export const DisplaySeasonalShim = observer(() => {
 
     return (
         <Checkbox
-            checked={settings.get("appearance:seasonal") ?? true}
+            value={settings.get("appearance:seasonal") ?? true}
             onChange={(v) => settings.set("appearance:seasonal", v)}
+            title={
+                <Text id="app.settings.pages.appearance.theme_options.seasonal" />
+            }
             description={
                 <Text id="app.settings.pages.appearance.theme_options.seasonal_desc" />
-            }>
-            <Text id="app.settings.pages.appearance.theme_options.seasonal" />
-        </Checkbox>
+            }
+        />
     );
 });
 
@@ -255,13 +265,15 @@ export const DisplayTransparencyShim = observer(() => {
 
     return (
         <Checkbox
-            checked={settings.get("appearance:transparency") ?? true}
+            value={settings.get("appearance:transparency") ?? true}
             onChange={(v) => settings.set("appearance:transparency", v)}
+            title={
+                <Text id="app.settings.pages.appearance.theme_options.transparency" />
+            }
             description={
                 <Text id="app.settings.pages.appearance.theme_options.transparency_desc" />
-            }>
-            <Text id="app.settings.pages.appearance.theme_options.transparency" />
-        </Checkbox>
+            }
+        />
     );
 });
 

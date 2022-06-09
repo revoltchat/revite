@@ -3,7 +3,9 @@ import { observer } from "mobx-react-lite";
 import { Client } from "revolt.js";
 
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo, useState } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
+
+import { Preloader } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../mobx/State";
 

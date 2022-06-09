@@ -3,8 +3,9 @@ import { observer } from "mobx-react-lite";
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 
-import CollapsibleSection from "../../../components/common/CollapsibleSection";
+import { Column } from "@revoltchat/ui";
 
+import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import {
     ThemeBaseSelectorShim,
     ThemeShopShim,
@@ -37,8 +38,10 @@ export const Appearance = observer(() => {
             <h3>
                 <Text id="app.settings.pages.appearance.theme_options.title" />
             </h3>
-            <DisplayTransparencyShim />
-            <DisplaySeasonalShim />
+            <Column>
+                <DisplayTransparencyShim />
+                <DisplaySeasonalShim />
+            </Column>
             <hr />
             <DisplayFontShim />
             <DisplayLigaturesShim />

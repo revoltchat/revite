@@ -1,8 +1,8 @@
 import { Text } from "preact-i18n";
 
-import { useApplicationState } from "../../../mobx/State";
+import { Modal } from "@revoltchat/ui";
 
-import Modal from "../../../components/ui/Modal";
+import { useApplicationState } from "../../../mobx/State";
 
 import { useIntermediate } from "../Intermediate";
 
@@ -17,7 +17,6 @@ export function ExternalLinkModal({ onClose, link }: Props) {
 
     return (
         <Modal
-            visible={true}
             onClose={onClose}
             title={<Text id={"app.special.modals.external_links.title"} />}
             actions={[

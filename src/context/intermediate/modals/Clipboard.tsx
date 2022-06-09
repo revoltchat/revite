@@ -1,6 +1,6 @@
 import { Text } from "preact-i18n";
 
-import Modal from "../../../components/ui/Modal";
+import { Modal } from "@revoltchat/ui";
 
 interface Props {
     onClose: () => void;
@@ -10,7 +10,6 @@ interface Props {
 export function ClipboardModal({ onClose, text }: Props) {
     return (
         <Modal
-            visible={true}
             onClose={onClose}
             title={<Text id="app.special.modals.clipboard.unavailable" />}
             actions={[

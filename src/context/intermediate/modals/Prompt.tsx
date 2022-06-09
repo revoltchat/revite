@@ -7,16 +7,15 @@ import styles from "./Prompt.module.scss";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { Category, Modal, InputBox, Radio } from "@revoltchat/ui";
+import type { Action } from "@revoltchat/ui/esm/components/design/atoms/display/Modal";
+
 import { TextReact } from "../../../lib/i18n";
 
 import Message from "../../../components/common/messaging/Message";
 import UserIcon from "../../../components/common/user/UserIcon";
-import InputBox from "../../../components/ui/InputBox";
-import Modal, { Action } from "../../../components/ui/Modal";
-import Overline from "../../../components/ui/Overline";
-import Radio from "../../../components/ui/Radio";
-
 import { Children } from "../../../types/Preact";
+import { I18nError } from "../../Locale";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
 import { useIntermediate } from "../Intermediate";
@@ -40,12 +39,15 @@ export function PromptModal({
 }: Props) {
     return (
         <Modal
-            visible={true}
             title={question}
             actions={actions}
             onClose={onClose}
             disabled={disabled}>
-            {error && <Overline error={error} type="error" />}
+            {error && (
+                <Category>
+                    <I18nError error={error} />
+                </Category>
+            )}
             {content}
         </Modal>
     );
@@ -386,9 +388,9 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                 id="app.special.modals.prompt.confirm_ban"
                                 fields={{ name: props.user?.username }}
                             />
-                            <Overline>
+                            <Category>
                                 <Text id="app.special.modals.prompt.confirm_ban_reason" />
-                            </Overline>
+                            </Category>
                             <InputBox
                                 value={reason ?? ""}
                                 onChange={(e) =>
@@ -453,22 +455,26 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     ]}
                     content={
                         <>
-                            <Overline block type="subtle">
+                            <Category>
                                 <Text id="app.main.servers.channel_type" />
-                            </Overline>
+                            </Category>
                             <Radio
-                                checked={type === "Text"}
-                                onSelect={() => setType("Text")}>
-                                <Text id="app.main.servers.text_channel" />
-                            </Radio>
+                                title={
+                                    <Text id="app.main.servers.text_channel" />
+                                }
+                                value={type === "Text"}
+                                onSelect={() => setType("Text")}
+                            />
                             <Radio
-                                checked={type === "Voice"}
-                                onSelect={() => setType("Voice")}>
-                                <Text id="app.main.servers.voice_channel" />
-                            </Radio>
-                            <Overline block type="subtle">
+                                title={
+                                    <Text id="app.main.servers.voice_channel" />
+                                }
+                                value={type === "Voice"}
+                                onSelect={() => setType("Voice")}
+                            />
+                            <Category>
                                 <Text id="app.main.servers.channel_name" />
-                            </Overline>
+                            </Category>
                             <InputBox
                                 value={name}
                                 onChange={(e) => setName(e.currentTarget.value)}
@@ -524,9 +530,9 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                     ]}
                     content={
                         <>
-                            <Overline block type="subtle">
+                            <Category>
                                 <Text id="app.main.servers.category_name" />
-                            </Overline>
+                            </Category>
                             <InputBox
                                 value={name}
                                 onChange={(e) => setName(e.currentTarget.value)}
