@@ -21,6 +21,7 @@ import { stopPropagation } from "../../../lib/stopPropagation";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import {
     ClientStatus,
+    LogOutContext,
     StatusContext,
     useClient,
 } from "../../../context/revoltjs/RevoltClient";
@@ -30,6 +31,7 @@ import UserIcon from "../../../components/common/user/UserIcon";
 
 export const Account = observer(() => {
     const { openScreen, writeClipboard } = useIntermediate();
+    const logOut = useContext(LogOutContext);
     const status = useContext(StatusContext);
 
     const client = useClient();
@@ -207,9 +209,15 @@ export const Account = observer(() => {
                     "Disable your account. You won't be able to access it unless you contact support."
                 }
                 action="chevron"
-                onClick={() => {
-                    //
-                }}>
+                onClick={() =>
+                    client.api
+                        .post("/auth/account/disable", undefined, {
+                            headers: {
+                                "X-MFA-Ticket": "TICKET",
+                            },
+                        })
+                        .then(() => logOut(true))
+                }>
                 <Text id="app.settings.pages.account.manage.disable" />
             </CategoryButton>
             <CategoryButton
@@ -218,9 +226,15 @@ export const Account = observer(() => {
                     "Your account will be queued for deletion, a confirmation email will be sent."
                 }
                 action="chevron"
-                onClick={() => {
-                    //
-                }}>
+                onClick={() =>
+                    client.api
+                        .post("/auth/account/delete", undefined, {
+                            headers: {
+                                "X-MFA-Ticket": "TICKET",
+                            },
+                        })
+                        .then(() => logOut(true))
+                }>
                 <Text id="app.settings.pages.account.manage.delete" />
             </CategoryButton>
             <Tip>
