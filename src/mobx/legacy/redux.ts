@@ -58,7 +58,7 @@ export interface LegacySyncOptions {
 export interface LegacyAuthState {
     accounts: {
         [key: string]: {
-            session: API.Session;
+            session: Session;
         };
     };
     active?: string;

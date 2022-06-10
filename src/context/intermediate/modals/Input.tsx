@@ -177,7 +177,7 @@ export function SpecialInputModal(props: SpecialProps) {
                     question={"Add Friend"}
                     callback={(username) =>
                         client.api
-                            .put(`/users/${username as ""}/friend`)
+                            .post(`/users/friend`, { username })
                             .then(undefined)
                     }
                 />

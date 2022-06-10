@@ -3578,7 +3578,7 @@ __metadata:
     react-router-dom: ^5.2.0
     react-scroll: ^1.8.2
     react-virtuoso: ^2.12.0
-    revolt.js: 6.0.2
+    revolt.js: 6.0.3
     rimraf: ^3.0.2
     sass: ^1.35.1
     shade-blend-color: ^1.0.0
@@ -6858,20 +6858,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revolt-api@npm:0.5.3-5-patch.4":
-  version: 0.5.3-5-patch.4
-  resolution: "revolt-api@npm:0.5.3-5-patch.4"
+"revolt-api@npm:0.5.3-7":
+  version: 0.5.3-7
+  resolution: "revolt-api@npm:0.5.3-7"
   dependencies:
     "@insertish/oapi": 0.1.16
     axios: ^0.26.1
     lodash.defaultsdeep: ^4.6.1
-  checksum: 4f01c43bff96c4030d13ab0bb5dc83614445763602cfdd8b3ff1dbf61620446a22513ca259bbfc9c490f6b9b19c79d610921a252b667d25adf4040b4222d98cf
+  checksum: acc2f412d1be90f0cfa8a24ba715d8257813762c56ba0e48c649efff349674517036a8fa5939eda61ce31fd64a37f0c54af3d8fae56edf4596f05b10304e090e
   languageName: node
   linkType: hard
 
-"revolt.js@npm:6.0.2":
-  version: 6.0.2
-  resolution: "revolt.js@npm:6.0.2"
+"revolt.js@npm:6.0.3":
+  version: 6.0.3
+  resolution: "revolt.js@npm:6.0.3"
   dependencies:
     "@insertish/exponential-backoff": 3.1.0-patch.2
     "@insertish/isomorphic-ws": ^4.0.1
@@ -6882,10 +6882,10 @@ __metadata:
     lodash.isequal: ^4.5.0
     long: ^5.2.0
     mobx: ^6.3.2
-    revolt-api: 0.5.3-5-patch.4
+    revolt-api: 0.5.3-7
     ulid: ^2.3.0
     ws: ^8.2.2
-  checksum: 1b0c6ce0ceae5d20aec373f24432a5e804677c455fbc39edadaeb6ae0427a0b4fe2ea2b950df92262cd56a43e3f8759d80887b65d66111882b6ecb82e813ff38
+  checksum: cfecbde7a9b795da75bfac3cec05f2aed5fd02cd14fcac1b2fad26285de1b887cf7ccb339e8a63a019f1e83058b041305927e029d7b5eedcc00823582d9a842a
   languageName: node
   linkType: hard
 

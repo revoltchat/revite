@@ -8,7 +8,7 @@ import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
 interface Account {
-    session: API.Session;
+    session: Session;
 }
 
 export interface Data {
@@ -82,7 +82,7 @@ export default class Auth implements Store, Persistent<Data> {
      * Add a new session to the auth manager.
      * @param session Session
      */
-    @action setSession(session: API.Session) {
+    @action setSession(session: Session) {
         this.sessions.set(session.user_id, { session });
         this.current = session.user_id;
     }
