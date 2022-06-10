@@ -13,6 +13,7 @@ import { CheckAuth } from "../context/revoltjs/CheckAuth";
 import Invite from "./invite/Invite";
 
 const Login = lazy(() => import("./login/Login"));
+const ConfirmDelete = lazy(() => import("./login/ConfirmDelete"));
 const RevoltApp = lazy(() => import("./RevoltApp"));
 
 export function App() {
@@ -29,6 +30,9 @@ export function App() {
                         </Route>
                         <Route path="/login/reset/:token">
                             <Login />
+                        </Route>
+                        <Route path="/delete/:token">
+                            <ConfirmDelete />
                         </Route>
                         <Route path="/invite/:code">
                             <CheckAuth blockRender>
