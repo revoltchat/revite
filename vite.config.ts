@@ -39,7 +39,7 @@ function getGitBranch() {
 }
 
 function getVersion() {
-    return readFileSync("VERSION").toString();
+    return JSON.parse(readFileSync("package.json").toString()).version;
 }
 
 export default defineConfig({
