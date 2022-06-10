@@ -1,0 +1,16 @@
+name: Mirroring
+
+on:
+    push:
+        branches:
+            - "master"
+
+jobs:
+    to_gitlab:
+        runs-on: ubuntu-18.04
+        steps:
+            - uses: actions/checkout@v1
+            - uses: pixta-dev/repository-mirroring-action@v1
+              with:
+                  target_repo_url: git@gitlab.com:insert/revolt-vite.git
+                  ssh_private_key: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
