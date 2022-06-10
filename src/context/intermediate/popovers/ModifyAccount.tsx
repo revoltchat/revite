@@ -74,7 +74,10 @@ export function ModifyAccountModal({ onClose, field }: Props) {
             actions={[
                 {
                     confirmation: true,
-                    onClick: handleSubmit(onSubmit),
+                    onClick: async () => {
+                        await handleSubmit(onSubmit);
+                        return true;
+                    },
                     children:
                         field === "email" ? (
                             <Text id="app.special.modals.actions.send_email" />

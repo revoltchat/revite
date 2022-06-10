@@ -29,7 +29,6 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
         try {
             const { bot } = await client.bots.create({ name });
             onCreate(bot);
-            onClose();
         } catch (err) {
             setError(takeError(err));
         }
@@ -43,7 +42,10 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
                 {
                     confirmation: true,
                     palette: "accent",
-                    onClick: handleSubmit(onSubmit),
+                    onClick: async () => {
+                        await handleSubmit(onSubmit);
+                        return true;
+                    },
                     children: <Text id="app.special.modals.actions.create" />,
                 },
                 {

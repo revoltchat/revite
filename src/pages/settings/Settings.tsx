@@ -278,7 +278,7 @@ export default observer(() => {
                     </a>
                     <LineDivider />
                     <ButtonItem
-                        onClick={logout}
+                        onClick={() => logout()}
                         className={styles.logOut}
                         compact>
                         <LogOut size={20} />

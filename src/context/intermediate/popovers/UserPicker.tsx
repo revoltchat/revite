@@ -26,7 +26,7 @@ export function UserPicker(props: Props) {
             actions={[
                 {
                     children: <Text id="app.special.modals.actions.ok" />,
-                    onClick: () => props.callback(selected).then(props.onClose),
+                    onClick: () => props.callback(selected).then(() => true),
                 },
             ]}>
             <div className={styles.list}>
