@@ -138,7 +138,7 @@ export const Overview = observer(({ server }: Props) => {
                         gap: "8px",
                         alignItems: "center",
                     }}>
-                    <span style={{ flexShrink: "0", flex: `25%` }}>{i18n}</span>
+                    <span style={{ flexShrink: 0, flex: `25%` }}>{i18n}</span>
                     <ComboBox
                         value={
                             systemMessages?.[

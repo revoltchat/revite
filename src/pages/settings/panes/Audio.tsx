@@ -93,7 +93,7 @@ export function Audio() {
 
     return (
         <>
-            <div class={styles.audio}>
+            <div className={styles.audio}>
                 {!permission && (
                     <Tip palette="error">
                         <Text id="app.settings.pages.audio.tip_grant_permission" />
@@ -115,7 +115,7 @@ export function Audio() {
                         <h3>
                             <Text id="app.settings.pages.audio.input_device" />
                         </h3>
-                        <div class={styles.audioBox}>
+                        <div className={styles.audioBox}>
                             <ComboBox
                                 value={
                                     window.localStorage.getItem(

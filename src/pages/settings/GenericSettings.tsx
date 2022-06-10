@@ -14,7 +14,6 @@ import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { useApplicationState } from "../../mobx/State";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
-import { Children } from "../../types/Preact";
 
 interface Props {
     pages: {

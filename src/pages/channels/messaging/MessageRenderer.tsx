@@ -24,7 +24,6 @@ import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Message from "../../../components/common/messaging/Message";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
-import { Children } from "../../../types/Preact";
 import ConversationStart from "./ConversationStart";
 import MessageEditor from "./MessageEditor";
 

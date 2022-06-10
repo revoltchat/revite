@@ -38,8 +38,7 @@ const Inner = observer(({ invite, server, removeSelf }: InnerProps) => {
                 onClick={() => {
                     setDelete(true);
                     server.client.deleteInvite(invite._id).then(removeSelf);
-                }}
-                disabled={deleting}>
+                }}>
                 <XCircle size={24} />
             </IconButton>
         </div>

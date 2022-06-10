@@ -117,10 +117,10 @@ export default observer(() => {
                 ] as const
             ).map((key) => (
                 <div
-                    class="entry"
+                    className="entry"
                     key={key}
                     style={{ backgroundColor: theme.getVariable(key) }}>
-                    <div class="input">
+                    <div className="input">
                         <input
                             type="color"
                             value={theme.getVariable(key)}
@@ -141,9 +141,9 @@ export default observer(() => {
                         }}>
                         {key}
                     </span>
-                    <div class="override">
+                    <div className="override">
                         <div
-                            class="picker"
+                            className="picker"
                             onClick={(e) =>
                                 e.currentTarget.parentElement?.parentElement
                                     ?.querySelector("input")
@@ -153,7 +153,7 @@ export default observer(() => {
                         </div>
                         <InputBox
                             type="text"
-                            class="text"
+                            className="text"
                             value={theme.getVariable(key)}
                             onChange={(el) =>
                                 setVariable({

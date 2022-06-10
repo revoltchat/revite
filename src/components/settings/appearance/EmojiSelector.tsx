@@ -2,11 +2,12 @@ import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
-import { EmojiPack } from "../../common/Emoji";
 import mutantSVG from "./mutant_emoji.svg";
 import notoSVG from "./noto_emoji.svg";
 import openmojiSVG from "./openmoji_emoji.svg";
 import twemojiSVG from "./twemoji_emoji.svg";
+
+import { EmojiPack } from "../../common/Emoji";
 
 const Container = styled.div`
     gap: 12px;
@@ -87,10 +88,10 @@ export function EmojiSelector({ value, setValue }: Props) {
                 <Text id="app.settings.pages.appearance.emoji_pack" />
             </h3>
             <Container>
-                <div class="row">
+                <div className="row">
                     <div>
                         <div
-                            class="button"
+                            className="button"
                             onClick={() => setValue("mutant")}
                             data-active={!value || value === "mutant"}>
                             <img
@@ -112,7 +113,7 @@ export function EmojiSelector({ value, setValue }: Props) {
                     </div>
                     <div>
                         <div
-                            class="button"
+                            className="button"
                             onClick={() => setValue("twemoji")}
                             data-active={value === "twemoji"}>
                             <img
@@ -125,10 +126,10 @@ export function EmojiSelector({ value, setValue }: Props) {
                         <h4>Twemoji</h4>
                     </div>
                 </div>
-                <div class="row">
+                <div className="row">
                     <div>
                         <div
-                            class="button"
+                            className="button"
                             onClick={() => setValue("openmoji")}
                             data-active={value === "openmoji"}>
                             <img
@@ -142,7 +143,7 @@ export function EmojiSelector({ value, setValue }: Props) {
                     </div>
                     <div>
                         <div
-                            class="button"
+                            className="button"
                             onClick={() => setValue("noto")}
                             data-active={value === "noto"}>
                             <img

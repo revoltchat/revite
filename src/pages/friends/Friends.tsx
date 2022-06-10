@@ -19,7 +19,6 @@ import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
 import UserIcon from "../../components/common/user/UserIcon";
 import { PageHeader } from "../../components/ui/Header";
-import { Children } from "../../types/Preact";
 import { Friend } from "./Friend";
 
 export default observer(() => {
@@ -201,7 +200,7 @@ export default observer(() => {
                                 sticky
                                 large
                                 summary={
-                                    <div class="title">
+                                    <div className="title">
                                         <Text id={i18n} /> — {list.length}
                                     </div>
                                 }>

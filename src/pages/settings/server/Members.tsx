@@ -61,7 +61,7 @@ const Inner = observer(({ member }: InnerProps) => {
                                 title={
                                     <span
                                         style={{
-                                            color: role.colour,
+                                            color: role.colour!,
                                         }}>
                                         {role.name}
                                     </span>

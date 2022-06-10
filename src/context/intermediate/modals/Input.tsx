@@ -6,7 +6,6 @@ import { useContext, useState } from "preact/hooks";
 
 import { Category, InputBox, Modal } from "@revoltchat/ui";
 
-import { Children } from "../../../types/Preact";
 import { I18nError } from "../../Locale";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";

@@ -20,8 +20,6 @@ import { LineDivider } from "@revoltchat/ui";
 import { useApplicationState } from "../../mobx/State";
 import { NotificationState } from "../../mobx/stores/NotificationOptions";
 
-import { Children } from "../../types/Preact";
-
 interface Action {
     key: string;
     type: "channel" | "server";

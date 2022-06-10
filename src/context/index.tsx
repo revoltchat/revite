@@ -13,7 +13,6 @@ import {
 
 import { hydrateState } from "../mobx/State";
 
-import { Children } from "../types/Preact";
 import Locale from "./Locale";
 import Theme from "./Theme";
 import Intermediate from "./intermediate/Intermediate";

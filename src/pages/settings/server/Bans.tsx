@@ -38,8 +38,7 @@ const Inner = observer(({ ban, users, server, removeSelf }: InnerProps) => {
                 onClick={() => {
                     setDelete(true);
                     server.unbanUser(ban._id.user).then(removeSelf);
-                }}
-                disabled={deleting}>
+                }}>
                 <XCircle size={24} />
             </IconButton>
         </div>
@@ -100,7 +99,7 @@ export const Bans = observer(({ server }: Props) => {
                 <span>
                     <Text id="app.settings.server_pages.bans.user" />
                 </span>
-                <span class={styles.reason}>
+                <span className={styles.reason}>
                     <Text id="app.settings.server_pages.bans.reason" />
                 </span>
                 <span>

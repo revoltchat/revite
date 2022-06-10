@@ -77,9 +77,9 @@ export default observer(() => {
         <div className={styles.home}>
             <Overlay>
                 {seasonalTheme && (
-                    <div class="snowfall">
+                    <div className="snowfall">
                         {snowflakes.map((emoji, index) => (
-                            <div key={index} class="snowflake">
+                            <div key={index} className="snowflake">
                                 {emoji}
                             </div>
                         ))}

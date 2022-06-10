@@ -18,7 +18,6 @@ import { useIntermediate } from "../../context/intermediate/Intermediate";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
-import { Children } from "../../types/Preact";
 
 interface Props {
     user: User;

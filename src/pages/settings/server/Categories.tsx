@@ -292,7 +292,7 @@ export const Categories = observer(({ server }: Props) => {
                                         />
                                     ))}
                                     <KanbanList last>
-                                        <div class="inner">
+                                        <div className="inner">
                                             <KanbanListHeader
                                                 onClick={() =>
                                                     setCategories([
@@ -369,7 +369,7 @@ function ListElement({
             {(provided) => (
                 <div {...provided.draggableProps} ref={provided.innerRef}>
                     <KanbanList last={false} key={category.id}>
-                        <div class="inner">
+                        <div className="inner">
                             <Row>
                                 <KanbanListHeader {...provided.dragHandleProps}>
                                     {editing ? (
@@ -422,7 +422,7 @@ function ListElement({
                                                                 provided.innerRef
                                                             }>
                                                             <KanbanEntry>
-                                                                <div class="inner">
+                                                                <div className="inner">
                                                                     <ChannelIcon
                                                                         target={
                                                                             channel

@@ -30,7 +30,6 @@ import CMNotifications from "./contextmenu/CMNotifications";
 
 import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
-import { Children } from "../types/Preact";
 import { internalEmit } from "./eventEmitter";
 import { getRenderer } from "./renderer/Singleton";
 

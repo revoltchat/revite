@@ -2,8 +2,6 @@ import { Channel } from "revolt.js";
 
 import { Text } from "preact-i18n";
 
-import { Children } from "../../types/Preact";
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function takeError(error: any): string {
     if (error.response) {
