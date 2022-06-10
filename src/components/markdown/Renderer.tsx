@@ -48,10 +48,10 @@ export const md: MarkdownIt = MarkdownIt({
         const v = Prism.languages[lang];
         if (v) {
             const out = Prism.highlight(str, v, lang);
-            return `<pre className="code"><div className="lang"><div onclick="copycode(this)">${lang}</div></div><code className="language-${lang}">${out}</code></pre>`;
+            return `<pre class="code"><div class="lang"><div onclick="copycode(this)">${lang}</div></div><code class="language-${lang}">${out}</code></pre>`;
         }
 
-        return `<pre className="code"><code>${md.utils.escapeHtml(
+        return `<pre class="code"><code>${md.utils.escapeHtml(
             str,
         )}</code></pre>`;
     },

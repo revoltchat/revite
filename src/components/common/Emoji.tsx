@@ -73,7 +73,7 @@ export default function Emoji({
 }
 
 export function generateEmoji(emoji: string) {
-    return `<img loading="lazy" className="emoji" draggable="false" alt="${emoji}" src="${parseEmoji(
+    return `<img loading="lazy" class="emoji" draggable="false" alt="${emoji}" src="${parseEmoji(
         emoji,
     )}" />`;
 }
