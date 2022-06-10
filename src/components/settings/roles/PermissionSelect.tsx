@@ -117,12 +117,12 @@ export function PermissionSelect({
 
     return (
         <PermissionEntry disabled={disabled}>
-            <span class="title">
+            <span className="title">
                 <span>
                     <Text id={`permissions.${id}.t`}>{id}</Text>
                     {disabled && <Lock className="lock" size={14} />}
                 </span>
-                <span class="description">
+                <span className="description">
                     <Text id={`permissions.${id}.d`} />
                 </span>
             </span>

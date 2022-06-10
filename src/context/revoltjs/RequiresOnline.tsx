@@ -6,7 +6,6 @@ import { useContext } from "preact/hooks";
 
 import { Preloader } from "@revoltchat/ui";
 
-import { Children } from "../../types/Preact";
 import { ClientStatus, StatusContext } from "./RevoltClient";
 
 interface Props {

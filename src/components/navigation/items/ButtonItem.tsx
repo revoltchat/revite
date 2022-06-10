@@ -15,7 +15,6 @@ import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
-import { Children } from "../../../types/Preact";
 import ChannelIcon from "../../common/ChannelIcon";
 import Tooltip from "../../common/Tooltip";
 import UserIcon from "../../common/user/UserIcon";

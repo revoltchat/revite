@@ -112,7 +112,7 @@ export function SearchSidebar({ close }: Props) {
                         onKeyDown={(e) => e.key === "Enter" && search()}
                         onChange={(e) => setQuery(e.currentTarget.value)}
                     />
-                    <div class="sort">
+                    <div className="sort">
                         {["Latest", "Oldest", "Relevance"].map((key) => (
                             <Button
                                 key={key}
@@ -127,7 +127,7 @@ export function SearchSidebar({ close }: Props) {
                     </div>
                     {state.type === "loading" && <Preloader type="ring" />}
                     {state.type === "results" && (
-                        <div class="list">
+                        <div className="list">
                             {state.results.map((message) => {
                                 let href = "";
                                 if (channel?.channel_type === "TextChannel") {
@@ -138,7 +138,7 @@ export function SearchSidebar({ close }: Props) {
 
                                 return (
                                     <Link to={href} key={message._id}>
-                                        <div class="message">
+                                        <div className="message">
                                             <Message
                                                 message={message}
                                                 head

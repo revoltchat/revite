@@ -14,7 +14,6 @@ import { TextReact } from "../../../lib/i18n";
 
 import Message from "../../../components/common/messaging/Message";
 import UserIcon from "../../../components/common/user/UserIcon";
-import { Children } from "../../../types/Preact";
 import { I18nError } from "../../Locale";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";

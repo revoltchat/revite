@@ -12,7 +12,6 @@ import { determineLink } from "../../lib/links";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { Children } from "../../types/Preact";
 import Modals from "./Modals";
 
 export type Screen =

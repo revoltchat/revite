@@ -31,7 +31,7 @@ export default function UpdateIndicator({ style }: Props) {
 
     if (style === "titlebar") {
         return (
-            <div class="actions">
+            <div className="actions">
                 <Tooltip
                     content="A new update is available!"
                     placement="bottom">

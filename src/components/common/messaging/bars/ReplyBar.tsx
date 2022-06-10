@@ -152,11 +152,11 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                 return (
                     <Base key={reply.id}>
                         <ReplyBase preview>
-                            <div class="replyto">
+                            <div className="replyto">
                                 <Text id="app.main.channel.reply.replying" />
                             </div>
-                            <div class="content">
-                                <div class="username">
+                            <div className="content">
+                                <div className="username">
                                     <UserShort
                                         size={16}
                                         showServerIdentity
@@ -164,7 +164,7 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                         masquerade={message.masquerade!}
                                     />
                                 </div>
-                                <div class="message">
+                                <div className="message">
                                     {message.attachments && (
                                         <>
                                             <File size={16} />
@@ -196,7 +196,7 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                 </div>
                             </div>
                         </ReplyBase>
-                        <span class="actions">
+                        <span className="actions">
                             {message.author_id !== client.user!._id && (
                                 <IconButton
                                     onClick={() => {
@@ -225,7 +225,7 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                         content={
                                             <Text id="app.main.channel.reply.toggle" />
                                         }>
-                                        <span class="toggle">
+                                        <span className="toggle">
                                             <At size={15} />
                                             <Text
                                                 id={

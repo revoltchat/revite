@@ -4,8 +4,6 @@ import { Details } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { Children } from "../../types/Preact";
-
 interface Props {
     id: string;
     defaultValue: boolean;
@@ -34,7 +32,7 @@ export default function CollapsibleSection({
             }
             {...detailsProps}>
             <summary>
-                <div class="padding">
+                <div className="padding">
                     <ChevronDown size={20} />
                     {summary}
                 </div>

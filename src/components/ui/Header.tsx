@@ -14,8 +14,6 @@ import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { useApplicationState } from "../../mobx/State";
 import { SIDEBAR_CHANNELS } from "../../mobx/stores/Layout";
 
-import { Children } from "../../types/Preact";
-
 interface Props {
     topBorder?: boolean;
     bottomBorder?: boolean;

@@ -11,8 +11,6 @@ import { Button, Checkbox } from "@revoltchat/ui";
 import { useApplicationState } from "../../mobx/State";
 import { SECTION_NSFW } from "../../mobx/stores/Layout";
 
-import { Children } from "../../types/Preact";
-
 const Base = styled.div`
     display: flex;
     flex-grow: 1;

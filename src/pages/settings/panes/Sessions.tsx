@@ -171,7 +171,7 @@ export function Sessions() {
                                         type="text"
                                         className={styles.name}
                                         value={session.name}
-                                        autocomplete="off"
+                                        autoComplete="off"
                                         style={{ pointerEvents: "none" }}
                                     />
                                     <span className={styles.time}>
