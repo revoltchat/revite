@@ -168,10 +168,11 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                             break;
                                     }
 
-                                    onClose();
+                                    return true;
                                 } catch (err) {
                                     setError(takeError(err));
                                     setProcessing(false);
+                                    return false;
                                 }
                             },
                         },
@@ -210,10 +211,11 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
 
                                 try {
                                     props.target.delete();
-                                    onClose();
+                                    return true;
                                 } catch (err) {
                                     setError(takeError(err));
                                     setProcessing(false);
+                                    return false;
                                 }
                             },
                         },
@@ -316,10 +318,11 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                         })
                                         ?.kick();
 
-                                    onClose();
+                                    return true;
                                 } catch (err) {
                                     setError(takeError(err));
                                     setProcessing(false);
+                                    return false;
                                 }
                             },
                         },
@@ -366,10 +369,12 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                     await props.target.banUser(props.user._id, {
                                         reason,
                                     });
-                                    onClose();
+
+                                    return true;
                                 } catch (err) {
                                     setError(takeError(err));
                                     setProcessing(false);
+                                    return false;
                                 }
                             },
                         },
@@ -438,10 +443,11 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                         );
                                     }
 
-                                    onClose();
+                                    return true;
                                 } catch (err) {
                                     setError(takeError(err));
                                     setProcessing(false);
+                                    return false;
                                 }
                             },
                         },
@@ -512,11 +518,13 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                                             },
                                         ],
                                     });
-                                    onClose();
+
                                     setProcessing(false);
+                                    return true;
                                 } catch (err) {
                                     setError(takeError(err));
                                     setProcessing(false);
+                                    return false;
                                 }
                             },
                         },
