@@ -42,10 +42,13 @@ export default observer(({ children }: Props) => {
     const [status, setStatus] = useState(ClientStatus.LOADING);
     const [loaded, setLoaded] = useState(false);
 
-    const logout = useCallback((avoidReq?: boolean) => {
-        setLoaded(false);
-        client.logout(avoidReq);
-    }, []);
+    const logout = useCallback(
+        (avoidReq?: boolean) => {
+            setLoaded(false);
+            client.logout(avoidReq);
+        },
+        [client],
+    );
 
     useEffect(() => {
         if (navigator.onLine) {

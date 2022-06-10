@@ -16,6 +16,7 @@ import { hydrateState } from "../mobx/State";
 import Locale from "./Locale";
 import Theme from "./Theme";
 import Intermediate from "./intermediate/Intermediate";
+import ModalRenderer from "./modals/ModalRenderer";
 import Client from "./revoltjs/RevoltClient";
 import SyncManager from "./revoltjs/SyncManager";
 
@@ -44,6 +45,7 @@ export default function Context({ children }: { children: Children }) {
                                     <SyncManager />
                                 </Client>
                             </Intermediate>
+                            <ModalRenderer />
                         </Locale>
                     </TrigProvider>
                 </TextProvider>

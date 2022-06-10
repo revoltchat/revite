@@ -13,8 +13,6 @@ The following code is pending a partial or full rewrite:
 -   `src/context/intermediate`: modal system is being rewritten from scratch
 -   `src/context/revoltjs`: client state management needs to be rewritten and include support for concurrent clients
 -   `src/lib`: this needs to be organised
--   `src/*.ts(x)`: half of these files should be moved
--   `src/*.d.ts`: should be in dedicated types folder
 
 ## Stack
 

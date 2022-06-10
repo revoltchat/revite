@@ -19,6 +19,7 @@ import { Button, CategoryButton, LineDivider, Tip } from "@revoltchat/ui";
 import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { modalController } from "../../../context/modals";
 import {
     ClientStatus,
     LogOutContext,
@@ -210,13 +211,19 @@ export const Account = observer(() => {
                 }
                 action="chevron"
                 onClick={() =>
-                    client.api
-                        .post("/auth/account/disable", undefined, {
-                            headers: {
-                                "X-MFA-Ticket": "TICKET",
-                            },
-                        })
-                        .then(() => logOut(true))
+                    modalController.push({
+                        type: "mfa_flow",
+                        state: "known",
+                        client,
+                        callback: ({ token }) =>
+                            client.api
+                                .post("/auth/account/disable", undefined, {
+                                    headers: {
+                                        "X-MFA-Ticket": token,
+                                    },
+                                })
+                                .then(() => logOut(true)),
+                    })
                 }>
                 <Text id="app.settings.pages.account.manage.disable" />
             </CategoryButton>
@@ -227,13 +234,19 @@ export const Account = observer(() => {
                 }
                 action="chevron"
                 onClick={() =>
-                    client.api
-                        .post("/auth/account/delete", undefined, {
-                            headers: {
-                                "X-MFA-Ticket": "TICKET",
-                            },
-                        })
-                        .then(() => logOut(true))
+                    modalController.push({
+                        type: "mfa_flow",
+                        state: "known",
+                        client,
+                        callback: ({ token }) =>
+                            client.api
+                                .post("/auth/account/delete", undefined, {
+                                    headers: {
+                                        "X-MFA-Ticket": token,
+                                    },
+                                })
+                                .then(() => logOut(true)),
+                    })
                 }>
                 <Text id="app.settings.pages.account.manage.delete" />
             </CategoryButton>
