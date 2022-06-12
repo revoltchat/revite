@@ -5,7 +5,7 @@ import { API } from "revolt.js";
 import { Text } from "preact-i18n";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
-import { CategoryButton, Column, Preloader } from "@revoltchat/ui";
+import { CategoryButton, Tip } from "@revoltchat/ui";
 
 import { modalController } from "../../../context/modals";
 import {
@@ -47,21 +47,29 @@ export default function MultiFactorAuthentication() {
 
     // Action called when recovery code button is pressed
     const recoveryAction = useCallback(async () => {
-        const { token } = await modalController.mfaFlow(client);
+        // Perform MFA flow first
+        const ticket = await modalController.mfaFlow(client);
+
+        // Check whether action was cancelled
+        if (typeof ticket === "undefined") {
+            return;
+        }
 
         // Decide whether to generate or fetch.
         let codes;
         if (mfa!.recovery_active) {
+            // Fetch existing recovery codes
             codes = await client.api.post(
                 "/auth/mfa/recovery",
                 undefined,
-                toConfig(token),
+                toConfig(ticket.token),
             );
         } else {
+            // Generate new recovery codes
             codes = await client.api.patch(
                 "/auth/mfa/recovery",
                 undefined,
-                toConfig(token),
+                toConfig(ticket.token),
             );
 
             setMFA({
@@ -77,6 +85,70 @@ export default function MultiFactorAuthentication() {
             codes,
         });
     }, [mfa]);
+
+    // Action called when TOTP button is pressed
+    const totpAction = useCallback(async () => {
+        // Perform MFA flow first
+        const ticket = await modalController.mfaFlow(client);
+
+        // Check whether action was cancelled
+        if (typeof ticket === "undefined") {
+            return;
+        }
+
+        // Decide whether to disable or enable.
+        if (mfa!.totp_mfa) {
+            // Disable TOTP authentication
+            await client.api.delete("/auth/mfa/totp", toConfig(ticket.token));
+
+            setMFA({
+                ...mfa!,
+                totp_mfa: false,
+            });
+        } else {
+            // Generate a TOTP secret
+            const { secret } = await client.api.post(
+                "/auth/mfa/totp",
+                undefined,
+                toConfig(ticket.token),
+            );
+
+            // Open secret modal
+            let success;
+            while (!success) {
+                try {
+                    // Make the user generator a token
+                    const totp_code = await modalController.mfaEnableTOTP(
+                        secret,
+                        client.user!.username,
+                    );
+
+                    if (totp_code) {
+                        // Check whether it is valid
+                        await client.api.put(
+                            "/auth/mfa/totp",
+                            {
+                                totp_code,
+                            },
+                            toConfig(ticket.token),
+                        );
+
+                        // Mark as successful and activated
+                        success = true;
+
+                        setMFA({
+                            ...mfa!,
+                            totp_mfa: true,
+                        });
+                    } else {
+                        break;
+                    }
+                } catch (err) {}
+            }
+        }
+    }, [mfa]);
+
+    const mfaActive = !!mfa?.totp_mfa;
 
     return (
         <>
@@ -97,26 +169,29 @@ export default function MultiFactorAuthentication() {
                 disabled={!mfa}
                 onClick={recoveryAction}>
                 {mfa?.recovery_active
-                    ? "View backup codes"
-                    : "Generate recovery codes"}
+                    ? "View Backup Codes"
+                    : "Generate Recovery Codes"}
+            </CategoryButton>
+            <CategoryButton
+                icon={
+                    <Lock
+                        size={24}
+                        color={!mfa?.totp_mfa ? "var(--error)" : undefined}
+                    />
+                }
+                description={"Set up time-based one-time password."}
+                disabled={!mfa || (!mfa.recovery_active && !mfa.totp_mfa)}
+                onClick={totpAction}>
+                {mfa?.totp_mfa ? "Disable" : "Enable"} Authenticator App
             </CategoryButton>
 
-            {JSON.stringify(mfa, undefined, 4)}
+            {mfa && (
+                <Tip palette={mfaActive ? "primary" : "error"}>
+                    {mfaActive
+                        ? "Two-factor authentication is currently on!"
+                        : "Two-factor authentication is currently off!"}
+                </Tip>
+            )}
         </>
     );
 }
-
-/*<CategoryButton
-    icon={<Lock size={24} color="var(--error)" />}
-    description={"Set up 2FA on your account."}
-    disabled
-    action={<Text id="general.unavailable" />}>
-    Set up Two-factor authentication
-</CategoryButton>*/
-/*<CategoryButton
-    icon={<ListOl size={24} />}
-    description={"View and download your 2FA backup codes."}
-    disabled
-    action="chevron">
-    View my backup codes
-</CategoryButton>*/

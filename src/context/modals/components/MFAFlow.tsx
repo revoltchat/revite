@@ -18,8 +18,6 @@ import {
     Preloader,
 } from "@revoltchat/ui";
 
-import { noopTrue } from "../../../lib/js";
-
 import { ModalProps } from "../types";
 
 /**
@@ -55,6 +53,24 @@ function ResponseEntry({
                     value={(value as { password: string })?.password}
                     onChange={(e) =>
                         onChange({ password: e.currentTarget.value })
+                    }
+                />
+            )}
+
+            {type === "Totp" && (
+                <InputBox
+                    value={(value as { totp_code: string })?.totp_code}
+                    onChange={(e) =>
+                        onChange({ totp_code: e.currentTarget.value })
+                    }
+                />
+            )}
+
+            {type === "Recovery" && (
+                <InputBox
+                    value={(value as { recovery_code: string })?.recovery_code}
+                    onChange={(e) =>
+                        onChange({ recovery_code: e.currentTarget.value })
                     }
                 />
             )}
@@ -129,21 +145,31 @@ export default function MFAFlow({ onClose, ...props }: ModalProps<"mfa_flow">) {
                               palette: "plain",
                               children:
                                   methods!.length === 1 ? "Cancel" : "Back",
-                              onClick: () =>
-                                  methods!.length === 1
-                                      ? true
-                                      : void setSelected(undefined),
+                              onClick: () => {
+                                  if (methods!.length === 1) {
+                                      props.callback();
+                                      return true;
+                                  } else {
+                                      setSelected(undefined);
+                                  }
+                              },
                           },
                       ]
                     : [
                           {
                               palette: "plain",
                               children: "Cancel",
-                              onClick: noopTrue,
+                              onClick: () => {
+                                  props.callback();
+                                  return true;
+                              },
                           },
                       ]
             }
-            onClose={onClose}>
+            onClose={() => {
+                props.callback();
+                onClose();
+            }}>
             {methods ? (
                 selectedMethod ? (
                     <ResponseEntry
@@ -160,7 +186,7 @@ export default function MFAFlow({ onClose, ...props }: ModalProps<"mfa_flow">) {
                                 action="chevron"
                                 icon={<Icon size={24} />}
                                 onClick={() => setSelected(method)}>
-                                {method}
+                                <Text id={`login.${method.toLowerCase()}`} />
                             </CategoryButton>
                         );
                     })
