@@ -17,6 +17,7 @@ export type Modal = {
                 callback: (response: API.MFAResponse) => void;
             }
       ))
+    | { type: "mfa_recovery"; codes: string[]; client: Client }
     | {
           type: "test";
       }
