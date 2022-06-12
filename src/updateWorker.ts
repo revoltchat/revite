@@ -41,7 +41,7 @@ async function checkVersion() {
         (res) => res.json(),
     )) as { version: string };
 
-    if (!semver.satisfies(APP_VERSION, version)) {
+    if (!semver.satisfies(APP_VERSION, version) && APP_VERSION !== version) {
         // Let the worker know we should immediately refresh
         forceUpdate = true;
 
