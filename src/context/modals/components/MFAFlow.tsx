@@ -22,12 +22,18 @@ import { noopTrue } from "../../../lib/js";
 
 import { ModalProps } from "../types";
 
+/**
+ * Mapping of MFA methods to icons
+ */
 const ICONS: Record<API.MFAMethod, React.FC<any>> = {
     Password: Keyboard,
     Totp: Key,
     Recovery: Archive,
 };
 
+/**
+ * Component for handling challenge entry
+ */
 function ResponseEntry({
     type,
     value,
