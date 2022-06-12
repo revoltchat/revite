@@ -137,6 +137,7 @@
         "preact-i18n": "^2.4.0-preactx",
         "prettier": "^2.3.1",
         "prismjs": "^1.23.0",
+        "qrcode.react": "^3.0.2",
         "react-beautiful-dnd": "^13.1.0",
         "react-device-detect": "2.2.2",
         "react-helmet": "^6.1.0",

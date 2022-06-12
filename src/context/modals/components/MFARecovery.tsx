@@ -37,13 +37,17 @@ export default function MFARecovery({
 
     // Subroutine to reset recovery codes
     const reset = useCallback(async () => {
-        const { token } = await modalController.mfaFlow(client);
-        const codes = await client.api.patch(
-            "/auth/mfa/recovery",
-            undefined,
-            toConfig(token),
-        );
-        setCodes(codes);
+        const ticket = await modalController.mfaFlow(client);
+        if (ticket) {
+            const codes = await client.api.patch(
+                "/auth/mfa/recovery",
+                undefined,
+                toConfig(ticket.token),
+            );
+
+            setCodes(codes);
+        }
+
         return false;
     }, []);
 

@@ -8,6 +8,7 @@ import {
 import type { Client, API } from "revolt.js";
 import { ulid } from "ulid";
 
+import MFAEnableTOTP from "./components/MFAEnableTOTP";
 import MFAFlow from "./components/MFAFlow";
 import MFARecovery from "./components/MFARecovery";
 import Test from "./components/Test";
@@ -85,11 +86,29 @@ class ModalControllerExtended extends ModalController<Modal> {
     mfaFlow(client: Client) {
         return runInAction(
             () =>
-                new Promise((callback: (ticket: API.MFATicket) => void) =>
+                new Promise((callback: (ticket?: API.MFATicket) => void) =>
                     this.push({
                         type: "mfa_flow",
                         state: "known",
                         client,
+                        callback,
+                    }),
+                ),
+        );
+    }
+
+    /**
+     * Open TOTP secret modal
+     * @param client Client
+     */
+    mfaEnableTOTP(secret: string, identifier: string) {
+        return runInAction(
+            () =>
+                new Promise((callback: (value?: string) => void) =>
+                    this.push({
+                        type: "mfa_enable_totp",
+                        identifier,
+                        secret,
                         callback,
                     }),
                 ),
@@ -100,5 +119,6 @@ class ModalControllerExtended extends ModalController<Modal> {
 export const modalController = new ModalControllerExtended({
     mfa_flow: MFAFlow,
     mfa_recovery: MFARecovery,
+    mfa_enable_totp: MFAEnableTOTP,
     test: Test,
 });

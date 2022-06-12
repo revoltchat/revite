@@ -17,14 +17,16 @@ export default function AccountManagement() {
     const client = useClient();
 
     const callback = (route: "disable" | "delete") => () =>
-        modalController.mfaFlow(client).then(({ token }) =>
-            client.api
-                .post(`/auth/account/${route}`, undefined, {
-                    headers: {
-                        "X-MFA-Ticket": token,
-                    },
-                })
-                .then(() => logOut(true)),
+        modalController.mfaFlow(client).then(
+            (ticket) =>
+                ticket &&
+                client.api
+                    .post(`/auth/account/${route}`, undefined, {
+                        headers: {
+                            "X-MFA-Ticket": ticket.token,
+                        },
+                    })
+                    .then(() => logOut(true)),
         );
 
     return (

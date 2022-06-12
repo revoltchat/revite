@@ -52,15 +52,19 @@ export function FormLogin() {
 
                 if (session.result === "MFA") {
                     const { allowed_methods } = session;
-                    let mfa_response: API.MFAResponse = await new Promise(
-                        (callback) =>
+                    let mfa_response: API.MFAResponse | undefined =
+                        await new Promise((callback) =>
                             modalController.push({
                                 type: "mfa_flow",
                                 state: "unknown",
                                 available_methods: allowed_methods,
                                 callback,
                             }),
-                    );
+                        );
+
+                    if (typeof mfa_response === "undefined") {
+                        throw "Cancelled";
+                    }
 
                     session = await client.api.post("/auth/session/login", {
                         mfa_response,

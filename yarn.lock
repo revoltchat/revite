@@ -3569,6 +3569,7 @@ __metadata:
     preact-i18n: ^2.4.0-preactx
     prettier: ^2.3.1
     prismjs: ^1.23.0
+    qrcode.react: ^3.0.2
     react-beautiful-dnd: ^13.1.0
     react-device-detect: 2.2.2
     react-helmet: ^6.1.0
@@ -6470,6 +6471,15 @@ __metadata:
   version: 2.1.1
   resolution: "punycode@npm:2.1.1"
   checksum: 823bf443c6dd14f669984dea25757b37993f67e8d94698996064035edd43bed8a5a17a9f12e439c2b35df1078c6bec05a6c86e336209eb1061e8025c481168e8
+  languageName: node
+  linkType: hard
+
+"qrcode.react@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "qrcode.react@npm:3.0.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 4102e9f416d86808728b93dca4e90cab0b2d3eca2bfe501a26ca62237062ded2121711cfc4edf64832c63e04d34956e26c2e7088023949f9328bbaa56004777d
   languageName: node
   linkType: hard
 
