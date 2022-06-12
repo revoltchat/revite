@@ -222,20 +222,12 @@ export const Form = observer(({ page, callback }: Props) => {
                 </Button>
             </form>
             {page === "create" && (
-                <>
-                    <span className={styles.create}>
-                        <Text id="login.existing" />{" "}
-                        <Link to="/login">
-                            <Text id="login.title" />
-                        </Link>
-                    </span>
-                    <span className={styles.create}>
-                        <Text id="login.missing_verification" />{" "}
-                        <Link to="/login/resend">
-                            <Text id="login.resend" />
-                        </Link>
-                    </span>
-                </>
+                <span className={styles.create}>
+                    <Text id="login.existing" />{" "}
+                    <Link to="/login">
+                        <Text id="login.title" />
+                    </Link>
+                </span>
             )}
             {page === "login" && (
                 <>
@@ -249,6 +241,12 @@ export const Form = observer(({ page, callback }: Props) => {
                         <Text id="login.forgot" />{" "}
                         <Link to="/login/reset">
                             <Text id="login.reset" />
+                        </Link>
+                    </span>
+                    <span className={styles.create}>
+                        <Text id="login.missing_verification" />{" "}
+                        <Link to="/login/resend">
+                            <Text id="login.resend" />
                         </Link>
                     </span>
                     {import.meta.env.VITE_API_URL &&
