@@ -73,7 +73,7 @@
         "@hcaptcha/react-hcaptcha": "^0.3.6",
         "@insertish/vite-plugin-babel-macros": "^1.0.5",
         "@preact/preset-vite": "^2.0.0",
-        "@revoltchat/ui": "1.0.39",
+        "@revoltchat/ui": "1.0.40",
         "@rollup/plugin-replace": "^2.4.2",
         "@styled-icons/boxicons-logos": "^10.38.0",
         "@styled-icons/boxicons-regular": "^10.38.0",
@@ -149,8 +149,5 @@
     "repository": "https://github.com/revoltchat/revite.git",
     "author": "Paul <paulmakles@gmail.com>",
     "license": "MIT",
-    "packageManager": "yarn@3.2.0",
-    "resolutions": {
-        "@revoltchat/ui": "portal:../components"
-    }
+    "packageManager": "yarn@3.2.0"
 }
