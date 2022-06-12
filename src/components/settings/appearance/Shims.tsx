@@ -14,9 +14,9 @@ import {
     Radio,
 } from "@revoltchat/ui";
 
-import TextAreaAutoSize from "../../lib/TextAreaAutoSize";
+import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
-import { useApplicationState } from "../../mobx/State";
+import { useApplicationState } from "../../../mobx/State";
 
 import {
     Fonts,
@@ -25,15 +25,15 @@ import {
     MonospaceFonts,
     MONOSPACE_FONTS,
     MONOSPACE_FONT_KEYS,
-} from "../../context/Theme";
+} from "../../../context/Theme";
 
-import { EmojiSelector } from "./appearance/EmojiSelector";
-import { ThemeBaseSelector } from "./appearance/ThemeBaseSelector";
+import { EmojiSelector } from "./EmojiSelector";
+import { ThemeBaseSelector } from "./ThemeBaseSelector";
 
 /**
  * Component providing a way to switch the base theme being used.
  */
-export const ThemeBaseSelectorShim = observer(() => {
+export const ShimThemeBaseSelector = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
         <ThemeBaseSelector
@@ -49,9 +49,8 @@ export const ThemeBaseSelectorShim = observer(() => {
 /**
  * Component providing a link to the theme shop.
  * Only appears if experiment is enabled.
- * TODO: stabilise
  */
-export const ThemeShopShim = () => {
+export const ShimThemeShop = () => {
     return (
         <Link to="/discover/themes" replace>
             <CategoryButton
@@ -69,7 +68,7 @@ export const ThemeShopShim = () => {
 /**
  * Component providing a way to change current accent colour.
  */
-export const ThemeAccentShim = observer(() => {
+export const ShimThemeAccent = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
         <>
@@ -90,7 +89,7 @@ export const ThemeAccentShim = observer(() => {
 /**
  * Component providing a way to edit custom CSS.
  */
-export const ThemeCustomCSSShim = observer(() => {
+export const ShimThemeCustomCSS = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
         <>
@@ -111,7 +110,7 @@ export const ThemeCustomCSSShim = observer(() => {
 /**
  * Component providing a way to switch between compact and normal message view.
  */
-export const DisplayCompactShim = () => {
+export const ShimDisplayCompact = () => {
     // TODO: WIP feature
     return (
         <>
@@ -146,7 +145,7 @@ export const DisplayCompactShim = () => {
 /**
  * Component providing a way to change primary text font.
  */
-export const DisplayFontShim = observer(() => {
+export const ShimDisplayFont = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
         <>
@@ -169,7 +168,7 @@ export const DisplayFontShim = observer(() => {
 /**
  * Component providing a way to change secondary, monospace text font.
  */
-export const DisplayMonospaceFontShim = observer(() => {
+export const ShimDisplayMonospaceFont = observer(() => {
     const theme = useApplicationState().settings.theme;
     return (
         <>
@@ -199,7 +198,7 @@ export const DisplayMonospaceFontShim = observer(() => {
 /**
  * Component providing a way to toggle font ligatures.
  */
-export const DisplayLigaturesShim = observer(() => {
+export const ShimDisplayLigatures = observer(() => {
     const settings = useApplicationState().settings;
     if (settings.theme.getFont() !== "Inter") return null;
 
@@ -220,7 +219,7 @@ export const DisplayLigaturesShim = observer(() => {
 /**
  * Component providing a way to toggle showing the send button on desktop.
  */
-export const ShowSendButtonShim = observer(() => {
+export const ShimShowSendButton = observer(() => {
     const settings = useApplicationState().settings;
 
     return (
@@ -240,7 +239,7 @@ export const ShowSendButtonShim = observer(() => {
 /**
  * Component providing a way to toggle seasonal themes.
  */
-export const DisplaySeasonalShim = observer(() => {
+export const ShimDisplaySeasonal = observer(() => {
     const settings = useApplicationState().settings;
 
     return (
@@ -260,7 +259,7 @@ export const DisplaySeasonalShim = observer(() => {
 /**
  * Component providing a way to toggle transparency effects.
  */
-export const DisplayTransparencyShim = observer(() => {
+export const ShimDisplayTransparency = observer(() => {
     const settings = useApplicationState().settings;
 
     return (
@@ -280,7 +279,7 @@ export const DisplayTransparencyShim = observer(() => {
 /**
  * Component providing a way to change emoji pack.
  */
-export const DisplayEmojiShim = observer(() => {
+export const ShimDisplayEmoji = observer(() => {
     const settings = useApplicationState().settings;
     return (
         <EmojiSelector
