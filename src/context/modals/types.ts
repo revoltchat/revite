@@ -29,6 +29,10 @@ export type Modal = {
           version: string;
       }
     | {
+          type: "changelog";
+          initial?: number;
+      }
+    | {
           type: "test";
       }
 );
