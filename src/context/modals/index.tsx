@@ -11,6 +11,7 @@ import { ulid } from "ulid";
 import MFAEnableTOTP from "./components/MFAEnableTOTP";
 import MFAFlow from "./components/MFAFlow";
 import MFARecovery from "./components/MFARecovery";
+import OutOfDate from "./components/OutOfDate";
 import Test from "./components/Test";
 import { Modal } from "./types";
 
@@ -120,5 +121,6 @@ export const modalController = new ModalControllerExtended({
     mfa_flow: MFAFlow,
     mfa_recovery: MFARecovery,
     mfa_enable_totp: MFAEnableTOTP,
+    out_of_date: OutOfDate,
     test: Test,
 });
