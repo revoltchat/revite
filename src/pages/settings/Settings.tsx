@@ -35,6 +35,7 @@ import { LineDivider } from "@revoltchat/ui";
 import { useApplicationState } from "../../mobx/State";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
+import { modalController } from "../../context/modals";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import { AppContext, LogOutContext } from "../../context/revoltjs/RevoltClient";
 
@@ -259,9 +260,13 @@ export default observer(() => {
             category="pages"
             custom={
                 <>
-                    <ButtonItem compact>
+                    <ButtonItem
+                        compact
+                        onClick={() =>
+                            modalController.push({ type: "changelog" })
+                        }>
                         <ListUl size={20} />
-                        <Text id="app.settings.pages.changelog" />
+                        <Text id="app.special.modals.changelogs.title" />
                     </ButtonItem>
                     <a
                         href="https://github.com/revoltchat"
@@ -281,7 +286,7 @@ export default observer(() => {
                             <Text id="app.settings.pages.donate.title" />
                         </ButtonItem>
                     </a>
-                    <LineDivider />
+                    <LineDivider compact />
                     <ButtonItem
                         onClick={() => logout()}
                         className={styles.logOut}
