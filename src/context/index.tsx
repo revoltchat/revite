@@ -4,12 +4,7 @@ import { ContextMenuTrigger } from "preact-context-menu";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import {
-    LinkProvider,
-    Preloader,
-    TextProvider,
-    TrigProvider,
-} from "@revoltchat/ui";
+import { Preloader, UIProvider } from "@revoltchat/ui";
 
 import { hydrateState } from "../mobx/State";
 
@@ -19,6 +14,13 @@ import Intermediate from "./intermediate/Intermediate";
 import ModalRenderer from "./modals/ModalRenderer";
 import Client from "./revoltjs/RevoltClient";
 import SyncManager from "./revoltjs/SyncManager";
+
+const uiContext = {
+    Link,
+    Text: Text as any,
+    Trigger: ContextMenuTrigger,
+    emitAction: () => {},
+};
 
 /**
  * This component provides all of the application's context layers.
@@ -35,21 +37,17 @@ export default function Context({ children }: { children: Children }) {
 
     return (
         <Router basename={import.meta.env.BASE_URL}>
-            <LinkProvider value={Link}>
-                <TextProvider value={Text as any}>
-                    <TrigProvider value={ContextMenuTrigger}>
-                        <Locale>
-                            <Intermediate>
-                                <Client>
-                                    {children}
-                                    <SyncManager />
-                                </Client>
-                            </Intermediate>
-                            <ModalRenderer />
-                        </Locale>
-                    </TrigProvider>
-                </TextProvider>
-            </LinkProvider>
+            <UIProvider value={uiContext}>
+                <Locale>
+                    <Intermediate>
+                        <Client>
+                            {children}
+                            <SyncManager />
+                        </Client>
+                    </Intermediate>
+                    <ModalRenderer />
+                </Locale>
+            </UIProvider>
             <Theme />
         </Router>
     );
