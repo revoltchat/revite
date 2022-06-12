@@ -126,39 +126,51 @@ export default function MFAFlow({ onClose, ...props }: ModalProps<"mfa_flow">) {
 
     return (
         <Modal
-            title="Confirm action."
+            title={<Text id="app.special.modals.confirm" />}
             description={
-                selectedMethod
-                    ? "Please confirm using selected method."
-                    : "Please select a method to authenticate your request."
+                <Text
+                    id={`app.special.modals.mfa.${
+                        selectedMethod ? "confirm" : "select_method"
+                    }`}
+                />
             }
             actions={
                 selectedMethod
                     ? [
                           {
                               palette: "primary",
-                              children: "Confirm",
+                              children: (
+                                  <Text id="app.special.modals.actions.confirm" />
+                              ),
                               onClick: generateTicket,
                               confirmation: true,
                           },
                           {
                               palette: "plain",
-                              children:
-                                  methods!.length === 1 ? "Cancel" : "Back",
+                              children: (
+                                  <Text
+                                      id={`app.special.modals.actions.${
+                                          methods!.length === 1
+                                              ? "cancel"
+                                              : "back"
+                                      }`}
+                                  />
+                              ),
                               onClick: () => {
                                   if (methods!.length === 1) {
                                       props.callback();
                                       return true;
-                                  } 
-                                      setSelected(undefined);
-                                  
+                                  }
+                                  setSelected(undefined);
                               },
                           },
                       ]
                     : [
                           {
                               palette: "plain",
-                              children: "Cancel",
+                              children: (
+                                  <Text id="app.special.modals.actions.cancel" />
+                              ),
                               onClick: () => {
                                   props.callback();
                                   return true;

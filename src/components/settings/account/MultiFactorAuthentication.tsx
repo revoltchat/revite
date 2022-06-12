@@ -173,15 +173,23 @@ export default function MultiFactorAuthentication() {
             <CategoryButton
                 icon={<ListOl size={24} />}
                 description={
-                    mfa?.recovery_active
-                        ? "View and download your 2FA backup codes."
-                        : "Get ready to use 2FA by setting up a recovery method."
+                    <Text
+                        id={`app.settings.pages.account.2fa.${
+                            mfa?.recovery_active
+                                ? "view_recovery"
+                                : "generate_recovery"
+                        }_long`}
+                    />
                 }
                 disabled={!mfa}
                 onClick={recoveryAction}>
-                {mfa?.recovery_active
-                    ? "View Backup Codes"
-                    : "Generate Recovery Codes"}
+                <Text
+                    id={`app.settings.pages.account.2fa.${
+                        mfa?.recovery_active
+                            ? "view_recovery"
+                            : "generate_recovery"
+                    }`}
+                />
             </CategoryButton>
             <CategoryButton
                 icon={
@@ -193,14 +201,20 @@ export default function MultiFactorAuthentication() {
                 description={"Set up time-based one-time password."}
                 disabled={!mfa || (!mfa.recovery_active && !mfa.totp_mfa)}
                 onClick={totpAction}>
-                {mfa?.totp_mfa ? "Disable" : "Enable"} Authenticator App
+                <Text
+                    id={`app.settings.pages.account.2fa.${
+                        mfa?.totp_mfa ? "remove" : "add"
+                    }_auth`}
+                />
             </CategoryButton>
 
             {mfa && (
                 <Tip palette={mfaActive ? "primary" : "error"}>
-                    {mfaActive
-                        ? "Two-factor authentication is currently on!"
-                        : "Two-factor authentication is currently off!"}
+                    <Text
+                        id={`app.settings.pages.account.2fa.two_factor_${
+                            mfaActive ? "on" : "off"
+                        }`}
+                    />
                 </Tip>
             )}
         </>
