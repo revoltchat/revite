@@ -5,7 +5,7 @@ import { API } from "revolt.js";
 import { Text } from "preact-i18n";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
-import { CategoryButton, Tip } from "@revoltchat/ui";
+import { Category, CategoryButton, Error, Tip } from "@revoltchat/ui";
 
 import { modalController } from "../../../context/modals";
 import {
@@ -13,6 +13,7 @@ import {
     StatusContext,
     useClient,
 } from "../../../context/revoltjs/RevoltClient";
+import { takeError } from "../../../context/revoltjs/util";
 
 /**
  * Temporary helper function for Axios config
@@ -37,11 +38,15 @@ export default function MultiFactorAuthentication() {
 
     // Keep track of MFA state
     const [mfa, setMFA] = useState<API.MultiFactorStatus>();
+    const [error, setError] = useState<string>();
 
     // Fetch the current MFA status on account
     useEffect(() => {
         if (!mfa && status === ClientStatus.ONLINE) {
-            client.api.get("/auth/mfa/").then(setMFA);
+            client.api
+                .get("/auth/mfa/")
+                .then(setMFA)
+                .catch((err) => setError(takeError(err)));
         }
     }, [client, mfa, status]);
 
@@ -158,6 +163,12 @@ export default function MultiFactorAuthentication() {
             <h5>
                 <Text id="app.settings.pages.account.2fa.description" />
             </h5>
+
+            {error && (
+                <Category compact>
+                    <Error error={error} />
+                </Category>
+            )}
 
             <CategoryButton
                 icon={<ListOl size={24} />}
