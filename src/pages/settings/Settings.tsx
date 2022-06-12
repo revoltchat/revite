@@ -4,6 +4,7 @@ import {
     Globe,
     LogOut,
     Desktop,
+    ListUl,
 } from "@styled-icons/boxicons-regular";
 import {
     Bell,
@@ -258,6 +259,10 @@ export default observer(() => {
             category="pages"
             custom={
                 <>
+                    <ButtonItem compact>
+                        <ListUl size={20} />
+                        <Text id="app.settings.pages.changelog" />
+                    </ButtonItem>
                     <a
                         href="https://github.com/revoltchat"
                         target="_blank"

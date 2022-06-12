@@ -11,6 +11,7 @@ import { legacyMigrateForwards, LegacyState } from "./legacy/redux";
 import Persistent from "./interfaces/Persistent";
 import Syncable from "./interfaces/Syncable";
 import Auth from "./stores/Auth";
+import Changelog from "./stores/Changelog";
 import Draft from "./stores/Draft";
 import Experiments from "./stores/Experiments";
 import Layout from "./stores/Layout";
@@ -32,6 +33,7 @@ export const MIGRATIONS = {
  */
 export default class State {
     auth: Auth;
+    changelog: Changelog;
     draft: Draft;
     locale: LocaleOptions;
     experiments: Experiments;
@@ -54,6 +56,7 @@ export default class State {
      */
     constructor() {
         this.auth = new Auth();
+        this.changelog = new Changelog();
         this.draft = new Draft();
         this.locale = new LocaleOptions();
         this.experiments = new Experiments();
@@ -147,6 +150,7 @@ export default class State {
                 () => stringify(store.toJSON()),
                 async (value) => {
                     try {
+                        console.log(id, "updated!");
                         // Save updated store to local storage.
                         await localforage.setItem(id, JSON.parse(value));
 

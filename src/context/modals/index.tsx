@@ -8,6 +8,7 @@ import {
 import type { Client, API } from "revolt.js";
 import { ulid } from "ulid";
 
+import Changelog from "./components/Changelog";
 import MFAEnableTOTP from "./components/MFAEnableTOTP";
 import MFAFlow from "./components/MFAFlow";
 import MFARecovery from "./components/MFARecovery";
@@ -118,6 +119,7 @@ class ModalControllerExtended extends ModalController<Modal> {
 }
 
 export const modalController = new ModalControllerExtended({
+    changelog: Changelog,
     mfa_flow: MFAFlow,
     mfa_recovery: MFARecovery,
     mfa_enable_totp: MFAEnableTOTP,
