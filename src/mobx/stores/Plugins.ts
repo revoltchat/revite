@@ -124,7 +124,7 @@ export default class Plugins implements Store, Persistent<Data> {
      * @param id Plugin Id
      */
     @computed get(namespace: string, id: string) {
-        return this.plugins.get(namespace + "/" + id);
+        return this.plugins.get(`${namespace  }/${  id}`);
     }
 
     /**
@@ -133,7 +133,7 @@ export default class Plugins implements Store, Persistent<Data> {
      * @returns Plugin Instance
      */
     private getInstance(plugin: Pick<Plugin, "namespace" | "id">) {
-        return this.instances.get(plugin.namespace + "/" + plugin.id);
+        return this.instances.get(`${plugin.namespace  }/${  plugin.id}`);
     }
 
     /**
@@ -154,12 +154,12 @@ export default class Plugins implements Store, Persistent<Data> {
         if (!this.state.experiments.isEnabled("plugins"))
             return console.error("Enable plugins in experiments!");
 
-        let loaded = this.getInstance(plugin);
+        const loaded = this.getInstance(plugin);
         if (loaded) {
             this.unload(plugin.namespace, plugin.id);
         }
 
-        this.plugins.set(plugin.namespace + "/" + plugin.id, plugin);
+        this.plugins.set(`${plugin.namespace  }/${  plugin.id}`, plugin);
 
         if (typeof plugin.enabled === "undefined" || plugin) {
             this.load(plugin.namespace, plugin.id);
@@ -173,7 +173,7 @@ export default class Plugins implements Store, Persistent<Data> {
      */
     remove(namespace: string, id: string) {
         this.unload(namespace, id);
-        this.plugins.delete(namespace + "/" + id);
+        this.plugins.delete(`${namespace  }/${  id}`);
     }
 
     /**
@@ -182,13 +182,13 @@ export default class Plugins implements Store, Persistent<Data> {
      * @param id Plugin Id
      */
     load(namespace: string, id: string) {
-        let plugin = this.get(namespace, id);
+        const plugin = this.get(namespace, id);
         if (!plugin) throw "Unknown plugin!";
 
         try {
-            let ns = plugin.namespace + "/" + plugin.id;
+            const ns = `${plugin.namespace  }/${  plugin.id}`;
 
-            let instance: Instance = eval(plugin.entrypoint)();
+            const instance: Instance = eval(plugin.entrypoint)();
             this.instances.set(ns, {
                 ...instance,
                 format: plugin.format,
@@ -214,11 +214,11 @@ export default class Plugins implements Store, Persistent<Data> {
      * @param id Plugin Id
      */
     unload(namespace: string, id: string) {
-        let plugin = this.get(namespace, id);
+        const plugin = this.get(namespace, id);
         if (!plugin) throw "Unknown plugin!";
 
-        let ns = plugin.namespace + "/" + plugin.id;
-        let loaded = this.getInstance(plugin);
+        const ns = `${plugin.namespace  }/${  plugin.id}`;
+        const loaded = this.getInstance(plugin);
         if (loaded) {
             loaded.onUnload?.();
             this.plugins.set(ns, {

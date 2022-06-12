@@ -52,7 +52,7 @@ export function FormLogin() {
 
                 if (session.result === "MFA") {
                     const { allowed_methods } = session;
-                    let mfa_response: API.MFAResponse | undefined =
+                    const mfa_response: API.MFAResponse | undefined =
                         await new Promise((callback) =>
                             modalController.push({
                                 type: "mfa_flow",

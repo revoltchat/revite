@@ -67,7 +67,7 @@ export default class Auth implements Store, Persistent<Data> {
             typeof data.sessions === "object" &&
             data.sessions !== null
         ) {
-            let v = data.sessions;
+            const v = data.sessions;
             Object.keys(data.sessions).forEach((id) =>
                 this.sessions.set(id, v[id]),
             );

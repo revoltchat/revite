@@ -628,7 +628,7 @@ export default function ContextMenus() {
                         }
 
                         for (let i = 0; i < actions.length; i++) {
-                            let action = actions[i];
+                            const action = actions[i];
                             if (action) {
                                 generateAction({
                                     action,
