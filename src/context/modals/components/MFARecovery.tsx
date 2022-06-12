@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+import { Text } from "preact-i18n";
 import { useCallback, useState } from "preact/hooks";
 
 import { Modal } from "@revoltchat/ui";
@@ -49,29 +50,29 @@ export default function MFARecovery({
         }
 
         return false;
-    }, []);
+    }, [client]);
 
     return (
         <Modal
-            title="Your recovery codes"
-            description={"Please save these to a safe location."}
+            title={<Text id="app.special.modals.mfa.recovery_codes" />}
+            description={<Text id="app.special.modals.mfa.save_codes" />}
             actions={[
                 {
                     palette: "primary",
-                    children: "Done",
+                    children: <Text id="app.special.modals.actions.done" />,
                     onClick: noopTrue,
                     confirmation: true,
                 },
                 {
                     palette: "plain",
-                    children: "Reset",
+                    children: <Text id="app.special.modals.actions.reset" />,
                     onClick: reset,
                 },
             ]}
             onClose={onClose}>
             <List>
                 {known.map((code) => (
-                    <span>{code}</span>
+                    <span key={code}>{code}</span>
                 ))}
             </List>
         </Modal>

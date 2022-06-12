@@ -1,6 +1,7 @@
 import { QRCodeSVG } from "qrcode.react";
 import styled from "styled-components";
 
+import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
 import { Category, Centred, Column, InputBox, Modal } from "@revoltchat/ui";
@@ -25,14 +26,12 @@ export default function MFAEnableTOTP({
 
     return (
         <Modal
-            title="Enable authenticator app"
-            description={
-                "Please scan or use the token below in your authentication app."
-            }
+            title={<Text id="app.special.modals.mfa.enable_totp" />}
+            description={<Text id="app.special.modals.mfa.prompt_totp" />}
             actions={[
                 {
                     palette: "primary",
-                    children: "Continue",
+                    children: <Text id="app.special.modals.actions.continue" />,
                     onClick: () => {
                         callback(value.trim().replace(/\s/g, ""));
                         return true;
@@ -41,7 +40,7 @@ export default function MFAEnableTOTP({
                 },
                 {
                     palette: "plain",
-                    children: "Cancel",
+                    children: <Text id="app.special.modals.actions.cancel" />,
                     onClick: () => {
                         callback();
                         return true;
@@ -65,7 +64,9 @@ export default function MFAEnableTOTP({
                 </Centred>
             </Column>
 
-            <Category compact>Enter Code</Category>
+            <Category compact>
+                <Text id="app.special.modals.mfa.enter_code" />
+            </Category>
 
             <InputBox
                 value={value}
