@@ -2730,6 +2730,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/semver@npm:^7":
+  version: 7.3.9
+  resolution: "@types/semver@npm:7.3.9"
+  checksum: 60bfcfdfa7f937be2c6f4b37ddb6714fb0f27b05fe4cbdfdd596a97d35ed95d13ee410efdd88e72a66449d0384220bf20055ab7d6b5df10de4990fbd20e5cbe0
+  languageName: node
+  linkType: hard
+
 "@types/styled-components@npm:^5.1.10":
   version: 5.1.13
   resolution: "@types/styled-components@npm:5.1.13"
@@ -3551,6 +3558,7 @@ __metadata:
     "@types/react-helmet": ^6.1.1
     "@types/react-router-dom": ^5.1.7
     "@types/react-scroll": ^1.8.2
+    "@types/semver": ^7
     "@types/styled-components": ^5.1.10
     "@types/twemoji": ^12.1.1
     "@typescript-eslint/eslint-plugin": ^4.27.0
@@ -3593,6 +3601,7 @@ __metadata:
     revolt.js: 6.0.3
     rimraf: ^3.0.2
     sass: ^1.35.1
+    semver: ^7.3.7
     shade-blend-color: ^1.0.0
     sirv-cli: ^1.0.14
     stacktrace-js: ^2.0.2

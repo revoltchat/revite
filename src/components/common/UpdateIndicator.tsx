@@ -9,7 +9,7 @@ import { internalSubscribe } from "../../lib/eventEmitter";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { updateSW } from "../../main";
+import { updateSW } from "../../updateWorker";
 import Tooltip from "./Tooltip";
 
 let pendingUpdate = false;

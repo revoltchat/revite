@@ -25,6 +25,10 @@ export type Modal = {
           callback: (code?: string) => void;
       }
     | {
+          type: "out_of_date";
+          version: string;
+      }
+    | {
           type: "test";
       }
 );
