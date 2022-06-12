@@ -38,24 +38,6 @@
                 {
                     "varsIgnorePattern": "^_"
                 }
-            ],
-            "require-jsdoc": [
-                "error",
-                {
-                    "require": {
-                        "FunctionDeclaration": true,
-                        "MethodDefinition": true,
-                        "ClassDeclaration": true,
-                        "ArrowFunctionExpression": false,
-                        "FunctionExpression": false
-                    },
-                    "ignore": {
-                        "MethodDefinition": [
-                            "toJSON",
-                            "hydrate"
-                        ]
-                    }
-                }
             ]
         }
     },
@@ -121,6 +103,7 @@
         "detect-browser": "^5.2.0",
         "eslint": "^7.28.0",
         "eslint-config-preact": "^1.1.4",
+        "eslint-plugin-jsdoc": "^39.3.2",
         "eventemitter3": "^4.0.7",
         "json-stringify-deterministic": "^1.0.2",
         "localforage": "^1.9.0",

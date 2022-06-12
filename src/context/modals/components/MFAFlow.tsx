@@ -149,9 +149,9 @@ export default function MFAFlow({ onClose, ...props }: ModalProps<"mfa_flow">) {
                                   if (methods!.length === 1) {
                                       props.callback();
                                       return true;
-                                  } else {
+                                  } 
                                       setSelected(undefined);
-                                  }
+                                  
                               },
                           },
                       ]

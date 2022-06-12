@@ -182,7 +182,7 @@ export const GroupMemberSidebar = observer(
 );
 
 // ! FIXME: this is temporary code until we get lazy guilds like subscriptions
-const FETCHED: Set<String> = new Set();
+const FETCHED: Set<string> = new Set();
 
 export function resetMemberSidebarFetched() {
     FETCHED.clear();

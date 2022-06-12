@@ -1850,7 +1850,7 @@ export const emojiDictionary = {
     scotland: "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
     wales: "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
     ...{
-        "1984": "custom:1984.gif",
+        1984: "custom:1984.gif",
         KekW: "custom:KekW.png",
         amogus: "custom:amogus.gif",
         awaa: "custom:awaa.png",

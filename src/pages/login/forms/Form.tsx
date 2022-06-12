@@ -260,7 +260,7 @@ export const Form = observer(({ page, callback }: Props) => {
                                         <a
                                             href="https://developers.revolt.chat/faq/instances#what-is-a-third-party-instance"
                                             style={{ color: "var(--accent)" }}
-                                            target="_blank">
+                                            target="_blank" rel="noreferrer">
                                             <Text id="general.learn_more" />
                                         </a>
                                     </span>

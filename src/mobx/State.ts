@@ -293,7 +293,7 @@ export default class State {
     }
 }
 
-var state: State;
+let state: State;
 
 export async function hydrateState() {
     state = new State();

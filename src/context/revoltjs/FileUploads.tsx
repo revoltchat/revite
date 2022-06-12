@@ -72,7 +72,7 @@ export async function uploadFile(
     return res.data.id;
 }
 
-var input: HTMLInputElement;
+let input: HTMLInputElement;
 export function grabFiles(
     maxFileSize: number,
     cb: (files: File[]) => void,

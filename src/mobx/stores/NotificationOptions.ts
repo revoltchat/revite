@@ -203,7 +203,7 @@ export default class NotificationOptions
      * @returns Whether this object is muted
      */
     isMuted(target?: Channel | Server) {
-        var value: NotificationState | undefined;
+        let value: NotificationState | undefined;
         if (target instanceof Channel) {
             value = this.computeForChannel(target);
         } else if (target instanceof Server) {
