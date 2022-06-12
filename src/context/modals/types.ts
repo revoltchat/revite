@@ -5,16 +5,16 @@ export type Modal = {
 } & (
     | ({
           type: "mfa_flow";
-          callback: (ticket: API.MFATicket) => void;
       } & (
           | {
                 state: "known";
                 client: Client;
+                callback: (ticket: API.MFATicket) => void;
             }
           | {
                 state: "unknown";
                 available_methods: API.MFAMethod[];
-                ticket: API.MFATicket & { validated: false };
+                callback: (response: API.MFAResponse) => void;
             }
       ))
     | {
