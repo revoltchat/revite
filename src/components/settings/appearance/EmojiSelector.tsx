@@ -2,10 +2,10 @@ import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
-import mutantSVG from "./mutant_emoji.svg";
-import notoSVG from "./noto_emoji.svg";
-import openmojiSVG from "./openmoji_emoji.svg";
-import twemojiSVG from "./twemoji_emoji.svg";
+import mutantSVG from "./assets/mutant_emoji.svg";
+import notoSVG from "./assets/noto_emoji.svg";
+import openmojiSVG from "./assets/openmoji_emoji.svg";
+import twemojiSVG from "./assets/twemoji_emoji.svg";
 
 import { EmojiPack } from "../../common/Emoji";
 

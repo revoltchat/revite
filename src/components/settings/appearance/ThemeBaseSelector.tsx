@@ -2,8 +2,8 @@ import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
-import darkSVG from "./dark.svg";
-import lightSVG from "./light.svg";
+import darkSVG from "./assets/dark.svg";
+import lightSVG from "./assets/light.svg";
 
 const List = styled.div`
     gap: 8px;

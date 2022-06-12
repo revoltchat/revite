@@ -7,46 +7,46 @@ import { Column } from "@revoltchat/ui";
 
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import {
-    ThemeBaseSelectorShim,
-    ThemeShopShim,
-    ThemeAccentShim,
-    DisplayFontShim,
-    DisplayMonospaceFontShim,
-    DisplayLigaturesShim,
-    DisplayEmojiShim,
-    ThemeCustomCSSShim,
-    DisplaySeasonalShim,
-    DisplayTransparencyShim,
-    ShowSendButtonShim,
-} from "../../../components/settings/AppearanceShims";
+    ShimThemeBaseSelector,
+    ShimThemeShop,
+    ShimThemeAccent,
+    ShimDisplayFont,
+    ShimDisplayMonospaceFont,
+    ShimDisplayLigatures,
+    ShimDisplayEmoji,
+    ShimThemeCustomCSS,
+    ShimDisplaySeasonal,
+    ShimDisplayTransparency,
+    ShimShowSendButton,
+} from "../../../components/settings/appearance/Shims";
 import ThemeOverrides from "../../../components/settings/appearance/ThemeOverrides";
 import ThemeTools from "../../../components/settings/appearance/ThemeTools";
 
 export const Appearance = observer(() => {
     return (
         <div className={styles.appearance}>
-            <ThemeBaseSelectorShim />
-            <ThemeShopShim />
+            <ShimThemeBaseSelector />
+            <ShimThemeShop />
             <hr />
-            <ThemeAccentShim />
+            <ShimThemeAccent />
             <hr />
             <h3>
                 <Text id="app.settings.pages.appearance.appearance_options.title" />
             </h3>
-            <ShowSendButtonShim />
+            <ShimShowSendButton />
             <hr />
             <h3>
                 <Text id="app.settings.pages.appearance.theme_options.title" />
             </h3>
             <Column>
-                <DisplayTransparencyShim />
-                <DisplaySeasonalShim />
+                <ShimDisplayTransparency />
+                <ShimDisplaySeasonal />
             </Column>
             <hr />
-            <DisplayFontShim />
-            <DisplayLigaturesShim />
+            <ShimDisplayFont />
+            <ShimDisplayLigatures />
             <hr />
-            <DisplayEmojiShim />
+            <ShimDisplayEmoji />
             <hr />
             <CollapsibleSection
                 defaultValue={false}
@@ -60,8 +60,8 @@ export const Appearance = observer(() => {
                 id="settings_advanced_appearance"
                 defaultValue={false}
                 summary={<Text id="app.settings.pages.appearance.advanced" />}>
-                <DisplayMonospaceFontShim />
-                <ThemeCustomCSSShim />
+                <ShimDisplayMonospaceFont />
+                <ShimThemeCustomCSS />
             </CollapsibleSection>
         </div>
     );
