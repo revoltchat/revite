@@ -84,11 +84,11 @@ export default observer(() => {
                     </IconButton>
                 </Button>
                 <Button active={friendsActive}>
-                    <ConditionalLink active={friendsActive} to="/friends">
-                        <IconButton>
+                    <IconButton>
+                        <ConditionalLink active={friendsActive} to="/friends">
                             <Group size={25} />
-                        </IconButton>
-                    </ConditionalLink>
+                        </ConditionalLink>
+                    </IconButton>
                 </Button>
                 {/*<Button active={searchActive}>
                     <ConditionalLink active={searchActive} to="/search">
@@ -105,20 +105,22 @@ export default observer(() => {
                     </ConditionalLink>
                 </Button>*/}
                 <Button active={discoverActive}>
-                    <ConditionalLink
-                        active={discoverActive}
-                        to="/discover/servers">
-                        <IconButton>
+                    <IconButton>
+                        <ConditionalLink
+                            active={discoverActive}
+                            to="/discover/servers">
+                        
                             <Compass size={24} />
-                        </IconButton>
-                    </ConditionalLink>
+                        
+                        </ConditionalLink>
+                    </IconButton>
                 </Button>
                 <Button active={settingsActive}>
-                    <ConditionalLink active={settingsActive} to="/settings">
-                        <IconButton>
+                    <IconButton>
+                        <ConditionalLink active={settingsActive} to="/settings">
                             <UserIcon target={user} size={26} status={true} />
-                        </IconButton>
-                    </ConditionalLink>
+                        </ConditionalLink>
+                    </IconButton>
                 </Button>
             </Navbar>
         </Base>
