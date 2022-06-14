@@ -118,7 +118,7 @@
         "mobx": "^6.6.0",
         "mobx-react-lite": "3.4.0",
         "preact": "^10.5.14",
-        "preact-context-menu": "0.4.0-patch.0",
+        "preact-context-menu": "0.4.1",
         "preact-i18n": "^2.4.0-preactx",
         "prettier": "^2.3.1",
         "prismjs": "^1.23.0",

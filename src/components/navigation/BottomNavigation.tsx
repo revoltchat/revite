@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useHistory, useLocation } from "react-router";
 import styled, { css } from "styled-components/macro";
 
-import { IconButton } from "@revoltchat/ui";
+import { Centred, IconButton } from "@revoltchat/ui";
 
 import ConditionalLink from "../../lib/ConditionalLink";
 
@@ -27,6 +27,11 @@ const Navbar = styled.div`
 
 const Button = styled.a<{ active: boolean }>`
     flex: 1;
+    color: var(--foreground);
+
+    a {
+        color: inherit !important;
+    }
 
     > a,
     > div,
@@ -64,7 +69,7 @@ export default observer(() => {
         <Base>
             <Navbar>
                 <Button active={homeActive}>
-                    <IconButton
+                    <Centred
                         onClick={() => {
                             if (settingsActive) {
                                 if (history.length > 0) {
@@ -81,7 +86,7 @@ export default observer(() => {
                             }
                         }}>
                         <Message size={24} />
-                    </IconButton>
+                    </Centred>
                 </Button>
                 <Button active={friendsActive}>
                     <IconButton>
