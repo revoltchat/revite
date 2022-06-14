@@ -168,7 +168,10 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
             const id = args[0] as string,
                 channel = client.channels.get(id);
 
-            if (channel?.channel_type === "TextChannel") {
+            if (
+                channel?.channel_type === "TextChannel" ||
+                channel?.channel_type === "VoiceChannel"
+            ) {
                 return `[#${channel.name}](/server/${channel.server_id}/channel/${id})`;
             }
 
