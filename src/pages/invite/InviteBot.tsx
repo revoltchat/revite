@@ -4,16 +4,11 @@ import styled from "styled-components/macro";
 
 import { useEffect, useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import { Button, Category, ComboBox, Preloader, Tip } from "@revoltchat/ui";
 
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import UserIcon from "../../components/common/user/UserIcon";
-import ComboBox from "../../components/ui/ComboBox";
-import Overline from "../../components/ui/Overline";
-import Preloader from "../../components/ui/Preloader";
-import Tip from "../../components/ui/Tip";
-
 import Markdown from "../../components/markdown/Markdown";
 
 const BotInfo = styled.div`
@@ -49,9 +44,7 @@ export default function InviteBot() {
 
     return (
         <div style={{ padding: "6em" }}>
-            <Tip warning hideSeparator>
-                This section is under construction.
-            </Tip>
+            <Tip palette="warning">This section is under construction.</Tip>
             {typeof data === "undefined" && <Preloader type="spinner" />}
             {data && (
                 <>
@@ -64,7 +57,7 @@ export default function InviteBot() {
                             )}
                         </div>
                     </BotInfo>
-                    <Overline type="subtle">Add to server</Overline>
+                    <Category>Add to server</Category>
                     <Option>
                         <ComboBox
                             value={server}
@@ -87,7 +80,7 @@ export default function InviteBot() {
                             Add
                         </Button>
                     </Option>
-                    <Overline type="subtle">Add to group</Overline>
+                    <Category>Add to group</Category>
                     <Option>
                         <ComboBox
                             value={group}

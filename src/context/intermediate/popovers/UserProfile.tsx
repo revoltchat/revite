@@ -15,7 +15,14 @@ import styles from "./UserProfile.module.scss";
 import { Localizer, Text } from "preact-i18n";
 import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import {
+    Button,
+    Category,
+    Error,
+    IconButton,
+    Modal,
+    Preloader,
+} from "@revoltchat/ui";
 
 import { noop } from "../../../lib/js";
 
@@ -26,11 +33,6 @@ import UserBadges from "../../../components/common/user/UserBadges";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
-import IconButton from "../../../components/ui/IconButton";
-import Modal from "../../../components/ui/Modal";
-import Overline from "../../../components/ui/Overline";
-import Preloader from "../../../components/ui/Preloader";
-
 import Markdown from "../../../components/markdown/Markdown";
 import {
     ClientStatus,
@@ -147,13 +149,8 @@ export const UserProfile = observer(
         const badges = user.badges ?? 0;
         const flags = user.flags ?? 0;
 
-        return (
-            <Modal
-                visible
-                border={dummy}
-                padding={false}
-                onClose={onClose}
-                dontModal={dummy}>
+        const children = (
+            <>
                 <div
                     className={styles.header}
                     data-force={profile?.background ? "light" : undefined}
@@ -281,19 +278,19 @@ export const UserProfile = observer(
                             <div>
                                 {flags & 1 ? (
                                     /** ! FIXME: i18n this area */
-                                    <Overline type="error" block>
-                                        User is suspended
-                                    </Overline>
+                                    <Category>
+                                        <Error error="User is suspended" />
+                                    </Category>
                                 ) : undefined}
                                 {flags & 2 ? (
-                                    <Overline type="error" block>
-                                        User deleted their account
-                                    </Overline>
+                                    <Category>
+                                        <Error error="User deleted their account" />
+                                    </Category>
                                 ) : undefined}
                                 {flags & 4 ? (
-                                    <Overline type="error" block>
-                                        User is banned
-                                    </Overline>
+                                    <Category>
+                                        <Error error="User is banned" />
+                                    </Category>
                                 ) : undefined}
                                 {user.bot ? (
                                     <>
@@ -441,6 +438,18 @@ export const UserProfile = observer(
                             </div>
                         ))}
                 </div>
+            </>
+        );
+
+        if (dummy) return <div>{children}</div>;
+
+        return (
+            <Modal
+                onClose={onClose}
+                nonDismissable={dummy}
+                transparent
+                maxWidth="560px">
+                {children}
             </Modal>
         );
     },

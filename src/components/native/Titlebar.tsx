@@ -98,7 +98,7 @@ const TitlebarBase = styled.div<Props>`
 export function Titlebar(props: Props) {
     return (
         <TitlebarBase {...props}>
-            <div class="title">
+            <div className="title">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 193.733 37.438">
@@ -114,7 +114,7 @@ export function Titlebar(props: Props) {
                     <Wrench size="12.5" />
                 )}
             </div>
-            {/*<div class="actions quick">
+            {/*<div className="actions quick">
                 <Tooltip
                     content="Mute"
                     placement="bottom">
@@ -130,9 +130,9 @@ export function Titlebar(props: Props) {
                     </div>
                 </Tooltip>
             </div>*/}
-            <div class="drag" />
+            <div className="drag" />
             <UpdateIndicator style="titlebar" />
-            <div class="actions">
+            <div className="actions">
                 <div onClick={window.native.min}>
                     <svg
                         aria-hidden="false"
@@ -164,7 +164,7 @@ export function Titlebar(props: Props) {
                         />
                     </svg>
                 </div>
-                <div onClick={window.native.close} class="error">
+                <div onClick={window.native.close} className="error">
                     <svg
                         aria-hidden="false"
                         width="12"

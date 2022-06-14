@@ -8,6 +8,8 @@ import { ulid } from "ulid";
 import { Text } from "preact-i18n";
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 
+import { SaveStatus } from "@revoltchat/ui";
+
 import { useAutosave } from "../../../lib/debounce";
 import { Draggable, Droppable } from "../../../lib/dnd";
 import { noop } from "../../../lib/js";
@@ -15,7 +17,6 @@ import { noop } from "../../../lib/js";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import ChannelIcon from "../../../components/common/ChannelIcon";
-import SaveStatus, { EditStatus } from "../../../components/ui/SaveStatus";
 
 const KanbanEntry = styled.div`
     padding: 2px 4px;
@@ -132,7 +133,9 @@ interface Props {
 }
 
 export const Categories = observer(({ server }: Props) => {
-    const [status, setStatus] = useState<EditStatus>("saved");
+    const [status, setStatus] = useState<"saved" | "editing" | "saving">(
+        "saved",
+    );
     const [categories, setCategories] = useState<API.Category[]>(
         server.categories ?? [],
     );
@@ -289,7 +292,7 @@ export const Categories = observer(({ server }: Props) => {
                                         />
                                     ))}
                                     <KanbanList last>
-                                        <div class="inner">
+                                        <div className="inner">
                                             <KanbanListHeader
                                                 onClick={() =>
                                                     setCategories([
@@ -366,7 +369,7 @@ function ListElement({
             {(provided) => (
                 <div {...provided.draggableProps} ref={provided.innerRef}>
                     <KanbanList last={false} key={category.id}>
-                        <div class="inner">
+                        <div className="inner">
                             <Row>
                                 <KanbanListHeader {...provided.dragHandleProps}>
                                     {editing ? (
@@ -419,7 +422,7 @@ function ListElement({
                                                                 provided.innerRef
                                                             }>
                                                             <KanbanEntry>
-                                                                <div class="inner">
+                                                                <div className="inner">
                                                                     <ChannelIcon
                                                                         target={
                                                                             channel

@@ -7,7 +7,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import { Button, LineDivider, Tip } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { useTranslation } from "../../../lib/i18n";
@@ -23,7 +23,6 @@ import {
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
-import Tip from "../../../components/ui/Tip";
 
 export const Profile = observer(() => {
     const status = useContext(StatusContext);
@@ -203,11 +202,15 @@ export const Profile = observer(() => {
                     <Text id="app.special.modals.actions.save" />
                 </Button>
             </p>
+
+            <LineDivider />
             <Tip>
-                <span>Want to change your username?</span>{" "}
-                <a onClick={() => switchPage("account")}>
-                    Head over to your account settings.
-                </a>
+                <span>
+                    Want to change your username?{" "}
+                    <a onClick={() => switchPage("account")}>
+                        Head over to your account settings.
+                    </a>
+                </span>
             </Tip>
         </div>
     );

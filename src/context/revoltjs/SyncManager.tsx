@@ -18,12 +18,12 @@ export default function SyncManager() {
     // Sync settings from Revolt.
     useEffect(() => {
         if (client) {
-            state.sync.pull(client);
+            state.sync
+                .pull(client)
+                .catch(console.error)
+                .finally(() => state.changelog.checkForUpdates());
         }
     }, [client]);
-
-    // Keep data synced.
-    useEffect(() => state.registerListeners(client), [client]);
 
     // Take data updates from Revolt.
     useEffect(() => {

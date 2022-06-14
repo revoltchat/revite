@@ -2,7 +2,6 @@ import { Redirect } from "react-router-dom";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { Children } from "../../types/Preact";
 import { useClient } from "./RevoltClient";
 
 interface Props {

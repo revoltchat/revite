@@ -119,7 +119,7 @@ export default function App() {
             {statusBar && (
                 <StatusBar>
                     <div className="title">Partial outage: CDN</div>
-                    <div class="actions">
+                    <div className="actions">
                         <Link to="/invite/Testers">
                             <a>
                                 <div className="button">Updates</div>

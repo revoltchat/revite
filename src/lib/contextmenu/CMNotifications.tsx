@@ -15,12 +15,10 @@ import { Server } from "revolt.js";
 import { ContextMenuWithData, MenuItem } from "preact-context-menu";
 import { Text } from "preact-i18n";
 
+import { LineDivider } from "@revoltchat/ui";
+
 import { useApplicationState } from "../../mobx/State";
 import { NotificationState } from "../../mobx/stores/NotificationOptions";
-
-import LineDivider from "../../components/ui/LineDivider";
-
-import { Children } from "../../types/Preact";
 
 interface Action {
     key: string;

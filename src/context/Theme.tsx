@@ -336,9 +336,9 @@ export const generateVariables = (theme: Theme) => {
         if (colour) {
             const [r, g, b] = colour;
             return `--${key}: ${theme[key]}; --${key}-rgb: ${r}, ${g}, ${b};`;
-        } else {
+        } 
             return `--${key}: ${theme[key]};`;
-        }
+        
     });
 };
 

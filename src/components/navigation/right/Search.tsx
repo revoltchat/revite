@@ -5,15 +5,11 @@ import styled from "styled-components/macro";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Button } from "@revoltchat/ui";
+import { Button, Category, Error, InputBox, Preloader } from "@revoltchat/ui";
 
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Message from "../../common/messaging/Message";
-import InputBox from "../../ui/InputBox";
-import Overline from "../../ui/Overline";
-import Preloader from "../../ui/Preloader";
-
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 
 type SearchState =
@@ -103,18 +99,20 @@ export function SearchSidebar({ close }: Props) {
         <GenericSidebarBase data-scroll-offset="with-padding">
             <GenericSidebarList>
                 <SearchBase>
-                    <Overline type="accent" block hover>
-                        <a onClick={close}>« back to members</a>
-                    </Overline>
-                    <Overline type="subtle" block>
+                    <Category>
+                        <Error
+                            error={<a onClick={close}>« back to members</a>}
+                        />
+                    </Category>
+                    <Category>
                         <Text id="app.main.channel.search.title" />
-                    </Overline>
+                    </Category>
                     <InputBox
                         value={query}
                         onKeyDown={(e) => e.key === "Enter" && search()}
                         onChange={(e) => setQuery(e.currentTarget.value)}
                     />
-                    <div class="sort">
+                    <div className="sort">
                         {["Latest", "Oldest", "Relevance"].map((key) => (
                             <Button
                                 key={key}
@@ -129,7 +127,7 @@ export function SearchSidebar({ close }: Props) {
                     </div>
                     {state.type === "loading" && <Preloader type="ring" />}
                     {state.type === "results" && (
-                        <div class="list">
+                        <div className="list">
                             {state.results.map((message) => {
                                 let href = "";
                                 if (channel?.channel_type === "TextChannel") {
@@ -140,7 +138,7 @@ export function SearchSidebar({ close }: Props) {
 
                                 return (
                                     <Link to={href} key={message._id}>
-                                        <div class="message">
+                                        <div className="message">
                                             <Message
                                                 message={message}
                                                 head

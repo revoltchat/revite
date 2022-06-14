@@ -17,9 +17,8 @@ import { dayjs } from "../../context/Locale";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
-import { generateEmoji } from "../common/Emoji";
-
 import { emojiDictionary } from "../../assets/emojis";
+import { generateEmoji } from "../common/Emoji";
 import { MarkdownProps } from "./Markdown";
 import Prism from "./prism";
 
@@ -169,7 +168,10 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
             const id = args[0] as string,
                 channel = client.channels.get(id);
 
-            if (channel?.channel_type === "TextChannel") {
+            if (
+                channel?.channel_type === "TextChannel" ||
+                channel?.channel_type === "VoiceChannel"
+            ) {
                 return `[#${channel.name}](/server/${channel.server_id}/channel/${id})`;
             }
 

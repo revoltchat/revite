@@ -2,7 +2,7 @@ import { Route, Switch } from "react-router-dom";
 
 import { lazy, Suspense } from "preact/compat";
 
-import { Masks } from "@revoltchat/ui";
+import { Masks, Preloader } from "@revoltchat/ui";
 
 import ErrorBoundary from "../lib/ErrorBoundary";
 import FakeClient from "../lib/FakeClient";
@@ -10,10 +10,10 @@ import FakeClient from "../lib/FakeClient";
 import Context from "../context";
 import { CheckAuth } from "../context/revoltjs/CheckAuth";
 
-import Preloader from "../components/ui/Preloader";
 import Invite from "./invite/Invite";
 
 const Login = lazy(() => import("./login/Login"));
+const ConfirmDelete = lazy(() => import("./login/ConfirmDelete"));
 const RevoltApp = lazy(() => import("./RevoltApp"));
 
 export function App() {
@@ -30,6 +30,9 @@ export function App() {
                         </Route>
                         <Route path="/login/reset/:token">
                             <Login />
+                        </Route>
+                        <Route path="/delete/:token">
+                            <ConfirmDelete />
                         </Route>
                         <Route path="/invite/:code">
                             <CheckAuth blockRender>

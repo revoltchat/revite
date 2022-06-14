@@ -2,8 +2,6 @@ import { useContext } from "preact/hooks";
 
 import { internalEmit } from "../../lib/eventEmitter";
 
-import { isModalClosing } from "../../components/ui/Modal";
-
 import { IntermediateContext, useIntermediate } from "./Intermediate";
 import { SpecialInputModal } from "./modals/Input";
 import { SpecialPromptModal } from "./modals/Prompt";
@@ -21,9 +19,9 @@ export default function Popovers() {
     const { openScreen } = useIntermediate();
 
     const onClose = () =>
-        isModalClosing
-            ? openScreen({ id: "none" })
-            : internalEmit("Modal", "close");
+        //isModalClosing
+        openScreen({ id: "none" });
+    //: internalEmit("Modal", "close");
 
     switch (screen.id) {
         case "profile":

@@ -5,15 +5,14 @@ import styled, { css } from "styled-components/macro";
 
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
+import { Header, Preloader } from "@revoltchat/ui";
+
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
 
 import { Overrides } from "../../context/Theme";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-
-import Header from "../../components/ui/Header";
-import Preloader from "../../components/ui/Preloader";
 
 const Container = styled.div`
     flex-grow: 1;
@@ -121,11 +120,11 @@ export default function Discover() {
 
     useEffect(() => {
         function onMessage(message: MessageEvent) {
-            let url = new URL(message.origin);
+            const url = new URL(message.origin);
             if (!TRUSTED_HOSTS.includes(url.host)) return;
 
             try {
-                let data = JSON.parse(message.data);
+                const data = JSON.parse(message.data);
                 if (data.source === "discover") {
                     switch (data.type) {
                         case "init": {
@@ -164,7 +163,7 @@ export default function Discover() {
     return (
         <Container>
             {isTouchscreenDevice && (
-                <Header placement="primary" transparent>
+                <Header palette="primary" withTransparency>
                     <Compass size={27} />
                     Discover
                 </Header>

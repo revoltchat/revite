@@ -2,8 +2,6 @@ import styled from "styled-components/macro";
 
 import { Ref } from "preact";
 
-import { Children } from "../../../../types/Preact";
-
 const Grid = styled.div<{ width: number; height: number }>`
     --width: ${(props) => props.width}px;
     --height: ${(props) => props.height}px;

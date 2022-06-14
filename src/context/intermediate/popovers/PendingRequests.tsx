@@ -4,7 +4,7 @@ import { User } from "revolt.js";
 import styles from "./UserPicker.module.scss";
 import { Text } from "preact-i18n";
 
-import Modal from "../../../components/ui/Modal";
+import { Modal } from "@revoltchat/ui";
 
 import { Friend } from "../../../pages/friends/Friend";
 
@@ -16,7 +16,6 @@ interface Props {
 export const PendingRequests = observer(({ users, onClose }: Props) => {
     return (
         <Modal
-            visible={true}
             title={<Text id="app.special.friends.pending" />}
             onClose={onClose}>
             <div className={styles.list}>

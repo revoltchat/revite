@@ -1,15 +1,4 @@
-import {
-    At,
-    Bell,
-    BellOff,
-    Check,
-    CheckSquare,
-    ChevronRight,
-    Block,
-    Square,
-    LeftArrowAlt,
-    Trash,
-} from "@styled-icons/boxicons-regular";
+import { ChevronRight, Trash } from "@styled-icons/boxicons-regular";
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { isFirefox } from "react-device-detect";
 import { useHistory } from "react-router-dom";
@@ -23,6 +12,8 @@ import {
 } from "preact-context-menu";
 import { Text } from "preact-i18n";
 import { useContext } from "preact/hooks";
+
+import { IconButton, LineDivider } from "@revoltchat/ui";
 
 import { useApplicationState } from "../mobx/State";
 import { QueuedMessage } from "../mobx/stores/MessageQueue";
@@ -39,10 +30,6 @@ import CMNotifications from "./contextmenu/CMNotifications";
 
 import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
-import IconButton from "../components/ui/IconButton";
-import LineDivider from "../components/ui/LineDivider";
-
-import { Children } from "../types/Preact";
 import { internalEmit } from "./eventEmitter";
 import { getRenderer } from "./renderer/Singleton";
 
@@ -492,7 +479,7 @@ export default function ContextMenus() {
                     function pushDivider() {
                         if (lastDivider || elements.length === 0) return;
                         lastDivider = true;
-                        elements.push(<LineDivider />);
+                        elements.push(<LineDivider compact />);
                     }
 
                     if (server_list) {
@@ -641,7 +628,7 @@ export default function ContextMenus() {
                         }
 
                         for (let i = 0; i < actions.length; i++) {
-                            let action = actions[i];
+                            const action = actions[i];
                             if (action) {
                                 generateAction({
                                     action,
@@ -1045,7 +1032,7 @@ export default function ContextMenus() {
                                     </MenuItem>
                                 </IconButton>
                             </div>
-                            <LineDivider />
+                            <LineDivider compact />
                             <MenuItem
                                 data={{
                                     action: "set_presence",
@@ -1082,7 +1069,7 @@ export default function ContextMenus() {
                                 <div className="indicator invisible" />
                                 <Text id={`app.status.invisible`} />
                             </MenuItem>
-                            <LineDivider />
+                            <LineDivider compact />
                             <MenuItem
                                 data={{ action: "set_status" }}
                                 disabled={!isOnline}>

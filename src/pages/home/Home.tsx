@@ -17,6 +17,8 @@ import "./snow.scss";
 import { Text } from "preact-i18n";
 import { useContext, useMemo } from "preact/hooks";
 
+import { CategoryButton } from "@revoltchat/ui";
+
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
@@ -24,9 +26,9 @@ import { useApplicationState } from "../../mobx/State";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
-import { PageHeader } from "../../components/ui/Header";
-import CategoryButton from "../../components/ui/fluent/CategoryButton";
 import wideSVG from "/assets/wide.svg";
+
+import { PageHeader } from "../../components/ui/Header";
 
 const Overlay = styled.div`
     display: grid;
@@ -75,16 +77,16 @@ export default observer(() => {
         <div className={styles.home}>
             <Overlay>
                 {seasonalTheme && (
-                    <div class="snowfall">
+                    <div className="snowfall">
                         {snowflakes.map((emoji, index) => (
-                            <div key={index} class="snowflake">
+                            <div key={index} className="snowflake">
                                 {emoji}
                             </div>
                         ))}
                     </div>
                 )}
                 <div className="content">
-                    <PageHeader icon={<HomeIcon size={24} />} transparent>
+                    <PageHeader icon={<HomeIcon size={24} />} withTransparency>
                         <Text id="app.navigation.tabs.home" />
                     </PageHeader>
                     <div className={styles.homeScreen}>

@@ -7,7 +7,7 @@ import { TextReact } from "../../lib/i18n";
 
 import { AppContext } from "../../context/revoltjs/RevoltClient";
 
-import Header, { PageHeader } from "../../components/ui/Header";
+import { PageHeader } from "../../components/ui/Header";
 
 export default function Developer() {
     // const voice = useContext(VoiceContext);

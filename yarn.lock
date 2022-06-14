@@ -1797,6 +1797,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@es-joy/jsdoccomment@npm:~0.31.0":
+  version: 0.31.0
+  resolution: "@es-joy/jsdoccomment@npm:0.31.0"
+  dependencies:
+    comment-parser: 1.3.1
+    esquery: ^1.4.0
+    jsdoc-type-pratt-parser: ~3.1.0
+  checksum: 1691ff501559f45593e5f080d2c08dea4fadba5f48e526b9ff2943c050fbb40408f5e83968542e5b6bf47219c7573796d00bfe80dacfd1ba8187904cc475cefb
+  languageName: node
+  linkType: hard
+
 "@eslint/eslintrc@npm:^0.4.3":
   version: 0.4.3
   resolution: "@eslint/eslintrc@npm:0.4.3"
@@ -2220,9 +2231,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revoltchat/ui@npm:1.0.34":
-  version: 1.0.34
-  resolution: "@revoltchat/ui@npm:1.0.34"
+"@revoltchat/ui@npm:1.0.40":
+  version: 1.0.40
+  resolution: "@revoltchat/ui@npm:1.0.40"
   dependencies:
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
@@ -2235,7 +2246,7 @@ __metadata:
     react-device-detect: "*"
     react-virtuoso: "*"
     revolt.js: "*"
-  checksum: 576a147c945cc3c9c8fb0555007b1048017551139d6b6dd7f0e9af66a1f5e595a46e73b853258a5048563af80c470230048ab214784cf14f347cf61b56dbbc07
+  checksum: bc0bc906cdb22e8a31c862d1e87f8bd5c46cb463aa23ad773e9c683514fbe0e52ac44e9eab41dd6aa6e8e207050f9ab0590d6e51b2a4d8af6c0fb2ea899d789f
   languageName: node
   linkType: hard
 
@@ -2717,6 +2728,13 @@ __metadata:
   version: 0.16.2
   resolution: "@types/scheduler@npm:0.16.2"
   checksum: b6b4dcfeae6deba2e06a70941860fb1435730576d3689225a421280b7742318d1548b3d22c1f66ab68e414f346a9542f29240bc955b6332c5b11e561077583bc
+  languageName: node
+  linkType: hard
+
+"@types/semver@npm:^7":
+  version: 7.3.9
+  resolution: "@types/semver@npm:7.3.9"
+  checksum: 60bfcfdfa7f937be2c6f4b37ddb6714fb0f27b05fe4cbdfdd596a97d35ed95d13ee410efdd88e72a66449d0384220bf20055ab7d6b5df10de4990fbd20e5cbe0
   languageName: node
   linkType: hard
 
@@ -3521,7 +3539,7 @@ __metadata:
     "@hcaptcha/react-hcaptcha": ^0.3.6
     "@insertish/vite-plugin-babel-macros": ^1.0.5
     "@preact/preset-vite": ^2.0.0
-    "@revoltchat/ui": 1.0.34
+    "@revoltchat/ui": 1.0.40
     "@rollup/plugin-replace": ^2.4.2
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
@@ -3541,6 +3559,7 @@ __metadata:
     "@types/react-helmet": ^6.1.1
     "@types/react-router-dom": ^5.1.7
     "@types/react-scroll": ^1.8.2
+    "@types/semver": ^7
     "@types/styled-components": ^5.1.10
     "@types/twemoji": ^12.1.1
     "@typescript-eslint/eslint-plugin": ^4.27.0
@@ -3552,6 +3571,7 @@ __metadata:
     detect-browser: ^5.2.0
     eslint: ^7.28.0
     eslint-config-preact: ^1.1.4
+    eslint-plugin-jsdoc: ^39.3.2
     eventemitter3: ^4.0.7
     fs-extra: ^10.0.0
     json-stringify-deterministic: ^1.0.2
@@ -3570,6 +3590,7 @@ __metadata:
     preact-i18n: ^2.4.0-preactx
     prettier: ^2.3.1
     prismjs: ^1.23.0
+    qrcode.react: ^3.0.2
     react-beautiful-dnd: ^13.1.0
     react-device-detect: 2.2.2
     react-helmet: ^6.1.0
@@ -3578,9 +3599,10 @@ __metadata:
     react-router-dom: ^5.2.0
     react-scroll: ^1.8.2
     react-virtuoso: ^2.12.0
-    revolt.js: 6.0.2
+    revolt.js: 6.0.3
     rimraf: ^3.0.2
     sass: ^1.35.1
+    semver: ^7.3.7
     shade-blend-color: ^1.0.0
     sirv-cli: ^1.0.14
     stacktrace-js: ^2.0.2
@@ -3679,6 +3701,13 @@ __metadata:
   version: 6.2.1
   resolution: "commander@npm:6.2.1"
   checksum: d7090410c0de6bc5c67d3ca41c41760d6d268f3c799e530aafb73b7437d1826bbf0d2a3edac33f8b57cc9887b4a986dce307fa5557e109be40eadb7c43b21742
+  languageName: node
+  linkType: hard
+
+"comment-parser@npm:1.3.1":
+  version: 1.3.1
+  resolution: "comment-parser@npm:1.3.1"
+  checksum: 421e6a113a3afd548500e7174ab46a2049dccf92e82bbaa3b209031b1bdf97552aabfa1ae2a120c0b62df17e1ba70e0d8b05d68504fee78e1ef974c59bcfe718
   languageName: node
   linkType: hard
 
@@ -3815,7 +3844,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4":
+"debug@npm:4, debug@npm:^4.3.4":
   version: 4.3.4
   resolution: "debug@npm:4.3.4"
   dependencies:
@@ -4325,6 +4354,23 @@ __metadata:
   peerDependencies:
     eslint: ">=5"
   checksum: 67d166c050f0c8f061785d553583b5c77d394c0140a931eb37072288af779b2d442abcad931c9ef0016e2fd29267216f510d189e40c1b47658365e564fe0c6a4
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-jsdoc@npm:^39.3.2":
+  version: 39.3.2
+  resolution: "eslint-plugin-jsdoc@npm:39.3.2"
+  dependencies:
+    "@es-joy/jsdoccomment": ~0.31.0
+    comment-parser: 1.3.1
+    debug: ^4.3.4
+    escape-string-regexp: ^4.0.0
+    esquery: ^1.4.0
+    semver: ^7.3.7
+    spdx-expression-parse: ^3.0.1
+  peerDependencies:
+    eslint: ^7.0.0 || ^8.0.0
+  checksum: 2fd3adb23f97c5cc8c03bd8c7338c12074e4e6d49eaee042db65317a69abd389a4c4992fbc9075fa3deabd1d89393b639683f612deac06d89950767571c03457
   languageName: node
   linkType: hard
 
@@ -5421,6 +5467,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsdoc-type-pratt-parser@npm:~3.1.0":
+  version: 3.1.0
+  resolution: "jsdoc-type-pratt-parser@npm:3.1.0"
+  checksum: 2f437b57621f1e481918165f6cf0e48256628a9e510d8b3f88a2ab667bf2128bf8b94c628b57c43e78f555ca61983e9c282814703840dc091d2623992214a061
+  languageName: node
+  linkType: hard
+
 "jsesc@npm:^2.5.1":
   version: 2.5.2
   resolution: "jsesc@npm:2.5.2"
@@ -6474,6 +6527,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qrcode.react@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "qrcode.react@npm:3.0.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 4102e9f416d86808728b93dca4e90cab0b2d3eca2bfe501a26ca62237062ded2121711cfc4edf64832c63e04d34956e26c2e7088023949f9328bbaa56004777d
+  languageName: node
+  linkType: hard
+
 "queue-microtask@npm:^1.2.2":
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
@@ -6858,20 +6920,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revolt-api@npm:0.5.3-5-patch.4":
-  version: 0.5.3-5-patch.4
-  resolution: "revolt-api@npm:0.5.3-5-patch.4"
+"revolt-api@npm:0.5.3-7":
+  version: 0.5.3-7
+  resolution: "revolt-api@npm:0.5.3-7"
   dependencies:
     "@insertish/oapi": 0.1.16
     axios: ^0.26.1
     lodash.defaultsdeep: ^4.6.1
-  checksum: 4f01c43bff96c4030d13ab0bb5dc83614445763602cfdd8b3ff1dbf61620446a22513ca259bbfc9c490f6b9b19c79d610921a252b667d25adf4040b4222d98cf
+  checksum: acc2f412d1be90f0cfa8a24ba715d8257813762c56ba0e48c649efff349674517036a8fa5939eda61ce31fd64a37f0c54af3d8fae56edf4596f05b10304e090e
   languageName: node
   linkType: hard
 
-"revolt.js@npm:6.0.2":
-  version: 6.0.2
-  resolution: "revolt.js@npm:6.0.2"
+"revolt.js@npm:6.0.3":
+  version: 6.0.3
+  resolution: "revolt.js@npm:6.0.3"
   dependencies:
     "@insertish/exponential-backoff": 3.1.0-patch.2
     "@insertish/isomorphic-ws": ^4.0.1
@@ -6882,10 +6944,10 @@ __metadata:
     lodash.isequal: ^4.5.0
     long: ^5.2.0
     mobx: ^6.3.2
-    revolt-api: 0.5.3-5-patch.4
+    revolt-api: 0.5.3-7
     ulid: ^2.3.0
     ws: ^8.2.2
-  checksum: 1b0c6ce0ceae5d20aec373f24432a5e804677c455fbc39edadaeb6ae0427a0b4fe2ea2b950df92262cd56a43e3f8759d80887b65d66111882b6ecb82e813ff38
+  checksum: cfecbde7a9b795da75bfac3cec05f2aed5fd02cd14fcac1b2fad26285de1b887cf7ccb339e8a63a019f1e83058b041305927e029d7b5eedcc00823582d9a842a
   languageName: node
   linkType: hard
 
@@ -7048,6 +7110,17 @@ __metadata:
   bin:
     semver: ./bin/semver.js
   checksum: 1b26ecf6db9e8292dd90df4e781d91875c0dcc1b1909e70f5d12959a23c7eebb8f01ea581c00783bbee72ceeaad9505797c381756326073850dc36ed284b21b9
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.3.7":
+  version: 7.3.7
+  resolution: "semver@npm:7.3.7"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: 2fa3e877568cd6ce769c75c211beaed1f9fce80b28338cadd9d0b6c40f2e2862bafd62c19a6cff42f3d54292b7c623277bcab8816a2b5521cf15210d43e75232
   languageName: node
   linkType: hard
 
@@ -7255,6 +7328,30 @@ __metadata:
   version: 1.4.8
   resolution: "sourcemap-codec@npm:1.4.8"
   checksum: b57981c05611afef31605732b598ccf65124a9fcb03b833532659ac4d29ac0f7bfacbc0d6c5a28a03e84c7510e7e556d758d0bb57786e214660016fb94279316
+  languageName: node
+  linkType: hard
+
+"spdx-exceptions@npm:^2.1.0":
+  version: 2.3.0
+  resolution: "spdx-exceptions@npm:2.3.0"
+  checksum: cb69a26fa3b46305637123cd37c85f75610e8c477b6476fa7354eb67c08128d159f1d36715f19be6f9daf4b680337deb8c65acdcae7f2608ba51931540687ac0
+  languageName: node
+  linkType: hard
+
+"spdx-expression-parse@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "spdx-expression-parse@npm:3.0.1"
+  dependencies:
+    spdx-exceptions: ^2.1.0
+    spdx-license-ids: ^3.0.0
+  checksum: a1c6e104a2cbada7a593eaa9f430bd5e148ef5290d4c0409899855ce8b1c39652bcc88a725259491a82601159d6dc790bedefc9016c7472f7de8de7361f8ccde
+  languageName: node
+  linkType: hard
+
+"spdx-license-ids@npm:^3.0.0":
+  version: 3.0.11
+  resolution: "spdx-license-ids@npm:3.0.11"
+  checksum: 1da1acb090257773e60b022094050e810ae9fec874dc1461f65dc0400cd42dd830ab2df6e64fb49c2db3dce386dd0362110780e1b154db7c0bb413488836aaeb
   languageName: node
   linkType: hard
 

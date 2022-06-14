@@ -1,10 +1,8 @@
 import { ChevronDown } from "@styled-icons/boxicons-regular";
 
+import { Details } from "@revoltchat/ui";
+
 import { useApplicationState } from "../../mobx/State";
-
-import Details from "../ui/Details";
-
-import { Children } from "../../types/Preact";
 
 interface Props {
     id: string;
@@ -34,7 +32,7 @@ export default function CollapsibleSection({
             }
             {...detailsProps}>
             <summary>
-                <div class="padding">
+                <div className="padding">
                     <ChevronDown size={20} />
                     {summary}
                 </div>

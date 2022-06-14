@@ -1,5 +1,5 @@
 {
-    "version": "0.0.0",
+    "version": "0.5.3-7",
     "scripts": {
         "dev": "node scripts/setup_assets.js --check && vite",
         "pull": "node scripts/setup_assets.js",
@@ -39,24 +39,7 @@
                     "varsIgnorePattern": "^_"
                 }
             ],
-            "require-jsdoc": [
-                "error",
-                {
-                    "require": {
-                        "FunctionDeclaration": true,
-                        "MethodDefinition": true,
-                        "ClassDeclaration": true,
-                        "ArrowFunctionExpression": false,
-                        "FunctionExpression": false
-                    },
-                    "ignore": {
-                        "MethodDefinition": [
-                            "toJSON",
-                            "hydrate"
-                        ]
-                    }
-                }
-            ]
+            "react/jsx-no-literals": "warn"
         }
     },
     "dependencies": {
@@ -90,7 +73,7 @@
         "@hcaptcha/react-hcaptcha": "^0.3.6",
         "@insertish/vite-plugin-babel-macros": "^1.0.5",
         "@preact/preset-vite": "^2.0.0",
-        "@revoltchat/ui": "1.0.34",
+        "@revoltchat/ui": "1.0.40",
         "@rollup/plugin-replace": "^2.4.2",
         "@styled-icons/boxicons-logos": "^10.38.0",
         "@styled-icons/boxicons-regular": "^10.38.0",
@@ -110,6 +93,7 @@
         "@types/react-helmet": "^6.1.1",
         "@types/react-router-dom": "^5.1.7",
         "@types/react-scroll": "^1.8.2",
+        "@types/semver": "^7",
         "@types/styled-components": "^5.1.10",
         "@types/twemoji": "^12.1.1",
         "@typescript-eslint/eslint-plugin": "^4.27.0",
@@ -121,6 +105,7 @@
         "detect-browser": "^5.2.0",
         "eslint": "^7.28.0",
         "eslint-config-preact": "^1.1.4",
+        "eslint-plugin-jsdoc": "^39.3.2",
         "eventemitter3": "^4.0.7",
         "json-stringify-deterministic": "^1.0.2",
         "localforage": "^1.9.0",
@@ -137,6 +122,7 @@
         "preact-i18n": "^2.4.0-preactx",
         "prettier": "^2.3.1",
         "prismjs": "^1.23.0",
+        "qrcode.react": "^3.0.2",
         "react-beautiful-dnd": "^13.1.0",
         "react-device-detect": "2.2.2",
         "react-helmet": "^6.1.0",
@@ -145,9 +131,10 @@
         "react-router-dom": "^5.2.0",
         "react-scroll": "^1.8.2",
         "react-virtuoso": "^2.12.0",
-        "revolt.js": "6.0.2",
+        "revolt.js": "6.0.3",
         "rimraf": "^3.0.2",
         "sass": "^1.35.1",
+        "semver": "^7.3.7",
         "shade-blend-color": "^1.0.0",
         "stacktrace-js": "^2.0.2",
         "styled-components": "^5.3.0",
