@@ -12,6 +12,17 @@ const Code = styled.code`
     user-select: all;
 `;
 
+const Qr = styled.div`
+    border-radius: 4px;
+    background: white;
+
+    width: 140px;
+    height: 140px;
+
+    display: grid;
+    place-items: center;
+`;
+
 /**
  * TOTP enable modal
  */
@@ -53,11 +64,13 @@ export default function MFAEnableTOTP({
             }}>
             <Column>
                 <Centred>
-                    <QRCodeSVG
-                        value={uri}
-                        bgColor="transparent"
-                        fgColor="var(--foreground)"
-                    />
+                    <Qr>
+                        <QRCodeSVG
+                            value={uri}
+                            bgColor="white"
+                            fgColor="black"
+                        />
+                    </Qr>
                 </Centred>
                 <Centred>
                     <Code>{secret}</Code>
