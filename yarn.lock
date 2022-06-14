@@ -3586,7 +3586,7 @@ __metadata:
     mobx: ^6.6.0
     mobx-react-lite: 3.4.0
     preact: ^10.5.14
-    preact-context-menu: 0.4.0-patch.0
+    preact-context-menu: 0.4.1
     preact-i18n: ^2.4.0-preactx
     prettier: ^2.3.1
     prismjs: ^1.23.0
@@ -6409,12 +6409,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"preact-context-menu@npm:0.4.0-patch.0":
-  version: 0.4.0-patch.0
-  resolution: "preact-context-menu@npm:0.4.0-patch.0"
+"preact-context-menu@npm:0.4.1":
+  version: 0.4.1
+  resolution: "preact-context-menu@npm:0.4.1"
   dependencies:
     preact: ^10.5.14
-  checksum: ca2d429f9fc96c1f131f89cb2c72d0105bc3f52c05ad33288e5b0a56b52f1d1ed5d60ae2a0c56535047daaa02c0407c63aadf632a88cfcc4897db8a47123705d
+  checksum: 0816c1c2024527b5f1b67213d86c6ff4654f626ad19b8fd996dd606278f42f8b742a55d257abc0e79c6c5f0d9c2718a6326b399748b64ee17334158ca30a04f0
   languageName: node
   linkType: hard
 
