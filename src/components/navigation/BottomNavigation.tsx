@@ -25,12 +25,18 @@ const Navbar = styled.div`
     height: var(--bottom-navigation-height);
 `;
 
+/**
+ * I've decided that this whole component
+ * needs to be re-written 👍👍👍👍👍👍
+ */
+
 const Button = styled.a<{ active: boolean }>`
     flex: 1;
     color: var(--foreground);
 
-    a {
-        color: inherit !important;
+    // ok
+    * {
+        color: var(--foreground) !important;
     }
 
     > a,
@@ -114,9 +120,7 @@ export default observer(() => {
                         <ConditionalLink
                             active={discoverActive}
                             to="/discover/servers">
-                        
                             <Compass size={24} />
-                        
                         </ConditionalLink>
                     </IconButton>
                 </Button>
