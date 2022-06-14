@@ -3,13 +3,12 @@ import { observer } from "mobx-react-lite";
 import { Client } from "revolt.js";
 
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo, useState } from "preact/hooks";
+import { useCallback, useContext, useEffect, useState } from "preact/hooks";
+
+import { Preloader } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../mobx/State";
 
-import Preloader from "../../components/ui/Preloader";
-
-import { Children } from "../../types/Preact";
 import { useIntermediate } from "../intermediate/Intermediate";
 import { registerEvents } from "./events";
 import { takeError } from "./util";
@@ -30,7 +29,7 @@ export interface ClientOperations {
 
 export const AppContext = createContext<Client>(null!);
 export const StatusContext = createContext<ClientStatus>(null!);
-export const LogOutContext = createContext(() => {});
+export const LogOutContext = createContext((avoidReq?: boolean) => {});
 
 type Props = {
     children: Children;
@@ -43,10 +42,13 @@ export default observer(({ children }: Props) => {
     const [status, setStatus] = useState(ClientStatus.LOADING);
     const [loaded, setLoaded] = useState(false);
 
-    function logout() {
-        setLoaded(false);
-        client.logout(false);
-    }
+    const logout = useCallback(
+        (avoidReq?: boolean) => {
+            setLoaded(false);
+            client.logout(avoidReq);
+        },
+        [client],
+    );
 
     useEffect(() => {
         if (navigator.onLine) {
@@ -80,6 +82,7 @@ export default observer(({ children }: Props) => {
     }, [state.auth.getSession()]);
 
     useEffect(() => registerEvents(state, setStatus, client), [client]);
+    useEffect(() => state.registerListeners(client), [client]);
 
     if (!loaded || status === ClientStatus.LOADING) {
         return <Preloader type="spinner" />;

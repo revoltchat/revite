@@ -137,7 +137,7 @@ export default function MemberList({
                                 server, see issue{" "}
                                 <a
                                     href="https://github.com/revoltchat/delta/issues/128"
-                                    target="_blank">
+                                    target="_blank" rel="noreferrer">
                                     #128
                                 </a>{" "}
                                 for when this will be resolved.

@@ -6,7 +6,6 @@ import styled from "styled-components/macro";
 import { useEffect, useErrorBoundary, useState } from "preact/hooks";
 
 import { GIT_REVISION } from "../revision";
-import { Children } from "../types/Preact";
 
 const CrashContainer = styled.div`
     height: 100%;

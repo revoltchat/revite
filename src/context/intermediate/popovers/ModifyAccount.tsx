@@ -3,8 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Text } from "preact-i18n";
 import { useContext, useState } from "preact/hooks";
 
-import Modal from "../../../components/ui/Modal";
-import Overline from "../../../components/ui/Overline";
+import { Category, Error, Modal } from "@revoltchat/ui";
 
 import FormField from "../../../pages/login/FormField";
 import { AppContext } from "../../revoltjs/RevoltClient";
@@ -69,15 +68,16 @@ export function ModifyAccountModal({ onClose, field }: Props) {
 
     return (
         <Modal
-            visible={true}
             onClose={onClose}
             title={<Text id={`app.special.modals.account.change.${field}`} />}
             disabled={processing}
             actions={[
                 {
-                    disabled: processing,
                     confirmation: true,
-                    onClick: handleSubmit(onSubmit),
+                    onClick: async () => {
+                        await handleSubmit(onSubmit);
+                        return true;
+                    },
                     children:
                         field === "email" ? (
                             <Text id="app.special.modals.actions.send_email" />
@@ -140,9 +140,13 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                     disabled={processing}
                 />
                 {error && (
-                    <Overline type="error" error={error}>
-                        <Text id="app.special.modals.account.failed" />
-                    </Overline>
+                    <Category compact>
+                        <Error
+                            error={
+                                <Text id="app.special.modals.account.failed" />
+                            }
+                        />
+                    </Category>
                 )}
             </form>
         </Modal>

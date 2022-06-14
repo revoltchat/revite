@@ -6,9 +6,10 @@ import { User } from "revolt.js";
 
 import styles from "./Friend.module.scss";
 import classNames from "classnames";
-import { Ref } from "preact";
 import { useTriggerEvents } from "preact-context-menu";
 import { Text } from "preact-i18n";
+
+import { IconButton } from "@revoltchat/ui";
 
 import { stopPropagation } from "../../lib/stopPropagation";
 import { voiceState } from "../../lib/vortex/VoiceState";
@@ -17,9 +18,6 @@ import { useIntermediate } from "../../context/intermediate/Intermediate";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
-import IconButton from "../../components/ui/IconButton";
-
-import { Children } from "../../types/Preact";
 
 interface Props {
     user: User;
@@ -37,7 +35,7 @@ export const Friend = observer(({ user }: Props) => {
         actions.push(
             <>
                 <IconButton
-                    type="circle"
+                    shape="circle"
                     className={classNames(styles.button, styles.success)}
                     onClick={(ev) =>
                         stopPropagation(
@@ -51,7 +49,7 @@ export const Friend = observer(({ user }: Props) => {
                     <PhoneCall size={20} />
                 </IconButton>
                 <IconButton
-                    type="circle"
+                    shape="circle"
                     className={styles.button}
                     onClick={(ev) =>
                         stopPropagation(
@@ -72,7 +70,7 @@ export const Friend = observer(({ user }: Props) => {
     if (user.relationship === "Incoming") {
         actions.push(
             <IconButton
-                type="circle"
+                shape="circle"
                 className={styles.button}
                 onClick={(ev) => stopPropagation(ev, user.addFriend())}>
                 <Plus size={24} />
@@ -93,7 +91,7 @@ export const Friend = observer(({ user }: Props) => {
     ) {
         actions.push(
             <IconButton
-                type="circle"
+                shape="circle"
                 className={classNames(
                     styles.button,
                     styles.remove,
@@ -119,7 +117,7 @@ export const Friend = observer(({ user }: Props) => {
     if (user.relationship === "Blocked") {
         actions.push(
             <IconButton
-                type="circle"
+                shape="circle"
                 className={classNames(styles.button, styles.error)}
                 onClick={(ev) => stopPropagation(ev, user.unblockUser())}>
                 <UserX size={24} />

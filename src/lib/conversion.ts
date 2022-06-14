@@ -11,7 +11,7 @@ export function urlBase64ToUint8Array(base64String: string) {
 export function mapToRecord<K extends symbol | string | number, V>(
     map: Map<K, V>,
 ) {
-    let record = {} as Record<K, V>;
+    const record = {} as Record<K, V>;
     map.forEach((v, k) => (record[k] = v));
     return record;
 }

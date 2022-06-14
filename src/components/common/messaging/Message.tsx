@@ -5,17 +5,17 @@ import { useTriggerEvents } from "preact-context-menu";
 import { memo } from "preact/compat";
 import { useEffect, useState } from "preact/hooks";
 
+import { Category } from "@revoltchat/ui";
+
 import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 
+import { I18nError } from "../../../context/Locale";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
-import Overline from "../../ui/Overline";
-
-import { Children } from "../../../types/Preact";
 import Markdown from "../../markdown/Markdown";
 import UserIcon from "../user/UserIcon";
 import { Username } from "../user/UserShort";
@@ -162,7 +162,9 @@ const Message = observer(
                         {replacement ?? <Markdown content={content} />}
                         {!queued && <InviteList message={message} />}
                         {queued?.error && (
-                            <Overline type="error" error={queued.error} />
+                            <Category>
+                                <I18nError error={queued.error} />
+                            </Category>
                         )}
                         {message.attachments?.map((attachment, index) => (
                             <Attachment

@@ -5,8 +5,10 @@ import update from "dayjs/plugin/updateLocale";
 import defaultsDeep from "lodash.defaultsdeep";
 import { observer } from "mobx-react-lite";
 
-import { IntlProvider } from "preact-i18n";
+import { IntlProvider, Text } from "preact-i18n";
 import { useCallback, useEffect, useState } from "preact/hooks";
+
+import { Error } from "@revoltchat/ui";
 
 import { useApplicationState } from "../mobx/State";
 
@@ -142,4 +144,13 @@ function transformLanguage(source: Dictionary) {
         );
 
     return obj;
+}
+
+export function I18nError({ error, children }: { error: any; children?: any }) {
+    return (
+        <Error
+            error={error ? <Text id={error} children={error} /> : undefined}
+            children={children}
+        />
+    );
 }

@@ -7,10 +7,9 @@ import classNames from "classnames";
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
 
-import { determineFileSize } from "../../lib/fileSize";
+import { IconButton, Preloader } from "@revoltchat/ui";
 
-import IconButton from "../../components/ui/IconButton";
-import Preloader from "../../components/ui/Preloader";
+import { determineFileSize } from "../../lib/fileSize";
 
 import { useIntermediate } from "../intermediate/Intermediate";
 import { AppContext } from "./RevoltClient";
@@ -73,7 +72,7 @@ export async function uploadFile(
     return res.data.id;
 }
 
-var input: HTMLInputElement;
+let input: HTMLInputElement;
 export function grabFiles(
     maxFileSize: number,
     cb: (files: File[]) => void,

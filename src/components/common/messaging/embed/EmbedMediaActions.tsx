@@ -3,7 +3,7 @@ import { API } from "revolt.js";
 
 import styles from "./Embed.module.scss";
 
-import IconButton from "../../../ui/IconButton";
+import { IconButton } from "@revoltchat/ui";
 
 interface Props {
     embed: API.Image;
@@ -20,7 +20,7 @@ export default function EmbedMediaActions({ embed }: Props) {
             </span>
             <a
                 href={embed.url}
-                class={styles.openIcon}
+                className={styles.openIcon}
                 target="_blank"
                 rel="noreferrer">
                 <IconButton>

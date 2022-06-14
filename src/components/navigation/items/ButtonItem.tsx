@@ -5,9 +5,10 @@ import { User, Channel } from "revolt.js";
 
 import styles from "./Item.module.scss";
 import classNames from "classnames";
-import { Ref } from "preact";
 import { useTriggerEvents } from "preact-context-menu";
 import { Localizer, Text } from "preact-i18n";
+
+import { IconButton } from "@revoltchat/ui";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { stopPropagation } from "../../../lib/stopPropagation";

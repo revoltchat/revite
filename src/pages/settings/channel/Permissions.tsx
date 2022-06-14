@@ -101,7 +101,7 @@ export default observer(({ channel }: Props) => {
                             filter={[
                                 ...(channel.channel_type === "Group"
                                     ? []
-                                    : ["ViewChannel" as "ViewChannel"]),
+                                    : ["ViewChannel" as const]),
                                 "ReadMessageHistory",
                                 "SendMessage",
                                 "ManageMessages",

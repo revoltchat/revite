@@ -19,7 +19,8 @@ export type SyncKeys =
     | "appearance"
     | "locale"
     | "notifications"
-    | "ordering";
+    | "ordering"
+    | "changelog";
 
 export const SYNC_KEYS: SyncKeys[] = [
     "theme",
@@ -27,6 +28,7 @@ export const SYNC_KEYS: SyncKeys[] = [
     "locale",
     "notifications",
     "ordering",
+    "changelog",
 ];
 
 export interface Data {

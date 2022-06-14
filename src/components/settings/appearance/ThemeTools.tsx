@@ -55,7 +55,7 @@ export default function ThemeTools() {
                 </Button>
             </Tooltip>
             <div
-                class="code"
+                className="code"
                 onClick={() => writeClipboard(JSON.stringify(theme))}>
                 <Tooltip content={<Text id="app.special.copy" />}>
                     {" "}

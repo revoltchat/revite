@@ -1,7 +1,6 @@
 import { User } from "revolt.js";
 import styled from "styled-components/macro";
 
-import { Children } from "../../../types/Preact";
 import Tooltip from "../Tooltip";
 import { Username } from "./UserShort";
 import UserStatus from "./UserStatus";

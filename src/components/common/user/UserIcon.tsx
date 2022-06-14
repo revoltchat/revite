@@ -114,7 +114,7 @@ export default observer(
                     y="0"
                     width="32"
                     height="32"
-                    class="icon"
+                    className="icon"
                     mask={mask ?? (status ? "url(#user)" : undefined)}>
                     {<img src={url} draggable={false} loading="lazy" />}
                 </foreignObject>

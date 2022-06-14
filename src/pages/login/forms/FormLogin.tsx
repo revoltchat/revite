@@ -4,6 +4,7 @@ import { API } from "revolt.js";
 import { useApplicationState } from "../../../mobx/State";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { modalController } from "../../../context/modals";
 
 import { Form } from "./Form";
 
@@ -43,14 +44,38 @@ export function FormLogin() {
                 // This should be replaced in the future.
                 const client = state.config.createClient();
                 await client.fetchConfiguration();
-                const session = await client.api.post("/auth/session/login", {
+
+                let session = await client.api.post("/auth/session/login", {
                     ...data,
                     friendly_name,
                 });
 
-                if (session.result !== "Success") {
-                    alert("unsupported!");
-                    return;
+                if (session.result === "MFA") {
+                    const { allowed_methods } = session;
+                    const mfa_response: API.MFAResponse | undefined =
+                        await new Promise((callback) =>
+                            modalController.push({
+                                type: "mfa_flow",
+                                state: "unknown",
+                                available_methods: allowed_methods,
+                                callback,
+                            }),
+                        );
+
+                    if (typeof mfa_response === "undefined") {
+                        throw "Cancelled";
+                    }
+
+                    session = await client.api.post("/auth/session/login", {
+                        mfa_response,
+                        mfa_ticket: session.ticket,
+                        friendly_name,
+                    });
+
+                    if (session.result === "MFA") {
+                        // unreachable code
+                        return;
+                    }
                 }
 
                 const s = session;

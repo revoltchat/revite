@@ -159,7 +159,7 @@ export default class Settings
     @computed private pullKeys(keys: (keyof ISettings)[]) {
         const obj: Partial<ISettings> = {};
         keys.forEach((key) => {
-            let value = this.get(key);
+            const value = this.get(key);
             if (!value) return;
             (obj as any)[key] = value;
         });

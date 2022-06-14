@@ -3,13 +3,13 @@ import { Download, CloudDownload } from "@styled-icons/boxicons-regular";
 
 import { useEffect, useState } from "preact/hooks";
 
+import { IconButton } from "@revoltchat/ui";
+
 import { internalSubscribe } from "../../lib/eventEmitter";
 
 import { useApplicationState } from "../../mobx/State";
 
-import IconButton from "../ui/IconButton";
-
-import { updateSW } from "../../main";
+import { updateSW } from "../../updateWorker";
 import Tooltip from "./Tooltip";
 
 let pendingUpdate = false;
@@ -31,7 +31,7 @@ export default function UpdateIndicator({ style }: Props) {
 
     if (style === "titlebar") {
         return (
-            <div class="actions">
+            <div className="actions">
                 <Tooltip
                     content="A new update is available!"
                     placement="bottom">
