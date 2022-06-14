@@ -89,11 +89,11 @@ export default observer(() => {
                     </Centred>
                 </Button>
                 <Button active={friendsActive}>
-                    <ConditionalLink active={friendsActive} to="/friends">
-                        <Centred>
+                    <IconButton>
+                        <ConditionalLink active={friendsActive} to="/friends">
                             <Group size={25} />
-                        </Centred>
-                    </ConditionalLink>
+                        </ConditionalLink>
+                    </IconButton>
                 </Button>
                 {/*<Button active={searchActive}>
                     <ConditionalLink active={searchActive} to="/search">
@@ -110,20 +110,22 @@ export default observer(() => {
                     </ConditionalLink>
                 </Button>*/}
                 <Button active={discoverActive}>
-                    <ConditionalLink
-                        active={discoverActive}
-                        to="/discover/servers">
-                        <Centred>
+                    <IconButton>
+                        <ConditionalLink
+                            active={discoverActive}
+                            to="/discover/servers">
+                        
                             <Compass size={24} />
-                        </Centred>
-                    </ConditionalLink>
+                        
+                        </ConditionalLink>
+                    </IconButton>
                 </Button>
                 <Button active={settingsActive}>
-                    <ConditionalLink active={settingsActive} to="/settings">
-                        <Centred>
+                    <IconButton>
+                        <ConditionalLink active={settingsActive} to="/settings">
                             <UserIcon target={user} size={26} status={true} />
-                        </Centred>
-                    </ConditionalLink>
+                        </ConditionalLink>
+                    </IconButton>
                 </Button>
             </Navbar>
         </Base>
