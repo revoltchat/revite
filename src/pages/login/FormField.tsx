@@ -11,7 +11,8 @@ type FieldType =
     | "username"
     | "password"
     | "invite"
-    | "current_password";
+    | "current_password"
+    | "new_password";
 
 type Props = Omit<JSX.HTMLAttributes<HTMLInputElement>, "children" | "as"> & {
     type: FieldType;

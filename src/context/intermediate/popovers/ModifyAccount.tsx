@@ -112,7 +112,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                 )}
                 {field === "password" && (
                     <FormField
-                        type="password"
+                        type="new_password"
                         name="new_password"
                         register={register}
                         showOverline
