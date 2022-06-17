@@ -46,7 +46,7 @@ export default function UpdateIndicator({ style }: Props) {
         );
     }
 
-    if (window.isNative) return null;
+    if (window.isNative && window.native.getConfig().frame) return null;
 
     return (
         <IconButton onClick={() => updateSW(true)}>
