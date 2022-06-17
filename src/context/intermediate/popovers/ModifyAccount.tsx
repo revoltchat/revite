@@ -75,7 +75,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                 {
                     confirmation: true,
                     onClick: async () => {
-                        await handleSubmit(onSubmit);
+                        await handleSubmit(onSubmit)();
                         return true;
                     },
                     children:
