@@ -369,9 +369,7 @@ export default function ContextMenus() {
 
                 case "clear_status":
                     {
-                        const { text: _text, ...status } =
-                            client.user?.status ?? {};
-                        await client.users.edit({ status });
+                        await client.users.edit({ remove: ["StatusText"] });
                     }
                     break;
 
