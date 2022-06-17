@@ -43,7 +43,7 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
                     confirmation: true,
                     palette: "accent",
                     onClick: async () => {
-                        await handleSubmit(onSubmit);
+                        await handleSubmit(onSubmit)();
                         return true;
                     },
                     children: <Text id="app.special.modals.actions.create" />,
