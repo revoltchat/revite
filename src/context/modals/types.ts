@@ -52,6 +52,11 @@ export type Modal = {
           text: string;
       }
     | {
+          type: "link_warning";
+          link: string;
+          callback: () => true;
+      }
+    | {
           type: "signed_out";
       }
 );

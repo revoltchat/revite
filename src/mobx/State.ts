@@ -311,3 +311,11 @@ export async function hydrateState() {
 export function useApplicationState() {
     return state;
 }
+
+/**
+ * Get the application state
+ * @returns Application state
+ */
+export function getApplicationState() {
+    return state;
+}

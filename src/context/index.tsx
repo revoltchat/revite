@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Router, Link } from "react-router-dom";
 
 import { ContextMenuTrigger } from "preact-context-menu";
 import { Text } from "preact-i18n";
@@ -10,6 +10,7 @@ import { hydrateState } from "../mobx/State";
 
 import Locale from "./Locale";
 import Theme from "./Theme";
+import { history } from "./history";
 import Intermediate from "./intermediate/Intermediate";
 import ModalRenderer from "./modals/ModalRenderer";
 import Client from "./revoltjs/RevoltClient";
@@ -36,7 +37,7 @@ export default function Context({ children }: { children: Children }) {
     if (!ready) return <Preloader type="spinner" />;
 
     return (
-        <Router basename={import.meta.env.BASE_URL}>
+        <Router history={history}>
             <UIProvider value={uiContext}>
                 <Locale>
                     <Intermediate>

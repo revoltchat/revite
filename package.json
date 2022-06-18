@@ -107,6 +107,7 @@
         "eslint-config-preact": "^1.1.4",
         "eslint-plugin-jsdoc": "^39.3.2",
         "eventemitter3": "^4.0.7",
+        "history": "4",
         "json-stringify-deterministic": "^1.0.2",
         "localforage": "^1.9.0",
         "lodash.defaultsdeep": "^4.6.1",
