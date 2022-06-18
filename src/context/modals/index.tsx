@@ -31,8 +31,10 @@ class ModalController<T extends Modal> {
         makeObservable(this, {
             stack: observable,
             push: action,
+            pop: action,
             remove: action,
             rendered: computed,
+            isVisible: computed,
         });
     }
 
@@ -51,6 +53,16 @@ class ModalController<T extends Modal> {
     }
 
     /**
+     * Remove the top modal from the screen
+     * @param signal What action to trigger
+     */
+    pop(signal: "close" | "confirm" | "force") {
+        this.stack = this.stack.map((entry, index) =>
+            index === this.stack.length - 1 ? { ...entry, signal } : entry,
+        );
+    }
+
+    /**
      * Remove the keyed modal from the stack
      */
     remove(key: string) {
@@ -66,6 +78,8 @@ class ModalController<T extends Modal> {
                 {this.stack.map((modal) => {
                     const Component = this.components[modal.type];
                     return (
+                        // ESLint does not understand spread operator
+                        // eslint-disable-next-line
                         <Component
                             {...modal}
                             onClose={() => this.remove(modal.key!)}
@@ -74,6 +88,10 @@ class ModalController<T extends Modal> {
                 })}
             </>
         );
+    }
+
+    get isVisible() {
+        return this.stack.length > 0;
     }
 }
 

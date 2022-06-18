@@ -13,6 +13,8 @@ import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
 
+import { modalController } from "../../context/modals";
+
 import ButtonItem from "../../components/navigation/items/ButtonItem";
 
 interface Props {
@@ -61,6 +63,8 @@ export function GenericSettings({
     useEffect(() => {
         function keyDown(e: KeyboardEvent) {
             if (e.key === "Escape") {
+                if (modalController.isVisible) return;
+
                 exitSettings();
             }
         }

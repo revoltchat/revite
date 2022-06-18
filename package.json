@@ -73,7 +73,7 @@
         "@hcaptcha/react-hcaptcha": "^0.3.6",
         "@insertish/vite-plugin-babel-macros": "^1.0.5",
         "@preact/preset-vite": "^2.0.0",
-        "@revoltchat/ui": "1.0.40",
+        "@revoltchat/ui": "1.0.43",
         "@rollup/plugin-replace": "^2.4.2",
         "@styled-icons/boxicons-logos": "^10.38.0",
         "@styled-icons/boxicons-regular": "^10.38.0",

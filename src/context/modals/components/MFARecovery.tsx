@@ -32,6 +32,7 @@ export default function MFARecovery({
     codes,
     client,
     onClose,
+    signal,
 }: ModalProps<"mfa_recovery">) {
     // Keep track of changes to recovery codes
     const [known, setCodes] = useState(codes);
@@ -69,7 +70,8 @@ export default function MFARecovery({
                     onClick: reset,
                 },
             ]}
-            onClose={onClose}>
+            onClose={onClose}
+            signal={signal}>
             <List>
                 {known.map((code) => (
                     <span key={code}>{code}</span>

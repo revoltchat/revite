@@ -150,7 +150,6 @@ export default class State {
                 () => stringify(store.toJSON()),
                 async (value) => {
                     try {
-                        console.log(id, "updated!");
                         // Save updated store to local storage.
                         await localforage.setItem(id, JSON.parse(value));
 

@@ -31,6 +31,7 @@ export default function MFAEnableTOTP({
     secret,
     callback,
     onClose,
+    signal,
 }: ModalProps<"mfa_enable_totp">) {
     const uri = `otpauth://totp/Revolt:${identifier}?secret=${secret}&issuer=Revolt`;
     const [value, setValue] = useState("");
@@ -61,7 +62,9 @@ export default function MFAEnableTOTP({
             onClose={() => {
                 callback();
                 onClose();
-            }}>
+            }}
+            signal={signal}
+            nonDismissable>
             <Column>
                 <Centred>
                     <Qr>

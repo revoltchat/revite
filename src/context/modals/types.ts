@@ -39,4 +39,5 @@ export type Modal = {
 
 export type ModalProps<T extends Modal["type"]> = Modal & { type: T } & {
     onClose: () => void;
+    signal?: "close" | "confirm";
 };
