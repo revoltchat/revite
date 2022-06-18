@@ -5,14 +5,12 @@ import { useContext, useState } from "preact/hooks";
 
 import { Category, Error, Modal } from "@revoltchat/ui";
 
+import { noopTrue } from "../../../lib/js";
+
 import FormField from "../../../pages/login/FormField";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
-
-interface Props {
-    onClose: () => void;
-    field: "username" | "email" | "password";
-}
+import { ModalProps } from "../types";
 
 interface FormInputs {
     password: string;
@@ -25,7 +23,10 @@ interface FormInputs {
     current_password?: string;
 }
 
-export function ModifyAccountModal({ onClose, field }: Props) {
+export default function ModifyAccount({
+    field,
+    ...props
+}: ModalProps<"modify_account">) {
     const client = useContext(AppContext);
     const [processing, setProcessing] = useState(false);
     const { handleSubmit, register, errors } = useForm<FormInputs>();
@@ -46,19 +47,19 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                     current_password: password,
                     email: new_email,
                 });
-                onClose();
+                props.onClose();
             } else if (field === "password") {
                 await client.api.patch("/auth/account/change/password", {
                     current_password: password,
                     password: new_password,
                 });
-                onClose();
+                props.onClose();
             } else if (field === "username") {
                 await client.api.patch("/users/@me/username", {
                     username: new_username,
                     password,
                 });
-                onClose();
+                props.onClose();
             }
         } catch (err) {
             setError(takeError(err));
@@ -68,16 +69,13 @@ export function ModifyAccountModal({ onClose, field }: Props) {
 
     return (
         <Modal
-            onClose={onClose}
+            {...props}
             title={<Text id={`app.special.modals.account.change.${field}`} />}
             disabled={processing}
             actions={[
                 {
                     confirmation: true,
-                    onClick: async () => {
-                        await handleSubmit(onSubmit)();
-                        return true;
-                    },
+                    onClick: () => void handleSubmit(onSubmit)(),
                     children:
                         field === "email" ? (
                             <Text id="app.special.modals.actions.send_email" />
@@ -86,7 +84,7 @@ export function ModifyAccountModal({ onClose, field }: Props) {
                         ),
                 },
                 {
-                    onClick: onClose,
+                    onClick: noopTrue,
                     children: <Text id="app.special.modals.actions.cancel" />,
                     palette: "plain",
                 },

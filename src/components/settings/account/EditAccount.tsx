@@ -12,6 +12,7 @@ import {
 } from "@revoltchat/ui";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { modalController } from "../../../context/modals";
 import {
     ClientStatus,
     StatusContext,
@@ -62,8 +63,9 @@ export default function EditAccount() {
                     account
                     action={<Pencil size={20} />}
                     onClick={() =>
-                        openScreen({
-                            id: "modify_account",
+                        modalController.push({
+                            type: "modify_account",
+                            client,
                             field,
                         })
                     }>

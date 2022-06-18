@@ -8,8 +8,6 @@ import { SpecialPromptModal } from "./modals/Prompt";
 import { ChannelInfo } from "./popovers/ChannelInfo";
 import { CreateBotModal } from "./popovers/CreateBot";
 import { ImageViewer } from "./popovers/ImageViewer";
-import { ModifyAccountModal } from "./popovers/ModifyAccount";
-import { PendingRequests } from "./popovers/PendingRequests";
 import { ServerIdentityModal } from "./popovers/ServerIdentityModal";
 import { UserPicker } from "./popovers/UserPicker";
 import { UserProfile } from "./popovers/UserProfile";
@@ -35,12 +33,6 @@ export default function Popovers() {
         case "channel_info":
             // @ts-expect-error someone figure this out :)
             return <ChannelInfo {...screen} onClose={onClose} />;
-        case "pending_requests":
-            // @ts-expect-error someone figure this out :)
-            return <PendingRequests {...screen} onClose={onClose} />;
-        case "modify_account":
-            // @ts-expect-error someone figure this out :)
-            return <ModifyAccountModal onClose={onClose} {...screen} />;
         case "create_bot":
             // @ts-expect-error someone figure this out :)
             return <CreateBotModal onClose={onClose} {...screen} />;
