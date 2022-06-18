@@ -6,7 +6,7 @@ import { useContext, useEffect } from "preact/hooks";
 
 import { Header } from "@revoltchat/ui";
 
-import { useIntermediate } from "../context/intermediate/Intermediate";
+import { modalController } from "../context/modals";
 import {
     AppContext,
     ClientStatus,
@@ -18,7 +18,6 @@ export default function Open() {
     const client = useContext(AppContext);
     const status = useContext(StatusContext);
     const { id } = useParams<{ id: string }>();
-    const { openScreen } = useIntermediate();
 
     if (status !== ClientStatus.ONLINE) {
         return (
@@ -40,7 +39,12 @@ export default function Open() {
             client
                 .user!.openDM()
                 .then((channel) => history.push(`/channel/${channel?._id}`))
-                .catch((error) => openScreen({ id: "error", error }));
+                .catch((error) =>
+                    modalController.push({
+                        type: "error",
+                        error,
+                    }),
+                );
 
             return;
         }
@@ -62,7 +66,12 @@ export default function Open() {
                     .get(id)
                     ?.openDM()
                     .then((channel) => history.push(`/channel/${channel?._id}`))
-                    .catch((error) => openScreen({ id: "error", error }));
+                    .catch((error) =>
+                        modalController.push({
+                            type: "error",
+                            error,
+                        }),
+                    );
             }
 
             return;

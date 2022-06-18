@@ -2,25 +2,23 @@ import { Text } from "preact-i18n";
 
 import { Modal } from "@revoltchat/ui";
 
-interface Props {
-    onClose: () => void;
-    token: string;
-    username: string;
-}
+import { noopTrue } from "../../../lib/js";
 
-export function TokenRevealModal({ onClose, token, username }: Props) {
+import { ModalProps } from "../types";
+
+export function ShowToken({ name, token, ...props }: ModalProps<"show_token">) {
     return (
         <Modal
-            onClose={onClose}
+            {...props}
             title={
                 <Text
                     id={"app.special.modals.token_reveal"}
-                    fields={{ name: username }}
+                    fields={{ name }}
                 />
             }
             actions={[
                 {
-                    onClick: onClose,
+                    onClick: noopTrue,
                     confirmation: true,
                     children: <Text id="app.special.modals.actions.close" />,
                 },

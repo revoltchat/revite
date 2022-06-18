@@ -33,13 +33,22 @@ export type Modal = {
           initial?: number;
       }
     | {
+          type: "sign_out_sessions";
           client: Client;
           onDelete: () => void;
           onDeleting: () => void;
-          type: "sign_out_sessions";
       }
     | {
-          type: "test" | "signed_out";
+          type: "show_token";
+          name: string;
+          token: string;
+      }
+    | {
+          type: "error";
+          error: string;
+      }
+    | {
+          type: "signed_out";
       }
 );
 

@@ -25,6 +25,7 @@ import { useTranslation } from "../../../lib/i18n";
 import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { modalController } from "../../../context/modals";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
@@ -366,10 +367,10 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                 onClick={(ev) =>
                                     stopPropagation(
                                         ev,
-                                        openScreen({
-                                            id: "token_reveal",
+                                        modalController.push({
+                                            type: "show_token",
                                             token: bot.token,
-                                            username: user!.username,
+                                            name: user!.username,
                                         }),
                                     )
                                 }>
