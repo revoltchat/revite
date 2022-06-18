@@ -141,35 +141,7 @@ export default function Intermediate(props: Props) {
     const actions = useMemo(() => {
         return {
             openLink: (href?: string, trusted?: boolean) => {
-                const link = determineLink(href);
-
-                switch (link.type) {
-                    case "profile": {
-                        openScreen({ id: "profile", user_id: link.id });
-                        return true;
-                    }
-                    case "navigate": {
-                        history.push(link.path);
-                        return true;
-                    }
-                    case "external": {
-                        if (
-                            !trusted &&
-                            !settings.security.isTrustedOrigin(
-                                link.url.hostname,
-                            )
-                        ) {
-                            openScreen({
-                                id: "external_link_prompt",
-                                link: link.href,
-                            });
-                        } else {
-                            window.open(link.href, "_blank", "noreferrer");
-                        }
-                    }
-                }
-
-                return true;
+                return modalController.openLink(href, trusted);
             },
             openScreen: (screen: Screen) => openScreen(screen),
             writeClipboard: (a: string) => modalController.writeText(a),

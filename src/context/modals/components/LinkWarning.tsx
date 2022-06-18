@@ -2,35 +2,32 @@ import { Text } from "preact-i18n";
 
 import { Modal } from "@revoltchat/ui";
 
+import { noopTrue } from "../../../lib/js";
+
 import { useApplicationState } from "../../../mobx/State";
 
-import { useIntermediate } from "../Intermediate";
+import { ModalProps } from "../types";
 
-interface Props {
-    onClose: () => void;
-    link: string;
-}
-
-export function ExternalLinkModal({ onClose, link }: Props) {
-    const { openLink } = useIntermediate();
+export default function LinkWarning({
+    link,
+    callback,
+    ...props
+}: ModalProps<"link_warning">) {
     const settings = useApplicationState().settings;
 
     return (
         <Modal
-            onClose={onClose}
+            {...props}
             title={<Text id={"app.special.modals.external_links.title"} />}
             actions={[
                 {
-                    onClick: () => {
-                        openLink(link, true);
-                        onClose();
-                    },
+                    onClick: callback,
                     confirmation: true,
                     palette: "accent",
                     children: "Continue",
                 },
                 {
-                    onClick: onClose,
+                    onClick: noopTrue,
                     confirmation: false,
                     children: "Cancel",
                 },
@@ -41,8 +38,7 @@ export function ExternalLinkModal({ onClose, link }: Props) {
                             settings.security.addTrustedOrigin(url.hostname);
                         } catch (e) {}
 
-                        openLink(link, true);
-                        onClose();
+                        return callback();
                     },
                     palette: "plain",
                     children: (

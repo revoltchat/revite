@@ -8,9 +8,16 @@ import {
 import type { Client, API } from "revolt.js";
 import { ulid } from "ulid";
 
+import { determineLink } from "../../lib/links";
+
+import { getApplicationState, useApplicationState } from "../../mobx/State";
+
+import { history } from "../history";
+// import { determineLink } from "../../lib/links";
 import Changelog from "./components/Changelog";
 import Clipboard from "./components/Clipboard";
 import Error from "./components/Error";
+import LinkWarning from "./components/LinkWarning";
 import MFAEnableTOTP from "./components/MFAEnableTOTP";
 import MFAFlow from "./components/MFAFlow";
 import MFARecovery from "./components/MFARecovery";
@@ -156,12 +163,46 @@ class ModalControllerExtended extends ModalController<Modal> {
             });
         }
     }
+
+    openLink(href?: string, trusted?: boolean) {
+        const link = determineLink(href);
+        const settings = getApplicationState().settings;
+
+        switch (link.type) {
+            case "profile": {
+                // TODO: port Profile
+                // openScreen({ id: "profile", user_id: link.id });
+                break;
+            }
+            case "navigate": {
+                history.push(link.path);
+                break;
+            }
+            case "external": {
+                if (
+                    !trusted &&
+                    !settings.security.isTrustedOrigin(link.url.hostname)
+                ) {
+                    modalController.push({
+                        type: "link_warning",
+                        link: link.href,
+                        callback: () => this.openLink(href, true) as true,
+                    });
+                } else {
+                    window.open(link.href, "_blank", "noreferrer");
+                }
+            }
+        }
+
+        return true;
+    }
 }
 
 export const modalController = new ModalControllerExtended({
     changelog: Changelog,
     clipboard: Clipboard,
     error: Error,
+    link_warning: LinkWarning,
     mfa_flow: MFAFlow,
     mfa_recovery: MFARecovery,
     mfa_enable_totp: MFAEnableTOTP,
