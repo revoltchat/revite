@@ -1,16 +1,8 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
-import { Channel } from "revolt.js";
-import { Message } from "revolt.js";
-import { Server } from "revolt.js";
+import { Channel, Message, Server } from "revolt.js";
 
 import { mapToRecord } from "../../lib/conversion";
 
-import {
-    legacyMigrateNotification,
-    LegacyNotifications,
-} from "../legacy/redux";
-
-import { MIGRATIONS } from "../State";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 import Syncable from "../interfaces/Syncable";
@@ -217,11 +209,7 @@ export default class NotificationOptions
         return false;
     }
 
-    @action apply(_key: "notifications", data: unknown, revision: number) {
-        if (revision < MIGRATIONS.REDUX) {
-            data = legacyMigrateNotification(data as LegacyNotifications);
-        }
-
+    @action apply(_key: "notifications", data: unknown, _revision: number) {
         this.hydrate(data as Data);
     }
 
