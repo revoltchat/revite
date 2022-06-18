@@ -40,6 +40,7 @@ function RenderLog({ post }: { post: ChangelogPost }) {
 export default function Changelog({
     initial,
     onClose,
+    signal,
 }: ModalProps<"changelog">) {
     const [log, setLog] = useState(initial);
 
@@ -86,7 +87,8 @@ export default function Changelog({
                 )
             }
             actions={actions}
-            onClose={onClose}>
+            onClose={onClose}
+            signal={signal}>
             {entry ? (
                 <RenderLog post={entry} />
             ) : (

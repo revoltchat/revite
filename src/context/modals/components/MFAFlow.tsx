@@ -81,7 +81,11 @@ function ResponseEntry({
 /**
  * MFA ticket creation flow
  */
-export default function MFAFlow({ onClose, ...props }: ModalProps<"mfa_flow">) {
+export default function MFAFlow({
+    onClose,
+    signal,
+    ...props
+}: ModalProps<"mfa_flow">) {
     const [methods, setMethods] = useState<API.MFAMethod[] | undefined>(
         props.state === "unknown" ? props.available_methods : undefined,
     );
@@ -178,6 +182,16 @@ export default function MFAFlow({ onClose, ...props }: ModalProps<"mfa_flow">) {
                           },
                       ]
             }
+            // If we are logging in or have selected a method,
+            // don't allow the user to dismiss the modal by clicking off.
+            // This is to just generally prevent annoying situations
+            // where you accidentally close the modal while logging in
+            // or when switching to your password manager.
+            nonDismissable={
+                props.state === "unknown" ||
+                typeof selectedMethod !== "undefined"
+            }
+            signal={signal}
             onClose={() => {
                 props.callback();
                 onClose();
