@@ -6,8 +6,6 @@ import { Client } from "revolt.js";
 
 import { reportError } from "../lib/ErrorBoundary";
 
-import { legacyMigrateForwards, LegacyState } from "./legacy/redux";
-
 import Persistent from "./interfaces/Persistent";
 import Syncable from "./interfaces/Syncable";
 import Auth from "./stores/Auth";
@@ -239,23 +237,6 @@ export default class State {
      * Load data stores from local storage.
      */
     async hydrate() {
-        // Migrate legacy Redux store.
-        try {
-            let legacy = await localforage.getItem("state");
-            await localforage.removeItem("state");
-            if (legacy) {
-                if (typeof legacy === "string") {
-                    legacy = JSON.parse(legacy);
-                }
-
-                legacyMigrateForwards(legacy as Partial<LegacyState>, this);
-                await this.save();
-                return;
-            }
-        } catch (err) {
-            reportError(err as any, "redux_migration");
-        }
-
         // Load MobX store.
         const sync = (await localforage.getItem("sync")) as DataSync;
         const { revision } = sync ?? { revision: {} };
