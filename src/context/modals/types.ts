@@ -48,6 +48,10 @@ export type Modal = {
           error: string;
       }
     | {
+          type: "clipboard";
+          text: string;
+      }
+    | {
           type: "signed_out";
       }
 );

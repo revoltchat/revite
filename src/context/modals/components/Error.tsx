@@ -6,7 +6,7 @@ import { noopTrue } from "../../../lib/js";
 
 import { ModalProps } from "../types";
 
-export function Error({ error, ...props }: ModalProps<"error">) {
+export default function Error({ error, ...props }: ModalProps<"error">) {
     return (
         <Modal
             {...props}

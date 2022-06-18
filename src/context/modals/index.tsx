@@ -9,14 +9,15 @@ import type { Client, API } from "revolt.js";
 import { ulid } from "ulid";
 
 import Changelog from "./components/Changelog";
-import { Error } from "./components/Error";
+import Clipboard from "./components/Clipboard";
+import Error from "./components/Error";
 import MFAEnableTOTP from "./components/MFAEnableTOTP";
 import MFAFlow from "./components/MFAFlow";
 import MFARecovery from "./components/MFARecovery";
 import OutOfDate from "./components/OutOfDate";
-import { ShowToken } from "./components/ShowToken";
-import { SignOutSessions } from "./components/SignOutSessions";
-import { SignedOut } from "./components/SignedOut";
+import ShowToken from "./components/ShowToken";
+import SignOutSessions from "./components/SignOutSessions";
+import SignedOut from "./components/SignedOut";
 import { Modal } from "./types";
 
 type Components = Record<string, React.FC<any>>;
@@ -140,10 +141,26 @@ class ModalControllerExtended extends ModalController<Modal> {
                 ),
         );
     }
+
+    /**
+     * Write text to the clipboard
+     * @param text Text to write
+     */
+    writeText(text: string) {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text);
+        } else {
+            this.push({
+                type: "clipboard",
+                text,
+            });
+        }
+    }
 }
 
 export const modalController = new ModalControllerExtended({
     changelog: Changelog,
+    clipboard: Clipboard,
     error: Error,
     mfa_flow: MFAFlow,
     mfa_recovery: MFARecovery,

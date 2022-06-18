@@ -6,7 +6,11 @@ import { noopTrue } from "../../../lib/js";
 
 import { ModalProps } from "../types";
 
-export function ShowToken({ name, token, ...props }: ModalProps<"show_token">) {
+export default function ShowToken({
+    name,
+    token,
+    ...props
+}: ModalProps<"show_token">) {
     return (
         <Modal
             {...props}
@@ -23,7 +27,9 @@ export function ShowToken({ name, token, ...props }: ModalProps<"show_token">) {
                     children: <Text id="app.special.modals.actions.close" />,
                 },
             ]}>
-            <code style={{ userSelect: "all" }}>{token}</code>
+            <code style={{ userSelect: "all", wordBreak: "break-all" }}>
+                {token}
+            </code>
         </Modal>
     );
 }

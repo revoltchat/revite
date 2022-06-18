@@ -2,19 +2,18 @@ import { Text } from "preact-i18n";
 
 import { Modal } from "@revoltchat/ui";
 
-interface Props {
-    onClose: () => void;
-    text: string;
-}
+import { noopTrue } from "../../../lib/js";
 
-export function ClipboardModal({ onClose, text }: Props) {
+import { ModalProps } from "../types";
+
+export default function Clipboard({ text, ...props }: ModalProps<"clipboard">) {
     return (
         <Modal
-            onClose={onClose}
+            {...props}
             title={<Text id="app.special.modals.clipboard.unavailable" />}
             actions={[
                 {
-                    onClick: onClose,
+                    onClick: noopTrue,
                     confirmation: true,
                     children: <Text id="app.special.modals.actions.close" />,
                 },
@@ -25,7 +24,9 @@ export function ClipboardModal({ onClose, text }: Props) {
                 </p>
             )}
             <Text id="app.special.modals.clipboard.copy" />{" "}
-            <code style={{ userSelect: "all" }}>{text}</code>
+            <code style={{ userSelect: "all", wordBreak: "break-all" }}>
+                {text}
+            </code>
         </Modal>
     );
 }

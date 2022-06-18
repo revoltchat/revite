@@ -9,7 +9,7 @@ import { ModalProps } from "../types";
 /**
  * Indicate that the user has been signed out of their account
  */
-export function SignedOut(props: ModalProps<"signed_out">) {
+export default function SignedOut(props: ModalProps<"signed_out">) {
     return (
         <Modal
             {...props}
