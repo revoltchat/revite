@@ -1,4 +1,4 @@
-import { API, Client, User } from "revolt.js";
+import { API, Client, User, Member } from "revolt.js";
 
 export type Modal = {
     key?: string;
@@ -64,6 +64,10 @@ export type Modal = {
           type: "modify_account";
           client: Client;
           field: "username" | "email" | "password";
+      }
+    | {
+          type: "server_identity";
+          member: Member;
       }
     | {
           type: "signed_out";

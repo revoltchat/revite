@@ -1,14 +1,11 @@
 import { useContext } from "preact/hooks";
 
-import { internalEmit } from "../../lib/eventEmitter";
-
 import { IntermediateContext, useIntermediate } from "./Intermediate";
 import { SpecialInputModal } from "./modals/Input";
 import { SpecialPromptModal } from "./modals/Prompt";
 import { ChannelInfo } from "./popovers/ChannelInfo";
 import { CreateBotModal } from "./popovers/CreateBot";
 import { ImageViewer } from "./popovers/ImageViewer";
-import { ServerIdentityModal } from "./popovers/ServerIdentityModal";
 import { UserPicker } from "./popovers/UserPicker";
 import { UserProfile } from "./popovers/UserProfile";
 
@@ -42,9 +39,6 @@ export default function Popovers() {
         case "special_input":
             // @ts-expect-error someone figure this out :)
             return <SpecialInputModal onClose={onClose} {...screen} />;
-        case "server_identity":
-            // @ts-expect-error someone figure this out :)
-            return <ServerIdentityModal onClose={onClose} {...screen} />;
     }
 
     return null;

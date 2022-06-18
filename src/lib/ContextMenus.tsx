@@ -10,6 +10,7 @@ import {
     API,
     Permission,
     UserPermission,
+    Member,
 } from "revolt.js";
 
 import {
@@ -101,7 +102,7 @@ type Action =
     | { action: "close_dm"; target: Channel }
     | { action: "leave_server"; target: Server }
     | { action: "delete_server"; target: Server }
-    | { action: "edit_identity"; target: Server }
+    | { action: "edit_identity"; target: Member }
     | {
           action: "open_notification_options";
           channel?: Channel;
@@ -399,9 +400,9 @@ export default function ContextMenus() {
                     break;
 
                 case "edit_identity":
-                    openScreen({
-                        id: "server_identity",
-                        server: data.target,
+                    modalController.push({
+                        type: "server_identity",
+                        member: data.target,
                     });
                     break;
 
@@ -952,7 +953,10 @@ export default function ContextMenus() {
                                 serverPermissions & Permission.ChangeAvatar
                             )
                                 generateAction(
-                                    { action: "edit_identity", target: server },
+                                    {
+                                        action: "edit_identity",
+                                        target: server.member!,
+                                    },
                                     "edit_identity",
                                 );
 
