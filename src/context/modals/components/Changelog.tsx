@@ -35,7 +35,7 @@ function RenderLog({ post }: { post: ChangelogPost }) {
 }
 
 /**
- * Changelog rendering modal
+ * Changelog modal
  */
 export default function Changelog({
     initial,

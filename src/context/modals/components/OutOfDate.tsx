@@ -7,6 +7,10 @@ import { noop, noopTrue } from "../../../lib/js";
 import { APP_VERSION } from "../../../version";
 import { ModalProps } from "../types";
 
+/**
+ * Out-of-date indicator which instructs users
+ * that their client needs to be updated
+ */
 export default function OutOfDate({
     onClose,
     version,

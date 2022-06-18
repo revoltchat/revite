@@ -10,6 +10,7 @@ import { Preloader } from "@revoltchat/ui";
 import { useApplicationState } from "../../mobx/State";
 
 import { useIntermediate } from "../intermediate/Intermediate";
+import { modalController } from "../modals";
 import { registerEvents } from "./events";
 import { takeError } from "./util";
 
@@ -68,7 +69,7 @@ export default observer(({ children }: Props) => {
                     const error = takeError(err);
                     if (error === "Forbidden" || error === "Unauthorized") {
                         client.logout(true);
-                        openScreen({ id: "signed_out" });
+                        modalController.push({ type: "signed_out" });
                     } else {
                         setStatus(ClientStatus.DISCONNECTED);
                         openScreen({ id: "error", error });

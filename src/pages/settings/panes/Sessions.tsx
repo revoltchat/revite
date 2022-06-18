@@ -27,7 +27,7 @@ import {
 } from "@revoltchat/ui";
 
 import { dayjs } from "../../../context/Locale";
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { modalController } from "../../../context/modals";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 dayjs.extend(relativeTime);
@@ -42,8 +42,6 @@ export function Sessions() {
     );
     const [attemptingDelete, setDelete] = useState<string[]>([]);
     const history = useHistory();
-
-    const { openScreen } = useIntermediate();
 
     function switchPage(to: string) {
         history.replace(`/settings/${to}`);
@@ -217,32 +215,22 @@ export function Sessions() {
             })}
             <hr />
             <CategoryButton
-                onClick={async () => {
-                    openScreen({
-                        id: "sessions",
-                        confirm: async () => {
-                            // ! FIXME: add to rAuth
-                            const del: string[] = [];
-                            render.forEach((session) => {
-                                if (deviceId !== session._id) {
-                                    del.push(session._id);
-                                }
-                            });
-
-                            setDelete(del);
-
-                            for (const id of del) {
-                                await client.api.delete(
-                                    `/auth/session/${id as ""}`,
-                                );
-                            }
-
+                onClick={async () =>
+                    modalController.push({
+                        type: "sign_out_sessions",
+                        client,
+                        onDeleting: () =>
+                            setDelete(
+                                render
+                                    .filter((x) => x._id !== deviceId)
+                                    .map((x) => x._id),
+                            ),
+                        onDelete: () =>
                             setSessions(
                                 sessions.filter((x) => x._id === deviceId),
-                            );
-                        },
-                    });
-                }}
+                            ),
+                    })
+                }
                 icon={<LogOut size={24} color={"var(--error)"} />}
                 action={"chevron"}
                 description={
