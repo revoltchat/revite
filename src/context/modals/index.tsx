@@ -13,6 +13,7 @@ import { determineLink } from "../../lib/links";
 import { getApplicationState, useApplicationState } from "../../mobx/State";
 
 import { history } from "../history";
+import { __thisIsAHack } from "../intermediate/Intermediate";
 // import { determineLink } from "../../lib/links";
 import Changelog from "./components/Changelog";
 import Clipboard from "./components/Clipboard";
@@ -172,8 +173,7 @@ class ModalControllerExtended extends ModalController<Modal> {
 
         switch (link.type) {
             case "profile": {
-                // TODO: port Profile
-                // openScreen({ id: "profile", user_id: link.id });
+                __thisIsAHack({ id: "profile", user_id: link.id });
                 break;
             }
             case "navigate": {

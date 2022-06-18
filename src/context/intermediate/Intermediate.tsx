@@ -128,8 +128,11 @@ interface Props {
     children: Children;
 }
 
+export let __thisIsAHack;
+
 export default function Intermediate(props: Props) {
     const [screen, openScreen] = useState<Screen>({ id: "none" });
+    __thisIsAHack = openScreen;
     const settings = useApplicationState().settings;
     const history = useHistory();
 
