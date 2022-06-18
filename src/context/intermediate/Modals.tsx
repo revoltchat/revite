@@ -1,6 +1,5 @@
 //import { isModalClosing } from "../../components/ui/Modal";
 import { Screen } from "./Intermediate";
-import { ClipboardModal } from "./modals/Clipboard";
 import { ExternalLinkModal } from "./modals/ExternalLinkPrompt";
 import { InputModal } from "./modals/Input";
 import { OnboardingModal } from "./modals/Onboarding";
@@ -22,8 +21,6 @@ export default function Modals({ screen, openScreen }: Props) {
             return <PromptModal onClose={onClose} {...screen} />;
         case "_input":
             return <InputModal onClose={onClose} {...screen} />;
-        case "clipboard":
-            return <ClipboardModal onClose={onClose} {...screen} />;
         case "onboarding":
             return <OnboardingModal onClose={onClose} {...screen} />;
         case "external_link_prompt":

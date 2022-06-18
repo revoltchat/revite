@@ -12,6 +12,7 @@ import { determineLink } from "../../lib/links";
 
 import { useApplicationState } from "../../mobx/State";
 
+import { modalController } from "../modals";
 import Modals from "./Modals";
 
 export type Screen =
@@ -171,13 +172,7 @@ export default function Intermediate(props: Props) {
                 return true;
             },
             openScreen: (screen: Screen) => openScreen(screen),
-            writeClipboard: (text: string) => {
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(text);
-                } else {
-                    actions.openScreen({ id: "clipboard", text });
-                }
-            },
+            writeClipboard: (a: string) => modalController.writeText(a),
         };
         // eslint-disable-next-line
     }, []);

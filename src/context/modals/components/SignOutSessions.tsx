@@ -10,7 +10,9 @@ import { ModalProps } from "../types";
 /**
  * Confirm whether a user wants to sign out of all other sessions
  */
-export function SignOutSessions(props: ModalProps<"sign_out_sessions">) {
+export default function SignOutSessions(
+    props: ModalProps<"sign_out_sessions">,
+) {
     const onClick = useCallback(() => {
         props.onDeleting();
         props.client.api.delete("/auth/session/all").then(props.onDelete);
