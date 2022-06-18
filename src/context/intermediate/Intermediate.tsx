@@ -3,7 +3,13 @@ import { useHistory } from "react-router-dom";
 import { API, Channel, Message, Server, User } from "revolt.js";
 
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo, useState } from "preact/hooks";
+import {
+    StateUpdater,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from "preact/hooks";
 
 import type { Action } from "@revoltchat/ui/esm/components/design/atoms/display/Modal";
 
@@ -128,12 +134,11 @@ interface Props {
     children: Children;
 }
 
-export let __thisIsAHack;
+export let __thisIsAHack: StateUpdater<Screen>;
 
 export default function Intermediate(props: Props) {
     const [screen, openScreen] = useState<Screen>({ id: "none" });
     __thisIsAHack = openScreen;
-    const settings = useApplicationState().settings;
     const history = useHistory();
 
     const value = {

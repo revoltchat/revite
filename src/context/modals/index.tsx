@@ -25,6 +25,7 @@ import MFARecovery from "./components/MFARecovery";
 import ModifyAccount from "./components/ModifyAccount";
 import OutOfDate from "./components/OutOfDate";
 import PendingFriendRequests from "./components/PendingFriendRequests";
+import ServerIdentity from "./components/ServerIdentity";
 import ShowToken from "./components/ShowToken";
 import SignOutSessions from "./components/SignOutSessions";
 import SignedOut from "./components/SignedOut";
@@ -211,6 +212,7 @@ export const modalController = new ModalControllerExtended({
     modify_account: ModifyAccount,
     out_of_date: OutOfDate,
     pending_friend_requests: PendingFriendRequests,
+    server_identity: ServerIdentity,
     show_token: ShowToken,
     signed_out: SignedOut,
     sign_out_sessions: SignOutSessions,

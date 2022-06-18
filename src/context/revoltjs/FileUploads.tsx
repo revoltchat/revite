@@ -11,6 +11,8 @@ import { IconButton, Preloader } from "@revoltchat/ui";
 
 import { determineFileSize } from "../../lib/fileSize";
 
+import { useApplicationState } from "../../mobx/State";
+
 import { useIntermediate } from "../intermediate/Intermediate";
 import { modalController } from "../modals";
 import { AppContext } from "./RevoltClient";
@@ -113,7 +115,7 @@ export function grabFiles(
 export function FileUploader(props: Props) {
     const { fileType, maxFileSize, remove } = props;
     const { openScreen } = useIntermediate();
-    const client = useContext(AppContext);
+    const client = useApplicationState().client!;
 
     const [uploading, setUploading] = useState(false);
 
