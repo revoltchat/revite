@@ -13,6 +13,7 @@ import { determineLink } from "../../lib/links";
 import { useApplicationState } from "../../mobx/State";
 
 import Modals from "./Modals";
+import { useClient } from "../revoltjs/RevoltClient";
 
 export type Screen =
     | { id: "none" }
@@ -129,6 +130,7 @@ interface Props {
 
 export default function Intermediate(props: Props) {
     const [screen, openScreen] = useState<Screen>({ id: "none" });
+    const client = useClient();
     const settings = useApplicationState().settings;
     const history = useHistory();
 
@@ -139,7 +141,7 @@ export default function Intermediate(props: Props) {
 
     const actions = useMemo(() => {
         return {
-            openLink: (href?: string, trusted?: boolean) => {
+            openLink: async (href?: string, trusted?: boolean) => {
                 const link = determineLink(href);
 
                 switch (link.type) {
@@ -165,6 +167,14 @@ export default function Intermediate(props: Props) {
                         } else {
                             window.open(link.href, "_blank", "noreferrer");
                         }
+                    }
+                    case "invite": {
+                        let resolve = await client.joinInvite(link.code);
+                        if (resolve)
+                            history.push(
+                                `/server/${resolve.server}/channel/${resolve.channel}`,
+                            );
+                        break;
                     }
                 }
 
