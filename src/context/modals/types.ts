@@ -1,4 +1,4 @@
-import { API, Client } from "revolt.js";
+import { API, Client, User } from "revolt.js";
 
 export type Modal = {
     key?: string;
@@ -55,6 +55,15 @@ export type Modal = {
           type: "link_warning";
           link: string;
           callback: () => true;
+      }
+    | {
+          type: "pending_friend_requests";
+          users: User[];
+      }
+    | {
+          type: "modify_account";
+          client: Client;
+          field: "username" | "email" | "password";
       }
     | {
           type: "signed_out";

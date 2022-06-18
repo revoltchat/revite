@@ -21,7 +21,9 @@ import LinkWarning from "./components/LinkWarning";
 import MFAEnableTOTP from "./components/MFAEnableTOTP";
 import MFAFlow from "./components/MFAFlow";
 import MFARecovery from "./components/MFARecovery";
+import ModifyAccount from "./components/ModifyAccount";
 import OutOfDate from "./components/OutOfDate";
+import PendingFriendRequests from "./components/PendingFriendRequests";
 import ShowToken from "./components/ShowToken";
 import SignOutSessions from "./components/SignOutSessions";
 import SignedOut from "./components/SignedOut";
@@ -206,7 +208,9 @@ export const modalController = new ModalControllerExtended({
     mfa_flow: MFAFlow,
     mfa_recovery: MFARecovery,
     mfa_enable_totp: MFAEnableTOTP,
+    modify_account: ModifyAccount,
     out_of_date: OutOfDate,
+    pending_friend_requests: PendingFriendRequests,
     show_token: ShowToken,
     signed_out: SignedOut,
     sign_out_sessions: SignOutSessions,

@@ -13,6 +13,7 @@ import { TextReact } from "../../lib/i18n";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
+import { modalController } from "../../context/modals";
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import CollapsibleSection from "../../components/common/CollapsibleSection";
@@ -129,8 +130,8 @@ export default observer(() => {
                         <div
                             className={styles.pending}
                             onClick={() =>
-                                openScreen({
-                                    id: "pending_requests",
+                                modalController.push({
+                                    type: "pending_friend_requests",
                                     users: incoming,
                                 })
                             }>
