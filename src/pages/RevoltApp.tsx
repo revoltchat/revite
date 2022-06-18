@@ -2,13 +2,10 @@ import { Docked, OverlappingPanels, ShowIf } from "react-overlapping-panels";
 import { Switch, Route, useLocation, Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import ContextMenus from "../lib/ContextMenus";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
-
-import { useApplicationState } from "../mobx/State";
-import { SIDEBAR_CHANNELS } from "../mobx/stores/Layout";
 
 import Popovers from "../context/intermediate/Popovers";
 import Notifications from "../context/revoltjs/Notifications";
@@ -18,6 +15,7 @@ import { Titlebar } from "../components/native/Titlebar";
 import BottomNavigation from "../components/navigation/BottomNavigation";
 import LeftSidebar from "../components/navigation/LeftSidebar";
 import RightSidebar from "../components/navigation/RightSidebar";
+import { useSystemAlert } from "../updateWorker";
 import Open from "./Open";
 import Channel from "./channels/Channel";
 import Developer from "./developer/Developer";
@@ -112,22 +110,35 @@ export default function App() {
         path.startsWith("/invite") ||
         path.includes("/settings");
 
+    const alert = useSystemAlert();
     const [statusBar, setStatusBar] = useState(false);
+    useEffect(() => setStatusBar(true), [alert]);
 
     return (
         <>
-            {statusBar && (
+            {alert && statusBar && (
                 <StatusBar>
-                    <div className="title">Partial outage: CDN</div>
+                    <div className="title">{alert.text}</div>
                     <div className="actions">
-                        <Link to="/invite/Testers">
-                            <a>
-                                <div className="button">Updates</div>
+                        {alert.actions?.map((action) =>
+                            action.type === "internal" ? (
+                                <Link to={action.href}>
+                                    <div className="button">{action.text}</div>
+                                </Link>
+                            ) : action.type === "external" ? (
+                                <a
+                                    href={action.href}
+                                    target="_blank"
+                                    rel="noreferrer">
+                                    <div className="button">{action.text}</div>{" "}
+                                </a>
+                            ) : null,
+                        )}
+                        {alert.dismissable !== false && (
+                            <a onClick={() => setStatusBar(false)}>
+                                <div className="button">Dismiss</div>
                             </a>
-                        </Link>
-                        <a onClick={() => setStatusBar(false)}>
-                            <div className="button">Dismiss</div>
-                        </a>
+                        )}
                     </div>
                 </StatusBar>
             )}
