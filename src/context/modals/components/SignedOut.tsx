@@ -2,18 +2,21 @@ import { Text } from "preact-i18n";
 
 import { Modal } from "@revoltchat/ui";
 
-interface Props {
-    onClose: () => void;
-}
+import { noopTrue } from "../../../lib/js";
 
-export function SignedOutModal({ onClose }: Props) {
+import { ModalProps } from "../types";
+
+/**
+ * Indicate that the user has been signed out of their account
+ */
+export function SignedOut(props: ModalProps<"signed_out">) {
     return (
         <Modal
-            onClose={onClose}
+            {...props}
             title={<Text id="app.special.modals.signed_out" />}
             actions={[
                 {
-                    onClick: onClose,
+                    onClick: noopTrue,
                     confirmation: true,
                     children: <Text id="app.special.modals.actions.ok" />,
                 },

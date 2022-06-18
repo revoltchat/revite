@@ -1,31 +1,35 @@
 import { Text } from "preact-i18n";
+import { useCallback } from "preact/hooks";
 
 import { Modal } from "@revoltchat/ui";
 
-interface Props {
-    onClose: () => void;
-    confirm: () => void;
-}
+import { noopTrue } from "../../../lib/js";
 
-export function SessionsModal({ onClose, confirm }: Props) {
+import { ModalProps } from "../types";
+
+/**
+ * Confirm whether a user wants to sign out of all other sessions
+ */
+export function SignOutSessions(props: ModalProps<"sign_out_sessions">) {
+    const onClick = useCallback(() => {
+        props.onDeleting();
+        props.client.api.delete("/auth/session/all").then(props.onDelete);
+        return true;
+    }, []);
+
     return (
         <Modal
-            onClose={onClose}
+            {...props}
             title={<Text id={"app.special.modals.sessions.title"} />}
             actions={[
                 {
-                    onClick: () => {
-                        onClose();
-                    },
-                    confirmation: true,
+                    onClick: noopTrue,
                     palette: "accent",
+                    confirmation: true,
                     children: <Text id="app.special.modals.actions.back" />,
                 },
                 {
-                    onClick: () => {
-                        confirm();
-                        onClose();
-                    },
+                    onClick,
                     confirmation: true,
                     children: <Text id="app.special.modals.sessions.accept" />,
                 },

@@ -8,8 +8,6 @@ import { ExternalLinkModal } from "./modals/ExternalLinkPrompt";
 import { InputModal } from "./modals/Input";
 import { OnboardingModal } from "./modals/Onboarding";
 import { PromptModal } from "./modals/Prompt";
-import { SessionsModal } from "./modals/SessionsPrompt";
-import { SignedOutModal } from "./modals/SignedOut";
 import { TokenRevealModal } from "./modals/TokenReveal";
 
 export interface Props {
@@ -30,8 +28,6 @@ export default function Modals({ screen, openScreen }: Props) {
             return <InputModal onClose={onClose} {...screen} />;
         case "error":
             return <ErrorModal onClose={onClose} {...screen} />;
-        case "signed_out":
-            return <SignedOutModal onClose={onClose} {...screen} />;
         case "clipboard":
             return <ClipboardModal onClose={onClose} {...screen} />;
         case "token_reveal":
@@ -40,8 +36,6 @@ export default function Modals({ screen, openScreen }: Props) {
             return <OnboardingModal onClose={onClose} {...screen} />;
         case "external_link_prompt":
             return <ExternalLinkModal onClose={onClose} {...screen} />;
-        case "sessions":
-            return <SessionsModal onClose={onClose} {...screen} />;
     }
 
     return null;
