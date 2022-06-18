@@ -24,7 +24,7 @@ import {
 import { useApplicationState } from "../../../mobx/State";
 import { Reply } from "../../../mobx/stores/MessageQueue";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { modalController } from "../../../context/modals";
 import {
     FileUploader,
     grabFiles,
@@ -148,7 +148,6 @@ export default observer(({ channel }: Props) => {
     });
     const [typing, setTyping] = useState<boolean | number>(false);
     const [replies, setReplies] = useState<Reply[]>([]);
-    const { openScreen } = useIntermediate();
     const client = useContext(AppContext);
     const translate = useTranslation();
 
@@ -473,7 +472,10 @@ export default observer(({ channel }: Props) => {
                                 files: [...uploadState.files, ...files],
                             }),
                         () =>
-                            openScreen({ id: "error", error: "FileTooLarge" }),
+                            modalController.push({
+                                type: "error",
+                                error: "FileTooLarge",
+                            }),
                         true,
                     )
                 }

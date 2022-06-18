@@ -10,12 +10,11 @@ import { urlBase64ToUint8Array } from "../../../lib/conversion";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { modalController } from "../../../context/modals";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
 export const Notifications = observer(() => {
     const client = useContext(AppContext);
-    const { openScreen } = useIntermediate();
     const settings = useApplicationState().settings;
     const [pushEnabled, setPushEnabled] = useState<undefined | boolean>(
         undefined,
@@ -52,8 +51,8 @@ export const Notifications = observer(() => {
                                 await Notification.requestPermission();
 
                             if (permission !== "granted") {
-                                return openScreen({
-                                    id: "error",
+                                return modalController.push({
+                                    type: "error",
                                     error: "DeniedNotification",
                                 });
                             }

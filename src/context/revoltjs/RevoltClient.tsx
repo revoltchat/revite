@@ -9,7 +9,6 @@ import { Preloader } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { useIntermediate } from "../intermediate/Intermediate";
 import { modalController } from "../modals";
 import { registerEvents } from "./events";
 import { takeError } from "./util";
@@ -30,7 +29,7 @@ export interface ClientOperations {
 
 export const AppContext = createContext<Client>(null!);
 export const StatusContext = createContext<ClientStatus>(null!);
-export const LogOutContext = createContext((avoidReq?: boolean) => {});
+export const LogOutContext = createContext<(avoidReq?: boolean) => void>(null!);
 
 type Props = {
     children: Children;
@@ -38,7 +37,6 @@ type Props = {
 
 export default observer(({ children }: Props) => {
     const state = useApplicationState();
-    const { openScreen } = useIntermediate();
     const [client, setClient] = useState<Client>(null!);
     const [status, setStatus] = useState(ClientStatus.LOADING);
     const [loaded, setLoaded] = useState(false);
@@ -72,7 +70,10 @@ export default observer(({ children }: Props) => {
                         modalController.push({ type: "signed_out" });
                     } else {
                         setStatus(ClientStatus.DISCONNECTED);
-                        openScreen({ id: "error", error });
+                        modalController.push({
+                            type: "error",
+                            error,
+                        });
                     }
                 })
                 .finally(() => setLoaded(true));

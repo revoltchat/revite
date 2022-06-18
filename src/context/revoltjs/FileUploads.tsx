@@ -12,6 +12,7 @@ import { IconButton, Preloader } from "@revoltchat/ui";
 import { determineFileSize } from "../../lib/fileSize";
 
 import { useIntermediate } from "../intermediate/Intermediate";
+import { modalController } from "../modals";
 import { AppContext } from "./RevoltClient";
 import { takeError } from "./util";
 
@@ -139,12 +140,19 @@ export function FileUploader(props: Props) {
                         );
                     }
                 } catch (err) {
-                    return openScreen({ id: "error", error: takeError(err) });
+                    return modalController.push({
+                        type: "error",
+                        error: takeError(err),
+                    });
                 } finally {
                     setUploading(false);
                 }
             },
-            () => openScreen({ id: "error", error: "FileTooLarge" }),
+            () =>
+                modalController.push({
+                    type: "error",
+                    error: "FileTooLarge",
+                }),
             props.behaviour === "multi",
         );
     }
@@ -180,8 +188,8 @@ export function FileUploader(props: Props) {
                         const blob = item.getAsFile();
                         if (blob) {
                             if (blob.size > props.maxFileSize) {
-                                openScreen({
-                                    id: "error",
+                                modalController.push({
+                                    type: "error",
                                     error: "FileTooLarge",
                                 });
                                 continue;
@@ -212,7 +220,10 @@ export function FileUploader(props: Props) {
                     const files = [];
                     for (const item of dropped) {
                         if (item.size > props.maxFileSize) {
-                            openScreen({ id: "error", error: "FileTooLarge" });
+                            modalController.push({
+                                type: "error",
+                                error: "FileTooLarge",
+                            });
                             continue;
                         }
 

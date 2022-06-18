@@ -9,13 +9,14 @@ import type { Client, API } from "revolt.js";
 import { ulid } from "ulid";
 
 import Changelog from "./components/Changelog";
+import { Error } from "./components/Error";
 import MFAEnableTOTP from "./components/MFAEnableTOTP";
 import MFAFlow from "./components/MFAFlow";
 import MFARecovery from "./components/MFARecovery";
 import OutOfDate from "./components/OutOfDate";
+import { ShowToken } from "./components/ShowToken";
 import { SignOutSessions } from "./components/SignOutSessions";
 import { SignedOut } from "./components/SignedOut";
-import Test from "./components/Test";
 import { Modal } from "./types";
 
 type Components = Record<string, React.FC<any>>;
@@ -92,6 +93,9 @@ class ModalController<T extends Modal> {
         );
     }
 
+    /**
+     * Whether a modal is currently visible
+     */
     get isVisible() {
         return this.stack.length > 0;
     }
@@ -140,11 +144,12 @@ class ModalControllerExtended extends ModalController<Modal> {
 
 export const modalController = new ModalControllerExtended({
     changelog: Changelog,
+    error: Error,
     mfa_flow: MFAFlow,
     mfa_recovery: MFARecovery,
     mfa_enable_totp: MFAEnableTOTP,
     out_of_date: OutOfDate,
+    show_token: ShowToken,
     signed_out: SignedOut,
     sign_out_sessions: SignOutSessions,
-    test: Test,
 });

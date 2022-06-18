@@ -2,23 +2,23 @@ import { Text } from "preact-i18n";
 
 import { Modal } from "@revoltchat/ui";
 
-interface Props {
-    onClose: () => void;
-    error: string;
-}
+import { noopTrue } from "../../../lib/js";
 
-export function ErrorModal({ onClose, error }: Props) {
+import { ModalProps } from "../types";
+
+export function Error({ error, ...props }: ModalProps<"error">) {
     return (
         <Modal
-            onClose={onClose}
+            {...props}
             title={<Text id="app.special.modals.error" />}
             actions={[
                 {
-                    onClick: onClose,
+                    onClick: noopTrue,
                     confirmation: true,
                     children: <Text id="app.special.modals.actions.ok" />,
                 },
                 {
+                    palette: "plain-secondary",
                     onClick: () => location.reload(),
                     children: <Text id="app.special.modals.actions.reload" />,
                 },

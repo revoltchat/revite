@@ -2,8 +2,15 @@ import { ChevronRight, Trash } from "@styled-icons/boxicons-regular";
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { isFirefox } from "react-device-detect";
 import { useHistory } from "react-router-dom";
-import { Channel, Message, Server, User, API } from "revolt.js";
-import { Permission, UserPermission } from "revolt.js";
+import {
+    Channel,
+    Message,
+    Server,
+    User,
+    API,
+    Permission,
+    UserPermission,
+} from "revolt.js";
 
 import {
     ContextMenuWithData,
@@ -20,6 +27,7 @@ import { QueuedMessage } from "../mobx/stores/MessageQueue";
 import { NotificationState } from "../mobx/stores/NotificationOptions";
 
 import { Screen, useIntermediate } from "../context/intermediate/Intermediate";
+import { modalController } from "../context/modals";
 import {
     AppContext,
     ClientStatus,
@@ -431,7 +439,10 @@ export default function ContextMenus() {
                     break;
             }
         })().catch((err) => {
-            openScreen({ id: "error", error: takeError(err) });
+            modalController.push({
+                type: "error",
+                error: takeError(err),
+            });
         });
     }
 
