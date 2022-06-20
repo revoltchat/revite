@@ -46,7 +46,9 @@ export default function Context({ children }: { children: Children }) {
                             <SyncManager />
                         </Client>
                     </Intermediate>
-                    <ModalRenderer />
+                    <Client>
+                        <ModalRenderer />
+                    </Client>
                 </Locale>
             </UIProvider>
             <Theme />
