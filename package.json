@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "scripts": {
         "dev": "node scripts/setup_assets.js --check && vite",
         "pull": "node scripts/setup_assets.js",
