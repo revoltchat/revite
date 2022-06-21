@@ -99,12 +99,6 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
         client.api
             .get(`/users/${bot._id as ""}/profile`, undefined, {
                 headers: { "x-bot-token": bot.token },
-                transformRequest: (data, headers) => {
-                    // Remove user headers for this request
-                    delete headers?.["x-user-id"];
-                    delete headers?.["x-session-token"];
-                    return data;
-                },
             })
             .then((profile) => setProfile(profile ?? {}));
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -130,7 +124,8 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
         setSaving(true);
         setError("");
         try {
-            await client.bots.edit(bot._id, changes);
+            if (Object.keys(changes).length > 0)
+                await client.bots.edit(bot._id, changes);
             if (changed) await editBotContent(profile?.content ?? undefined);
             onUpdate(changes);
             setChanged(false);
@@ -159,12 +154,6 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
             avatar ? { avatar } : { remove: ["Avatar"] },
             {
                 headers: { "x-bot-token": bot.token },
-                transformRequest: (data, headers) => {
-                    // Remove user headers for this request
-                    delete headers?.["x-user-id"];
-                    delete headers?.["x-session-token"];
-                    return JSON.stringify(data);
-                },
             },
         );
 
@@ -184,12 +173,6 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                 : { remove: ["ProfileBackground"] },
             {
                 headers: { "x-bot-token": bot.token },
-                transformRequest: (data, headers) => {
-                    // Remove user headers for this request
-                    delete headers?.["x-user-id"];
-                    delete headers?.["x-session-token"];
-                    return JSON.stringify(data);
-                },
             },
         );
 
@@ -206,12 +189,6 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
             content ? { profile: { content } } : { remove: ["ProfileContent"] },
             {
                 headers: { "x-bot-token": bot.token },
-                transformRequest: (data, headers) => {
-                    // Remove user headers for this request
-                    delete headers?.["x-user-id"];
-                    delete headers?.["x-session-token"];
-                    return data;
-                },
             },
         );
 
