@@ -7,6 +7,8 @@ import { Category, Error, Modal } from "@revoltchat/ui";
 
 import { noopTrue } from "../../../lib/js";
 
+import { useApplicationState } from "../../../mobx/State";
+
 import FormField from "../../../pages/login/FormField";
 import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
@@ -27,7 +29,7 @@ export default function ModifyAccount({
     field,
     ...props
 }: ModalProps<"modify_account">) {
-    const client = useContext(AppContext);
+    const client = useApplicationState().client!;
     const [processing, setProcessing] = useState(false);
     const { handleSubmit, register, errors } = useForm<FormInputs>();
     const [error, setError] = useState<string | undefined>(undefined);

@@ -1,5 +1,6 @@
 import { At } from "@styled-icons/boxicons-regular";
 import { Envelope, Key, Pencil } from "@styled-icons/boxicons-solid";
+import { observer } from "mobx-react-lite";
 
 import { Text } from "preact-i18n";
 import { useContext, useEffect, useState } from "preact/hooks";
@@ -11,7 +12,6 @@ import {
     HiddenValue,
 } from "@revoltchat/ui";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { modalController } from "../../../context/modals";
 import {
     ClientStatus,
@@ -19,10 +19,9 @@ import {
     useClient,
 } from "../../../context/revoltjs/RevoltClient";
 
-export default function EditAccount() {
+export default observer(() => {
     const client = useClient();
     const status = useContext(StatusContext);
-    const { openScreen } = useIntermediate();
 
     const [email, setEmail] = useState("...");
 
@@ -74,4 +73,4 @@ export default function EditAccount() {
             ))}
         </>
     );
-}
+});
