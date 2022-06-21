@@ -4,6 +4,7 @@ import { IntermediateContext, useIntermediate } from "./Intermediate";
 import { SpecialInputModal } from "./modals/Input";
 import { SpecialPromptModal } from "./modals/Prompt";
 import { ChannelInfo } from "./popovers/ChannelInfo";
+import { ServerInfo } from "./popovers/ServerInfo";
 import { CreateBotModal } from "./popovers/CreateBot";
 import { ImageViewer } from "./popovers/ImageViewer";
 import { UserPicker } from "./popovers/UserPicker";
@@ -30,6 +31,9 @@ export default function Popovers() {
         case "channel_info":
             // @ts-expect-error someone figure this out :)
             return <ChannelInfo {...screen} onClose={onClose} />;
+        case "server_info":
+            // @ts-expect-error someone figure this out :)
+            return <ServerInfo {...screen} onClose={onClose} />;
         case "create_bot":
             // @ts-expect-error someone figure this out :)
             return <CreateBotModal onClose={onClose} {...screen} />;

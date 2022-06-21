@@ -1,0 +1,17 @@
+.info {
+    .header {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+
+        h1 {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        div {
+            cursor: pointer;
+        }
+    }
+}
+

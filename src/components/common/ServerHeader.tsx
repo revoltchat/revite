@@ -6,6 +6,8 @@ import styled, { css } from "styled-components/macro";
 
 import { IconButton } from "@revoltchat/ui";
 
+import { useIntermediate } from "../../context/intermediate/Intermediate";
+
 import ServerBadge from "./ServerBadge";
 
 interface Props {
@@ -63,6 +65,8 @@ const ServerBanner = styled.div<Omit<Props, "server">>`
 
 export default observer(({ server }: Props) => {
 
+    const { openScreen } = useIntermediate();
+
     const bannerURL = server.generateBannerURL({ width: 480 });
 
     return (
@@ -73,7 +77,13 @@ export default observer(({ server }: Props) => {
             }}>
             <div className="container">
 				<ServerBadge server={server} />
-				<div className="title">{server.name}</div>
+				<div className="title"
+					onClick={() => 
+						openScreen({
+							id: "server_info", 
+							server, 
+						})
+					}>{server.name}</div>
                 {server.havePermission("ManageServer") && (
                     <Link to={`/server/${server._id}/settings`}>
                         <IconButton>
