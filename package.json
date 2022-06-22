@@ -43,6 +43,9 @@
         }
     },
     "dependencies": {
+        "@capacitor/android": "^3.6.0",
+        "@capacitor/core": "^3.6.0",
+        "@capacitor/ios": "^3.6.0",
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
         "sirv-cli": "^1.0.14",
@@ -50,6 +53,7 @@
     },
     "devDependencies": {
         "@babel/plugin-proposal-decorators": "^7.17.9",
+        "@capacitor/cli": "^3.6.0",
         "@fontsource/atkinson-hyperlegible": "^4.4.5",
         "@fontsource/bitter": "^4.5.7",
         "@fontsource/comic-neue": "^4.4.5",
