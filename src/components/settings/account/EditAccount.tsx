@@ -12,12 +12,13 @@ import {
     HiddenValue,
 } from "@revoltchat/ui";
 
-import { modalController } from "../../../context/modals";
 import {
     ClientStatus,
     StatusContext,
     useClient,
 } from "../../../context/revoltjs/RevoltClient";
+
+import { modalController } from "../../../controllers/modals/ModalController";
 
 export default observer(() => {
     const client = useClient();

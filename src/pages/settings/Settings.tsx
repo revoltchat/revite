@@ -35,7 +35,6 @@ import { LineDivider } from "@revoltchat/ui";
 import { useApplicationState } from "../../mobx/State";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-import { modalController } from "../../context/modals";
 import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 import { AppContext, LogOutContext } from "../../context/revoltjs/RevoltClient";
 
@@ -43,6 +42,7 @@ import UserIcon from "../../components/common/user/UserIcon";
 import { Username } from "../../components/common/user/UserShort";
 import UserStatus from "../../components/common/user/UserStatus";
 import ButtonItem from "../../components/navigation/items/ButtonItem";
+import { modalController } from "../../controllers/modals/ModalController";
 import { GIT_BRANCH, GIT_REVISION, REPO_URL } from "../../revision";
 import { APP_VERSION } from "../../version";
 import { GenericSettings } from "./GenericSettings";

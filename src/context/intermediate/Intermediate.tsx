@@ -18,7 +18,7 @@ import { determineLink } from "../../lib/links";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { modalController } from "../modals";
+import { modalController } from "../../controllers/modals/ModalController";
 import Modals from "./Modals";
 
 export type Screen =

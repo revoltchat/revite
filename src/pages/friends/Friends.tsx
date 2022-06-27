@@ -13,13 +13,13 @@ import { TextReact } from "../../lib/i18n";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-import { modalController } from "../../context/modals";
 import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
 import UserIcon from "../../components/common/user/UserIcon";
 import { PageHeader } from "../../components/ui/Header";
+import { modalController } from "../../controllers/modals/ModalController";
 import { Friend } from "./Friend";
 
 export default observer(() => {

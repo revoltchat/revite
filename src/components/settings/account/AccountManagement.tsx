@@ -6,11 +6,12 @@ import { useContext } from "preact/hooks";
 
 import { CategoryButton } from "@revoltchat/ui";
 
-import { modalController } from "../../../context/modals";
 import {
     LogOutContext,
     useClient,
 } from "../../../context/revoltjs/RevoltClient";
+
+import { modalController } from "../../../controllers/modals/ModalController";
 
 export default function AccountManagement() {
     const logOut = useContext(LogOutContext);

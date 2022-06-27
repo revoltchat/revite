@@ -28,7 +28,6 @@ import { QueuedMessage } from "../mobx/stores/MessageQueue";
 import { NotificationState } from "../mobx/stores/NotificationOptions";
 
 import { Screen, useIntermediate } from "../context/intermediate/Intermediate";
-import { modalController } from "../context/modals";
 import {
     AppContext,
     ClientStatus,
@@ -39,6 +38,7 @@ import CMNotifications from "./contextmenu/CMNotifications";
 
 import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
+import { modalController } from "../controllers/modals/ModalController";
 import { internalEmit } from "./eventEmitter";
 import { getRenderer } from "./renderer/Singleton";
 

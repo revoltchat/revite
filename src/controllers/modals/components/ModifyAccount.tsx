@@ -9,9 +9,10 @@ import { noopTrue } from "../../../lib/js";
 
 import { useApplicationState } from "../../../mobx/State";
 
+import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { takeError } from "../../../context/revoltjs/util";
+
 import FormField from "../../../pages/login/FormField";
-import { AppContext } from "../../revoltjs/RevoltClient";
-import { takeError } from "../../revoltjs/util";
 import { ModalProps } from "../types";
 
 interface FormInputs {

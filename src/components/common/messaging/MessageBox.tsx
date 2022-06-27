@@ -24,7 +24,6 @@ import {
 import { useApplicationState } from "../../../mobx/State";
 import { Reply } from "../../../mobx/stores/MessageQueue";
 
-import { modalController } from "../../../context/modals";
 import {
     FileUploader,
     grabFiles,
@@ -33,6 +32,7 @@ import {
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
+import { modalController } from "../../../controllers/modals/ModalController";
 import AutoComplete, { useAutoComplete } from "../AutoComplete";
 import { PermissionTooltip } from "../Tooltip";
 import FilePreview from "./bars/FilePreview";

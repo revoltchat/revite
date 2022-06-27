@@ -10,10 +10,11 @@ import { ulid } from "ulid";
 
 import { determineLink } from "../../lib/links";
 
-import { getApplicationState, useApplicationState } from "../../mobx/State";
+import { getApplicationState } from "../../mobx/State";
 
-import { history } from "../history";
-import { __thisIsAHack } from "../intermediate/Intermediate";
+import { history } from "../../context/history";
+import { __thisIsAHack } from "../../context/intermediate/Intermediate";
+
 // import { determineLink } from "../../lib/links";
 import Changelog from "./components/Changelog";
 import Clipboard from "./components/Clipboard";

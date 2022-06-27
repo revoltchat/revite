@@ -7,13 +7,14 @@ import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
 import { Category, CategoryButton, Error, Tip } from "@revoltchat/ui";
 
-import { modalController } from "../../../context/modals";
 import {
     ClientStatus,
     StatusContext,
     useClient,
 } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
+
+import { modalController } from "../../../controllers/modals/ModalController";
 
 /**
  * Temporary helper function for Axios config

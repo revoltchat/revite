@@ -9,7 +9,7 @@ import { Preloader } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { modalController } from "../modals";
+import { modalController } from "../../controllers/modals/ModalController";
 import { registerEvents } from "./events";
 import { takeError } from "./util";
 

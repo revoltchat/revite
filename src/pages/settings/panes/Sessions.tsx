@@ -27,8 +27,9 @@ import {
 } from "@revoltchat/ui";
 
 import { dayjs } from "../../../context/Locale";
-import { modalController } from "../../../context/modals";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
+
+import { modalController } from "../../../controllers/modals/ModalController";
 
 dayjs.extend(relativeTime);
 
