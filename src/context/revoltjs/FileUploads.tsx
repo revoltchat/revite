@@ -13,8 +13,8 @@ import { determineFileSize } from "../../lib/fileSize";
 
 import { useApplicationState } from "../../mobx/State";
 
+import { modalController } from "../../controllers/modals/ModalController";
 import { useIntermediate } from "../intermediate/Intermediate";
-import { modalController } from "../modals";
 import { AppContext } from "./RevoltClient";
 import { takeError } from "./util";
 

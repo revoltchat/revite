@@ -8,11 +8,11 @@ import { Preloader, UIProvider } from "@revoltchat/ui";
 
 import { hydrateState } from "../mobx/State";
 
+import ModalRenderer from "../controllers/modals/ModalRenderer";
 import Locale from "./Locale";
 import Theme from "./Theme";
 import { history } from "./history";
 import Intermediate from "./intermediate/Intermediate";
-import ModalRenderer from "./modals/ModalRenderer";
 import Client from "./revoltjs/RevoltClient";
 import SyncManager from "./revoltjs/SyncManager";
 

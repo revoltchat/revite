@@ -10,8 +10,9 @@ import { urlBase64ToUint8Array } from "../../../lib/conversion";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import { modalController } from "../../../context/modals";
 import { AppContext } from "../../../context/revoltjs/RevoltClient";
+
+import { modalController } from "../../../controllers/modals/ModalController";
 
 export const Notifications = observer(() => {
     const client = useContext(AppContext);

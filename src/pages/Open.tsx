@@ -6,12 +6,13 @@ import { useContext, useEffect } from "preact/hooks";
 
 import { Header } from "@revoltchat/ui";
 
-import { modalController } from "../context/modals";
 import {
     AppContext,
     ClientStatus,
     StatusContext,
 } from "../context/revoltjs/RevoltClient";
+
+import { modalController } from "../controllers/modals/ModalController";
 
 export default function Open() {
     const history = useHistory();

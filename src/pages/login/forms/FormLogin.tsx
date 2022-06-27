@@ -4,8 +4,8 @@ import { API } from "revolt.js";
 import { useApplicationState } from "../../../mobx/State";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { modalController } from "../../../context/modals";
 
+import { modalController } from "../../../controllers/modals/ModalController";
 import { Form } from "./Form";
 
 export function FormLogin() {

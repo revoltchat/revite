@@ -25,7 +25,6 @@ import { useTranslation } from "../../../lib/i18n";
 import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { modalController } from "../../../context/modals";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 import { useClient } from "../../../context/revoltjs/RevoltClient";
 
@@ -35,6 +34,7 @@ import AutoComplete, {
 import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
+import { modalController } from "../../../controllers/modals/ModalController";
 
 interface Data {
     _id: string;
