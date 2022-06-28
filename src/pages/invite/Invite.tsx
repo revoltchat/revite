@@ -1,5 +1,4 @@
 import { ArrowBack } from "@styled-icons/boxicons-regular";
-import { autorun } from "mobx";
 import { Redirect, useHistory, useParams } from "react-router-dom";
 import { API } from "revolt.js";
 

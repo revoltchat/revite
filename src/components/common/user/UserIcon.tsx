@@ -56,7 +56,8 @@ export default observer(
                 keyof Props | "children" | "as"
             >,
     ) => {
-        const client = useApplicationState().client!;
+        // ! TODO: this is temporary code
+        const client = useClient() ?? useApplicationState().client!;
 
         const {
             target,
