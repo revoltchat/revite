@@ -1,6 +1,4 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
-import { API } from "revolt.js";
-import { Nullable } from "revolt.js";
 
 import { mapToRecord } from "../../lib/conversion";
 
@@ -13,7 +11,6 @@ interface Account {
 
 export interface Data {
     sessions: Record<string, Account>;
-    current?: string;
 }
 
 /**
@@ -22,14 +19,12 @@ export interface Data {
  */
 export default class Auth implements Store, Persistent<Data> {
     private sessions: ObservableMap<string, Account>;
-    private current: Nullable<string>;
 
     /**
      * Construct new Auth store.
      */
     constructor() {
         this.sessions = new ObservableMap();
-        this.current = null;
 
         // Inject session token if it is provided.
         if (import.meta.env.VITE_SESSION_TOKEN) {
@@ -40,8 +35,6 @@ export default class Auth implements Store, Persistent<Data> {
                     token: import.meta.env.VITE_SESSION_TOKEN as string,
                 },
             });
-
-            this.current = "0";
         }
 
         makeAutoObservable(this);
@@ -54,7 +47,6 @@ export default class Auth implements Store, Persistent<Data> {
     @action toJSON() {
         return {
             sessions: JSON.parse(JSON.stringify(mapToRecord(this.sessions))),
-            current: this.current ?? undefined,
         };
     }
 
@@ -72,10 +64,6 @@ export default class Auth implements Store, Persistent<Data> {
                 this.sessions.set(id, v[id]),
             );
         }
-
-        if (data.current && this.sessions.has(data.current)) {
-            this.current = data.current;
-        }
     }
 
     /**
@@ -84,7 +72,6 @@ export default class Auth implements Store, Persistent<Data> {
      */
     @action setSession(session: Session) {
         this.sessions.set(session.user_id, { session });
-        this.current = session.user_id;
     }
 
     /**
@@ -92,34 +79,38 @@ export default class Auth implements Store, Persistent<Data> {
      * @param user_id User ID tied to session
      */
     @action removeSession(user_id: string) {
-        if (user_id == this.current) {
-            this.current = null;
-        }
-
         this.sessions.delete(user_id);
+    }
+
+    /**
+     * Get all known accounts.
+     * @returns Array of accounts
+     */
+    @computed getAccounts() {
+        return [...this.sessions.values()];
     }
 
     /**
      * Remove current session.
      */
-    @action logout() {
+    /*@action logout() {
         this.current && this.removeSession(this.current);
-    }
+    }*/
 
     /**
      * Get current session.
      * @returns Current session
      */
-    @computed getSession() {
+    /*@computed getSession() {
         if (!this.current) return;
         return this.sessions.get(this.current)!.session;
-    }
+    }*/
 
     /**
      * Check whether we are currently logged in.
      * @returns Whether we are logged in
      */
-    @computed isLoggedIn() {
+    /*@computed isLoggedIn() {
         return this.current !== null;
-    }
+    }*/
 }

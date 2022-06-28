@@ -4,8 +4,7 @@ import localforage from "localforage";
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { Client } from "revolt.js";
 
-import { reportError } from "../lib/ErrorBoundary";
-
+import { clientController } from "../controllers/client/ClientController";
 import Persistent from "./interfaces/Persistent";
 import Syncable from "./interfaces/Syncable";
 import Auth from "./stores/Auth";
@@ -24,6 +23,7 @@ import Sync, { Data as DataSync, SyncKeys } from "./stores/Sync";
 
 export const MIGRATIONS = {
     REDUX: 1640305719826,
+    MULTI_SERVER_CONFIG: 1656350006152,
 };
 
 /**
@@ -253,6 +253,9 @@ export default class State {
 
         // Post-hydration, init plugins.
         this.plugins.init();
+
+        // Push authentication information forwards to client controller.
+        clientController.hydrate(this.auth);
     }
 
     /**
