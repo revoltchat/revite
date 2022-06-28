@@ -5,3 +5,5 @@ declare type Session = {
     name: string;
     user_id: string;
 };
+
+declare type SessionPrivate = Session;
