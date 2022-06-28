@@ -1,4 +1,4 @@
-import { action, makeAutoObservable } from "mobx";
+import { action, computed, makeAutoObservable } from "mobx";
 import { Client } from "revolt.js";
 
 type State = "Ready" | "Connecting" | "Online" | "Disconnected" | "Offline";
@@ -32,6 +32,17 @@ export default class Session {
 
         window.addEventListener("online", this.onOnline);
         window.addEventListener("offline", this.onOffline);
+    }
+
+    /**
+     * Initiate logout and destroy client.
+     */
+    @action destroy() {
+        if (this.client) {
+            this.client.logout(false);
+            this.state = "Ready";
+            this.client = null;
+        }
     }
 
     private onOnline() {
@@ -90,6 +101,8 @@ export default class Session {
     }
 
     @action async emit(data: Transition) {
+        console.info("Handle event:", data);
+
         switch (data.action) {
             // Login with session
             case "LOGIN": {
@@ -160,5 +173,13 @@ export default class Session {
                 break;
             }
         }
+    }
+
+    /**
+     * Whether we are ready to render.
+     * @returns Boolean
+     */
+    @computed get ready() {
+        return this.client?.user;
     }
 }

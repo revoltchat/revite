@@ -20,7 +20,7 @@ const uiContext = {
     Link,
     Text: Text as any,
     Trigger: ContextMenuTrigger,
-    emitAction: () => {},
+    emitAction: () => void {},
 };
 
 /**

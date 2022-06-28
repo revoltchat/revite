@@ -2,6 +2,7 @@ import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 
 import { mapToRecord } from "../../lib/conversion";
 
+import { clientController } from "../../controllers/client/ClientController";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 
@@ -110,7 +111,8 @@ export default class Auth implements Store, Persistent<Data> {
      * Check whether we are currently logged in.
      * @returns Whether we are logged in
      */
-    /*@computed isLoggedIn() {
-        return this.current !== null;
-    }*/
+    @computed isLoggedIn() {
+        // ! FIXME: temp proxy info
+        return clientController.getActiveSession()?.ready;
+    }
 }

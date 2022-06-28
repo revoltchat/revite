@@ -9,6 +9,7 @@ import { Preloader } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../mobx/State";
 
+import { clientController } from "../../controllers/client/ClientController";
 import { modalController } from "../../controllers/modals/ModalController";
 import { registerEvents } from "./events";
 import { takeError } from "./util";
@@ -36,8 +37,8 @@ type Props = {
 };
 
 export default observer(({ children }: Props) => {
-    const state = useApplicationState();
-    const [client, setClient] = useState<Client>(null!);
+    // const state = useApplicationState();
+    /*const [client, setClient] = useState<Client>(null!);
     const [status, setStatus] = useState(ClientStatus.LOADING);
     const [loaded, setLoaded] = useState(false);
 
@@ -84,16 +85,24 @@ export default observer(({ children }: Props) => {
     }, [state.auth.getSession()]);
 
     useEffect(() => registerEvents(state, setStatus, client), [client]);
-    useEffect(() => state.registerListeners(client), [client]);
 
     if (!loaded || status === ClientStatus.LOADING) {
         return <Preloader type="spinner" />;
+    }*/
+
+    const session = clientController.getActiveSession();
+    if (!session?.ready) {
+        return <Preloader type="spinner" />;
     }
 
+    const client = session.client!;
+    const state = useApplicationState();
+    useEffect(() => state.registerListeners(client), [state, client]);
+
     return (
-        <AppContext.Provider value={client}>
-            <StatusContext.Provider value={status}>
-                <LogOutContext.Provider value={logout}>
+        <AppContext.Provider value={session.client!}>
+            <StatusContext.Provider value={ClientStatus.ONLINE}>
+                <LogOutContext.Provider value={() => void {}}>
                     {children}
                 </LogOutContext.Provider>
             </StatusContext.Provider>
