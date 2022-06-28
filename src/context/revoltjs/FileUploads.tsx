@@ -5,17 +5,15 @@ import Axios, { AxiosRequestConfig } from "axios";
 import styles from "./FileUploads.module.scss";
 import classNames from "classnames";
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { IconButton, Preloader } from "@revoltchat/ui";
 
 import { determineFileSize } from "../../lib/fileSize";
 
-import { useApplicationState } from "../../mobx/State";
-
+import { useClient } from "../../controllers/client/ClientController";
 import { modalController } from "../../controllers/modals/ModalController";
 import { useIntermediate } from "../intermediate/Intermediate";
-import { AppContext } from "./RevoltClient";
 import { takeError } from "./util";
 
 type BehaviourType =
@@ -115,7 +113,7 @@ export function grabFiles(
 export function FileUploader(props: Props) {
     const { fileType, maxFileSize, remove } = props;
     const { openScreen } = useIntermediate();
-    const client = useApplicationState().client!;
+    const client = useClient();
 
     const [uploading, setUploading] = useState(false);
 

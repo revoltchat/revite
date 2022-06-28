@@ -7,8 +7,7 @@ import { useEffect, useState } from "preact/hooks";
 
 import { Button, Category, Error, InputBox, Preloader } from "@revoltchat/ui";
 
-import { useClient } from "../../../context/revoltjs/RevoltClient";
-
+import { useClient } from "../../../controllers/client/ClientController";
 import Message from "../../common/messaging/Message";
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 

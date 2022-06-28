@@ -3,9 +3,7 @@ import { X } from "@styled-icons/boxicons-regular";
 import dayjs from "dayjs";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import { API } from "revolt.js";
-import { Message as MessageI } from "revolt.js";
-import { Nullable } from "revolt.js";
+import { API, Message as MessageI, Nullable } from "revolt.js";
 import styled from "styled-components/macro";
 import { decodeTime } from "ulid";
 
@@ -20,10 +18,10 @@ import { ChannelRenderer } from "../../../lib/renderer/Singleton";
 import { useApplicationState } from "../../../mobx/State";
 
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
-import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Message from "../../../components/common/messaging/Message";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
+import { useClient } from "../../../controllers/client/ClientController";
 import ConversationStart from "./ConversationStart";
 import MessageEditor from "./MessageEditor";
 

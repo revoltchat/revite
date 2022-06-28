@@ -4,14 +4,12 @@ import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Channel, Server, User, API } from "revolt.js";
 
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import {
-    ClientStatus,
-    StatusContext,
+    useSession,
     useClient,
-} from "../../../context/revoltjs/RevoltClient";
-
+} from "../../../controllers/client/ClientController";
 import { GenericSidebarBase } from "../SidebarBase";
 import MemberList, { MemberListGroup } from "./MemberList";
 
@@ -205,18 +203,18 @@ function shouldSkipOffline(id: string) {
 
 export const ServerMemberSidebar = observer(
     ({ channel }: { channel: Channel }) => {
-        const client = useClient();
-        const status = useContext(StatusContext);
+        const session = useSession()!;
+        const client = session.client!;
 
         useEffect(() => {
             const server_id = channel.server_id!;
-            if (status === ClientStatus.ONLINE && !FETCHED.has(server_id)) {
+            if (session.state === "Online" && !FETCHED.has(server_id)) {
                 FETCHED.add(server_id);
                 channel
                     .server!.syncMembers(shouldSkipOffline(server_id))
                     .catch(() => FETCHED.delete(server_id));
             }
-        }, [status, channel]);
+        }, [session.state, channel]);
 
         const entries = useEntries(
             channel,

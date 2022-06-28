@@ -14,8 +14,8 @@ import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 
 import { I18nError } from "../../../context/Locale";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { useClient } from "../../../context/revoltjs/RevoltClient";
 
+import { useClient } from "../../../controllers/client/ClientController";
 import Markdown from "../../markdown/Markdown";
 import UserIcon from "../user/UserIcon";
 import { Username } from "../user/UserShort";
@@ -52,7 +52,7 @@ const Message = observer(
         queued,
         hideReply,
     }: Props) => {
-        const client = useClient();
+        const client = message.client;
         const user = message.author;
 
         const { openScreen } = useIntermediate();

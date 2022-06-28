@@ -4,7 +4,8 @@ import { API } from "revolt.js";
 import styles from "./Embed.module.scss";
 
 import { useIntermediate } from "../../../../context/intermediate/Intermediate";
-import { useClient } from "../../../../context/revoltjs/RevoltClient";
+
+import { useClient } from "../../../../controllers/client/ClientController";
 
 interface Props {
     embed: API.Embed;

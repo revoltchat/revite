@@ -7,7 +7,7 @@ import { Modal } from "@revoltchat/ui";
 
 import AttachmentActions from "../../../components/common/messaging/attachments/AttachmentActions";
 import EmbedMediaActions from "../../../components/common/messaging/embed/EmbedMediaActions";
-import { useClient } from "../../revoltjs/RevoltClient";
+import { useClient } from "../../../controllers/client/ClientController";
 
 interface Props {
     onClose: () => void;

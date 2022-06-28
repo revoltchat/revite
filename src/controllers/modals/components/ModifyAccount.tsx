@@ -1,18 +1,16 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Text } from "preact-i18n";
-import { useContext, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 
 import { Category, Error, Modal } from "@revoltchat/ui";
 
 import { noopTrue } from "../../../lib/js";
 
-import { useApplicationState } from "../../../mobx/State";
-
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
 import FormField from "../../../pages/login/FormField";
+import { useClient } from "../../client/ClientController";
 import { ModalProps } from "../types";
 
 interface FormInputs {
@@ -30,7 +28,7 @@ export default function ModifyAccount({
     field,
     ...props
 }: ModalProps<"modify_account">) {
-    const client = useApplicationState().client!;
+    const client = useClient();
     const [processing, setProcessing] = useState(false);
     const { handleSubmit, register, errors } = useForm<FormInputs>();
     const [error, setError] = useState<string | undefined>(undefined);

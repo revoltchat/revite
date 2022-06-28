@@ -17,10 +17,10 @@ import { Button } from "@revoltchat/ui";
 import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { useClient } from "../../../context/revoltjs/RevoltClient";
 
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
+import { useClient } from "../../../controllers/client/ClientController";
 
 interface Props {
     id: string;

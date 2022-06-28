@@ -3,17 +3,13 @@ import { Lock } from "@styled-icons/boxicons-solid";
 import { API } from "revolt.js";
 
 import { Text } from "preact-i18n";
-import { useCallback, useContext, useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 
 import { Category, CategoryButton, Error, Tip } from "@revoltchat/ui";
 
-import {
-    ClientStatus,
-    StatusContext,
-    useClient,
-} from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
+import { useSession } from "../../../controllers/client/ClientController";
 import { modalController } from "../../../controllers/modals/ModalController";
 
 /**
@@ -34,8 +30,8 @@ export function toConfig(token: string) {
  */
 export default function MultiFactorAuthentication() {
     // Pull in prerequisites
-    const client = useClient();
-    const status = useContext(StatusContext);
+    const session = useSession()!;
+    const client = session.client!;
 
     // Keep track of MFA state
     const [mfa, setMFA] = useState<API.MultiFactorStatus>();
@@ -43,13 +39,13 @@ export default function MultiFactorAuthentication() {
 
     // Fetch the current MFA status on account
     useEffect(() => {
-        if (!mfa && status === ClientStatus.ONLINE) {
-            client.api
+        if (!mfa && session.state === "Online") {
+            client!.api
                 .get("/auth/mfa/")
                 .then(setMFA)
                 .catch((err) => setError(takeError(err)));
         }
-    }, [client, mfa, status]);
+    }, [mfa, client, session.state]);
 
     // Action called when recovery code button is pressed
     const recoveryAction = useCallback(async () => {

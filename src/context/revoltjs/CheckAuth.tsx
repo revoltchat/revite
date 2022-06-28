@@ -1,8 +1,6 @@
 import { Redirect } from "react-router-dom";
 
-import { useApplicationState } from "../../mobx/State";
-
-import { useClient } from "./RevoltClient";
+import { useSession } from "../../controllers/client/ClientController";
 
 interface Props {
     auth?: boolean;
@@ -12,14 +10,12 @@ interface Props {
 }
 
 export const CheckAuth = (props: Props) => {
-    const auth = useApplicationState().auth;
-    const client = useClient();
-    const ready = auth.isLoggedIn() && !!client?.user;
+    const session = useSession();
 
-    if (props.auth && !ready) {
+    if (props.auth && !session?.ready) {
         if (props.blockRender) return null;
         return <Redirect to="/login" />;
-    } else if (!props.auth && ready) {
+    } else if (!props.auth && session?.ready) {
         if (props.blockRender) return null;
         return <Redirect to="/" />;
     }

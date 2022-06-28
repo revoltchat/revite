@@ -5,6 +5,7 @@ import {
     makeAutoObservable,
     observable,
 } from "mobx";
+import { Message } from "revolt.js";
 
 import Store from "../interfaces/Store";
 
@@ -47,6 +48,8 @@ export default class MessageQueue implements Store {
     constructor() {
         this.messages = observable.array([]);
         makeAutoObservable(this);
+
+        this.onMessage = this.onMessage.bind(this);
     }
 
     get id() {
@@ -104,5 +107,17 @@ export default class MessageQueue implements Store {
      */
     @computed get(channel: string) {
         return this.messages.filter((x) => x.channel === channel);
+    }
+
+    /**
+     * Handle an incoming Message
+     * @param message Message
+     */
+    @action onMessage(message: Message) {
+        if (!message.nonce) return;
+        if (!this.get(message.channel_id).find((x) => x.id === message.nonce))
+            return;
+
+        this.remove(message.nonce);
     }
 }

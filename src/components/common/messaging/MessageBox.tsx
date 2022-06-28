@@ -29,9 +29,9 @@ import {
     grabFiles,
     uploadFile,
 } from "../../../context/revoltjs/FileUploads";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
 import { takeError } from "../../../context/revoltjs/util";
 
+import { useClient } from "../../../controllers/client/ClientController";
 import { modalController } from "../../../controllers/modals/ModalController";
 import AutoComplete, { useAutoComplete } from "../AutoComplete";
 import { PermissionTooltip } from "../Tooltip";
@@ -148,7 +148,7 @@ export default observer(({ channel }: Props) => {
     });
     const [typing, setTyping] = useState<boolean | number>(false);
     const [replies, setReplies] = useState<Reply[]>([]);
-    const client = useContext(AppContext);
+    const client = useClient();
     const translate = useTranslation();
 
     const renderer = getRenderer(channel);

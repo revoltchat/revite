@@ -14,8 +14,7 @@ import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import { useClient } from "../../../context/revoltjs/RevoltClient";
-
+import { useClient } from "../../../controllers/client/ClientController";
 import CollapsibleSection from "../../common/CollapsibleSection";
 import ServerHeader from "../../common/ServerHeader";
 import { ChannelButton } from "../items/ButtonItem";

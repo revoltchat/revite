@@ -9,7 +9,7 @@ import { reportError } from "../../lib/ErrorBoundary";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { useClient } from "./RevoltClient";
+import { useClient } from "../../controllers/client/ClientController";
 
 export default function SyncManager() {
     const client = useClient();

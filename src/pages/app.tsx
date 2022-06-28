@@ -5,7 +5,6 @@ import { lazy, Suspense } from "preact/compat";
 import { Masks, Preloader } from "@revoltchat/ui";
 
 import ErrorBoundary from "../lib/ErrorBoundary";
-import FakeClient from "../lib/FakeClient";
 
 import Context from "../context";
 import { CheckAuth } from "../context/revoltjs/CheckAuth";
@@ -36,9 +35,7 @@ export function App() {
                         </Route>
                         <Route path="/invite/:code">
                             <CheckAuth blockRender>
-                                <FakeClient>
-                                    <Invite />
-                                </FakeClient>
+                                <Invite />
                             </CheckAuth>
                             <CheckAuth auth blockRender>
                                 <Invite />

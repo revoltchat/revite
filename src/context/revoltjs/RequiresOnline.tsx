@@ -2,11 +2,10 @@ import { WifiOff } from "@styled-icons/boxicons-regular";
 import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
-import { useContext } from "preact/hooks";
 
 import { Preloader } from "@revoltchat/ui";
 
-import { ClientStatus, StatusContext } from "./RevoltClient";
+import { useSession } from "../../controllers/client/ClientController";
 
 interface Props {
     children: Children;
@@ -29,10 +28,12 @@ const Base = styled.div`
 `;
 
 export default function RequiresOnline(props: Props) {
-    const status = useContext(StatusContext);
+    const session = useSession();
 
-    if (status === ClientStatus.CONNECTING) return <Preloader type="ring" />;
-    if (status !== ClientStatus.ONLINE && status !== ClientStatus.READY)
+    if (!session || session.state === "Connecting")
+        return <Preloader type="ring" />;
+
+    if (!(session.state === "Online" || session.state === "Ready"))
         return (
             <Base>
                 <WifiOff size={16} />

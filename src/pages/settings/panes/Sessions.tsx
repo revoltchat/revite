@@ -16,7 +16,7 @@ import { decodeTime } from "ulid";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import {
     Button,
@@ -27,14 +27,14 @@ import {
 } from "@revoltchat/ui";
 
 import { dayjs } from "../../../context/Locale";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
 
+import { useClient } from "../../../controllers/client/ClientController";
 import { modalController } from "../../../controllers/modals/ModalController";
 
 dayjs.extend(relativeTime);
 
 export function Sessions() {
-    const client = useContext(AppContext);
+    const client = useClient();
     const deviceId =
         typeof client.session === "object" ? client.session._id : undefined;
 

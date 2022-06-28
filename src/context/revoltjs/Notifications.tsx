@@ -2,13 +2,13 @@ import { Route, Switch, useHistory, useParams } from "react-router-dom";
 import { Message, User } from "revolt.js";
 import { decodeTime } from "ulid";
 
-import { useCallback, useContext, useEffect } from "preact/hooks";
+import { useCallback, useEffect } from "preact/hooks";
 
 import { useTranslation } from "../../lib/i18n";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { AppContext } from "./RevoltClient";
+import { useClient } from "../../controllers/client/ClientController";
 
 const notifications: { [key: string]: Notification } = {};
 
@@ -30,7 +30,7 @@ function Notifier() {
     const notifs = state.notifications;
     const showNotification = state.settings.get("notifications:desktop");
 
-    const client = useContext(AppContext);
+    const client = useClient();
     const { guild: guild_id, channel: channel_id } = useParams<{
         guild: string;
         channel: string;

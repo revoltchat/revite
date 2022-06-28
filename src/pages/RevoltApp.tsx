@@ -9,7 +9,6 @@ import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 
 import Popovers from "../context/intermediate/Popovers";
 import Notifications from "../context/revoltjs/Notifications";
-import StateMonitor from "../context/revoltjs/StateMonitor";
 
 import { Titlebar } from "../components/native/Titlebar";
 import BottomNavigation from "../components/navigation/BottomNavigation";
@@ -235,7 +234,6 @@ export default function App() {
                     <ContextMenus />
                     <Popovers />
                     <Notifications />
-                    <StateMonitor />
                 </OverlappingPanels>
             </AppContainer>
         </>

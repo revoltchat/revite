@@ -15,9 +15,9 @@ import { determineLink } from "../../lib/links";
 
 import { dayjs } from "../../context/Locale";
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-import { AppContext } from "../../context/revoltjs/RevoltClient";
 
 import { emojiDictionary } from "../../assets/emojis";
+import { useClient } from "../../controllers/client/ClientController";
 import { generateEmoji } from "../common/Emoji";
 import { MarkdownProps } from "./Markdown";
 import Prism from "./prism";
@@ -118,7 +118,7 @@ const RE_CHANNELS = /<#([A-z0-9]{26})>/g;
 const RE_TIME = /<t:([0-9]+):(\w)>/g;
 
 export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
-    const client = useContext(AppContext);
+    const client = useClient();
     const { openLink } = useIntermediate();
 
     if (typeof content === "undefined") return null;

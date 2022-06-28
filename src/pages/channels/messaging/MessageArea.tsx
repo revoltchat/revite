@@ -25,11 +25,8 @@ import { ScrollState } from "../../../lib/renderer/types";
 
 import { IntermediateContext } from "../../../context/intermediate/Intermediate";
 import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
-import {
-    ClientStatus,
-    StatusContext,
-} from "../../../context/revoltjs/RevoltClient";
 
+import { useSession } from "../../../controllers/client/ClientController";
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
 
@@ -65,7 +62,7 @@ export const MESSAGE_AREA_PADDING = 82;
 
 export const MessageArea = observer(({ last_id, channel }: Props) => {
     const history = useHistory();
-    const status = useContext(StatusContext);
+    const session = useSession()!;
     const { focusTaken } = useContext(IntermediateContext);
 
     // ? Required data for message links.
@@ -213,8 +210,8 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
 
     // ? If we are waiting for network, try again.
     useEffect(() => {
-        switch (status) {
-            case ClientStatus.ONLINE:
+        switch (session.state) {
+            case "Online":
                 if (renderer.state === "WAITING_FOR_NETWORK") {
                     renderer.init();
                 } else {
@@ -222,13 +219,13 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
                 }
 
                 break;
-            case ClientStatus.OFFLINE:
-            case ClientStatus.DISCONNECTED:
-            case ClientStatus.CONNECTING:
+            case "Offline":
+            case "Disconnected":
+            case "Connecting":
                 renderer.markStale();
                 break;
         }
-    }, [renderer, status]);
+    }, [renderer, session.state]);
 
     // ? When the container is scrolled.
     // ? Also handle StayAtBottom

@@ -5,7 +5,7 @@ import { useState } from "preact/hooks";
 import { Modal } from "@revoltchat/ui";
 
 import UserCheckbox from "../../../components/common/user/UserCheckbox";
-import { useClient } from "../../revoltjs/RevoltClient";
+import { useClient } from "../../../controllers/client/ClientController";
 
 interface Props {
     omit?: string[];

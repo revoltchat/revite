@@ -3,7 +3,7 @@ import { Envelope, Key, Pencil } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import {
     AccountDetail,
@@ -12,27 +12,22 @@ import {
     HiddenValue,
 } from "@revoltchat/ui";
 
-import {
-    ClientStatus,
-    StatusContext,
-    useClient,
-} from "../../../context/revoltjs/RevoltClient";
-
+import { useSession } from "../../../controllers/client/ClientController";
 import { modalController } from "../../../controllers/modals/ModalController";
 
 export default observer(() => {
-    const client = useClient();
-    const status = useContext(StatusContext);
+    const session = useSession()!;
+    const client = session.client!;
 
     const [email, setEmail] = useState("...");
 
     useEffect(() => {
-        if (email === "..." && status === ClientStatus.ONLINE) {
+        if (email === "..." && session.state === "Online") {
             client.api
                 .get("/auth/account/")
                 .then((account) => setEmail(account.email));
         }
-    }, [client, email, status]);
+    }, [client, email, session.state]);
 
     return (
         <>
