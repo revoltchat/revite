@@ -6,8 +6,8 @@ import { useContext, useState } from "preact/hooks";
 
 import { Category, InputBox, Modal } from "@revoltchat/ui";
 
+import { useClient } from "../../../controllers/client/ClientController";
 import { I18nError } from "../../Locale";
-import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
 
 interface Props {
@@ -89,7 +89,7 @@ type SpecialProps = { onClose: () => void } & (
 
 export function SpecialInputModal(props: SpecialProps) {
     const history = useHistory();
-    const client = useContext(AppContext);
+    const client = useClient();
 
     const { onClose } = props;
     switch (props.type) {

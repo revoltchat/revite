@@ -3,9 +3,8 @@ import styled, { css } from "styled-components/macro";
 
 import { StateUpdater, useState } from "preact/hooks";
 
-import { useClient } from "../../context/revoltjs/RevoltClient";
-
 import { emojiDictionary } from "../../assets/emojis";
+import { useClient } from "../../controllers/client/ClientController";
 import ChannelIcon from "./ChannelIcon";
 import Emoji from "./Emoji";
 import UserIcon from "./user/UserIcon";

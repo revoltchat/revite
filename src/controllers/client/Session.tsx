@@ -20,6 +20,7 @@ type Transition =
 
 export default class Session {
     state: State = window.navigator.onLine ? "Ready" : "Offline";
+    user_id: string | null = null;
     client: Client | null = null;
 
     constructor() {
@@ -83,6 +84,7 @@ export default class Session {
 
     private destroyClient() {
         this.client!.removeAllListeners();
+        this.user_id = null;
         this.client = null;
     }
 
@@ -101,7 +103,7 @@ export default class Session {
     }
 
     @action async emit(data: Transition) {
-        console.info("Handle event:", data);
+        console.info(`[FSM ${this.user_id ?? "Anonymous"}]`, data);
 
         switch (data.action) {
             // Login with session
@@ -112,6 +114,7 @@ export default class Session {
 
                 try {
                     await this.client!.useExistingSession(data.session);
+                    this.user_id = this.client!.user!._id;
                 } catch (err) {
                     this.state = "Ready";
                     throw err;

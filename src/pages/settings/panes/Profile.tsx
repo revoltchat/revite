@@ -14,20 +14,16 @@ import { useTranslation } from "../../../lib/i18n";
 
 import { UserProfile } from "../../../context/intermediate/popovers/UserProfile";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
-import {
-    ClientStatus,
-    StatusContext,
-    useClient,
-} from "../../../context/revoltjs/RevoltClient";
 
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
+import { useSession } from "../../../controllers/client/ClientController";
 
 export const Profile = observer(() => {
-    const status = useContext(StatusContext);
     const translate = useTranslation();
-    const client = useClient();
+    const session = useSession()!;
+    const client = session.client!;
     const history = useHistory();
 
     const [profile, setProfile] = useState<undefined | API.UserProfile>(
@@ -43,10 +39,10 @@ export const Profile = observer(() => {
     }, [client.user, setProfile]);
 
     useEffect(() => {
-        if (profile === undefined && status === ClientStatus.ONLINE) {
+        if (profile === undefined && session.state === "Online") {
             refreshProfile();
         }
-    }, [profile, status, refreshProfile]);
+    }, [profile, session.state, refreshProfile]);
 
     const [changed, setChanged] = useState(false);
     function setContent(content?: string) {

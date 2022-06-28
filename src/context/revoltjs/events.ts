@@ -1,15 +1,6 @@
-import { Client, Server } from "revolt.js";
+export const _ = "";
 
-import { StateUpdater } from "preact/hooks";
-
-import { deleteRenderer } from "../../lib/renderer/Singleton";
-
-import State from "../../mobx/State";
-
-import { resetMemberSidebarFetched } from "../../components/navigation/right/MemberSidebar";
-import { ClientStatus } from "./RevoltClient";
-
-export function registerEvents(
+/*export function registerEvents(
     state: State,
     setStatus: StateUpdater<ClientStatus>,
     client: Client,
@@ -86,4 +77,4 @@ export function registerEvents(
         window.removeEventListener("online", online);
         window.removeEventListener("offline", offline);
     };
-}
+}*/

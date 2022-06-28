@@ -5,8 +5,8 @@ import classNames from "classnames";
 import { useContext } from "preact/hooks";
 
 import { useIntermediate } from "../../../../context/intermediate/Intermediate";
-import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
+import { useClient } from "../../../../controllers/client/ClientController";
 import { MessageAreaWidthContext } from "../../../../pages/channels/messaging/MessageArea";
 import Markdown from "../../../markdown/Markdown";
 import Attachment from "../attachments/Attachment";

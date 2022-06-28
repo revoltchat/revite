@@ -16,8 +16,6 @@ import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { useApplicationState } from "../../mobx/State";
 import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
 
-import { useClient } from "../../context/revoltjs/RevoltClient";
-
 import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
@@ -25,6 +23,7 @@ import NewMessages from "../../components/common/messaging/bars/NewMessages";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
 import RightSidebar from "../../components/navigation/RightSidebar";
 import { PageHeader } from "../../components/ui/Header";
+import { useClient } from "../../controllers/client/ClientController";
 import ChannelHeader from "./ChannelHeader";
 import { MessageArea } from "./messaging/MessageArea";
 import VoiceHeader from "./voice/VoiceHeader";

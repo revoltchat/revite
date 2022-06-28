@@ -34,11 +34,7 @@ import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
 import Markdown from "../../../components/markdown/Markdown";
-import {
-    ClientStatus,
-    StatusContext,
-    useClient,
-} from "../../revoltjs/RevoltClient";
+import { useSession } from "../../../controllers/client/ClientController";
 import { useIntermediate } from "../Intermediate";
 
 interface Props {
@@ -63,8 +59,8 @@ export const UserProfile = observer(
         >();
 
         const history = useHistory();
-        const client = useClient();
-        const status = useContext(StatusContext);
+        const session = useSession()!;
+        const client = session.client!;
         const [tab, setTab] = useState("profile");
 
         const user = client.users.get(user_id);
@@ -101,32 +97,26 @@ export const UserProfile = observer(
 
         useEffect(() => {
             if (dummy) return;
-            if (
-                status === ClientStatus.ONLINE &&
-                typeof mutual === "undefined"
-            ) {
+            if (session.state === "Online" && typeof mutual === "undefined") {
                 setMutual(null);
                 user.fetchMutual().then(setMutual);
             }
-        }, [mutual, status, dummy, user]);
+        }, [mutual, session.state, dummy, user]);
 
         useEffect(() => {
             if (dummy) return;
-            if (
-                status === ClientStatus.ONLINE &&
-                typeof profile === "undefined"
-            ) {
+            if (session.state === "Online" && typeof profile === "undefined") {
                 setProfile(null);
 
                 if (user.permission & UserPermission.ViewProfile) {
                     user.fetchProfile().then(setProfile).catch(noop);
                 }
             }
-        }, [profile, status, dummy, user]);
+        }, [profile, session.state, dummy, user]);
 
         useEffect(() => {
             if (
-                status === ClientStatus.ONLINE &&
+                session.state === "Online" &&
                 user.bot &&
                 typeof isPublicBot === "undefined"
             ) {
@@ -136,7 +126,7 @@ export const UserProfile = observer(
                     .then(() => setIsPublicBot(true))
                     .catch(noop);
             }
-        }, [isPublicBot, status, user, client.bots]);
+        }, [isPublicBot, session.state, user, client.bots]);
 
         const backgroundURL =
             profile &&

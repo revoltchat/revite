@@ -4,8 +4,7 @@ import { mapToRecord } from "../../lib/conversion";
 
 import { Fonts, MonospaceFonts, Overrides } from "../../context/Theme";
 
-import { EmojiPack } from "../../components/common/Emoji";
-import { MIGRATIONS } from "../State";
+import { EmojiPack, setGlobalEmojiPack } from "../../components/common/Emoji";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 import Syncable from "../interfaces/Syncable";
@@ -79,6 +78,11 @@ export default class Settings
      * @param value Value
      */
     @action set<T extends keyof ISettings>(key: T, value: ISettings[T]) {
+        // Emoji needs to be immediately applied.
+        if (key === 'appearance:emoji') {
+            setGlobalEmojiPack(value as EmojiPack);
+        }
+
         this.data.set(key, value);
     }
 

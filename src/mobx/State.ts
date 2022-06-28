@@ -140,6 +140,9 @@ export default class State {
         if (client) {
             this.client = client;
             this.plugins.onClient(client);
+
+            // Register message listener for clearing queue.
+            this.client.addListener("message", this.queue.onMessage);
         }
 
         // Register all the listeners required for saving and syncing state.
@@ -225,6 +228,11 @@ export default class State {
         });
 
         return () => {
+            // Remove any listeners attached to client.
+            if (client) {
+                client.removeListener("message", this.queue.onMessage);
+            }
+
             // Stop exposing the client.
             this.client = undefined;
 

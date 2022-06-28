@@ -9,8 +9,8 @@ import { Text } from "preact-i18n";
 import { internalEmit } from "../../../lib/eventEmitter";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { useClient } from "../../../context/revoltjs/RevoltClient";
 
+import { useClient } from "../../../controllers/client/ClientController";
 import UserIcon from "./UserIcon";
 
 const BotBadge = styled.div`

@@ -2,13 +2,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { API } from "revolt.js";
 
 import { Text } from "preact-i18n";
-import { useContext, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 
 import { Category, Modal } from "@revoltchat/ui";
 
+import { useClient } from "../../../controllers/client/ClientController";
 import FormField from "../../../pages/login/FormField";
 import { I18nError } from "../../Locale";
-import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
 
 interface Props {
@@ -21,7 +21,7 @@ interface FormInputs {
 }
 
 export function CreateBotModal({ onClose, onCreate }: Props) {
-    const client = useContext(AppContext);
+    const client = useClient();
     const { handleSubmit, register, errors } = useForm<FormInputs>();
     const [error, setError] = useState<string | undefined>(undefined);
 

@@ -8,7 +8,8 @@ import { ServerList } from "@revoltchat/ui";
 import { useApplicationState } from "../../../mobx/State";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { useClient } from "../../../context/revoltjs/RevoltClient";
+
+import { useClient } from "../../../controllers/client/ClientController";
 
 /**
  * Server list sidebar shim component

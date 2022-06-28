@@ -5,7 +5,7 @@ import { ulid } from "ulid";
 
 import styles from "./Prompt.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { Category, Modal, InputBox, Radio } from "@revoltchat/ui";
 import type { Action } from "@revoltchat/ui/esm/components/design/atoms/display/Modal";
@@ -14,8 +14,8 @@ import { TextReact } from "../../../lib/i18n";
 
 import Message from "../../../components/common/messaging/Message";
 import UserIcon from "../../../components/common/user/UserIcon";
+import { useClient } from "../../../controllers/client/ClientController";
 import { I18nError } from "../../Locale";
-import { AppContext } from "../../revoltjs/RevoltClient";
 import { takeError } from "../../revoltjs/util";
 import { useIntermediate } from "../Intermediate";
 
@@ -81,7 +81,7 @@ type SpecialProps = { onClose: () => void } & (
 );
 
 export const SpecialPromptModal = observer((props: SpecialProps) => {
-    const client = useContext(AppContext);
+    const client = useClient();
     const history = useHistory();
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<undefined | string>(undefined);

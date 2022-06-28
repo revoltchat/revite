@@ -3,15 +3,13 @@ import { API } from "revolt.js";
 
 import styles from "./Attachment.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { Button, Preloader } from "@revoltchat/ui";
 
 import RequiresOnline from "../../../../context/revoltjs/RequiresOnline";
-import {
-    AppContext,
-    StatusContext,
-} from "../../../../context/revoltjs/RevoltClient";
+
+import { useClient } from "../../../../controllers/client/ClientController";
 
 interface Props {
     attachment: API.File;
@@ -23,9 +21,8 @@ export default function TextFile({ attachment }: Props) {
     const [gated, setGated] = useState(attachment.size > 100_000);
     const [content, setContent] = useState<undefined | string>(undefined);
     const [loading, setLoading] = useState(false);
-    const status = useContext(StatusContext);
-    const client = useContext(AppContext);
 
+    const client = useClient();
     const url = client.generateFileURL(attachment)!;
 
     useEffect(() => {
@@ -56,7 +53,7 @@ export default function TextFile({ attachment }: Props) {
                     setLoading(false);
                 });
         }
-    }, [content, loading, gated, status, attachment._id, attachment.size, url]);
+    }, [content, loading, gated, attachment._id, attachment.size, url]);
 
     return (
         <div

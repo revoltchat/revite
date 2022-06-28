@@ -4,22 +4,20 @@ import { useEffect, useState } from "preact/hooks";
 
 import { Category, Preloader } from "@revoltchat/ui";
 
-import { useApplicationState } from "../../../mobx/State";
-
 import { I18nError } from "../../../context/Locale";
 import { takeError } from "../../../context/revoltjs/util";
 
+import { useApi } from "../../../controllers/client/ClientController";
 import { Form } from "./Form";
 
 export function FormResend() {
-    const config = useApplicationState().config;
-    const client = config.createClient();
+    const api = useApi();
 
     return (
         <Form
             page="resend"
             callback={async (data) => {
-                await client.api.post("/auth/account/reverify", data);
+                await api.post("/auth/account/reverify", data);
             }}
         />
     );
@@ -28,13 +26,11 @@ export function FormResend() {
 export function FormVerify() {
     const [error, setError] = useState<undefined | string>(undefined);
     const { token } = useParams<{ token: string }>();
-    const config = useApplicationState().config;
-    const client = config.createClient();
     const history = useHistory();
+    const api = useApi();
 
     useEffect(() => {
-        client.api
-            .post(`/auth/account/verify/${token as ""}`)
+        api.post(`/auth/account/verify/${token as ""}`)
             .then(() => history.push("/login"))
             .catch((err) => setError(takeError(err)));
         // eslint-disable-next-line

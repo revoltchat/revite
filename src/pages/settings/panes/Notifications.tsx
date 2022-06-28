@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { Checkbox, Column } from "@revoltchat/ui";
 
@@ -10,12 +10,11 @@ import { urlBase64ToUint8Array } from "../../../lib/conversion";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
-
+import { useClient } from "../../../controllers/client/ClientController";
 import { modalController } from "../../../controllers/modals/ModalController";
 
 export const Notifications = observer(() => {
-    const client = useContext(AppContext);
+    const client = useClient();
     const settings = useApplicationState().settings;
     const [pushEnabled, setPushEnabled] = useState<undefined | boolean>(
         undefined,

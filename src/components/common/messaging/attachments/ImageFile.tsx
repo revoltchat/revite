@@ -5,7 +5,8 @@ import classNames from "classnames";
 import { useContext, useState } from "preact/hooks";
 
 import { useIntermediate } from "../../../../context/intermediate/Intermediate";
-import { AppContext } from "../../../../context/revoltjs/RevoltClient";
+
+import { useClient } from "../../../../controllers/client/ClientController";
 
 enum ImageLoadingState {
     Loading,
@@ -19,7 +20,7 @@ type Props = JSX.HTMLAttributes<HTMLImageElement> & {
 
 export default function ImageFile({ attachment, ...props }: Props) {
     const [loading, setLoading] = useState(ImageLoadingState.Loading);
-    const client = useContext(AppContext);
+    const client = useClient();
     const { openScreen } = useIntermediate();
     const url = client.generateFileURL(attachment)!;
 

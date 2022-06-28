@@ -6,7 +6,7 @@ import { useEffect, useState } from "preact/hooks";
 
 import { Modal, Preloader } from "@revoltchat/ui";
 
-import { useApplicationState } from "../../mobx/State";
+import { useApi } from "../../controllers/client/ClientController";
 
 const Centre = styled.div`
     display: flex;
@@ -14,15 +14,12 @@ const Centre = styled.div`
 `;
 
 export default function ConfirmDelete() {
-    const state = useApplicationState();
+    const api = useApi();
     const [deleted, setDeleted] = useState(true);
     const { token } = useParams<{ token: string }>();
 
     useEffect(() => {
-        state.config
-            .createClient()
-            .api.put("/auth/account/delete", { token })
-            .then(() => setDeleted(true));
+        api.put("/auth/account/delete", { token }).then(() => setDeleted(true));
     }, []);
 
     return (
