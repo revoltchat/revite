@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, ObservableMap } from "mobx";
+import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 import type { Nullable } from "revolt.js";
 
 import Auth from "../../mobx/stores/Auth";
@@ -30,19 +30,34 @@ class ClientController {
     @action hydrate(auth: Auth) {
         for (const entry of auth.getAccounts()) {
             const session = new Session();
+            this.sessions.set(entry.session._id!, session);
             session.emit({
                 action: "LOGIN",
                 session: entry.session,
             });
         }
+
+        this.current = this.sessions.keys().next().value ?? null;
     }
 
-    getActiveSession() {
-        return this.sessions;
+    @computed getActiveSession() {
+        return this.sessions.get(this.current!);
     }
 
-    isLoggedIn() {
+    @computed isLoggedIn() {
         return this.current === null;
+    }
+
+    @action logout(user_id: string) {
+        const session = this.sessions.get(user_id);
+        if (session) {
+            this.sessions.delete(user_id);
+            if (user_id === this.current) {
+                this.current = this.sessions.keys().next().value ?? null;
+            }
+
+            session.destroy();
+        }
     }
 }
 
