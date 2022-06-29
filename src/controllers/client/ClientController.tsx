@@ -7,6 +7,7 @@ import { injectController } from "../../lib/window";
 import { state } from "../../mobx/State";
 import Auth from "../../mobx/stores/Auth";
 
+import { resetMemberSidebarFetched } from "../../components/navigation/right/MemberSidebar";
 import { modalController } from "../modals/ModalController";
 import Session from "./Session";
 
@@ -205,29 +206,37 @@ class ClientController {
         // Prompt for MFA verificaiton if necessary
         if (session.result === "MFA") {
             const { allowed_methods } = session;
-            const mfa_response: API.MFAResponse | undefined = await new Promise(
-                (callback) =>
-                    modalController.push({
-                        type: "mfa_flow",
-                        state: "unknown",
-                        available_methods: allowed_methods,
-                        callback,
-                    }),
-            );
+            while (session.result === "MFA") {
+                const mfa_response: API.MFAResponse | undefined =
+                    await new Promise((callback) =>
+                        modalController.push({
+                            type: "mfa_flow",
+                            state: "unknown",
+                            available_methods: allowed_methods,
+                            callback,
+                        }),
+                    );
 
-            if (typeof mfa_response === "undefined") {
-                throw "Cancelled";
+                if (typeof mfa_response === "undefined") {
+                    break;
+                }
+
+                try {
+                    session = await this.apiClient.api.post(
+                        "/auth/session/login",
+                        {
+                            mfa_response,
+                            mfa_ticket: session.ticket,
+                            friendly_name,
+                        },
+                    );
+                } catch (err) {
+                    console.error("Failed login:", err);
+                }
             }
 
-            session = await this.apiClient.api.post("/auth/session/login", {
-                mfa_response,
-                mfa_ticket: session.ticket,
-                friendly_name,
-            });
-
             if (session.result === "MFA") {
-                // unreachable code
-                return;
+                throw "Cancelled";
             }
         }
 
@@ -247,12 +256,12 @@ class ClientController {
     @action logout(user_id: string) {
         const session = this.sessions.get(user_id);
         if (session) {
-            this.sessions.delete(user_id);
             if (user_id === this.current) {
                 this.current = null;
-                this.pickNextSession();
             }
 
+            this.sessions.delete(user_id);
+            this.pickNextSession();
             session.destroy();
         }
     }
@@ -272,6 +281,10 @@ class ClientController {
      */
     @action switchAccount(user_id: string) {
         this.current = user_id;
+
+        // This will allow account switching to work more seamlessly,
+        // maybe it'll be properly / fully implemented at some point.
+        resetMemberSidebarFetched();
     }
 }
 

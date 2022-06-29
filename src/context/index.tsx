@@ -41,10 +41,9 @@ export default function Context({ children }: { children: Children }) {
             <UIProvider value={uiContext}>
                 <Locale>
                     <Intermediate>
-                        <Binder>
-                            {children}
-                            {<SyncManager />}
-                        </Binder>
+                        {children}
+                        <SyncManager />
+                        <Binder />
                     </Intermediate>
                     <ModalRenderer />
                 </Locale>
