@@ -17,11 +17,10 @@ import { ChannelRenderer } from "../../../lib/renderer/Singleton";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
-
 import Message from "../../../components/common/messaging/Message";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
 import { useClient } from "../../../controllers/client/ClientController";
+import RequiresOnline from "../../../controllers/client/jsx/RequiresOnline";
 import ConversationStart from "./ConversationStart";
 import MessageEditor from "./MessageEditor";
 

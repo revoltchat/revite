@@ -34,7 +34,6 @@ import { LineDivider } from "@revoltchat/ui";
 import { useApplicationState } from "../../mobx/State";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import { Username } from "../../components/common/user/UserShort";
@@ -44,6 +43,7 @@ import {
     useClient,
     clientController,
 } from "../../controllers/client/ClientController";
+import RequiresOnline from "../../controllers/client/jsx/RequiresOnline";
 import { modalController } from "../../controllers/modals/ModalController";
 import { GIT_BRANCH, GIT_REVISION, REPO_URL } from "../../revision";
 import { APP_VERSION } from "../../version";

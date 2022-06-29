@@ -7,9 +7,8 @@ import { useEffect, useState } from "preact/hooks";
 
 import { Button, Preloader } from "@revoltchat/ui";
 
-import RequiresOnline from "../../../../context/revoltjs/RequiresOnline";
-
 import { useClient } from "../../../../controllers/client/ClientController";
+import RequiresOnline from "../../../../controllers/client/jsx/RequiresOnline";
 
 interface Props {
     attachment: API.File;
