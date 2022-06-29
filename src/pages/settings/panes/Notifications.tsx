@@ -61,57 +61,59 @@ export const Notifications = observer(() => {
                         settings.set("notifications:desktop", desktopEnabled);
                     }}
                 />
-                <Checkbox
-                    disabled={typeof pushEnabled === "undefined"}
-                    value={pushEnabled ?? false}
-                    title={
-                        <Text id="app.settings.pages.notifications.enable_push" />
-                    }
-                    description={
-                        <Text id="app.settings.pages.notifications.descriptions.enable_push" />
-                    }
-                    onChange={async (pushEnabled) => {
-                        try {
-                            const reg =
-                                await navigator.serviceWorker?.getRegistration();
-                            if (reg) {
-                                if (pushEnabled) {
-                                    const sub = await reg.pushManager.subscribe(
-                                        {
-                                            userVisibleOnly: true,
-                                            applicationServerKey:
-                                                urlBase64ToUint8Array(
-                                                    client.configuration!.vapid,
-                                                ),
-                                        },
-                                    );
-
-                                    // tell the server we just subscribed
-                                    const json = sub.toJSON();
-                                    if (json.keys) {
-                                        client.api.post("/push/subscribe", {
-                                            endpoint: sub.endpoint,
-                                            ...(json.keys as {
-                                                p256dh: string;
-                                                auth: string;
-                                            }),
-                                        });
-                                        setPushEnabled(true);
-                                    }
-                                } else {
-                                    const sub =
-                                        await reg.pushManager.getSubscription();
-                                    sub?.unsubscribe();
-                                    setPushEnabled(false);
-
-                                    client.api.post("/push/unsubscribe");
-                                }
-                            }
-                        } catch (err) {
-                            console.error("Failed to enable push!", err);
+                {!window.native && (
+                    <Checkbox
+                        disabled={typeof pushEnabled === "undefined"}
+                        value={pushEnabled ?? false}
+                        title={
+                            <Text id="app.settings.pages.notifications.enable_push" />
                         }
-                    }}
-                />
+                        description={
+                            <Text id="app.settings.pages.notifications.descriptions.enable_push" />
+                        }
+                        onChange={async (pushEnabled) => {
+                            try {
+                                const reg =
+                                    await navigator.serviceWorker?.getRegistration();
+                                if (reg) {
+                                    if (pushEnabled) {
+                                        const sub =
+                                            await reg.pushManager.subscribe({
+                                                userVisibleOnly: true,
+                                                applicationServerKey:
+                                                    urlBase64ToUint8Array(
+                                                        client.configuration!
+                                                            .vapid,
+                                                    ),
+                                            });
+
+                                        // tell the server we just subscribed
+                                        const json = sub.toJSON();
+                                        if (json.keys) {
+                                            client.api.post("/push/subscribe", {
+                                                endpoint: sub.endpoint,
+                                                ...(json.keys as {
+                                                    p256dh: string;
+                                                    auth: string;
+                                                }),
+                                            });
+                                            setPushEnabled(true);
+                                        }
+                                    } else {
+                                        const sub =
+                                            await reg.pushManager.getSubscription();
+                                        sub?.unsubscribe();
+                                        setPushEnabled(false);
+
+                                        client.api.post("/push/unsubscribe");
+                                    }
+                                }
+                            } catch (err) {
+                                console.error("Failed to enable push!", err);
+                            }
+                        }}
+                    />
+                )}
             </Column>
             <h3>
                 <Text id="app.settings.pages.notifications.sounds" />
