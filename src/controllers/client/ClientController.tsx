@@ -10,6 +10,9 @@ import Auth from "../../mobx/stores/Auth";
 import { modalController } from "../modals/ModalController";
 import Session from "./Session";
 
+/**
+ * Controls the lifecycles of clients
+ */
 class ClientController {
     /**
      * API client
@@ -36,6 +39,7 @@ class ClientController {
             apiURL: import.meta.env.VITE_API_URL,
         });
 
+        // ! FIXME: loop until success infinitely
         this.apiClient
             .fetchConfiguration()
             .then(() => (this.configuration = this.apiClient.configuration!));
@@ -70,26 +74,51 @@ class ClientController {
         this.pickNextSession();
     }
 
+    /**
+     * Get the currently selected session
+     * @returns Active Session
+     */
     @computed getActiveSession() {
         return this.sessions.get(this.current!);
     }
 
+    /**
+     * Get an unauthenticated instance of the Revolt.js Client
+     * @returns API Client
+     */
     @computed getAnonymousClient() {
         return this.apiClient;
     }
 
+    /**
+     * Get the next available client (either from session or API)
+     * @returns Revolt.js Client
+     */
     @computed getAvailableClient() {
         return this.getActiveSession()?.client ?? this.apiClient;
     }
 
+    /**
+     * Fetch server configuration
+     * @returns Server Configuration
+     */
     @computed getServerConfig() {
         return this.configuration;
     }
 
+    /**
+     * Check whether we are logged in right now
+     * @returns Whether we are logged in
+     */
     @computed isLoggedIn() {
         return this.current === null;
     }
 
+    /**
+     * Start a new client lifecycle
+     * @param entry Session Information
+     * @param knowledge Whether the session is new or existing
+     */
     @action addSession(
         entry: { session: SessionPrivate; apiUrl?: string },
         knowledge: "new" | "existing",
@@ -119,6 +148,10 @@ class ClientController {
         this.pickNextSession();
     }
 
+    /**
+     * Login given a set of credentials
+     * @param credentials Credentials
+     */
     async login(credentials: API.DataLogin) {
         const browser = detect();
 
@@ -181,35 +214,19 @@ class ClientController {
             }
         }
 
+        // Start client lifecycle
         this.addSession(
             {
                 session,
             },
             "new",
         );
-
-        /*const s = session;
-
-        client.session = session;
-        (client as any).$updateHeaders();
-
-        async function login() {
-            state.auth.setSession(s);
-        }
-
-        const { onboarding } = await client.api.get("/onboard/hello");
-
-        if (onboarding) {
-            openScreen({
-                id: "onboarding",
-                callback: async (username: string) =>
-                    client.completeOnboarding({ username }, false).then(login),
-            });
-        } else {
-            login();
-        }*/
     }
 
+    /**
+     * Log out of a specific user session
+     * @param user_id Target User ID
+     */
     @action logout(user_id: string) {
         const session = this.sessions.get(user_id);
         if (session) {
@@ -223,12 +240,19 @@ class ClientController {
         }
     }
 
+    /**
+     * Logout of the current session
+     */
     @action logoutCurrent() {
         if (this.current) {
             this.logout(this.current);
         }
     }
 
+    /**
+     * Switch to another user session
+     * @param user_id Target User ID
+     */
     @action switchAccount(user_id: string) {
         this.current = user_id;
     }

@@ -5,8 +5,14 @@ import { state } from "../../mobx/State";
 
 import { __thisIsAHack } from "../../context/intermediate/Intermediate";
 
+/**
+ * Current lifecycle state
+ */
 type State = "Ready" | "Connecting" | "Online" | "Disconnected" | "Offline";
 
+/**
+ * Possible transitions between states
+ */
 type Transition =
     | {
           action: "LOGIN";
@@ -26,11 +32,17 @@ type Transition =
               | "OFFLINE";
       };
 
+/**
+ * Client lifecycle finite state machine
+ */
 export default class Session {
     state: State = window.navigator.onLine ? "Ready" : "Offline";
     user_id: string | null = null;
     client: Client | null = null;
 
+    /**
+     * Create a new Session
+     */
     constructor() {
         makeAutoObservable(this);
 
@@ -44,7 +56,7 @@ export default class Session {
     }
 
     /**
-     * Initiate logout and destroy client.
+     * Initiate logout and destroy client
      */
     @action destroy() {
         if (this.client) {
@@ -54,30 +66,46 @@ export default class Session {
         }
     }
 
+    /**
+     * Called when user's browser signals it is online
+     */
     private onOnline() {
         this.emit({
             action: "ONLINE",
         });
     }
 
+    /**
+     * Called when user's browser signals it is offline
+     */
     private onOffline() {
         this.emit({
             action: "OFFLINE",
         });
     }
 
+    /**
+     * Called when the client signals it has disconnected
+     */
     private onDropped() {
         this.emit({
             action: "DISCONNECT",
         });
     }
 
+    /**
+     * Called when the client signals it has received the Ready packet
+     */
     private onReady() {
         this.emit({
             action: "SUCCESS",
         });
     }
 
+    /**
+     * Create a new Revolt.js Client for this Session
+     * @param apiUrl Optionally specify an API URL
+     */
     private createClient(apiUrl?: string) {
         this.client = new Client({
             unreads: true,
@@ -90,12 +118,20 @@ export default class Session {
         this.client.addListener("ready", this.onReady);
     }
 
+    /**
+     * Destroy the client including any listeners.
+     */
     private destroyClient() {
         this.client!.removeAllListeners();
+        this.client!.logout();
         this.user_id = null;
         this.client = null;
     }
 
+    /**
+     * Ensure we are in one of the given states
+     * @param state Possible states
+     */
     private assert(...state: State[]) {
         let found = false;
         for (const target of state) {
@@ -110,6 +146,10 @@ export default class Session {
         }
     }
 
+    /**
+     * Continue logging in provided onboarding is successful
+     * @param data Transition Data
+     */
     private async continueLogin(data: Transition & { action: "LOGIN" }) {
         try {
             await this.client!.useExistingSession(data.session);
@@ -121,6 +161,10 @@ export default class Session {
         }
     }
 
+    /**
+     * Transition to a new state by a certain action
+     * @param data Transition Data
+     */
     @action async emit(data: Transition) {
         console.info(`[FSM ${this.user_id ?? "Anonymous"}]`, data);
 
