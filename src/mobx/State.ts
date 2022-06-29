@@ -47,8 +47,6 @@ export default class State {
     private persistent: [string, Persistent<unknown>][] = [];
     private disabled: Set<string> = new Set();
 
-    client?: Client;
-
     /**
      * Construct new State.
      */
@@ -67,14 +65,10 @@ export default class State {
         this.plugins = new Plugins(this);
         this.ordering = new Ordering(this);
 
-        makeAutoObservable(this, {
-            client: false,
-        });
+        makeAutoObservable(this);
 
         this.register();
         this.setDisabled = this.setDisabled.bind(this);
-
-        this.client = undefined;
     }
 
     /**
@@ -138,11 +132,11 @@ export default class State {
     registerListeners(client?: Client) {
         // If a client is present currently, expose it and provide it to plugins.
         if (client) {
-            this.client = client;
+            // this.client = client;
             this.plugins.onClient(client);
 
             // Register message listener for clearing queue.
-            this.client.addListener("message", this.queue.onMessage);
+            // this.client.addListener("message", this.queue.onMessage);
         }
 
         // Register all the listeners required for saving and syncing state.
@@ -228,13 +222,13 @@ export default class State {
         });
 
         return () => {
-            // Remove any listeners attached to client.
+            /*// Remove any listeners attached to client.
             if (client) {
                 client.removeListener("message", this.queue.onMessage);
             }
 
             // Stop exposing the client.
-            this.client = undefined;
+            this.client = undefined;*/
 
             // Wipe all listeners.
             listeners.forEach((x) => x());

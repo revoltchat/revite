@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Channel, Server, User, API } from "revolt.js";
 
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useLayoutEffect, useState } from "preact/hooks";
 
 import {
     useSession,
