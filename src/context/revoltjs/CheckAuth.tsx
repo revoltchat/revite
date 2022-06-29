@@ -1,6 +1,8 @@
 import { observer } from "mobx-react-lite";
 import { Redirect } from "react-router-dom";
 
+import { Preloader } from "@revoltchat/ui";
+
 import { clientController } from "../../controllers/client/ClientController";
 
 interface Props {
@@ -10,6 +12,10 @@ interface Props {
     children: Children;
 }
 
+/**
+ * Check that we are logged in or out and redirect accordingly.
+ * Also prevent render until the client is ready to display.
+ */
 export const CheckAuth = observer((props: Props) => {
     const loggedIn = clientController.isLoggedIn();
 
@@ -20,6 +26,15 @@ export const CheckAuth = observer((props: Props) => {
     } else if (!props.auth && loggedIn) {
         if (props.blockRender) return null;
         return <Redirect to="/" />;
+    }
+
+    // Block render if client is getting ready to work.
+    if (
+        props.auth &&
+        clientController.isLoggedIn() &&
+        !clientController.isReady()
+    ) {
+        return <Preloader type="spinner" />;
     }
 
     return <>{props.children}</>;

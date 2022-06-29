@@ -49,7 +49,9 @@ export function App() {
                     </Route>
                     <Route path="/login">
                         <CheckAuth>
-                            <Login />
+                            <LoadSuspense>
+                                <Login />
+                            </LoadSuspense>
                         </CheckAuth>
                     </Route>
                     <Route path="/">
