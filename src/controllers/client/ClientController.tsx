@@ -58,8 +58,9 @@ class ClientController {
     }
 
     @action pickNextSession() {
-        this.current =
-            this.current ?? this.sessions.keys().next().value ?? null;
+        this.switchAccount(
+            this.current ?? this.sessions.keys().next().value ?? null,
+        );
     }
 
     /**
@@ -80,6 +81,15 @@ class ClientController {
      */
     @computed getActiveSession() {
         return this.sessions.get(this.current!);
+    }
+
+    /**
+     * Get the currently ready client
+     * @returns Ready Client
+     */
+    @computed getReadyClient() {
+        const session = this.getActiveSession();
+        return session && session.ready ? session.client! : undefined;
     }
 
     /**
@@ -111,7 +121,15 @@ class ClientController {
      * @returns Whether we are logged in
      */
     @computed isLoggedIn() {
-        return this.current === null;
+        return this.current !== null;
+    }
+
+    /**
+     * Check whether we are currently ready
+     * @returns Whether we are ready to render
+     */
+    @computed isReady() {
+        return this.getActiveSession()?.ready;
     }
 
     /**
@@ -127,6 +145,7 @@ class ClientController {
 
         const session = new Session();
         this.sessions.set(user_id, session);
+        this.pickNextSession();
 
         session
             .emit({
@@ -144,8 +163,6 @@ class ClientController {
                     session.destroy();
                 }
             });
-
-        this.pickNextSession();
     }
 
     /**

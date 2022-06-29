@@ -76,12 +76,6 @@ const Routes = styled.div.attrs({ "data-component": "routes" })<{
 
     background: var(--primary-background);
 
-    /*background-color: rgba(
-        var(--primary-background-rgb),
-        max(var(--min-opacity), 0.75)
-    );*/
-    //backdrop-filter: blur(10px);
-
     ${() =>
         isTouchscreenDevice &&
         css`

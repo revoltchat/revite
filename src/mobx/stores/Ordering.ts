@@ -2,6 +2,7 @@ import { action, computed, makeAutoObservable } from "mobx";
 
 import { reorder } from "@revoltchat/ui";
 
+import { clientController } from "../../controllers/client/ClientController";
 import State from "../State";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
@@ -63,18 +64,19 @@ export default class Ordering implements Store, Persistent<Data>, Syncable {
      * All known servers with ordering applied
      */
     @computed get orderedServers() {
-        const known = new Set(this.state.client?.servers.keys() ?? []);
+        const client = clientController.getReadyClient();
+        const known = new Set(client?.servers.keys() ?? []);
         const ordered = [...this.servers];
 
         const out = [];
         for (const id of ordered) {
             if (known.delete(id)) {
-                out.push(this.state.client!.servers.get(id)!);
+                out.push(client!.servers.get(id)!);
             }
         }
 
         for (const id of known) {
-            out.push(this.state.client!.servers.get(id)!);
+            out.push(client!.servers.get(id)!);
         }
 
         return out;

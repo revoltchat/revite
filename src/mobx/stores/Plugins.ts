@@ -59,7 +59,7 @@ type Plugin = {
 
 type Instance = {
     format: 1;
-    onClient?: (client: Client) => {};
+    onClient?: (client: Client) => void;
     onUnload?: () => void;
 };
 
@@ -124,7 +124,7 @@ export default class Plugins implements Store, Persistent<Data> {
      * @param id Plugin Id
      */
     @computed get(namespace: string, id: string) {
-        return this.plugins.get(`${namespace  }/${  id}`);
+        return this.plugins.get(`${namespace}/${id}`);
     }
 
     /**
@@ -133,7 +133,7 @@ export default class Plugins implements Store, Persistent<Data> {
      * @returns Plugin Instance
      */
     private getInstance(plugin: Pick<Plugin, "namespace" | "id">) {
-        return this.instances.get(`${plugin.namespace  }/${  plugin.id}`);
+        return this.instances.get(`${plugin.namespace}/${plugin.id}`);
     }
 
     /**
@@ -159,7 +159,7 @@ export default class Plugins implements Store, Persistent<Data> {
             this.unload(plugin.namespace, plugin.id);
         }
 
-        this.plugins.set(`${plugin.namespace  }/${  plugin.id}`, plugin);
+        this.plugins.set(`${plugin.namespace}/${plugin.id}`, plugin);
 
         if (typeof plugin.enabled === "undefined" || plugin) {
             this.load(plugin.namespace, plugin.id);
@@ -173,7 +173,7 @@ export default class Plugins implements Store, Persistent<Data> {
      */
     remove(namespace: string, id: string) {
         this.unload(namespace, id);
-        this.plugins.delete(`${namespace  }/${  id}`);
+        this.plugins.delete(`${namespace}/${id}`);
     }
 
     /**
@@ -186,7 +186,7 @@ export default class Plugins implements Store, Persistent<Data> {
         if (!plugin) throw "Unknown plugin!";
 
         try {
-            const ns = `${plugin.namespace  }/${  plugin.id}`;
+            const ns = `${plugin.namespace}/${plugin.id}`;
 
             const instance: Instance = eval(plugin.entrypoint)();
             this.instances.set(ns, {
@@ -198,10 +198,6 @@ export default class Plugins implements Store, Persistent<Data> {
                 ...plugin,
                 enabled: true,
             });
-
-            if (this.state.client) {
-                instance.onClient?.(this.state.client);
-            }
         } catch (error) {
             console.error(`Failed to load ${namespace}/${id}!`);
             console.error(error);
@@ -217,7 +213,7 @@ export default class Plugins implements Store, Persistent<Data> {
         const plugin = this.get(namespace, id);
         if (!plugin) throw "Unknown plugin!";
 
-        const ns = `${plugin.namespace  }/${  plugin.id}`;
+        const ns = `${plugin.namespace}/${plugin.id}`;
         const loaded = this.getInstance(plugin);
         if (loaded) {
             loaded.onUnload?.();

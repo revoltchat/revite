@@ -8,12 +8,12 @@ import { Preloader, UIProvider } from "@revoltchat/ui";
 
 import { hydrateState } from "../mobx/State";
 
+import Binder from "../controllers/client/jsx/Binder";
 import ModalRenderer from "../controllers/modals/ModalRenderer";
 import Locale from "./Locale";
 import Theme from "./Theme";
 import { history } from "./history";
 import Intermediate from "./intermediate/Intermediate";
-import Client from "./revoltjs/RevoltClient";
 import SyncManager from "./revoltjs/SyncManager";
 
 const uiContext = {
@@ -41,10 +41,10 @@ export default function Context({ children }: { children: Children }) {
             <UIProvider value={uiContext}>
                 <Locale>
                     <Intermediate>
-                        <Client>
+                        <Binder>
                             {children}
-                            <SyncManager />
-                        </Client>
+                            {<SyncManager />}
+                        </Binder>
                     </Intermediate>
                     <ModalRenderer />
                 </Locale>
