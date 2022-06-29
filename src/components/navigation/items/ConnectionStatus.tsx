@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 
 import { Text } from "preact-i18n";
 
-import { Banner } from "@revoltchat/ui";
+import { Banner, Button, Column } from "@revoltchat/ui";
 
 import { useSession } from "../../../controllers/client/ClientController";
 
@@ -18,15 +18,19 @@ function ConnectionStatus() {
     } else if (session.state === "Disconnected") {
         return (
             <Banner>
-                <Text id="app.special.status.disconnected" /> <br />
-                <a
-                    onClick={() =>
-                        session.emit({
-                            action: "RETRY",
-                        })
-                    }>
-                    <Text id="app.special.status.reconnect" />
-                </a>
+                <Column centred>
+                    <Text id="app.special.status.disconnected" />
+                    <Button
+                        compact
+                        palette="secondary"
+                        onClick={() =>
+                            session.emit({
+                                action: "RETRY",
+                            })
+                        }>
+                        <Text id="app.status.reconnect" />
+                    </Button>
+                </Column>
             </Banner>
         );
     } else if (session.state === "Connecting") {
