@@ -39,6 +39,9 @@ export default class State {
     locale: LocaleOptions;
     experiments: Experiments;
     layout: Layout;
+    /**
+     * DEPRECATED
+     */
     private config: ServerConfig;
     notifications: NotificationOptions;
     queue: MessageQueue;
@@ -61,7 +64,7 @@ export default class State {
         this.experiments = new Experiments();
         this.layout = new Layout();
         this.config = new ServerConfig();
-        this.notifications = new NotificationOptions();
+        this.notifications = new NotificationOptions(this);
         this.queue = new MessageQueue();
         this.settings = new Settings();
         this.sync = new Sync(this);
@@ -159,6 +162,17 @@ export default class State {
             // Register listener for incoming packets.
             client.addListener("packet", this.onPacket);
 
+            // Register events for notifications.
+            client.addListener("message", this.notifications.onMessage);
+            client.addListener(
+                "user/relationship",
+                this.notifications.onRelationship,
+            );
+            document.addEventListener(
+                "visibilitychange",
+                this.notifications.onVisibilityChange,
+            );
+
             // Sync settings from remote server.
             state.sync
                 .pull(client)
@@ -253,6 +267,15 @@ export default class State {
             if (client) {
                 client.removeListener("message", this.queue.onMessage);
                 client.removeListener("packet", this.onPacket);
+                client.removeListener("message", this.notifications.onMessage);
+                client.removeListener(
+                    "user/relationship",
+                    this.notifications.onRelationship,
+                );
+                document.removeEventListener(
+                    "visibilitychange",
+                    this.notifications.onVisibilityChange,
+                );
             }
 
             // Wipe all listeners.
@@ -293,7 +316,7 @@ export default class State {
             this.draft = new Draft();
             this.experiments = new Experiments();
             this.layout = new Layout();
-            this.notifications = new NotificationOptions();
+            this.notifications = new NotificationOptions(this);
             this.queue = new MessageQueue();
             this.settings = new Settings();
             this.sync = new Sync(this);
