@@ -1,6 +1,8 @@
 import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 import { Client, Nullable } from "revolt.js";
 
+import { injectController } from "../../lib/window";
+
 import Auth from "../../mobx/stores/Auth";
 
 import { modalController } from "../modals/ModalController";
@@ -35,7 +37,7 @@ class ClientController {
         this.logoutCurrent = this.logoutCurrent.bind(this);
 
         // Inject globally
-        (window as any).clientController = this;
+        injectController("client", this);
     }
 
     /**
@@ -53,12 +55,14 @@ class ClientController {
                 .emit({
                     action: "LOGIN",
                     session: entry.session,
+                    apiUrl: entry.apiUrl,
                 })
                 .catch((error) => {
                     if (error === "Forbidden" || error === "Unauthorized") {
                         this.sessions.delete(user_id);
                         auth.removeSession(user_id);
                         modalController.push({ type: "signed_out" });
+                        session.destroy();
                     }
                 });
         }

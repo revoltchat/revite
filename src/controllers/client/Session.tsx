@@ -7,6 +7,7 @@ type Transition =
     | {
           action: "LOGIN";
           session: SessionPrivate;
+          apiUrl?: string;
       }
     | {
           action:
@@ -70,12 +71,12 @@ export default class Session {
         });
     }
 
-    private createClient() {
+    private createClient(apiUrl?: string) {
         this.client = new Client({
             unreads: true,
             autoReconnect: false,
             onPongTimeout: "EXIT",
-            apiURL: import.meta.env.VITE_API_URL,
+            apiURL: apiUrl ?? import.meta.env.VITE_API_URL,
         });
 
         this.client.addListener("dropped", this.onDropped);
@@ -110,7 +111,7 @@ export default class Session {
             case "LOGIN": {
                 this.assert("Ready");
                 this.state = "Connecting";
-                this.createClient();
+                this.createClient(data.apiUrl);
 
                 try {
                     await this.client!.useExistingSession(data.session);
@@ -135,10 +136,13 @@ export default class Session {
                     this.state = "Disconnected";
 
                     setTimeout(() => {
-                        this.emit({
-                            action: "RETRY",
-                        });
-                    }, 1500);
+                        // Check we are still disconnected before retrying.
+                        if (this.state === "Disconnected") {
+                            this.emit({
+                                action: "RETRY",
+                            });
+                        }
+                    }, 1000);
                 }
 
                 break;

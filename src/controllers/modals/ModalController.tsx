@@ -9,6 +9,7 @@ import type { Client, API } from "revolt.js";
 import { ulid } from "ulid";
 
 import { determineLink } from "../../lib/links";
+import { injectController } from "../../lib/window";
 
 import { getApplicationState } from "../../mobx/State";
 
@@ -52,6 +53,9 @@ class ModalController<T extends Modal> {
             rendered: computed,
             isVisible: computed,
         });
+
+        // Inject globally
+        injectController("modal", this);
     }
 
     /**

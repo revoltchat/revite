@@ -8,6 +8,7 @@ import Store from "../interfaces/Store";
 
 interface Account {
     session: Session;
+    apiUrl?: string;
 }
 
 export interface Data {
@@ -70,9 +71,10 @@ export default class Auth implements Store, Persistent<Data> {
     /**
      * Add a new session to the auth manager.
      * @param session Session
+     * @param apiUrl Custom API URL
      */
-    @action setSession(session: Session) {
-        this.sessions.set(session.user_id, { session });
+    @action setSession(session: Session, apiUrl?: string) {
+        this.sessions.set(session.user_id, { session, apiUrl });
     }
 
     /**
