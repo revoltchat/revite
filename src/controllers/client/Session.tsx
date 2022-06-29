@@ -1,13 +1,14 @@
 import { action, computed, makeAutoObservable } from "mobx";
-import { Client } from "revolt.js";
+import { API, Client } from "revolt.js";
 
 type State = "Ready" | "Connecting" | "Online" | "Disconnected" | "Offline";
 
 type Transition =
     | {
           action: "LOGIN";
-          session: SessionPrivate;
           apiUrl?: string;
+          session: SessionPrivate;
+          configuration?: API.RevoltConfig;
       }
     | {
           action:
@@ -112,6 +113,10 @@ export default class Session {
                 this.assert("Ready");
                 this.state = "Connecting";
                 this.createClient(data.apiUrl);
+
+                if (data.configuration) {
+                    this.client!.configuration = data.configuration;
+                }
 
                 try {
                     await this.client!.useExistingSession(data.session);
