@@ -64,7 +64,7 @@ class ClientController {
      */
     @action hydrate(auth: Auth) {
         for (const entry of auth.getAccounts()) {
-            this.addSession(entry);
+            this.addSession(entry, "existing");
         }
 
         this.pickNextSession();
@@ -90,7 +90,10 @@ class ClientController {
         return this.current === null;
     }
 
-    @action addSession(entry: { session: SessionPrivate; apiUrl?: string }) {
+    @action addSession(
+        entry: { session: SessionPrivate; apiUrl?: string },
+        knowledge: "new" | "existing",
+    ) {
         const user_id = entry.session.user_id!;
 
         const session = new Session();
@@ -102,6 +105,7 @@ class ClientController {
                 session: entry.session,
                 apiUrl: entry.apiUrl,
                 configuration: this.configuration!,
+                knowledge,
             })
             .catch((error) => {
                 if (error === "Forbidden" || error === "Unauthorized") {
@@ -177,9 +181,12 @@ class ClientController {
             }
         }
 
-        this.addSession({
-            session,
-        });
+        this.addSession(
+            {
+                session,
+            },
+            "new",
+        );
 
         /*const s = session;
 

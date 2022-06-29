@@ -1,6 +1,10 @@
 import { action, computed, makeAutoObservable } from "mobx";
 import { API, Client } from "revolt.js";
 
+import { state } from "../../mobx/State";
+
+import { __thisIsAHack } from "../../context/intermediate/Intermediate";
+
 type State = "Ready" | "Connecting" | "Online" | "Disconnected" | "Offline";
 
 type Transition =
@@ -9,6 +13,8 @@ type Transition =
           apiUrl?: string;
           session: SessionPrivate;
           configuration?: API.RevoltConfig;
+
+          knowledge: "new" | "existing";
       }
     | {
           action:
@@ -104,6 +110,17 @@ export default class Session {
         }
     }
 
+    private async continueLogin(data: Transition & { action: "LOGIN" }) {
+        try {
+            await this.client!.useExistingSession(data.session);
+            this.user_id = this.client!.user!._id;
+            state.auth.setSession(data.session);
+        } catch (err) {
+            this.state = "Ready";
+            throw err;
+        }
+    }
+
     @action async emit(data: Transition) {
         console.info(`[FSM ${this.user_id ?? "Anonymous"}]`, data);
 
@@ -118,13 +135,30 @@ export default class Session {
                     this.client!.configuration = data.configuration;
                 }
 
-                try {
-                    await this.client!.useExistingSession(data.session);
-                    this.user_id = this.client!.user!._id;
-                } catch (err) {
-                    this.state = "Ready";
-                    throw err;
+                if (data.knowledge === "new") {
+                    await this.client!.fetchConfiguration();
+                    this.client!.session = data.session;
+                    (this.client! as any).$updateHeaders();
+
+                    const { onboarding } = await this.client!.api.get(
+                        "/onboard/hello",
+                    );
+
+                    if (onboarding) {
+                        __thisIsAHack({
+                            id: "onboarding",
+                            callback: async (username: string) =>
+                                this.client!.completeOnboarding(
+                                    { username },
+                                    false,
+                                ).then(() => this.continueLogin(data)),
+                        });
+
+                        return;
+                    }
                 }
+
+                this.continueLogin(data);
 
                 break;
             }

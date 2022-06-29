@@ -9,21 +9,25 @@ import { reportError } from "../../lib/ErrorBoundary";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { useClient } from "../../controllers/client/ClientController";
+import {
+    useClient,
+    useSession,
+} from "../../controllers/client/ClientController";
 
 export default function SyncManager() {
     const client = useClient();
+    const session = useSession();
     const state = useApplicationState();
 
     // Sync settings from Revolt.
     useEffect(() => {
-        if (client) {
+        if (session?.ready) {
             state.sync
-                .pull(client)
+                .pull(session.client!)
                 .catch(console.error)
                 .finally(() => state.changelog.checkForUpdates());
         }
-    }, [client]);
+    }, [session?.ready]);
 
     // Take data updates from Revolt.
     useEffect(() => {
