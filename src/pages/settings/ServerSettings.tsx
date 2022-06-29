@@ -16,10 +16,10 @@ import { Text } from "preact-i18n";
 import { LineDivider } from "@revoltchat/ui";
 
 import { useIntermediate } from "../../context/intermediate/Intermediate";
-import RequiresOnline from "../../context/revoltjs/RequiresOnline";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { useClient } from "../../controllers/client/ClientController";
+import RequiresOnline from "../../controllers/client/jsx/RequiresOnline";
 import { GenericSettings } from "./GenericSettings";
 import { Bans } from "./server/Bans";
 import { Categories } from "./server/Categories";

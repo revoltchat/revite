@@ -24,9 +24,9 @@ import { getRenderer } from "../../../lib/renderer/Singleton";
 import { ScrollState } from "../../../lib/renderer/types";
 
 import { IntermediateContext } from "../../../context/intermediate/Intermediate";
-import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
 
 import { useSession } from "../../../controllers/client/ClientController";
+import RequiresOnline from "../../../controllers/client/jsx/RequiresOnline";
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
 

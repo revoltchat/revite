@@ -5,7 +5,7 @@ import { Text } from "preact-i18n";
 
 import { Preloader } from "@revoltchat/ui";
 
-import { useSession } from "../../controllers/client/ClientController";
+import { useSession } from "../ClientController";
 
 interface Props {
     children: Children;
