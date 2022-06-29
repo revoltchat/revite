@@ -36,7 +36,7 @@ export default class State {
     locale: LocaleOptions;
     experiments: Experiments;
     layout: Layout;
-    config: ServerConfig;
+    private config: ServerConfig;
     notifications: NotificationOptions;
     queue: MessageQueue;
     settings: Settings;
@@ -288,7 +288,7 @@ export default class State {
     }
 }
 
-let state: State;
+export let state: State;
 
 export async function hydrateState() {
     state = new State();

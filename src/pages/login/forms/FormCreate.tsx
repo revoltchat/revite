@@ -1,9 +1,7 @@
-import { useApplicationState } from "../../../mobx/State";
-
+import { useClient } from "../../../controllers/client/ClientController";
 import { Form } from "./Form";
 
 export function FormCreate() {
-    const config = useApplicationState().config;
-    const client = config.createClient();
+    const client = useClient();
     return <Form page="create" callback={(data) => client.register(data)} />;
 }
