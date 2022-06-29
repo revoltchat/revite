@@ -41,7 +41,6 @@ type Plugin = {
      * ```typescript
      * function (state: State) {
      *   return {
-     *     onClient: (client: Client) => {},
      *     onUnload: () => {}
      *   }
      * }
@@ -59,7 +58,6 @@ type Plugin = {
 
 type Instance = {
     format: 1;
-    onClient?: (client: Client) => void;
     onUnload?: () => void;
 };
 
@@ -230,14 +228,5 @@ export default class Plugins implements Store, Persistent<Data> {
     reset() {
         localforage.removeItem("revite:plugins");
         window.location.reload();
-    }
-
-    /**
-     * Push client through to plugins
-     */
-    onClient(client: Client) {
-        for (const instance of this.instances.values()) {
-            instance.onClient?.(client);
-        }
     }
 }
