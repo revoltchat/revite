@@ -13,7 +13,7 @@ import { UserPermission, API } from "revolt.js";
 
 import styles from "./UserProfile.module.scss";
 import { Localizer, Text } from "preact-i18n";
-import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
+import { useEffect, useLayoutEffect, useState } from "preact/hooks";
 
 import {
     Button,
@@ -35,6 +35,7 @@ import { Username } from "../../../components/common/user/UserShort";
 import UserStatus from "../../../components/common/user/UserStatus";
 import Markdown from "../../../components/markdown/Markdown";
 import { useSession } from "../../../controllers/client/ClientController";
+import { modalController } from "../../../controllers/modals/ModalController";
 import { useIntermediate } from "../Intermediate";
 
 interface Props {
@@ -159,8 +160,8 @@ export const UserProfile = observer(
                             hover={typeof user.avatar !== "undefined"}
                             onClick={() =>
                                 user.avatar &&
-                                openScreen({
-                                    id: "image_viewer",
+                                modalController.push({
+                                    type: "image_viewer",
                                     attachment: user.avatar,
                                 })
                             }
