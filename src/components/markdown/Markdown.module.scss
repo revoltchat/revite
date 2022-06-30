@@ -1,4 +1,6 @@
 .markdown {
+    user-select: text;
+
     :global(.emoji) {
         object-fit: contain;
 

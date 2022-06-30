@@ -18,6 +18,7 @@ import { __thisIsAHack } from "../../context/intermediate/Intermediate";
 
 // import { determineLink } from "../../lib/links";
 import Changelog from "./components/Changelog";
+import ChannelInfo from "./components/ChannelInfo";
 import Clipboard from "./components/Clipboard";
 import Error from "./components/Error";
 import LinkWarning from "./components/LinkWarning";
@@ -28,6 +29,7 @@ import ModifyAccount from "./components/ModifyAccount";
 import OutOfDate from "./components/OutOfDate";
 import PendingFriendRequests from "./components/PendingFriendRequests";
 import ServerIdentity from "./components/ServerIdentity";
+import ServerInfo from "./components/ServerInfo";
 import ShowToken from "./components/ShowToken";
 import SignOutSessions from "./components/SignOutSessions";
 import SignedOut from "./components/SignedOut";
@@ -53,6 +55,8 @@ class ModalController<T extends Modal> {
             rendered: computed,
             isVisible: computed,
         });
+
+        this.close = this.close.bind(this);
 
         // Inject globally
         injectController("modal", this);
@@ -80,6 +84,13 @@ class ModalController<T extends Modal> {
         this.stack = this.stack.map((entry, index) =>
             index === this.stack.length - 1 ? { ...entry, signal } : entry,
         );
+    }
+
+    /**
+     * Close the top modal
+     */
+    close() {
+        this.pop("close");
     }
 
     /**
@@ -208,6 +219,7 @@ class ModalControllerExtended extends ModalController<Modal> {
 
 export const modalController = new ModalControllerExtended({
     changelog: Changelog,
+    channel_info: ChannelInfo,
     clipboard: Clipboard,
     error: Error,
     link_warning: LinkWarning,
@@ -218,6 +230,7 @@ export const modalController = new ModalControllerExtended({
     out_of_date: OutOfDate,
     pending_friend_requests: PendingFriendRequests,
     server_identity: ServerIdentity,
+    server_info: ServerInfo,
     show_token: ShowToken,
     signed_out: SignedOut,
     sign_out_sessions: SignOutSessions,
