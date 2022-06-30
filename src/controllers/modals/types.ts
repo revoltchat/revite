@@ -85,6 +85,28 @@ export type Modal = {
           embed?: API.Image;
           attachment?: API.File;
       }
+    | {
+          type: "user_picker";
+          omit?: string[];
+          callback: (users: string[]) => Promise<void>;
+      }
+    | {
+          type: "user_profile";
+          user_id: string;
+          dummy?: boolean;
+          dummyProfile?: API.UserProfile;
+      }
+    | {
+          type: "create_bot";
+          onCreate: (bot: API.Bot) => void;
+      }
+    | {
+          type: "onboarding";
+          callback: (
+              username: string,
+              loginAfterSuccess?: true,
+          ) => Promise<void>;
+      }
 );
 
 export type ModalProps<T extends Modal["type"]> = Modal & { type: T } & {

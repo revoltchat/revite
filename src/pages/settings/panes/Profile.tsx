@@ -12,13 +12,13 @@ import { Button, LineDivider, Tip } from "@revoltchat/ui";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { useTranslation } from "../../../lib/i18n";
 
-import { UserProfile } from "../../../context/intermediate/popovers/UserProfile";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
 import { useSession } from "../../../controllers/client/ClientController";
+import { UserProfile } from "../../../controllers/modals/components/legacy/UserProfile";
 
 export const Profile = observer(() => {
     const translate = useTranslation();
@@ -75,6 +75,7 @@ export const Profile = observer(() => {
                     user_id={client.user!._id}
                     dummy={true}
                     dummyProfile={profile}
+                    {...({} as any)}
                 />
             </div>
             {/*<h3>Badges</h3>

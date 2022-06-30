@@ -8,9 +8,8 @@ import { Text } from "preact-i18n";
 
 import { internalEmit } from "../../../lib/eventEmitter";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
-
 import { useClient } from "../../../controllers/client/ClientController";
+import { modalController } from "../../../controllers/modals/ModalController";
 import UserIcon from "./UserIcon";
 
 const BotBadge = styled.div`
@@ -125,9 +124,9 @@ export default function UserShort({
     masquerade?: API.Masquerade;
     showServerIdentity?: boolean;
 }) {
-    const { openScreen } = useIntermediate();
     const openProfile = () =>
-        user && openScreen({ id: "profile", user_id: user._id });
+        user &&
+        modalController.push({ type: "user_profile", user_id: user._id });
 
     const handleUserClick = (e: MouseEvent) => {
         if (e.shiftKey && user?._id) {
