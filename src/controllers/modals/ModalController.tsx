@@ -21,6 +21,7 @@ import Changelog from "./components/Changelog";
 import ChannelInfo from "./components/ChannelInfo";
 import Clipboard from "./components/Clipboard";
 import Error from "./components/Error";
+import ImageViewer from "./components/ImageViewer";
 import LinkWarning from "./components/LinkWarning";
 import MFAEnableTOTP from "./components/MFAEnableTOTP";
 import MFAFlow from "./components/MFAFlow";
@@ -222,6 +223,7 @@ export const modalController = new ModalControllerExtended({
     channel_info: ChannelInfo,
     clipboard: Clipboard,
     error: Error,
+    image_viewer: ImageViewer,
     link_warning: LinkWarning,
     mfa_flow: MFAFlow,
     mfa_recovery: MFARecovery,

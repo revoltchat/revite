@@ -2,11 +2,10 @@ import { API } from "revolt.js";
 
 import styles from "./Attachment.module.scss";
 import classNames from "classnames";
-import { useContext, useState } from "preact/hooks";
-
-import { useIntermediate } from "../../../../context/intermediate/Intermediate";
+import { useState } from "preact/hooks";
 
 import { useClient } from "../../../../controllers/client/ClientController";
+import { modalController } from "../../../../controllers/modals/ModalController";
 
 enum ImageLoadingState {
     Loading,
@@ -21,7 +20,6 @@ type Props = JSX.HTMLAttributes<HTMLImageElement> & {
 export default function ImageFile({ attachment, ...props }: Props) {
     const [loading, setLoading] = useState(ImageLoadingState.Loading);
     const client = useClient();
-    const { openScreen } = useIntermediate();
     const url = client.generateFileURL(attachment)!;
 
     return (
@@ -33,7 +31,9 @@ export default function ImageFile({ attachment, ...props }: Props) {
             className={classNames(styles.image, {
                 [styles.loading]: loading !== ImageLoadingState.Loaded,
             })}
-            onClick={() => openScreen({ id: "image_viewer", attachment })}
+            onClick={() =>
+                modalController.push({ type: "image_viewer", attachment })
+            }
             onMouseDown={(ev) => ev.button === 1 && window.open(url, "_blank")}
             onLoad={() => setLoading(ImageLoadingState.Loaded)}
             onError={() => setLoading(ImageLoadingState.Error)}

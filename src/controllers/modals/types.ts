@@ -80,6 +80,11 @@ export type Modal = {
           type: "server_info";
           server: Server;
       }
+    | {
+          type: "image_viewer";
+          embed?: API.Image;
+          attachment?: API.File;
+      }
 );
 
 export type ModalProps<T extends Modal["type"]> = Modal & { type: T } & {

@@ -4,7 +4,6 @@ import { IntermediateContext, useIntermediate } from "./Intermediate";
 import { SpecialInputModal } from "./modals/Input";
 import { SpecialPromptModal } from "./modals/Prompt";
 import { CreateBotModal } from "./popovers/CreateBot";
-import { ImageViewer } from "./popovers/ImageViewer";
 import { UserPicker } from "./popovers/UserPicker";
 import { UserProfile } from "./popovers/UserProfile";
 
@@ -24,8 +23,6 @@ export default function Popovers() {
         case "user_picker":
             // @ts-expect-error someone figure this out :)
             return <UserPicker {...screen} onClose={onClose} />;
-        case "image_viewer":
-            return <ImageViewer {...screen} onClose={onClose} />;
         case "create_bot":
             // @ts-expect-error someone figure this out :)
             return <CreateBotModal onClose={onClose} {...screen} />;
