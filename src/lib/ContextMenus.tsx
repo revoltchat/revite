@@ -314,7 +314,10 @@ export default function ContextMenus() {
                     break;
 
                 case "view_profile":
-                    openScreen({ id: "profile", user_id: data.user._id });
+                    modalController.push({
+                        type: "user_profile",
+                        user_id: data.user._id,
+                    });
                     break;
 
                 case "message_user":

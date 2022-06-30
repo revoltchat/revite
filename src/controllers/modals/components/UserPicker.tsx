@@ -1,41 +1,50 @@
-import styles from "./UserPicker.module.scss";
+import styled from "styled-components";
+
 import { Text } from "preact-i18n";
-import { useState } from "preact/hooks";
+import { useMemo, useState } from "preact/hooks";
 
 import { Modal } from "@revoltchat/ui";
 
 import UserCheckbox from "../../../components/common/user/UserCheckbox";
-import { useClient } from "../../../controllers/client/ClientController";
+import { useClient } from "../../client/ClientController";
+import { ModalProps } from "../types";
 
-interface Props {
-    omit?: string[];
-    onClose: () => void;
-    callback: (users: string[]) => Promise<void>;
-}
+const List = styled.div`
+    max-width: 100%;
+    max-height: 360px;
+    overflow-y: scroll;
+`;
 
-export function UserPicker(props: Props) {
+export function UserPicker({
+    callback,
+    omit,
+    ...props
+}: ModalProps<"user_picker">) {
     const [selected, setSelected] = useState<string[]>([]);
-    const omit = [...(props.omit || []), "00000000000000000000000000"];
+    const omitted = useMemo(
+        () => new Set([...(omit || []), "00000000000000000000000000"]),
+        [omit],
+    );
 
     const client = useClient();
 
     return (
         <Modal
+            {...props}
             title={<Text id="app.special.popovers.user_picker.select" />}
-            onClose={props.onClose}
             actions={[
                 {
                     children: <Text id="app.special.modals.actions.ok" />,
-                    onClick: () => props.callback(selected).then(() => true),
+                    onClick: () => callback(selected).then(() => true),
                 },
             ]}>
-            <div className={styles.list}>
+            <List>
                 {[...client.users.values()]
                     .filter(
                         (x) =>
                             x &&
                             x.relationship === "Friend" &&
-                            !omit.includes(x._id),
+                            !omitted.has(x._id),
                     )
                     .map((x) => (
                         <UserCheckbox
@@ -53,7 +62,7 @@ export function UserPicker(props: Props) {
                             }}
                         />
                     ))}
-            </div>
+            </List>
         </Modal>
     );
 }

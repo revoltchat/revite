@@ -16,7 +16,6 @@ import { getApplicationState } from "../../mobx/State";
 import { history } from "../../context/history";
 import { __thisIsAHack } from "../../context/intermediate/Intermediate";
 
-// import { determineLink } from "../../lib/links";
 import Changelog from "./components/Changelog";
 import ChannelInfo from "./components/ChannelInfo";
 import Clipboard from "./components/Clipboard";
@@ -34,6 +33,10 @@ import ServerInfo from "./components/ServerInfo";
 import ShowToken from "./components/ShowToken";
 import SignOutSessions from "./components/SignOutSessions";
 import SignedOut from "./components/SignedOut";
+import { UserPicker } from "./components/UserPicker";
+import { CreateBotModal } from "./components/legacy/CreateBot";
+import { OnboardingModal } from "./components/legacy/Onboarding";
+import { UserProfile } from "./components/legacy/UserProfile";
 import { Modal } from "./types";
 
 type Components = Record<string, React.FC<any>>;
@@ -191,7 +194,7 @@ class ModalControllerExtended extends ModalController<Modal> {
 
         switch (link.type) {
             case "profile": {
-                __thisIsAHack({ id: "profile", user_id: link.id });
+                this.push({ type: "user_profile", user_id: link.id });
                 break;
             }
             case "navigate": {
@@ -222,6 +225,7 @@ export const modalController = new ModalControllerExtended({
     changelog: Changelog,
     channel_info: ChannelInfo,
     clipboard: Clipboard,
+    create_bot: CreateBotModal,
     error: Error,
     image_viewer: ImageViewer,
     link_warning: LinkWarning,
@@ -229,6 +233,7 @@ export const modalController = new ModalControllerExtended({
     mfa_recovery: MFARecovery,
     mfa_enable_totp: MFAEnableTOTP,
     modify_account: ModifyAccount,
+    onboarding: OnboardingModal,
     out_of_date: OutOfDate,
     pending_friend_requests: PendingFriendRequests,
     server_identity: ServerIdentity,
@@ -236,4 +241,6 @@ export const modalController = new ModalControllerExtended({
     show_token: ShowToken,
     signed_out: SignedOut,
     sign_out_sessions: SignOutSessions,
+    user_picker: UserPicker,
+    user_profile: UserProfile,
 });

@@ -3,9 +3,6 @@ import { useContext } from "preact/hooks";
 import { IntermediateContext, useIntermediate } from "./Intermediate";
 import { SpecialInputModal } from "./modals/Input";
 import { SpecialPromptModal } from "./modals/Prompt";
-import { CreateBotModal } from "./popovers/CreateBot";
-import { UserPicker } from "./popovers/UserPicker";
-import { UserProfile } from "./popovers/UserProfile";
 
 export default function Popovers() {
     const { screen } = useContext(IntermediateContext);
@@ -17,15 +14,6 @@ export default function Popovers() {
     //: internalEmit("Modal", "close");
 
     switch (screen.id) {
-        case "profile":
-            // @ts-expect-error someone figure this out :)
-            return <UserProfile {...screen} onClose={onClose} />;
-        case "user_picker":
-            // @ts-expect-error someone figure this out :)
-            return <UserPicker {...screen} onClose={onClose} />;
-        case "create_bot":
-            // @ts-expect-error someone figure this out :)
-            return <CreateBotModal onClose={onClose} {...screen} />;
         case "special_prompt":
             // @ts-expect-error someone figure this out :)
             return <SpecialPromptModal onClose={onClose} {...screen} />;

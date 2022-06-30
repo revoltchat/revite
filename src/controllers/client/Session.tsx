@@ -5,6 +5,8 @@ import { state } from "../../mobx/State";
 
 import { __thisIsAHack } from "../../context/intermediate/Intermediate";
 
+import { modalController } from "../modals/ModalController";
+
 /**
  * Current lifecycle state
  */
@@ -189,8 +191,8 @@ export default class Session {
                     );
 
                     if (onboarding) {
-                        __thisIsAHack({
-                            id: "onboarding",
+                        modalController.push({
+                            type: "onboarding",
                             callback: async (username: string) =>
                                 this.client!.completeOnboarding(
                                     { username },

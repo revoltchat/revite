@@ -159,7 +159,7 @@ export default function Intermediate(props: Props) {
 
     useEffect(() => {
         const openProfile = (user_id: string) =>
-            openScreen({ id: "profile", user_id });
+            modalController.push({ type: "user_profile", user_id });
         const navigate = (path: string) => history.push(path);
 
         const subs = [

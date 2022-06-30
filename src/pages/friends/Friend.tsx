@@ -18,6 +18,7 @@ import { useIntermediate } from "../../context/intermediate/Intermediate";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
+import { modalController } from "../../controllers/modals/ModalController";
 
 interface Props {
     user: User;
@@ -128,7 +129,12 @@ export const Friend = observer(({ user }: Props) => {
     return (
         <div
             className={styles.friend}
-            onClick={() => openScreen({ id: "profile", user_id: user._id })}
+            onClick={() =>
+                modalController.push({
+                    type: "user_profile",
+                    user_id: user._id,
+                })
+            }
             {...useTriggerEvents("Menu", {
                 user: user._id,
             })}>
