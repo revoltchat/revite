@@ -1,19 +1,18 @@
 import { At, Hash } from "@styled-icons/boxicons-regular";
 import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Channel } from "revolt.js";
-import { User } from "revolt.js";
+import { Channel, User } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { useIntermediate } from "../../context/intermediate/Intermediate";
 import { getChannelName } from "../../context/revoltjs/util";
 
 import { useStatusColour } from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
 import Markdown from "../../components/markdown/Markdown";
 import { PageHeader } from "../../components/ui/Header";
+import { modalController } from "../../controllers/modals/ModalController";
 import HeaderActions from "./actions/HeaderActions";
 
 export interface ChannelHeaderProps {
@@ -65,8 +64,6 @@ const Info = styled.div`
 `;
 
 export default observer(({ channel }: ChannelHeaderProps) => {
-    const { openScreen } = useIntermediate();
-
     const name = getChannelName(channel);
     let icon, recipient: User | undefined;
     switch (channel.channel_type) {
@@ -114,8 +111,8 @@ export default observer(({ channel }: ChannelHeaderProps) => {
                             <span
                                 className="desc"
                                 onClick={() =>
-                                    openScreen({
-                                        id: "channel_info",
+                                    modalController.push({
+                                        type: "channel_info",
                                         channel,
                                     })
                                 }>

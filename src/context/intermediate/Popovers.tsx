@@ -3,7 +3,6 @@ import { useContext } from "preact/hooks";
 import { IntermediateContext, useIntermediate } from "./Intermediate";
 import { SpecialInputModal } from "./modals/Input";
 import { SpecialPromptModal } from "./modals/Prompt";
-import { ChannelInfo } from "./popovers/ChannelInfo";
 import { CreateBotModal } from "./popovers/CreateBot";
 import { ImageViewer } from "./popovers/ImageViewer";
 import { UserPicker } from "./popovers/UserPicker";
@@ -27,9 +26,6 @@ export default function Popovers() {
             return <UserPicker {...screen} onClose={onClose} />;
         case "image_viewer":
             return <ImageViewer {...screen} onClose={onClose} />;
-        case "channel_info":
-            // @ts-expect-error someone figure this out :)
-            return <ChannelInfo {...screen} onClose={onClose} />;
         case "create_bot":
             // @ts-expect-error someone figure this out :)
             return <CreateBotModal onClose={onClose} {...screen} />;
