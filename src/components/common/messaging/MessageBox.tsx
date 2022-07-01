@@ -1,4 +1,4 @@
-import { Send, ShieldX } from "@styled-icons/boxicons-solid";
+import { HappyBeaming, Send, ShieldX } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js";
@@ -6,9 +6,16 @@ import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
-import { useCallback, useContext, useEffect, useState } from "preact/hooks";
+import { memo } from "preact/compat";
+import {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from "preact/hooks";
 
-import { IconButton } from "@revoltchat/ui";
+import { IconButton, Picker } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { debounce } from "../../../lib/debounce";
@@ -31,9 +38,11 @@ import {
 } from "../../../context/revoltjs/FileUploads";
 import { takeError } from "../../../context/revoltjs/util";
 
+import { emojiDictionary } from "../../../assets/emojis";
 import { useClient } from "../../../controllers/client/ClientController";
 import { modalController } from "../../../controllers/modals/ModalController";
 import AutoComplete, { useAutoComplete } from "../AutoComplete";
+import Emoji from "../Emoji";
 import { PermissionTooltip } from "../Tooltip";
 import FilePreview from "./bars/FilePreview";
 import ReplyBar from "./bars/ReplyBar";
@@ -127,6 +136,10 @@ const FileAction = styled.div`
     }
 `;
 
+const FloatingLayer = styled.div`
+    position: relative;
+`;
+
 const ThisCodeWillBeReplacedAnywaysSoIMightAsWellJustDoItThisWay__Padding = styled.div`
     width: 16px;
 `;
@@ -148,6 +161,7 @@ export default observer(({ channel }: Props) => {
     });
     const [typing, setTyping] = useState<boolean | number>(false);
     const [replies, setReplies] = useState<Reply[]>([]);
+    const [picker, setPicker] = useState(false);
     const client = useClient();
     const translate = useTranslation();
 
@@ -457,6 +471,19 @@ export default observer(({ channel }: Props) => {
                 : undefined,
     });
 
+    const renderEmoji = useMemo(
+        () =>
+            memo(({ emoji }: { emoji: string }) => (
+                <a
+                    onClick={() =>
+                        setMessage(`${state.draft.get(channel._id)}\n${emoji}`)
+                    }>
+                    <Emoji emoji={emoji} />
+                </a>
+            )),
+        [],
+    );
+
     return (
         <>
             <AutoComplete {...autoCompleteProps} />
@@ -498,6 +525,14 @@ export default observer(({ channel }: Props) => {
                 replies={replies}
                 setReplies={setReplies}
             />
+            <FloatingLayer>
+                {picker && (
+                    <Picker
+                        emojis={emojiDictionary}
+                        renderEmoji={renderEmoji}
+                    />
+                )}
+            </FloatingLayer>
             <Base>
                 {channel.havePermission("UploadFiles") ? (
                     <FileAction>
@@ -622,12 +657,12 @@ export default observer(({ channel }: Props) => {
                     <IconButton>
                         <Box size={24} />
                     </IconButton>
-                </Action>
+                </Action>*/}
                 <Action>
-                    <IconButton>
+                    <IconButton onClick={() => setPicker(!picker)}>
                         <HappyBeaming size={24} />
                     </IconButton>
-                </Action>*/}
+                </Action>
                 <Action>
                     <IconButton
                         className={
