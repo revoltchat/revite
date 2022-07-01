@@ -21,7 +21,16 @@
 
     p,
     pre {
-        margin: 0;
+        line-height: 1.65;
+        margin: 0 0 1em;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    p + blockquote {
+        margin-top: -1em;
     }
 
     a {
@@ -50,21 +59,25 @@
     h3,
     h4,
     h5,
-    h6,
-    ul,
-    ol,
-    blockquote {
+    h6 {
         margin: 0;
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        &:not(:first-child) {
-            margin-top: 12px;
+    ul,
+    ol,
+    blockquote {
+        margin: 0 0 1em;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    li {
+        margin: 0.15em 0;
+
+        &:last-child {
+            margin-bottom: 0;
         }
     }
 
@@ -72,6 +85,7 @@
     ol {
         list-style-position: inside;
         padding-left: 10px;
+        line-height: 1.65;
     }
 
     blockquote {
