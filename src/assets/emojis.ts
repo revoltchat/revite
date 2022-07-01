@@ -1952,5 +1952,6 @@ export const emojiDictionary = {
         huggies: "custom:huggies.png",
         noted: "custom:noted.gif",
         waving: "custom:waving.png",
+        mogusvented: "custom:mogusvented.png",
     },
 };
