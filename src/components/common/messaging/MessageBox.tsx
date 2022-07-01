@@ -658,11 +658,13 @@ export default observer(({ channel }: Props) => {
                         <Box size={24} />
                     </IconButton>
                 </Action>*/}
-                <Action>
-                    <IconButton onClick={() => setPicker(!picker)}>
-                        <HappyBeaming size={24} />
-                    </IconButton>
-                </Action>
+                {state.experiments.isEnabled("picker") && (
+                    <Action>
+                        <IconButton onClick={() => setPicker(!picker)}>
+                            <HappyBeaming size={24} />
+                        </IconButton>
+                    </Action>
+                )}
                 <Action>
                     <IconButton
                         className={

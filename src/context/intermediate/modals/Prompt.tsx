@@ -22,6 +22,7 @@ import { useIntermediate } from "../Intermediate";
 interface Props {
     onClose: () => void;
     question: Children;
+    description?: Children;
     content?: Children;
     disabled?: boolean;
     actions: Action[];
@@ -31,6 +32,7 @@ interface Props {
 export function PromptModal({
     onClose,
     question,
+    description,
     content,
     actions,
     disabled,
@@ -39,6 +41,7 @@ export function PromptModal({
     return (
         <Modal
             title={question}
+            description={description}
             actions={actions}
             onClose={onClose}
             disabled={disabled}>
@@ -133,6 +136,12 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                             fields={{ name }}
                         />
                     }
+                    description={
+                        <TextReact
+                            id={`app.special.modals.prompt.${event[0]}_long`}
+                            fields={{ name: <b>{name}</b> }}
+                        />
+                    }
                     actions={[
                         {
                             confirmation: true,
@@ -183,12 +192,6 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                             onClick: onClose,
                         },
                     ]}
-                    content={
-                        <TextReact
-                            id={`app.special.modals.prompt.${event[0]}_long`}
-                            fields={{ name: <b>{name}</b> }}
-                        />
-                    }
                     disabled={processing}
                     error={error}
                 />
@@ -199,6 +202,11 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                 <PromptModal
                     onClose={onClose}
                     question={<Text id={"app.context_menu.delete_message"} />}
+                    description={
+                        <Text
+                            id={`app.special.modals.prompt.confirm_delete_message_long`}
+                        />
+                    }
                     actions={[
                         {
                             confirmation: true,
@@ -228,18 +236,7 @@ export const SpecialPromptModal = observer((props: SpecialProps) => {
                         },
                     ]}
                     content={
-                        <>
-                            <h5>
-                                <Text
-                                    id={`app.special.modals.prompt.confirm_delete_message_long`}
-                                />
-                            </h5>
-                            <Message
-                                message={props.target}
-                                head={true}
-                                contrast
-                            />
-                        </>
+                        <Message message={props.target} head={true} contrast />
                     }
                     disabled={processing}
                     error={error}
