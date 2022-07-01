@@ -123,7 +123,7 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
         if (unread || date) {
             render.push(
                 <MessageDivider
-                    date={dayjs(date).format("LL")}
+                    date={date ? dayjs(date).format("LL") : undefined}
                     unread={unread}
                 />,
             );
