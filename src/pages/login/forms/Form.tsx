@@ -6,16 +6,14 @@ import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import { Button, Category, Preloader } from "@revoltchat/ui";
-import { Tip } from "@revoltchat/ui";
-
-import { useApplicationState } from "../../../mobx/State";
+import { Button, Category, Preloader, Tip } from "@revoltchat/ui";
 
 import { I18nError } from "../../../context/Locale";
 import { takeError } from "../../../context/revoltjs/util";
 
 import WaveSVG from "../../settings/assets/wave.svg";
 
+import { clientController } from "../../../controllers/client/ClientController";
 import FormField from "../FormField";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
 import { MailProvider } from "./MailProvider";
@@ -45,7 +43,7 @@ interface FormInputs {
 }
 
 export const Form = observer(({ page, callback }: Props) => {
-    const configuration = useApplicationState().config.get();
+    const configuration = clientController.getServerConfig();
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState<string | undefined>(undefined);
@@ -260,7 +258,8 @@ export const Form = observer(({ page, callback }: Props) => {
                                         <a
                                             href="https://developers.revolt.chat/faq/instances#what-is-a-third-party-instance"
                                             style={{ color: "var(--accent)" }}
-                                            target="_blank" rel="noreferrer">
+                                            target="_blank"
+                                            rel="noreferrer">
                                             <Text id="general.learn_more" />
                                         </a>
                                     </span>

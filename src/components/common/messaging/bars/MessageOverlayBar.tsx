@@ -7,7 +7,6 @@ import {
     Notification,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Permission } from "revolt.js";
 import { Message as MessageObject } from "revolt.js";
 import styled from "styled-components";
 
@@ -24,8 +23,8 @@ import {
     Screen,
     useIntermediate,
 } from "../../../../context/intermediate/Intermediate";
-import { useClient } from "../../../../context/revoltjs/RevoltClient";
 
+import { useClient } from "../../../../controllers/client/ClientController";
 import Tooltip from "../../../common/Tooltip";
 
 interface Props {
@@ -88,7 +87,7 @@ const Divider = styled.div`
 `;
 
 export const MessageOverlayBar = observer(({ message, queued }: Props) => {
-    const client = useClient();
+    const client = message.client;
     const { openScreen, writeClipboard } = useIntermediate();
     const isAuthor = message.author_id === client.user!._id;
 

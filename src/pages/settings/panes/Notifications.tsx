@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { Checkbox, Column } from "@revoltchat/ui";
 
@@ -10,11 +10,11 @@ import { urlBase64ToUint8Array } from "../../../lib/conversion";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import { modalController } from "../../../context/modals";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
+import { useClient } from "../../../controllers/client/ClientController";
+import { modalController } from "../../../controllers/modals/ModalController";
 
 export const Notifications = observer(() => {
-    const client = useContext(AppContext);
+    const client = useClient();
     const settings = useApplicationState().settings;
     const [pushEnabled, setPushEnabled] = useState<undefined | boolean>(
         undefined,
@@ -61,57 +61,59 @@ export const Notifications = observer(() => {
                         settings.set("notifications:desktop", desktopEnabled);
                     }}
                 />
-                <Checkbox
-                    disabled={typeof pushEnabled === "undefined"}
-                    value={pushEnabled ?? false}
-                    title={
-                        <Text id="app.settings.pages.notifications.enable_push" />
-                    }
-                    description={
-                        <Text id="app.settings.pages.notifications.descriptions.enable_push" />
-                    }
-                    onChange={async (pushEnabled) => {
-                        try {
-                            const reg =
-                                await navigator.serviceWorker?.getRegistration();
-                            if (reg) {
-                                if (pushEnabled) {
-                                    const sub = await reg.pushManager.subscribe(
-                                        {
-                                            userVisibleOnly: true,
-                                            applicationServerKey:
-                                                urlBase64ToUint8Array(
-                                                    client.configuration!.vapid,
-                                                ),
-                                        },
-                                    );
-
-                                    // tell the server we just subscribed
-                                    const json = sub.toJSON();
-                                    if (json.keys) {
-                                        client.api.post("/push/subscribe", {
-                                            endpoint: sub.endpoint,
-                                            ...(json.keys as {
-                                                p256dh: string;
-                                                auth: string;
-                                            }),
-                                        });
-                                        setPushEnabled(true);
-                                    }
-                                } else {
-                                    const sub =
-                                        await reg.pushManager.getSubscription();
-                                    sub?.unsubscribe();
-                                    setPushEnabled(false);
-
-                                    client.api.post("/push/unsubscribe");
-                                }
-                            }
-                        } catch (err) {
-                            console.error("Failed to enable push!", err);
+                {!window.native && (
+                    <Checkbox
+                        disabled={typeof pushEnabled === "undefined"}
+                        value={pushEnabled ?? false}
+                        title={
+                            <Text id="app.settings.pages.notifications.enable_push" />
                         }
-                    }}
-                />
+                        description={
+                            <Text id="app.settings.pages.notifications.descriptions.enable_push" />
+                        }
+                        onChange={async (pushEnabled) => {
+                            try {
+                                const reg =
+                                    await navigator.serviceWorker?.getRegistration();
+                                if (reg) {
+                                    if (pushEnabled) {
+                                        const sub =
+                                            await reg.pushManager.subscribe({
+                                                userVisibleOnly: true,
+                                                applicationServerKey:
+                                                    urlBase64ToUint8Array(
+                                                        client.configuration!
+                                                            .vapid,
+                                                    ),
+                                            });
+
+                                        // tell the server we just subscribed
+                                        const json = sub.toJSON();
+                                        if (json.keys) {
+                                            client.api.post("/push/subscribe", {
+                                                endpoint: sub.endpoint,
+                                                ...(json.keys as {
+                                                    p256dh: string;
+                                                    auth: string;
+                                                }),
+                                            });
+                                            setPushEnabled(true);
+                                        }
+                                    } else {
+                                        const sub =
+                                            await reg.pushManager.getSubscription();
+                                        sub?.unsubscribe();
+                                        setPushEnabled(false);
+
+                                        client.api.post("/push/unsubscribe");
+                                    }
+                                }
+                            } catch (err) {
+                                console.error("Failed to enable push!", err);
+                            }
+                        }}
+                    />
+                )}
             </Column>
             <h3>
                 <Text id="app.settings.pages.notifications.sounds" />

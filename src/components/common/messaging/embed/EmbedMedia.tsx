@@ -3,8 +3,8 @@ import { API } from "revolt.js";
 
 import styles from "./Embed.module.scss";
 
-import { useIntermediate } from "../../../../context/intermediate/Intermediate";
-import { useClient } from "../../../../context/revoltjs/RevoltClient";
+import { useClient } from "../../../../controllers/client/ClientController";
+import { modalController } from "../../../../controllers/modals/ModalController";
 
 interface Props {
     embed: API.Embed;
@@ -14,7 +14,6 @@ interface Props {
 
 export default function EmbedMedia({ embed, width, height }: Props) {
     if (embed.type !== "Website") return null;
-    const { openScreen } = useIntermediate();
     const client = useClient();
 
     switch (embed.special?.type) {
@@ -117,8 +116,8 @@ export default function EmbedMedia({ embed, width, height }: Props) {
                         loading="lazy"
                         style={{ width, height }}
                         onClick={() =>
-                            openScreen({
-                                id: "image_viewer",
+                            modalController.push({
+                                type: "image_viewer",
                                 embed: embed.image!,
                             })
                         }

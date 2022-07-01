@@ -3572,6 +3572,7 @@ __metadata:
     eslint: ^7.28.0
     eslint-config-preact: ^1.1.4
     eslint-plugin-jsdoc: ^39.3.2
+    eslint-plugin-mobx: ^0.0.8
     eventemitter3: ^4.0.7
     fs-extra: ^10.0.0
     history: 4
@@ -4372,6 +4373,15 @@ __metadata:
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0
   checksum: 2fd3adb23f97c5cc8c03bd8c7338c12074e4e6d49eaee042db65317a69abd389a4c4992fbc9075fa3deabd1d89393b639683f612deac06d89950767571c03457
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-mobx@npm:^0.0.8":
+  version: 0.0.8
+  resolution: "eslint-plugin-mobx@npm:0.0.8"
+  peerDependencies:
+    eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+  checksum: c4d9977ccbde2041ad4fec405b36763cd0bc738c7cc4bde6054b560d4b0d3929371927fedf5a37f9b039c712a382f62455931ca255a142fd9089ce8b53d0d66b
   languageName: node
   linkType: hard
 

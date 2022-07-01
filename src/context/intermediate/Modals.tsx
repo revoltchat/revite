@@ -1,7 +1,6 @@
 //import { isModalClosing } from "../../components/ui/Modal";
 import { Screen } from "./Intermediate";
 import { InputModal } from "./modals/Input";
-import { OnboardingModal } from "./modals/Onboarding";
 import { PromptModal } from "./modals/Prompt";
 
 export interface Props {
@@ -20,8 +19,6 @@ export default function Modals({ screen, openScreen }: Props) {
             return <PromptModal onClose={onClose} {...screen} />;
         case "_input":
             return <InputModal onClose={onClose} {...screen} />;
-        case "onboarding":
-            return <OnboardingModal onClose={onClose} {...screen} />;
     }
 
     return null;

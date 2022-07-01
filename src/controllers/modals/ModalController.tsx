@@ -9,15 +9,18 @@ import type { Client, API } from "revolt.js";
 import { ulid } from "ulid";
 
 import { determineLink } from "../../lib/links";
+import { injectController } from "../../lib/window";
 
-import { getApplicationState, useApplicationState } from "../../mobx/State";
+import { getApplicationState } from "../../mobx/State";
 
-import { history } from "../history";
-import { __thisIsAHack } from "../intermediate/Intermediate";
-// import { determineLink } from "../../lib/links";
+import { history } from "../../context/history";
+import { __thisIsAHack } from "../../context/intermediate/Intermediate";
+
 import Changelog from "./components/Changelog";
+import ChannelInfo from "./components/ChannelInfo";
 import Clipboard from "./components/Clipboard";
 import Error from "./components/Error";
+import ImageViewer from "./components/ImageViewer";
 import LinkWarning from "./components/LinkWarning";
 import MFAEnableTOTP from "./components/MFAEnableTOTP";
 import MFAFlow from "./components/MFAFlow";
@@ -26,9 +29,14 @@ import ModifyAccount from "./components/ModifyAccount";
 import OutOfDate from "./components/OutOfDate";
 import PendingFriendRequests from "./components/PendingFriendRequests";
 import ServerIdentity from "./components/ServerIdentity";
+import ServerInfo from "./components/ServerInfo";
 import ShowToken from "./components/ShowToken";
 import SignOutSessions from "./components/SignOutSessions";
 import SignedOut from "./components/SignedOut";
+import { UserPicker } from "./components/UserPicker";
+import { CreateBotModal } from "./components/legacy/CreateBot";
+import { OnboardingModal } from "./components/legacy/Onboarding";
+import { UserProfile } from "./components/legacy/UserProfile";
 import { Modal } from "./types";
 
 type Components = Record<string, React.FC<any>>;
@@ -51,6 +59,11 @@ class ModalController<T extends Modal> {
             rendered: computed,
             isVisible: computed,
         });
+
+        this.close = this.close.bind(this);
+
+        // Inject globally
+        injectController("modal", this);
     }
 
     /**
@@ -75,6 +88,13 @@ class ModalController<T extends Modal> {
         this.stack = this.stack.map((entry, index) =>
             index === this.stack.length - 1 ? { ...entry, signal } : entry,
         );
+    }
+
+    /**
+     * Close the top modal
+     */
+    close() {
+        this.pop("close");
     }
 
     /**
@@ -174,7 +194,7 @@ class ModalControllerExtended extends ModalController<Modal> {
 
         switch (link.type) {
             case "profile": {
-                __thisIsAHack({ id: "profile", user_id: link.id });
+                this.push({ type: "user_profile", user_id: link.id });
                 break;
             }
             case "navigate": {
@@ -203,17 +223,24 @@ class ModalControllerExtended extends ModalController<Modal> {
 
 export const modalController = new ModalControllerExtended({
     changelog: Changelog,
+    channel_info: ChannelInfo,
     clipboard: Clipboard,
+    create_bot: CreateBotModal,
     error: Error,
+    image_viewer: ImageViewer,
     link_warning: LinkWarning,
     mfa_flow: MFAFlow,
     mfa_recovery: MFARecovery,
     mfa_enable_totp: MFAEnableTOTP,
     modify_account: ModifyAccount,
+    onboarding: OnboardingModal,
     out_of_date: OutOfDate,
     pending_friend_requests: PendingFriendRequests,
     server_identity: ServerIdentity,
+    server_info: ServerInfo,
     show_token: ShowToken,
     signed_out: SignedOut,
     sign_out_sessions: SignOutSessions,
+    user_picker: UserPicker,
+    user_profile: UserProfile,
 });

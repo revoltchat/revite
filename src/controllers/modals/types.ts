@@ -1,4 +1,4 @@
-import { API, Client, User, Member } from "revolt.js";
+import { API, Client, User, Member, Channel, Server } from "revolt.js";
 
 export type Modal = {
     key?: string;
@@ -71,6 +71,41 @@ export type Modal = {
       }
     | {
           type: "signed_out";
+      }
+    | {
+          type: "channel_info";
+          channel: Channel;
+      }
+    | {
+          type: "server_info";
+          server: Server;
+      }
+    | {
+          type: "image_viewer";
+          embed?: API.Image;
+          attachment?: API.File;
+      }
+    | {
+          type: "user_picker";
+          omit?: string[];
+          callback: (users: string[]) => Promise<void>;
+      }
+    | {
+          type: "user_profile";
+          user_id: string;
+          dummy?: boolean;
+          dummyProfile?: API.UserProfile;
+      }
+    | {
+          type: "create_bot";
+          onCreate: (bot: API.Bot) => void;
+      }
+    | {
+          type: "onboarding";
+          callback: (
+              username: string,
+              loginAfterSuccess?: true,
+          ) => Promise<void>;
       }
 );
 

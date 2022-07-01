@@ -18,7 +18,7 @@ import { determineLink } from "../../lib/links";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { modalController } from "../modals";
+import { modalController } from "../../controllers/modals/ModalController";
 import Modals from "./Modals";
 
 export type Screen =
@@ -159,7 +159,7 @@ export default function Intermediate(props: Props) {
 
     useEffect(() => {
         const openProfile = (user_id: string) =>
-            openScreen({ id: "profile", user_id });
+            modalController.push({ type: "user_profile", user_id });
         const navigate = (path: string) => history.push(path);
 
         const subs = [

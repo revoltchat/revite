@@ -9,6 +9,7 @@ import { Text } from "preact-i18n";
 
 import { IconButton } from "@revoltchat/ui";
 
+import { modalController } from "../../controllers/modals/ModalController";
 import Tooltip from "./Tooltip";
 
 interface Props {
@@ -60,6 +61,9 @@ const ServerBanner = styled.div<Omit<Props, "server">>`
             overflow: hidden;
             text-overflow: ellipsis;
             flex-grow: 1;
+
+            cursor: pointer;
+            color: var(--foreground);
         }
     }
 `;
@@ -121,7 +125,13 @@ export default observer(({ server }: Props) => {
                         </svg>
                     </Tooltip>
                 ) : undefined}
-                <div className="title">{server.name}</div>
+                <a
+                    className="title"
+                    onClick={() =>
+                        modalController.push({ type: "server_info", server })
+                    }>
+                    {server.name}
+                </a>
                 {server.havePermission("ManageServer") && (
                     <Link to={`/server/${server._id}/settings`}>
                         <IconButton>
