@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 
 import { useEffect } from "preact/hooks";
 
-import { modalController } from ".";
+import { modalController } from "./ModalController";
 
 export default observer(() => {
     useEffect(() => {

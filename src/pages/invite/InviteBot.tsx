@@ -6,10 +6,9 @@ import { useEffect, useState } from "preact/hooks";
 
 import { Button, Category, ComboBox, Preloader, Tip } from "@revoltchat/ui";
 
-import { useClient } from "../../context/revoltjs/RevoltClient";
-
 import UserIcon from "../../components/common/user/UserIcon";
 import Markdown from "../../components/markdown/Markdown";
+import { useClient } from "../../controllers/client/ClientController";
 
 const BotInfo = styled.div`
     gap: 12px;

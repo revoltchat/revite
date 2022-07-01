@@ -2,26 +2,29 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { API } from "revolt.js";
 
 import { Text } from "preact-i18n";
-import { useContext, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 
 import { Category, Modal } from "@revoltchat/ui";
 
-import FormField from "../../../pages/login/FormField";
-import { I18nError } from "../../Locale";
-import { AppContext } from "../../revoltjs/RevoltClient";
-import { takeError } from "../../revoltjs/util";
+import { noopTrue } from "../../../../lib/js";
 
-interface Props {
-    onClose: () => void;
-    onCreate: (bot: API.Bot) => void;
-}
+import { I18nError } from "../../../../context/Locale";
+import { takeError } from "../../../../context/revoltjs/util";
+
+import FormField from "../../../../pages/login/FormField";
+import { useClient } from "../../../client/ClientController";
+import { modalController } from "../../ModalController";
+import { ModalProps } from "../../types";
 
 interface FormInputs {
     name: string;
 }
 
-export function CreateBotModal({ onClose, onCreate }: Props) {
-    const client = useContext(AppContext);
+export function CreateBotModal({
+    onCreate,
+    ...props
+}: ModalProps<"create_bot">) {
+    const client = useClient();
     const { handleSubmit, register, errors } = useForm<FormInputs>();
     const [error, setError] = useState<string | undefined>(undefined);
 
@@ -29,7 +32,7 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
         try {
             const { bot } = await client.bots.create({ name });
             onCreate(bot);
-            onClose();
+            modalController.close();
         } catch (err) {
             setError(takeError(err));
         }
@@ -37,7 +40,7 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
 
     return (
         <Modal
-            onClose={onClose}
+            {...props}
             title={<Text id="app.special.popovers.create_bot.title" />}
             actions={[
                 {
@@ -51,7 +54,7 @@ export function CreateBotModal({ onClose, onCreate }: Props) {
                 },
                 {
                     palette: "plain",
-                    onClick: onClose,
+                    onClick: noopTrue,
                     children: <Text id="app.special.modals.actions.cancel" />,
                 },
             ]}>

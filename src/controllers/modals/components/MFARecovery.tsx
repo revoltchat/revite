@@ -7,8 +7,8 @@ import { Modal } from "@revoltchat/ui";
 
 import { noopTrue } from "../../../lib/js";
 
-import { modalController } from "..";
 import { toConfig } from "../../../components/settings/account/MultiFactorAuthentication";
+import { modalController } from "../ModalController";
 import { ModalProps } from "../types";
 
 /**

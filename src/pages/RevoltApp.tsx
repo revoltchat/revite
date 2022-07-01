@@ -8,8 +8,6 @@ import ContextMenus from "../lib/ContextMenus";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 
 import Popovers from "../context/intermediate/Popovers";
-import Notifications from "../context/revoltjs/Notifications";
-import StateMonitor from "../context/revoltjs/StateMonitor";
 
 import { Titlebar } from "../components/native/Titlebar";
 import BottomNavigation from "../components/navigation/BottomNavigation";
@@ -76,12 +74,6 @@ const Routes = styled.div.attrs({ "data-component": "routes" })<{
     flex-direction: column;
 
     background: var(--primary-background);
-
-    /*background-color: rgba(
-        var(--primary-background-rgb),
-        max(var(--min-opacity), 0.75)
-    );*/
-    //backdrop-filter: blur(10px);
 
     ${() =>
         isTouchscreenDevice &&
@@ -234,8 +226,6 @@ export default function App() {
                     </Routes>
                     <ContextMenus />
                     <Popovers />
-                    <Notifications />
-                    <StateMonitor />
                 </OverlappingPanels>
             </AppContainer>
         </>

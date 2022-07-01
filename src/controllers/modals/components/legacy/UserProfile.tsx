@@ -13,7 +13,7 @@ import { UserPermission, API } from "revolt.js";
 
 import styles from "./UserProfile.module.scss";
 import { Localizer, Text } from "preact-i18n";
-import { useContext, useEffect, useLayoutEffect, useState } from "preact/hooks";
+import { useEffect, useLayoutEffect, useState } from "preact/hooks";
 
 import {
     Button,
@@ -24,34 +24,27 @@ import {
     Preloader,
 } from "@revoltchat/ui";
 
-import { noop } from "../../../lib/js";
+import { noop } from "../../../../lib/js";
 
-import ChannelIcon from "../../../components/common/ChannelIcon";
-import ServerIcon from "../../../components/common/ServerIcon";
-import Tooltip from "../../../components/common/Tooltip";
-import UserBadges from "../../../components/common/user/UserBadges";
-import UserIcon from "../../../components/common/user/UserIcon";
-import { Username } from "../../../components/common/user/UserShort";
-import UserStatus from "../../../components/common/user/UserStatus";
-import Markdown from "../../../components/markdown/Markdown";
-import {
-    ClientStatus,
-    StatusContext,
-    useClient,
-} from "../../revoltjs/RevoltClient";
-import { useIntermediate } from "../Intermediate";
-
-interface Props {
-    user_id: string;
-    dummy?: boolean;
-    onClose?: () => void;
-    dummyProfile?: API.UserProfile;
-}
+import ChannelIcon from "../../../../components/common/ChannelIcon";
+import ServerIcon from "../../../../components/common/ServerIcon";
+import Tooltip from "../../../../components/common/Tooltip";
+import UserBadges from "../../../../components/common/user/UserBadges";
+import UserIcon from "../../../../components/common/user/UserIcon";
+import { Username } from "../../../../components/common/user/UserShort";
+import UserStatus from "../../../../components/common/user/UserStatus";
+import Markdown from "../../../../components/markdown/Markdown";
+import { useSession } from "../../../../controllers/client/ClientController";
+import { modalController } from "../../../../controllers/modals/ModalController";
+import { ModalProps } from "../../types";
 
 export const UserProfile = observer(
-    ({ user_id, onClose, dummy, dummyProfile }: Props) => {
-        const { openScreen, writeClipboard } = useIntermediate();
-
+    ({
+        user_id,
+        dummy,
+        dummyProfile,
+        ...props
+    }: ModalProps<"user_profile">) => {
         const [profile, setProfile] = useState<
             undefined | null | API.UserProfile
         >(undefined);
@@ -63,13 +56,13 @@ export const UserProfile = observer(
         >();
 
         const history = useHistory();
-        const client = useClient();
-        const status = useContext(StatusContext);
+        const session = useSession()!;
+        const client = session.client!;
         const [tab, setTab] = useState("profile");
 
         const user = client.users.get(user_id);
         if (!user) {
-            if (onClose) useEffect(onClose, []);
+            if (props.onClose) useEffect(props.onClose, []);
             return null;
         }
 
@@ -101,32 +94,26 @@ export const UserProfile = observer(
 
         useEffect(() => {
             if (dummy) return;
-            if (
-                status === ClientStatus.ONLINE &&
-                typeof mutual === "undefined"
-            ) {
+            if (session.state === "Online" && typeof mutual === "undefined") {
                 setMutual(null);
                 user.fetchMutual().then(setMutual);
             }
-        }, [mutual, status, dummy, user]);
+        }, [mutual, session.state, dummy, user]);
 
         useEffect(() => {
             if (dummy) return;
-            if (
-                status === ClientStatus.ONLINE &&
-                typeof profile === "undefined"
-            ) {
+            if (session.state === "Online" && typeof profile === "undefined") {
                 setProfile(null);
 
                 if (user.permission & UserPermission.ViewProfile) {
                     user.fetchProfile().then(setProfile).catch(noop);
                 }
             }
-        }, [profile, status, dummy, user]);
+        }, [profile, session.state, dummy, user]);
 
         useEffect(() => {
             if (
-                status === ClientStatus.ONLINE &&
+                session.state === "Online" &&
                 user.bot &&
                 typeof isPublicBot === "undefined"
             ) {
@@ -136,7 +123,7 @@ export const UserProfile = observer(
                     .then(() => setIsPublicBot(true))
                     .catch(noop);
             }
-        }, [isPublicBot, status, user, client.bots]);
+        }, [isPublicBot, session.state, user, client.bots]);
 
         const backgroundURL =
             profile &&
@@ -169,8 +156,8 @@ export const UserProfile = observer(
                             hover={typeof user.avatar !== "undefined"}
                             onClick={() =>
                                 user.avatar &&
-                                openScreen({
-                                    id: "image_viewer",
+                                modalController.push({
+                                    type: "image_viewer",
                                     attachment: user.avatar,
                                 })
                             }
@@ -180,7 +167,7 @@ export const UserProfile = observer(
                                 <span
                                     className={styles.username}
                                     onClick={() =>
-                                        writeClipboard(user.username)
+                                        modalController.writeText(user.username)
                                     }>
                                     @{user.username}
                                 </span>
@@ -196,7 +183,7 @@ export const UserProfile = observer(
                                 <Button
                                     palette="accent"
                                     compact
-                                    onClick={onClose}>
+                                    onClick={props.onClose}>
                                     Add to server
                                 </Button>
                             </Link>
@@ -209,7 +196,7 @@ export const UserProfile = observer(
                                     }>
                                     <IconButton
                                         onClick={() => {
-                                            onClose?.();
+                                            props.onClose?.();
                                             history.push(`/open/${user_id}`);
                                         }}>
                                         <Envelope size={30} />
@@ -220,7 +207,7 @@ export const UserProfile = observer(
                         {user.relationship === "User" && !dummy && (
                             <IconButton
                                 onClick={() => {
-                                    onClose?.();
+                                    props.onClose?.();
                                     history.push(`/settings/profile`);
                                 }}>
                                 <Edit size={28} />
@@ -300,8 +287,8 @@ export const UserProfile = observer(
                                         <div
                                             onClick={() =>
                                                 user.bot &&
-                                                openScreen({
-                                                    id: "profile",
+                                                modalController.push({
+                                                    type: "user_profile",
                                                     user_id: user.bot.owner,
                                                 })
                                             }
@@ -364,8 +351,8 @@ export const UserProfile = observer(
                                             x && (
                                                 <div
                                                     onClick={() =>
-                                                        openScreen({
-                                                            id: "profile",
+                                                        modalController.push({
+                                                            type: "user_profile",
                                                             user_id: x._id,
                                                         })
                                                     }
@@ -445,7 +432,7 @@ export const UserProfile = observer(
 
         return (
             <Modal
-                onClose={onClose}
+                {...props}
                 nonDismissable={dummy}
                 transparent
                 maxWidth="560px">

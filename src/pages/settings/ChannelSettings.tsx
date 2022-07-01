@@ -4,9 +4,9 @@ import { Route, Switch, useHistory, useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";
 
-import { useClient } from "../../context/revoltjs/RevoltClient";
 import { getChannelName } from "../../context/revoltjs/util";
 
+import { useClient } from "../../controllers/client/ClientController";
 import { GenericSettings } from "./GenericSettings";
 import Overview from "./channel/Overview";
 import Permissions from "./channel/Permissions";

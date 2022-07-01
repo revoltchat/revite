@@ -24,6 +24,7 @@ import { SIDEBAR_MEMBERS } from "../../../mobx/stores/Layout";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import UpdateIndicator from "../../../components/common/UpdateIndicator";
+import { modalController } from "../../../controllers/modals/ModalController";
 import { ChannelHeaderProps } from "../ChannelHeader";
 
 const Container = styled.div`
@@ -114,8 +115,8 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
                     <>
                         <IconButton
                             onClick={() =>
-                                openScreen({
-                                    id: "user_picker",
+                                modalController.push({
+                                    type: "user_picker",
                                     omit: channel.recipient_ids!,
                                     callback: async (users) => {
                                         for (const user of users) {

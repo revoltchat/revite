@@ -19,7 +19,6 @@ import {
     openContextMenu,
 } from "preact-context-menu";
 import { Text } from "preact-i18n";
-import { useContext } from "preact/hooks";
 
 import { IconButton, LineDivider } from "@revoltchat/ui";
 
@@ -28,17 +27,13 @@ import { QueuedMessage } from "../mobx/stores/MessageQueue";
 import { NotificationState } from "../mobx/stores/NotificationOptions";
 
 import { Screen, useIntermediate } from "../context/intermediate/Intermediate";
-import { modalController } from "../context/modals";
-import {
-    AppContext,
-    ClientStatus,
-    StatusContext,
-} from "../context/revoltjs/RevoltClient";
 import { takeError } from "../context/revoltjs/util";
 import CMNotifications from "./contextmenu/CMNotifications";
 
 import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
+import { useSession } from "../controllers/client/ClientController";
+import { modalController } from "../controllers/modals/ModalController";
 import { internalEmit } from "./eventEmitter";
 import { getRenderer } from "./renderer/Singleton";
 
@@ -122,12 +117,12 @@ type Action =
 // Tip: This should just be split into separate context menus per logical area.
 export default function ContextMenus() {
     const { openScreen, writeClipboard } = useIntermediate();
-    const client = useContext(AppContext);
+    const session = useSession()!;
+    const client = session.client!;
     const userId = client.user!._id;
-    const status = useContext(StatusContext);
-    const isOnline = status === ClientStatus.ONLINE;
     const state = useApplicationState();
     const history = useHistory();
+    const isOnline = session.state === "Online";
 
     function contextClick(data?: Action) {
         if (typeof data === "undefined") return;
@@ -319,7 +314,10 @@ export default function ContextMenus() {
                     break;
 
                 case "view_profile":
-                    openScreen({ id: "profile", user_id: data.user._id });
+                    modalController.push({
+                        type: "user_profile",
+                        user_id: data.user._id,
+                    });
                     break;
 
                 case "message_user":
