@@ -1,0 +1,9 @@
+{
+	"appId": "chat.revolt.mobile",
+	"appName": "Revolt",
+	"webDir": "dist",
+	"bundledWebRuntime": false,
+	"server": {
+		"hostname": "app.revolt.chat"
+	}
+}
