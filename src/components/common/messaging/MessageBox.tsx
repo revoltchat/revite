@@ -475,10 +475,17 @@ export default observer(({ channel }: Props) => {
         () =>
             memo(({ emoji }: { emoji: string }) => (
                 <a
-                    onClick={() =>
-                        setMessage(`${state.draft.get(channel._id)}\n${emoji}`)
-                    }>
-                    <Emoji emoji={emoji} />
+                    onClick={() => {
+                        const v = state.draft.get(channel._id);
+                        setMessage(`${v ? `${v} ` : ""}:${emoji}:`);
+                    }}>
+                    <Emoji
+                        emoji={
+                            emojiDictionary[
+                                emoji as keyof typeof emojiDictionary
+                            ]
+                        }
+                    />
                 </a>
             )),
         [],
@@ -528,7 +535,7 @@ export default observer(({ channel }: Props) => {
             <FloatingLayer>
                 {picker && (
                     <Picker
-                        emojis={emojiDictionary}
+                        emojis={Object.keys(emojiDictionary)}
                         renderEmoji={renderEmoji}
                     />
                 )}
