@@ -227,7 +227,7 @@ export const Roles = observer(({ server }: Props) => {
                         {selected !== "default" && (
                             <>
                                 <hr />
-                                <h1>
+                                <h1 style={{ marginBottom: "12px" }}>
                                     <Text id="app.settings.categories.danger_zone" />
                                 </h1>
                                 <Button
