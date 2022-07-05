@@ -16,6 +16,7 @@ import { getApplicationState } from "../../mobx/State";
 import { history } from "../../context/history";
 
 import AddFriend from "./components/AddFriend";
+import BanMember from "./components/BanMember";
 import Changelog from "./components/Changelog";
 import ChannelInfo from "./components/ChannelInfo";
 import Clipboard from "./components/Clipboard";
@@ -28,6 +29,7 @@ import CustomStatus from "./components/CustomStatus";
 import DeleteMessage from "./components/DeleteMessage";
 import Error from "./components/Error";
 import ImageViewer from "./components/ImageViewer";
+import KickMember from "./components/KickMember";
 import LinkWarning from "./components/LinkWarning";
 import MFAEnableTOTP from "./components/MFAEnableTOTP";
 import MFAFlow from "./components/MFAFlow";
@@ -236,6 +238,7 @@ class ModalControllerExtended extends ModalController<Modal> {
 
 export const modalController = new ModalControllerExtended({
     add_friend: AddFriend,
+    ban_member: BanMember,
     changelog: Changelog,
     channel_info: ChannelInfo,
     clipboard: Clipboard,
@@ -256,6 +259,7 @@ export const modalController = new ModalControllerExtended({
     delete_message: DeleteMessage,
     error: Error,
     image_viewer: ImageViewer,
+    kick_member: KickMember,
     link_warning: LinkWarning,
     mfa_flow: MFAFlow,
     mfa_recovery: MFARecovery,
