@@ -29,6 +29,7 @@ import wideSVG from "/assets/wide.svg";
 
 import { PageHeader } from "../../components/ui/Header";
 import { useClient } from "../../controllers/client/ClientController";
+import { modalController } from "../../controllers/modals/ModalController";
 
 const Overlay = styled.div`
     display: grid;
@@ -98,8 +99,7 @@ export default observer(() => {
                         <div className={styles.actions}>
                             <a
                                 onClick={() =>
-                                    openScreen({
-                                        id: "special_input",
+                                    modalController.push({
                                         type: "create_group",
                                     })
                                 }>

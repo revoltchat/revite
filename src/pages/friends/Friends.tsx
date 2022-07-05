@@ -85,8 +85,7 @@ export default observer(() => {
                     <Tooltip content={"Create Group"} placement="bottom">
                         <IconButton
                             onClick={() =>
-                                openScreen({
-                                    id: "special_input",
+                                modalController.push({
                                     type: "create_group",
                                 })
                             }>
@@ -96,8 +95,7 @@ export default observer(() => {
                     <Tooltip content={"Add Friend"} placement="bottom">
                         <IconButton
                             onClick={() =>
-                                openScreen({
-                                    id: "special_input",
+                                modalController.push({
                                     type: "add_friend",
                                 })
                             }>

@@ -368,9 +368,8 @@ export default function ContextMenus() {
                     break;
 
                 case "set_status":
-                    openScreen({
-                        id: "special_input",
-                        type: "set_custom_status",
+                    modalController.push({
+                        type: "custom_status",
                     });
                     break;
 

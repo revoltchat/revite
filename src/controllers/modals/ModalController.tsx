@@ -16,9 +16,14 @@ import { getApplicationState } from "../../mobx/State";
 import { history } from "../../context/history";
 import { __thisIsAHack } from "../../context/intermediate/Intermediate";
 
+import AddFriend from "./components/AddFriend";
 import Changelog from "./components/Changelog";
 import ChannelInfo from "./components/ChannelInfo";
 import Clipboard from "./components/Clipboard";
+import CreateGroup from "./components/CreateGroup";
+import CreateRole from "./components/CreateRole";
+import CreateServer from "./components/CreateServer";
+import CustomStatus from "./components/CustomStatus";
 import Error from "./components/Error";
 import ImageViewer from "./components/ImageViewer";
 import LinkWarning from "./components/LinkWarning";
@@ -222,10 +227,15 @@ class ModalControllerExtended extends ModalController<Modal> {
 }
 
 export const modalController = new ModalControllerExtended({
+    add_friend: AddFriend,
     changelog: Changelog,
     channel_info: ChannelInfo,
     clipboard: Clipboard,
+    create_group: CreateGroup,
+    create_role: CreateRole,
+    create_server: CreateServer,
     create_bot: CreateBotModal,
+    custom_status: CustomStatus,
     error: Error,
     image_viewer: ImageViewer,
     link_warning: LinkWarning,
