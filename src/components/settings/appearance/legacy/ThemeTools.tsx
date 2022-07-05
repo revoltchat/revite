@@ -5,11 +5,11 @@ import { Text } from "preact-i18n";
 
 import { Button } from "@revoltchat/ui";
 
-import { useApplicationState } from "../../../mobx/State";
+import { useApplicationState } from "../../../../mobx/State";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
+import { useIntermediate } from "../../../../context/intermediate/Intermediate";
 
-import Tooltip from "../../common/Tooltip";
+import Tooltip from "../../../common/Tooltip";
 
 const Actions = styled.div`
     gap: 8px;

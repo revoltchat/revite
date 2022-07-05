@@ -2231,9 +2231,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revoltchat/ui@npm:1.0.54":
-  version: 1.0.54
-  resolution: "@revoltchat/ui@npm:1.0.54"
+"@revoltchat/ui@npm:1.0.58":
+  version: 1.0.58
+  resolution: "@revoltchat/ui@npm:1.0.58"
   dependencies:
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
@@ -2247,7 +2247,7 @@ __metadata:
     react-virtuoso: ^2.12.0
   peerDependencies:
     revolt.js: "*"
-  checksum: 57014aa30f36272825b34e2dfa327b17f3e2b4efeba78f48e1805b5b30027f7dad4431f1c852816762e10643a9ef53b51a211d48ffc3bd14d07966fd5b3b183f
+  checksum: 1ebdb3963c77fbad11427963e27f1be1beb480e80360a59f06a3a2fd2d3f5e335ff33fbb8bf99f533549696848ae1d1db5072ff4d45e98d25c9b1b372f25d795
   languageName: node
   linkType: hard
 
@@ -3554,7 +3554,7 @@ __metadata:
     "@hcaptcha/react-hcaptcha": ^0.3.6
     "@insertish/vite-plugin-babel-macros": ^1.0.5
     "@preact/preset-vite": ^2.0.0
-    "@revoltchat/ui": 1.0.54
+    "@revoltchat/ui": 1.0.58
     "@rollup/plugin-replace": ^2.4.2
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0

@@ -7,7 +7,7 @@ import notoSVG from "./assets/noto_emoji.svg";
 import openmojiSVG from "./assets/openmoji_emoji.svg";
 import twemojiSVG from "./assets/twemoji_emoji.svg";
 
-import { EmojiPack } from "../../common/Emoji";
+import { EmojiPack } from "../../../common/Emoji";
 
 const Container = styled.div`
     gap: 12px;
