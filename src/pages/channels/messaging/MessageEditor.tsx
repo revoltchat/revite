@@ -14,6 +14,7 @@ import {
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
+import { modalController } from "../../../controllers/modals/ModalController";
 
 const EditorBase = styled.div`
     display: flex;
@@ -50,14 +51,12 @@ interface Props {
 export default function MessageEditor({ message, finish }: Props) {
     const [content, setContent] = useState(message.content ?? "");
     const { focusTaken } = useContext(IntermediateContext);
-    const { openScreen } = useIntermediate();
 
     async function save() {
         finish();
 
         if (content.length === 0) {
-            openScreen({
-                id: "special_prompt",
+            modalController.push({
                 type: "delete_message",
                 target: message,
             });

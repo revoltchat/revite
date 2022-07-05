@@ -20,10 +20,12 @@ import AddFriend from "./components/AddFriend";
 import Changelog from "./components/Changelog";
 import ChannelInfo from "./components/ChannelInfo";
 import Clipboard from "./components/Clipboard";
+import Confirmation from "./components/Confirmation";
 import CreateGroup from "./components/CreateGroup";
 import CreateRole from "./components/CreateRole";
 import CreateServer from "./components/CreateServer";
 import CustomStatus from "./components/CustomStatus";
+import DeleteMessage from "./components/DeleteMessage";
 import Error from "./components/Error";
 import ImageViewer from "./components/ImageViewer";
 import LinkWarning from "./components/LinkWarning";
@@ -231,11 +233,20 @@ export const modalController = new ModalControllerExtended({
     changelog: Changelog,
     channel_info: ChannelInfo,
     clipboard: Clipboard,
+    leave_group: Confirmation,
+    close_dm: Confirmation,
+    leave_server: Confirmation,
+    delete_server: Confirmation,
+    delete_channel: Confirmation,
+    delete_bot: Confirmation,
+    block_user: Confirmation,
+    unfriend_user: Confirmation,
     create_group: CreateGroup,
     create_role: CreateRole,
     create_server: CreateServer,
     create_bot: CreateBotModal,
     custom_status: CustomStatus,
+    delete_message: DeleteMessage,
     error: Error,
     image_viewer: ImageViewer,
     link_warning: LinkWarning,

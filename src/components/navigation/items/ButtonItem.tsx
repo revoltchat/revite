@@ -15,6 +15,7 @@ import { stopPropagation } from "../../../lib/stopPropagation";
 
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
+import { modalController } from "../../../controllers/modals/ModalController";
 import ChannelIcon from "../../common/ChannelIcon";
 import Tooltip from "../../common/Tooltip";
 import UserIcon from "../../common/user/UserIcon";
@@ -111,8 +112,7 @@ export const UserButton = observer((props: UserProps) => {
                         className={styles.icon}
                         onClick={(e) =>
                             stopPropagation(e) &&
-                            openScreen({
-                                id: "special_prompt",
+                            modalController.push({
                                 type: "close_dm",
                                 target: channel,
                             })
@@ -195,8 +195,7 @@ export const ChannelButton = observer((props: ChannelProps) => {
                     <IconButton
                         className={styles.icon}
                         onClick={() =>
-                            openScreen({
-                                id: "special_prompt",
+                            modalController.push({
                                 type: "leave_group",
                                 target: channel,
                             })
