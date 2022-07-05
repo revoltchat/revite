@@ -20,6 +20,7 @@ import { useIntermediate } from "../../context/intermediate/Intermediate";
 import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { useClient } from "../../controllers/client/ClientController";
 import RequiresOnline from "../../controllers/client/jsx/RequiresOnline";
+import { modalController } from "../../controllers/modals/ModalController";
 import { GenericSettings } from "./GenericSettings";
 import { Bans } from "./server/Bans";
 import { Categories } from "./server/Categories";
@@ -132,8 +133,7 @@ export default observer(() => {
                         <LineDivider />
                         <ButtonItem
                             onClick={() =>
-                                openScreen({
-                                    id: "special_prompt",
+                                modalController.push({
                                     type: "delete_server",
                                     target: server,
                                 })

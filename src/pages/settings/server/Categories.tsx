@@ -17,6 +17,7 @@ import { noop } from "../../../lib/js";
 import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import ChannelIcon from "../../../components/common/ChannelIcon";
+import { modalController } from "../../../controllers/modals/ModalController";
 
 const KanbanEntry = styled.div`
     padding: 2px 4px;
@@ -449,8 +450,7 @@ function ListElement({
                             </Droppable>
                             <KanbanListHeader
                                 onClick={() =>
-                                    openScreen({
-                                        id: "special_prompt",
+                                    modalController.push({
                                         type: "create_channel",
                                         target: server,
                                         cb: addChannel,

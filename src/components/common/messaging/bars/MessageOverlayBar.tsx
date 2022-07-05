@@ -25,6 +25,7 @@ import {
 } from "../../../../context/intermediate/Intermediate";
 
 import { useClient } from "../../../../controllers/client/ClientController";
+import { modalController } from "../../../../controllers/modals/ModalController";
 import Tooltip from "../../../common/Tooltip";
 
 interface Props {
@@ -136,11 +137,10 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                         onClick={(e) =>
                             e.shiftKey
                                 ? message.delete()
-                                : openScreen({
-                                      id: "special_prompt",
+                                : modalController.push({
                                       type: "delete_message",
                                       target: message,
-                                  } as unknown as Screen)
+                                  })
                         }>
                         <Trash size={18} color={"var(--error)"} />
                     </Entry>

@@ -71,8 +71,8 @@ type Action =
     | { action: "open_link"; link: string }
     | { action: "copy_link"; link: string }
     | { action: "remove_member"; channel: Channel; user: User }
-    | { action: "kick_member"; target: Server; user: User }
-    | { action: "ban_member"; target: Server; user: User }
+    | { action: "kick_member"; target: Member }
+    | { action: "ban_member"; target: Member }
     | { action: "view_profile"; user: User }
     | { action: "message_user"; user: User }
     | { action: "block_user"; user: User }
@@ -336,8 +336,7 @@ export default function ContextMenus() {
                     break;
 
                 case "block_user":
-                    openScreen({
-                        id: "special_prompt",
+                    modalController.push({
                         type: "block_user",
                         target: data.user,
                     });
@@ -346,8 +345,7 @@ export default function ContextMenus() {
                     await data.user.unblockUser();
                     break;
                 case "remove_friend":
-                    openScreen({
-                        id: "special_prompt",
+                    modalController.push({
                         type: "unfriend_user",
                         target: data.user,
                     });
@@ -374,26 +372,34 @@ export default function ContextMenus() {
                     break;
 
                 case "clear_status":
-                    {
-                        await client.users.edit({ remove: ["StatusText"] });
-                    }
+                    await client.users.edit({ remove: ["StatusText"] });
+                    break;
+
+                case "delete_message":
+                    modalController.push({
+                        type: "delete_message",
+                        target: data.target,
+                    });
                     break;
 
                 case "leave_group":
                 case "close_dm":
-                case "leave_server":
                 case "delete_channel":
-                case "delete_server":
-                case "delete_message":
-                case "create_channel":
-                case "create_category":
                 case "create_invite":
-                    // Typescript flattens the case types into a single type and type structure and specifity is lost
-                    openScreen({
-                        id: "special_prompt",
+                    modalController.push({
                         type: data.action,
                         target: data.target,
-                    } as unknown as Screen);
+                    });
+                    break;
+
+                case "leave_server":
+                case "delete_server":
+                case "create_channel":
+                case "create_category":
+                    modalController.push({
+                        type: data.action,
+                        target: data.target,
+                    });
                     break;
 
                 case "edit_identity":
@@ -405,11 +411,9 @@ export default function ContextMenus() {
 
                 case "ban_member":
                 case "kick_member":
-                    openScreen({
-                        id: "special_prompt",
+                    modalController.push({
                         type: data.action,
-                        target: data.target,
-                        user: data.user,
+                        member: data.target,
                     });
                     break;
 
@@ -669,8 +673,10 @@ export default function ContextMenus() {
                                 generateAction(
                                     {
                                         action: "kick_member",
-                                        target: server,
-                                        user: user!,
+                                        target: client.members.getKey({
+                                            server: server._id,
+                                            user: user!._id,
+                                        })!,
                                     },
                                     undefined, // this is needed because generateAction uses positional, not named parameters
                                     undefined,
@@ -682,8 +688,10 @@ export default function ContextMenus() {
                                 generateAction(
                                     {
                                         action: "ban_member",
-                                        target: server,
-                                        user: user!,
+                                        target: client.members.getKey({
+                                            server: server._id,
+                                            user: user!._id,
+                                        })!,
                                     },
                                     undefined,
                                     undefined,

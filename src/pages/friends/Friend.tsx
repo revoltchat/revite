@@ -102,8 +102,7 @@ export const Friend = observer(({ user }: Props) => {
                     stopPropagation(
                         ev,
                         user.relationship === "Friend"
-                            ? openScreen({
-                                  id: "special_prompt",
+                            ? modalController.push({
                                   type: "unfriend_user",
                                   target: user,
                               })

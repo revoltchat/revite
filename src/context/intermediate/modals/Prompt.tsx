@@ -58,19 +58,25 @@ export function PromptModal({
 type SpecialProps = { onClose: () => void } & (
     | { type: "leave_group"; target: Channel }
     | { type: "close_dm"; target: Channel }
-    | { type: "leave_server"; target: Server }
-    | { type: "delete_server"; target: Server }
     | { type: "delete_channel"; target: Channel }
-    | { type: "delete_bot"; target: string; name: string; cb?: () => void }
-    | { type: "delete_message"; target: MessageI }
     | {
           type: "create_invite";
           target: Channel;
       }
+
+    | { type: "leave_server"; target: Server }
+    | { type: "delete_server"; target: Server }
+
+    | { type: "delete_bot"; target: string; name: string; cb?: () => void }
+
+    | { type: "delete_message"; target: MessageI }
+
     | { type: "kick_member"; target: Server; user: User }
     | { type: "ban_member"; target: Server; user: User }
+
     | { type: "unfriend_user"; target: User }
     | { type: "block_user"; target: User }
+
     | {
           type: "create_channel";
           target: Server;
@@ -80,6 +86,7 @@ type SpecialProps = { onClose: () => void } & (
               },
           ) => void;
       }
+      
     | { type: "create_category"; target: Server }
 );
 

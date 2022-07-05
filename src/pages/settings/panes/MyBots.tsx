@@ -218,8 +218,8 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                 target={user}
                                 size={42}
                                 onClick={() =>
-                                    openScreen({
-                                        id: "profile",
+                                    modalController.push({
+                                        type: "user_profile",
                                         user_id: user._id,
                                     })
                                 }
@@ -460,8 +460,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                             palette="error"
                             onClick={async () => {
                                 setSaving(true);
-                                openScreen({
-                                    id: "special_prompt",
+                                modalController.push({
                                     type: "delete_bot",
                                     target: bot._id,
                                     name: user.username,
@@ -508,16 +507,14 @@ export const MyBots = observer(() => {
         // eslint-disable-next-line
     }, []);
 
-    const { openScreen } = useIntermediate();
-
     return (
         <div className={styles.myBots}>
             <CategoryButton
                 account
                 icon={<Plus size={24} />}
                 onClick={() =>
-                    openScreen({
-                        id: "create_bot",
+                    modalController.push({
+                        type: "create_bot",
                         onCreate: (bot) => setBots([...(bots ?? []), bot]),
                     })
                 }
