@@ -16,10 +16,9 @@ import {
     Category,
 } from "@revoltchat/ui";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
-
 import { PermissionList } from "../../../components/settings/roles/PermissionList";
 import { RoleOrDefault } from "../../../components/settings/roles/RoleSelection";
+import { modalController } from "../../../controllers/modals/ModalController";
 
 interface Props {
     server: Server;
@@ -54,18 +53,14 @@ export const Roles = observer(({ server }: Props) => {
     // Consolidate all permissions that we can change right now.
     const currentRoles = useRoles(server);
 
-    // Pull in modal context.
-    const { openScreen } = useIntermediate();
-
     return (
         <PermissionsLayout
             server={server}
             rank={server.member?.ranking ?? Infinity}
             onCreateRole={(callback) =>
-                openScreen({
-                    id: "special_input",
+                modalController.push({
                     type: "create_role",
-                    server: server as any,
+                    server,
                     callback,
                 })
             }

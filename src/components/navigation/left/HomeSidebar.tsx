@@ -25,6 +25,7 @@ import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import placeholderSVG from "../items/placeholder.svg";
 
 import { useClient } from "../../../controllers/client/ClientController";
+import { modalController } from "../../../controllers/modals/ModalController";
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 import ButtonItem, { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
@@ -131,8 +132,7 @@ export default observer(() => {
                     <Text id="app.main.categories.conversations" />
                     <IconButton
                         onClick={() =>
-                            openScreen({
-                                id: "special_input",
+                            modalController.push({
                                 type: "create_group",
                             })
                         }>

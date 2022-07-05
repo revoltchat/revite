@@ -7,9 +7,8 @@ import { ServerList } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
-
 import { useClient } from "../../../controllers/client/ClientController";
+import { modalController } from "../../../controllers/modals/ModalController";
 
 /**
  * Server list sidebar shim component
@@ -17,13 +16,11 @@ import { useClient } from "../../../controllers/client/ClientController";
 export default observer(() => {
     const client = useClient();
     const state = useApplicationState();
-    const { openScreen } = useIntermediate();
     const { server: server_id } = useParams<{ server?: string }>();
 
     const createServer = useCallback(
         () =>
-            openScreen({
-                id: "special_input",
+            modalController.push({
                 type: "create_server",
             }),
         [],

@@ -27,6 +27,11 @@ export function takeError(error: any): string {
     return "UnknownError";
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function mapError(error: any): never {
+    throw takeError(error);
+}
+
 export function getChannelName(
     channel: Channel,
     prefixType?: boolean,

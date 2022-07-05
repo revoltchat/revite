@@ -347,9 +347,8 @@ export default observer(() => {
                         <a
                             className="status"
                             onClick={() =>
-                                openScreen({
-                                    id: "special_input",
-                                    type: "set_custom_status",
+                                modalController.push({
+                                    type: "custom_status",
                                 })
                             }>
                             Change your status...

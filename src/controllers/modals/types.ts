@@ -3,6 +3,14 @@ import { API, Client, User, Member, Channel, Server } from "revolt.js";
 export type Modal = {
     key?: string;
 } & (
+    | {
+          type:
+              | "signed_out"
+              | "create_group"
+              | "create_server"
+              | "custom_status"
+              | "add_friend";
+      }
     | ({
           type: "mfa_flow";
       } & (
@@ -70,9 +78,6 @@ export type Modal = {
           member: Member;
       }
     | {
-          type: "signed_out";
-      }
-    | {
           type: "channel_info";
           channel: Channel;
       }
@@ -106,6 +111,11 @@ export type Modal = {
               username: string,
               loginAfterSuccess?: true,
           ) => Promise<void>;
+      }
+    | {
+          type: "create_role";
+          server: Server;
+          callback: (id: string) => void;
       }
 );
 
