@@ -14,8 +14,6 @@ import { IconButton } from "@revoltchat/ui";
 import { stopPropagation } from "../../lib/stopPropagation";
 import { voiceState } from "../../lib/vortex/VoiceState";
 
-import { useIntermediate } from "../../context/intermediate/Intermediate";
-
 import UserIcon from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
 import { modalController } from "../../controllers/modals/ModalController";
@@ -26,7 +24,6 @@ interface Props {
 
 export const Friend = observer(({ user }: Props) => {
     const history = useHistory();
-    const { openScreen } = useIntermediate();
 
     const actions: Children[] = [];
     let subtext: Children = null;

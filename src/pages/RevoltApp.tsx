@@ -7,8 +7,6 @@ import { useEffect, useState } from "preact/hooks";
 import ContextMenus from "../lib/ContextMenus";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 
-import Popovers from "../context/intermediate/Popovers";
-
 import { Titlebar } from "../components/native/Titlebar";
 import BottomNavigation from "../components/navigation/BottomNavigation";
 import LeftSidebar from "../components/navigation/LeftSidebar";
@@ -225,7 +223,6 @@ export default function App() {
                         </Switch>
                     </Routes>
                     <ContextMenus />
-                    <Popovers />
                 </OverlappingPanels>
             </AppContainer>
         </>

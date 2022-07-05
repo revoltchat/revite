@@ -12,7 +12,8 @@ import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { useApplicationState } from "../../mobx/State";
 
 import { Overrides } from "../../context/Theme";
-import { useIntermediate } from "../../context/intermediate/Intermediate";
+
+import { modalController } from "../../controllers/modals/ModalController";
 
 const Container = styled.div`
     flex-grow: 1;
@@ -85,7 +86,6 @@ const REMOTE = "https://rvlt.gg";
 
 export default function Discover() {
     const state = useApplicationState();
-    const { openLink } = useIntermediate();
 
     const history = useHistory();
     const { pathname, search } = useLocation();
@@ -137,7 +137,7 @@ export default function Discover() {
                             break;
                         }
                         case "navigate": {
-                            openLink(data.url);
+                            modalController.openLink(data.url);
                             break;
                         }
                         case "applyTheme": {

@@ -3,8 +3,6 @@ import { API, Client } from "revolt.js";
 
 import { state } from "../../mobx/State";
 
-import { __thisIsAHack } from "../../context/intermediate/Intermediate";
-
 import { modalController } from "../modals/ModalController";
 
 /**

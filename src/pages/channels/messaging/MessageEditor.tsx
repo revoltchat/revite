@@ -6,11 +6,6 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
-import {
-    IntermediateContext,
-    useIntermediate,
-} from "../../../context/intermediate/Intermediate";
-
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
@@ -50,7 +45,6 @@ interface Props {
 
 export default function MessageEditor({ message, finish }: Props) {
     const [content, setContent] = useState(message.content ?? "");
-    const { focusTaken } = useContext(IntermediateContext);
 
     async function save() {
         finish();
@@ -70,14 +64,14 @@ export default function MessageEditor({ message, finish }: Props) {
     // ? Stop editing when pressing ESC.
     useEffect(() => {
         function keyUp(e: KeyboardEvent) {
-            if (e.key === "Escape" && !focusTaken) {
+            if (e.key === "Escape" && !modalController.isVisible) {
                 finish();
             }
         }
 
         document.body.addEventListener("keyup", keyUp);
         return () => document.body.removeEventListener("keyup", keyUp);
-    }, [focusTaken, finish]);
+    }, [finish]);
 
     const {
         onChange,

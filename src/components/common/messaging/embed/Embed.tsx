@@ -4,8 +4,6 @@ import styles from "./Embed.module.scss";
 import classNames from "classnames";
 import { useContext } from "preact/hooks";
 
-import { useIntermediate } from "../../../../context/intermediate/Intermediate";
-
 import { useClient } from "../../../../controllers/client/ClientController";
 import { modalController } from "../../../../controllers/modals/ModalController";
 import { MessageAreaWidthContext } from "../../../../pages/channels/messaging/MessageArea";
@@ -25,7 +23,6 @@ const MAX_PREVIEW_SIZE = 150;
 export default function Embed({ embed }: Props) {
     const client = useClient();
 
-    const { openLink } = useIntermediate();
     const maxWidth = Math.min(
         useContext(MessageAreaWidthContext) - CONTAINER_PADDING,
         MAX_EMBED_WIDTH,
@@ -144,7 +141,7 @@ export default function Embed({ embed }: Props) {
                                 <a
                                     onMouseDown={(ev) =>
                                         (ev.button === 0 || ev.button === 1) &&
-                                        openLink(embed.url!)
+                                        modalController.openLink(embed.url!)
                                     }
                                     className={styles.title}>
                                     {embed.title}
@@ -195,7 +192,9 @@ export default function Embed({ embed }: Props) {
                     onClick={() =>
                         modalController.push({ type: "image_viewer", embed })
                     }
-                    onMouseDown={(ev) => ev.button === 1 && openLink(embed.url)}
+                    onMouseDown={(ev) =>
+                        ev.button === 1 && modalController.openLink(embed.url)
+                    }
                 />
             );
         }

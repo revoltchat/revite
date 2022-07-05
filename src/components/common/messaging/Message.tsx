@@ -13,7 +13,6 @@ import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 
 import { I18nError } from "../../../context/Locale";
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
 
 import { modalController } from "../../../controllers/modals/ModalController";
 import Markdown from "../../markdown/Markdown";
@@ -54,8 +53,6 @@ const Message = observer(
     }: Props) => {
         const client = message.client;
         const user = message.author;
-
-        const { openScreen } = useIntermediate();
 
         const content = message.content;
         const head =

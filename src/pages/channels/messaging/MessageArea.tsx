@@ -23,10 +23,9 @@ import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { getRenderer } from "../../../lib/renderer/Singleton";
 import { ScrollState } from "../../../lib/renderer/types";
 
-import { IntermediateContext } from "../../../context/intermediate/Intermediate";
-
 import { useSession } from "../../../controllers/client/ClientController";
 import RequiresOnline from "../../../controllers/client/jsx/RequiresOnline";
+import { modalController } from "../../../controllers/modals/ModalController";
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
 
@@ -63,7 +62,6 @@ export const MESSAGE_AREA_PADDING = 82;
 export const MessageArea = observer(({ last_id, channel }: Props) => {
     const history = useHistory();
     const session = useSession()!;
-    const { focusTaken } = useContext(IntermediateContext);
 
     // ? Required data for message links.
     const { message } = useParams<{ message: string }>();
@@ -303,7 +301,7 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
     // ? Scroll to bottom when pressing 'Escape'.
     useEffect(() => {
         function keyUp(e: KeyboardEvent) {
-            if (e.key === "Escape" && !focusTaken) {
+            if (e.key === "Escape" && !modalController.isVisible) {
                 renderer.jumpToBottom(true);
                 internalEmit("TextArea", "focus", "message");
             }
@@ -311,7 +309,7 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
 
         document.body.addEventListener("keyup", keyUp);
         return () => document.body.removeEventListener("keyup", keyUp);
-    }, [renderer, ref, focusTaken]);
+    }, [renderer, ref]);
 
     return (
         <MessageAreaWidthContext.Provider

@@ -19,12 +19,6 @@ import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 import { QueuedMessage } from "../../../../mobx/stores/MessageQueue";
 
-import {
-    Screen,
-    useIntermediate,
-} from "../../../../context/intermediate/Intermediate";
-
-import { useClient } from "../../../../controllers/client/ClientController";
 import { modalController } from "../../../../controllers/modals/ModalController";
 import Tooltip from "../../../common/Tooltip";
 
@@ -89,7 +83,6 @@ const Divider = styled.div`
 
 export const MessageOverlayBar = observer(({ message, queued }: Props) => {
     const client = message.client;
-    const { openScreen, writeClipboard } = useIntermediate();
     const isAuthor = message.author_id === client.user!._id;
 
     const [copied, setCopied] = useState<"link" | "id">(null!);
@@ -189,7 +182,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                         <Entry
                             onClick={() => {
                                 setCopied("link");
-                                writeClipboard(message.url);
+                                modalController.writeText(message.url);
                             }}>
                             <LinkAlt size={18} />
                         </Entry>
@@ -200,7 +193,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                         <Entry
                             onClick={() => {
                                 setCopied("id");
-                                writeClipboard(message._id);
+                                modalController.writeText(message._id);
                             }}>
                             <InfoSquare size={18} />
                         </Entry>

@@ -33,8 +33,6 @@ import { LineDivider } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { useIntermediate } from "../../context/intermediate/Intermediate";
-
 import UserIcon from "../../components/common/user/UserIcon";
 import { Username } from "../../components/common/user/UserShort";
 import UserStatus from "../../components/common/user/UserStatus";
@@ -121,7 +119,6 @@ const AccountHeader = styled.div`
 export default observer(() => {
     const history = useHistory();
     const client = useClient();
-    const { openScreen } = useIntermediate();
     const experiments = useApplicationState().experiments;
 
     function switchPage(to?: string) {

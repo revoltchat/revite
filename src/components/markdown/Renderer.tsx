@@ -14,10 +14,10 @@ import { internalEmit } from "../../lib/eventEmitter";
 import { determineLink } from "../../lib/links";
 
 import { dayjs } from "../../context/Locale";
-import { useIntermediate } from "../../context/intermediate/Intermediate";
 
 import { emojiDictionary } from "../../assets/emojis";
 import { useClient } from "../../controllers/client/ClientController";
+import { modalController } from "../../controllers/modals/ModalController";
 import { generateEmoji } from "../common/Emoji";
 import { MarkdownProps } from "./Markdown";
 import Prism from "./prism";
@@ -119,7 +119,6 @@ const RE_TIME = /<t:([0-9]+):(\w)>/g;
 
 export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
     const client = useClient();
-    const { openLink } = useIntermediate();
 
     if (typeof content === "undefined") return null;
     if (!content || content.length === 0) return null;
@@ -191,43 +190,40 @@ export default function Renderer({ content, disallowBigEmoji }: MarkdownProps) {
         }
     }, []);
 
-    const handleLink = useCallback(
-        (ev: MouseEvent) => {
-            if (ev.currentTarget) {
-                const element = ev.currentTarget as HTMLAnchorElement;
+    const handleLink = useCallback((ev: MouseEvent) => {
+        if (ev.currentTarget) {
+            const element = ev.currentTarget as HTMLAnchorElement;
 
-                if (ev.shiftKey) {
-                    switch (element.dataset.type) {
-                        case "mention": {
-                            internalEmit(
-                                "MessageBox",
-                                "append",
-                                `<@${element.dataset.mentionId}>`,
-                                "mention",
-                            );
-                            ev.preventDefault();
-                            return;
-                        }
-                        case "channel_mention": {
-                            internalEmit(
-                                "MessageBox",
-                                "append",
-                                `<#${element.dataset.mentionId}>`,
-                                "channel_mention",
-                            );
-                            ev.preventDefault();
-                            return;
-                        }
+            if (ev.shiftKey) {
+                switch (element.dataset.type) {
+                    case "mention": {
+                        internalEmit(
+                            "MessageBox",
+                            "append",
+                            `<@${element.dataset.mentionId}>`,
+                            "mention",
+                        );
+                        ev.preventDefault();
+                        return;
+                    }
+                    case "channel_mention": {
+                        internalEmit(
+                            "MessageBox",
+                            "append",
+                            `<#${element.dataset.mentionId}>`,
+                            "channel_mention",
+                        );
+                        ev.preventDefault();
+                        return;
                     }
                 }
-
-                if (openLink(element.href)) {
-                    ev.preventDefault();
-                }
             }
-        },
-        [openLink],
-    );
+
+            if (modalController.openLink(element.href)) {
+                ev.preventDefault();
+            }
+        }
+    }, []);
 
     return (
         <span

@@ -13,8 +13,6 @@ import { IconButton } from "@revoltchat/ui";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { stopPropagation } from "../../../lib/stopPropagation";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
-
 import { modalController } from "../../../controllers/modals/ModalController";
 import ChannelIcon from "../../common/ChannelIcon";
 import Tooltip from "../../common/Tooltip";
@@ -51,7 +49,6 @@ export const UserButton = observer((props: UserProps) => {
         channel,
         ...divProps
     } = props;
-    const { openScreen } = useIntermediate();
 
     return (
         <div
@@ -149,7 +146,6 @@ export const ChannelButton = observer((props: ChannelProps) => {
         return <UserButton {...{ active, alert, channel, user }} />;
     }
 
-    const { openScreen } = useIntermediate();
     const alerting = alert && !muted && !active;
 
     return (

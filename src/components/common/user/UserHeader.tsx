@@ -11,8 +11,7 @@ import { Header, IconButton } from "@revoltchat/ui";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
-
+import { modalController } from "../../../controllers/modals/ModalController";
 import Tooltip from "../Tooltip";
 import UserStatus from "./UserStatus";
 
@@ -48,8 +47,6 @@ interface Props {
 }
 
 export default observer(({ user }: Props) => {
-    const { writeClipboard } = useIntermediate();
-
     return (
         <Header topBorder palette="secondary">
             <HeaderBase>
@@ -57,7 +54,9 @@ export default observer(({ user }: Props) => {
                     <Tooltip content={<Text id="app.special.copy_username" />}>
                         <span
                             className="username"
-                            onClick={() => writeClipboard(user.username)}>
+                            onClick={() =>
+                                modalController.writeText(user.username)
+                            }>
                             @{user.username}
                         </span>
                     </Tooltip>
