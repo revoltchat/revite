@@ -50,6 +50,9 @@ export default function CreateChannel({
                     ],
                 },
             }}
+            defaults={{
+                type: "Text",
+            }}
             callback={async ({ name, type }) => {
                 const channel = await target.createChannel({
                     type: type as "Text" | "Voice",
