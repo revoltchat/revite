@@ -170,11 +170,7 @@ export type Modal = {
     | {
           type: "create_channel";
           target: Server;
-          cb?: (
-              channel: Channel & {
-                  channel_type: "TextChannel" | "VoiceChannel";
-              },
-          ) => void;
+          cb?: (channel: Channel) => void;
       }
     | {
           type: "create_category";
