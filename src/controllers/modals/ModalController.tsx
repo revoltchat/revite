@@ -21,6 +21,7 @@ import Changelog from "./components/Changelog";
 import ChannelInfo from "./components/ChannelInfo";
 import Clipboard from "./components/Clipboard";
 import Confirmation from "./components/Confirmation";
+import CreateChannel from "./components/CreateChannel";
 import CreateGroup from "./components/CreateGroup";
 import CreateInvite from "./components/CreateInvite";
 import CreateRole from "./components/CreateRole";
@@ -250,6 +251,7 @@ export const modalController = new ModalControllerExtended({
     delete_bot: Confirmation,
     block_user: Confirmation,
     unfriend_user: Confirmation,
+    create_channel: CreateChannel,
     create_group: CreateGroup,
     create_invite: CreateInvite,
     create_role: CreateRole,
