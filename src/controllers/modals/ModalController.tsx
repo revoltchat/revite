@@ -14,7 +14,6 @@ import { injectController } from "../../lib/window";
 import { getApplicationState } from "../../mobx/State";
 
 import { history } from "../../context/history";
-import { __thisIsAHack } from "../../context/intermediate/Intermediate";
 
 import AddFriend from "./components/AddFriend";
 import Changelog from "./components/Changelog";
@@ -22,6 +21,7 @@ import ChannelInfo from "./components/ChannelInfo";
 import Clipboard from "./components/Clipboard";
 import Confirmation from "./components/Confirmation";
 import CreateGroup from "./components/CreateGroup";
+import CreateInvite from "./components/CreateInvite";
 import CreateRole from "./components/CreateRole";
 import CreateServer from "./components/CreateServer";
 import CustomStatus from "./components/CustomStatus";
@@ -40,7 +40,7 @@ import ServerInfo from "./components/ServerInfo";
 import ShowToken from "./components/ShowToken";
 import SignOutSessions from "./components/SignOutSessions";
 import SignedOut from "./components/SignedOut";
-import { UserPicker } from "./components/UserPicker";
+import UserPicker from "./components/UserPicker";
 import { CreateBotModal } from "./components/legacy/CreateBot";
 import { OnboardingModal } from "./components/legacy/Onboarding";
 import { UserProfile } from "./components/legacy/UserProfile";
@@ -195,6 +195,12 @@ class ModalControllerExtended extends ModalController<Modal> {
         }
     }
 
+    /**
+     * Safely open external or internal link
+     * @param href Raw URL
+     * @param trusted Whether we trust this link
+     * @returns Whether to cancel default event
+     */
     openLink(href?: string, trusted?: boolean) {
         const link = determineLink(href);
         const settings = getApplicationState().settings;
@@ -242,6 +248,7 @@ export const modalController = new ModalControllerExtended({
     block_user: Confirmation,
     unfriend_user: Confirmation,
     create_group: CreateGroup,
+    create_invite: CreateInvite,
     create_role: CreateRole,
     create_server: CreateServer,
     create_bot: CreateBotModal,

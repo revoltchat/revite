@@ -15,7 +15,7 @@ const List = styled.div`
     overflow-y: scroll;
 `;
 
-export function UserPicker({
+export default function UserPicker({
     callback,
     omit,
     ...props
