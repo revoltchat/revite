@@ -21,8 +21,6 @@ import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 import { useApplicationState } from "../../../mobx/State";
 import { SIDEBAR_MEMBERS } from "../../../mobx/stores/Layout";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
-
 import UpdateIndicator from "../../../components/common/UpdateIndicator";
 import { modalController } from "../../../controllers/modals/ModalController";
 import { ChannelHeaderProps } from "../ChannelHeader";
@@ -74,7 +72,6 @@ const SearchBar = styled.div`
 
 export default function HeaderActions({ channel }: ChannelHeaderProps) {
     const layout = useApplicationState().layout;
-    const { openScreen } = useIntermediate();
     const history = useHistory();
 
     function slideOpen() {

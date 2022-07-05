@@ -13,7 +13,6 @@ import { determineFileSize } from "../../lib/fileSize";
 
 import { useClient } from "../../controllers/client/ClientController";
 import { modalController } from "../../controllers/modals/ModalController";
-import { useIntermediate } from "../intermediate/Intermediate";
 import { takeError } from "./util";
 
 type BehaviourType =
@@ -112,7 +111,6 @@ export function grabFiles(
 
 export function FileUploader(props: Props) {
     const { fileType, maxFileSize, remove } = props;
-    const { openScreen } = useIntermediate();
     const client = useClient();
 
     const [uploading, setUploading] = useState(false);
@@ -243,7 +241,7 @@ export function FileUploader(props: Props) {
                 document.removeEventListener("dragover", dragover);
                 document.removeEventListener("drop", drop);
             };
-        }, [openScreen, props, props.append]);
+        }, [props, props.append]);
     }
 
     if (props.style === "icon" || props.style === "banner") {

@@ -23,7 +23,6 @@ import { internalEmit } from "../../../lib/eventEmitter";
 import { useTranslation } from "../../../lib/i18n";
 import { stopPropagation } from "../../../lib/stopPropagation";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
 import { FileUploader } from "../../../context/revoltjs/FileUploads";
 
 import AutoComplete, {
@@ -88,7 +87,6 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
     );
     const [interactionsRef, setInteractionsRef] =
         useState<HTMLInputElement | null>(null);
-    const { writeClipboard, openScreen } = useIntermediate();
 
     const [profile, setProfile] = useState<undefined | API.UserProfile>(
         undefined,
@@ -267,7 +265,9 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                         }>
                                         <a
                                             onClick={() =>
-                                                writeClipboard(user!._id)
+                                                modalController.writeText(
+                                                    user!._id,
+                                                )
                                             }>
                                             {user!._id}
                                         </a>
@@ -335,7 +335,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                 <CategoryButton
                     account
                     icon={<Key size={24} />}
-                    onClick={() => writeClipboard(bot.token)}
+                    onClick={() => modalController.writeText(bot.token)}
                     description={
                         <>
                             {"••••• "}
@@ -475,7 +475,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                     <>
                         <Button
                             onClick={() =>
-                                writeClipboard(
+                                modalController.writeText(
                                     `${window.origin}/bot/${bot._id}`,
                                 )
                             }>

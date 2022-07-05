@@ -12,8 +12,6 @@ import { IconButton } from "@revoltchat/ui";
 import { TextReact } from "../../lib/i18n";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { useIntermediate } from "../../context/intermediate/Intermediate";
-
 import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
 import UserIcon from "../../components/common/user/UserIcon";
@@ -23,8 +21,6 @@ import { modalController } from "../../controllers/modals/ModalController";
 import { Friend } from "./Friend";
 
 export default observer(() => {
-    const { openScreen } = useIntermediate();
-
     const client = useClient();
     const users = [...client.users.values()];
     users.sort((a, b) => a.username.localeCompare(b.username));

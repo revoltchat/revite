@@ -176,6 +176,9 @@ export type Modal = {
           type: "create_category";
           target: Server;
       }
+    | {
+          type: "import_theme";
+      }
 );
 
 export type ModalProps<T extends Modal["type"]> = Modal & { type: T } & {

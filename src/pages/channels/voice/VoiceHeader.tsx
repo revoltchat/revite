@@ -16,8 +16,6 @@ import { Button } from "@revoltchat/ui";
 
 import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
-
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { useClient } from "../../../controllers/client/ClientController";
@@ -84,8 +82,6 @@ const VoiceBase = styled.div`
 
 export default observer(({ id }: Props) => {
     if (voiceState.roomId !== id) return null;
-
-    const { openScreen } = useIntermediate();
 
     const client = useClient();
     const self = client.users.get(client.user!._id);

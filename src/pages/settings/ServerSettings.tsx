@@ -15,8 +15,6 @@ import { Text } from "preact-i18n";
 
 import { LineDivider } from "@revoltchat/ui";
 
-import { useIntermediate } from "../../context/intermediate/Intermediate";
-
 import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { useClient } from "../../controllers/client/ClientController";
 import RequiresOnline from "../../controllers/client/jsx/RequiresOnline";
@@ -30,7 +28,6 @@ import { Overview } from "./server/Overview";
 import { Roles } from "./server/Roles";
 
 export default observer(() => {
-    const { openScreen } = useIntermediate();
     const { server: sid } = useParams<{ server: string }>();
     const client = useClient();
     const server = client.servers.get(sid);

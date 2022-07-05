@@ -14,8 +14,6 @@ import { useAutosave } from "../../../lib/debounce";
 import { Draggable, Droppable } from "../../../lib/dnd";
 import { noop } from "../../../lib/js";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
-
 import ChannelIcon from "../../../components/common/ChannelIcon";
 import { modalController } from "../../../controllers/modals/ModalController";
 
@@ -334,12 +332,9 @@ function ListElement({
     index: number;
     setTitle?: (title: string) => void;
     deleteSelf?: () => void;
-    addChannel: (
-        channel: Channel & { channel_type: "TextChannel" | "VoiceChannel" },
-    ) => void;
+    addChannel: (channel: Channel) => void;
     draggable?: boolean;
 }) {
-    const { openScreen } = useIntermediate();
     const [editing, setEditing] = useState<string>();
     const startEditing = () => setTitle && setEditing(category.title);
 

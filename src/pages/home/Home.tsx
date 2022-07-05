@@ -23,8 +23,6 @@ import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { useIntermediate } from "../../context/intermediate/Intermediate";
-
 import wideSVG from "/assets/wide.svg";
 
 import { PageHeader } from "../../components/ui/Header";
@@ -45,7 +43,6 @@ const Overlay = styled.div`
 `;
 
 export default observer(() => {
-    const { openScreen } = useIntermediate();
     const client = useClient();
     const state = useApplicationState();
 

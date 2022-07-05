@@ -7,8 +7,7 @@ import { Button } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../../../mobx/State";
 
-import { useIntermediate } from "../../../../context/intermediate/Intermediate";
-
+import { modalController } from "../../../../controllers/modals/ModalController";
 import Tooltip from "../../../common/Tooltip";
 
 const Actions = styled.div`
@@ -38,7 +37,6 @@ const Actions = styled.div`
 `;
 
 export default function ThemeTools() {
-    const { writeClipboard, openScreen } = useIntermediate();
     const theme = useApplicationState().settings.theme;
 
     return (
@@ -56,7 +54,9 @@ export default function ThemeTools() {
             </Tooltip>
             <div
                 className="code"
-                onClick={() => writeClipboard(JSON.stringify(theme))}>
+                onClick={() =>
+                    modalController.writeText(JSON.stringify(theme))
+                }>
                 <Tooltip content={<Text id="app.special.copy" />}>
                     {" "}
                     {JSON.stringify(theme)}
@@ -72,16 +72,8 @@ export default function ThemeTools() {
                             const text = await navigator.clipboard.readText();
                             theme.hydrate(JSON.parse(text));
                         } catch (err) {
-                            openScreen({
-                                id: "_input",
-                                question: (
-                                    <Text id="app.settings.pages.appearance.import_theme" />
-                                ),
-                                field: (
-                                    <Text id="app.settings.pages.appearance.theme_data" />
-                                ),
-                                callback: async (text) =>
-                                    theme.hydrate(JSON.parse(text)),
+                            modalController.push({
+                                type: "import_theme",
                             });
                         }
                     }}>

@@ -13,7 +13,6 @@ import ModalRenderer from "../controllers/modals/ModalRenderer";
 import Locale from "./Locale";
 import Theme from "./Theme";
 import { history } from "./history";
-import Intermediate from "./intermediate/Intermediate";
 
 const uiContext = {
     Link,
@@ -39,10 +38,8 @@ export default function Context({ children }: { children: Children }) {
         <Router history={history}>
             <UIProvider value={uiContext}>
                 <Locale>
-                    <Intermediate>
-                        {children}
-                        <Binder />
-                    </Intermediate>
+                    <>{children}</>
+                    <Binder />
                     <ModalRenderer />
                 </Locale>
             </UIProvider>

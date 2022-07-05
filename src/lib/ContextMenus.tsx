@@ -26,7 +26,6 @@ import { useApplicationState } from "../mobx/State";
 import { QueuedMessage } from "../mobx/stores/MessageQueue";
 import { NotificationState } from "../mobx/stores/NotificationOptions";
 
-import { Screen, useIntermediate } from "../context/intermediate/Intermediate";
 import { takeError } from "../context/revoltjs/util";
 import CMNotifications from "./contextmenu/CMNotifications";
 
@@ -116,7 +115,6 @@ type Action =
 // ! FIXME: I dare someone to re-write this
 // Tip: This should just be split into separate context menus per logical area.
 export default function ContextMenus() {
-    const { openScreen, writeClipboard } = useIntermediate();
     const session = useSession()!;
     const client = session.client!;
     const userId = client.user!._id;
@@ -130,7 +128,7 @@ export default function ContextMenus() {
         (async () => {
             switch (data.action) {
                 case "copy_id":
-                    writeClipboard(data.id);
+                    modalController.writeText(data.id);
                     break;
                 case "copy_message_link":
                     {
@@ -139,11 +137,13 @@ export default function ContextMenus() {
                         if (channel?.channel_type === "TextChannel")
                             pathname = `/server/${channel.server_id}${pathname}`;
 
-                        writeClipboard(window.origin + pathname);
+                        modalController.writeText(window.origin + pathname);
                     }
                     break;
                 case "copy_selection":
-                    writeClipboard(document.getSelection()?.toString() ?? "");
+                    modalController.writeText(
+                        document.getSelection()?.toString() ?? "",
+                    );
                     break;
                 case "mark_as_read":
                     {
@@ -227,7 +227,7 @@ export default function ContextMenus() {
                     break;
 
                 case "copy_text":
-                    writeClipboard(data.content);
+                    modalController.writeText(data.content);
                     break;
 
                 case "reply_message":
@@ -286,7 +286,7 @@ export default function ContextMenus() {
                 case "copy_file_link":
                     {
                         const { filename } = data.attachment;
-                        writeClipboard(
+                        modalController.writeText(
                             // ! FIXME: do from r.js
                             `${client.generateFileURL(
                                 data.attachment,
@@ -303,7 +303,7 @@ export default function ContextMenus() {
 
                 case "copy_link":
                     {
-                        writeClipboard(data.link);
+                        modalController.writeText(data.link);
                     }
                     break;
 
@@ -1022,7 +1022,7 @@ export default function ContextMenus() {
                                     <div
                                         className="username"
                                         onClick={() =>
-                                            writeClipboard(
+                                            modalController.writeText(
                                                 client.user!.username,
                                             )
                                         }>
