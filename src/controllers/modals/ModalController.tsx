@@ -21,6 +21,7 @@ import Changelog from "./components/Changelog";
 import ChannelInfo from "./components/ChannelInfo";
 import Clipboard from "./components/Clipboard";
 import Confirmation from "./components/Confirmation";
+import CreateBot from "./components/CreateBot";
 import CreateCategory from "./components/CreateCategory";
 import CreateChannel from "./components/CreateChannel";
 import CreateGroup from "./components/CreateGroup";
@@ -45,7 +46,6 @@ import ShowToken from "./components/ShowToken";
 import SignOutSessions from "./components/SignOutSessions";
 import SignedOut from "./components/SignedOut";
 import UserPicker from "./components/UserPicker";
-import { CreateBotModal } from "./components/legacy/CreateBot";
 import { OnboardingModal } from "./components/legacy/Onboarding";
 import { UserProfile } from "./components/legacy/UserProfile";
 import { Modal } from "./types";
@@ -258,7 +258,7 @@ export const modalController = new ModalControllerExtended({
     create_invite: CreateInvite,
     create_role: CreateRole,
     create_server: CreateServer,
-    create_bot: CreateBotModal,
+    create_bot: CreateBot,
     custom_status: CustomStatus,
     delete_message: DeleteMessage,
     error: Error,
