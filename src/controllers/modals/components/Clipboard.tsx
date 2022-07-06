@@ -11,6 +11,11 @@ export default function Clipboard({ text, ...props }: ModalProps<"clipboard">) {
         <Modal
             {...props}
             title={<Text id="app.special.modals.clipboard.unavailable" />}
+            description={
+                location.protocol !== "https:" ? (
+                    <Text id="app.special.modals.clipboard.https" />
+                ) : undefined
+            }
             actions={[
                 {
                     onClick: noopTrue,
@@ -18,11 +23,6 @@ export default function Clipboard({ text, ...props }: ModalProps<"clipboard">) {
                     children: <Text id="app.special.modals.actions.close" />,
                 },
             ]}>
-            {location.protocol !== "https:" && (
-                <p>
-                    <Text id="app.special.modals.clipboard.https" />
-                </p>
-            )}
             <Text id="app.special.modals.clipboard.copy" />{" "}
             <code style={{ userSelect: "all", wordBreak: "break-all" }}>
                 {text}
