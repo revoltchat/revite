@@ -9,11 +9,11 @@ import { useState } from "preact/hooks";
 import { Button, Category, Preloader, Tip } from "@revoltchat/ui";
 
 import { I18nError } from "../../../context/Locale";
-import { takeError } from "../../../context/revoltjs/util";
 
 import WaveSVG from "../../settings/assets/wave.svg";
 
 import { clientController } from "../../../controllers/client/ClientController";
+import { takeError } from "../../../controllers/client/jsx/error";
 import FormField from "../FormField";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
 import { MailProvider } from "./MailProvider";

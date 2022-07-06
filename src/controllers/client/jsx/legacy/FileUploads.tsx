@@ -9,11 +9,11 @@ import { useEffect, useState } from "preact/hooks";
 
 import { IconButton, Preloader } from "@revoltchat/ui";
 
-import { determineFileSize } from "../../lib/fileSize";
+import { determineFileSize } from "../../../../lib/fileSize";
 
-import { useClient } from "../../controllers/client/ClientController";
-import { modalController } from "../../controllers/modals/ModalController";
-import { takeError } from "./util";
+import { modalController } from "../../../modals/ModalController";
+import { useClient } from "../../ClientController";
+import { takeError } from "../error";
 
 type BehaviourType =
     | { behaviour: "ask"; onChange: (file: File) => void }

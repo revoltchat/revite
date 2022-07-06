@@ -9,7 +9,7 @@ import { Button, Checkbox, InputBox } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
-import { FileUploader } from "../../../context/revoltjs/FileUploads";
+import { FileUploader } from "../../../controllers/client/jsx/legacy/FileUploads";
 
 interface Props {
     channel: Channel;

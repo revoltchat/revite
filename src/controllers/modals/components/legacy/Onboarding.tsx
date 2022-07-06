@@ -6,11 +6,10 @@ import { useState } from "preact/hooks";
 
 import { Button, Preloader } from "@revoltchat/ui";
 
-import { takeError } from "../../../../context/revoltjs/util";
-
 import wideSVG from "/assets/wide.svg";
 
 import FormField from "../../../../pages/login/FormField";
+import { takeError } from "../../../client/jsx/error";
 import { ModalProps } from "../../types";
 
 interface FormInputs {

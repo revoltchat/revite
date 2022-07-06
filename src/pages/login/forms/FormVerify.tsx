@@ -5,9 +5,9 @@ import { useEffect, useState } from "preact/hooks";
 import { Category, Preloader } from "@revoltchat/ui";
 
 import { I18nError } from "../../../context/Locale";
-import { takeError } from "../../../context/revoltjs/util";
 
 import { useApi } from "../../../controllers/client/ClientController";
+import { takeError } from "../../../controllers/client/jsx/error";
 import { Form } from "./Form";
 
 export function FormResend() {

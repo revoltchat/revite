@@ -7,9 +7,8 @@ import { useCallback, useEffect, useState } from "preact/hooks";
 
 import { Category, CategoryButton, Error, Tip } from "@revoltchat/ui";
 
-import { takeError } from "../../../context/revoltjs/util";
-
 import { useSession } from "../../../controllers/client/ClientController";
+import { takeError } from "../../../controllers/client/jsx/error";
 import { modalController } from "../../../controllers/modals/ModalController";
 
 /**

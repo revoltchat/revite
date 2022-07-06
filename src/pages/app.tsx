@@ -7,8 +7,8 @@ import { Masks, Preloader } from "@revoltchat/ui";
 import ErrorBoundary from "../lib/ErrorBoundary";
 
 import Context from "../context";
-import { CheckAuth } from "../context/revoltjs/CheckAuth";
 
+import { CheckAuth } from "../controllers/client/jsx/CheckAuth";
 import Invite from "./invite/Invite";
 
 const Login = lazy(() => import("./login/Login"));

@@ -6,12 +6,11 @@ import styled from "styled-components/macro";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { getChannelName } from "../../context/revoltjs/util";
-
 import { useStatusColour } from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
 import Markdown from "../../components/markdown/Markdown";
 import { PageHeader } from "../../components/ui/Header";
+import { ChannelName } from "../../controllers/client/jsx/ChannelName";
 import { modalController } from "../../controllers/modals/ModalController";
 import HeaderActions from "./actions/HeaderActions";
 
@@ -64,7 +63,6 @@ const Info = styled.div`
 `;
 
 export default observer(({ channel }: ChannelHeaderProps) => {
-    const name = getChannelName(channel);
     let icon, recipient: User | undefined;
     switch (channel.channel_type) {
         case "SavedMessages":
@@ -85,7 +83,9 @@ export default observer(({ channel }: ChannelHeaderProps) => {
     return (
         <PageHeader icon={icon} withTransparency>
             <Info>
-                <span className="name">{name}</span>
+                <span className="name">
+                    <ChannelName channel={channel} />
+                </span>
                 {isTouchscreenDevice &&
                     channel.channel_type === "DirectMessage" && (
                         <>

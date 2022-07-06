@@ -12,8 +12,6 @@ import { TextReact } from "../../lib/i18n";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { takeError } from "../../context/revoltjs/util";
-
 import ServerIcon from "../../components/common/ServerIcon";
 import UserIcon from "../../components/common/user/UserIcon";
 import {
@@ -21,6 +19,7 @@ import {
     useSession,
 } from "../../controllers/client/ClientController";
 import RequiresOnline from "../../controllers/client/jsx/RequiresOnline";
+import { takeError } from "../../controllers/client/jsx/error";
 
 export default function Invite() {
     const history = useHistory();

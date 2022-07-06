@@ -19,8 +19,7 @@ import {
 
 import { noop } from "../../../lib/js";
 
-import { FileUploader } from "../../../context/revoltjs/FileUploads";
-
+import { FileUploader } from "../../client/jsx/legacy/FileUploads";
 import { ModalProps } from "../types";
 
 const Preview = styled(Centred)`

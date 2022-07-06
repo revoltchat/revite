@@ -12,8 +12,8 @@ import { Button, ComboBox, InputBox } from "@revoltchat/ui";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { noop } from "../../../lib/js";
 
-import { FileUploader } from "../../../context/revoltjs/FileUploads";
-import { getChannelName } from "../../../context/revoltjs/util";
+import { ChannelName } from "../../../controllers/client/jsx/ChannelName";
+import { FileUploader } from "../../../controllers/client/jsx/legacy/FileUploads";
 
 interface Props {
     server: Server;
@@ -172,7 +172,7 @@ export const Overview = observer(({ server }: Props) => {
                             )
                             .map((channel) => (
                                 <option key={channel!._id} value={channel!._id}>
-                                    {getChannelName(channel!, true)}
+                                    <ChannelName channel={channel} prefix />
                                 </option>
                             ))}
                     </ComboBox>

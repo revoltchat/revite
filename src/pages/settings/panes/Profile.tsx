@@ -12,12 +12,11 @@ import { Button, LineDivider, Tip } from "@revoltchat/ui";
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { useTranslation } from "../../../lib/i18n";
 
-import { FileUploader } from "../../../context/revoltjs/FileUploads";
-
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
 import { useSession } from "../../../controllers/client/ClientController";
+import { FileUploader } from "../../../controllers/client/jsx/legacy/FileUploads";
 import { UserProfile } from "../../../controllers/modals/components/legacy/UserProfile";
 
 export const Profile = observer(() => {

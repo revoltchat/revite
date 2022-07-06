@@ -7,10 +7,9 @@ import { Category, Error, Modal } from "@revoltchat/ui";
 
 import { noopTrue } from "../../../lib/js";
 
-import { takeError } from "../../../context/revoltjs/util";
-
 import FormField from "../../../pages/login/FormField";
 import { useClient } from "../../client/ClientController";
+import { takeError } from "../../client/jsx/error";
 import { ModalProps } from "../types";
 
 interface FormInputs {

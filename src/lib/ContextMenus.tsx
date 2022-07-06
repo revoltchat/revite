@@ -26,12 +26,12 @@ import { useApplicationState } from "../mobx/State";
 import { QueuedMessage } from "../mobx/stores/MessageQueue";
 import { NotificationState } from "../mobx/stores/NotificationOptions";
 
-import { takeError } from "../context/revoltjs/util";
 import CMNotifications from "./contextmenu/CMNotifications";
 
 import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
 import { useSession } from "../controllers/client/ClientController";
+import { takeError } from "../controllers/client/jsx/error";
 import { modalController } from "../controllers/modals/ModalController";
 import { internalEmit } from "./eventEmitter";
 import { getRenderer } from "./renderer/Singleton";

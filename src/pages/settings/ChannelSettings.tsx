@@ -4,9 +4,8 @@ import { Route, Switch, useHistory, useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";
 
-import { getChannelName } from "../../context/revoltjs/util";
-
 import { useClient } from "../../controllers/client/ClientController";
+import { ChannelName } from "../../controllers/client/jsx/ChannelName";
 import { GenericSettings } from "./GenericSettings";
 import Overview from "./channel/Overview";
 import Permissions from "./channel/Permissions";
@@ -47,7 +46,7 @@ export default function ChannelSettings() {
         <GenericSettings
             pages={[
                 {
-                    category: <div>{getChannelName(channel, true)}</div>,
+                    category: <ChannelName channel={channel} prefix />,
                     id: "overview",
                     icon: <InfoCircle size={20} />,
                     title: (
