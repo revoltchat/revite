@@ -11,13 +11,13 @@ import { Button, Category, Preloader } from "@revoltchat/ui";
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 
 import { I18nError } from "../../../../context/Locale";
-import { takeError } from "../../../../context/revoltjs/util";
 
 import ServerIcon from "../../../../components/common/ServerIcon";
 import {
     useClient,
     useSession,
 } from "../../../../controllers/client/ClientController";
+import { takeError } from "../../../../controllers/client/jsx/error";
 
 const EmbedInviteBase = styled.div`
     width: 400px;

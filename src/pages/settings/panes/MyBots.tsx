@@ -23,8 +23,6 @@ import { internalEmit } from "../../../lib/eventEmitter";
 import { useTranslation } from "../../../lib/i18n";
 import { stopPropagation } from "../../../lib/stopPropagation";
 
-import { FileUploader } from "../../../context/revoltjs/FileUploads";
-
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
@@ -32,6 +30,7 @@ import CollapsibleSection from "../../../components/common/CollapsibleSection";
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { useClient } from "../../../controllers/client/ClientController";
+import { FileUploader } from "../../../controllers/client/jsx/legacy/FileUploads";
 import { modalController } from "../../../controllers/modals/ModalController";
 
 interface Data {

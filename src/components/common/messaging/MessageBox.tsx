@@ -31,15 +31,14 @@ import {
 import { useApplicationState } from "../../../mobx/State";
 import { Reply } from "../../../mobx/stores/MessageQueue";
 
+import { emojiDictionary } from "../../../assets/emojis";
+import { useClient } from "../../../controllers/client/ClientController";
+import { takeError } from "../../../controllers/client/jsx/error";
 import {
     FileUploader,
     grabFiles,
     uploadFile,
-} from "../../../context/revoltjs/FileUploads";
-import { takeError } from "../../../context/revoltjs/util";
-
-import { emojiDictionary } from "../../../assets/emojis";
-import { useClient } from "../../../controllers/client/ClientController";
+} from "../../../controllers/client/jsx/legacy/FileUploads";
 import { modalController } from "../../../controllers/modals/ModalController";
 import AutoComplete, { useAutoComplete } from "../AutoComplete";
 import Emoji from "../Emoji";

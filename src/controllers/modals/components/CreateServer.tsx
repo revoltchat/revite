@@ -4,9 +4,8 @@ import { Text } from "preact-i18n";
 
 import { ModalForm } from "@revoltchat/ui";
 
-import { mapError } from "../../../context/revoltjs/util";
-
 import { useClient } from "../../client/ClientController";
+import { mapError } from "../../client/jsx/error";
 import { ModalProps } from "../types";
 
 /**

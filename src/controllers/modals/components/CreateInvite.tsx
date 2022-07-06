@@ -7,8 +7,7 @@ import { ModalForm } from "@revoltchat/ui";
 
 import { noopAsync } from "../../../lib/js";
 
-import { takeError } from "../../../context/revoltjs/util";
-
+import { takeError } from "../../client/jsx/error";
 import { modalController } from "../ModalController";
 import { ModalProps } from "../types";
 

@@ -1,7 +1,3 @@
-import { Channel } from "revolt.js";
-
-import { Text } from "preact-i18n";
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function takeError(error: any): string {
     if (error.response) {
@@ -30,27 +26,4 @@ export function takeError(error: any): string {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function mapError(error: any): never {
     throw takeError(error);
-}
-
-export function getChannelName(
-    channel: Channel,
-    prefixType?: boolean,
-): Children {
-    if (channel.channel_type === "SavedMessages")
-        return <Text id="app.navigation.tabs.saved" />;
-
-    if (channel.channel_type === "DirectMessage") {
-        return (
-            <>
-                {prefixType && "@"}
-                {channel.recipient!.username}
-            </>
-        );
-    }
-
-    if (channel.channel_type === "TextChannel" && prefixType) {
-        return <>#{channel.name}</>;
-    }
-
-    return <>{channel.name}</>;
 }

@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 
 import { Preloader } from "@revoltchat/ui";
 
-import { clientController } from "../../controllers/client/ClientController";
+import { clientController } from "../ClientController";
 
 interface Props {
     auth?: boolean;

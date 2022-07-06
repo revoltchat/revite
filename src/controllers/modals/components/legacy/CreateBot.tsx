@@ -9,10 +9,10 @@ import { Category, Modal } from "@revoltchat/ui";
 import { noopTrue } from "../../../../lib/js";
 
 import { I18nError } from "../../../../context/Locale";
-import { takeError } from "../../../../context/revoltjs/util";
 
 import FormField from "../../../../pages/login/FormField";
 import { useClient } from "../../../client/ClientController";
+import { takeError } from "../../../client/jsx/error";
 import { modalController } from "../../ModalController";
 import { ModalProps } from "../../types";
 
