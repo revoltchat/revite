@@ -67,6 +67,9 @@ export default function CreateChannel({
                     );
                 }
             }}
+            submit={{
+                children: <Text id="app.special.modals.actions.create" />,
+            }}
         />
     );
 }

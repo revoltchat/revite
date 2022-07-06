@@ -669,35 +669,36 @@ export default function ContextMenus() {
                             userId !== uid &&
                             uid !== server.owner
                         ) {
-                            if (serverPermissions & Permission.KickMembers)
-                                generateAction(
-                                    {
-                                        action: "kick_member",
-                                        target: client.members.getKey({
-                                            server: server._id,
-                                            user: user!._id,
-                                        })!,
-                                    },
-                                    undefined, // this is needed because generateAction uses positional, not named parameters
-                                    undefined,
-                                    null,
-                                    "var(--error)", // the only relevant part really
-                                );
+                            const member = client.members.getKey({
+                                server: server._id,
+                                user: user!._id,
+                            })!;
 
-                            if (serverPermissions & Permission.BanMembers)
-                                generateAction(
-                                    {
-                                        action: "ban_member",
-                                        target: client.members.getKey({
-                                            server: server._id,
-                                            user: user!._id,
-                                        })!,
-                                    },
-                                    undefined,
-                                    undefined,
-                                    null,
-                                    "var(--error)",
-                                );
+                            if (member) {
+                                if (serverPermissions & Permission.KickMembers)
+                                    generateAction(
+                                        {
+                                            action: "kick_member",
+                                            target: member,
+                                        },
+                                        undefined, // this is needed because generateAction uses positional, not named parameters
+                                        undefined,
+                                        null,
+                                        "var(--error)", // the only relevant part really
+                                    );
+
+                                if (serverPermissions & Permission.BanMembers)
+                                    generateAction(
+                                        {
+                                            action: "ban_member",
+                                            target: member,
+                                        },
+                                        undefined,
+                                        undefined,
+                                        null,
+                                        "var(--error)",
+                                    );
+                            }
                         }
                     }
 

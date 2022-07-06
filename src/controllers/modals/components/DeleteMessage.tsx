@@ -30,6 +30,10 @@ export default function DeleteMessage({
                 },
             }}
             callback={() => target.delete()}
+            submit={{
+                palette: "error",
+                children: <Text id="app.special.modals.actions.delete" />,
+            }}
         />
     );
 }

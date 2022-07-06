@@ -39,6 +39,9 @@ export default function CreateCategory({
                     ],
                 });
             }}
+            submit={{
+                children: <Text id="app.special.modals.actions.create" />,
+            }}
         />
     );
 }

@@ -96,6 +96,12 @@ export default function Confirmation(
                         break;
                 }
             }}
+            submit={{
+                palette: "error",
+                children: (
+                    <Text id={`app.special.modals.actions.${event[1]}`} />
+                ),
+            }}
         />
     );
 }

@@ -40,6 +40,9 @@ export default function CreateGroup({ ...props }: ModalProps<"create_group">) {
 
                 history.push(`/channel/${group._id}`);
             }}
+            submit={{
+                children: <Text id="app.special.modals.actions.create" />,
+            }}
         />
     );
 }

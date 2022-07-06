@@ -71,6 +71,18 @@ export default function CreateInvite({
                 },
             }}
             callback={noopAsync}
+            submit={{
+                children: <Text id="app.special.modals.actions.ok" />,
+            }}
+            actions={[
+                {
+                    children: <Text id="app.context_menu.copy_link" />,
+                    onClick: () =>
+                        modalController.writeText(
+                            `${window.location.protocol}//${window.location.host}/invite/${code}`,
+                        ),
+                },
+            ]}
         />
     );
 }

@@ -33,6 +33,10 @@ export default function KickMember({
                 },
             }}
             callback={() => member.kick()}
+            submit={{
+                palette: "error",
+                children: <Text id="app.special.modals.actions.kick" />,
+            }}
         />
     );
 }
