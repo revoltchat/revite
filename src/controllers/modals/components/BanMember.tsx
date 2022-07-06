@@ -41,6 +41,10 @@ export default function BanMember({
             callback={async ({ reason }) =>
                 void (await member.server!.banUser(member._id.user, { reason }))
             }
+            submit={{
+                palette: "error",
+                children: <Text id="app.special.modals.actions.ban" />,
+            }}
         />
     );
 }

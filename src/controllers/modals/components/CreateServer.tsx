@@ -52,6 +52,9 @@ export default function CreateServer({
 
                 history.push(`/server/${server._id}`);
             }}
+            submit={{
+                children: <Text id="app.special.modals.actions.create" />,
+            }}
         />
     );
 }

@@ -27,6 +27,9 @@ export default function ImportTheme({ ...props }: ModalProps<"import_theme">) {
             callback={async ({ data }) =>
                 state.settings.theme.hydrate(JSON.parse(data))
             }
+            submit={{
+                children: <Text id="app.special.modals.actions.ok" />,
+            }}
         />
     );
 }

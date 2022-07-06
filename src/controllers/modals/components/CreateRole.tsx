@@ -30,6 +30,9 @@ export default function CreateRole({
                 const role = await server.createRole(name);
                 callback(role.id);
             }}
+            submit={{
+                children: <Text id="app.special.modals.actions.create" />,
+            }}
         />
     );
 }

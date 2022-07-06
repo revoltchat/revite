@@ -38,6 +38,9 @@ export default function CustomStatus({
                     },
                 })
             }
+            submit={{
+                children: <Text id="app.special.modals.actions.save" />,
+            }}
         />
     );
 }
