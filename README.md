@@ -10,8 +10,6 @@ The following code is pending a partial or full rewrite:
 
 -   `src/components`: components are being migrated to [revoltchat/components](https://github.com/revoltchat/components)
 -   `src/styles`: needs to be migrated to [revoltchat/components](https://github.com/revoltchat/components)
--   `src/context/intermediate`: modal system is being rewritten from scratch
--   `src/context/revoltjs`: client state management needs to be rewritten and include support for concurrent clients
 -   `src/lib`: this needs to be organised
 
 ## Stack
