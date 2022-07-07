@@ -6,6 +6,7 @@ import {
     Envelope,
     UserX,
     Trash,
+    HappyBeaming,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
@@ -22,6 +23,7 @@ import { modalController } from "../../controllers/modals/ModalController";
 import { GenericSettings } from "./GenericSettings";
 import { Bans } from "./server/Bans";
 import { Categories } from "./server/Categories";
+import { Emojis } from "./server/Emojis";
 import { Invites } from "./server/Invites";
 import { Members } from "./server/Members";
 import { Overview } from "./server/Overview";
@@ -70,6 +72,14 @@ export default observer(() => {
                 },
                 {
                     category: (
+                        <Text id="app.settings.server_pages.customisation.title" />
+                    ),
+                    id: "emojis",
+                    icon: <HappyBeaming size={20} />,
+                    title: <Text id="app.settings.server_pages.emojis.title" />,
+                },
+                {
+                    category: (
                         <Text id="app.settings.server_pages.management.title" />
                     ),
                     id: "members",
@@ -114,6 +124,11 @@ export default observer(() => {
                     <Route path="/server/:server/settings/roles">
                         <RequiresOnline>
                             <Roles server={server} />
+                        </RequiresOnline>
+                    </Route>
+                    <Route path="/server/:server/settings/emojis">
+                        <RequiresOnline>
+                            <Emojis server={server} />
                         </RequiresOnline>
                     </Route>
                     <Route>
