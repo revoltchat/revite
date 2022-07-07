@@ -2231,9 +2231,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revoltchat/ui@npm:1.0.69":
-  version: 1.0.69
-  resolution: "@revoltchat/ui@npm:1.0.69"
+"@revoltchat/ui@portal:../components::locator=client%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@revoltchat/ui@portal:../components::locator=client%40workspace%3A."
   dependencies:
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
@@ -2247,9 +2247,8 @@ __metadata:
     react-virtuoso: ^2.12.0
   peerDependencies:
     revolt.js: "*"
-  checksum: bb67870911689d7dccd82f96affdb0e3e89b2e688d4a7403ee9bbb6a0245dfc296f35636ababd5ed6b43a3ce26777cee03c453728088b4a29fed350dcc89ea37
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@rollup/plugin-babel@npm:^5.2.0":
   version: 5.3.0
@@ -3608,7 +3607,7 @@ __metadata:
     preact-context-menu: 0.4.1
     preact-i18n: ^2.4.0-preactx
     prettier: ^2.3.1
-    prismjs: ^1.23.0
+    prismjs: ^1.28.0
     qrcode.react: ^3.0.2
     react-beautiful-dnd: ^13.1.0
     react-device-detect: 2.2.2
@@ -3618,7 +3617,7 @@ __metadata:
     react-router-dom: ^5.2.0
     react-scroll: ^1.8.2
     react-virtuoso: ^2.12.0
-    revolt.js: 6.0.3
+    revolt.js: 6.0.4
     rimraf: ^3.0.2
     sass: ^1.35.1
     semver: ^7.3.7
@@ -6546,13 +6545,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prismjs@npm:^1.23.0":
-  version: 1.24.1
-  resolution: "prismjs@npm:1.24.1"
-  checksum: e5d14a4ba56773122039295bd760c72106acc964e04cb9831b9ae7e7a58f67ccac6c053e77e21f1018a3684f31d35bb065c0c81fd4ff00b73b1570c3ace4aef0
-  languageName: node
-  linkType: hard
-
 "prismjs@npm:^1.28.0":
   version: 1.28.0
   resolution: "prismjs@npm:1.28.0"
@@ -6995,20 +6987,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revolt-api@npm:0.5.3-7":
-  version: 0.5.3-7
-  resolution: "revolt-api@npm:0.5.3-7"
+"revolt-api@npm:0.5.4":
+  version: 0.5.4
+  resolution: "revolt-api@npm:0.5.4"
   dependencies:
     "@insertish/oapi": 0.1.16
     axios: ^0.26.1
     lodash.defaultsdeep: ^4.6.1
-  checksum: acc2f412d1be90f0cfa8a24ba715d8257813762c56ba0e48c649efff349674517036a8fa5939eda61ce31fd64a37f0c54af3d8fae56edf4596f05b10304e090e
+  checksum: bd40acabac1b6c5848b1d6e555297de5aa3e0950a4de67523c4cf986a8037380e3addc5e16babebc8dfa6570cd1d1957efe9a3aaa6a206b9286e5b7f5941d699
   languageName: node
   linkType: hard
 
-"revolt.js@npm:6.0.3":
-  version: 6.0.3
-  resolution: "revolt.js@npm:6.0.3"
+"revolt.js@npm:6.0.4":
+  version: 6.0.4
+  resolution: "revolt.js@npm:6.0.4"
   dependencies:
     "@insertish/exponential-backoff": 3.1.0-patch.2
     "@insertish/isomorphic-ws": ^4.0.1
@@ -7019,10 +7011,10 @@ __metadata:
     lodash.isequal: ^4.5.0
     long: ^5.2.0
     mobx: ^6.3.2
-    revolt-api: 0.5.3-7
+    revolt-api: 0.5.4
     ulid: ^2.3.0
     ws: ^8.2.2
-  checksum: cfecbde7a9b795da75bfac3cec05f2aed5fd02cd14fcac1b2fad26285de1b887cf7ccb339e8a63a019f1e83058b041305927e029d7b5eedcc00823582d9a842a
+  checksum: 7e203388c3ca8d715c4fb5b18871f97a8b966ae080bed52b9cdc6f77fdaceafe56085076f55b5cc3a9380de70fffb5b575a5e25a69792d5cb9bfd02c7e0ed426
   languageName: node
   linkType: hard
 
