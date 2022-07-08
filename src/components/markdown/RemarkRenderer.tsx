@@ -173,7 +173,12 @@ const Container = styled.div<{ largeEmoji: boolean }>`
 /**
  * Regex for matching execessive blockquotes
  */
-const RE_QUOTE = /(^[>\s][>\s])[>\s]+([^]+)$/gm;
+const RE_QUOTE = /(^[>\s][>\s])[>\s]+([^]+$)/gm;
+
+/**
+ * Regex for matching open angled bracket
+ */
+const RE_OPEN_BRACKET = /</g;
 
 /**
  * Sanitise Markdown input before rendering
@@ -181,8 +186,15 @@ const RE_QUOTE = /(^[>\s][>\s])[>\s]+([^]+)$/gm;
  * @returns Sanitised string
  */
 function sanitise(content: string) {
-    // Strip excessive blockquote indentation
-    return content.replace(RE_QUOTE, (_, m0, m1) => m0 + m1);
+    return (
+        content
+            // Strip excessive blockquote indentation
+            .replace(RE_QUOTE, (_, m0, m1) => m0 + m1)
+            // Map < to HTML entity LT
+            // (otherwise all HTML is just obliterated,
+            // not even displayed as plain text)
+            .replace(RE_OPEN_BRACKET, "&lt;")
+    );
 }
 
 /**

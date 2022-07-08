@@ -12,6 +12,8 @@ const Mention = styled.a`
     align-items: center;
     display: inline-flex;
 
+    cursor: pointer;
+
     font-weight: 600;
     background: var(--secondary-background);
     border-radius: calc(var(--border-radius) * 2);
