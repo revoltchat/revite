@@ -15,14 +15,14 @@ import { memo } from "preact/compat";
 import { useEffect, useMemo, useState } from "preact/hooks";
 
 import { MarkdownProps } from "./Markdown";
+import { handlers } from "./hast";
 import { RenderCodeblock } from "./plugins/Codeblock";
 import { RenderAnchor } from "./plugins/anchors";
 import { remarkChannels, RenderChannel } from "./plugins/channels";
 import { isOnlyEmoji, remarkEmoji, RenderEmoji } from "./plugins/emoji";
 import { remarkMention, RenderMention } from "./plugins/mentions";
-import { passThroughComponents } from "./plugins/remarkRegexComponent";
 import { remarkSpoiler, RenderSpoiler } from "./plugins/spoiler";
-import { remarkTimestamps, timestampHandler } from "./plugins/timestamps";
+import { remarkTimestamps } from "./plugins/timestamps";
 import "./prism";
 
 /**
@@ -139,10 +139,7 @@ const render = unified()
     .use(remarkEmoji)
     .use(remarkMention)
     .use(remarkRehype, {
-        handlers: {
-            ...passThroughComponents("emoji", "spoiler", "mention", "channel"),
-            timestamp: timestampHandler,
-        },
+        handlers,
     })
     .use(rehypeKatex, {
         maxSize: 10,
@@ -174,14 +171,33 @@ const Container = styled.div<{ largeEmoji: boolean }>`
 `;
 
 /**
+ * Regex for matching execessive blockquotes
+ */
+const RE_QUOTE = /(^[>\s][>\s])[>\s]+([^]+)$/gm;
+
+/**
+ * Sanitise Markdown input before rendering
+ * @param content Input string
+ * @returns Sanitised string
+ */
+function sanitise(content: string) {
+    // Strip excessive blockquote indentation
+    return content.replace(RE_QUOTE, (_, m0, m1) => m0 + m1);
+}
+
+/**
  * Remark renderer component
  */
 export default memo(({ content, disallowBigEmoji }: MarkdownProps) => {
+    const sanitisedContent = useMemo(() => sanitise(content), [content]);
+
     const [Content, setContent] = useState<React.ReactElement>(null!);
 
     useEffect(() => {
-        render.process(content!).then((file) => setContent(file.result));
-    }, [content]);
+        render
+            .process(sanitisedContent)
+            .then((file) => setContent(file.result));
+    }, [sanitisedContent]);
 
     const largeEmoji = useMemo(
         () => !disallowBigEmoji && isOnlyEmoji(content!),
