@@ -12,7 +12,7 @@ import { unified } from "unified";
 
 import { createElement } from "preact";
 import { memo } from "preact/compat";
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useLayoutEffect, useMemo, useState } from "preact/hooks";
 
 import { MarkdownProps } from "./Markdown";
 import { handlers } from "./hast";
@@ -163,11 +163,18 @@ const render = unified()
  * Markdown parent container
  */
 const Container = styled.div<{ largeEmoji: boolean }>`
+    // Allow scrolling block math
     .math-display {
         overflow-x: auto;
     }
 
+    // Set emoji size
     --emoji-size: ${(props) => (props.largeEmoji ? "3em" : "1.25em")};
+
+    // Underline link hover
+    a:hover {
+        text-decoration: underline;
+    }
 `;
 
 /**
@@ -205,7 +212,7 @@ export default memo(({ content, disallowBigEmoji }: MarkdownProps) => {
 
     const [Content, setContent] = useState<React.ReactElement>(null!);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         render
             .process(sanitisedContent)
             .then((file) => setContent(file.result));
