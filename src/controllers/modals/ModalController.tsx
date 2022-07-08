@@ -210,10 +210,6 @@ class ModalControllerExtended extends ModalController<Modal> {
         const settings = getApplicationState().settings;
 
         switch (link.type) {
-            case "profile": {
-                this.push({ type: "user_profile", user_id: link.id });
-                break;
-            }
             case "navigate": {
                 history.push(link.path);
                 break;
