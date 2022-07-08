@@ -7,13 +7,7 @@ import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
 import { memo } from "preact/compat";
-import {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState,
-} from "preact/hooks";
+import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 
 import { IconButton, Picker } from "@revoltchat/ui";
 
@@ -659,11 +653,6 @@ export default observer(({ channel }: Props) => {
                     onFocus={onFocus}
                     onBlur={onBlur}
                 />
-                {/*<Action>
-                    <IconButton>
-                        <Box size={24} />
-                    </IconButton>
-                </Action>*/}
                 {state.experiments.isEnabled("picker") && (
                     <Action>
                         <IconButton onClick={() => setPicker(!picker)}>
