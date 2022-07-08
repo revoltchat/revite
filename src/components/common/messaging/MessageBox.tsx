@@ -1,4 +1,9 @@
-import { HappyBeaming, Send, ShieldX } from "@styled-icons/boxicons-solid";
+import {
+    HappyBeaming,
+    Send,
+    ShieldX,
+    UserPlus,
+} from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
 import { observer } from "mobx-react-lite";
 import { Channel } from "revolt.js";
@@ -45,6 +50,9 @@ import Emoji from "../Emoji";
 import { PermissionTooltip } from "../Tooltip";
 import FilePreview from "./bars/FilePreview";
 import ReplyBar from "./bars/ReplyBar";
+import Invite from "../../../pages/invite/Invite";
+import CreateInvite from "../../../controllers/modals/components/CreateInvite";
+import { openContextMenu } from "preact-context-menu";
 
 type Props = {
     channel: Channel;
@@ -173,7 +181,8 @@ export default observer(({ channel }: Props) => {
                     <Action>
                         <PermissionTooltip
                             permission="SendMessages"
-                            placement="top">
+                            placement="top"
+                        >
                             <ShieldX size={22} />
                         </PermissionTooltip>
                     </Action>
@@ -219,7 +228,15 @@ export default observer(({ channel }: Props) => {
             append as (...args: unknown[]) => void,
         );
     }, [state.draft, channel._id, setMessage]);
-
+    /**
+     * Trigger invite user.
+     */
+    async function invite() {
+        if (channel.havePermission("InviteOthers")) {
+            modalController.push({ type: "create_invite", target: channel });
+        } else {
+        }
+    }
     /**
      * Trigger send message.
      */
@@ -477,7 +494,8 @@ export default observer(({ channel }: Props) => {
                     onClick={() => {
                         const v = state.draft.get(channel._id);
                         setMessage(`${v ? `${v} ` : ""}:${emoji}:`);
-                    }}>
+                    }}
+                >
                     <Emoji
                         emoji={
                             emojiDictionary[
@@ -580,6 +598,7 @@ export default observer(({ channel }: Props) => {
                 ) : (
                     <ThisCodeWillBeReplacedAnywaysSoIMightAsWellJustDoItThisWay__Padding />
                 )}
+
                 <TextAreaAutoSize
                     autoFocus
                     hideBorder
@@ -659,6 +678,11 @@ export default observer(({ channel }: Props) => {
                     onFocus={onFocus}
                     onBlur={onBlur}
                 />
+                <Action>
+                    <IconButton onClick={() => invite()}>
+                        <UserPlus size={24} />
+                    </IconButton>
+                </Action>
                 {/*<Action>
                     <IconButton>
                         <Box size={24} />
@@ -679,7 +703,8 @@ export default observer(({ channel }: Props) => {
                                 : "mobile"
                         }
                         onClick={send}
-                        onMouseDown={(e) => e.preventDefault()}>
+                        onMouseDown={(e) => e.preventDefault()}
+                    >
                         <Send size={20} />
                     </IconButton>
                 </Action>
