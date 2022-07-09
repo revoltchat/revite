@@ -43,8 +43,9 @@ export const EXPERIMENTS: {
             "This will enable the experimental plugin API. Only touch this if you know what you're doing.",
     },
     picker: {
-        title: "Emoji Picker",
-        description: "This will enable a work-in-progress emoji picker.",
+        title: "Custom Emoji",
+        description:
+            "This will enable a work-in-progress emoji picker and custom emoji settings.",
     },
 };
 

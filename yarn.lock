@@ -2240,9 +2240,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revoltchat/ui@npm:1.0.70":
-  version: 1.0.70
-  resolution: "@revoltchat/ui@npm:1.0.70"
+"@revoltchat/ui@npm:1.0.72":
+  version: 1.0.72
+  resolution: "@revoltchat/ui@npm:1.0.72"
   dependencies:
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
@@ -2256,7 +2256,7 @@ __metadata:
     react-virtuoso: ^2.12.0
   peerDependencies:
     revolt.js: "*"
-  checksum: 70eba00f8b2d4fed3f83cdd64488ab4eb99acc9dd0427333a41f203912d9664f878ec04300bc3eaea2a67fef1620472cce9ff7048ef1280f950825593cf316a7
+  checksum: 8ca6d68709591a9505cc62089ab42fe887fcd4ceaac81c7f673b41b7be1d850ba852d0c2dc09bb77c8e1bce22b3255ebfbf95922d57aa2c3d2288aacd7819a25
   languageName: node
   linkType: hard
 
@@ -3626,7 +3626,7 @@ __metadata:
     "@hcaptcha/react-hcaptcha": ^0.3.6
     "@insertish/vite-plugin-babel-macros": ^1.0.5
     "@preact/preset-vite": ^2.0.0
-    "@revoltchat/ui": 1.0.70
+    "@revoltchat/ui": 1.0.72
     "@rollup/plugin-replace": ^2.4.2
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
@@ -3678,7 +3678,7 @@ __metadata:
     preact-context-menu: 0.4.1
     preact-i18n: ^2.4.0-preactx
     prettier: ^2.3.1
-    prismjs: ^1.23.0
+    prismjs: ^1.28.0
     qrcode.react: ^3.0.2
     react-beautiful-dnd: ^13.1.0
     react-device-detect: 2.2.2
@@ -7306,13 +7306,6 @@ __metadata:
   version: 5.6.0
   resolution: "pretty-bytes@npm:5.6.0"
   checksum: 9c082500d1e93434b5b291bd651662936b8bd6204ec9fa17d563116a192d6d86b98f6d328526b4e8d783c07d5499e2614a807520249692da9ec81564b2f439cd
-  languageName: node
-  linkType: hard
-
-"prismjs@npm:^1.23.0":
-  version: 1.24.1
-  resolution: "prismjs@npm:1.24.1"
-  checksum: e5d14a4ba56773122039295bd760c72106acc964e04cb9831b9ae7e7a58f67ccac6c053e77e21f1018a3684f31d35bb065c0c81fd4ff00b73b1570c3ace4aef0
   languageName: node
   linkType: hard
 

@@ -15,15 +15,19 @@ const Emoji = styled.img`
 `;
 
 export function RenderEmoji({ match }: CustomComponentProps) {
+    const url =
+        match in emojiDictionary
+            ? parseEmoji(emojiDictionary[match as keyof typeof emojiDictionary])
+            : clientController.getAvailableClient().emojis!.get(match)!
+                  .imageURL;
+
     return (
         <Emoji
             alt={match}
             loading="lazy"
             className="emoji"
             draggable={false}
-            src={parseEmoji(
-                emojiDictionary[match as keyof typeof emojiDictionary],
-            )}
+            src={url}
         />
     );
 }

@@ -17,7 +17,11 @@ import { takeError } from "../error";
 
 type BehaviourType =
     | { behaviour: "ask"; onChange: (file: File) => void }
-    | { behaviour: "upload"; onUpload: (id: string) => Promise<void> }
+    | {
+          behaviour: "upload";
+          onUpload: (id: string) => Promise<void>;
+          previewAfterUpload?: boolean;
+      }
     | {
           behaviour: "multi";
           onChange: (files: File[]) => void;
@@ -48,7 +52,8 @@ type Props = BehaviourType &
             | "icons"
             | "avatars"
             | "attachments"
-            | "banners";
+            | "banners"
+            | "emojis";
         maxFileSize: number;
         remove: () => Promise<void>;
     };
@@ -114,6 +119,17 @@ export function FileUploader(props: Props) {
     const client = useClient();
 
     const [uploading, setUploading] = useState(false);
+    const [previewFile, setPreviewFile] = useState<File>(null!);
+    const [generatedPreviewURL, setGeneratedPreviewURL] = useState("");
+    useEffect(() => {
+        if (previewFile) {
+            const url: string = URL.createObjectURL(previewFile);
+            setGeneratedPreviewURL(url);
+            return () => URL.revokeObjectURL(url);
+        }
+
+        setGeneratedPreviewURL("");
+    }, [previewFile]);
 
     function onClick() {
         if (uploading) return;
@@ -136,6 +152,10 @@ export function FileUploader(props: Props) {
                                 files[0],
                             ),
                         );
+
+                        if (props.previewAfterUpload) {
+                            setPreviewFile(files[0]);
+                        }
                     }
                 } catch (err) {
                     return modalController.push({
@@ -164,7 +184,11 @@ export function FileUploader(props: Props) {
             } else {
                 onClick();
             }
-        } else if (props.previewURL) {
+        } else if (props.previewURL || previewFile) {
+            if (previewFile) {
+                setPreviewFile(null!);
+            }
+
             props.remove();
         } else {
             onClick();
@@ -266,7 +290,11 @@ export function FileUploader(props: Props) {
                     style={{
                         backgroundImage:
                             style === "icon"
-                                ? `url('${previewURL ?? defaultPreview}')`
+                                ? `url('${
+                                      generatedPreviewURL ??
+                                      previewURL ??
+                                      defaultPreview
+                                  }')`
                                 : previewURL
                                 ? `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('${previewURL}')`
                                 : "none",
@@ -288,7 +316,7 @@ export function FileUploader(props: Props) {
                     <span onClick={removeOrUpload}>
                         {uploading ? (
                             <Text id="app.main.channel.uploading_file" />
-                        ) : props.previewURL ? (
+                        ) : props.previewURL || previewFile ? (
                             <Text id="app.settings.actions.remove" />
                         ) : (
                             <Text id="app.settings.actions.upload" />

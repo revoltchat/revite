@@ -180,7 +180,7 @@ const Container = styled.div<{ largeEmoji: boolean }>`
 /**
  * Regex for matching execessive blockquotes
  */
-const RE_QUOTE = /(^[>\s][>\s])[>\s]+([^]+$)/gm;
+const RE_QUOTE = /(^(?:>\s){3})[>\s]+(.*$)/gm;
 
 /**
  * Regex for matching open angled bracket
