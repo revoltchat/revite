@@ -16,6 +16,8 @@ import { Text } from "preact-i18n";
 
 import { LineDivider } from "@revoltchat/ui";
 
+import { state } from "../../mobx/State";
+
 import ButtonItem from "../../components/navigation/items/ButtonItem";
 import { useClient } from "../../controllers/client/ClientController";
 import RequiresOnline from "../../controllers/client/jsx/RequiresOnline";
@@ -77,6 +79,7 @@ export default observer(() => {
                     id: "emojis",
                     icon: <HappyBeaming size={20} />,
                     title: <Text id="app.settings.server_pages.emojis.title" />,
+                    hidden: !state.experiments.isEnabled("picker"),
                 },
                 {
                     category: (
