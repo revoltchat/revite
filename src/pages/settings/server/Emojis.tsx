@@ -2,6 +2,8 @@ import { observer } from "mobx-react-lite";
 import { Server } from "revolt.js";
 import styled from "styled-components";
 
+import { Text } from "preact-i18n";
+
 import { Button, Column, Row, Stacked } from "@revoltchat/ui";
 
 import UserShort from "../../../components/common/user/UserShort";
@@ -48,7 +50,11 @@ export const Emojis = observer(({ server }: Props) => {
     return (
         <Column>
             <EmojiUploader server={server} />
-            <h3>Emojis – {emoji.length}</h3>
+            <h3>
+                <Text id="app.settings.server_pages.emojis.title" />
+                {" – "}
+                {emoji.length}
+            </h3>
             <List>
                 {emoji.map((emoji) => (
                     <Emoji key={emoji._id} centred>
@@ -64,7 +70,10 @@ export const Emojis = observer(({ server }: Props) => {
                             onClick={() =>
                                 modalController.writeText(emoji._id)
                             }>
-                            Copy ID
+                            <Text id="app.context_menu.copy_id" />
+                        </Button>
+                        <Button palette="plain" onClick={() => emoji.delete()}>
+                            <Text id="app.special.modals.actions.delete" />
                         </Button>
                     </Emoji>
                 ))}
