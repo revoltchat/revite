@@ -7,13 +7,7 @@ import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
 import { memo } from "preact/compat";
-import {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState,
-} from "preact/hooks";
+import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 
 import { IconButton, Picker } from "@revoltchat/ui";
 
@@ -28,7 +22,7 @@ import {
     SMOOTH_SCROLL_ON_RECEIVE,
 } from "../../../lib/renderer/Singleton";
 
-import { useApplicationState } from "../../../mobx/State";
+import { state, useApplicationState } from "../../../mobx/State";
 import { Reply } from "../../../mobx/stores/MessageQueue";
 
 import { emojiDictionary } from "../../../assets/emojis";
@@ -40,8 +34,8 @@ import {
     uploadFile,
 } from "../../../controllers/client/jsx/legacy/FileUploads";
 import { modalController } from "../../../controllers/modals/ModalController";
+import { RenderEmoji } from "../../markdown/plugins/emoji";
 import AutoComplete, { useAutoComplete } from "../AutoComplete";
-import Emoji from "../Emoji";
 import { PermissionTooltip } from "../Tooltip";
 import FilePreview from "./bars/FilePreview";
 import ReplyBar from "./bars/ReplyBar";
@@ -148,6 +142,56 @@ const RE_SED = new RegExp("^s/([^])*/([^])*$");
 
 // Tests for code block delimiters (``` at start of line)
 const RE_CODE_DELIMITER = new RegExp("^```", "gm");
+
+const HackAlertThisFileWillBeReplaced = observer(({ channel }: Props) => {
+    const renderEmoji = useMemo(
+        () =>
+            memo(({ emoji }: { emoji: string }) => (
+                <a
+                    onClick={() => {
+                        const v = state.draft.get(channel._id);
+                        state.draft.set(
+                            channel._id,
+                            `${v ? `${v} ` : ""}:${emoji}:`,
+                        );
+                    }}>
+                    <RenderEmoji match={emoji} {...({} as any)} />
+                </a>
+            )),
+        [],
+    );
+
+    const emojis: Record<string, any> = {
+        default: Object.keys(emojiDictionary),
+    };
+
+    // ! FIXME: also expose typing from component
+    const categories: any[] = [];
+
+    for (const server of state.ordering.orderedServers) {
+        // ! FIXME: add a separate map on each server for emoji
+        const list = [...channel.client.emojis.values()]
+            .filter((emoji) => emoji.parent.id === server._id)
+            .map((x) => x._id);
+
+        if (list.length > 0) {
+            emojis[server._id] = list;
+            categories.push({
+                id: server._id,
+                name: server.name,
+                iconURL: server.generateIconURL({ max_side: 256 }),
+            });
+        }
+    }
+
+    return (
+        <Picker
+            emojis={emojis}
+            categories={categories}
+            renderEmoji={renderEmoji}
+        />
+    );
+});
 
 // ! FIXME: add to app config and load from app config
 export const CAN_UPLOAD_AT_ONCE = 5;
@@ -312,6 +356,7 @@ export default observer(({ channel }: Props) => {
     async function sendFile(content: string) {
         if (uploadState.type !== "attached") return;
         const attachments: string[] = [];
+        setMessage;
 
         const cancel = Axios.CancelToken.source();
         const files = uploadState.files;
@@ -470,26 +515,6 @@ export default observer(({ channel }: Props) => {
                 : undefined,
     });
 
-    const renderEmoji = useMemo(
-        () =>
-            memo(({ emoji }: { emoji: string }) => (
-                <a
-                    onClick={() => {
-                        const v = state.draft.get(channel._id);
-                        setMessage(`${v ? `${v} ` : ""}:${emoji}:`);
-                    }}>
-                    <Emoji
-                        emoji={
-                            emojiDictionary[
-                                emoji as keyof typeof emojiDictionary
-                            ]
-                        }
-                    />
-                </a>
-            )),
-        [],
-    );
-
     return (
         <>
             <AutoComplete {...autoCompleteProps} />
@@ -533,10 +558,7 @@ export default observer(({ channel }: Props) => {
             />
             <FloatingLayer>
                 {picker && (
-                    <Picker
-                        emojis={Object.keys(emojiDictionary)}
-                        renderEmoji={renderEmoji}
-                    />
+                    <HackAlertThisFileWillBeReplaced channel={channel} />
                 )}
             </FloatingLayer>
             <Base>
@@ -659,11 +681,6 @@ export default observer(({ channel }: Props) => {
                     onFocus={onFocus}
                     onBlur={onBlur}
                 />
-                {/*<Action>
-                    <IconButton>
-                        <Box size={24} />
-                    </IconButton>
-                </Action>*/}
                 {state.experiments.isEnabled("picker") && (
                     <Action>
                         <IconButton onClick={() => setPicker(!picker)}>

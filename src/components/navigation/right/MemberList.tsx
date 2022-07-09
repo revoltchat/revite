@@ -99,7 +99,7 @@ export default function MemberList({
                         )}
                         {entry.type !== "no_offline" && (
                             <>
-                                {" - "}
+                                {" – "}
                                 {entry.users.length}
                             </>
                         )}
