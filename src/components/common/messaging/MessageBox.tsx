@@ -147,16 +147,7 @@ const HackAlertThisFileWillBeReplaced = observer(({ channel }: Props) => {
     const renderEmoji = useMemo(
         () =>
             memo(({ emoji }: { emoji: string }) => (
-                <a
-                    onClick={() => {
-                        const v = state.draft.get(channel._id);
-                        state.draft.set(
-                            channel._id,
-                            `${v ? `${v} ` : ""}:${emoji}:`,
-                        );
-                    }}>
-                    <RenderEmoji match={emoji} {...({} as any)} />
-                </a>
+                <RenderEmoji match={emoji} {...({} as any)} />
             )),
         [],
     );
@@ -184,11 +175,21 @@ const HackAlertThisFileWillBeReplaced = observer(({ channel }: Props) => {
         }
     }
 
+    categories.push({
+        id: "default",
+        name: "Default",
+        emoji: "smiley",
+    });
+
     return (
         <Picker
             emojis={emojis}
             categories={categories}
             renderEmoji={renderEmoji}
+            onSelect={(emoji) => {
+                const v = state.draft.get(channel._id);
+                state.draft.set(channel._id, `${v ? `${v} ` : ""}:${emoji}:`);
+            }}
         />
     );
 });
