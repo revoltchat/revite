@@ -120,7 +120,9 @@ export function FileUploader(props: Props) {
 
     const [uploading, setUploading] = useState(false);
     const [previewFile, setPreviewFile] = useState<File>(null!);
-    const [generatedPreviewURL, setGeneratedPreviewURL] = useState("");
+    const [generatedPreviewURL, setGeneratedPreviewURL] = useState<
+        string | undefined
+    >(undefined);
     useEffect(() => {
         if (previewFile) {
             const url: string = URL.createObjectURL(previewFile);
@@ -291,8 +293,8 @@ export function FileUploader(props: Props) {
                         backgroundImage:
                             style === "icon"
                                 ? `url('${
-                                      generatedPreviewURL ??
-                                      previewURL ??
+                                      generatedPreviewURL ||
+                                      previewURL ||
                                       defaultPreview
                                   }')`
                                 : previewURL
