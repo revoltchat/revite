@@ -20,6 +20,7 @@ import { RenderCodeblock } from "./plugins/Codeblock";
 import { RenderAnchor } from "./plugins/anchors";
 import { remarkChannels, RenderChannel } from "./plugins/channels";
 import { isOnlyEmoji, remarkEmoji, RenderEmoji } from "./plugins/emoji";
+import { remarkHtmlEntities } from "./plugins/htmlEntities";
 import { remarkMention, RenderMention } from "./plugins/mentions";
 import { remarkSpoiler, RenderSpoiler } from "./plugins/spoiler";
 import { remarkTimestamps } from "./plugins/timestamps";
@@ -138,6 +139,7 @@ const render = unified()
     .use(remarkTimestamps)
     .use(remarkEmoji)
     .use(remarkMention)
+    .use(remarkHtmlEntities)
     .use(remarkRehype, {
         handlers,
     })
@@ -197,10 +199,6 @@ function sanitise(content: string) {
         content
             // Strip excessive blockquote indentation
             .replace(RE_QUOTE, (_, m0, m1) => m0 + m1)
-            // Map < to HTML entity LT
-            // (otherwise all HTML is just obliterated,
-            // not even displayed as plain text)
-            .replace(RE_OPEN_BRACKET, "&lt;")
     );
 }
 
