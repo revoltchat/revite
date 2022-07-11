@@ -182,12 +182,7 @@ const Container = styled.div<{ largeEmoji: boolean }>`
 /**
  * Regex for matching execessive blockquotes
  */
-const RE_QUOTE = /(^(?:>\s){3})[>\s]+(.*$)/gm;
-
-/**
- * Regex for matching open angled bracket
- */
-const RE_OPEN_BRACKET = /</g;
+const RE_QUOTE = /(^(?:>\s){5})[>\s]+(.*$)/gm;
 
 /**
  * Sanitise Markdown input before rendering
