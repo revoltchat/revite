@@ -49,7 +49,9 @@ export const Emojis = observer(({ server }: Props) => {
 
     return (
         <Column>
-            <EmojiUploader server={server} />
+            {server.havePermission("ManageCustomisation") && (
+                <EmojiUploader server={server} />
+            )}
             <h3>
                 <Text id="app.settings.server_pages.emojis.title" />
                 {" – "}
@@ -72,9 +74,13 @@ export const Emojis = observer(({ server }: Props) => {
                             }>
                             <Text id="app.context_menu.copy_id" />
                         </Button>
-                        <Button palette="plain" onClick={() => emoji.delete()}>
-                            <Text id="app.special.modals.actions.delete" />
-                        </Button>
+                        {server.havePermission("ManageCustomisation") && (
+                            <Button
+                                palette="plain"
+                                onClick={() => emoji.delete()}>
+                                <Text id="app.special.modals.actions.delete" />
+                            </Button>
+                        )}
                     </Emoji>
                 ))}
             </List>
