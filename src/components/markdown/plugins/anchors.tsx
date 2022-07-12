@@ -17,7 +17,7 @@ export function RenderAnchor({
 
     // Render direct link if internal
     if (link.type === "navigate") {
-        return <Link to={href} children={props.children} />;
+        return <Link to={link.path} children={props.children} />;
     }
 
     return (
