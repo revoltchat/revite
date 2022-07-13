@@ -206,7 +206,7 @@ function sanitise(content: string) {
             .replace(RE_QUOTE, (_, m0, m1) => m0 + m1)
 
             // Append escape character if string starts with html tag
-            .replace(RE_HTML_TAGS, (m0, m1) => ESCAPE_CHARACTER + m0 + m1)
+            .replace(RE_HTML_TAGS, (match) => ESCAPE_CHARACTER + match)
     );
 }
 
