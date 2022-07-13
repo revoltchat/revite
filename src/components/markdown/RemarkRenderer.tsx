@@ -22,6 +22,10 @@ import { remarkChannels, RenderChannel } from "./plugins/channels";
 import { isOnlyEmoji, remarkEmoji, RenderEmoji } from "./plugins/emoji";
 import { remarkHtmlToText } from "./plugins/htmlToText";
 import { remarkMention, RenderMention } from "./plugins/mentions";
+import {
+    remarkRemoveEscapeCharacter,
+    ESCAPE_CHARACTER,
+} from "./plugins/removeEscapeCharacter";
 import { remarkSpoiler, RenderSpoiler } from "./plugins/spoiler";
 import { remarkTimestamps } from "./plugins/timestamps";
 import "./prism";
@@ -131,6 +135,7 @@ const components = {
  */
 const render = unified()
     .use(remarkParse)
+    .use(remarkRemoveEscapeCharacter)
     .use(remarkBreaks)
     .use(remarkGfm)
     .use(remarkMath)
@@ -185,6 +190,11 @@ const Container = styled.div<{ largeEmoji: boolean }>`
 const RE_QUOTE = /(^(?:>\s){5})[>\s]+(.*$)/gm;
 
 /**
+ * Regex for matching HTML tags
+ */
+const RE_HTML_TAGS = /^(<\/?[a-zA-Z0-9]+>)(.*$)/gm;
+
+/**
  * Sanitise Markdown input before rendering
  * @param content Input string
  * @returns Sanitised string
@@ -194,6 +204,9 @@ function sanitise(content: string) {
         content
             // Strip excessive blockquote indentation
             .replace(RE_QUOTE, (_, m0, m1) => m0 + m1)
+
+            // Append escape character if string starts with html tag
+            .replace(RE_HTML_TAGS, (m0, m1) => ESCAPE_CHARACTER + m0 + m1)
     );
 }
 
