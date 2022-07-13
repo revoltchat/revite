@@ -202,7 +202,7 @@ export default class Session {
                     }
                 }
 
-                this.continueLogin(data);
+                await this.continueLogin(data);
 
                 break;
             }
