@@ -20,7 +20,7 @@ import { RenderCodeblock } from "./plugins/Codeblock";
 import { RenderAnchor } from "./plugins/anchors";
 import { remarkChannels, RenderChannel } from "./plugins/channels";
 import { isOnlyEmoji, remarkEmoji, RenderEmoji } from "./plugins/emoji";
-import { remarkHtmlEntities } from "./plugins/htmlEntities";
+import { remarkHtmlToText } from "./plugins/htmlToText";
 import { remarkMention, RenderMention } from "./plugins/mentions";
 import { remarkSpoiler, RenderSpoiler } from "./plugins/spoiler";
 import { remarkTimestamps } from "./plugins/timestamps";
@@ -139,7 +139,7 @@ const render = unified()
     .use(remarkTimestamps)
     .use(remarkEmoji)
     .use(remarkMention)
-    .use(remarkHtmlEntities)
+    .use(remarkHtmlToText)
     .use(remarkRehype, {
         handlers,
     })
