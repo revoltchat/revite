@@ -185,13 +185,15 @@ export default observer(({ channel, replies, setReplies }: Props) => {
                                             hideInfo
                                         />
                                     ) : (
-                                        <Markdown
-                                            disallowBigEmoji
-                                            content={message.content?.replace(
-                                                /\n/g,
-                                                " ",
-                                            )}
-                                        />
+                                        message.content && (
+                                            <Markdown
+                                                disallowBigEmoji
+                                                content={message.content.replace(
+                                                    /\n/g,
+                                                    " ",
+                                                )}
+                                            />
+                                        )
                                     )}
                                 </div>
                             </div>
