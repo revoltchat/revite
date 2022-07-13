@@ -7,24 +7,20 @@ import styles from "./Friend.module.scss";
 import classNames from "classnames";
 import { Text } from "preact-i18n";
 
+import { IconButton } from "@revoltchat/ui";
+
 import { TextReact } from "../../lib/i18n";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-
-import { useIntermediate } from "../../context/intermediate/Intermediate";
-import { useClient } from "../../context/revoltjs/RevoltClient";
 
 import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
 import UserIcon from "../../components/common/user/UserIcon";
 import { PageHeader } from "../../components/ui/Header";
-import IconButton from "../../components/ui/IconButton";
-
-import { Children } from "../../types/Preact";
+import { useClient } from "../../controllers/client/ClientController";
+import { modalController } from "../../controllers/modals/ModalController";
 import { Friend } from "./Friend";
 
 export default observer(() => {
-    const { openScreen } = useIntermediate();
-
     const client = useClient();
     const users = [...client.users.values()];
     users.sort((a, b) => a.username.localeCompare(b.username));
@@ -68,7 +64,10 @@ export default observer(() => {
     const isEmpty = lists.reduce((p: number, n) => p + n.length, 0) === 0;
     return (
         <>
-            <PageHeader icon={<UserDetail size={24} />} transparent noBurger>
+            <PageHeader
+                icon={<UserDetail size={24} />}
+                withTransparency
+                noBurger>
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />
                 </div>
@@ -82,8 +81,7 @@ export default observer(() => {
                     <Tooltip content={"Create Group"} placement="bottom">
                         <IconButton
                             onClick={() =>
-                                openScreen({
-                                    id: "special_input",
+                                modalController.push({
                                     type: "create_group",
                                 })
                             }>
@@ -93,8 +91,7 @@ export default observer(() => {
                     <Tooltip content={"Add Friend"} placement="bottom">
                         <IconButton
                             onClick={() =>
-                                openScreen({
-                                    id: "special_input",
+                                modalController.push({
                                     type: "add_friend",
                                 })
                             }>
@@ -127,8 +124,8 @@ export default observer(() => {
                         <div
                             className={styles.pending}
                             onClick={() =>
-                                openScreen({
-                                    id: "pending_requests",
+                                modalController.push({
+                                    type: "pending_friend_requests",
                                     users: incoming,
                                 })
                             }>
@@ -198,7 +195,7 @@ export default observer(() => {
                                 sticky
                                 large
                                 summary={
-                                    <div class="title">
+                                    <div className="title">
                                         <Text id={i18n} /> — {list.length}
                                     </div>
                                 }>

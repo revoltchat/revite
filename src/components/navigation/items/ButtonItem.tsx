@@ -5,23 +5,20 @@ import { User, Channel } from "revolt.js";
 
 import styles from "./Item.module.scss";
 import classNames from "classnames";
-import { Ref } from "preact";
 import { useTriggerEvents } from "preact-context-menu";
 import { Localizer, Text } from "preact-i18n";
+
+import { IconButton } from "@revoltchat/ui";
 
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { stopPropagation } from "../../../lib/stopPropagation";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
-
+import { modalController } from "../../../controllers/modals/ModalController";
 import ChannelIcon from "../../common/ChannelIcon";
 import Tooltip from "../../common/Tooltip";
 import UserIcon from "../../common/user/UserIcon";
 import { Username } from "../../common/user/UserShort";
 import UserStatus from "../../common/user/UserStatus";
-import IconButton from "../../ui/IconButton";
-
-import { Children } from "../../../types/Preact";
 
 type CommonProps = Omit<
     JSX.HTMLAttributes<HTMLDivElement>,
@@ -52,7 +49,6 @@ export const UserButton = observer((props: UserProps) => {
         channel,
         ...divProps
     } = props;
-    const { openScreen } = useIntermediate();
 
     return (
         <div
@@ -113,8 +109,7 @@ export const UserButton = observer((props: UserProps) => {
                         className={styles.icon}
                         onClick={(e) =>
                             stopPropagation(e) &&
-                            openScreen({
-                                id: "special_prompt",
+                            modalController.push({
                                 type: "close_dm",
                                 target: channel,
                             })
@@ -151,7 +146,6 @@ export const ChannelButton = observer((props: ChannelProps) => {
         return <UserButton {...{ active, alert, channel, user }} />;
     }
 
-    const { openScreen } = useIntermediate();
     const alerting = alert && !muted && !active;
 
     return (
@@ -166,11 +160,9 @@ export const ChannelButton = observer((props: ChannelProps) => {
                 channel: channel._id,
                 unread: !!alert,
             })}>
-            <ChannelIcon
-                className={styles.avatar}
-                target={channel}
-                size={compact ? 24 : 32}
-            />
+            <div className={styles.avatar}>
+                <ChannelIcon target={channel} size={compact ? 24 : 32} />
+            </div>
             <div className={styles.name}>
                 <div>{channel.name}</div>
                 {channel.channel_type === "Group" && (
@@ -199,8 +191,7 @@ export const ChannelButton = observer((props: ChannelProps) => {
                     <IconButton
                         className={styles.icon}
                         onClick={() =>
-                            openScreen({
-                                id: "special_prompt",
+                            modalController.push({
                                 type: "leave_group",
                                 target: channel,
                             })

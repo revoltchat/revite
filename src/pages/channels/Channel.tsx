@@ -16,16 +16,14 @@ import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { useApplicationState } from "../../mobx/State";
 import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
 
-import { useClient } from "../../context/revoltjs/RevoltClient";
-
 import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
 import NewMessages from "../../components/common/messaging/bars/NewMessages";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
-import { PageHeader } from "../../components/ui/Header";
-
 import RightSidebar from "../../components/navigation/RightSidebar";
+import { PageHeader } from "../../components/ui/Header";
+import { useClient } from "../../controllers/client/ClientController";
 import ChannelHeader from "./ChannelHeader";
 import { MessageArea } from "./messaging/MessageArea";
 import VoiceHeader from "./voice/VoiceHeader";
@@ -100,14 +98,23 @@ const PlaceholderBase = styled.div`
 export const Channel = observer(
     ({ id, server_id }: { id: string; server_id: string }) => {
         const client = useClient();
+        const state = useApplicationState();
 
         if (!client.channels.exists(id)) {
             if (server_id) {
                 const server = client.servers.get(server_id);
                 if (server && server.channel_ids.length > 0) {
+                    let target_id = server.channel_ids[0];
+                    const last_id = state.layout.getLastOpened(server_id);
+                    if (last_id) {
+                        if (client.channels.has(last_id)) {
+                            target_id = last_id;
+                        }
+                    }
+
                     return (
                         <Redirect
-                            to={`/server/${server_id}/channel/${server.channel_ids[0]}`}
+                            to={`/server/${server_id}/channel/${target_id}`}
                         />
                     );
                 }

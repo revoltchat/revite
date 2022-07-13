@@ -1,0 +1,7 @@
+contact_links:
+  - name: Lounge Chat
+    url: https://rvlt.gg/Testers
+    about: Ask questions and discuss with others.
+  - name: Discussions
+    url: https://github.com/orgs/revoltchat/discussions
+    about: For larger feature requests and general question & answer.

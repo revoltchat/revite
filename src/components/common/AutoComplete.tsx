@@ -3,9 +3,8 @@ import styled, { css } from "styled-components/macro";
 
 import { StateUpdater, useState } from "preact/hooks";
 
-import { useClient } from "../../context/revoltjs/RevoltClient";
-
 import { emojiDictionary } from "../../assets/emojis";
+import { useClient } from "../../controllers/client/ClientController";
 import ChannelIcon from "./ChannelIcon";
 import Emoji from "./Emoji";
 import UserIcon from "./user/UserIcon";
@@ -88,7 +87,7 @@ export function useAutoComplete(
                             ? "emoji"
                             : "user",
                         search.toLowerCase(),
-                        j + 1,
+                        current === ":" ? j + 1 : j,
                     ];
                 }
             }
@@ -242,7 +241,7 @@ export function useAutoComplete(
                     );
                 } else if (state.type === "user") {
                     content.splice(
-                        index - 1,
+                        index,
                         search.length + 1,
                         "<@",
                         state.matches[state.selected]._id,
@@ -250,7 +249,7 @@ export function useAutoComplete(
                     );
                 } else {
                     content.splice(
-                        index - 1,
+                        index,
                         search.length + 1,
                         "<#",
                         state.matches[state.selected]._id,

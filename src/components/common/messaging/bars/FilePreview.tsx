@@ -149,12 +149,12 @@ function FileEntry({
                     <EmptyEntry className="icon">
                         <File size={36} />
                     </EmptyEntry>
-                    <div class="overlay">
+                    <div className="overlay">
                         <XCircle size={36} />
                     </div>
                 </PreviewBox>
-                <span class="fn">{file.name}</span>
-                <span class="size">{determineFileSize(file.size)}</span>
+                <span className="fn">{file.name}</span>
+                <span className="size">{determineFileSize(file.size)}</span>
             </Entry>
         );
 
@@ -169,13 +169,18 @@ function FileEntry({
     return (
         <Entry className={index >= CAN_UPLOAD_AT_ONCE ? "fade" : ""}>
             <PreviewBox onClick={remove}>
-                <img class="icon" src={url} alt={file.name} loading="eager" />
-                <div class="overlay">
+                <img
+                    className="icon"
+                    src={url}
+                    alt={file.name}
+                    loading="eager"
+                />
+                <div className="overlay">
                     <XCircle size={36} />
                 </div>
             </PreviewBox>
-            <span class="fn">{file.name}</span>
-            <span class="size">{determineFileSize(file.size)}</span>
+            <span className="fn">{file.name}</span>
+            <span className="size">{determineFileSize(file.size)}</span>
         </Entry>
     );
 }

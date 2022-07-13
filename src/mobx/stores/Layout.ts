@@ -58,6 +58,9 @@ export default class Layout implements Store, Persistent<Data> {
         this.lastDiscoverPath = "/discover/servers";
         this.lastOpened = new ObservableMap();
         this.openSections = new ObservableMap();
+
+        this.getLastHomePath = this.getLastHomePath.bind(this);
+
         makeAutoObservable(this);
     }
 

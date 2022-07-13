@@ -1,31 +1,17 @@
-import {
-    At,
-    ChevronLeft,
-    ChevronRight,
-    Hash,
-} from "@styled-icons/boxicons-regular";
+import { At, Hash } from "@styled-icons/boxicons-regular";
 import { Notepad, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Channel } from "revolt.js";
-import { User } from "revolt.js";
-import styled, { css } from "styled-components/macro";
+import { Channel, User } from "revolt.js";
+import styled from "styled-components/macro";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
-import { useApplicationState } from "../../mobx/State";
-import { SIDEBAR_CHANNELS, SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
-
-import { useIntermediate } from "../../context/intermediate/Intermediate";
-import { getChannelName } from "../../context/revoltjs/util";
-
 import { useStatusColour } from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
-import Header, {
-    HamburgerAction,
-    PageHeader,
-} from "../../components/ui/Header";
-
 import Markdown from "../../components/markdown/Markdown";
+import { PageHeader } from "../../components/ui/Header";
+import { ChannelName } from "../../controllers/client/jsx/ChannelName";
+import { modalController } from "../../controllers/modals/ModalController";
 import HeaderActions from "./actions/HeaderActions";
 
 export interface ChannelHeaderProps {
@@ -77,9 +63,6 @@ const Info = styled.div`
 `;
 
 export default observer(({ channel }: ChannelHeaderProps) => {
-    const { openScreen } = useIntermediate();
-
-    const name = getChannelName(channel);
     let icon, recipient: User | undefined;
     switch (channel.channel_type) {
         case "SavedMessages":
@@ -98,9 +81,11 @@ export default observer(({ channel }: ChannelHeaderProps) => {
     }
 
     return (
-        <PageHeader icon={icon} transparent>
+        <PageHeader icon={icon} withTransparency>
             <Info>
-                <span className="name">{name}</span>
+                <span className="name">
+                    <ChannelName channel={channel} />
+                </span>
                 {isTouchscreenDevice &&
                     channel.channel_type === "DirectMessage" && (
                         <>
@@ -126,8 +111,8 @@ export default observer(({ channel }: ChannelHeaderProps) => {
                             <span
                                 className="desc"
                                 onClick={() =>
-                                    openScreen({
-                                        id: "channel_info",
+                                    modalController.push({
+                                        type: "channel_info",
                                         channel,
                                     })
                                 }>

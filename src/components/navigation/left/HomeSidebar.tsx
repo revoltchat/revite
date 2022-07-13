@@ -1,3 +1,4 @@
+import { Plus } from "@styled-icons/boxicons-regular";
 import {
     Home,
     UserDetail,
@@ -11,18 +12,18 @@ import styled, { css } from "styled-components/macro";
 import { Text } from "preact-i18n";
 import { useContext, useEffect } from "preact/hooks";
 
+import { Category, IconButton } from "@revoltchat/ui";
+
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
-
-import Category from "../../ui/Category";
 import placeholderSVG from "../items/placeholder.svg";
 
+import { useClient } from "../../../controllers/client/ClientController";
+import { modalController } from "../../../controllers/modals/ModalController";
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 import ButtonItem, { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
@@ -44,10 +45,9 @@ const Navbar = styled.div`
 
 export default observer(() => {
     const { pathname } = useLocation();
-    const client = useContext(AppContext);
+    const client = useClient();
     const state = useApplicationState();
     const { channel: channel_id } = useParams<{ channel: string }>();
-    const { openScreen } = useIntermediate();
 
     const channels = [...client.channels.values()].filter(
         (x) =>
@@ -125,15 +125,17 @@ export default observer(() => {
                         </ButtonItem>
                     </Link>
                 )}
-                <Category
-                    text={<Text id="app.main.categories.conversations" />}
-                    action={() =>
-                        openScreen({
-                            id: "special_input",
-                            type: "create_group",
-                        })
-                    }
-                />
+                <Category>
+                    <Text id="app.main.categories.conversations" />
+                    <IconButton
+                        onClick={() =>
+                            modalController.push({
+                                type: "create_group",
+                            })
+                        }>
+                        <Plus size={16} />
+                    </IconButton>
+                </Category>
                 {channels.length === 0 && (
                     <img src={placeholderSVG} loading="eager" />
                 )}

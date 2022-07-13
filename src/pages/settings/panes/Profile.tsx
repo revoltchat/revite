@@ -7,27 +7,22 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
+import { Button, LineDivider, Tip } from "@revoltchat/ui";
+
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { useTranslation } from "../../../lib/i18n";
-
-import { UserProfile } from "../../../context/intermediate/popovers/UserProfile";
-import { FileUploader } from "../../../context/revoltjs/FileUploads";
-import {
-    ClientStatus,
-    StatusContext,
-    useClient,
-} from "../../../context/revoltjs/RevoltClient";
 
 import AutoComplete, {
     useAutoComplete,
 } from "../../../components/common/AutoComplete";
-import Button from "../../../components/ui/Button";
-import Tip from "../../../components/ui/Tip";
+import { useSession } from "../../../controllers/client/ClientController";
+import { FileUploader } from "../../../controllers/client/jsx/legacy/FileUploads";
+import { UserProfile } from "../../../controllers/modals/components/legacy/UserProfile";
 
 export const Profile = observer(() => {
-    const status = useContext(StatusContext);
     const translate = useTranslation();
-    const client = useClient();
+    const session = useSession()!;
+    const client = session.client!;
     const history = useHistory();
 
     const [profile, setProfile] = useState<undefined | API.UserProfile>(
@@ -43,10 +38,10 @@ export const Profile = observer(() => {
     }, [client.user, setProfile]);
 
     useEffect(() => {
-        if (profile === undefined && status === ClientStatus.ONLINE) {
+        if (profile === undefined && session.state === "Online") {
             refreshProfile();
         }
-    }, [profile, status, refreshProfile]);
+    }, [profile, session.state, refreshProfile]);
 
     const [changed, setChanged] = useState(false);
     function setContent(content?: string) {
@@ -79,6 +74,7 @@ export const Profile = observer(() => {
                     user_id={client.user!._id}
                     dummy={true}
                     dummyProfile={profile}
+                    {...({} as any)}
                 />
             </div>
             {/*<h3>Badges</h3>
@@ -191,7 +187,7 @@ export const Profile = observer(() => {
             </div>
             <p>
                 <Button
-                    contrast
+                    palette="secondary"
                     onClick={() => {
                         setChanged(false);
                         client.users.edit({
@@ -202,11 +198,15 @@ export const Profile = observer(() => {
                     <Text id="app.special.modals.actions.save" />
                 </Button>
             </p>
+
+            <LineDivider />
             <Tip>
-                <span>Want to change your username?</span>{" "}
-                <a onClick={() => switchPage("account")}>
-                    Head over to your account settings.
-                </a>
+                <span>
+                    Want to change your username?{" "}
+                    <a onClick={() => switchPage("account")}>
+                        Head over to your account settings.
+                    </a>
+                </span>
             </Tip>
         </div>
     );

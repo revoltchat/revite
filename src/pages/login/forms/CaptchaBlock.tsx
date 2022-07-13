@@ -5,9 +5,9 @@ import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect } from "preact/hooks";
 
-import { useApplicationState } from "../../../mobx/State";
+import { Preloader } from "@revoltchat/ui";
 
-import Preloader from "../../../components/ui/Preloader";
+import { clientController } from "../../../controllers/client/ClientController";
 
 export interface CaptchaProps {
     onSuccess: (token?: string) => void;
@@ -15,7 +15,7 @@ export interface CaptchaProps {
 }
 
 export const CaptchaBlock = observer((props: CaptchaProps) => {
-    const configuration = useApplicationState().config.get();
+    const configuration = clientController.getServerConfig();
 
     useEffect(() => {
         if (!configuration?.features.captcha.enabled) {

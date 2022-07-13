@@ -4,6 +4,14 @@
 
 This is the web client for Revolt, which is also available live at [app.revolt.chat](https://app.revolt.chat).
 
+## Pending Rewrite
+
+The following code is pending a partial or full rewrite:
+
+-   `src/components`: components are being migrated to [revoltchat/components](https://github.com/revoltchat/components)
+-   `src/styles`: needs to be migrated to [revoltchat/components](https://github.com/revoltchat/components)
+-   `src/lib`: this needs to be organised
+
 ## Stack
 
 -   [Preact](https://preactjs.com/)
@@ -42,17 +50,18 @@ You can now access the client at http://local.revolt.chat:3000.
 
 ## CLI Commands
 
-| Command             | Description                                  |
-| ------------------- | -------------------------------------------- |
-| `yarn pull`         | Setup assets required for Revite.            |
-| `yarn dev`          | Start the Revolt client in development mode. |
-| `yarn build`        | Build the Revolt client.                     |
-| `yarn preview`      | Start a local server with the built client.  |
-| `yarn lint`         | Run ESLint on the client.                    |
-| `yarn fmt`          | Run Prettier on the client.                  |
-| `yarn typecheck`    | Run TypeScript type checking on the client.  |
-| `yarn start`        | Start a local sirv server with built client. |
-| `yarn start:inject` | Inject a given API URL and start server.     |
+| Command                                 | Description                                  |
+| --------------------------------------- | -------------------------------------------- |
+| `yarn pull`                             | Setup assets required for Revite.            |
+| `yarn dev`                              | Start the Revolt client in development mode. |
+| `yarn build`                            | Build the Revolt client.                     |
+| `yarn preview`                          | Start a local server with the built client.  |
+| `yarn lint`                             | Run ESLint on the client.                    |
+| `yarn fmt`                              | Run Prettier on the client.                  |
+| `yarn typecheck`                        | Run TypeScript type checking on the client.  |
+| `yarn start`                            | Start a local sirv server with built client. |
+| `yarn start:inject`                     | Inject a given API URL and start server.     |
+| `yarn lint \| egrep "no-literals" -B 1` | Scan for untranslated strings.               |
 
 ## License
 

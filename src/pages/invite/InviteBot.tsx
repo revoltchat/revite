@@ -1,19 +1,14 @@
 import { useParams } from "react-router-dom";
-import { API, Permission } from "revolt.js";
+import { API } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { useEffect, useState } from "preact/hooks";
 
-import { useClient } from "../../context/revoltjs/RevoltClient";
+import { Button, Category, ComboBox, Preloader, Tip } from "@revoltchat/ui";
 
 import UserIcon from "../../components/common/user/UserIcon";
-import Button from "../../components/ui/Button";
-import ComboBox from "../../components/ui/ComboBox";
-import Overline from "../../components/ui/Overline";
-import Preloader from "../../components/ui/Preloader";
-import Tip from "../../components/ui/Tip";
-
 import Markdown from "../../components/markdown/Markdown";
+import { useClient } from "../../controllers/client/ClientController";
 
 const BotInfo = styled.div`
     gap: 12px;
@@ -48,9 +43,7 @@ export default function InviteBot() {
 
     return (
         <div style={{ padding: "6em" }}>
-            <Tip warning hideSeparator>
-                This section is under construction.
-            </Tip>
+            <Tip palette="warning">This section is under construction.</Tip>
             {typeof data === "undefined" && <Preloader type="spinner" />}
             {data && (
                 <>
@@ -63,7 +56,7 @@ export default function InviteBot() {
                             )}
                         </div>
                     </BotInfo>
-                    <Overline type="subtle">Add to server</Overline>
+                    <Category>Add to server</Category>
                     <Option>
                         <ComboBox
                             value={server}
@@ -78,7 +71,7 @@ export default function InviteBot() {
                                 ))}
                         </ComboBox>
                         <Button
-                            contrast
+                            palette="secondary"
                             onClick={() =>
                                 server !== "none" &&
                                 client.bots.invite(data._id, { server })
@@ -86,7 +79,7 @@ export default function InviteBot() {
                             Add
                         </Button>
                     </Option>
-                    <Overline type="subtle">Add to group</Overline>
+                    <Category>Add to group</Category>
                     <Option>
                         <ComboBox
                             value={group}
@@ -103,7 +96,7 @@ export default function InviteBot() {
                                 ))}
                         </ComboBox>
                         <Button
-                            contrast
+                            palette="secondary"
                             onClick={() =>
                                 group !== "none" &&
                                 client.bots.invite(data._id, { group })

@@ -77,17 +77,17 @@ export default observer(() => {
                             <div className={styles.socials}>
                                 <a
                                     href="https://github.com/revoltchat"
-                                    target="_blank">
+                                    target="_blank" rel="noreferrer">
                                     <Github size={24} />
                                 </a>
                                 <a
                                     href="https://twitter.com/revoltchat"
-                                    target="_blank">
+                                    target="_blank" rel="noreferrer">
                                     <Twitter size={24} />
                                 </a>
                                 <a
                                     href="https://mastodon.social/@revoltchat"
-                                    target="_blank">
+                                    target="_blank" rel="noreferrer">
                                     <Mastodon size={24} />
                                 </a>
                             </div>
@@ -116,7 +116,7 @@ export default observer(() => {
                         <a
                             className={styles.attribution}
                             href="https://unsplash.com/@fakurian"
-                            target="_blank">
+                            target="_blank" rel="noreferrer">
                             <Text id="general.image_by" /> &lrm;@fakurian &rlm;·
                             unsplash.com
                         </a>

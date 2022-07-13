@@ -9,14 +9,17 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useMemo, useState } from "preact/hooks";
 
+import {
+    Button,
+    Category,
+    Checkbox,
+    IconButton,
+    InputBox,
+    Preloader,
+} from "@revoltchat/ui";
+
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
-import Button from "../../../components/ui/Button";
-import Checkbox from "../../../components/ui/Checkbox";
-import IconButton from "../../../components/ui/IconButton";
-import InputBox from "../../../components/ui/InputBox";
-import Overline from "../../../components/ui/Overline";
-import { Preloader } from "@revoltchat/ui";
 
 interface InnerProps {
     member: Member;
@@ -48,13 +51,21 @@ const Inner = observer(({ member }: InnerProps) => {
             </div>
             {open && (
                 <div className={styles.memberView}>
-                    <Overline type="subtle">Roles</Overline>
+                    <Category>Roles</Category>
                     {Object.keys(server_roles).map((key) => {
                         const role = server_roles[key];
                         return (
                             <Checkbox
                                 key={key}
-                                checked={roles.includes(key) ?? false}
+                                value={roles.includes(key) ?? false}
+                                title={
+                                    <span
+                                        style={{
+                                            color: role.colour!,
+                                        }}>
+                                        {role.name}
+                                    </span>
+                                }
                                 onChange={(v) => {
                                     if (v) {
                                         setRoles([...roles, key]);
@@ -63,18 +74,12 @@ const Inner = observer(({ member }: InnerProps) => {
                                             roles.filter((x) => x !== key),
                                         );
                                     }
-                                }}>
-                                <span
-                                    style={{
-                                        color: role.colour,
-                                    }}>
-                                    {role.name}
-                                </span>
-                            </Checkbox>
+                                }}
+                            />
                         );
                     })}
                     <Button
-                        compact
+                        palette="secondary"
                         disabled={isEqual(member.roles ?? [], roles)}
                         onClick={() =>
                             member.edit({
@@ -122,7 +127,7 @@ export const Members = ({ server }: Props) => {
                 placeholder="Search for a specific user..."
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
-                contrast
+                palette="secondary"
             />
             <div className={styles.subtitle}>{data?.length ?? 0} Members</div>
             {members ? (

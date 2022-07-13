@@ -2,6 +2,8 @@ import { makeAutoObservable, computed, action } from "mobx";
 
 import Settings from "../Settings";
 
+const TRUSTED_DOMAINS = ["revolt.chat", "revolt.wtf", "gifbox.me", "rvlt.gg"];
+
 /**
  * Helper class for changing security options.
  */
@@ -27,6 +29,10 @@ export default class SSecurity {
     }
 
     @computed isTrustedOrigin(origin: string) {
+        if (TRUSTED_DOMAINS.find((x) => origin.endsWith(x))) {
+            return true;
+        }
+
         return this.settings.get("security:trustedOrigins")?.includes(origin);
     }
 }

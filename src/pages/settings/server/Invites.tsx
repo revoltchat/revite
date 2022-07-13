@@ -7,12 +7,11 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { getChannelName } from "../../../context/revoltjs/util";
+import { IconButton, Preloader } from "@revoltchat/ui";
 
 import UserIcon from "../../../components/common/user/UserIcon";
 import { Username } from "../../../components/common/user/UserShort";
-import IconButton from "../../../components/ui/IconButton";
-import Preloader from "../../../components/ui/Preloader";
+import { ChannelName } from "../../../controllers/client/jsx/ChannelName";
 
 interface InnerProps {
     invite: API.Invite;
@@ -33,13 +32,14 @@ const Inner = observer(({ invite, server, removeSelf }: InnerProps) => {
                 <UserIcon target={user} size={24} />{" "}
                 <Username user={user} showServerIdentity="both" />
             </span>
-            <span>{channel ? getChannelName(channel, true) : "#??"}</span>
+            <span>
+                <ChannelName channel={channel} prefix />
+            </span>
             <IconButton
                 onClick={() => {
                     setDelete(true);
                     server.client.deleteInvite(invite._id).then(removeSelf);
-                }}
-                disabled={deleting}>
+                }}>
                 <XCircle size={24} />
             </IconButton>
         </div>

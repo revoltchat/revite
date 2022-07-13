@@ -16,6 +16,7 @@ enum Badges {
     Paw = 128,
     EarlyAdopter = 256,
     ReservedRelevantJokeBadge1 = 512,
+    ReservedRelevantJokeBadge2 = 1024,
 }
 
 const BadgesBase = styled.div`
@@ -131,6 +132,13 @@ export default function UserBadges({ badges, uid }: Props) {
                 {badges & Badges.ReservedRelevantJokeBadge1 ? (
                     <Tooltip content="sus">
                         <img src="/assets/badges/amog.svg" />
+                    </Tooltip>
+                ) : (
+                    <></>
+                )}
+                {badges & Badges.ReservedRelevantJokeBadge2 ? (
+                    <Tooltip content="It's Morbin Time">
+                        <img src="/assets/badges/amorbus.svg" />
                     </Tooltip>
                 ) : (
                     <></>

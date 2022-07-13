@@ -10,7 +10,7 @@ import Store from "../interfaces/Store";
 /**
  * Union type of available experiments.
  */
-export type Experiment = "dummy" | "offline_users" | "plugins";
+export type Experiment = "dummy" | "offline_users" | "plugins" | "picker";
 
 /**
  * Currently active experiments.
@@ -19,6 +19,7 @@ export const AVAILABLE_EXPERIMENTS: Experiment[] = [
     "dummy",
     "offline_users",
     "plugins",
+    "picker",
 ];
 
 /**
@@ -40,6 +41,11 @@ export const EXPERIMENTS: {
         title: "Experimental Plugin API",
         description:
             "This will enable the experimental plugin API. Only touch this if you know what you're doing.",
+    },
+    picker: {
+        title: "Custom Emoji",
+        description:
+            "This will enable a work-in-progress emoji picker and custom emoji settings.",
     },
 };
 

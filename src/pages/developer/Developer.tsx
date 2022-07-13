@@ -1,18 +1,17 @@
 import { Wrench } from "@styled-icons/boxicons-solid";
 
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import PaintCounter from "../../lib/PaintCounter";
 import { TextReact } from "../../lib/i18n";
 
-import { AppContext } from "../../context/revoltjs/RevoltClient";
-
-import Header, { PageHeader } from "../../components/ui/Header";
+import { PageHeader } from "../../components/ui/Header";
+import { useClient } from "../../controllers/client/ClientController";
 
 export default function Developer() {
     // const voice = useContext(VoiceContext);
 
-    const client = useContext(AppContext);
+    const client = useClient();
     const userPermission = client.user!.permission;
     const [ping, setPing] = useState<undefined | number>(client.websocket.ping);
     const [crash, setCrash] = useState(false);

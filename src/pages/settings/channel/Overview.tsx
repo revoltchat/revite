@@ -5,13 +5,11 @@ import styled from "styled-components/macro";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
+import { Button, Checkbox, InputBox } from "@revoltchat/ui";
+
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 
-import { FileUploader } from "../../../context/revoltjs/FileUploads";
-
-import Button from "../../../components/ui/Button";
-import Checkbox from "../../../components/ui/Checkbox";
-import InputBox from "../../../components/ui/InputBox";
+import { FileUploader } from "../../../controllers/client/jsx/legacy/FileUploads";
 
 interface Props {
     channel: Channel;
@@ -85,7 +83,7 @@ export default observer(({ channel }: Props) => {
                         )}
                     </h3>
                     <InputBox
-                        contrast
+                        palette="secondary"
                         value={name}
                         maxLength={32}
                         onChange={(e) => {
@@ -119,17 +117,17 @@ export default observer(({ channel }: Props) => {
                 ""
             ) : (
                 <Checkbox
-                    checked={nsfw ?? false}
+                    value={nsfw ?? false}
                     onChange={(nsfwchange) => {
                         setNSFW(nsfwchange);
                         if (!changed) setChanged(true);
                     }}
-                    description="Set this channel to NSFW.">
-                    NSFW
-                </Checkbox>
+                    title="NSFW"
+                    description="Set this channel to NSFW."
+                />
             )}
             <p>
-                <Button onClick={save} contrast disabled={!changed}>
+                <Button onClick={save} palette="secondary" disabled={!changed}>
                     <Text id="app.special.modals.actions.save" />
                 </Button>
             </p>

@@ -1,38 +1,33 @@
 import { ArrowBack } from "@styled-icons/boxicons-regular";
-import { autorun } from "mobx";
 import { Redirect, useHistory, useParams } from "react-router-dom";
 import { API } from "revolt.js";
 
 import styles from "./Invite.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
-import { defer } from "../../lib/defer";
+import { Button, Category, Error, Preloader } from "@revoltchat/ui";
+
 import { TextReact } from "../../lib/i18n";
 
 import { useApplicationState } from "../../mobx/State";
 
-import RequiresOnline from "../../context/revoltjs/RequiresOnline";
-import {
-    AppContext,
-    ClientStatus,
-    StatusContext,
-} from "../../context/revoltjs/RevoltClient";
-import { takeError } from "../../context/revoltjs/util";
-
 import ServerIcon from "../../components/common/ServerIcon";
 import UserIcon from "../../components/common/user/UserIcon";
-import Button from "../../components/ui/Button";
-import Overline from "../../components/ui/Overline";
-import Preloader from "../../components/ui/Preloader";
+import {
+    useClient,
+    useSession,
+} from "../../controllers/client/ClientController";
+import RequiresOnline from "../../controllers/client/jsx/RequiresOnline";
+import { takeError } from "../../controllers/client/jsx/error";
 
 export default function Invite() {
     const history = useHistory();
-    const client = useContext(AppContext);
+    const session = useSession();
+    const client = useClient();
 
     const layout = useApplicationState().layout;
 
-    const status = useContext(StatusContext);
     const { code } = useParams<{ code: string }>();
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
@@ -47,7 +42,7 @@ export default function Invite() {
                 .then((data) => setInvite(data))
                 .catch((err) => setError(takeError(err)));
         }
-    }, [client, code, invite, status]);
+    }, [code, invite]);
 
     if (code === undefined) return <Redirect to={layout.getLastPath()} />;
 
@@ -71,7 +66,7 @@ export default function Invite() {
                                     <Text id="app.special.invite.invalid_desc" />
                                 </h2>
                                 <div style="cursor: pointer;">
-                                    <Button contrast>
+                                    <Button palette="secondary">
                                         <ArrowBack
                                             size={32}
                                             onClick={() =>
@@ -150,11 +145,13 @@ export default function Invite() {
                                 }}
                             />
                         </h3>
-                        <Overline type="error" error={error} />
+                        <Category>
+                            <Error error={error} />
+                        </Category>
                         <Button
-                            contrast
+                            palette="secondary"
                             onClick={async () => {
-                                if (status === ClientStatus.READY) {
+                                if (!session) {
                                     return history.push("/");
                                 }
 
@@ -172,7 +169,7 @@ export default function Invite() {
                                     setProcessing(false);
                                 }
                             }}>
-                            {status === ClientStatus.READY ? (
+                            {!session ? (
                                 <Text id="app.special.invite.login" />
                             ) : (
                                 <Text id="app.special.invite.accept" />

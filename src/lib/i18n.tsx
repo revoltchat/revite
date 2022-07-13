@@ -3,8 +3,6 @@ import { useContext } from "preact/hooks";
 
 import { Dictionary } from "../context/Locale";
 
-import { Children } from "../types/Preact";
-
 interface Fields {
     [key: string]: Children;
 }

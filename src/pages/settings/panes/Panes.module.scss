@@ -128,8 +128,9 @@
         border-radius: var(--border-radius);
         width: 100%;
         display: flex;
-        display: grid;
-        place-items: center;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         grid-template-columns: minmax(auto, 100%);
 
         > div {
@@ -480,12 +481,14 @@
             border-radius: var(--border-radius);
             margin-top: 0;
 
+            transition: 0.1s ease background-color;
+
             &:hover {
                 background: var(--secondary-background);
             }
         }
 
-        .entry > span > span {
+        .entry > div div {
             gap: 8px;
             display: flex;
             align-items: center;

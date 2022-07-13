@@ -2,22 +2,16 @@ import { Docked, OverlappingPanels, ShowIf } from "react-overlapping-panels";
 import { Switch, Route, useLocation, Link } from "react-router-dom";
 import styled, { css } from "styled-components/macro";
 
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import ContextMenus from "../lib/ContextMenus";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
-
-import { useApplicationState } from "../mobx/State";
-import { SIDEBAR_CHANNELS } from "../mobx/stores/Layout";
-
-import Popovers from "../context/intermediate/Popovers";
-import Notifications from "../context/revoltjs/Notifications";
-import StateMonitor from "../context/revoltjs/StateMonitor";
 
 import { Titlebar } from "../components/native/Titlebar";
 import BottomNavigation from "../components/navigation/BottomNavigation";
 import LeftSidebar from "../components/navigation/LeftSidebar";
 import RightSidebar from "../components/navigation/RightSidebar";
+import { useSystemAlert } from "../updateWorker";
 import Open from "./Open";
 import Channel from "./channels/Channel";
 import Developer from "./developer/Developer";
@@ -79,12 +73,6 @@ const Routes = styled.div.attrs({ "data-component": "routes" })<{
 
     background: var(--primary-background);
 
-    /*background-color: rgba(
-        var(--primary-background-rgb),
-        max(var(--min-opacity), 0.75)
-    );*/
-    //backdrop-filter: blur(10px);
-
     ${() =>
         isTouchscreenDevice &&
         css`
@@ -112,24 +100,35 @@ export default function App() {
         path.startsWith("/invite") ||
         path.includes("/settings");
 
-    const [statusBar, setStatusBar] = useState(true);
+    const alert = useSystemAlert();
+    const [statusBar, setStatusBar] = useState(false);
+    useEffect(() => setStatusBar(true), [alert]);
 
     return (
         <>
-            {statusBar && (
+            {alert && statusBar && (
                 <StatusBar>
-                    <div className="title">
-                        Planned Maintenance at 18:00 UTC (7th May 2022)
-                    </div>
-                    <div class="actions">
-                        <a
-                            href="https://github.com/revoltchat/revolt/issues/322#issuecomment-1120176609"
-                            target="_blank">
-                            <div className="button">Updates</div>
-                        </a>
-                        <a onClick={() => setStatusBar(false)}>
-                            <div className="button">Dismiss</div>
-                        </a>
+                    <div className="title">{alert.text}</div>
+                    <div className="actions">
+                        {alert.actions?.map((action) =>
+                            action.type === "internal" ? (
+                                <Link to={action.href}>
+                                    <div className="button">{action.text}</div>
+                                </Link>
+                            ) : action.type === "external" ? (
+                                <a
+                                    href={action.href}
+                                    target="_blank"
+                                    rel="noreferrer">
+                                    <div className="button">{action.text}</div>{" "}
+                                </a>
+                            ) : null,
+                        )}
+                        {alert.dismissable !== false && (
+                            <a onClick={() => setStatusBar(false)}>
+                                <div className="button">Dismiss</div>
+                            </a>
+                        )}
                     </div>
                 </StatusBar>
             )}
@@ -140,11 +139,11 @@ export default function App() {
                 <OverlappingPanels
                     width="100vw"
                     height={
-                        (statusBar ? "calc(" : "") +
+                        (alert && statusBar ? "calc(" : "") +
                         (window.isNative && !window.native.getConfig().frame
                             ? "calc(var(--app-height) - var(--titlebar-height))"
                             : "var(--app-height)") +
-                        (statusBar ? " - 40px)" : "")
+                        (alert && statusBar ? " - 40px)" : "")
                     }
                     leftPanel={
                         inSpecial
@@ -224,9 +223,6 @@ export default function App() {
                         </Switch>
                     </Routes>
                     <ContextMenus />
-                    <Popovers />
-                    <Notifications />
-                    <StateMonitor />
                 </OverlappingPanels>
             </AppContainer>
         </>

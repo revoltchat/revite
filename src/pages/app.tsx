@@ -2,57 +2,66 @@ import { Route, Switch } from "react-router-dom";
 
 import { lazy, Suspense } from "preact/compat";
 
+import { Masks, Preloader } from "@revoltchat/ui";
+
 import ErrorBoundary from "../lib/ErrorBoundary";
-import FakeClient from "../lib/FakeClient";
 
 import Context from "../context";
-import { CheckAuth } from "../context/revoltjs/CheckAuth";
 
-import Masks from "../components/ui/Masks";
-import Preloader from "../components/ui/Preloader";
-
+import { CheckAuth } from "../controllers/client/jsx/CheckAuth";
 import Invite from "./invite/Invite";
 
 const Login = lazy(() => import("./login/Login"));
+const ConfirmDelete = lazy(() => import("./login/ConfirmDelete"));
 const RevoltApp = lazy(() => import("./RevoltApp"));
+
+const LoadSuspense: React.FC = ({ children }) => (
+    // @ts-expect-error Typing issue between Preact and Preact.
+    <Suspense fallback={<Preloader type="ring" />}>{children}</Suspense>
+);
 
 export function App() {
     return (
         <ErrorBoundary section="client">
             <Context>
                 <Masks />
-                {/* 
-                // @ts-expect-error typings mis-match between preact... and preact? */}
-                <Suspense fallback={<Preloader type="spinner" />}>
-                    <Switch>
-                        <Route path="/login/verify/:token">
+                <Switch>
+                    <Route path="/login/verify/:token">
+                        <Login />
+                    </Route>
+                    <Route path="/login/reset/:token">
+                        <LoadSuspense>
                             <Login />
-                        </Route>
-                        <Route path="/login/reset/:token">
-                            <Login />
-                        </Route>
-                        <Route path="/invite/:code">
-                            <CheckAuth blockRender>
-                                <FakeClient>
-                                    <Invite />
-                                </FakeClient>
-                            </CheckAuth>
-                            <CheckAuth auth blockRender>
-                                <Invite />
-                            </CheckAuth>
-                        </Route>
-                        <Route path="/login">
-                            <CheckAuth>
+                        </LoadSuspense>
+                    </Route>
+                    <Route path="/delete/:token">
+                        <LoadSuspense>
+                            <ConfirmDelete />
+                        </LoadSuspense>
+                    </Route>
+                    <Route path="/invite/:code">
+                        <CheckAuth blockRender>
+                            <Invite />
+                        </CheckAuth>
+                        <CheckAuth auth blockRender>
+                            <Invite />
+                        </CheckAuth>
+                    </Route>
+                    <Route path="/login">
+                        <CheckAuth>
+                            <LoadSuspense>
                                 <Login />
-                            </CheckAuth>
-                        </Route>
-                        <Route path="/">
-                            <CheckAuth auth>
+                            </LoadSuspense>
+                        </CheckAuth>
+                    </Route>
+                    <Route path="/">
+                        <CheckAuth auth>
+                            <LoadSuspense>
                                 <RevoltApp />
-                            </CheckAuth>
-                        </Route>
-                    </Switch>
-                </Suspense>
+                            </LoadSuspense>
+                        </CheckAuth>
+                    </Route>
+                </Switch>
             </Context>
         </ErrorBoundary>
     );

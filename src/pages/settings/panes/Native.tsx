@@ -2,10 +2,8 @@ import { Refresh } from "@styled-icons/boxicons-regular";
 
 import { useEffect, useState } from "preact/hooks";
 
-import Button from "../../../components/ui/Button";
-import Checkbox from "../../../components/ui/Checkbox";
-import Tip from "../../../components/ui/Tip";
-import CategoryButton from "../../../components/ui/fluent/CategoryButton";
+import { Button, CategoryButton, Checkbox, Tip } from "@revoltchat/ui";
+
 import RLogo from "../assets/revolt_r.svg";
 
 export function Native() {
@@ -26,10 +24,10 @@ export function Native() {
 
     return (
         <div style={{ marginTop: "10px" }}>
-            <Tip hideSeparator>Some options might require a restart.</Tip>
+            <Tip>Some options might require a restart.</Tip>
             <h3>App Behavior</h3>
             <Checkbox
-                checked={autoStart ?? false}
+                value={autoStart ?? false}
                 disabled={typeof autoStart === "undefined"}
                 onChange={async (v) => {
                     if (v) {
@@ -40,12 +38,12 @@ export function Native() {
 
                     setAutoStart(v);
                 }}
-                description="Launch Revolt when you log into your computer.">
-                Start with computer
-            </Checkbox>
+                title="Start with computer"
+                description="Launch Revolt when you log into your computer."
+            />
 
             <Checkbox
-                checked={config.minimiseToTray}
+                value={config.minimiseToTray}
                 onChange={(minimiseToTray) => {
                     window.native.set("minimiseToTray", minimiseToTray);
                     setConfig({
@@ -53,11 +51,11 @@ export function Native() {
                         minimiseToTray,
                     });
                 }}
-                description="Instead of closing, Revolt will hide in your tray.">
-                Minimise to Tray
-            </Checkbox>
+                title="Minimise to Tray"
+                description="Instead of closing, Revolt will hide in your tray."
+            />
             <Checkbox
-                checked={config.discordRPC}
+                value={config.discordRPC}
                 onChange={(discordRPC) => {
                     window.native.set("discordRPC", discordRPC);
                     setConfig({
@@ -65,11 +63,11 @@ export function Native() {
                         discordRPC,
                     });
                 }}
-                description="Rep Revolt on your Discord status.">
-                Enable Discord status
-            </Checkbox>
+                title="Enable Discord status"
+                description="Rep Revolt on your Discord status."
+            />
             <Checkbox
-                checked={config.build === "nightly"}
+                value={config.build === "nightly"}
                 onChange={(nightly) => {
                     const build = nightly ? "nightly" : "stable";
                     window.native.set("build", build);
@@ -79,12 +77,13 @@ export function Native() {
                         build,
                     });
                 }}
-                description="Use the beta branch of Revolt.">
-                Revolt Nightly
-            </Checkbox>
+                title="Revolt Nightly"
+                description="Use the beta branch of Revolt."
+            />
+
             <h3>Titlebar</h3>
             <Checkbox
-                checked={!config.frame}
+                value={!config.frame}
                 onChange={(frame) => {
                     window.native.set("frame", !frame);
                     setHintRelaunch(true);
@@ -93,12 +92,12 @@ export function Native() {
                         frame: !frame,
                     });
                 }}
-                description={<>Let Revolt use its own window frame.</>}>
-                Custom window frame
-            </Checkbox>
+                title="Custom window frame"
+                description="Let Revolt use its own window frame."
+            />
             <Checkbox //FIXME: In Titlebar.tsx, enable .quick css
                 disabled={true}
-                checked={!config.frame}
+                value={!config.frame}
                 onChange={(frame) => {
                     window.native.set("frame", !frame);
                     setHintRelaunch(true);
@@ -107,12 +106,12 @@ export function Native() {
                         frame: !frame,
                     });
                 }}
-                description="Show mute/deafen buttons on the titlebar.">
-                Enable quick action buttons
-            </Checkbox>
+                title="Enable quick action buttons"
+                description="Show mute/deafen buttons on the titlebar."
+            />
             <h3>Advanced</h3>
             <Checkbox
-                checked={config.hardwareAcceleration}
+                value={config.hardwareAcceleration}
                 onChange={async (hardwareAcceleration) => {
                     window.native.set(
                         "hardwareAcceleration",
@@ -124,19 +123,20 @@ export function Native() {
                         hardwareAcceleration,
                     });
                 }}
-                description="Uses your GPU to render the app, disable if you run into visual issues.">
-                Hardware Acceleration
-            </Checkbox>
+                title="Hardware Acceleration"
+                description="Uses your GPU to render the app, disable if you run into visual issues."
+            />
+
             <p style={{ display: "flex", gap: "8px" }}>
                 <Button
-                    contrast
+                    palette="secondary"
                     compact
                     disabled={!hintReload}
                     onClick={window.native.reload}>
                     Reload Page
                 </Button>
                 <Button
-                    contrast
+                    palette="secondary"
                     compact
                     disabled={!hintRelaunch}
                     onClick={window.native.relaunch}>
@@ -148,7 +148,7 @@ export function Native() {
                 <>
                     <h5>Development mode is currently on.</h5>
                     <Button
-                        contrast
+                        palette="secondary"
                         compact
                         onClick={() => {
                             window.native.set("build", "stable");
@@ -160,8 +160,9 @@ export function Native() {
             ) : (
                 <>
                     <Checkbox
-                        checked={confirmDev}
+                        value={confirmDev}
                         onChange={setConfirmDev}
+                        title="I understand there's no going back."
                         description={
                             <>
                                 This will change the app to the 'dev' branch,
@@ -177,12 +178,11 @@ export function Native() {
                                 <br />
                                 <code>yarn dev --port 3001</code>
                             </>
-                        }>
-                        I understand there's no going back.
-                    </Checkbox>
+                        }
+                    />
                     <p>
                         <Button
-                            error
+                            palette="error"
                             compact
                             disabled={!confirmDev}
                             onClick={() => {
