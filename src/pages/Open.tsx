@@ -2,27 +2,22 @@
 import { useHistory, useParams } from "react-router-dom";
 
 import { Text } from "preact-i18n";
-import { useContext, useEffect } from "preact/hooks";
+import { useEffect } from "preact/hooks";
 
-import { useIntermediate } from "../context/intermediate/Intermediate";
-import {
-    AppContext,
-    ClientStatus,
-    StatusContext,
-} from "../context/revoltjs/RevoltClient";
+import { Header } from "@revoltchat/ui";
 
-import Header from "../components/ui/Header";
+import { useSession } from "../controllers/client/ClientController";
+import { modalController } from "../controllers/modals/ModalController";
 
 export default function Open() {
     const history = useHistory();
-    const client = useContext(AppContext);
-    const status = useContext(StatusContext);
+    const session = useSession()!;
+    const client = session.client!;
     const { id } = useParams<{ id: string }>();
-    const { openScreen } = useIntermediate();
 
-    if (status !== ClientStatus.ONLINE) {
+    if (session.state !== "Online") {
         return (
-            <Header placement="primary">
+            <Header palette="primary">
                 <Text id="general.loading" />
             </Header>
         );
@@ -40,7 +35,12 @@ export default function Open() {
             client
                 .user!.openDM()
                 .then((channel) => history.push(`/channel/${channel?._id}`))
-                .catch((error) => openScreen({ id: "error", error }));
+                .catch((error) =>
+                    modalController.push({
+                        type: "error",
+                        error,
+                    }),
+                );
 
             return;
         }
@@ -62,7 +62,12 @@ export default function Open() {
                     .get(id)
                     ?.openDM()
                     .then((channel) => history.push(`/channel/${channel?._id}`))
-                    .catch((error) => openScreen({ id: "error", error }));
+                    .catch((error) =>
+                        modalController.push({
+                            type: "error",
+                            error,
+                        }),
+                    );
             }
 
             return;
@@ -72,7 +77,7 @@ export default function Open() {
     });
 
     return (
-        <Header placement="primary">
+        <Header palette="primary">
             <Text id="general.loading" />
         </Header>
     );

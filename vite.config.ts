@@ -39,7 +39,7 @@ function getGitBranch() {
 }
 
 function getVersion() {
-    return readFileSync("VERSION").toString();
+    return JSON.parse(readFileSync("package.json").toString()).version;
 }
 
 export default defineConfig({
@@ -119,7 +119,6 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 main: resolve(__dirname, "index.html"),
-                ui: resolve(__dirname, "ui/index.html"),
             },
         },
     },

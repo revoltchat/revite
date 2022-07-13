@@ -16,20 +16,16 @@ import {
     useState,
 } from "preact/hooks";
 
+import { Preloader } from "@revoltchat/ui";
+
 import { defer } from "../../../lib/defer";
 import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { getRenderer } from "../../../lib/renderer/Singleton";
 import { ScrollState } from "../../../lib/renderer/types";
 
-import { IntermediateContext } from "../../../context/intermediate/Intermediate";
-import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
-import {
-    ClientStatus,
-    StatusContext,
-} from "../../../context/revoltjs/RevoltClient";
-
-import Preloader from "../../../components/ui/Preloader";
-
+import { useSession } from "../../../controllers/client/ClientController";
+import RequiresOnline from "../../../controllers/client/jsx/RequiresOnline";
+import { modalController } from "../../../controllers/modals/ModalController";
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
 
@@ -65,8 +61,7 @@ export const MESSAGE_AREA_PADDING = 82;
 
 export const MessageArea = observer(({ last_id, channel }: Props) => {
     const history = useHistory();
-    const status = useContext(StatusContext);
-    const { focusTaken } = useContext(IntermediateContext);
+    const session = useSession()!;
 
     // ? Required data for message links.
     const { message } = useParams<{ message: string }>();
@@ -213,8 +208,8 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
 
     // ? If we are waiting for network, try again.
     useEffect(() => {
-        switch (status) {
-            case ClientStatus.ONLINE:
+        switch (session.state) {
+            case "Online":
                 if (renderer.state === "WAITING_FOR_NETWORK") {
                     renderer.init();
                 } else {
@@ -222,13 +217,13 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
                 }
 
                 break;
-            case ClientStatus.OFFLINE:
-            case ClientStatus.DISCONNECTED:
-            case ClientStatus.CONNECTING:
+            case "Offline":
+            case "Disconnected":
+            case "Connecting":
                 renderer.markStale();
                 break;
         }
-    }, [renderer, status]);
+    }, [renderer, session.state]);
 
     // ? When the container is scrolled.
     // ? Also handle StayAtBottom
@@ -306,7 +301,7 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
     // ? Scroll to bottom when pressing 'Escape'.
     useEffect(() => {
         function keyUp(e: KeyboardEvent) {
-            if (e.key === "Escape" && !focusTaken) {
+            if (e.key === "Escape" && !modalController.isVisible) {
                 renderer.jumpToBottom(true);
                 internalEmit("TextArea", "focus", "message");
             }
@@ -314,7 +309,7 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
 
         document.body.addEventListener("keyup", keyUp);
         return () => document.body.removeEventListener("keyup", keyUp);
-    }, [renderer, ref, focusTaken]);
+    }, [renderer, ref]);
 
     return (
         <MessageAreaWidthContext.Provider

@@ -3,14 +3,14 @@ import { observer } from "mobx-react-lite";
 import { useHistory, useLocation } from "react-router";
 import styled, { css } from "styled-components/macro";
 
+import { Centred, IconButton } from "@revoltchat/ui";
+
 import ConditionalLink from "../../lib/ConditionalLink";
 
 import { useApplicationState } from "../../mobx/State";
 
-import { useClient } from "../../context/revoltjs/RevoltClient";
-
+import { useClient } from "../../controllers/client/ClientController";
 import UserIcon from "../common/user/UserIcon";
-import IconButton from "../ui/IconButton";
 
 const Base = styled.div`
     background: var(--secondary-background);
@@ -24,8 +24,19 @@ const Navbar = styled.div`
     height: var(--bottom-navigation-height);
 `;
 
+/**
+ * I've decided that this whole component
+ * needs to be re-written 👍👍👍👍👍👍
+ */
+
 const Button = styled.a<{ active: boolean }>`
     flex: 1;
+    color: var(--foreground);
+
+    // ok
+    * {
+        color: var(--foreground) !important;
+    }
 
     > a,
     > div,
@@ -63,7 +74,7 @@ export default observer(() => {
         <Base>
             <Navbar>
                 <Button active={homeActive}>
-                    <IconButton
+                    <Centred
                         onClick={() => {
                             if (settingsActive) {
                                 if (history.length > 0) {
@@ -80,14 +91,14 @@ export default observer(() => {
                             }
                         }}>
                         <Message size={24} />
-                    </IconButton>
+                    </Centred>
                 </Button>
                 <Button active={friendsActive}>
-                    <ConditionalLink active={friendsActive} to="/friends">
-                        <IconButton>
+                    <IconButton>
+                        <ConditionalLink active={friendsActive} to="/friends">
                             <Group size={25} />
-                        </IconButton>
-                    </ConditionalLink>
+                        </ConditionalLink>
+                    </IconButton>
                 </Button>
                 {/*<Button active={searchActive}>
                     <ConditionalLink active={searchActive} to="/search">
@@ -104,20 +115,20 @@ export default observer(() => {
                     </ConditionalLink>
                 </Button>*/}
                 <Button active={discoverActive}>
-                    <ConditionalLink
-                        active={discoverActive}
-                        to="/discover/servers">
-                        <IconButton>
+                    <IconButton>
+                        <ConditionalLink
+                            active={discoverActive}
+                            to="/discover/servers">
                             <Compass size={24} />
-                        </IconButton>
-                    </ConditionalLink>
+                        </ConditionalLink>
+                    </IconButton>
                 </Button>
                 <Button active={settingsActive}>
-                    <ConditionalLink active={settingsActive} to="/settings">
-                        <IconButton>
+                    <IconButton>
+                        <ConditionalLink active={settingsActive} to="/settings">
                             <UserIcon target={user} size={26} status={true} />
-                        </IconButton>
-                    </ConditionalLink>
+                        </ConditionalLink>
+                    </IconButton>
                 </Button>
             </Navbar>
         </Base>

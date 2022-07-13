@@ -1,5 +1,4 @@
 import { Group } from "@styled-icons/boxicons-solid";
-import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { Message, API } from "revolt.js";
@@ -7,19 +6,18 @@ import styled, { css } from "styled-components/macro";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
+import { Button, Category, Preloader } from "@revoltchat/ui";
+
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 
-import {
-    AppContext,
-    ClientStatus,
-    StatusContext,
-} from "../../../../context/revoltjs/RevoltClient";
-import { takeError } from "../../../../context/revoltjs/util";
+import { I18nError } from "../../../../context/Locale";
 
 import ServerIcon from "../../../../components/common/ServerIcon";
-import Button from "../../../../components/ui/Button";
-import Overline from "../../../ui/Overline";
-import Preloader from "../../../ui/Preloader";
+import {
+    useClient,
+    useSession,
+} from "../../../../controllers/client/ClientController";
+import { takeError } from "../../../../controllers/client/jsx/error";
 
 const EmbedInviteBase = styled.div`
     width: 400px;
@@ -78,8 +76,8 @@ type Props = {
 
 export function EmbedInvite({ code }: Props) {
     const history = useHistory();
-    const client = useContext(AppContext);
-    const status = useContext(StatusContext);
+    const session = useSession()!;
+    const client = session.client!;
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [joinError, setJoinError] = useState<string | undefined>(undefined);
@@ -90,7 +88,7 @@ export function EmbedInvite({ code }: Props) {
     useEffect(() => {
         if (
             typeof invite === "undefined" &&
-            (status === ClientStatus.ONLINE || status === ClientStatus.READY)
+            (session.state === "Online" || session.state === "Ready")
         ) {
             client
                 .fetchInvite(code)
@@ -99,7 +97,7 @@ export function EmbedInvite({ code }: Props) {
                 )
                 .catch((err) => setError(takeError(err)));
         }
-    }, [client, code, invite, status]);
+    }, [client, code, invite, session.state]);
 
     if (typeof invite === "undefined") {
         return error ? (
@@ -159,7 +157,11 @@ export function EmbedInvite({ code }: Props) {
                     </Button>
                 )}
             </EmbedInviteBase>
-            {joinError && <Overline type="error" error={joinError} />}
+            {joinError && (
+                <Category>
+                    <I18nError error={joinError} />
+                </Category>
+            )}
         </>
     );
 }

@@ -3,10 +3,9 @@ import { API } from "revolt.js";
 import styles from "./Attachment.module.scss";
 import classNames from "classnames";
 import { useTriggerEvents } from "preact-context-menu";
-import { useContext, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 
-import { AppContext } from "../../../../context/revoltjs/RevoltClient";
-
+import { useClient } from "../../../../controllers/client/ClientController";
 import AttachmentActions from "./AttachmentActions";
 import { SizedGrid } from "./Grid";
 import ImageFile from "./ImageFile";
@@ -21,7 +20,7 @@ interface Props {
 const MAX_ATTACHMENT_WIDTH = 480;
 
 export default function Attachment({ attachment, hasContent }: Props) {
-    const client = useContext(AppContext);
+    const client = useClient();
     const { filename, metadata } = attachment;
     const [spoiler, setSpoiler] = useState(filename.startsWith("SPOILER_"));
 

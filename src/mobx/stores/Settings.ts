@@ -2,19 +2,9 @@ import { action, computed, makeAutoObservable, ObservableMap } from "mobx";
 
 import { mapToRecord } from "../../lib/conversion";
 
-import {
-    LegacyAppearanceOptions,
-    legacyMigrateAppearance,
-    legacyMigrateTheme,
-    LegacyTheme,
-    LegacyThemeOptions,
-} from "../legacy/redux";
-
 import { Fonts, MonospaceFonts, Overrides } from "../../context/Theme";
 
-import { EmojiPack } from "../../components/common/Emoji";
-
-import { MIGRATIONS } from "../State";
+import { EmojiPack, setGlobalEmojiPack } from "../../components/common/Emoji";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
 import Syncable from "../interfaces/Syncable";
@@ -30,6 +20,7 @@ export interface ISettings {
     "appearance:ligatures": boolean;
     "appearance:seasonal": boolean;
     "appearance:transparency": boolean;
+    "appearance:show_send_button": boolean;
 
     "appearance:theme:base": "dark" | "light";
     "appearance:theme:overrides": Partial<Overrides>;
@@ -87,6 +78,11 @@ export default class Settings
      * @param value Value
      */
     @action set<T extends keyof ISettings>(key: T, value: ISettings[T]) {
+        // Emoji needs to be immediately applied.
+        if (key === 'appearance:emoji') {
+            setGlobalEmojiPack(value as EmojiPack);
+        }
+
         this.data.set(key, value);
     }
 
@@ -128,16 +124,8 @@ export default class Settings
     @action apply(
         key: "appearance" | "theme",
         data: unknown,
-        revision: number,
+        _revision: number,
     ) {
-        if (revision < MIGRATIONS.REDUX) {
-            if (key === "appearance") {
-                data = legacyMigrateAppearance(data as LegacyAppearanceOptions);
-            } else {
-                data = legacyMigrateTheme(data as LegacyThemeOptions);
-            }
-        }
-
         if (key === "appearance") {
             this.remove("appearance:emoji");
             this.remove("appearance:seasonal");
@@ -158,7 +146,7 @@ export default class Settings
     @computed private pullKeys(keys: (keyof ISettings)[]) {
         const obj: Partial<ISettings> = {};
         keys.forEach((key) => {
-            let value = this.get(key);
+            const value = this.get(key);
             if (!value) return;
             (obj as any)[key] = value;
         });

@@ -31,3 +31,4 @@ export function internalEmit(ns: string, event: string, ...args: unknown[]) {
 // - PWA/update
 // - NewMessages/hide
 // - NewMessages/mark
+// - System/alert

@@ -5,25 +5,16 @@ import { useHistory, useParams } from "react-router-dom";
 import styles from "./Settings.module.scss";
 import classNames from "classnames";
 import { Text } from "preact-i18n";
-import {
-    useCallback,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from "preact/hooks";
+import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+
+import { Category, Header, IconButton, LineDivider } from "@revoltchat/ui";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
 
-import Category from "../../components/ui/Category";
-import Header from "../../components/ui/Header";
-import IconButton from "../../components/ui/IconButton";
-import LineDivider from "../../components/ui/LineDivider";
-
 import ButtonItem from "../../components/navigation/items/ButtonItem";
-import { Children } from "../../types/Preact";
+import { modalController } from "../../controllers/modals/ModalController";
 
 interface Props {
     pages: {
@@ -71,6 +62,8 @@ export function GenericSettings({
     useEffect(() => {
         function keyDown(e: KeyboardEvent) {
             if (e.key === "Escape") {
+                if (modalController.isVisible) return;
+
                 exitSettings();
             }
         }
@@ -99,7 +92,7 @@ export function GenericSettings({
                 />
             </Helmet>
             {isTouchscreenDevice && (
-                <Header placement="primary" transparent>
+                <Header palette="primary" withTransparency>
                     {typeof page === "undefined" ? (
                         <>
                             {showExitButton && (
@@ -140,10 +133,9 @@ export function GenericSettings({
                                 entry.hidden ? undefined : (
                                     <>
                                         {entry.category && (
-                                            <Category
-                                                variant="uniform"
-                                                text={entry.category}
-                                            />
+                                            <Category>
+                                                {entry.category}
+                                            </Category>
                                         )}
                                         <ButtonItem
                                             active={
@@ -156,7 +148,9 @@ export function GenericSettings({
                                             compact>
                                             {entry.icon} {entry.title}
                                         </ButtonItem>
-                                        {entry.divider && <LineDivider />}
+                                        {entry.divider && (
+                                            <LineDivider compact />
+                                        )}
                                     </>
                                 ),
                             )}

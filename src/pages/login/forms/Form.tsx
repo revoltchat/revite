@@ -1,22 +1,19 @@
-import { CheckCircle, Envelope } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
-import { useContext, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 
-import { useApplicationState } from "../../../mobx/State";
+import { Button, Category, Preloader, Tip } from "@revoltchat/ui";
 
-import { AppContext } from "../../../context/revoltjs/RevoltClient";
-import { takeError } from "../../../context/revoltjs/util";
+import { I18nError } from "../../../context/Locale";
 
-import Button from "../../../components/ui/Button";
-import Overline from "../../../components/ui/Overline";
-import Preloader from "../../../components/ui/Preloader";
 import WaveSVG from "../../settings/assets/wave.svg";
 
+import { clientController } from "../../../controllers/client/ClientController";
+import { takeError } from "../../../controllers/client/jsx/error";
 import FormField from "../FormField";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
 import { MailProvider } from "./MailProvider";
@@ -46,7 +43,7 @@ interface FormInputs {
 }
 
 export const Form = observer(({ page, callback }: Props) => {
-    const configuration = useApplicationState().config.get();
+    const configuration = clientController.getServerConfig();
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState<string | undefined>(undefined);
@@ -146,10 +143,22 @@ export const Form = observer(({ page, callback }: Props) => {
             <div className={styles.welcome}>
                 <div className={styles.title}>
                     <img src={WaveSVG} draggable={false} />
-                    <Text id={page === "create" ? "login.welcome2" : "login.welcome"} />
+                    <Text
+                        id={
+                            page === "create"
+                                ? "login.welcome2"
+                                : "login.welcome"
+                        }
+                    />
                 </div>
                 <div className={styles.subtitle}>
-                    <Text id={page === "create" ? "login.subtitle2" : "login.subtitle"} />
+                    <Text
+                        id={
+                            page === "create"
+                                ? "login.subtitle2"
+                                : "login.subtitle"
+                        }
+                    />
                     <div>(app.revolt.chat)</div>
                 </div>
             </div>
@@ -188,9 +197,11 @@ export const Form = observer(({ page, callback }: Props) => {
                     />
                 )}
                 {error && (
-                    <Overline type="error" error={error}>
-                        <Text id={`login.error.${page}`} />
-                    </Overline>
+                    <Category>
+                        <I18nError error={error}>
+                            <Text id={`login.error.${page}`} />
+                        </I18nError>
+                    </Category>
                 )}
                 <Button>
                     <Text
@@ -209,20 +220,12 @@ export const Form = observer(({ page, callback }: Props) => {
                 </Button>
             </form>
             {page === "create" && (
-                <>
-                    <span className={styles.create}>
-                        <Text id="login.existing" />{" "}
-                        <Link to="/login">
-                            <Text id="login.title" />
-                        </Link>
-                    </span>
-                    <span className={styles.create}>
-                        <Text id="login.missing_verification" />{" "}
-                        <Link to="/login/resend">
-                            <Text id="login.resend" />
-                        </Link>
-                    </span>
-                </>
+                <span className={styles.create}>
+                    <Text id="login.existing" />{" "}
+                    <Link to="/login">
+                        <Text id="login.title" />
+                    </Link>
+                </span>
             )}
             {page === "login" && (
                 <>
@@ -238,6 +241,31 @@ export const Form = observer(({ page, callback }: Props) => {
                             <Text id="login.reset" />
                         </Link>
                     </span>
+                    <span className={styles.create}>
+                        <Text id="login.missing_verification" />{" "}
+                        <Link to="/login/resend">
+                            <Text id="login.resend" />
+                        </Link>
+                    </span>
+                    {import.meta.env.VITE_API_URL &&
+                        import.meta.env.VITE_API_URL !=
+                            "https://api.revolt.chat" && (
+                            <>
+                                <br />
+                                <Tip palette="primary">
+                                    <span>
+                                        <Text id="login.unofficial_instance" />{" "}
+                                        <a
+                                            href="https://developers.revolt.chat/faq/instances#what-is-a-third-party-instance"
+                                            style={{ color: "var(--accent)" }}
+                                            target="_blank"
+                                            rel="noreferrer">
+                                            <Text id="general.learn_more" />
+                                        </a>
+                                    </span>
+                                </Tip>
+                            </>
+                        )}
                 </>
             )}
             {(page === "reset" ||

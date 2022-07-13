@@ -6,13 +6,10 @@ import styled from "styled-components/macro";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
+import { Button, Checkbox } from "@revoltchat/ui";
+
 import { useApplicationState } from "../../mobx/State";
 import { SECTION_NSFW } from "../../mobx/stores/Layout";
-
-import Button from "../ui/Button";
-import Checkbox from "../ui/Checkbox";
-
-import { Children } from "../../types/Preact";
 
 const Base = styled.div`
     display: flex;
@@ -80,16 +77,16 @@ export default observer((props: Props) => {
             </span>
 
             <Checkbox
-                checked={layout.getSectionState(SECTION_NSFW, false)}
-                onChange={() => layout.toggleSectionState(SECTION_NSFW, false)}>
-                <Text id="app.main.channel.nsfw.confirm" />
-            </Checkbox>
+                title={<Text id="app.main.channel.nsfw.confirm" />}
+                value={layout.getSectionState(SECTION_NSFW, false)}
+                onChange={() => layout.toggleSectionState(SECTION_NSFW, false)}
+            />
             <div className="actions">
-                <Button contrast onClick={() => history.goBack()}>
+                <Button palette="secondary" onClick={() => history.goBack()}>
                     <Text id="app.special.modals.actions.back" />
                 </Button>
                 <Button
-                    contrast
+                    palette="secondary"
                     onClick={() =>
                         layout.getSectionState(SECTION_NSFW) && setAgeGate(true)
                     }>

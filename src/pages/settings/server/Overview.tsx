@@ -7,15 +7,13 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
+import { Button, ComboBox, InputBox } from "@revoltchat/ui";
+
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { noop } from "../../../lib/js";
 
-import { FileUploader } from "../../../context/revoltjs/FileUploads";
-import { getChannelName } from "../../../context/revoltjs/util";
-
-import Button from "../../../components/ui/Button";
-import ComboBox from "../../../components/ui/ComboBox";
-import InputBox from "../../../components/ui/InputBox";
+import { ChannelName } from "../../../controllers/client/jsx/ChannelName";
+import { FileUploader } from "../../../controllers/client/jsx/legacy/FileUploads";
 
 interface Props {
     server: Server;
@@ -70,9 +68,9 @@ export const Overview = observer(({ server }: Props) => {
                         <Text id="app.main.servers.name" />
                     </h3>
                     <InputBox
-                        contrast
                         value={name}
                         maxLength={32}
+                        palette="secondary"
                         onChange={(e) => {
                             setName(e.currentTarget.value);
                             if (!changed) setChanged(true);
@@ -140,7 +138,7 @@ export const Overview = observer(({ server }: Props) => {
                         gap: "8px",
                         alignItems: "center",
                     }}>
-                    <span style={{ flexShrink: "0", flex: `25%` }}>{i18n}</span>
+                    <span style={{ flexShrink: 0, flex: `25%` }}>{i18n}</span>
                     <ComboBox
                         value={
                             systemMessages?.[
@@ -174,7 +172,7 @@ export const Overview = observer(({ server }: Props) => {
                             )
                             .map((channel) => (
                                 <option key={channel!._id} value={channel!._id}>
-                                    {getChannelName(channel!, true)}
+                                    <ChannelName channel={channel} prefix />
                                 </option>
                             ))}
                     </ComboBox>
@@ -182,7 +180,7 @@ export const Overview = observer(({ server }: Props) => {
             ))}
 
             <p>
-                <Button onClick={save} contrast disabled={!changed}>
+                <Button onClick={save} palette="secondary" disabled={!changed}>
                     <Text id="app.special.modals.actions.save" />
                 </Button>
             </p>

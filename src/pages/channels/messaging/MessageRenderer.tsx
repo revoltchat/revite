@@ -1,30 +1,26 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { X } from "@styled-icons/boxicons-regular";
+import dayjs from "dayjs";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
-import { API } from "revolt.js";
-import { Message as MessageI } from "revolt.js";
-import { Nullable } from "revolt.js";
+import { API, Message as MessageI, Nullable } from "revolt.js";
 import styled from "styled-components/macro";
 import { decodeTime } from "ulid";
 
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
+import { MessageDivider, Preloader } from "@revoltchat/ui";
+
 import { internalSubscribe, internalEmit } from "../../../lib/eventEmitter";
 import { ChannelRenderer } from "../../../lib/renderer/Singleton";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import RequiresOnline from "../../../context/revoltjs/RequiresOnline";
-import { useClient } from "../../../context/revoltjs/RevoltClient";
-
 import Message from "../../../components/common/messaging/Message";
 import { SystemMessage } from "../../../components/common/messaging/SystemMessage";
-import DateDivider from "../../../components/ui/DateDivider";
-import Preloader from "../../../components/ui/Preloader";
-
-import { Children } from "../../../types/Preact";
+import { useClient } from "../../../controllers/client/ClientController";
+import RequiresOnline from "../../../controllers/client/jsx/RequiresOnline";
 import ConversationStart from "./ConversationStart";
 import MessageEditor from "./MessageEditor";
 
@@ -125,7 +121,12 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
         }
 
         if (unread || date) {
-            render.push(<DateDivider date={date} unread={unread} />);
+            render.push(
+                <MessageDivider
+                    date={date ? dayjs(date).format("LL") : undefined}
+                    unread={unread}
+                />,
+            );
             head = true;
         }
 

@@ -7,7 +7,6 @@ import {
     Notification,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Permission } from "revolt.js";
 import { Message as MessageObject } from "revolt.js";
 import styled from "styled-components";
 
@@ -20,12 +19,7 @@ import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 import { QueuedMessage } from "../../../../mobx/stores/MessageQueue";
 
-import {
-    Screen,
-    useIntermediate,
-} from "../../../../context/intermediate/Intermediate";
-import { useClient } from "../../../../context/revoltjs/RevoltClient";
-
+import { modalController } from "../../../../controllers/modals/ModalController";
 import Tooltip from "../../../common/Tooltip";
 
 interface Props {
@@ -88,8 +82,7 @@ const Divider = styled.div`
 `;
 
 export const MessageOverlayBar = observer(({ message, queued }: Props) => {
-    const client = useClient();
-    const { openScreen, writeClipboard } = useIntermediate();
+    const client = message.client;
     const isAuthor = message.author_id === client.user!._id;
 
     const [copied, setCopied] = useState<"link" | "id">(null!);
@@ -137,11 +130,10 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                         onClick={(e) =>
                             e.shiftKey
                                 ? message.delete()
-                                : openScreen({
-                                      id: "special_prompt",
+                                : modalController.push({
                                       type: "delete_message",
                                       target: message,
-                                  } as unknown as Screen)
+                                  })
                         }>
                         <Trash size={18} color={"var(--error)"} />
                     </Entry>
@@ -190,7 +182,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                         <Entry
                             onClick={() => {
                                 setCopied("link");
-                                writeClipboard(message.url);
+                                modalController.writeText(message.url);
                             }}>
                             <LinkAlt size={18} />
                         </Entry>
@@ -201,7 +193,7 @@ export const MessageOverlayBar = observer(({ message, queued }: Props) => {
                         <Entry
                             onClick={() => {
                                 setCopied("id");
-                                writeClipboard(message._id);
+                                modalController.writeText(message._id);
                             }}>
                             <InfoSquare size={18} />
                         </Entry>

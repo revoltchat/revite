@@ -4,7 +4,7 @@ import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 
-import { getChannelName } from "../../../context/revoltjs/util";
+import { ChannelName } from "../../../controllers/client/jsx/ChannelName";
 
 const StartBase = styled.div`
     margin: 18px 16px 10px 16px;
@@ -28,7 +28,9 @@ interface Props {
 export default observer(({ channel }: Props) => {
     return (
         <StartBase>
-            <h1>{getChannelName(channel, true)}</h1>
+            <h1>
+                <ChannelName channel={channel} prefix />
+            </h1>
             <h4>
                 <Text id="app.main.channel.start.group" />
             </h4>

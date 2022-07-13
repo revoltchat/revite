@@ -6,10 +6,9 @@ import styled, { css } from "styled-components/macro";
 
 import { useApplicationState } from "../../../mobx/State";
 
-import { useClient } from "../../../context/revoltjs/RevoltClient";
-
 import fallback from "../assets/user.png";
 
+import { useClient } from "../../../controllers/client/ClientController";
 import IconBase, { IconBaseProps } from "../IconBase";
 
 type VoiceStatus = "muted" | "deaf";
@@ -114,7 +113,7 @@ export default observer(
                     y="0"
                     width="32"
                     height="32"
-                    class="icon"
+                    className="icon"
                     mask={mask ?? (status ? "url(#user)" : undefined)}>
                     {<img src={url} draggable={false} loading="lazy" />}
                 </foreignObject>

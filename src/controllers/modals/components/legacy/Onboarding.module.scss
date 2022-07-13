@@ -1,0 +1,54 @@
+.onboarding {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: var(--background);
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    div {
+        flex: 1;
+
+        &.header {
+            gap: 8px;
+            padding: 3em;
+            display: flex;
+            text-align: center;
+
+            h1 {
+                margin: 0;
+            }
+
+            img {
+                max-height: 80px;
+            }
+        }
+
+        &.form {
+            flex-grow: 1;
+            max-width: 420px;
+
+            img {
+                margin: auto;
+                display: block;
+                max-height: 420px;
+                border-radius: var(--border-radius);
+            }
+
+            input {
+                width: 100%;
+            }
+
+            button {
+                display: block;
+                margin: 24px 0;
+                margin-left: auto;
+            }
+        }
+    }
+}

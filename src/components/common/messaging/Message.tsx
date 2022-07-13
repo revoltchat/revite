@@ -5,17 +5,16 @@ import { useTriggerEvents } from "preact-context-menu";
 import { memo } from "preact/compat";
 import { useEffect, useState } from "preact/hooks";
 
+import { Category } from "@revoltchat/ui";
+
 import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 
-import { useIntermediate } from "../../../context/intermediate/Intermediate";
-import { useClient } from "../../../context/revoltjs/RevoltClient";
+import { I18nError } from "../../../context/Locale";
 
-import Overline from "../../ui/Overline";
-
-import { Children } from "../../../types/Preact";
+import { modalController } from "../../../controllers/modals/ModalController";
 import Markdown from "../../markdown/Markdown";
 import UserIcon from "../user/UserIcon";
 import { Username } from "../user/UserShort";
@@ -52,12 +51,10 @@ const Message = observer(
         queued,
         hideReply,
     }: Props) => {
-        const client = useClient();
+        const client = message.client;
         const user = message.author;
 
-        const { openScreen } = useIntermediate();
-
-        const content = message.content as string;
+        const content = message.content;
         const head =
             preferHead || (message.reply_ids && message.reply_ids.length > 0);
 
@@ -70,7 +67,10 @@ const Message = observer(
             : undefined;
 
         const openProfile = () =>
-            openScreen({ id: "profile", user_id: message.author_id });
+            modalController.push({
+                type: "user_profile",
+                user_id: message.author_id,
+            });
 
         const handleUserClick = (e: MouseEvent) => {
             if (e.shiftKey && user?._id) {
@@ -162,13 +162,18 @@ const Message = observer(
                         {replacement ?? <Markdown content={content} />}
                         {!queued && <InviteList message={message} />}
                         {queued?.error && (
-                            <Overline type="error" error={queued.error} />
+                            <Category>
+                                <I18nError error={queued.error} />
+                            </Category>
                         )}
                         {message.attachments?.map((attachment, index) => (
                             <Attachment
                                 key={index}
                                 attachment={attachment}
-                                hasContent={index > 0 || content.length > 0}
+                                hasContent={
+                                    index > 0 ||
+                                    (content ? content.length > 0 : false)
+                                }
                             />
                         ))}
                         {message.embeds?.map((embed, index) => (
