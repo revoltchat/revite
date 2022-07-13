@@ -159,7 +159,8 @@ const Message = observer(
                                 />
                             </span>
                         )}
-                        {replacement ?? <Markdown content={content} />}
+                        {replacement ??
+                            (content && <Markdown content={content} />)}
                         {!queued && <InviteList message={message} />}
                         {queued?.error && (
                             <Category>

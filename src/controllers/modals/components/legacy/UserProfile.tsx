@@ -322,13 +322,17 @@ export const UserProfile = observer(
                                     />
                                 )}
                                 {profile?.content && (
-                                    <div className={styles.category}>
-                                        <Text id="app.special.popovers.user_profile.sub.information" />
-                                    </div>
+                                    <>
+                                        <div className={styles.category}>
+                                            <Text id="app.special.popovers.user_profile.sub.information" />
+                                        </div>
+                                        <div className={styles.markdown}>
+                                            <Markdown
+                                                content={profile.content}
+                                            />
+                                        </div>
+                                    </>
                                 )}
-                                <div className={styles.markdown}>
-                                    <Markdown content={profile?.content} />
-                                </div>
                                 {/*<div className={styles.category}><Text id="app.special.popovers.user_profile.sub.connections" /></div>*/}
                             </div>
                         ) : (
