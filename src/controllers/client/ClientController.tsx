@@ -10,6 +10,7 @@ import Auth from "../../mobx/stores/Auth";
 import { resetMemberSidebarFetched } from "../../components/navigation/right/MemberSidebar";
 import { modalController } from "../modals/ModalController";
 import Session from "./Session";
+import { takeError } from "./jsx/error";
 
 /**
  * Controls the lifecycles of clients
@@ -156,12 +157,20 @@ class ClientController {
                 configuration: this.configuration!,
                 knowledge,
             })
-            .catch((error) => {
+            .catch((err) => {
+                const error = takeError(err);
                 if (error === "Forbidden" || error === "Unauthorized") {
                     this.sessions.delete(user_id);
+                    this.current = null;
+                    this.pickNextSession();
                     state.auth.removeSession(user_id);
                     modalController.push({ type: "signed_out" });
                     session.destroy();
+                } else {
+                    modalController.push({
+                        type: "error",
+                        error,
+                    });
                 }
             });
     }
