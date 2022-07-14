@@ -143,56 +143,62 @@ const RE_SED = new RegExp("^s/([^])*/([^])*$");
 // Tests for code block delimiters (``` at start of line)
 const RE_CODE_DELIMITER = new RegExp("^```", "gm");
 
-const HackAlertThisFileWillBeReplaced = observer(({ channel }: Props) => {
-    const renderEmoji = useMemo(
-        () =>
-            memo(({ emoji }: { emoji: string }) => (
-                <RenderEmoji match={emoji} {...({} as any)} />
-            )),
-        [],
-    );
+const HackAlertThisFileWillBeReplaced = observer(
+    ({ channel, onClose }: Props & { onClose: () => void }) => {
+        const renderEmoji = useMemo(
+            () =>
+                memo(({ emoji }: { emoji: string }) => (
+                    <RenderEmoji match={emoji} {...({} as any)} />
+                )),
+            [],
+        );
 
-    const emojis: Record<string, any> = {
-        default: Object.keys(emojiDictionary),
-    };
+        const emojis: Record<string, any> = {
+            default: Object.keys(emojiDictionary).map((id) => ({ id })),
+        };
 
-    // ! FIXME: also expose typing from component
-    const categories: any[] = [];
+        // ! FIXME: also expose typing from component
+        const categories: any[] = [];
 
-    for (const server of state.ordering.orderedServers) {
-        // ! FIXME: add a separate map on each server for emoji
-        const list = [...channel.client.emojis.values()]
-            .filter((emoji) => emoji.parent.id === server._id)
-            .map((x) => x._id);
+        for (const server of state.ordering.orderedServers) {
+            // ! FIXME: add a separate map on each server for emoji
+            const list = [...channel.client.emojis.values()]
+                .filter((emoji) => emoji.parent.id === server._id)
+                .map(({ _id, name }) => ({ id: _id, name }));
 
-        if (list.length > 0) {
-            emojis[server._id] = list;
-            categories.push({
-                id: server._id,
-                name: server.name,
-                iconURL: server.generateIconURL({ max_side: 256 }),
-            });
+            if (list.length > 0) {
+                emojis[server._id] = list;
+                categories.push({
+                    id: server._id,
+                    name: server.name,
+                    iconURL: server.generateIconURL({ max_side: 256 }),
+                });
+            }
         }
-    }
 
-    categories.push({
-        id: "default",
-        name: "Default",
-        emoji: "smiley",
-    });
+        categories.push({
+            id: "default",
+            name: "Default",
+            emoji: "smiley",
+        });
 
-    return (
-        <Picker
-            emojis={emojis}
-            categories={categories}
-            renderEmoji={renderEmoji}
-            onSelect={(emoji) => {
-                const v = state.draft.get(channel._id);
-                state.draft.set(channel._id, `${v ? `${v} ` : ""}:${emoji}:`);
-            }}
-        />
-    );
-});
+        return (
+            <Picker
+                emojis={emojis}
+                categories={categories}
+                renderEmoji={renderEmoji}
+                onSelect={(emoji) => {
+                    const v = state.draft.get(channel._id);
+                    state.draft.set(
+                        channel._id,
+                        `${v ? `${v} ` : ""}:${emoji}:`,
+                    );
+                }}
+                onClose={onClose}
+            />
+        );
+    },
+);
 
 // ! FIXME: add to app config and load from app config
 export const CAN_UPLOAD_AT_ONCE = 5;
@@ -208,6 +214,8 @@ export default observer(({ channel }: Props) => {
     const [picker, setPicker] = useState(false);
     const client = useClient();
     const translate = useTranslation();
+
+    const closePicker = useCallback(() => setPicker(false), []);
 
     const renderer = getRenderer(channel);
 
@@ -559,7 +567,10 @@ export default observer(({ channel }: Props) => {
             />
             <FloatingLayer>
                 {picker && (
-                    <HackAlertThisFileWillBeReplaced channel={channel} />
+                    <HackAlertThisFileWillBeReplaced
+                        channel={channel}
+                        onClose={closePicker}
+                    />
                 )}
             </FloatingLayer>
             <Base>
