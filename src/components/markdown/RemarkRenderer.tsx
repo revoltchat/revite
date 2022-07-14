@@ -135,8 +135,8 @@ const components = {
  */
 const render = unified()
     .use(remarkParse)
-    .use(remarkRemoveEscapeCharacter)
     .use(remarkBreaks)
+    .use(remarkRemoveEscapeCharacter)
     .use(remarkGfm)
     .use(remarkMath)
     .use(remarkSpoiler)
