@@ -628,14 +628,26 @@ export default function ContextMenus() {
                             });
                         }
 
-                        if (
-                            user._id !== userId &&
-                            userPermissions & UserPermission.SendMessage
-                        ) {
-                            generateAction({
-                                action: "message_user",
-                                user,
-                            });
+                        if (user._id !== userId) {
+                            if (userPermissions & UserPermission.SendMessage) {
+                                generateAction({
+                                    action: "message_user",
+                                    user,
+                                });
+                            } else {
+                                elements.push(
+                                    <MenuItem disabled={true}>
+                                        <Tooltip
+                                            content="Must be friends with this user to message them."
+                                            placement="left"
+                                            hideOnClick={false}>
+                                            <Text
+                                                id={`app.context_menu.message_user`}
+                                            />
+                                        </Tooltip>
+                                    </MenuItem>,
+                                );
+                            }
                         }
 
                         for (let i = 0; i < actions.length; i++) {
