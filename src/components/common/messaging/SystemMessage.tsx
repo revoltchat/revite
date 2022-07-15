@@ -9,6 +9,7 @@ import {
     EditAlt,
     Edit,
     MessageSquareEdit,
+    Key,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Message, API } from "revolt.js";
@@ -18,6 +19,7 @@ import { useTriggerEvents } from "preact-context-menu";
 
 import { TextReact } from "../../../lib/i18n";
 
+import Markdown from "../../markdown/Markdown";
 import UserShort from "../user/UserShort";
 import MessageBase, { MessageDetail, MessageInfo } from "./MessageBase";
 
@@ -67,12 +69,15 @@ const iconDictionary = {
     channel_renamed: EditAlt,
     channel_description_changed: Edit,
     channel_icon_changed: MessageSquareEdit,
+    channel_ownership_changed: Key,
     text: InfoCircle,
 };
 
 export const SystemMessage = observer(
     ({ attachContext, message, highlight, hideInfo }: Props) => {
         const data = message.asSystemMessage;
+        if (!data) return null;
+
         const SystemMessageIcon =
             iconDictionary[data.type as API.SystemMessage["type"]] ??
             InfoCircle;
@@ -129,6 +134,22 @@ export const SystemMessage = observer(
                         }}
                     />
                 );
+                break;
+            case "channel_ownership_changed":
+                children = (
+                    <TextReact
+                        id={`app.main.channel.system.channel_ownership_changed`}
+                        fields={{
+                            from: <UserShort user={data.from} />,
+                            to: <UserShort user={data.to} />,
+                        }}
+                    />
+                );
+                break;
+            case "text":
+                if (message.system?.type === "text") {
+                    children = <Markdown content={message.system?.content} />;
+                }
                 break;
         }
 
