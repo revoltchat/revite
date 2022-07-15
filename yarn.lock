@@ -3696,7 +3696,7 @@ __metadata:
     remark-math: ^5.1.1
     remark-parse: ^10.0.1
     remark-rehype: ^10.1.0
-    revolt.js: ^6.0.6
+    revolt.js: 6.0.9
     rimraf: ^3.0.2
     sass: ^1.35.1
     semver: ^7.3.7
@@ -7879,20 +7879,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revolt-api@npm:0.5.4":
-  version: 0.5.4
-  resolution: "revolt-api@npm:0.5.4"
+"revolt-api@npm:0.5.5":
+  version: 0.5.5
+  resolution: "revolt-api@npm:0.5.5"
   dependencies:
     "@insertish/oapi": 0.1.16
     axios: ^0.26.1
     lodash.defaultsdeep: ^4.6.1
-  checksum: bd40acabac1b6c5848b1d6e555297de5aa3e0950a4de67523c4cf986a8037380e3addc5e16babebc8dfa6570cd1d1957efe9a3aaa6a206b9286e5b7f5941d699
+  checksum: 38fa78e3f731a8753916da58347ac930ff911f7a45d67f9d3e55bdaf56be5eb11c8568803209a76d9a40e6d5faa4a5adfc80aa6377528df499080f5e3b75cd2d
   languageName: node
   linkType: hard
 
-"revolt.js@npm:^6.0.6":
-  version: 6.0.6
-  resolution: "revolt.js@npm:6.0.6"
+"revolt.js@npm:6.0.9":
+  version: 6.0.9
+  resolution: "revolt.js@npm:6.0.9"
   dependencies:
     "@insertish/exponential-backoff": 3.1.0-patch.2
     "@insertish/isomorphic-ws": ^4.0.1
@@ -7903,10 +7903,10 @@ __metadata:
     lodash.isequal: ^4.5.0
     long: ^5.2.0
     mobx: ^6.3.2
-    revolt-api: 0.5.4
+    revolt-api: 0.5.5
     ulid: ^2.3.0
     ws: ^8.2.2
-  checksum: 079bdb983c650233378a617b771d7ff64396ce96fbd822fea20e9897fa14c2e589869e4a66f749dc74ce08218af425f97ab42fcaca7a3ab0f68f38f163484260
+  checksum: a3ea924a6793f6a4aa5f62e660b249bd76bbe2f0048d9b374a449f064ee6d65df1b8e4e3af1d15267707ea6d35b6a3101349b0bf41fa323cb5c298ab98de8d45
   languageName: node
   linkType: hard
 

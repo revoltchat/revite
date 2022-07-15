@@ -69,6 +69,7 @@ type Action =
     | { action: "copy_file_link"; attachment: API.File }
     | { action: "open_link"; link: string }
     | { action: "copy_link"; link: string }
+    | { action: "make_owner"; channel: Channel; user: User }
     | { action: "remove_member"; channel: Channel; user: User }
     | { action: "kick_member"; target: Member }
     | { action: "ban_member"; target: Member }
@@ -304,6 +305,15 @@ export default function ContextMenus() {
                 case "copy_link":
                     {
                         modalController.writeText(data.link);
+                    }
+                    break;
+
+                case "make_owner":
+                    {
+                        // FIXME: add a modal for this
+                        data.channel.edit({
+                            owner: data.user._id,
+                        });
                     }
                     break;
 
@@ -667,11 +677,29 @@ export default function ContextMenus() {
                                 contextualChannel.owner_id === userId &&
                                 userId !== uid
                             ) {
-                                generateAction({
-                                    action: "remove_member",
-                                    channel: contextualChannel,
-                                    user: user!,
-                                });
+                                generateAction(
+                                    {
+                                        action: "make_owner",
+                                        channel: contextualChannel,
+                                        user: user!,
+                                    },
+                                    undefined,
+                                    false,
+                                    undefined,
+                                    "var(--error)",
+                                );
+
+                                generateAction(
+                                    {
+                                        action: "remove_member",
+                                        channel: contextualChannel,
+                                        user: user!,
+                                    },
+                                    undefined,
+                                    false,
+                                    undefined,
+                                    "var(--error)",
+                                );
                             }
                         }
 
