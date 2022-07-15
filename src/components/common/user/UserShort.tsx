@@ -55,7 +55,7 @@ export const Username = observer(
         ...otherProps
     }: UsernameProps) => {
         let username = user?.username;
-        let color;
+        let color = masquerade?.colour;
 
         if (user && showServerIdentity) {
             const { server } = useParams<{ server?: string }>();
@@ -75,20 +75,10 @@ export const Username = observer(
                         }
                     }
 
-                    const role = member.hoistedRole;
-                    if (role) {
-                        color = role[1].colour;
-                    }
-
-                    if (member.roles && member.roles.length > 0) {
-                        const srv = client.servers.get(member._id.server);
-                        if (srv?.roles) {
-                            for (const role of member.roles) {
-                                const c = srv.roles[role]?.colour;
-                                if (c) {
-                                    color = c;
-                                    continue;
-                                }
+                    if (!color) {
+                        for (const [_, { colour }] of member.orderedRoles) {
+                            if (colour) {
+                                color = colour;
                             }
                         }
                     }
