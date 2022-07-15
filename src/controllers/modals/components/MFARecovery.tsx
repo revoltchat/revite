@@ -23,6 +23,11 @@ const List = styled.div`
     span {
         user-select: text;
     }
+
+    i {
+        opacity: 0;
+        position: absolute;
+    }
 `;
 
 /**
@@ -73,8 +78,10 @@ export default function MFARecovery({
             onClose={onClose}
             signal={signal}>
             <List>
-                {known.map((code) => (
-                    <span key={code}>{code}</span>
+                {known.map((code, index) => (
+                    <span key={code}>
+                        {code} {index !== known.length && <i>{","}</i>}
+                    </span>
                 ))}
             </List>
         </Modal>
