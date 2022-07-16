@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { User, API } from "revolt.js";
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
 
 import { Ref } from "preact";
 import { Text } from "preact-i18n";
@@ -39,10 +39,18 @@ type UsernameProps = Omit<
 };
 
 const Name = styled.span<{ colour?: string | null }>`
-    background: ${(props) => props.colour ?? "var(--foreground)"};
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    ${(props) =>
+        props.colour &&
+        (props.colour.includes("gradient")
+            ? css`
+                  background: ${props.colour};
+                  background-clip: text;
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+              `
+            : css`
+                  color: ${props.colour};
+              `)}
 `;
 
 export const Username = observer(
