@@ -25,6 +25,7 @@ import MessageBase, {
 } from "./MessageBase";
 import Attachment from "./attachments/Attachment";
 import { MessageReply } from "./attachments/MessageReply";
+import { Reactions } from "./attachments/Reactions";
 import { MessageOverlayBar } from "./bars/MessageOverlayBar";
 import Embed from "./embed/Embed";
 import InviteList from "./embed/EmbedInvite";
@@ -180,6 +181,7 @@ const Message = observer(
                         {message.embeds?.map((embed, index) => (
                             <Embed key={index} embed={embed} />
                         ))}
+                        <Reactions message={message} />
                         {mouseHovering &&
                             !replacement &&
                             !isTouchscreenDevice && (

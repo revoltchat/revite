@@ -6,9 +6,9 @@ import { visit } from "unist-util-visit";
  * Props given to custom components
  */
 export interface CustomComponentProps {
-    type: string;
+    type?: string;
     match: string;
-    arg1: string;
+    arg1?: string;
 }
 
 /**
