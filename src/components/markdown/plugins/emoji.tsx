@@ -25,15 +25,21 @@ const Emoji = styled.img`
     }
 `;
 
+const RE_EMOJI = /:([a-zA-Z0-9_+]+):/g;
+const RE_ULID = /^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$/;
+
 export function RenderEmoji({ match }: CustomComponentProps) {
     const [fail, setFail] = useState(false);
-    const url =
-        match in emojiDictionary
-            ? parseEmoji(emojiDictionary[match as keyof typeof emojiDictionary])
-            : `${
-                  clientController.getAvailableClient().configuration?.features
-                      .autumn.url
-              }/emojis/${match}`;
+    const url = RE_ULID.test(match)
+        ? `${
+              clientController.getAvailableClient().configuration?.features
+                  .autumn.url
+          }/emojis/${match}`
+        : parseEmoji(
+              match in emojiDictionary
+                  ? emojiDictionary[match as keyof typeof emojiDictionary]
+                  : match,
+          );
 
     if (fail) return <span>{`:${match}:`}</span>;
 
@@ -48,9 +54,6 @@ export function RenderEmoji({ match }: CustomComponentProps) {
         />
     );
 }
-
-const RE_EMOJI = /:([a-zA-Z0-9_+]+):/g;
-const RE_ULID = /^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$/;
 
 export const remarkEmoji = createComponent(
     "emoji",
