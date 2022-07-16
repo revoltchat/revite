@@ -3696,7 +3696,7 @@ __metadata:
     remark-math: ^5.1.1
     remark-parse: ^10.0.1
     remark-rehype: ^10.1.0
-    revolt.js: 6.0.9
+    revolt.js: 6.0.12
     rimraf: ^3.0.2
     sass: ^1.35.1
     semver: ^7.3.7
@@ -7890,9 +7890,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revolt.js@npm:6.0.9":
-  version: 6.0.9
-  resolution: "revolt.js@npm:6.0.9"
+"revolt.js@npm:6.0.12":
+  version: 6.0.12
+  resolution: "revolt.js@npm:6.0.12"
   dependencies:
     "@insertish/exponential-backoff": 3.1.0-patch.2
     "@insertish/isomorphic-ws": ^4.0.1
@@ -7906,7 +7906,7 @@ __metadata:
     revolt-api: 0.5.5
     ulid: ^2.3.0
     ws: ^8.2.2
-  checksum: a3ea924a6793f6a4aa5f62e660b249bd76bbe2f0048d9b374a449f064ee6d65df1b8e4e3af1d15267707ea6d35b6a3101349b0bf41fa323cb5c298ab98de8d45
+  checksum: 1ff667daf3e7c9b32ee383d56f79db9d5112b1ca87eb406c749fa3ce5f8adb59cd48ec3cb935932a5cc5da0af6f82e2dd7b5b83fa0705e02f66c050bc848401a
   languageName: node
   linkType: hard
 
