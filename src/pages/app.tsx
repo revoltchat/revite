@@ -27,7 +27,9 @@ export function App() {
                 <Masks />
                 <Switch>
                     <Route path="/login/verify/:token">
-                        <Login />
+                        <LoadSuspense>
+                            <Login />
+                        </LoadSuspense>
                     </Route>
                     <Route path="/login/reset/:token">
                         <LoadSuspense>
