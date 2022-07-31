@@ -185,6 +185,11 @@ const Container = styled.div<{ largeEmoji: boolean }>`
 const RE_QUOTE = /(^(?:>\s){5})[>\s]+(.*$)/gm;
 
 /**
+ * Regex for matching HTML tags
+ */
+const RE_HTML_TAGS = /^(<\/?[a-zA-Z0-9]+>)(.*$)/gm;
+
+/**
  * Sanitise Markdown input before rendering
  * @param content Input string
  * @returns Sanitised string
@@ -194,6 +199,11 @@ function sanitise(content: string) {
         content
             // Strip excessive blockquote indentation
             .replace(RE_QUOTE, (_, m0, m1) => m0 + m1)
+
+            // Append empty character if string starts with html tag
+            // This is to avoid inconsistencies in rendering Markdown inside/after HTML tags
+            // https://github.com/revoltchat/revite/issues/733
+            .replace(RE_HTML_TAGS, (match) => `\u200E${match}`)
     );
 }
 
