@@ -340,11 +340,13 @@ function ListElement({
 
     const save = useCallback(() => {
         setEditing(undefined);
-        setTitle!(editing!);
+        if (editing !== "") {
+            setTitle!(editing!);
+        }
     }, [editing, setTitle]);
 
     useEffect(() => {
-        if (!editing) return;
+        if (editing === undefined) return;
 
         function onClick(ev: MouseEvent) {
             if ((ev.target as HTMLElement)?.id !== category.id) {
@@ -368,7 +370,7 @@ function ListElement({
                         <div className="inner">
                             <Row>
                                 <KanbanListHeader {...provided.dragHandleProps}>
-                                    {editing ? (
+                                    {editing !== undefined ? (
                                         <input
                                             value={editing}
                                             onChange={(e) =>
