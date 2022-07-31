@@ -1,6 +1,5 @@
 import { runInAction } from "mobx";
 
-import { noopAsync } from "../../js";
 import { SMOOTH_SCROLL_ON_RECEIVE } from "../Singleton";
 import { RendererRoutines } from "../types";
 
@@ -72,7 +71,7 @@ export const SimpleRenderer: RendererRoutines = {
             });
         });
     },
-    edit: async (renderer) => {
+    updated: async (renderer) => {
         renderer.emitScroll({
             type: "StayAtBottom",
             smooth: false,
