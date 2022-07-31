@@ -114,7 +114,7 @@ export default function EmbedMedia({ embed, width, height }: Props) {
                         className={styles.image}
                         src={client.proxyFile(url)}
                         loading="lazy"
-                        style={{ width, height }}
+                        style={{ width: "100%", height: "100%" }}
                         onClick={() =>
                             modalController.push({
                                 type: "image_viewer",
