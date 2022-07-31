@@ -26,6 +26,20 @@ export default function AppearanceOptions() {
                     <Text id="app.settings.pages.appearance.appearance_options.show_send_desc" />
                 }
             />
+            {/* Option to always show the account creation age next to join system messages. */}
+            <ObservedInputElement
+                type="checkbox"
+                value={() =>
+                    settings.get("appearance:show_account_age") ?? false
+                }
+                onChange={(v) => settings.set("appearance:show_account_age", v)}
+                title={
+                    <Text id="app.settings.pages.appearance.appearance_options.show_account_age" />
+                }
+                description={
+                    <Text id="app.settings.pages.appearance.appearance_options.show_account_age_desc" />
+                }
+            />
             <hr />
             <h3>
                 <Text id="app.settings.pages.appearance.theme_options.title" />

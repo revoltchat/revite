@@ -21,6 +21,7 @@ export interface ISettings {
     "appearance:seasonal": boolean;
     "appearance:transparency": boolean;
     "appearance:show_send_button": boolean;
+    "appearance:show_account_age": boolean;
 
     "appearance:theme:base": "dark" | "light";
     "appearance:theme:overrides": Partial<Overrides>;
@@ -79,7 +80,7 @@ export default class Settings
      */
     @action set<T extends keyof ISettings>(key: T, value: ISettings[T]) {
         // Emoji needs to be immediately applied.
-        if (key === 'appearance:emoji') {
+        if (key === "appearance:emoji") {
             setGlobalEmojiPack(value as EmojiPack);
         }
 
