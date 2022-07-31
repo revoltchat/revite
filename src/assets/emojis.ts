@@ -151,7 +151,6 @@ export const emojiDictionary = {
     hole: "🕳️",
     bomb: "💣",
     speech_balloon: "💬",
-    eye_speech_bubble: "👁️‍🗨️",
     left_speech_bubble: "🗨️",
     right_anger_bubble: "🗯️",
     thought_balloon: "💭",
