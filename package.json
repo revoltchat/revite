@@ -141,7 +141,7 @@
         "remark-math": "^5.1.1",
         "remark-parse": "^10.0.1",
         "remark-rehype": "^10.1.0",
-        "revolt.js": "6.0.12",
+        "revolt.js": "6.0.13",
         "rimraf": "^3.0.2",
         "sass": "^1.35.1",
         "semver": "^7.3.7",
