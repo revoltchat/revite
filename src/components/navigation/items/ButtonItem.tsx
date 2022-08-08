@@ -155,7 +155,9 @@ export const ChannelButton = observer((props: ChannelProps) => {
             data-alert={alerting}
             data-muted={muted}
             aria-label={channel.name}
-            className={classNames(styles.item, { [styles.compact]: compact })}
+            className={classNames(styles.item, {
+                [styles.compact]: compact,
+            })}
             {...useTriggerEvents("Menu", {
                 channel: channel._id,
                 unread: !!alert,
@@ -175,7 +177,9 @@ export const ChannelButton = observer((props: ChannelProps) => {
                             <Text
                                 id="quantities.members"
                                 plural={channel.recipients!.length}
-                                fields={{ count: channel.recipients!.length }}
+                                fields={{
+                                    count: channel.recipients!.length,
+                                }}
                             />
                         )}
                     </div>

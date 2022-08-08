@@ -50,6 +50,8 @@
     },
     "devDependencies": {
         "@babel/plugin-proposal-decorators": "^7.17.9",
+        "@floating-ui/react-dom": "^1.0.0",
+        "@floating-ui/react-dom-interactions": "^0.9.1",
         "@fontsource/atkinson-hyperlegible": "^4.4.5",
         "@fontsource/bitter": "^4.5.7",
         "@fontsource/comic-neue": "^4.4.5",

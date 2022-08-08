@@ -5,7 +5,7 @@ import { useTriggerEvents } from "preact-context-menu";
 import { memo } from "preact/compat";
 import { useEffect, useState } from "preact/hooks";
 
-import { Category } from "@revoltchat/ui";
+import { Category, Button } from "@revoltchat/ui";
 
 import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
@@ -88,6 +88,7 @@ const Message = observer(
 
         // ! FIXME(?): animate on hover
         const [mouseHovering, setAnimate] = useState(false);
+        const [reactionsOpen, setReactionsOpen] = useState(false);
         useEffect(() => setAnimate(false), [replacement]);
 
         return (
@@ -182,10 +183,12 @@ const Message = observer(
                             <Embed key={index} embed={embed} />
                         ))}
                         <Reactions message={message} />
-                        {mouseHovering &&
+                        {(mouseHovering || reactionsOpen) &&
                             !replacement &&
                             !isTouchscreenDevice && (
                                 <MessageOverlayBar
+                                    reactionsOpen={reactionsOpen}
+                                    setReactionsOpen={setReactionsOpen}
                                     message={message}
                                     queued={queued}
                                 />

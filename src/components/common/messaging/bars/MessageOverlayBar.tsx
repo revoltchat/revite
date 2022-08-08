@@ -5,6 +5,7 @@ import {
     Share,
     InfoSquare,
     Notification,
+    HappyBeaming,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Message as MessageObject } from "revolt.js";
@@ -17,12 +18,16 @@ import { internalEmit } from "../../../../lib/eventEmitter";
 import { shiftKeyPressed } from "../../../../lib/modifiers";
 import { getRenderer } from "../../../../lib/renderer/Singleton";
 
+import { state } from "../../../../mobx/State";
 import { QueuedMessage } from "../../../../mobx/stores/MessageQueue";
 
 import { modalController } from "../../../../controllers/modals/ModalController";
 import Tooltip from "../../../common/Tooltip";
+import { ReactionWrapper } from "../attachments/Reactions";
 
 interface Props {
+    reactionsOpen: boolean;
+    setReactionsOpen: (v: boolean) => void;
     message: MessageObject;
     queued?: QueuedMessage;
 }
@@ -81,125 +86,152 @@ const Divider = styled.div`
     background: var(--tertiary-background);
 `;
 
-export const MessageOverlayBar = observer(({ message, queued }: Props) => {
-    const client = message.client;
-    const isAuthor = message.author_id === client.user!._id;
+export const MessageOverlayBar = observer(
+    ({ reactionsOpen, setReactionsOpen, message, queued }: Props) => {
+        const client = message.client;
+        const isAuthor = message.author_id === client.user!._id;
 
-    const [copied, setCopied] = useState<"link" | "id">(null!);
-    const [extraActions, setExtra] = useState(shiftKeyPressed);
+        const [copied, setCopied] = useState<"link" | "id">(null!);
+        const [extraActions, setExtra] = useState(shiftKeyPressed);
 
-    useEffect(() => {
-        const handler = (ev: KeyboardEvent) => setExtra(ev.shiftKey);
+        useEffect(() => {
+            const handler = (ev: KeyboardEvent) => setExtra(ev.shiftKey);
 
-        document.addEventListener("keyup", handler);
-        document.addEventListener("keydown", handler);
+            document.addEventListener("keyup", handler);
+            document.addEventListener("keydown", handler);
 
-        return () => {
-            document.removeEventListener("keyup", handler);
-            document.removeEventListener("keydown", handler);
-        };
-    });
+            return () => {
+                document.removeEventListener("keyup", handler);
+                document.removeEventListener("keydown", handler);
+            };
+        });
 
-    return (
-        <OverlayBar>
-            <Tooltip content="Reply">
-                <Entry onClick={() => internalEmit("ReplyBar", "add", message)}>
-                    <Share size={18} />
-                </Entry>
-            </Tooltip>
+        return (
+            <OverlayBar>
+                {message.channel?.havePermission("SendMessage") && (
+                    <Tooltip content="Reply">
+                        <Entry
+                            onClick={() =>
+                                internalEmit("ReplyBar", "add", message)
+                            }>
+                            <Share size={18} />
+                        </Entry>
+                    </Tooltip>
+                )}
 
-            {isAuthor && (
-                <Tooltip content="Edit">
+                {message.channel?.havePermission("React") &&
+                    state.experiments.isEnabled("picker") && (
+                        <ReactionWrapper
+                            open={reactionsOpen}
+                            setOpen={setReactionsOpen}
+                            message={message}>
+                            <Tooltip content="React">
+                                <Entry>
+                                    <HappyBeaming size={18} />
+                                </Entry>
+                            </Tooltip>
+                        </ReactionWrapper>
+                    )}
+
+                {isAuthor && (
+                    <Tooltip content="Edit">
+                        <Entry
+                            onClick={() =>
+                                internalEmit(
+                                    "MessageRenderer",
+                                    "edit_message",
+                                    message._id,
+                                )
+                            }>
+                            <Pencil size={18} />
+                        </Entry>
+                    </Tooltip>
+                )}
+                {isAuthor ||
+                (message.channel &&
+                    message.channel.havePermission("ManageMessages")) ? (
+                    <Tooltip content="Delete">
+                        <Entry
+                            onClick={(e) =>
+                                e.shiftKey
+                                    ? message.delete()
+                                    : modalController.push({
+                                          type: "delete_message",
+                                          target: message,
+                                      })
+                            }>
+                            <Trash size={18} color={"var(--error)"} />
+                        </Entry>
+                    </Tooltip>
+                ) : undefined}
+                <Tooltip content="More">
                     <Entry
                         onClick={() =>
-                            internalEmit(
-                                "MessageRenderer",
-                                "edit_message",
-                                message._id,
-                            )
+                            openContextMenu("Menu", {
+                                message,
+                                contextualChannel: message.channel_id,
+                                queued,
+                            })
                         }>
-                        <Pencil size={18} />
+                        <DotsVerticalRounded size={18} />
                     </Entry>
                 </Tooltip>
-            )}
-            {isAuthor ||
-            (message.channel &&
-                message.channel.havePermission("ManageMessages")) ? (
-                <Tooltip content="Delete">
-                    <Entry
-                        onClick={(e) =>
-                            e.shiftKey
-                                ? message.delete()
-                                : modalController.push({
-                                      type: "delete_message",
-                                      target: message,
-                                  })
-                        }>
-                        <Trash size={18} color={"var(--error)"} />
-                    </Entry>
-                </Tooltip>
-            ) : undefined}
-            <Tooltip content="More">
-                <Entry
-                    onClick={() =>
-                        openContextMenu("Menu", {
-                            message,
-                            contextualChannel: message.channel_id,
-                            queued,
-                        })
-                    }>
-                    <DotsVerticalRounded size={18} />
-                </Entry>
-            </Tooltip>
-            {extraActions && (
-                <>
-                    <Divider />
-                    <Tooltip content="Mark as Unread">
-                        <Entry
-                            onClick={() => {
-                                // ! FIXME: deduplicate this code with ctx menu
-                                const messages = getRenderer(
-                                    message.channel!,
-                                ).messages;
-                                const index = messages.findIndex(
-                                    (x) => x._id === message._id,
-                                );
+                {extraActions && (
+                    <>
+                        <Divider />
+                        <Tooltip content="Mark as Unread">
+                            <Entry
+                                onClick={() => {
+                                    // ! FIXME: deduplicate this code with ctx menu
+                                    const messages = getRenderer(
+                                        message.channel!,
+                                    ).messages;
+                                    const index = messages.findIndex(
+                                        (x) => x._id === message._id,
+                                    );
 
-                                let unread_id = message._id;
-                                if (index > 0) {
-                                    unread_id = messages[index - 1]._id;
-                                }
+                                    let unread_id = message._id;
+                                    if (index > 0) {
+                                        unread_id = messages[index - 1]._id;
+                                    }
 
-                                internalEmit("NewMessages", "mark", unread_id);
-                                message.channel?.ack(unread_id, true);
-                            }}>
-                            <Notification size={18} />
-                        </Entry>
-                    </Tooltip>
-                    <Tooltip
-                        content={copied === "link" ? "Copied!" : "Copy Link"}
-                        hideOnClick={false}>
-                        <Entry
-                            onClick={() => {
-                                setCopied("link");
-                                modalController.writeText(message.url);
-                            }}>
-                            <LinkAlt size={18} />
-                        </Entry>
-                    </Tooltip>
-                    <Tooltip
-                        content={copied === "id" ? "Copied!" : "Copy ID"}
-                        hideOnClick={false}>
-                        <Entry
-                            onClick={() => {
-                                setCopied("id");
-                                modalController.writeText(message._id);
-                            }}>
-                            <InfoSquare size={18} />
-                        </Entry>
-                    </Tooltip>
-                </>
-            )}
-        </OverlayBar>
-    );
-});
+                                    internalEmit(
+                                        "NewMessages",
+                                        "mark",
+                                        unread_id,
+                                    );
+                                    message.channel?.ack(unread_id, true);
+                                }}>
+                                <Notification size={18} />
+                            </Entry>
+                        </Tooltip>
+                        <Tooltip
+                            content={
+                                copied === "link" ? "Copied!" : "Copy Link"
+                            }
+                            hideOnClick={false}>
+                            <Entry
+                                onClick={() => {
+                                    setCopied("link");
+                                    modalController.writeText(message.url);
+                                }}>
+                                <LinkAlt size={18} />
+                            </Entry>
+                        </Tooltip>
+                        <Tooltip
+                            content={copied === "id" ? "Copied!" : "Copy ID"}
+                            hideOnClick={false}>
+                            <Entry
+                                onClick={() => {
+                                    setCopied("id");
+                                    modalController.writeText(message._id);
+                                }}>
+                                <InfoSquare size={18} />
+                            </Entry>
+                        </Tooltip>
+                    </>
+                )}
+            </OverlayBar>
+        );
+    },
+);
