@@ -24,7 +24,6 @@ const PermissionEntry = styled.label<{ disabled?: boolean }>`
     width: 100%;
     margin: 8px 0;
     display: flex;
-    font-size: 1.1em;
     align-items: center;
 
     .title {
