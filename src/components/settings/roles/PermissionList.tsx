@@ -18,7 +18,6 @@ export function PermissionList({ value, onChange, filter, target }: Props) {
                     (key) =>
                         ![
                             "GrantAllSafe",
-                            "TimeoutMembers",
                             "ReadMessageHistory",
                             "Speak",
                             "Video",
