@@ -45,7 +45,7 @@ export const EXPERIMENTS: {
     picker: {
         title: "Custom Emoji",
         description:
-            "This will enable a work-in-progress emoji picker and custom emoji settings.",
+            "This will enable a work-in-progress emoji picker, custom emoji settings and reaction picker.",
     },
 };
 

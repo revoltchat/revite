@@ -1825,6 +1825,47 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@floating-ui/core@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@floating-ui/core@npm:1.0.0"
+  checksum: 093eaa226c1317c1770218bfa9e689c57b3aaef9eab15521269b24f50aeb16143471347bf8025c70ea67a80a165242b6f3a3335a47cbda565d3e055fbfa29501
+  languageName: node
+  linkType: hard
+
+"@floating-ui/dom@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@floating-ui/dom@npm:1.0.0"
+  dependencies:
+    "@floating-ui/core": ^1.0.0
+  checksum: dd2f2fab4498b194cabc564b1fa9c7f79885271054a5d64f0bf546a374b12a11732f774d97798397f4bae8e87cfb817d110b8a950ae2422c8ffc571647c263d5
+  languageName: node
+  linkType: hard
+
+"@floating-ui/react-dom-interactions@npm:^0.9.1":
+  version: 0.9.1
+  resolution: "@floating-ui/react-dom-interactions@npm:0.9.1"
+  dependencies:
+    "@floating-ui/react-dom": ^1.0.0
+    aria-hidden: ^1.1.3
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 00f077547e883f3be45386a6e74c64913c02af417ae2b15cf86b10af79724b52095b820e8ba034b0bac5eba597010b1ea95095ba692c33cbc307f1df7608c54a
+  languageName: node
+  linkType: hard
+
+"@floating-ui/react-dom@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@floating-ui/react-dom@npm:1.0.0"
+  dependencies:
+    "@floating-ui/dom": ^1.0.0
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: d79e3c8570b0eaef5e968cd9c69de2c6bb372a5316e4e69a1cd12dae81771863ef430e81b74a0c21cefba663a2f971d8540c7294d7fb3b9807e32ba2a00c1e76
+  languageName: node
+  linkType: hard
+
 "@fontsource/atkinson-hyperlegible@npm:^4.4.5":
   version: 4.5.1
   resolution: "@fontsource/atkinson-hyperlegible@npm:4.5.1"
@@ -3156,6 +3197,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"aria-hidden@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "aria-hidden@npm:1.1.3"
+  dependencies:
+    tslib: ^1.0.0
+  checksum: 2d40a328246baac7ae0b243ebe0cbef53c836c5f78c9212e9c1ff93f3aee185bd9aa51773e161e0025722d691c9d5f125070f6175a7074c4a57778ddc30d9e74
+  languageName: node
+  linkType: hard
+
 "array-includes@npm:^3.1.2, array-includes@npm:^3.1.3":
   version: 3.1.3
   resolution: "array-includes@npm:3.1.3"
@@ -3603,6 +3653,8 @@ __metadata:
   resolution: "client@workspace:."
   dependencies:
     "@babel/plugin-proposal-decorators": ^7.17.9
+    "@floating-ui/react-dom": ^1.0.0
+    "@floating-ui/react-dom-interactions": ^0.9.1
     "@fontsource/atkinson-hyperlegible": ^4.4.5
     "@fontsource/bitter": ^4.5.7
     "@fontsource/comic-neue": ^4.4.5
@@ -8792,7 +8844,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^1.8.1":
+"tslib@npm:^1.0.0, tslib@npm:^1.8.1":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
