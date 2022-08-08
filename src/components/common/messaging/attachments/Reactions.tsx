@@ -1,11 +1,20 @@
+import {
+    autoPlacement,
+    offset,
+    shift,
+    useFloating,
+} from "@floating-ui/react-dom-interactions";
 import { observer } from "mobx-react-lite";
 import { Message } from "revolt.js";
 import styled, { css } from "styled-components";
 
-import { useCallback } from "preact/hooks";
+import { createPortal } from "preact/compat";
+import { useCallback, useRef } from "preact/hooks";
 
+import { emojiDictionary } from "../../../../assets/emojis";
 import { useClient } from "../../../../controllers/client/ClientController";
 import { RenderEmoji } from "../../../markdown/plugins/emoji";
+import { HackAlertThisFileWillBeReplaced } from "../MessageBox";
 
 interface Props {
     message: Message;
@@ -131,3 +140,78 @@ export const Reactions = observer(({ message }: Props) => {
         </List>
     );
 });
+
+const Base = styled.div`
+    > div {
+        position: unset;
+    }
+`;
+
+/**
+ * ! FIXME: rewrite
+ */
+export const ReactionWrapper: React.FC<{
+    message: Message;
+    open: boolean;
+    setOpen: (v: boolean) => void;
+}> = ({ open, setOpen, message, children }) => {
+    const { x, y, reference, floating, strategy } = useFloating({
+        open,
+        middleware: [
+            offset(4),
+            shift({ mainAxis: true, crossAxis: true, padding: 4 }),
+            autoPlacement(),
+        ],
+    });
+
+    const skip = useRef();
+    const toggle = () => {
+        if (skip.current) {
+            skip.current = null;
+            return;
+        }
+
+        setOpen(!open);
+
+        if (!open) {
+            skip.current = true;
+        }
+    };
+
+    return (
+        <>
+            <div
+                ref={reference}
+                onClick={toggle}
+                style={{ width: "fit-content" }}>
+                {children}
+            </div>
+
+            {createPortal(
+                <div id="reaction">
+                    {open && (
+                        <Base
+                            ref={floating}
+                            style={{
+                                position: strategy,
+                                top: y ?? 0,
+                                left: x ?? 0,
+                            }}>
+                            <HackAlertThisFileWillBeReplaced
+                                onSelect={(emoji) =>
+                                    message.react(
+                                        emojiDictionary[
+                                            emoji as keyof typeof emojiDictionary
+                                        ] ?? emoji,
+                                    )
+                                }
+                                onClose={toggle}
+                            />
+                        </Base>
+                    )}
+                </div>,
+                document.body,
+            )}
+        </>
+    );
+};

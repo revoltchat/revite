@@ -26,7 +26,10 @@ import { state, useApplicationState } from "../../../mobx/State";
 import { Reply } from "../../../mobx/stores/MessageQueue";
 
 import { emojiDictionary } from "../../../assets/emojis";
-import { useClient } from "../../../controllers/client/ClientController";
+import {
+    clientController,
+    useClient,
+} from "../../../controllers/client/ClientController";
 import { takeError } from "../../../controllers/client/jsx/error";
 import {
     FileUploader,
@@ -143,8 +146,14 @@ const RE_SED = new RegExp("^s/([^])*/([^])*$");
 // Tests for code block delimiters (``` at start of line)
 const RE_CODE_DELIMITER = new RegExp("^```", "gm");
 
-const HackAlertThisFileWillBeReplaced = observer(
-    ({ channel, onClose }: Props & { onClose: () => void }) => {
+export const HackAlertThisFileWillBeReplaced = observer(
+    ({
+        onSelect,
+        onClose,
+    }: {
+        onSelect: (emoji: string) => void;
+        onClose: () => void;
+    }) => {
         const renderEmoji = useMemo(
             () =>
                 memo(({ emoji }: { emoji: string }) => (
@@ -162,8 +171,12 @@ const HackAlertThisFileWillBeReplaced = observer(
 
         for (const server of state.ordering.orderedServers) {
             // ! FIXME: add a separate map on each server for emoji
-            const list = [...channel.client.emojis.values()]
-                .filter((emoji) => emoji.parent.id === server._id)
+            const list = [...clientController.getReadyClient()!.emojis.values()]
+                .filter(
+                    (emoji) =>
+                        emoji.parent.type !== "Detached" &&
+                        emoji.parent.id === server._id,
+                )
                 .map(({ _id, name }) => ({ id: _id, name }));
 
             if (list.length > 0) {
@@ -187,13 +200,7 @@ const HackAlertThisFileWillBeReplaced = observer(
                 emojis={emojis}
                 categories={categories}
                 renderEmoji={renderEmoji}
-                onSelect={(emoji) => {
-                    const v = state.draft.get(channel._id);
-                    state.draft.set(
-                        channel._id,
-                        `${v ? `${v} ` : ""}:${emoji}:`,
-                    );
-                }}
+                onSelect={onSelect}
                 onClose={onClose}
             />
         );
@@ -568,7 +575,13 @@ export default observer(({ channel }: Props) => {
             <FloatingLayer>
                 {picker && (
                     <HackAlertThisFileWillBeReplaced
-                        channel={channel}
+                        onSelect={(emoji) => {
+                            const v = state.draft.get(channel._id);
+                            state.draft.set(
+                                channel._id,
+                                `${v ? `${v} ` : ""}:${emoji}:`,
+                            );
+                        }}
                         onClose={closePicker}
                     />
                 )}
