@@ -44,7 +44,7 @@ const UserInfo = styled(Row)`
 
 export const Emojis = observer(({ server }: Props) => {
     const emoji = [...server.client.emojis.values()].filter(
-        (x) => x.parent.id === server._id,
+        (x) => x.parent.type === "Server" && x.parent.id === server._id,
     );
 
     return (

@@ -43,8 +43,6 @@
         }
     },
     "dependencies": {
-        "@floating-ui/react-dom": "^0.7.2",
-        "@floating-ui/react-dom-interactions": "^0.7.0",
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
         "sirv-cli": "^1.0.14",
@@ -52,6 +50,8 @@
     },
     "devDependencies": {
         "@babel/plugin-proposal-decorators": "^7.17.9",
+        "@floating-ui/react-dom": "^1.0.0",
+        "@floating-ui/react-dom-interactions": "^0.9.1",
         "@fontsource/atkinson-hyperlegible": "^4.4.5",
         "@fontsource/bitter": "^4.5.7",
         "@fontsource/comic-neue": "^4.4.5",
