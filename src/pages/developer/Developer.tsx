@@ -43,6 +43,7 @@ export default function Developer() {
                     fields={{ provider: <b>GAMING!</b> }}
                 />
             </div>
+
             <div style={{ padding: "16px" }}>
                 <a onClick={() => setCrash(true)}>click to crash app</a>
                 {crash && (window as any).sus.sus()}
