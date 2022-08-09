@@ -18,8 +18,6 @@ export REVOLT_SAAS=https://github.com/revoltchat/assets
 set -e
 
 # 1. Build Revite
-yarn
-yarn build:components
 yarn build
 
 # 2. Archive built files
