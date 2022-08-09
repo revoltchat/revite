@@ -2281,9 +2281,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revoltchat/ui@link:./external/components::locator=client%40workspace%3A.":
+"@revoltchat/ui@portal:external/components::locator=client%40workspace%3A.":
   version: 0.0.0-use.local
-  resolution: "@revoltchat/ui@link:./external/components::locator=client%40workspace%3A."
+  resolution: "@revoltchat/ui@portal:external/components::locator=client%40workspace%3A."
+  dependencies:
+    "@styled-icons/boxicons-logos": ^10.38.0
+    "@styled-icons/boxicons-regular": ^10.38.0
+    "@styled-icons/boxicons-solid": ^10.38.0
+    "@tippyjs/react": ^4.2.6
+    mobx: ^6.6.0
+    mobx-react-lite: ^3.4.0
+    prismjs: ^1.28.0
+    react-beautiful-dnd: ^13.1.0
+    react-device-detect: ^2.2.2
+    react-virtuoso: ^2.12.0
+  peerDependencies:
+    revolt.js: "*"
   languageName: node
   linkType: soft
 
@@ -2432,7 +2445,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tippyjs/react@npm:4.2.6":
+"@tippyjs/react@npm:4.2.6, @tippyjs/react@npm:^4.2.6":
   version: 4.2.6
   resolution: "@tippyjs/react@npm:4.2.6"
   dependencies:
@@ -3664,7 +3677,7 @@ __metadata:
     "@hcaptcha/react-hcaptcha": ^0.3.6
     "@insertish/vite-plugin-babel-macros": ^1.0.5
     "@preact/preset-vite": ^2.0.0
-    "@revoltchat/ui": "link:./external/components"
+    "@revoltchat/ui": ^1.0.77
     "@rollup/plugin-replace": ^2.4.2
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
@@ -6895,7 +6908,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mobx-react-lite@npm:3.4.0":
+"mobx-react-lite@npm:3.4.0, mobx-react-lite@npm:^3.4.0":
   version: 3.4.0
   resolution: "mobx-react-lite@npm:3.4.0"
   peerDependencies:
@@ -7453,7 +7466,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-device-detect@npm:2.2.2":
+"react-device-detect@npm:2.2.2, react-device-detect@npm:^2.2.2":
   version: 2.2.2
   resolution: "react-device-detect@npm:2.2.2"
   dependencies:
