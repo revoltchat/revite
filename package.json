@@ -3,8 +3,8 @@
     "scripts": {
         "dev": "node scripts/setup_assets.js --check && vite",
         "pull": "node scripts/setup_assets.js",
-        "build:components": "cd external && cd components && yarn && yarn build",
-        "build": "rimraf build && node scripts/setup_assets.js --check && vite build",
+        "build:components": "cd external && cd components && yarn && yarn build:esm",
+        "build": "yarn && rimraf build && node scripts/setup_assets.js --check && yarn build:components && vite build",
         "build:highmem": "NODE_OPTIONS='--max-old-space-size=4096' yarn build",
         "preview": "vite preview",
         "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
@@ -48,7 +48,7 @@
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
         "sirv-cli": "^1.0.14",
-        "vite": "^2.6.14"
+        "vite": "^3.0.5"
     },
     "devDependencies": {
         "@babel/plugin-proposal-decorators": "^7.17.9",
@@ -159,7 +159,7 @@
         "unified": "^10.1.2",
         "unist-util-visit": "^4.1.0",
         "use-resize-observer": "^7.0.0",
-        "vite-plugin-pwa": "^0.11.13",
+        "vite-plugin-pwa": "^0.12.3",
         "workbox-precaching": "^6.1.5"
     },
     "name": "client",
