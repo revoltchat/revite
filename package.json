@@ -3,6 +3,7 @@
     "scripts": {
         "dev": "node scripts/setup_assets.js --check && vite",
         "pull": "node scripts/setup_assets.js",
+        "build:components": "cd external && cd components && yarn && yarn build",
         "build": "rimraf build && node scripts/setup_assets.js --check && vite build",
         "build:highmem": "NODE_OPTIONS='--max-old-space-size=4096' yarn build",
         "preview": "vite preview",
@@ -75,7 +76,7 @@
         "@hcaptcha/react-hcaptcha": "^0.3.6",
         "@insertish/vite-plugin-babel-macros": "^1.0.5",
         "@preact/preset-vite": "^2.0.0",
-        "@revoltchat/ui": "1.0.77",
+        "@revoltchat/ui": "link:./external/components",
         "@rollup/plugin-replace": "^2.4.2",
         "@styled-icons/boxicons-logos": "^10.38.0",
         "@styled-icons/boxicons-regular": "^10.38.0",
