@@ -27,8 +27,6 @@ export default observer(() => {
         [],
     );
 
-    console.info("is_revolt", IS_REVOLT);
-
     return (
         <ServerList
             client={client}
