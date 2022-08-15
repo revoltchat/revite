@@ -9,6 +9,7 @@ import { useApplicationState } from "../../../mobx/State";
 
 import { useClient } from "../../../controllers/client/ClientController";
 import { modalController } from "../../../controllers/modals/ModalController";
+import { IS_REVOLT } from "../../../version";
 
 /**
  * Server list sidebar shim component
@@ -26,6 +27,8 @@ export default observer(() => {
         [],
     );
 
+    console.info("is_revolt", IS_REVOLT);
+
     return (
         <ServerList
             client={client}
@@ -35,6 +38,7 @@ export default observer(() => {
             home={state.layout.getLastHomePath}
             servers={state.ordering.orderedServers}
             reorder={state.ordering.reorderServer}
+            showDiscovery={IS_REVOLT}
         />
     );
 });
