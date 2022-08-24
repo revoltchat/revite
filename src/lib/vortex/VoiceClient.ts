@@ -17,6 +17,7 @@ import {
 } from "./Types";
 
 const UnsupportedError = types.UnsupportedError;
+const state = useApplicationState();
 
 interface VoiceEvents {
     ready: () => void;
@@ -59,8 +60,6 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
         this.consumers = new Map();
 
         this.isDeaf = false;
-
-        const state = useApplicationState();
 
         this.signaling.on(
             "data",
@@ -173,6 +172,8 @@ export default class VoiceClient extends EventEmitter<VoiceEvents> {
         if (this.recvTransport) this.recvTransport.close();
         this.sendTransport = undefined;
         this.recvTransport = undefined;
+
+        state.settings.sounds.playSound("call_leave");
 
         this.emit("close", error);
     }

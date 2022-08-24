@@ -16,6 +16,8 @@ import { Button } from "@revoltchat/ui";
 
 import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 
+import { useApplicationState } from "../../../mobx/State";
+
 import Tooltip from "../../../components/common/Tooltip";
 import UserIcon from "../../../components/common/user/UserIcon";
 import { useClient } from "../../../controllers/client/ClientController";
@@ -85,12 +87,17 @@ export default observer(({ id }: Props) => {
 
     const client = useClient();
     const self = client.users.get(client.user!._id);
+    const state = useApplicationState();
 
     const keys = Array.from(voiceState.participants.keys());
     const users = useMemo(() => {
         return keys.map((key) => client.users.get(key));
         // eslint-disable-next-line
     }, [keys]);
+
+    if (voiceState.connecting) {
+        state.settings.sounds.playSound("call_join");
+    }
 
     return (
         <VoiceBase>
