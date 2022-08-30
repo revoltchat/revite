@@ -44,6 +44,9 @@
         }
     },
     "dependencies": {
+        "@capacitor/android": "^4.1.0",
+        "@capacitor/core": "^4.1.0",
+        "@capacitor/ios": "^4.1.0",
         "@revoltchat/ui": "^1.0.77",
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
@@ -52,6 +55,7 @@
     },
     "devDependencies": {
         "@babel/plugin-proposal-decorators": "^7.17.9",
+        "@capacitor/cli": "^4.1.0",
         "@floating-ui/react-dom": "^1.0.0",
         "@floating-ui/react-dom-interactions": "^0.9.1",
         "@fontsource/atkinson-hyperlegible": "^4.4.5",
