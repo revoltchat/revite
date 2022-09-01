@@ -190,6 +190,11 @@ const RE_QUOTE = /(^(?:>\s?){5})[>\s?]+(.*$)/gm;
 const RE_HTML_TAGS = /^(<\/?[a-zA-Z0-9]+>)(.*$)/gm;
 
 /**
+ * Regex for matching empty lines
+ */
+const RE_EMPTY_LINE = /^\s*?$/gm;
+
+/**
  * Sanitise Markdown input before rendering
  * @param content Input string
  * @returns Sanitised string
@@ -204,6 +209,11 @@ function sanitise(content: string) {
             // This is to avoid inconsistencies in rendering Markdown inside/after HTML tags
             // https://github.com/revoltchat/revite/issues/733
             .replace(RE_HTML_TAGS, (match) => `\u200E${match}`)
+
+            // Replace empty lines with non-breaking space
+            // because remark renderer is collapsing empty
+            // or otherwise whitespace-only lines of text
+            .replace(RE_EMPTY_LINE, "‎")
     );
 }
 
