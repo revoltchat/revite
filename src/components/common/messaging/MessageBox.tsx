@@ -25,6 +25,8 @@ import {
 import { state, useApplicationState } from "../../../mobx/State";
 import { Reply } from "../../../mobx/stores/MessageQueue";
 
+import { dayjs } from "../../../context/Locale";
+
 import { emojiDictionary } from "../../../assets/emojis";
 import {
     clientController,
@@ -225,6 +227,34 @@ export default observer(({ channel }: Props) => {
     const closePicker = useCallback(() => setPicker(false), []);
 
     const renderer = getRenderer(channel);
+
+    if (channel.server?.member?.timeout) {
+        return (
+            <Base>
+                <Blocked>
+                    <Action>
+                        <PermissionTooltip
+                            permission="SendMessages"
+                            placement="top">
+                            <ShieldX size={22} />
+                        </PermissionTooltip>
+                    </Action>
+                    <div className="text">
+                        <Text
+                            id="app.main.channel.misc.timed_out"
+                            fields={{
+                                // TODO: make this reactive
+                                time: dayjs().to(
+                                    channel.server.member.timeout,
+                                    true,
+                                ),
+                            }}
+                        />
+                    </div>
+                </Blocked>
+            </Base>
+        );
+    }
 
     if (!channel.havePermission("SendMessage")) {
         return (

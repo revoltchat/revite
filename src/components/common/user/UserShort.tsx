@@ -1,3 +1,4 @@
+import { TimeFive } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { User, API } from "revolt.js";
@@ -8,8 +9,11 @@ import { Text } from "preact-i18n";
 
 import { internalEmit } from "../../../lib/eventEmitter";
 
+import { dayjs } from "../../../context/Locale";
+
 import { useClient } from "../../../controllers/client/ClientController";
 import { modalController } from "../../../controllers/modals/ModalController";
+import Tooltip from "../Tooltip";
 import UserIcon from "./UserIcon";
 
 const BotBadge = styled.div`
@@ -64,6 +68,7 @@ export const Username = observer(
     }: UsernameProps) => {
         let username = user?.username;
         let color = masquerade?.colour;
+        let timed_out: Date | undefined;
 
         if (user && showServerIdentity) {
             const { server } = useParams<{ server?: string }>();
@@ -83,6 +88,10 @@ export const Username = observer(
                         }
                     }
 
+                    if (member.timeout) {
+                        timed_out = member.timeout;
+                    }
+
                     if (!color) {
                         for (const [_, { colour }] of member.orderedRoles) {
                             if (colour) {
@@ -95,12 +104,31 @@ export const Username = observer(
         }
 
         const el = (
-            <Name {...otherProps} ref={innerRef} colour={color}>
-                {prefixAt ? "@" : undefined}
-                {masquerade?.name ?? username ?? (
-                    <Text id="app.main.channel.unknown_user" />
+            <>
+                <Name {...otherProps} ref={innerRef} colour={color}>
+                    {prefixAt ? "@" : undefined}
+                    {masquerade?.name ?? username ?? (
+                        <Text id="app.main.channel.unknown_user" />
+                    )}
+                </Name>
+
+                {timed_out && (
+                    <Tooltip
+                        content={
+                            <Text
+                                id="app.main.channel.user_timed_out"
+                                fields={{
+                                    time: dayjs(timed_out).fromNow(true),
+                                }}
+                            />
+                        }>
+                        <TimeFive
+                            size={16}
+                            color="var(--secondary-foreground)"
+                        />
+                    </Tooltip>
                 )}
-            </Name>
+            </>
         );
 
         if (user?.bot) {
