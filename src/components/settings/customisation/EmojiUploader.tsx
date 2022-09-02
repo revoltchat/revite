@@ -19,7 +19,6 @@ export function EmojiUploader({ server }: Props) {
             <h3>
                 <Text id="app.settings.server_pages.emojis.upload" />
             </h3>
-            {fileId}
             <Form
                 schema={{
                     name: "text",
