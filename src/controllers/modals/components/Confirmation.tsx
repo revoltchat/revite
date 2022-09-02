@@ -14,9 +14,7 @@ import { ModalProps } from "../types";
  */
 export default function Confirmation(
     props: ModalProps<
-        | "leave_group"
         | "close_dm"
-        | "leave_server"
         | "delete_server"
         | "delete_channel"
         | "delete_bot"
@@ -31,8 +29,6 @@ export default function Confirmation(
         delete_server: ["confirm_delete", "delete"],
         delete_channel: ["confirm_delete", "delete"],
         delete_bot: ["confirm_delete", "delete"],
-        leave_group: ["confirm_leave", "leave"],
-        leave_server: ["confirm_leave", "leave"],
         unfriend_user: ["unfriend_user", "remove"],
         block_user: ["block_user", "block"],
     };
@@ -79,10 +75,8 @@ export default function Confirmation(
                     case "block_user":
                         await props.target.blockUser();
                         break;
-                    case "leave_group":
                     case "close_dm":
                     case "delete_channel":
-                    case "leave_server":
                     case "delete_server":
                         if (props.type != "delete_channel") history.push("/");
 
