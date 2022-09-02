@@ -4,12 +4,15 @@ import {
     shift,
     useFloating,
 } from "@floating-ui/react-dom-interactions";
+import { Plus } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { Message } from "revolt.js";
 import styled, { css } from "styled-components";
 
 import { createPortal } from "preact/compat";
-import { useCallback, useRef } from "preact/hooks";
+import { useCallback, useRef, useState } from "preact/hooks";
+
+import { IconButton } from "@revoltchat/ui";
 
 import { emojiDictionary } from "../../../../assets/emojis";
 import { useClient } from "../../../../controllers/client/ClientController";
@@ -29,6 +32,14 @@ const List = styled.div`
     flex-wrap: wrap;
     margin-top: 0.2em;
     align-items: center;
+
+    .add {
+        display: none;
+    }
+
+    &:hover .add {
+        display: grid;
+    }
 `;
 
 /**
@@ -79,6 +90,7 @@ const Reaction = styled.div<{ active: boolean }>`
  */
 export const Reactions = observer(({ message }: Props) => {
     const client = useClient();
+    const [showPicker, setPicker] = useState(false);
 
     /**
      * Render individual reaction entries
@@ -137,6 +149,16 @@ export const Reactions = observer(({ message }: Props) => {
             {Array.from(optional, (id) => (
                 <Entry key={id} id={id} user_ids={message.reactions.get(id)} />
             ))}
+            {message.channel?.havePermission("React") && (
+                <ReactionWrapper
+                    message={message}
+                    open={showPicker}
+                    setOpen={setPicker}>
+                    <IconButton className={showPicker ? "" : "add"}>
+                        <Plus size={20} />
+                    </IconButton>
+                </ReactionWrapper>
+            )}
         </List>
     );
 });
