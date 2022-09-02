@@ -8,38 +8,22 @@ import { Button, Column, Row, Stacked } from "@revoltchat/ui";
 
 import UserShort from "../../../components/common/user/UserShort";
 import { EmojiUploader } from "../../../components/settings/customisation/EmojiUploader";
-import { modalController } from "../../../controllers/modals/ModalController";
 
 interface Props {
     server: Server;
 }
 
-const List = styled.div`
-    gap: 8px;
-    display: flex;
-    flex-wrap: wrap;
-`;
-
-const Emoji = styled(Column)`
+const Emoji = styled(Row)`
     padding: 8px;
     border-radius: var(--border-radius);
     background: var(--secondary-background);
 `;
 
 const Preview = styled.img`
-    width: 72px;
-    height: 72px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
     border-radius: var(--border-radius);
-`;
-
-const UserInfo = styled(Row)`
-    font-size: 12px;
-
-    svg {
-        width: 14px;
-        height: 14px;
-    }
 `;
 
 export const Emojis = observer(({ server }: Props) => {
@@ -57,33 +41,22 @@ export const Emojis = observer(({ server }: Props) => {
                 {" – "}
                 {emoji.length}
             </h3>
-            <List>
-                {emoji.map((emoji) => (
-                    <Emoji key={emoji._id} centred>
-                        <Stacked>
-                            <Preview src={emoji.imageURL} />
-                        </Stacked>
-                        <span>{`:${emoji.name}:`}</span>
-                        <UserInfo centred>
-                            <UserShort user={emoji.creator} />
-                        </UserInfo>
-                        <Button
-                            palette="plain"
-                            onClick={() =>
-                                modalController.writeText(emoji._id)
-                            }>
-                            <Text id="app.context_menu.copy_id" />
+            {emoji.map((emoji) => (
+                <Emoji key={emoji._id} centred>
+                    <Stacked>
+                        <Preview src={emoji.imageURL} />
+                    </Stacked>
+                    <span>{`:${emoji.name}:`}</span>
+                    <Row centred>
+                        <UserShort user={emoji.creator} />
+                    </Row>
+                    {server.havePermission("ManageCustomisation") && (
+                        <Button palette="plain" onClick={() => emoji.delete()}>
+                            <Text id="app.special.modals.actions.delete" />
                         </Button>
-                        {server.havePermission("ManageCustomisation") && (
-                            <Button
-                                palette="plain"
-                                onClick={() => emoji.delete()}>
-                                <Text id="app.special.modals.actions.delete" />
-                            </Button>
-                        )}
-                    </Emoji>
-                ))}
-            </List>
+                    )}
+                </Emoji>
+            ))}
         </Column>
     );
 });
