@@ -185,6 +185,11 @@ const Container = styled.div<{ largeEmoji: boolean }>`
 const RE_QUOTE = /(^(?:>\s?){5})[>\s?]+(.*$)/gm;
 
 /**
+ * Regex for matching multi-line blockquotes
+ */
+const RE_BLOCKQUOTE = /^([^\S\r\n]*>[^\n]+\n?)+/gm;
+
+/**
  * Regex for matching HTML tags
  */
 const RE_HTML_TAGS = /^(<\/?[a-zA-Z0-9]+>)(.*$)/gm;
@@ -214,6 +219,9 @@ function sanitise(content: string) {
             // because remark renderer is collapsing empty
             // or otherwise whitespace-only lines of text
             .replace(RE_EMPTY_LINE, "‎")
+
+            // Ensure empty line after blockquotes for correct rendering
+            .replace(RE_BLOCKQUOTE, (match) => `${match}\n`)
     );
 }
 
