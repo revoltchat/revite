@@ -20,6 +20,7 @@ import BanMember from "./components/BanMember";
 import Changelog from "./components/Changelog";
 import ChannelInfo from "./components/ChannelInfo";
 import Clipboard from "./components/Clipboard";
+import ConfirmLeave from "./components/ConfirmLeave";
 import Confirmation from "./components/Confirmation";
 import CreateBot from "./components/CreateBot";
 import CreateCategory from "./components/CreateCategory";
@@ -240,9 +241,9 @@ export const modalController = new ModalControllerExtended({
     changelog: Changelog,
     channel_info: ChannelInfo,
     clipboard: Clipboard,
-    leave_group: Confirmation,
+    leave_group: ConfirmLeave,
     close_dm: Confirmation,
-    leave_server: Confirmation,
+    leave_server: ConfirmLeave,
     delete_server: Confirmation,
     delete_channel: Confirmation,
     delete_bot: Confirmation,

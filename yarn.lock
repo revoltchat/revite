@@ -2064,9 +2064,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@insertish/oapi@npm:0.1.16":
-  version: 0.1.16
-  resolution: "@insertish/oapi@npm:0.1.16"
+"@insertish/oapi@npm:0.1.18":
+  version: 0.1.18
+  resolution: "@insertish/oapi@npm:0.1.18"
   dependencies:
     axios: ^0.26.1
     openapi-typescript: ^5.2.0
@@ -2078,7 +2078,7 @@ __metadata:
       optional: true
   bin:
     oapilib: cli.js
-  checksum: 746e447fd41c6a3925b36af1747c8fe9591e5d93bf119a6a8d22ff76b779f325ec9c0f13dd77ff1957aa54c365c0c8ac9c5efab74c63d4897efe20c8c3270032
+  checksum: e83b1ac705f6aaf8fc3fd29198c70624aeec6150dc6b980af3f68285811fcdcbe09a3853908285e06c156890579dd49447ea381c85e6654a14e6ba53deba76e1
   languageName: node
   linkType: hard
 
@@ -3754,7 +3754,7 @@ __metadata:
     remark-math: ^5.1.1
     remark-parse: ^10.0.1
     remark-rehype: ^10.1.0
-    revolt.js: 6.0.16
+    revolt.js: 6.0.17
     rimraf: ^3.0.2
     sass: ^1.35.1
     semver: ^7.3.7
@@ -8012,20 +8012,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revolt-api@npm:0.5.5":
-  version: 0.5.5
-  resolution: "revolt-api@npm:0.5.5"
+"revolt-api@npm:0.5.5-3":
+  version: 0.5.5-3
+  resolution: "revolt-api@npm:0.5.5-3"
   dependencies:
-    "@insertish/oapi": 0.1.16
+    "@insertish/oapi": 0.1.18
     axios: ^0.26.1
     lodash.defaultsdeep: ^4.6.1
-  checksum: 38fa78e3f731a8753916da58347ac930ff911f7a45d67f9d3e55bdaf56be5eb11c8568803209a76d9a40e6d5faa4a5adfc80aa6377528df499080f5e3b75cd2d
+  checksum: adf13c87ad22acced931fbac45d49d858346ad03c0aea5045af2e38ee345b85a094b6b2abf76aed93dc6694daae5235e3fd9ed2f213f4700b5ce07688b8a4503
   languageName: node
   linkType: hard
 
-"revolt.js@npm:6.0.16":
-  version: 6.0.16
-  resolution: "revolt.js@npm:6.0.16"
+"revolt.js@npm:6.0.17":
+  version: 6.0.17
+  resolution: "revolt.js@npm:6.0.17"
   dependencies:
     "@insertish/exponential-backoff": 3.1.0-patch.2
     "@insertish/isomorphic-ws": ^4.0.1
@@ -8036,10 +8036,10 @@ __metadata:
     lodash.isequal: ^4.5.0
     long: ^5.2.0
     mobx: ^6.3.2
-    revolt-api: 0.5.5
+    revolt-api: 0.5.5-3
     ulid: ^2.3.0
     ws: ^8.2.2
-  checksum: eb7381de4a149a216496f3467b19b8e52548b0dfd02c5a0f6274f05ca7ed4d37f9985408b1b2317e4ae3b35c439df88b5ad33620c6aa5a8731783a47d14421e3
+  checksum: 2879483d0a3035dbca67da52ff9d74e9f2cc7e7e5421f95605ae99c38f501180e74b95b3482577c0256431b11ba867687da678a6be2bbdb672c39baebe69c13a
   languageName: node
   linkType: hard
 
