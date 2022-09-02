@@ -1,8 +1,9 @@
 import { Server } from "revolt.js";
 
+import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import { Form } from "@revoltchat/ui";
+import { Button, Column, Form, FormElement, Row } from "@revoltchat/ui";
 
 import { FileUploader } from "../../../controllers/client/jsx/legacy/FileUploads";
 
@@ -15,7 +16,9 @@ export function EmojiUploader({ server }: Props) {
 
     return (
         <>
-            <h3>Upload Emoji</h3>
+            <h3>
+                <Text id="app.settings.server_pages.emojis.upload" />
+            </h3>
             <Form
                 schema={{
                     name: "text",
@@ -42,11 +45,6 @@ export function EmojiUploader({ server }: Props) {
                         ),
                     },
                 }}
-                submitBtn={{
-                    children: "Save",
-                    palette: "secondary",
-                    disabled: !fileId,
-                }}
                 onSubmit={async ({ name }) => {
                     await server.client.api.put(`/custom/emoji/${fileId}`, {
                         name,
@@ -54,8 +52,20 @@ export function EmojiUploader({ server }: Props) {
                     });
 
                     setFileId("");
-                }}
-            />
+                }}>
+                <Row>
+                    <FormElement id="file" />
+                    <Column>
+                        <FormElement id="name" />
+                        <Button
+                            type="submit"
+                            palette="secondary"
+                            disabled={!fileId}>
+                            <Text id="app.special.modals.actions.save" />
+                        </Button>
+                    </Column>
+                </Row>
+            </Form>
         </>
     );
 }
