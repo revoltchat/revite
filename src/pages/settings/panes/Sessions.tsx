@@ -8,6 +8,7 @@ import {
     Macos,
     Opera,
     Samsung,
+    Windowsxp,
 } from "@styled-icons/simple-icons";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useHistory } from "react-router-dom";
@@ -99,6 +100,8 @@ export function Sessions() {
                 return <Macos size={14} />;
             case /i(Pad)?os/i.test(name):
                 return <Apple size={14} />;
+            case /windows 7/i.test(name):
+                return <Windowsxp size={14} />;
             case /windows/i.test(name):
                 return <Windows size={14} />;
             default:
