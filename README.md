@@ -43,7 +43,7 @@ Get revite up and running locally.
 git clone --recursive https://github.com/revoltchat/revite
 cd revite
 yarn
-yarn build:components
+yarn build:deps
 yarn dev
 ```
 
@@ -56,7 +56,7 @@ You can now access the client at http://local.revolt.chat:3000.
 | `yarn pull`                             | Setup assets required for Revite.            |
 | `yarn dev`                              | Start the Revolt client in development mode. |
 | `yarn build`                            | Build the Revolt client.                     |
-| `yarn build:components`                 | Build the Revolt components library.         |
+| `yarn build:deps`                       | Build external dependencies.                 |
 | `yarn preview`                          | Start a local server with the built client.  |
 | `yarn lint`                             | Run ESLint on the client.                    |
 | `yarn fmt`                              | Run Prettier on the client.                  |
