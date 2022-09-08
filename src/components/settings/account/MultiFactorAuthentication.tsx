@@ -100,7 +100,11 @@ export default function MultiFactorAuthentication() {
         // Decide whether to disable or enable.
         if (mfa!.totp_mfa) {
             // Disable TOTP authentication
-            await client.api.delete("/auth/mfa/totp", toConfig(ticket.token));
+            await client.api.delete(
+                "/auth/mfa/totp",
+                {},
+                toConfig(ticket.token),
+            );
 
             setMFA({
                 ...mfa!,
