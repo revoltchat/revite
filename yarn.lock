@@ -8023,9 +8023,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revolt.js@npm:6.0.17":
-  version: 6.0.17
-  resolution: "revolt.js@npm:6.0.17"
+"revolt.js@portal:external/revolt.js::locator=client%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "revolt.js@portal:external/revolt.js::locator=client%40workspace%3A."
   dependencies:
     "@insertish/exponential-backoff": 3.1.0-patch.2
     "@insertish/isomorphic-ws": ^4.0.1
@@ -8039,9 +8039,8 @@ __metadata:
     revolt-api: 0.5.5-3
     ulid: ^2.3.0
     ws: ^8.2.2
-  checksum: 2879483d0a3035dbca67da52ff9d74e9f2cc7e7e5421f95605ae99c38f501180e74b95b3482577c0256431b11ba867687da678a6be2bbdb672c39baebe69c13a
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "rimraf@npm:^3.0.2":
   version: 3.0.2
