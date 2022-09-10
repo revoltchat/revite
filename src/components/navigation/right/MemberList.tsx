@@ -118,20 +118,20 @@ export default function MemberList({
                     return (
                         <NoOomfie>
                             <div>
-                                Offline users temporarily disabled for this
-                                server, see issue{" "}
+                                Offline users have temporarily been disabled for
+                                larger servers - see{" "}
                                 <a
-                                    href="https://github.com/revoltchat/delta/issues/128"
+                                    href="https://github.com/revoltchat/backend/issues/178"
                                     target="_blank"
                                     rel="noreferrer">
-                                    #128
+                                    issue #178
                                 </a>{" "}
                                 for when this will be resolved.
                             </div>
                             <div>
-                                You may re-enable them in{" "}
+                                You may re-enable them{" "}
                                 <Link to="/settings/experiments">
-                                    <a>experiments</a>
+                                    <a>here</a>
                                 </Link>
                                 .
                             </div>

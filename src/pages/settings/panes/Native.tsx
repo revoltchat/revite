@@ -165,18 +165,22 @@ export function Native() {
                         title="I understand there's no going back."
                         description={
                             <>
-                                This will change the app to the 'dev' branch,
-                                instead loading the app from a local server on
-                                your machine.
+                                {
+                                    "This will change the app to the 'dev' branch, instead loading the app from a local server on your machine."
+                                }
                                 <br />
                                 <b>
-                                    Without a server running,{" "}
+                                    {"Without a server running, "}
                                     <span style={{ color: "var(--error)" }}>
-                                        the app will not load!
+                                        {"the app will not load!"}
                                     </span>
                                 </b>
                                 <br />
-                                <code>yarn dev --port 3001</code>
+                                {
+                                    "Make sure the app is available on port 3001 by running "
+                                }
+                                <code>{"yarn dev --port 3001 --host"}</code>
+                                {"."}
                             </>
                         }
                     />
