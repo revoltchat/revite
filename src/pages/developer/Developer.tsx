@@ -2,6 +2,8 @@ import { Wrench } from "@styled-icons/boxicons-solid";
 
 import { useEffect, useState } from "preact/hooks";
 
+import { Button } from "@revoltchat/ui";
+
 import PaintCounter from "../../lib/PaintCounter";
 import { TextReact } from "../../lib/i18n";
 
@@ -45,8 +47,15 @@ export default function Developer() {
             </div>
 
             <div style={{ padding: "16px" }}>
-                <a style={"cursor: pointer;"} onClick={() => setCrash(true)}>click to crash app</a>
-                {crash && (window as any).sus.sus()}
+                <Button palette="error" onClick={() => setCrash(true)}>
+                    Click to crash app
+                </Button>
+                {
+                    crash &&
+                        (
+                            window as any
+                        ).sus.sus() /* this runs a function that doesn't exist */
+                }
                 {/*<span>
                     <b>Voice Status:</b> {VoiceStatus[voice.status]}
                 </span>
