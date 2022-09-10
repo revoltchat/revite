@@ -98,8 +98,8 @@ export type Modal = {
     | {
           type: "user_profile";
           user_id: string;
-          dummy?: boolean;
-          dummyProfile?: API.UserProfile;
+          isPlaceholder?: boolean;
+          placeholderProfile?: API.UserProfile;
       }
     | {
           type: "create_bot";
