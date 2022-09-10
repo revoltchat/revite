@@ -1590,7 +1590,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.14.8, @babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.8.4":
   version: 7.15.3
   resolution: "@babel/runtime@npm:7.15.3"
   dependencies:
@@ -1614,6 +1614,15 @@ __metadata:
   dependencies:
     regenerator-runtime: ^0.13.4
   checksum: 4d56bdb82890f386d5a57c40ef985a0ed7f0a78f789377a2d0c3e8826819e0f7f16ba0fe906d9b2241c5f7ca56630ef0653f5bb99f03771f7b87ff8af4bf5fe3
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.17.9":
+  version: 7.18.9
+  resolution: "@babel/runtime@npm:7.18.9"
+  dependencies:
+    regenerator-runtime: ^0.13.4
+  checksum: 36dd736baba7164e82b3cc9d43e081f0cb2d05ff867ad39cac515d99546cee75b7f782018b02a3dcf5f2ef3d27f319faa68965fdfec49d4912c60c6002353a2e
   languageName: node
   linkType: hard
 
@@ -2020,13 +2029,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hcaptcha/react-hcaptcha@npm:^0.3.6":
-  version: 0.3.7
-  resolution: "@hcaptcha/react-hcaptcha@npm:0.3.7"
+"@hcaptcha/react-hcaptcha@npm:^1.4.4":
+  version: 1.4.4
+  resolution: "@hcaptcha/react-hcaptcha@npm:1.4.4"
+  dependencies:
+    "@babel/runtime": ^7.17.9
   peerDependencies:
     react: ">= 16.3.0"
     react-dom: ">= 16.3.0"
-  checksum: 4a0ce88dd7a719cae2dc84255466a8636540287c2208f8fe46003a67c72f65509cabf8452cad73982a514cfce2e475d209a3e67cd41a559465f185fb4176a92f
+  checksum: 16b046702957f4ca5041c37f2a5012e07415469667fee0396b4764baa7ce0fe5a8577cf652b977732f026d745c999f7e1522bca3b3ca6effea5cfff189ddff2f
   languageName: node
   linkType: hard
 
@@ -2414,16 +2425,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@styled-icons/simple-icons@npm:^10.33.0":
-  version: 10.37.0
-  resolution: "@styled-icons/simple-icons@npm:10.37.0"
+"@styled-icons/simple-icons@npm:^10.45.0":
+  version: 10.45.0
+  resolution: "@styled-icons/simple-icons@npm:10.45.0"
   dependencies:
-    "@babel/runtime": ^7.14.8
+    "@babel/runtime": ^7.15.4
     "@styled-icons/styled-icon": ^10.6.3
   peerDependencies:
     react: "*"
     styled-components: "*"
-  checksum: d94b94f6ad82aef50c69933f2f99d9ccdcadf3579f1ecd9fc5b5537ff1a2d7c0630579c4f1e0f73d6893a4e1cea4010d4ab927ba848a6bab7b1fba31e59c0f01
+  checksum: fda28f4ce59282916413ac2d638440a186f4ae2b1b5904c0e9695efdeec3849800a659f1292299d9afa45276e926f4110b6cbe9259dc38d9ffdc41ef0b4c0086
   languageName: node
   linkType: hard
 
@@ -2692,7 +2703,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^15.12.4":
+"@types/node@npm:^15.14.9":
   version: 15.14.9
   resolution: "@types/node@npm:15.14.9"
   checksum: 49f7f0522a3af4b8389aee660e88426490cd54b86356672a1fedb49919a8797c00d090ec2dcc4a5df34edc2099d57fc2203d796c4e7fbd382f2022ccd789eee7
@@ -2722,14 +2733,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prismjs@npm:^1.16.5":
-  version: 1.16.6
-  resolution: "@types/prismjs@npm:1.16.6"
-  checksum: fcb489d19d21292ceffc661fd9c9aa8ba36bcd2835388fa85812aa60cdf14d4720ceb22be7a088aa753c48462e75bcd8191d178a085e4a8b0d3f34471d30d86a
-  languageName: node
-  linkType: hard
-
-"@types/prismjs@npm:^1.16.6":
+"@types/prismjs@npm:^1.16.6, @types/prismjs@npm:^1.26.0":
   version: 1.26.0
   resolution: "@types/prismjs@npm:1.26.0"
   checksum: cd5e7a6214c1f4213ec512a5fcf6d8fe37a56b813fc57ac95b5ff5ee074742bfdbd2f2730d9fd985205bf4586728e09baa97023f739e5aa1c9735a7c1ecbd11a
@@ -3681,7 +3685,7 @@ __metadata:
     "@fontsource/space-mono": ^4.4.5
     "@fontsource/ubuntu": ^4.4.5
     "@fontsource/ubuntu-mono": ^4.4.5
-    "@hcaptcha/react-hcaptcha": ^0.3.6
+    "@hcaptcha/react-hcaptcha": ^1.4.4
     "@insertish/vite-plugin-babel-macros": ^1.0.5
     "@preact/preset-vite": ^2.0.0
     "@revoltchat/ui": ^1.0.77
@@ -3689,7 +3693,7 @@ __metadata:
     "@styled-icons/boxicons-logos": ^10.38.0
     "@styled-icons/boxicons-regular": ^10.38.0
     "@styled-icons/boxicons-solid": ^10.38.0
-    "@styled-icons/simple-icons": ^10.33.0
+    "@styled-icons/simple-icons": ^10.45.0
     "@tippyjs/react": 4.2.6
     "@traptitech/markdown-it-katex": ^3.4.3
     "@traptitech/markdown-it-spoiler": ^1.1.6
@@ -3697,9 +3701,9 @@ __metadata:
     "@types/lodash": ^4
     "@types/lodash.defaultsdeep": ^4.6.6
     "@types/lodash.isequal": ^4.5.5
-    "@types/node": ^15.12.4
+    "@types/node": ^15.14.9
     "@types/preact-i18n": ^2.3.0
-    "@types/prismjs": ^1.16.5
+    "@types/prismjs": ^1.26.0
     "@types/react-beautiful-dnd": ^13
     "@types/react-helmet": ^6.1.1
     "@types/react-router-dom": ^5.1.7
