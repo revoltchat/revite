@@ -72,8 +72,8 @@ export const Profile = observer(() => {
             <div className={styles.preview}>
                 <UserProfile
                     user_id={client.user!._id}
-                    dummy={true}
-                    dummyProfile={profile}
+                    isPlaceholder={true}
+                    placeholderProfile={profile}
                     {...({} as any)}
                 />
             </div>
