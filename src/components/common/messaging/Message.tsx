@@ -117,7 +117,11 @@ const Message = observer(
                     }
                     contrast={contrast}
                     sending={typeof queued !== "undefined"}
-                    mention={message.mention_ids?.includes(client.user!._id)}
+                    mention={
+                        message.mention_ids && client.user
+                            ? message.mention_ids.includes(client.user._id)
+                            : undefined
+                    }
                     failed={typeof queued?.error !== "undefined"}
                     {...(attachContext
                         ? useTriggerEvents("Menu", {
