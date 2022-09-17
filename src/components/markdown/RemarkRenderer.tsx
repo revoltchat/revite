@@ -180,9 +180,9 @@ const Container = styled.div<{ largeEmoji: boolean }>`
 `;
 
 /**
- * Regex for matching execessive blockquotes
+ * Regex for matching execessive recursion of blockquotes and lists
  */
-const RE_QUOTE = /(^(?:>\s?){5})[>\s?]+(.*$)/gm;
+const RE_RECURSIVE = /(^(?:[>*+-][^\S\r\n]*){5})(?:[>*+-][^\S\r\n]*)+(.*$)/gm;
 
 /**
  * Regex for matching multi-line blockquotes
@@ -212,8 +212,8 @@ const RE_PLUS = /^\s*\+(?:$|[^+])/gm;
 function sanitise(content: string) {
     return (
         content
-            // Strip excessive blockquote indentation
-            .replace(RE_QUOTE, (_, m0, m1) => m0 + m1)
+            // Strip excessive blockquote or list indentation
+            .replace(RE_RECURSIVE, (_, m0, m1) => m0 + m1)
 
             // Append empty character if string starts with html tag
             // This is to avoid inconsistencies in rendering Markdown inside/after HTML tags
