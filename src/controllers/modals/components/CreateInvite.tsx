@@ -78,7 +78,7 @@ export default function CreateInvite({
                     children: <Text id="app.context_menu.copy_link" />,
                     onClick: () =>
                         modalController.writeText(
-                            `${window.location.protocol}//${window.location.host}/invite/${code}`,
+                            `https://rvlt.gg/${code}`,
                         ),
                 },
             ]}
