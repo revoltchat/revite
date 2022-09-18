@@ -13,6 +13,27 @@ const ALLOWED_ORIGINS = [
     "local.revolt.chat",
 ];
 
+const PROTOCOL_WHITELIST = [
+    "https",
+    "ftp",
+    "ftps",
+    "mailto",
+    "news",
+    "irc",
+    "gopher",
+    "nntp",
+    "feed",
+    "telnet",
+    "mms",
+    "rtsp",
+    "svn",
+    "git",
+    "tel",
+    "fax",
+    "xmpp",
+    "magnet",
+];
+
 export function determineLink(href?: string): LinkType {
     let internal,
         url: URL | null = null;
@@ -22,13 +43,13 @@ export function determineLink(href?: string): LinkType {
             url = new URL(href, location.href);
 
             if (ALLOWED_ORIGINS.includes(url.hostname)) {
-                const path = url.pathname;
+                const path = url.pathname.replace(/[^A-z0-9/]/g, "");
                 return { type: "navigate", path };
             }
         } catch (err) {}
 
         if (!internal && url) {
-            if (!url.protocol.startsWith("javascript")) {
+            if (PROTOCOL_WHITELIST.includes(url.protocol)) {
                 return { type: "external", href, url };
             }
         }
