@@ -1,3 +1,6 @@
+/**
+ * Type of link
+ */
 type LinkType =
     | {
           type: "navigate";
@@ -6,6 +9,9 @@ type LinkType =
     | { type: "external"; href: string; url: URL }
     | { type: "none" };
 
+/**
+ * Allowed origins for relative navigation
+ */
 const ALLOWED_ORIGINS = [
     location.hostname,
     "app.revolt.chat",
@@ -13,27 +19,36 @@ const ALLOWED_ORIGINS = [
     "local.revolt.chat",
 ];
 
+/**
+ * Permissible protocols in URLs
+ */
 const PROTOCOL_WHITELIST = [
-    "https",
-    "ftp",
-    "ftps",
-    "mailto",
-    "news",
-    "irc",
-    "gopher",
-    "nntp",
-    "feed",
-    "telnet",
-    "mms",
-    "rtsp",
-    "svn",
-    "git",
-    "tel",
-    "fax",
-    "xmpp",
-    "magnet",
+    "http:",
+    "https:",
+    "ftp:",
+    "ftps:",
+    "mailto:",
+    "news:",
+    "irc:",
+    "gopher:",
+    "nntp:",
+    "feed:",
+    "telnet:",
+    "mms:",
+    "rtsp:",
+    "svn:",
+    "git:",
+    "tel:",
+    "fax:",
+    "xmpp:",
+    "magnet:",
 ];
 
+/**
+ * Determine what kind of link we are dealing with and sanitise any malicious input
+ * @param href Input URL
+ * @returns Link Type
+ */
 export function determineLink(href?: string): LinkType {
     let internal,
         url: URL | null = null;
