@@ -69,7 +69,7 @@ export default observer(() => {
 
             return flakes;
         }
-        if (isOctober) {
+        else if (isOctober) {
             for (let i = 0; i < 15; i++) {
                 flakes.push("🎃");
                 flakes.push("💀");
