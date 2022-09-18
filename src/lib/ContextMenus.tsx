@@ -1113,6 +1113,15 @@ export default function ContextMenus() {
                             <MenuItem
                                 data={{
                                     action: "set_presence",
+                                    presence: "Focus",
+                                }}
+                                disabled={!isOnline}>
+                                <div className="indicator focus" />
+                                <Text id={`app.status.focus`} />
+                            </MenuItem>
+                            <MenuItem
+                                data={{
+                                    action: "set_presence",
                                     presence: "Busy",
                                 }}
                                 disabled={!isOnline}>
