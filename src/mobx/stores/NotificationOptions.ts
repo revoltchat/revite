@@ -157,6 +157,8 @@ export default class NotificationOptions
             return false;
         }
 
+        // Check channel notification settings
+        const mentioned = message.mention_ids?.includes(user._id);
         switch (this.computeForChannel(message.channel!)) {
             case "muted":
             case "none":
@@ -164,7 +166,12 @@ export default class NotificationOptions
                 return false;
             case "mention":
                 // Ignore if it doesn't mention us.
-                if (!message.mention_ids?.includes(user._id)) return false;
+                if (!mentioned) return false;
+        }
+
+        // Check if we are in focus mode
+        if (user.status?.presence === "Focus" && !mentioned) {
+            return false;
         }
 
         return true;

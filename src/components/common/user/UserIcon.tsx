@@ -25,6 +25,8 @@ export function useStatusColour(user?: User) {
     return user?.online && user?.status?.presence !== "Invisible"
         ? user?.status?.presence === "Idle"
             ? theme.getVariable("status-away")
+            : user?.status?.presence === "Focus"
+            ? theme.getVariable("status-focus")
             : user?.status?.presence === "Busy"
             ? theme.getVariable("status-busy")
             : theme.getVariable("status-online")
