@@ -92,6 +92,10 @@
             background: var(--status-away);
         }
 
+        &.focus {
+            background: var(--status-focus);
+        }
+
         &.busy {
             background: var(--status-busy);
         }
