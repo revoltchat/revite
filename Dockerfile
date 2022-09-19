@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 COPY . .
 COPY .env.build .env
 
+RUN corepack pnpm install
 RUN pnpm install --frozen-lockfile
 RUN pnpm typecheck
 RUN NODE_OPTIONS='--max-old-space-size=4096' pnpm build:all
