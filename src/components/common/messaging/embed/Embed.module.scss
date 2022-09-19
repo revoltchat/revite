@@ -1,6 +1,6 @@
 .embed {
     margin: 0.2em 0;
-
+    position: relative;
     iframe {
         border: none;
         border-radius: var(--border-radius);
@@ -134,4 +134,21 @@
     .openIcon {
         grid-area: open;
     }
+}
+
+.spoiler_container {
+    position: absolute;
+    height: 100%;
+    width:100%;
+    background:var(--primary-header);
+    display: flex;
+    align-items: center;
+    top:0;
+    left:0;
+    cursor:pointer;
+}
+
+.spoiler_title{
+    text-align: center;
+    width:100%;
 }
