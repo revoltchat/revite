@@ -198,7 +198,15 @@ export default function MultiFactorAuthentication() {
                         color={!mfa?.totp_mfa ? "var(--error)" : undefined}
                     />
                 }
-                description={"Set up time-based one-time password."}
+                description={
+                    <Text
+                        id={`app.settings.pages.account.2fa.${
+                            mfa?.recovery_active
+                                ? "remove"
+                                : "add"
+                        }_long`}
+                    />
+                }
                 disabled={!mfa || (!mfa.recovery_active && !mfa.totp_mfa)}
                 onClick={totpAction}>
                 <Text

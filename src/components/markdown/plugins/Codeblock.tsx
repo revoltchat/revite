@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 import { useCallback, useRef } from "preact/hooks";
 
+import { Localizer, Text } from "preact-i18n";
+
 import { Tooltip } from "@revoltchat/ui";
 
 import { modalController } from "../../../controllers/modals/ModalController";
@@ -66,7 +68,7 @@ export const RenderCodeblock: React.FC<{ class: string }> = ({
     return (
         <Base ref={ref}>
             <Lang>
-                <Tooltip content="Copy to Clipboard" placement="top">
+                <Tooltip content={ <Text id="app.popover.misc.copy" /> } placement="top">
                     {/**
                     // @ts-expect-error Preact-React */}
                     <a onClick={onCopy}>{text}</a>

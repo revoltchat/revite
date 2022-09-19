@@ -238,7 +238,7 @@ export function Sessions() {
                 icon={<LogOut size={24} color={"var(--error)"} />}
                 action={"chevron"}
                 description={
-                    "Logs you out of all sessions except this device."
+                    <Text id="app.settings.pages.sessions.logout_long" />
                 }>
                 <Text id="app.settings.pages.sessions.logout" />
             </CategoryButton>

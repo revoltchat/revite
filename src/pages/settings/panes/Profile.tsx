@@ -175,12 +175,12 @@ export const Profile = observer(() => {
             <div className={styles.markdown}>
                 <Markdown size="24" />
                 <h5>
-                    Descriptions support Markdown formatting,{" "}
+                    <Text id="app.settings.tips.markdown.a" />{" "}
                     <a
                         href="https://developers.revolt.chat/markdown"
                         target="_blank"
                         rel="noreferrer">
-                        learn more here
+                        <Text id="app.settings.tips.markdown.b" />
                     </a>
                     .
                 </h5>
@@ -202,9 +202,9 @@ export const Profile = observer(() => {
             <LineDivider />
             <Tip>
                 <span>
-                    Want to change your username?{" "}
+                    <Text id="app.settings.tips.profile.a" />{" "}
                     <a onClick={() => switchPage("account")}>
-                        Head over to your account settings.
+                        <Text id="app.settings.tips.profile.b" />
                     </a>
                 </span>
             </Tip>

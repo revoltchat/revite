@@ -182,6 +182,7 @@ export default observer(() => {
                                 </CategoryButton>
                             </Link>
                         </div>
+                        {/* TODO: TRANSLATE */}
                         {isDecember && (
                             <a href="#" onClick={toggleSeasonalTheme}>
                                 Turn {seasonalTheme ? "off" : "on"} homescreen

@@ -5,6 +5,8 @@ import styled, { css } from "styled-components/macro";
 
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
+import { Text } from "preact-i18n";
+
 import { Header, Preloader } from "@revoltchat/ui";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
@@ -19,7 +21,6 @@ const Container = styled.div`
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-
     ${() =>
         isTouchscreenDevice
             ? css`
@@ -28,7 +29,6 @@ const Container = styled.div`
                   width: 100%;
                   height: 100%;
                   position: fixed;
-
                   padding-bottom: 50px;
                   background: var(--background);
               `
@@ -39,7 +39,6 @@ const Container = styled.div`
 
 const Frame = styled.iframe<{ loaded: boolean }>`
     border: none;
-
     ${() =>
         !isTouchscreenDevice &&
         css`
@@ -47,13 +46,11 @@ const Frame = styled.iframe<{ loaded: boolean }>`
             border-start-start-radius: 8px;
             border-end-start-radius: 8px;
         `}
-
     ${() =>
         isTouchscreenDevice &&
         css`
             padding-top: 56px;
         `}
-
     ${(props) =>
         props.loaded
             ? css`
@@ -66,7 +63,6 @@ const Frame = styled.iframe<{ loaded: boolean }>`
 
 const Loader = styled.div`
     flex-grow: 1;
-
     ${() =>
         !isTouchscreenDevice &&
         css`
@@ -165,7 +161,7 @@ export default function Discover() {
             {isTouchscreenDevice && (
                 <Header palette="primary" withTransparency>
                     <Compass size={27} />
-                    Discover
+                    <Text id="app.navigation.tabs.discover" />
                 </Header>
             )}
             {!loaded && (

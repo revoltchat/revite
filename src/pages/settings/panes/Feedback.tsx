@@ -54,8 +54,8 @@ export function Feedback() {
                     <CategoryButton
                         action="chevron"
                         icon={<Group size={24} />}
-                        description="You can report issues and discuss improvements with us directly here.">
-                        Join Testers server.
+                        description={<Text id="app.home.join-testers_desc" />}>
+                        <Text id="app.home.join-testers_desc" />
                     </CategoryButton>
                 </a>
             </Link>

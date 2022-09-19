@@ -2,6 +2,7 @@ import { Check } from "@styled-icons/boxicons-regular";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import { Modal, Preloader } from "@revoltchat/ui";
@@ -24,20 +25,24 @@ export default function ConfirmDelete() {
 
     return (
         <Modal
-            title={deleted ? "Confirmed deletion." : "Please wait..."}
+            title={
+                <Text id={`${ 
+                    deleted
+                        ? 'app.special.modals.account.delete.confirmation'
+                        : 'generic.please_wait'
+                }`} />
+            }
             description={
                 deleted ? (
                     <>
-                        Your account will be deleted in 7 days.
-                        <br />
-                        You may contact{" "}
+                        <Text id="app.special.modals.account.delete.long.a" />{" "}
                         <a href="mailto:contact@revolt.chat">
-                            Revolt support
+                            <Text id="app.special.modals.account.delete.long.b" />
                         </a>{" "}
-                        to cancel the request if you wish.
+                        <Text id="app.special.modals.account.delete.long.c" />
                     </>
                 ) : (
-                    "Contacting the server."
+                    <Text id="generic.contacting_server" />
                 )
             }
             nonDismissable>
