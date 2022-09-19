@@ -53,7 +53,7 @@ export default class SAudio {
         setTimeout(() => this.loadCache(), 0);
     }
 
-    @action setEnabled(sound: Sounds, enabled: boolean) {
+    setEnabled(sound: Sounds, enabled: boolean) {
         const obj = this.settings.get("notifications:sounds");
         this.settings.set("notifications:sounds", {
             ...obj,
@@ -64,7 +64,7 @@ export default class SAudio {
         });
     }
 
-    @computed getSound(sound: Sounds, options?: SoundOptions): Sound {
+    getSound(sound: Sounds, options?: SoundOptions): Sound {
         return {
             path: DefaultSoundPack[sound],
             enabled: DEFAULT_SOUNDS.includes(sound),
@@ -72,7 +72,7 @@ export default class SAudio {
         };
     }
 
-    @computed getState(): ({ id: Sounds } & Sound)[] {
+    getState(): ({ id: Sounds } & Sound)[] {
         const options = this.settings.get("notifications:sounds");
         return ALL_SOUNDS.map((id) => {
             return { id, ...this.getSound(id, options) };
@@ -82,11 +82,10 @@ export default class SAudio {
     getAudio(path: string) {
         if (this.cache.has(path)) {
             return this.cache.get(path)!;
-        } 
-            const el = new Audio(path);
-            this.cache.set(path, el);
-            return el;
-        
+        }
+        const el = new Audio(path);
+        this.cache.set(path, el);
+        return el;
     }
 
     loadCache() {
@@ -100,7 +99,7 @@ export default class SAudio {
             try {
                 audio.play();
             } catch (err) {
-                console.error("Hit error while playing", `${sound  }:`, err);
+                console.error("Hit error while playing", `${sound}:`, err);
             }
         }
     }

@@ -7,3 +7,6 @@
 [submodule "external/revolt.js"]
 	path = external/revolt.js
 	url = https://github.com/revoltchat/revolt.js
+[submodule "packages/hast-util-table-cell-style"]
+	path = packages/hast-util-table-cell-style
+	url = https://github.com/revoltchat/hast-util-table-cell-style

@@ -19,7 +19,7 @@ export default class SSecurity {
         makeAutoObservable(this);
     }
 
-    @action addTrustedOrigin(origin: string) {
+    addTrustedOrigin(origin: string) {
         this.settings.set("security:trustedOrigins", [
             ...(this.settings.get("security:trustedOrigins") ?? []).filter(
                 (x) => x !== origin,
@@ -28,7 +28,7 @@ export default class SSecurity {
         ]);
     }
 
-    @computed isTrustedOrigin(origin: string) {
+    isTrustedOrigin(origin: string) {
         if (TRUSTED_DOMAINS.find((x) => origin.endsWith(x))) {
             return true;
         }

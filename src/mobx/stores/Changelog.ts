@@ -37,7 +37,7 @@ export default class Changelog implements Store, Persistent<Data>, Syncable {
         };
     }
 
-    @action hydrate(data: Data) {
+    hydrate(data: Data) {
         if (data.viewed) {
             this.viewed = data.viewed;
         }

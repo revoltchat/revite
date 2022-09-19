@@ -10,8 +10,8 @@ import remarkRehype from "remark-rehype";
 import styled, { css } from "styled-components";
 import { unified } from "unified";
 
-import { createElement } from "preact";
 import { memo } from "preact/compat";
+import { createElement, Fragment } from "preact";
 import { useLayoutEffect, useMemo, useState } from "preact/hooks";
 
 import { MarkdownProps } from "./Markdown";

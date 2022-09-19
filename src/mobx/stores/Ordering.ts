@@ -44,7 +44,7 @@ export default class Ordering implements Store, Persistent<Data>, Syncable {
         };
     }
 
-    @action hydrate(data: Data) {
+    hydrate(data: Data) {
         if (data.servers) {
             this.servers = data.servers;
         }
@@ -63,7 +63,7 @@ export default class Ordering implements Store, Persistent<Data>, Syncable {
     /**
      * All known servers with ordering applied
      */
-    @computed get orderedServers() {
+    get orderedServers() {
         const client = clientController.getReadyClient();
         const known = new Set(client?.servers.keys() ?? []);
         const ordered = [...this.servers];
@@ -85,7 +85,7 @@ export default class Ordering implements Store, Persistent<Data>, Syncable {
     /**
      * Re-order a server
      */
-    @action reorderServer(source: number, dest: number) {
+    reorderServer(source: number, dest: number) {
         this.servers = reorder(
             this.orderedServers.map((x) => x._id),
             source,

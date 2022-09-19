@@ -46,13 +46,13 @@ export default class Auth implements Store, Persistent<Data> {
         return "auth";
     }
 
-    @action toJSON() {
+    toJSON() {
         return {
             sessions: JSON.parse(JSON.stringify(mapToRecord(this.sessions))),
         };
     }
 
-    @action hydrate(data: Data) {
+    hydrate(data: Data) {
         if (Array.isArray(data.sessions)) {
             data.sessions.forEach(([key, value]) =>
                 this.sessions.set(key, value),
@@ -73,7 +73,7 @@ export default class Auth implements Store, Persistent<Data> {
      * @param session Session
      * @param apiUrl Custom API URL
      */
-    @action setSession(session: Session, apiUrl?: string) {
+    setSession(session: Session, apiUrl?: string) {
         this.sessions.set(session.user_id, { session, apiUrl });
     }
 
@@ -81,7 +81,7 @@ export default class Auth implements Store, Persistent<Data> {
      * Remove existing session by user ID.
      * @param user_id User ID tied to session
      */
-    @action removeSession(user_id: string) {
+    removeSession(user_id: string) {
         this.sessions.delete(user_id);
     }
 
@@ -89,14 +89,14 @@ export default class Auth implements Store, Persistent<Data> {
      * Get all known accounts.
      * @returns Array of accounts
      */
-    @computed getAccounts() {
+    getAccounts() {
         return [...this.sessions.values()];
     }
 
     /**
      * Remove current session.
      */
-    /*@action logout() {
+    /*logout() {
         this.current && this.removeSession(this.current);
     }*/
 
@@ -104,7 +104,7 @@ export default class Auth implements Store, Persistent<Data> {
      * Get current session.
      * @returns Current session
      */
-    /*@computed getSession() {
+    /*getSession() {
         if (!this.current) return;
         return this.sessions.get(this.current)!.session;
     }*/
@@ -113,7 +113,7 @@ export default class Auth implements Store, Persistent<Data> {
      * Check whether we are currently logged in.
      * @returns Whether we are logged in
      */
-    @computed isLoggedIn() {
+    isLoggedIn() {
         // ! FIXME: temp proxy info
         return clientController.getActiveSession()?.ready;
     }

@@ -2,6 +2,7 @@
 import { XCircle, Plus, Share, X, File } from "@styled-icons/boxicons-regular";
 import styled from "styled-components/macro";
 
+import { Fragment } from "preact";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
@@ -192,7 +193,6 @@ export default function FilePreview({ state, addFile, removeFile }: Props) {
         <Container>
             <Carousel>
                 {state.files.map((file, index) => (
-                    // @ts-expect-error brokey
                     // eslint-disable-next-line react/jsx-no-undef
                     <Fragment key={file.name}>
                         {index === CAN_UPLOAD_AT_ONCE && <Divider />}

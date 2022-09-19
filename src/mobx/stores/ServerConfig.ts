@@ -30,7 +30,7 @@ export default class ServerConfig
         return JSON.parse(JSON.stringify(this.config));
     }
 
-    @action hydrate(data: API.RevoltConfig) {
+    hydrate(data: API.RevoltConfig) {
         this.config = data ?? null;
     }
 
@@ -58,7 +58,7 @@ export default class ServerConfig
      * Get server configuration.
      * @returns Server configuration
      */
-    @computed get() {
+    get() {
         return this.config;
     }
 
@@ -66,7 +66,7 @@ export default class ServerConfig
      * Set server configuration.
      * @param config Server configuration
      */
-    @action set(config: API.RevoltConfig) {
+    set(config: API.RevoltConfig) {
         this.config = config;
     }
 }

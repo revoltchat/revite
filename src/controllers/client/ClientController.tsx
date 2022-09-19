@@ -59,7 +59,7 @@ class ClientController {
         injectController("client", this);
     }
 
-    @action pickNextSession() {
+    pickNextSession() {
         this.switchAccount(
             this.current ?? this.sessions.keys().next().value ?? null,
         );
@@ -69,7 +69,7 @@ class ClientController {
      * Hydrate sessions and start client lifecycles.
      * @param auth Authentication store
      */
-    @action hydrate(auth: Auth) {
+    hydrate(auth: Auth) {
         for (const entry of auth.getAccounts()) {
             this.addSession(entry, "existing");
         }
@@ -81,7 +81,7 @@ class ClientController {
      * Get the currently selected session
      * @returns Active Session
      */
-    @computed getActiveSession() {
+    getActiveSession() {
         return this.sessions.get(this.current!);
     }
 
@@ -89,7 +89,7 @@ class ClientController {
      * Get the currently ready client
      * @returns Ready Client
      */
-    @computed getReadyClient() {
+    getReadyClient() {
         const session = this.getActiveSession();
         return session && session.ready ? session.client! : undefined;
     }
@@ -98,7 +98,7 @@ class ClientController {
      * Get an unauthenticated instance of the Revolt.js Client
      * @returns API Client
      */
-    @computed getAnonymousClient() {
+    getAnonymousClient() {
         return this.apiClient;
     }
 
@@ -106,7 +106,7 @@ class ClientController {
      * Get the next available client (either from session or API)
      * @returns Revolt.js Client
      */
-    @computed getAvailableClient() {
+    getAvailableClient() {
         return this.getActiveSession()?.client ?? this.apiClient;
     }
 
@@ -114,7 +114,7 @@ class ClientController {
      * Fetch server configuration
      * @returns Server Configuration
      */
-    @computed getServerConfig() {
+    getServerConfig() {
         return this.configuration;
     }
 
@@ -122,7 +122,7 @@ class ClientController {
      * Check whether we are logged in right now
      * @returns Whether we are logged in
      */
-    @computed isLoggedIn() {
+    isLoggedIn() {
         return this.current !== null;
     }
 
@@ -130,7 +130,7 @@ class ClientController {
      * Check whether we are currently ready
      * @returns Whether we are ready to render
      */
-    @computed isReady() {
+    isReady() {
         return this.getActiveSession()?.ready;
     }
 
@@ -139,7 +139,7 @@ class ClientController {
      * @param entry Session Information
      * @param knowledge Whether the session is new or existing
      */
-    @action addSession(
+    addSession(
         entry: { session: SessionPrivate; apiUrl?: string },
         knowledge: "new" | "existing",
     ) {
@@ -262,7 +262,7 @@ class ClientController {
      * Log out of a specific user session
      * @param user_id Target User ID
      */
-    @action logout(user_id: string) {
+    logout(user_id: string) {
         const session = this.sessions.get(user_id);
         if (session) {
             if (user_id === this.current) {
@@ -278,7 +278,7 @@ class ClientController {
     /**
      * Logout of the current session
      */
-    @action logoutCurrent() {
+    logoutCurrent() {
         if (this.current) {
             this.logout(this.current);
         }
@@ -288,7 +288,7 @@ class ClientController {
      * Switch to another user session
      * @param user_id Target User ID
      */
-    @action switchAccount(user_id: string) {
+    switchAccount(user_id: string) {
         this.current = user_id;
 
         // This will allow account switching to work more seamlessly,

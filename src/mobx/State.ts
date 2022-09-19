@@ -139,7 +139,7 @@ export default class State {
      * Consume packets from the client.
      * @param packet Inbound Packet
      */
-    @action onPacket(packet: ClientboundNotification) {
+    onPacket(packet: ClientboundNotification) {
         if (packet.type === "UserSettingsUpdate") {
             try {
                 this.sync.apply(packet.update);

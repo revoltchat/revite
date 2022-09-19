@@ -62,7 +62,7 @@ export class ChannelRenderer {
         this.currentRenderer.delete(this, id);
     }
 
-    @action async init(message_id?: string) {
+    async init(message_id?: string) {
         if (message_id) {
             if (this.state === "RENDER") {
                 const message = this.messages.find((x) => x._id === message_id);
@@ -83,15 +83,15 @@ export class ChannelRenderer {
         this.currentRenderer.init(this, message_id);
     }
 
-    @action emitScroll(state: ScrollState) {
+    emitScroll(state: ScrollState) {
         this.scrollState = state;
     }
 
-    @action markStale() {
+    markStale() {
         this.stale = true;
     }
 
-    @action complete() {
+    complete() {
         this.fetching = false;
     }
 

@@ -68,7 +68,7 @@ export default class Sync implements Store, Persistent<Data> {
         };
     }
 
-    @action hydrate(data: Data) {
+    hydrate(data: Data) {
         if (data.disabled) {
             for (const key of data.disabled) {
                 this.disabled.add(key as SyncKeys);
@@ -82,15 +82,15 @@ export default class Sync implements Store, Persistent<Data> {
         }
     }
 
-    @action enable(key: SyncKeys) {
+    enable(key: SyncKeys) {
         this.disabled.delete(key);
     }
 
-    @action disable(key: SyncKeys) {
+    disable(key: SyncKeys) {
         this.disabled.add(key);
     }
 
-    @action toggle(key: SyncKeys) {
+    toggle(key: SyncKeys) {
         if (this.isEnabled(key)) {
             this.disable(key);
         } else {
@@ -98,20 +98,20 @@ export default class Sync implements Store, Persistent<Data> {
         }
     }
 
-    @computed isEnabled(key: SyncKeys) {
+    isEnabled(key: SyncKeys) {
         return !this.disabled.has(key) && SYNC_KEYS.includes(key);
     }
 
-    @action setRevision(key: string, revision: number) {
+    setRevision(key: string, revision: number) {
         if (revision < (this.getRevision(key) ?? 0)) return;
         this.revision.set(key, revision);
     }
 
-    @computed getRevision(key: string) {
+    getRevision(key: string) {
         return this.revision.get(key);
     }
 
-    @action apply(data: Record<string, [number, string]>) {
+    apply(data: Record<string, [number, string]>) {
         const tryRead = (key: string) => {
             if (key in data) {
                 const revision = data[key][0];

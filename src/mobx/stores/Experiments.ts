@@ -77,7 +77,7 @@ export default class Experiments implements Store, Persistent<Data> {
         };
     }
 
-    @action hydrate(data: Data) {
+    hydrate(data: Data) {
         if (data.enabled) {
             for (const experiment of data.enabled) {
                 this.enable(experiment as Experiment);
@@ -89,7 +89,7 @@ export default class Experiments implements Store, Persistent<Data> {
      * Check if an experiment is enabled.
      * @param experiment Experiment
      */
-    @computed isEnabled(experiment: Experiment) {
+    isEnabled(experiment: Experiment) {
         return this.enabled.has(experiment);
     }
 
@@ -97,7 +97,7 @@ export default class Experiments implements Store, Persistent<Data> {
      * Enable an experiment.
      * @param experiment Experiment
      */
-    @action enable(experiment: Experiment) {
+    enable(experiment: Experiment) {
         if (experiment === "offline_users") {
             setOfflineSkipEnabled(false);
             resetMemberSidebarFetched();
@@ -110,7 +110,7 @@ export default class Experiments implements Store, Persistent<Data> {
      * Disable an experiment.
      * @param experiment Experiment
      */
-    @action disable(experiment: Experiment) {
+    disable(experiment: Experiment) {
         if (experiment === "offline_users") setOfflineSkipEnabled(true);
 
         this.enabled.delete(experiment);
@@ -121,7 +121,7 @@ export default class Experiments implements Store, Persistent<Data> {
      * @param key Experiment
      * @param enabled Whether this experiment is enabled.
      */
-    @computed setEnabled(key: Experiment, enabled: boolean): void {
+    setEnabled(key: Experiment, enabled: boolean): void {
         if (enabled) {
             this.enable(key);
         } else {
@@ -132,7 +132,7 @@ export default class Experiments implements Store, Persistent<Data> {
     /**
      * Reset and disable all experiments.
      */
-    @action reset() {
+    reset() {
         this.enabled.clear();
     }
 }

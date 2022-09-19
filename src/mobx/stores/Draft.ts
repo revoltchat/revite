@@ -33,7 +33,7 @@ export default class Draft implements Store, Persistent<Data> {
         };
     }
 
-    @action hydrate(data: Data) {
+    hydrate(data: Data) {
         Object.keys(data.drafts).forEach((key) =>
             this.drafts.set(key, data.drafts[key]),
         );
@@ -43,7 +43,7 @@ export default class Draft implements Store, Persistent<Data> {
      * Get draft for a channel.
      * @param channel Channel ID
      */
-    @computed get(channel: string) {
+    get(channel: string) {
         return this.drafts.get(channel);
     }
 
@@ -51,7 +51,7 @@ export default class Draft implements Store, Persistent<Data> {
      * Check whether a channel has a draft.
      * @param channel Channel ID
      */
-    @computed has(channel: string) {
+    has(channel: string) {
         return this.drafts.has(channel) && this.drafts.get(channel)!.length > 0;
     }
 
@@ -60,7 +60,7 @@ export default class Draft implements Store, Persistent<Data> {
      * @param channel Channel ID
      * @param content Draft content
      */
-    @action set(channel: string, content?: string) {
+    set(channel: string, content?: string) {
         if (typeof content === "undefined") {
             return this.clear(channel);
         }
@@ -72,14 +72,14 @@ export default class Draft implements Store, Persistent<Data> {
      * Clear draft from a channel.
      * @param channel Channel ID
      */
-    @action clear(channel: string) {
+    clear(channel: string) {
         this.drafts.delete(channel);
     }
 
     /**
      * Reset and clear all drafts.
      */
-    @action reset() {
+    reset() {
         this.drafts.clear();
     }
 }

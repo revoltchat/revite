@@ -79,27 +79,27 @@ export default class LocaleOptions
         this.hydrate(data as Data);
     }
 
-    @computed toSyncable(): { [key: string]: object } {
+    toSyncable(): { [key: string]: object } {
         return {
             locale: this.toJSON(),
         };
     }
 
-    @action hydrate(data: Data) {
+    hydrate(data: Data) {
         this.setLanguage(data.lang);
     }
 
     /**
      * Get current language.
      */
-    @computed getLanguage() {
+    getLanguage() {
         return this.lang;
     }
 
     /**
      * Set current language.
      */
-    @action setLanguage(language: Language) {
+    setLanguage(language: Language) {
         if (typeof Languages[language] === "undefined") return;
         this.lang = language;
     }

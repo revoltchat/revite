@@ -35,7 +35,7 @@ export default class STheme {
         this.reset = this.reset.bind(this);
     }
 
-    @computed toJSON() {
+    toJSON() {
         return JSON.parse(
             JSON.stringify({
                 ...this.getVariables(),
@@ -46,7 +46,7 @@ export default class STheme {
         );
     }
 
-    @action hydrate(data: Partial<Theme>, resetCSS = false) {
+    hydrate(data: Partial<Theme>, resetCSS = false) {
         if (resetCSS) this.setCSS();
 
         for (const key of Object.keys(data)) {
@@ -74,7 +74,7 @@ export default class STheme {
      * Get the base theme used for this theme.
      * @returns Id of base theme
      */
-    @computed getBase() {
+    getBase() {
         return this.settings.get("appearance:theme:base") ?? "dark";
     }
 
@@ -82,7 +82,7 @@ export default class STheme {
      * Get whether the theme is light.
      * @returns True if the theme is light
      */
-    @computed isLight() {
+    isLight() {
         return (
             this.settings.get("appearance:theme:light") ??
             this.getBase() === "light"
@@ -93,7 +93,7 @@ export default class STheme {
      * Get the current theme's CSS variables.
      * @returns Record of CSS variables
      */
-    @computed getVariables(): Theme {
+    getVariables(): Theme {
         return {
             ...PRESETS[this.getBase()],
             ...this.settings.get("appearance:theme:overrides"),
@@ -101,7 +101,7 @@ export default class STheme {
         };
     }
 
-    @computed computeVariables(): ComputedVariables {
+    computeVariables(): ComputedVariables {
         const variables = this.getVariables() as Record<
             string,
             string | boolean | number
@@ -110,7 +110,7 @@ export default class STheme {
         for (const key of Object.keys(variables)) {
             const value = variables[key];
             if (typeof value === "string") {
-                variables[`${key  }-contrast`] = getContrastingColour(value);
+                variables[`${key}-contrast`] = getContrastingColour(value);
             }
         }
 
@@ -126,7 +126,7 @@ export default class STheme {
         };
     }
 
-    @action setVariable(key: Variables, value: string) {
+    setVariable(key: Variables, value: string) {
         this.settings.set("appearance:theme:overrides", {
             ...this.settings.get("appearance:theme:overrides"),
             [key]: value,
@@ -138,7 +138,7 @@ export default class STheme {
      * @param key Variable
      * @returns Value of variable
      */
-    @computed getVariable(key: Variables) {
+    getVariable(key: Variables) {
         return (this.settings.get("appearance:theme:overrides")?.[key] ??
             PRESETS[this.getBase()]?.[key])!;
     }
@@ -148,11 +148,11 @@ export default class STheme {
      * @param key Variable
      * @returns Contrasting value
      */
-    @computed getContrastingVariable(key: Variables, fallback?: string) {
+    getContrastingVariable(key: Variables, fallback?: string) {
         return getContrastingColour(this.getVariable(key), fallback);
     }
 
-    @action setFont(font: Fonts) {
+    setFont(font: Fonts) {
         this.settings.set("appearance:theme:font", font);
     }
 
@@ -160,11 +160,11 @@ export default class STheme {
      * Get the current applied font.
      * @returns Current font
      */
-    @computed getFont() {
+    getFont() {
         return this.settings.get("appearance:theme:font") ?? DEFAULT_FONT;
     }
 
-    @action setMonospaceFont(font: MonospaceFonts) {
+    setMonospaceFont(font: MonospaceFonts) {
         this.settings.set("appearance:theme:monoFont", font);
     }
 
@@ -172,13 +172,13 @@ export default class STheme {
      * Get the current applied monospace font.
      * @returns Current monospace font
      */
-    @computed getMonospaceFont() {
+    getMonospaceFont() {
         return (
             this.settings.get("appearance:theme:monoFont") ?? DEFAULT_MONO_FONT
         );
     }
 
-    @action setCSS(value?: string) {
+    setCSS(value?: string) {
         if (value && value.length > 0) {
             this.settings.set("appearance:theme:css", value);
         } else {
@@ -190,18 +190,18 @@ export default class STheme {
      * Get the currently applied CSS snippet.
      * @returns CSS string
      */
-    @computed getCSS() {
+    getCSS() {
         return this.settings.get("appearance:theme:css");
     }
 
-    @computed isModified() {
+    isModified() {
         return (
             Object.keys(this.settings.get("appearance:theme:overrides") ?? {})
                 .length > 0
         );
     }
 
-    @action setBase(base?: "light" | "dark") {
+    setBase(base?: "light" | "dark") {
         if (base) {
             this.settings.set("appearance:theme:base", base);
         } else {
@@ -209,7 +209,7 @@ export default class STheme {
         }
     }
 
-    @action reset() {
+    reset() {
         this.settings.remove("appearance:theme:overrides");
         this.settings.remove("appearance:theme:css");
     }

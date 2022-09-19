@@ -58,7 +58,7 @@ export default class Session {
     /**
      * Initiate logout and destroy client
      */
-    @action destroy() {
+    destroy() {
         if (this.client) {
             this.client.logout(false);
             this.state = "Ready";
@@ -165,7 +165,7 @@ export default class Session {
      * Transition to a new state by a certain action
      * @param data Transition Data
      */
-    @action async emit(data: Transition) {
+    async emit(data: Transition) {
         console.info(`[FSM ${this.user_id ?? "Anonymous"}]`, data);
 
         switch (data.action) {
@@ -269,7 +269,7 @@ export default class Session {
      * Whether we are ready to render.
      * @returns Boolean
      */
-    @computed get ready() {
+    get ready() {
         return !!this.client?.user;
     }
 }

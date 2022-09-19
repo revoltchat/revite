@@ -110,7 +110,7 @@ export default class Plugins implements Store, Persistent<Data> {
         };
     }
 
-    @action hydrate(data: Data) {
+    hydrate(data: Data) {
         Object.keys(data["revite:plugins"]).forEach((key) =>
             this.plugins.set(key, data["revite:plugins"][key]),
         );
@@ -121,7 +121,7 @@ export default class Plugins implements Store, Persistent<Data> {
      * @param namespace Namespace
      * @param id Plugin Id
      */
-    @computed get(namespace: string, id: string) {
+    get(namespace: string, id: string) {
         return this.plugins.get(`${namespace}/${id}`);
     }
 

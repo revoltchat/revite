@@ -77,7 +77,7 @@ export default class Layout implements Store, Persistent<Data> {
         };
     }
 
-    @action hydrate(data: Data) {
+    hydrate(data: Data) {
         if (data.lastSection) {
             this.lastSection = data.lastSection;
         }
@@ -103,7 +103,7 @@ export default class Layout implements Store, Persistent<Data> {
      * Get the last 'major section' the user had open.
      * @returns Last open section
      */
-    @computed getLastSection() {
+    getLastSection() {
         return this.lastSection;
     }
 
@@ -111,7 +111,7 @@ export default class Layout implements Store, Persistent<Data> {
      * Get last opened channel in a server.
      * @param server Server ID
      */
-    @computed getLastOpened(server: string) {
+    getLastOpened(server: string) {
         return this.lastOpened.get(server);
     }
 
@@ -120,7 +120,7 @@ export default class Layout implements Store, Persistent<Data> {
      * @param server Server ID
      * @returns Pathname
      */
-    @computed getServerPath(server: string) {
+    getServerPath(server: string) {
         let path = `/server/${server}`;
         if (this.lastOpened.has(server)) {
             path += `/channel/${this.getLastOpened(server)}`;
@@ -134,7 +134,7 @@ export default class Layout implements Store, Persistent<Data> {
      * @param server Server ID
      * @param channel Channel ID
      */
-    @action setLastOpened(server: string, channel: string) {
+    setLastOpened(server: string, channel: string) {
         this.lastOpened.set(server, channel);
         this.lastSection = server;
     }
@@ -143,7 +143,7 @@ export default class Layout implements Store, Persistent<Data> {
      * Get the last path the user had open in the home tab.
      * @returns Last home path
      */
-    @computed getLastHomePath() {
+    getLastHomePath() {
         return this.lastHomePath;
     }
 
@@ -151,7 +151,7 @@ export default class Layout implements Store, Persistent<Data> {
      * Get the last path the user had open.
      * @returns Last path
      */
-    @computed getLastPath() {
+    getLastPath() {
         return (
             (this.lastSection === "discover"
                 ? this.lastDiscoverPath
@@ -167,7 +167,7 @@ export default class Layout implements Store, Persistent<Data> {
      * Set the last opened section.
      * @param section Section name
      */
-    @action setLastSection(section: string) {
+    setLastSection(section: string) {
         this.lastSection = section;
     }
 
@@ -175,7 +175,7 @@ export default class Layout implements Store, Persistent<Data> {
      * Set the current path open in the home tab.
      * @param path Pathname
      */
-    @action setLastHomePath(path: string) {
+    setLastHomePath(path: string) {
         if (path.startsWith("/bot")) return;
         if (path.startsWith("/invite")) return;
 
@@ -187,7 +187,7 @@ export default class Layout implements Store, Persistent<Data> {
      * Set the last discover path.
      * @param path Pathname
      */
-    @action setLastDiscoverPath(path: string) {
+    setLastDiscoverPath(path: string) {
         this.lastDiscoverPath = path;
         this.lastSection = "discover";
     }
@@ -198,7 +198,7 @@ export default class Layout implements Store, Persistent<Data> {
      * @returns Whether the section is open
      * @param def Default state value
      */
-    @computed getSectionState(id: string, def?: boolean) {
+    getSectionState(id: string, def?: boolean) {
         return this.openSections.get(id) ?? def ?? false;
     }
 
@@ -208,7 +208,7 @@ export default class Layout implements Store, Persistent<Data> {
      * @param value New state value
      * @param def Default state value
      */
-    @action setSectionState(id: string, value: boolean, def?: boolean) {
+    setSectionState(id: string, value: boolean, def?: boolean) {
         if (value === def) {
             this.openSections.delete(id);
         } else {
@@ -221,7 +221,7 @@ export default class Layout implements Store, Persistent<Data> {
      * @param id Section ID
      * @param def Default state value
      */
-    @action toggleSectionState(id: string, def?: boolean) {
+    toggleSectionState(id: string, def?: boolean) {
         this.setSectionState(id, !this.getSectionState(id, def), def);
     }
 }

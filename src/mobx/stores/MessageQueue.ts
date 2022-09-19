@@ -62,7 +62,7 @@ export default class MessageQueue implements Store {
      * @param channel Channel ID
      * @param data Message data
      */
-    @action add(id: string, channel: string, data: QueuedMessageData) {
+    add(id: string, channel: string, data: QueuedMessageData) {
         this.messages.push({
             id,
             channel,
@@ -76,7 +76,7 @@ export default class MessageQueue implements Store {
      * @param id Nonce value
      * @param error Error string
      */
-    @action fail(id: string, error: string) {
+    fail(id: string, error: string) {
         const entry = this.messages.find((x) => x.id === id)!;
         entry.status = QueueStatus.ERRORED;
         entry.error = error;
@@ -86,7 +86,7 @@ export default class MessageQueue implements Store {
      * Mark a queued message as sending.
      * @param id Nonce value
      */
-    @action start(id: string) {
+    start(id: string) {
         const entry = this.messages.find((x) => x.id === id)!;
         entry.status = QueueStatus.SENDING;
     }
@@ -95,7 +95,7 @@ export default class MessageQueue implements Store {
      * Remove a queued message.
      * @param id Nonce value
      */
-    @action remove(id: string) {
+    remove(id: string) {
         const entry = this.messages.find((x) => x.id === id)!;
         this.messages.remove(entry);
     }
@@ -105,7 +105,7 @@ export default class MessageQueue implements Store {
      * @param channel Channel ID
      * @returns Array of queued messages
      */
-    @computed get(channel: string) {
+    get(channel: string) {
         return this.messages.filter((x) => x.channel === channel);
     }
 
@@ -113,7 +113,7 @@ export default class MessageQueue implements Store {
      * Handle an incoming Message
      * @param message Message
      */
-    @action onMessage(message: Message) {
+    onMessage(message: Message) {
         if (!message.nonce) return;
         if (!this.get(message.channel_id).find((x) => x.id === message.nonce))
             return;

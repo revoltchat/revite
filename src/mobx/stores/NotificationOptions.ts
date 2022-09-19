@@ -104,7 +104,7 @@ export default class NotificationOptions
         };
     }
 
-    @action hydrate(data: Data) {
+    hydrate(data: Data) {
         if (data.server) {
             Object.keys(data.server).forEach((key) =>
                 this.server.set(key, data.server![key]),
@@ -493,11 +493,11 @@ export default class NotificationOptions
         }
     }
 
-    @action apply(_key: "notifications", data: unknown, _revision: number) {
+    apply(_key: "notifications", data: unknown, _revision: number) {
         this.hydrate(data as Data);
     }
 
-    @computed toSyncable() {
+    toSyncable() {
         return {
             notifications: this.toJSON(),
         };

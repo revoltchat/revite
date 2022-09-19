@@ -46,7 +46,7 @@ class VoiceStateReference {
 
     // This takes information from the voice
     // client and applies it to the state here.
-    @action syncState() {
+    syncState() {
         if (!this.client) return;
         this.roomId = toNullable(this.client.roomId);
         this.participants.clear();
@@ -54,7 +54,7 @@ class VoiceStateReference {
     }
 
     // This imports and constructs the voice client.
-    @action async loadVoice() {
+    async loadVoice() {
         if (this.status !== VoiceStatus.UNLOADED) return;
         this.status = VoiceStatus.LOADING;
 
@@ -86,7 +86,7 @@ class VoiceStateReference {
     }
 
     // Connect to a voice channel.
-    @action async connect(channel: Channel) {
+    async connect(channel: Channel) {
         if (!this.client?.supported()) throw new Error("RTC is unavailable");
 
         this.connecting = true;
@@ -131,7 +131,7 @@ class VoiceStateReference {
     }
 
     // Disconnect from current channel.
-    @action disconnect() {
+    disconnect() {
         this.connecting = false;
         this.status = VoiceStatus.READY;
 

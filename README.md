@@ -42,9 +42,9 @@ Get revite up and running locally.
 ```
 git clone --recursive https://github.com/revoltchat/revite
 cd revite
-yarn
-yarn build:deps
-yarn dev
+pnpm i
+pnpm build:deps
+pnpm dev
 ```
 
 You can now access the client at http://local.revolt.chat:3000.

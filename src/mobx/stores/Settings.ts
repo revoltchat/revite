@@ -64,7 +64,7 @@ export default class Settings
         return JSON.parse(JSON.stringify(mapToRecord(this.data)));
     }
 
-    @action hydrate(data: ISettings) {
+    hydrate(data: ISettings) {
         Object.keys(data).forEach(
             (key) =>
                 typeof (data as any)[key] !== "undefined" &&
@@ -77,9 +77,9 @@ export default class Settings
      * @param key Colon-divided key
      * @param value Value
      */
-    @action set<T extends keyof ISettings>(key: T, value: ISettings[T]) {
+    set<T extends keyof ISettings>(key: T, value: ISettings[T]) {
         // Emoji needs to be immediately applied.
-        if (key === 'appearance:emoji') {
+        if (key === "appearance:emoji") {
             setGlobalEmojiPack(value as EmojiPack);
         }
 
@@ -92,14 +92,11 @@ export default class Settings
      * @param defaultValue Default value if not present
      * @returns Value at key
      */
-    @computed get<T extends keyof ISettings>(
-        key: T,
-        defaultValue?: ISettings[T],
-    ) {
+    get<T extends keyof ISettings>(key: T, defaultValue?: ISettings[T]) {
         return (this.data.get(key) as ISettings[T] | undefined) ?? defaultValue;
     }
 
-    @action remove<T extends keyof ISettings>(key: T) {
+    remove<T extends keyof ISettings>(key: T) {
         this.data.delete(key);
     }
 
@@ -108,7 +105,7 @@ export default class Settings
      * @param key Colon-divided key
      * @param value Value
      */
-    @action setUnchecked(key: string, value: unknown) {
+    setUnchecked(key: string, value: unknown) {
         this.data.set(key, value);
     }
 
@@ -117,15 +114,11 @@ export default class Settings
      * @param key Colon-divided key
      * @returns Value at key
      */
-    @computed getUnchecked(key: string) {
+    getUnchecked(key: string) {
         return this.data.get(key);
     }
 
-    @action apply(
-        key: "appearance" | "theme",
-        data: unknown,
-        _revision: number,
-    ) {
+    apply(key: "appearance" | "theme", data: unknown, _revision: number) {
         if (key === "appearance") {
             this.remove("appearance:emoji");
             this.remove("appearance:seasonal");
@@ -143,7 +136,7 @@ export default class Settings
         this.hydrate(data as ISettings);
     }
 
-    @computed private pullKeys(keys: (keyof ISettings)[]) {
+    private pullKeys(keys: (keyof ISettings)[]) {
         const obj: Partial<ISettings> = {};
         keys.forEach((key) => {
             const value = this.get(key);
@@ -154,7 +147,7 @@ export default class Settings
         return obj;
     }
 
-    @computed toSyncable() {
+    toSyncable() {
         const data: Record<"appearance" | "theme", Partial<ISettings>> = {
             appearance: this.pullKeys([
                 "appearance:emoji",
