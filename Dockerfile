@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 COPY . .
 COPY .env.build .env
 
-RUN corepack prepare pnpm --activate
+RUN corepack prepare pnpm@7.12.0 --activate
 RUN pnpm install --frozen-lockfile
 RUN pnpm build:deps
 RUN pnpm typecheck
@@ -14,7 +14,8 @@ RUN pnpm install --prod
 
 FROM node:16-alpine
 WORKDIR /usr/src/app
+
 COPY --from=builder /usr/src/app .
 
 EXPOSE 5000
-CMD [ "pnpm", "start:inject" ]
+CMD [ "npm", "run", "start:inject" ]
