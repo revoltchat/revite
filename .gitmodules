@@ -1,12 +1,12 @@
 [submodule "external/lang"]
 	path = external/lang
 	url = https://github.com/revoltchat/translations
-[submodule "external/components"]
-	path = external/components
-	url = https://github.com/revoltchat/components
-[submodule "external/revolt.js"]
-	path = external/revolt.js
-	url = https://github.com/revoltchat/revolt.js
 [submodule "packages/hast-util-table-cell-style"]
 	path = packages/hast-util-table-cell-style
 	url = https://github.com/revoltchat/hast-util-table-cell-style
+[submodule "packages/revolt.js"]
+	path = packages/revolt.js
+	url = https://github.com/revoltchat/revolt.js
+[submodule "packages/components"]
+	path = packages/components
+	url = https://github.com/revoltchat/components
