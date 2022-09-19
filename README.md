@@ -53,17 +53,18 @@ You can now access the client at http://local.revolt.chat:3000.
 
 | Command                                 | Description                                  |
 | --------------------------------------- | -------------------------------------------- |
-| `yarn pull`                             | Setup assets required for Revite.            |
-| `yarn dev`                              | Start the Revolt client in development mode. |
-| `yarn build`                            | Build the Revolt client.                     |
-| `yarn build:deps`                       | Build external dependencies.                 |
-| `yarn preview`                          | Start a local server with the built client.  |
-| `yarn lint`                             | Run ESLint on the client.                    |
-| `yarn fmt`                              | Run Prettier on the client.                  |
-| `yarn typecheck`                        | Run TypeScript type checking on the client.  |
-| `yarn start`                            | Start a local sirv server with built client. |
-| `yarn start:inject`                     | Inject a given API URL and start server.     |
-| `yarn lint \| egrep "no-literals" -B 1` | Scan for untranslated strings.               |
+| `pnpm pull`                             | Setup assets required for Revite.            |
+| `pnpm dev`                              | Start the Revolt client in development mode. |
+| `pnpm build`                            | Build the Revolt client.                     |
+| `pnpm build:deps`                       | Build external dependencies.                 |
+| `pnpm build:all`                        | Build everything.                            |
+| `pnpm preview`                          | Start a local server with the built client.  |
+| `pnpm lint`                             | Run ESLint on the client.                    |
+| `pnpm fmt`                              | Run Prettier on the client.                  |
+| `pnpm typecheck`                        | Run TypeScript type checking on the client.  |
+| `pnpm start`                            | Start a local sirv server with built client. |
+| `pnpm start:inject`                     | Inject a given API URL and start server.     |
+| `pnpm lint \| egrep "no-literals" -B 1` | Scan for untranslated strings.               |
 
 ## License
 

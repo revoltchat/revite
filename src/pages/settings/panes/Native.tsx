@@ -176,7 +176,7 @@ export function Native() {
                                     </span>
                                 </b>
                                 <br />
-                                <code>yarn dev --port 3001</code>
+                                <code>pnpm dev --port 3001</code>
                             </>
                         }
                     />

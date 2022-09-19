@@ -20,7 +20,7 @@ runs:
           uses: actions/setup-node@v2
           with:
               node-version: 16
-              cache: "yarn"
+              cache: "pnpm"
 
         - name: Install Dependencies and Build
           shell: bash -l {0}
@@ -29,5 +29,5 @@ runs:
               BASE: ${{ inputs.base }}
           run: |
               cd "$BUILD_FOLDER"
-              yarn install
-              yarn build --base "$BASE"
+              pnpm install
+              pnpm build --base "$BASE"

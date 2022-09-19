@@ -15,4 +15,4 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app .
 
 EXPOSE 5000
-CMD [ "yarn", "start:inject" ]
+CMD [ "pnpm", "start:inject" ]
