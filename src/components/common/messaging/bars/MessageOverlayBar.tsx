@@ -11,6 +11,7 @@ import { observer } from "mobx-react-lite";
 import { Message as MessageObject } from "revolt.js";
 import styled from "styled-components";
 
+import { Text } from "preact-i18n";
 import { openContextMenu } from "preact-context-menu";
 import { useEffect, useState } from "preact/hooks";
 
@@ -109,7 +110,7 @@ export const MessageOverlayBar = observer(
         return (
             <OverlayBar>
                 {message.channel?.havePermission("SendMessage") && (
-                    <Tooltip content="Reply">
+                    <Tooltip content={ <Text id="app.popover.message.reply" /> }>
                         <Entry
                             onClick={() =>
                                 internalEmit("ReplyBar", "add", message)
@@ -125,7 +126,7 @@ export const MessageOverlayBar = observer(
                             open={reactionsOpen}
                             setOpen={setReactionsOpen}
                             message={message}>
-                            <Tooltip content="React">
+                            <Tooltip content={ <Text id="app.popover.message.react" /> }>
                                 <Entry>
                                     <HappyBeaming size={18} />
                                 </Entry>
@@ -134,7 +135,7 @@ export const MessageOverlayBar = observer(
                     )}
 
                 {isAuthor && (
-                    <Tooltip content="Edit">
+                    <Tooltip content={ <Text id="app.popover.message.edit" /> }>
                         <Entry
                             onClick={() =>
                                 internalEmit(
@@ -150,7 +151,7 @@ export const MessageOverlayBar = observer(
                 {isAuthor ||
                 (message.channel &&
                     message.channel.havePermission("ManageMessages")) ? (
-                    <Tooltip content="Delete">
+                    <Tooltip content={ <Text id="app.popover.message.delete" /> }>
                         <Entry
                             onClick={(e) =>
                                 e.shiftKey
@@ -164,7 +165,7 @@ export const MessageOverlayBar = observer(
                         </Entry>
                     </Tooltip>
                 ) : undefined}
-                <Tooltip content="More">
+                <Tooltip content={ <Text id="app.popover.message.more" /> }>
                     <Entry
                         onClick={() =>
                             openContextMenu("Menu", {
@@ -179,7 +180,7 @@ export const MessageOverlayBar = observer(
                 {extraActions && (
                     <>
                         <Divider />
-                        <Tooltip content="Mark as Unread">
+                        <Tooltip content={ <Text id="app.popover.message.mark_unread" /> }>
                             <Entry
                                 onClick={() => {
                                     // ! FIXME: deduplicate this code with ctx menu
@@ -207,7 +208,7 @@ export const MessageOverlayBar = observer(
                         </Tooltip>
                         <Tooltip
                             content={
-                                copied === "link" ? "Copied!" : "Copy Link"
+                                <Text id={`app.popover.message.${copied === "link" ? 'copied' : 'copy_link'}`} />
                             }
                             hideOnClick={false}>
                             <Entry
@@ -219,7 +220,9 @@ export const MessageOverlayBar = observer(
                             </Entry>
                         </Tooltip>
                         <Tooltip
-                            content={copied === "id" ? "Copied!" : "Copy ID"}
+                            content={
+                                <Text id={`app.popover.message.${copied === "id" ? 'copied' : 'copy_id'}`} />
+                            }
                             hideOnClick={false}>
                             <Entry
                                 onClick={() => {

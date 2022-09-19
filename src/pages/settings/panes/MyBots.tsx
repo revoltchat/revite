@@ -56,7 +56,6 @@ const BotBadge = styled.div`
     user-select: none;
     margin-inline-start: 2px;
     text-transform: uppercase;
-
     color: var(--accent-contrast);
     background: var(--accent);
     border-radius: calc(var(--border-radius) / 2);
