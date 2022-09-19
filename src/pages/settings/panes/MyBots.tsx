@@ -521,12 +521,12 @@ export const MyBots = observer(() => {
                 <Text id="app.settings.pages.bots.create_bot" />
             </CategoryButton>
             <h5>
-                By creating a bot, you are agreeing to the {` `}
+                <Text id="app.settings.pages.bots.usage_policy.a" />{" "}
                 <a
                     href="https://revolt.chat/aup"
                     target="_blank"
                     rel="noreferrer">
-                    Acceptable Usage Policy
+                    <Text id="app.settings.pages.bots.usage_policy.b" />
                 </a>
                 .
             </h5>

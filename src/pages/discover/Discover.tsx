@@ -5,6 +5,8 @@ import styled, { css } from "styled-components/macro";
 
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
+import { Text } from "preact-i18n";
+
 import { Header, Preloader } from "@revoltchat/ui";
 
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
@@ -165,7 +167,7 @@ export default function Discover() {
             {isTouchscreenDevice && (
                 <Header palette="primary" withTransparency>
                     <Compass size={27} />
-                    Discover
+                    <Text id="app.navigation.tabs.discover" />
                 </Header>
             )}
             {!loaded && (
