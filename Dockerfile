@@ -6,8 +6,8 @@ COPY .env.build .env
 
 RUN pnpm install --frozen-lockfile
 RUN pnpm typecheck
-RUN pnpm build:highmem
-# wipe node_modules for all packages
+RUN NODE_OPTIONS='--max-old-space-size=4096' pnpm build:all
+RUN find . -name "node_modules" -type d -prune
 RUN pnpm install --prod
 
 FROM node:16-alpine

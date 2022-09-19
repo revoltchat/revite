@@ -6,7 +6,7 @@
         "pull": "node scripts/setup_assets.js",
         "build:deps": "pnpm run -r build",
         "build": "rimraf build && node scripts/setup_assets.js --check && vite build",
-        "build:highmem": "NODE_OPTIONS='--max-old-space-size=4096' npm run build",
+        "build:all": "npm run build:deps && npm run build",
         "preview": "vite preview",
         "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
         "fmt": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",

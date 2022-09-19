@@ -17,16 +17,19 @@ export REVOLT_SAAS=https://github.com/revoltchat/assets
 # Exit when any command fails
 set -e
 
-# 1. Build Revite
-yarn build
+# 1. Make sure everything is present and up to date
+pnpm i
 
-# 2. Archive built files
+# 2. Build Revite
+npm run build:all
+
+# 3. Archive built files
 tar -czvf build.tar.gz dist
 
-# 3. Upload built files
+# 4. Upload built files
 scp build.tar.gz $REMOTE:$REMOTE_DIR/build.tar.gz
 rm build.tar.gz
 
-# 4. Apply changes
+# 5. Apply changes
 ssh $REMOTE "cd $REMOTE_DIR; tar -xvzf build.tar.gz; rm build.tar.gz; $POST_INSTALL"
 
