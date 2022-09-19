@@ -1,6 +1,7 @@
 {
     "version": "1.0.1",
     "scripts": {
+        "preinstall": "npx only-allow pnpm",
         "dev": "node scripts/setup_assets.js --check && vite",
         "pull": "node scripts/setup_assets.js",
         "build:deps": "cd external && cd components && yarn && yarn build:esm && cd .. && cd revolt.js && yarn && yarn build",
@@ -76,7 +77,7 @@
         "@hcaptcha/react-hcaptcha": "^0.3.6",
         "@insertish/vite-plugin-babel-macros": "^1.0.5",
         "@preact/preset-vite": "^2.0.0",
-        "@revoltchat/ui": "^1.0.77",
+        "@revoltchat/ui": "workspace:*",
         "@rollup/plugin-replace": "^2.4.2",
         "@styled-icons/boxicons-logos": "^10.38.0",
         "@styled-icons/boxicons-regular": "^10.38.0",
@@ -144,7 +145,7 @@
         "remark-math": "^5.1.1",
         "remark-parse": "^10.0.1",
         "remark-rehype": "^10.1.0",
-        "revolt.js": "6.0.17",
+        "revolt.js": "workspace:*",
         "rimraf": "^3.0.2",
         "sass": "^1.35.1",
         "semver": "^7.3.7",
@@ -166,10 +167,5 @@
     "main": "index.js",
     "repository": "https://github.com/revoltchat/revite.git",
     "author": "Paul <paulmakles@gmail.com>",
-    "license": "MIT",
-    "packageManager": "yarn@3.2.0",
-    "resolutions": {
-        "@revoltchat/ui": "portal:external/components",
-        "revolt.js": "portal:external/revolt.js"
-    }
+    "license": "MIT"
 }
