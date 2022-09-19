@@ -68,6 +68,7 @@ importers:
       eslint-plugin-mobx: ^0.0.8
       eventemitter3: ^4.0.7
       fs-extra: ^10.1.0
+      hast-util-is-element: ^2.1.2
       history: ^4.10.1
       json-stringify-deterministic: ^1.0.7
       klaw: ^3.0.0
@@ -192,6 +193,7 @@ importers:
       eslint-plugin-jsdoc: 39.3.6_eslint@7.32.0
       eslint-plugin-mobx: 0.0.8_eslint@7.32.0
       eventemitter3: 4.0.7
+      hast-util-is-element: 2.1.2
       history: 4.10.1
       json-stringify-deterministic: 1.0.7
       localforage: 1.10.0
@@ -6369,7 +6371,7 @@ packages:
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      '@types/json-schema': 7.0.11
+      '@types/json-schema': 7.0.9
       '@typescript-eslint/scope-manager': 5.37.0
       '@typescript-eslint/types': 5.37.0
       '@typescript-eslint/typescript-estree': 5.37.0_typescript@4.8.3
@@ -7485,7 +7487,7 @@ packages:
       babel-plugin-syntax-jsx: 6.18.0
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 5.3.5
+      styled-components: 5.3.5_sfoxds7t5ydpegc3knd667wn6m
 
   /babel-plugin-syntax-jsx/6.18.0:
     resolution: {integrity: sha512-qrPaCSo9c8RHNRHIotaufGbuOBN8rtdC4QrrFFc43vyWCCz7Kl7GL1PGaXtMGQZUXrkCjNEgxDfmAuAabr/rlw==}
@@ -16617,6 +16619,7 @@ packages:
       hoist-non-react-statics: 3.3.2
       shallowequal: 1.1.0
       supports-color: 5.5.0
+    dev: true
 
   /styled-components/5.3.5_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-ndETJ9RKaaL6q41B69WudeqLzOpY1A/ET/glXkNZ2T7dPjPqpPCXXQjDFYZWwNnE5co0wX+gTCqx9mfxTmSIPg==}
