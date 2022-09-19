@@ -84,7 +84,7 @@ export default observer(() => {
             return flakes;
         }
 
-        return [];
+        return flakes;
     }, []);
 
     return (
