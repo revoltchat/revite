@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 COPY . .
 COPY .env.build .env
 
-RUN corepack prepare pnpm@7.12.0 --activate
+RUN npm install --global pnpm
 RUN pnpm install --frozen-lockfile
 RUN pnpm build:deps
 RUN pnpm typecheck
