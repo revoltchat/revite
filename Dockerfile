@@ -4,12 +4,13 @@ WORKDIR /usr/src/app
 COPY . .
 COPY .env.build .env
 
-RUN corepack pnpm install --frozen-lockfile
-RUN corepack pnpm build:deps
-RUN corepack pnpm typecheck
-RUN NODE_OPTIONS='--max-old-space-size=4096' corepack pnpm build
+RUN corepack prepare pnpm --activate
+RUN pnpm install --frozen-lockfile
+RUN pnpm build:deps
+RUN pnpm typecheck
+RUN NODE_OPTIONS='--max-old-space-size=4096' pnpm build
 RUN find . -name "node_modules" -type d -prune
-RUN corepack pnpm install --prod
+RUN pnpm install --prod
 
 FROM node:16-alpine
 WORKDIR /usr/src/app
