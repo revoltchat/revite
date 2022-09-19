@@ -45,6 +45,8 @@ export default function Embed({ embed }: Props) {
         return { width, height };
     }
 
+    if(typeof embed.spoiler == 'undefined')
+        embed.spoiler = false;
     switch (embed.type) {
         case "Text":
         case "Website": {
