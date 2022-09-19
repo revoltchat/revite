@@ -7,7 +7,7 @@ COPY .env.build .env
 RUN npm install --global pnpm
 RUN pnpm install --frozen-lockfile
 RUN pnpm build:deps
-RUN pnpm typecheck
+# RUN pnpm typecheck
 RUN NODE_OPTIONS='--max-old-space-size=4096' pnpm build
 RUN find . -name "node_modules" -type d -prune
 RUN pnpm install --prod
