@@ -130,14 +130,14 @@ export default function UserBadges({ badges, uid }: Props) {
                     <></>
                 )}
                 {badges & Badges.ReservedRelevantJokeBadge1 ? (
-                    <Tooltip content={ <Text id="app.popover.user_profile.badges.sus" /> }>
+                    <Tooltip content="sus">
                         <img src="/assets/badges/amog.svg" />
                     </Tooltip>
                 ) : (
                     <></>
                 )}
                 {badges & Badges.ReservedRelevantJokeBadge2 ? (
-                    <Tooltip content={ <Text id="app.popover.user_profile.badges.morbin_time" /> }>
+                    <Tooltip content="It's Morbin Time">
                         <img src="/assets/badges/amorbus.svg" />
                     </Tooltip>
                 ) : (

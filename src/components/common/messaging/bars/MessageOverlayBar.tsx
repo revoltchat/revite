@@ -110,7 +110,7 @@ export const MessageOverlayBar = observer(
         return (
             <OverlayBar>
                 {message.channel?.havePermission("SendMessage") && (
-                    <Tooltip content={ <Text id="app.popover.message.reply" /> }>
+                    <Tooltip content={ <Text id="app.special.context_menu.reply_message" /> }>
                         <Entry
                             onClick={() =>
                                 internalEmit("ReplyBar", "add", message)
@@ -126,7 +126,7 @@ export const MessageOverlayBar = observer(
                             open={reactionsOpen}
                             setOpen={setReactionsOpen}
                             message={message}>
-                            <Tooltip content={ <Text id="app.popover.message.react" /> }>
+                            <Tooltip content={ <Text id="app.special.context_menu.add_reaction" /> }>
                                 <Entry>
                                     <HappyBeaming size={18} />
                                 </Entry>
@@ -135,7 +135,7 @@ export const MessageOverlayBar = observer(
                     )}
 
                 {isAuthor && (
-                    <Tooltip content={ <Text id="app.popover.message.edit" /> }>
+                    <Tooltip content={ <Text id="app.special.context_menu.edit_message" /> }>
                         <Entry
                             onClick={() =>
                                 internalEmit(
@@ -151,7 +151,7 @@ export const MessageOverlayBar = observer(
                 {isAuthor ||
                 (message.channel &&
                     message.channel.havePermission("ManageMessages")) ? (
-                    <Tooltip content={ <Text id="app.popover.message.delete" /> }>
+                    <Tooltip content={ <Text id="app.special.context_menu.delete_message" /> }>
                         <Entry
                             onClick={(e) =>
                                 e.shiftKey
@@ -165,7 +165,7 @@ export const MessageOverlayBar = observer(
                         </Entry>
                     </Tooltip>
                 ) : undefined}
-                <Tooltip content={ <Text id="app.popover.message.more" /> }>
+                <Tooltip content={ <Text id="app.special.context_menu.more_options" /> }>
                     <Entry
                         onClick={() =>
                             openContextMenu("Menu", {
@@ -180,7 +180,7 @@ export const MessageOverlayBar = observer(
                 {extraActions && (
                     <>
                         <Divider />
-                        <Tooltip content={ <Text id="app.popover.message.mark_unread" /> }>
+                        <Tooltip content={ <Text id="app.special.context_menu.mark_unread" /> }>
                             <Entry
                                 onClick={() => {
                                     // ! FIXME: deduplicate this code with ctx menu
@@ -208,7 +208,7 @@ export const MessageOverlayBar = observer(
                         </Tooltip>
                         <Tooltip
                             content={
-                                <Text id={`app.popover.message.${copied === "link" ? 'copied' : 'copy_link'}`} />
+                                <Text id={`app.${copied === "link" ? 'popover.misc.copied' : 'special.context_menu.copy_link'}`} />
                             }
                             hideOnClick={false}>
                             <Entry
@@ -221,7 +221,7 @@ export const MessageOverlayBar = observer(
                         </Tooltip>
                         <Tooltip
                             content={
-                                <Text id={`app.popover.message.${copied === "id" ? 'copied' : 'copy_id'}`} />
+                                <Text id={`app.${copied === "id" ? 'popover.misc.copied' : 'special.context_menu.copy_id'}`} />
                             }
                             hideOnClick={false}>
                             <Entry
