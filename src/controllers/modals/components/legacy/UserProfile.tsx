@@ -41,8 +41,8 @@ import { ModalProps } from "../../types";
 export const UserProfile = observer(
     ({
         user_id,
-        dummy,
-        dummyProfile,
+        isPlaceholder,
+        placeholderProfile,
         ...props
     }: ModalProps<"user_profile">) => {
         const [profile, setProfile] = useState<
@@ -87,21 +87,21 @@ export const UserProfile = observer(
         }, [user_id]);
 
         useEffect(() => {
-            if (dummy) {
-                setProfile(dummyProfile);
+            if (isPlaceholder) {
+                setProfile(placeholderProfile);
             }
-        }, [dummy, dummyProfile]);
+        }, [isPlaceholder, placeholderProfile]);
 
         useEffect(() => {
-            if (dummy) return;
+            if (isPlaceholder) return;
             if (session.state === "Online" && typeof mutual === "undefined") {
                 setMutual(null);
                 user.fetchMutual().then(setMutual);
             }
-        }, [mutual, session.state, dummy, user]);
+        }, [mutual, session.state, isPlaceholder, user]);
 
         useEffect(() => {
-            if (dummy) return;
+            if (isPlaceholder) return;
             if (session.state === "Online" && typeof profile === "undefined") {
                 setProfile(null);
 
@@ -109,7 +109,7 @@ export const UserProfile = observer(
                     user.fetchProfile().then(setProfile).catch(noop);
                 }
             }
-        }, [profile, session.state, dummy, user]);
+        }, [profile, session.state, isPlaceholder, user]);
 
         useEffect(() => {
             if (
@@ -169,7 +169,8 @@ export const UserProfile = observer(
                                     onClick={() =>
                                         modalController.writeText(user.username)
                                     }>
-                                    @{user.username}
+                                    {"@"}
+                                    {user.username}
                                 </span>
                             </Localizer>
                             {user.status?.text && (
@@ -184,11 +185,11 @@ export const UserProfile = observer(
                                     palette="accent"
                                     compact
                                     onClick={props.onClose}>
-                                    Add to server
+                                    {"Add to server" /* FIXME: i18n */}
                                 </Button>
                             </Link>
                         )}
-                        {user.relationship === "Friend" && (
+                        {(user.relationship === "Friend" || user.bot) && (
                             <Localizer>
                                 <Tooltip
                                     content={
@@ -204,7 +205,7 @@ export const UserProfile = observer(
                                 </Tooltip>
                             </Localizer>
                         )}
-                        {user.relationship === "User" && !dummy && (
+                        {user.relationship === "User" && !isPlaceholder && (
                             <IconButton
                                 onClick={() => {
                                     props.onClose?.();
@@ -237,11 +238,13 @@ export const UserProfile = observer(
                         </div>
                         {user.relationship !== "User" && (
                             <>
-                                <div
-                                    data-active={tab === "friends"}
-                                    onClick={() => setTab("friends")}>
-                                    <Text id="app.special.popovers.user_profile.mutual_friends" />
-                                </div>
+                                {!user.bot && (
+                                    <div
+                                        data-active={tab === "friends"}
+                                        onClick={() => setTab("friends")}>
+                                        <Text id="app.special.popovers.user_profile.mutual_friends" />
+                                    </div>
+                                )}
                                 <div
                                     data-active={tab === "groups"}
                                     onClick={() => setTab("groups")}>
@@ -281,8 +284,9 @@ export const UserProfile = observer(
                                 ) : undefined}
                                 {user.bot ? (
                                     <>
+                                        {/* FIXME: this too */}
                                         <div className={styles.category}>
-                                            bot owner
+                                            {"bot owner"}
                                         </div>
                                         <div
                                             onClick={() =>
@@ -432,12 +436,12 @@ export const UserProfile = observer(
             </>
         );
 
-        if (dummy) return <div>{children}</div>;
+        if (isPlaceholder) return <div>{children}</div>;
 
         return (
             <Modal
                 {...props}
-                nonDismissable={dummy}
+                nonDismissable={isPlaceholder}
                 transparent
                 maxWidth="560px">
                 {children}

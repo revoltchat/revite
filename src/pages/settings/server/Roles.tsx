@@ -1,6 +1,8 @@
+import { HelpCircle } from "@styled-icons/boxicons-solid";
 import isEqual from "lodash.isequal";
 import { observer } from "mobx-react-lite";
 import { Server } from "revolt.js";
+import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 import { useMemo, useState } from "preact/hooks";
@@ -16,6 +18,7 @@ import {
     Category,
 } from "@revoltchat/ui";
 
+import Tooltip from "../../../components/common/Tooltip";
 import { PermissionList } from "../../../components/settings/roles/PermissionList";
 import { RoleOrDefault } from "../../../components/settings/roles/RoleSelection";
 import { modalController } from "../../../controllers/modals/ModalController";
@@ -52,6 +55,20 @@ export function useRoles(server: Server) {
 export const Roles = observer(({ server }: Props) => {
     // Consolidate all permissions that we can change right now.
     const currentRoles = useRoles(server);
+
+    const RoleId = styled.div`
+        gap: 4px;
+        display: flex;
+        align-items: center;
+
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--tertiary-foreground);
+
+        a {
+            color: var(--tertiary-foreground);
+        }
+    `;
 
     return (
         <PermissionsLayout
@@ -146,6 +163,30 @@ export const Roles = observer(({ server }: Props) => {
                                             palette="secondary"
                                         />
                                     </p>
+                                </section>
+                                <section>
+                                    <Category>{"Role ID"}</Category>
+                                    <RoleId>
+                                        <Tooltip
+                                            content={
+                                                "This is a unique identifier for this role."
+                                            }>
+                                            <HelpCircle size={16} />
+                                        </Tooltip>
+                                        <Tooltip
+                                            content={
+                                                <Text id="app.special.copy" />
+                                            }>
+                                            <a
+                                                onClick={() =>
+                                                    modalController.writeText(
+                                                        currentRole.id,
+                                                    )
+                                                }>
+                                                {currentRole.id}
+                                            </a>
+                                        </Tooltip>
+                                    </RoleId>
                                 </section>
                                 <section>
                                     <Category>
