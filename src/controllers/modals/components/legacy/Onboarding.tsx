@@ -6,7 +6,8 @@ import { useState } from "preact/hooks";
 
 import { Button, Preloader } from "@revoltchat/ui";
 
-import wideSVG from "/assets/wide.svg";
+// import wideSVG from "/assets/wide.svg";
+import background from "./assets/onboarding_background.svg";
 
 import FormField from "../../../../pages/login/FormField";
 import { takeError } from "../../../client/jsx/error";
@@ -36,43 +37,49 @@ export function OnboardingModal({
 
     return (
         <div className={styles.onboarding}>
-            <div className={styles.header}>
-                <h1>
-                    <Text id="app.special.modals.onboarding.welcome" />
-                    <br />
-                    <img src={wideSVG} loading="eager" />
-                </h1>
+            <div className={styles.container}>
+                <div className={styles.header}>
+                    <h1>{"Welcome to Revolt."}</h1>
+                </div>
+                <div className={styles.form}>
+                    {loading ? (
+                        <Preloader type="spinner" />
+                    ) : (
+                        <>
+                            <p>
+                                {"It's time to choose a username."}
+                                <br />
+                                {
+                                    "Others will be able to find, recognise and mention you with this name, so choose wisely."
+                                }
+                                <br />
+                                {
+                                    "You can change it at any time in your User Settings."
+                                }
+                            </p>
+                            <form
+                                onSubmit={
+                                    handleSubmit(
+                                        onSubmit,
+                                    ) as unknown as JSX.GenericEventHandler<HTMLFormElement>
+                                }>
+                                <div>
+                                    <FormField
+                                        type="username"
+                                        register={register}
+                                        showOverline
+                                        error={error}
+                                    />
+                                </div>
+                                <Button palette="accent">
+                                    {"Looks good!"}
+                                </Button>
+                            </form>
+                        </>
+                    )}
+                </div>
             </div>
-            <div className={styles.form}>
-                {loading ? (
-                    <Preloader type="spinner" />
-                ) : (
-                    <>
-                        <p>
-                            <Text id="app.special.modals.onboarding.pick" />
-                        </p>
-                        <form
-                            onSubmit={
-                                handleSubmit(
-                                    onSubmit,
-                                ) as unknown as JSX.GenericEventHandler<HTMLFormElement>
-                            }>
-                            <div>
-                                <FormField
-                                    type="username"
-                                    register={register}
-                                    showOverline
-                                    error={error}
-                                />
-                            </div>
-                            <Button type="submit">
-                                <Text id="app.special.modals.actions.continue" />
-                            </Button>
-                        </form>
-                    </>
-                )}
-            </div>
-            <div />
+            <img src={background} />
         </div>
     );
 }

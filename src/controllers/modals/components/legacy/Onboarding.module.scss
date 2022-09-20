@@ -12,34 +12,19 @@
     flex-direction: column;
 
     div {
-        flex: 1;
+        &.container {
+            max-width: 750px;
+            flex-grow: 1;
+            align-items: left;
+        }
 
         &.header {
             gap: 8px;
-            padding: 3em;
+            padding-top: 5em;
             display: flex;
-            text-align: center;
-
-            h1 {
-                margin: 0;
-            }
-
-            img {
-                max-height: 80px;
-            }
         }
 
         &.form {
-            flex-grow: 1;
-            max-width: 420px;
-
-            img {
-                margin: auto;
-                display: block;
-                max-height: 420px;
-                border-radius: var(--border-radius);
-            }
-
             input {
                 width: 100%;
             }

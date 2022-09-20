@@ -49,7 +49,7 @@ export default function EmbedMedia({ embed, width, height }: Props) {
         case "Lightspeed":
             return (
                 <iframe
-                    src={`https://next.lightspeed.tv/embed/${embed.special.id}`}
+                    src={`https://new.lightspeed.tv/embed/${embed.special.id}/stream`}
                     frameBorder="0"
                     allowFullScreen
                     scrolling="no"
