@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { Channel, Member } from "revolt.js";
+import { Channel } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
@@ -60,8 +60,6 @@ const Base = styled.div`
 `;
 
 export default observer(({ channel }: Props) => {
-    const client = channel.client;
-
     const users = channel.typing.filter(
         (x) =>
             typeof x !== "undefined" &&
@@ -69,47 +67,24 @@ export default observer(({ channel }: Props) => {
             x.relationship !== "Blocked",
     );
 
-    const members = users.map((user) => {
-        return client.members.getKey({
-            server: channel.server_id!,
-            user: user!._id,
-        });
-    });
-
-    const getName = (member: Member) => {
-        return member.nickname === null
-            ? member.user?.username
-            : member.nickname;
-    };
-
-    const getAvatar = (member: Member) => {
-        const memberAvatarURL = member.generateAvatarURL({
-            max_side: 256,
-        });
-
-        return memberAvatarURL === undefined
-            ? member.user?.generateAvatarURL({ max_side: 256 })
-            : memberAvatarURL;
-    };
-
-    if (members.length > 0) {
-        members.sort((a, b) =>
-            a!._id.user.toUpperCase().localeCompare(b!._id.user.toUpperCase()),
+    if (users.length > 0) {
+        users.sort((a, b) =>
+            a!._id.toUpperCase().localeCompare(b!._id.toUpperCase()),
         );
 
         let text;
-        if (members.length >= 5) {
+        if (users.length >= 5) {
             text = <Text id="app.main.channel.typing.several" />;
-        } else if (members.length > 1) {
-            const memberlist = [...members].map((x) => getName(x!));
-            const member = memberlist.pop();
+        } else if (users.length > 1) {
+            const userlist = [...users].map((x) => x!.username);
+            const user = userlist.pop();
 
             text = (
                 <Text
                     id="app.main.channel.typing.multiple"
                     fields={{
-                        user: member,
-                        userlist: memberlist.join(", "),
+                        user,
+                        userlist: userlist.join(", "),
                     }}
                 />
             );
@@ -117,7 +92,7 @@ export default observer(({ channel }: Props) => {
             text = (
                 <Text
                     id="app.main.channel.typing.single"
-                    fields={{ user: getName(members[0]!) }}
+                    fields={{ user: users[0]!.username }}
                 />
             );
         }
@@ -126,11 +101,11 @@ export default observer(({ channel }: Props) => {
             <Base>
                 <div>
                     <div className="avatars">
-                        {members.map((member) => (
+                        {users.map((user) => (
                             <img
-                                key={member!._id.user}
+                                key={user!._id}
                                 loading="eager"
-                                src={getAvatar(member!)}
+                                src={user!.generateAvatarURL({ max_side: 256 })}
                             />
                         ))}
                     </div>
