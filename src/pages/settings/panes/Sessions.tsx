@@ -1,4 +1,4 @@
-import { Chrome, Android, Apple, Windows } from "@styled-icons/boxicons-logos";
+import { Chrome, Android, Windows } from "@styled-icons/boxicons-logos";
 import { HelpCircle, Desktop, LogOut } from "@styled-icons/boxicons-regular";
 import {
     Safari,
@@ -6,6 +6,7 @@ import {
     Microsoftedge,
     Linux,
     Macos,
+    Ios,
     Opera,
     Samsung,
     Windowsxp,
@@ -99,7 +100,7 @@ export function Sessions() {
             case /mac.*os/i.test(name):
                 return <Macos size={14} />;
             case /i(Pad)?os/i.test(name):
-                return <Apple size={14} />;
+                return <Ios size={14} />;
             case /windows 7/i.test(name):
                 return <Windowsxp size={14} />;
             case /windows/i.test(name):

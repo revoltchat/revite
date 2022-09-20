@@ -29,13 +29,13 @@ export const EXPERIMENTS: {
     [key in Experiment]: { title: string; description: string };
 } = {
     dummy: {
-        title: "Dummy Experiment",
-        description: "This is a dummy experiment.",
+        title: "Placeholder Experiment",
+        description: "This is a placeholder experiment.",
     },
     offline_users: {
         title: "Re-enable offline users in large servers (>10k members)",
         description:
-            "If you can take the performance hit (for example, you're on desktop), you can re-enable offline users for big servers such as Revolt Lounge.",
+            "If you can take the performance hit - for example, if you're on desktop - you can re-enable offline users for big servers such as the Revolt Lounge.",
     },
     plugins: {
         title: "Experimental Plugin API",
@@ -45,7 +45,7 @@ export const EXPERIMENTS: {
     picker: {
         title: "Custom Emoji",
         description:
-            "This will enable a work-in-progress emoji picker, custom emoji settings and reaction picker.",
+            "This will enable a work-in-progress emoji picker, custom emoji settings and a reaction picker.",
     },
 };
 

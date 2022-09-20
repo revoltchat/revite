@@ -51,21 +51,37 @@ export default observer(() => {
         state.settings.set("appearance:seasonal", !seasonalTheme);
 
     const isDecember = !isTouchscreenDevice && new Date().getMonth() === 11;
+    const isOctober = !isTouchscreenDevice && new Date().getMonth() === 9
     const snowflakes = useMemo(() => {
         const flakes = [];
 
-        // Disable outside of December
-        if (!isDecember) return [];
+        if (isDecember) {
+            for (let i = 0; i < 15; i++) {
+                flakes.push("❄️");
+                flakes.push("❄");
+            }
 
-        for (let i = 0; i < 15; i++) {
-            flakes.push("❄️");
-            flakes.push("❄");
+            for (let i = 0; i < 2; i++) {
+                flakes.push("🎄");
+                flakes.push("☃️");
+                flakes.push("⛄");
+            }
+
+            return flakes;
         }
+        if (isOctober) {
+            for (let i = 0; i < 15; i++) {
+                flakes.push("🎃");
+                flakes.push("💀");
+            }
 
-        for (let i = 0; i < 2; i++) {
-            flakes.push("🎄");
-            flakes.push("☃️");
-            flakes.push("⛄");
+            for (let i = 0; i < 2; i++) {
+                flakes.push("👻");
+                flakes.push("⚰️");
+                flakes.push("🕷️");
+            }
+
+            return flakes;
         }
 
         return flakes;

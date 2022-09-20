@@ -98,12 +98,12 @@ export const Overview = observer(({ server }: Props) => {
                 <h5>
                     <Text id="app.settings.tips.markdown.a" />{" "}
                     <a
-                        href="https://developers.revolt.chat/markdown"
+                        href="https://support.revolt.chat/kb/interface/messages/formatting-your-messages"
                         target="_blank"
                         rel="noreferrer">
                         <Text id="app.settings.tips.markdown.b" />
                     </a>
-                    .
+                    {"."}
                 </h5>
             </div>
             <hr />

@@ -974,6 +974,10 @@ export default function ContextMenus() {
                             }
                         }
 
+                        // workaround to prevent button duplication
+                        let hideIDButton;
+                        if (sid && server) hideIDButton = true;
+
                         if (sid && server) {
                             generateAction(
                                 {
@@ -1015,15 +1019,28 @@ export default function ContextMenus() {
                                     "open_server_settings",
                                 );
 
+                            // workaround to move this above the delete/leave button
+                            generateAction(
+                                { action: "copy_id", id },
+                                "copy_sid",
+                            );
+
+                            pushDivider();
                             if (userId === server.owner) {
                                 generateAction(
                                     { action: "delete_server", target: server },
                                     "delete_server",
+                                    undefined,
+                                    undefined,
+                                    "var(--error)",
                                 );
                             } else {
                                 generateAction(
                                     { action: "leave_server", target: server },
                                     "leave_server",
+                                    undefined,
+                                    undefined,
+                                    "var(--error)",
                                 );
                             }
                         }
@@ -1035,16 +1052,16 @@ export default function ContextMenus() {
                             });
                         }
 
-                        generateAction(
-                            { action: "copy_id", id },
-                            sid
-                                ? "copy_sid"
-                                : cid
-                                ? "copy_cid"
-                                : message
-                                ? "copy_mid"
-                                : "copy_uid",
-                        );
+                        if (!hideIDButton) {
+                            generateAction(
+                                { action: "copy_id", id },
+                                cid
+                                    ? "copy_cid"
+                                    : message
+                                    ? "copy_mid"
+                                    : "copy_uid",
+                            );
+                        }
                     }
 
                     return elements;

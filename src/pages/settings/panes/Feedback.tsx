@@ -24,7 +24,7 @@ export function Feedback() {
                 </CategoryButton>
             </a>
             <a
-                href="https://github.com/revoltchat/revite/issues/new"
+                href="https://github.com/revoltchat/revite/issues/new/choose"
                 target="_blank"
                 rel="noreferrer">
                 <CategoryButton
@@ -37,7 +37,7 @@ export function Feedback() {
                 </CategoryButton>
             </a>
             <a
-                href="https://github.com/orgs/revoltchat/projects/1"
+                href="https://github.com/orgs/revoltchat/projects/3"
                 target="_blank"
                 rel="noreferrer">
                 <CategoryButton

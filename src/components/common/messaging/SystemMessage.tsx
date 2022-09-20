@@ -14,12 +14,21 @@ import {
 import { observer } from "mobx-react-lite";
 import { Message, API } from "revolt.js";
 import styled from "styled-components/macro";
+import { decodeTime } from "ulid";
 
 import { useTriggerEvents } from "preact-context-menu";
+import { Text } from "preact-i18n";
+
+import { Row } from "@revoltchat/ui";
 
 import { TextReact } from "../../../lib/i18n";
 
+import { useApplicationState } from "../../../mobx/State";
+
+import { dayjs } from "../../../context/Locale";
+
 import Markdown from "../../markdown/Markdown";
+import Tooltip from "../Tooltip";
 import UserShort from "../user/UserShort";
 import MessageBase, { MessageDetail, MessageInfo } from "./MessageBase";
 
@@ -78,6 +87,8 @@ export const SystemMessage = observer(
         const data = message.asSystemMessage;
         if (!data) return null;
 
+        const settings = useApplicationState().settings;
+
         const SystemMessageIcon =
             iconDictionary[data.type as API.SystemMessage["type"]] ??
             InfoCircle;
@@ -103,16 +114,39 @@ export const SystemMessage = observer(
             case "user_joined":
             case "user_left":
             case "user_kicked":
-            case "user_banned":
+            case "user_banned": {
+                const createdAt = data.user ? decodeTime(data.user._id) : null;
                 children = (
-                    <TextReact
-                        id={`app.main.channel.system.${data.type}`}
-                        fields={{
-                            user: <UserShort user={data.user} />,
-                        }}
-                    />
+                    <Row centred>
+                        <TextReact
+                            id={`app.main.channel.system.${data.type}`}
+                            fields={{
+                                user: <UserShort user={data.user} />,
+                            }}
+                        />
+                        {data.type == "user_joined" &&
+                            createdAt &&
+                            (settings.get("appearance:show_account_age") ||
+                                Date.now() - createdAt <
+                                    1000 * 60 * 60 * 24 * 7) && (
+                                <Tooltip
+                                    content={
+                                        <Text
+                                            id="app.main.channel.system.registered_at"
+                                            fields={{
+                                                time: dayjs(
+                                                    createdAt,
+                                                ).fromNow(),
+                                            }}
+                                        />
+                                    }>
+                                    <InfoCircle size={16} />
+                                </Tooltip>
+                            )}
+                    </Row>
                 );
                 break;
+            }
             case "channel_renamed":
                 children = (
                     <TextReact

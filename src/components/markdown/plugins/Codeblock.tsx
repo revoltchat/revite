@@ -22,6 +22,7 @@ const Base = styled.pre`
  * Copy codeblock contents button styles
  */
 const Lang = styled.div`
+    font-family: var(--monospace-font);
     width: fit-content;
     padding-bottom: 8px;
 
