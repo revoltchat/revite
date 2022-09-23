@@ -70,6 +70,10 @@ export const Roles = observer(({ server }: Props) => {
         }
     `;
 
+    const DeleteRoleButton = styled(Button)`
+        margin: 16px 0;
+    `;
+
     return (
         <PermissionsLayout
             server={server}
@@ -266,12 +270,12 @@ export const Roles = observer(({ server }: Props) => {
                                 <h1>
                                     <Text id="app.settings.categories.danger_zone" />
                                 </h1>
-                                <Button
+                                <DeleteRoleButton
                                     palette="error"
                                     compact
                                     onClick={deleteRole}>
                                     <Text id="app.settings.permissions.delete_role" />
-                                </Button>
+                                </DeleteRoleButton>
                             </>
                         )}
                     </div>
