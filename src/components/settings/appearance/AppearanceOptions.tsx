@@ -40,6 +40,20 @@ export default function AppearanceOptions() {
                     <Text id="app.settings.pages.appearance.appearance_options.show_account_age_desc" />
                 }
             />
+            {/* Option to prevent being shown age gate. */}
+            <ObservedInputElement
+                type="checkbox"
+                value={() =>
+                    settings.get("appearance:bypass_age_gate") ?? false
+                }
+                onChange={(v) => settings.set("appearance:bypass_age_gate", v)}
+                title={
+                    <Text id="app.settings.pages.appearance.appearance_options.bypass_age_gate" />
+                }
+                description={
+                    <Text id="app.settings.pages.appearance.appearance_options.bypass_age_gate_desc" />
+                }
+            />
             <hr />
             <h3>
                 <Text id="app.settings.pages.appearance.theme_options.title" />

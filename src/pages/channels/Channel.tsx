@@ -180,13 +180,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
         <AgeGate
             type="channel"
             channel={channel}
-            gated={
-                !!(
-                    (channel.channel_type === "TextChannel" ||
-                        channel.channel_type === "Group") &&
-                    channel.nsfw
-                )
-            }>
+            gated={ShowAgeGate({ channel })}>
             <ChannelHeader channel={channel} />
             <ChannelMain>
                 <ErrorBoundary section="renderer">
@@ -207,6 +201,17 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
         </AgeGate>
     );
 });
+
+function ShowAgeGate({ channel }: { channel: ChannelI }) {
+    const settings = useApplicationState().settings;
+
+    if (settings.get("appearance:bypass_age_gate") ?? false) return false;
+    return !!(
+        (channel.channel_type === "TextChannel" ||
+            channel.channel_type === "Group") &&
+        channel.nsfw
+    );
+}
 
 function VoiceChannel({ channel }: { channel: ChannelI }) {
     return (

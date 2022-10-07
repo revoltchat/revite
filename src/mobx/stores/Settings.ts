@@ -22,6 +22,7 @@ export interface ISettings {
     "appearance:transparency": boolean;
     "appearance:show_send_button": boolean;
     "appearance:show_account_age": boolean;
+    "appearance:bypass_age_gate": boolean;
 
     "appearance:theme:base": "dark" | "light";
     "appearance:theme:overrides": Partial<Overrides>;
@@ -37,8 +38,7 @@ export interface ISettings {
  * Manages user settings.
  */
 export default class Settings
-    implements Store, Persistent<ISettings>, Syncable
-{
+    implements Store, Persistent<ISettings>, Syncable {
     private data: ObservableMap<string, unknown>;
 
     theme: STheme;
