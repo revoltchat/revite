@@ -80,7 +80,11 @@ export const Form = observer(({ page, callback }: Props) => {
         }
 
         try {
-            if (configuration?.features.captcha.enabled && page !== "reset") {
+            if (
+                configuration?.features.captcha.enabled &&
+                page !== "reset" &&
+                page !== "login"
+            ) {
                 setCaptcha({
                     onSuccess: async (captcha) => {
                         setCaptcha(undefined);
