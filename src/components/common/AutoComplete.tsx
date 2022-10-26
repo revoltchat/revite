@@ -432,7 +432,12 @@ export default function AutoComplete({
                                 })
                             }
                             onClick={onClick}>
-                            <div>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "center",
+                                }}>
                                 {match instanceof CustomEmoji ? (
                                     <img
                                         loading="lazy"
@@ -455,11 +460,11 @@ export default function AutoComplete({
                                         size={20}
                                     />
                                 )}
-                                {`:${
+                                <span style={{ paddingLeft: "4px" }}>{`:${
                                     match instanceof CustomEmoji
                                         ? match.name
                                         : match
-                                }:`}
+                                }:`}</span>
                             </div>
                             {match instanceof CustomEmoji &&
                                 match.parent.type == "Server" && (
