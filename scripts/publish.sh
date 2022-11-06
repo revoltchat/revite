@@ -2,7 +2,10 @@
 # Build and publish release to production server
 
 # Remote Server
-REMOTE=revolt-de-nrb-1
+if [ -z "$REMOTE" ]; then
+    echo "Please set REMOTE!"
+    exit
+fi
 
 # Remote Directory
 REMOTE_DIR=/root/revite
