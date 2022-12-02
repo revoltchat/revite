@@ -45,7 +45,7 @@ import { PermissionTooltip } from "../Tooltip";
 import FilePreview from "./bars/FilePreview";
 import ReplyBar from "./bars/ReplyBar";
 
-import { DraftObject }from "../../../mobx/stores/Draft";
+import { DraftObject } from "../../../mobx/stores/Draft";
 
 type Props = {
     channel: Channel;
