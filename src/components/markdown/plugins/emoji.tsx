@@ -25,7 +25,7 @@ const Emoji = styled.img`
     }
 `;
 
-const RE_EMOJI = /:([a-zA-Z0-9_+]+):/g;
+const RE_EMOJI = /:([a-zA-Z0-9\-_]+):/g;
 const RE_ULID = /^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$/;
 
 export function RenderEmoji({ match }: CustomComponentProps) {
