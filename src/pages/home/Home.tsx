@@ -53,7 +53,7 @@ export default observer(() => {
     const isDecember = !isTouchscreenDevice && new Date().getMonth() === 11;
     const isOctober = !isTouchscreenDevice && new Date().getMonth() === 9
     const snowflakes = useMemo(() => {
-        const flakes = [];
+        const flakes: string[] = [];
 
         if (isDecember) {
             for (let i = 0; i < 15; i++) {
