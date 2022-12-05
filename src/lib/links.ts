@@ -17,6 +17,7 @@ const ALLOWED_ORIGINS = [
     "app.revolt.chat",
     "nightly.revolt.chat",
     "local.revolt.chat",
+    "rolt.chat",
 ];
 
 /**
