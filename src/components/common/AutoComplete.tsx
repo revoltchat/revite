@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { Link } from "react-router-dom";
 import { Channel, User } from "revolt.js";
+import { Emoji as CustomEmoji } from "revolt.js/esm/maps/Emojis";
 import styled, { css } from "styled-components/macro";
 
 import { StateUpdater, useState } from "preact/hooks";
@@ -7,6 +10,8 @@ import { emojiDictionary } from "../../assets/emojis";
 import { useClient } from "../../controllers/client/ClientController";
 import ChannelIcon from "./ChannelIcon";
 import Emoji from "./Emoji";
+import ServerIcon from "./ServerIcon";
+import Tooltip from "./Tooltip";
 import UserIcon from "./user/UserIcon";
 
 export type AutoCompleteState =
@@ -14,7 +19,7 @@ export type AutoCompleteState =
     | ({ selected: number; within: boolean } & (
           | {
                 type: "emoji";
-                matches: string[];
+                matches: (string | CustomEmoji)[];
             }
           | {
                 type: "user";
@@ -104,16 +109,23 @@ export function useAutoComplete(
 
             if (type === "emoji") {
                 // ! TODO: we should convert it to a Binary Search Tree and use that
-                const matches = Object.keys(emojiDictionary)
-                    .filter((emoji: string) => emoji.match(regex))
-                    .splice(0, 5);
+                const matches = [
+                    ...Object.keys(emojiDictionary).filter((emoji: string) =>
+                        emoji.match(regex),
+                    ),
+                    ...Array.from(client.emojis.values()).filter((emoji) =>
+                        emoji.name.match(regex),
+                    ),
+                ].splice(0, 5);
 
                 if (matches.length > 0) {
                     const currentPosition =
                         state.type !== "none" ? state.selected : 0;
 
                     setState({
+                        // @ts-ignore-next-line are you high
                         type: "emoji",
+                        // @ts-ignore-next-line
                         matches,
                         selected: Math.min(currentPosition, matches.length - 1),
                         within: false,
@@ -233,10 +245,13 @@ export function useAutoComplete(
 
                 const content = el.value.split("");
                 if (state.type === "emoji") {
+                    const selected = state.matches[state.selected];
                     content.splice(
                         index,
                         search.length,
-                        state.matches[state.selected],
+                        selected instanceof CustomEmoji
+                            ? selected._id
+                            : selected,
                         ": ",
                     );
                 } else if (state.type === "user") {
@@ -388,12 +403,17 @@ export default function AutoComplete({
     setState,
     onClick,
 }: Pick<AutoCompleteProps, "detached" | "state" | "setState" | "onClick">) {
+    const client = useClient();
     return (
         <Base detached={detached}>
             <div>
                 {state.type === "emoji" &&
                     state.matches.map((match, i) => (
                         <button
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                            }}
                             key={match}
                             className={i === state.selected ? "active" : ""}
                             onMouseEnter={() =>
@@ -412,15 +432,61 @@ export default function AutoComplete({
                                 })
                             }
                             onClick={onClick}>
-                            <Emoji
-                                emoji={
-                                    (emojiDictionary as Record<string, string>)[
-                                        match
-                                    ]
-                                }
-                                size={20}
-                            />
-                            :{match}:
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "center",
+                                }}>
+                                {match instanceof CustomEmoji ? (
+                                    <img
+                                        loading="lazy"
+                                        src={match.imageURL}
+                                        style={{
+                                            width: `20px`,
+                                            height: `20px`,
+                                        }}
+                                    />
+                                ) : (
+                                    <Emoji
+                                        emoji={
+                                            (
+                                                emojiDictionary as Record<
+                                                    string,
+                                                    string
+                                                >
+                                            )[match]
+                                        }
+                                        size={20}
+                                    />
+                                )}
+                                <span style={{ paddingLeft: "4px" }}>{`:${
+                                    match instanceof CustomEmoji
+                                        ? match.name
+                                        : match
+                                }:`}</span>
+                            </div>
+                            {match instanceof CustomEmoji &&
+                                match.parent.type == "Server" && (
+                                    <>
+                                        <Tooltip
+                                            content={
+                                                client.servers.get(
+                                                    match.parent.id,
+                                                )?.name
+                                            }>
+                                            <Link
+                                                to={`/server/${match.parent.id}`}>
+                                                <ServerIcon
+                                                    target={client.servers.get(
+                                                        match.parent.id,
+                                                    )}
+                                                    size={20}
+                                                />
+                                            </Link>
+                                        </Tooltip>
+                                    </>
+                                )}
                         </button>
                     ))}
                 {state.type === "user" &&
