@@ -154,14 +154,14 @@ export default observer(() => {
                     category: (
                         <Text id="app.settings.categories.client_settings" />
                     ),
-                    id: "audio",
-                    icon: <Speaker size={20} />,
-                    title: <Text id="app.settings.pages.audio.title" />,
-                },
-                {
                     id: "appearance",
                     icon: <Palette size={20} />,
                     title: <Text id="app.settings.pages.appearance.title" />,
+                },
+                {
+                    id: "audio",
+                    icon: <Speaker size={20} />,
+                    title: <Text id="app.settings.pages.audio.title" />,
                 },
                 {
                     id: "plugins",
