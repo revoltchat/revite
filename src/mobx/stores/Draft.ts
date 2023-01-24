@@ -59,10 +59,12 @@ export default class Draft implements Store, Persistent<Data> {
      * @param channel Channel ID
      */
     @computed has(channel: string) {
-        return (
-            this.drafts.has(channel) &&
-            this.drafts.get(channel)!.content!.length > 0
-        );
+        if (!this.drafts.has(channel)) return false;
+        // fetch the draft object
+        const potentialDraft = this.drafts.get(channel)?.content;
+        // if it doesn't have any content return false
+        if (!potentialDraft) return false;
+        return potentialDraft.length > 0;
     }
 
     /**
