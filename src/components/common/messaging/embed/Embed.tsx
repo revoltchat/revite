@@ -67,7 +67,8 @@ export default function Embed({ embed }: Props) {
                         break;
                     }
                     case "Twitch":
-                    case "Lightspeed": {
+                    case "Lightspeed":
+                    case "Streamable": {
                         mw = 1280;
                         mh = 720;
                         break;
