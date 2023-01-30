@@ -92,6 +92,16 @@ export default function EmbedMedia({ embed, width, height }: Props) {
                 />
             );
         }
+        case "Streamable": {
+            return (
+                <iframe
+                    src={`https://streamable.com/e/${embed.special.id}?loop=0`}
+                    seamless
+                    loading="lazy"
+                    style={{ height }}
+                />
+            );
+        }
         default: {
             if (embed.video) {
                 const url = embed.video.url;
