@@ -64,7 +64,7 @@ export function useAutoComplete(
             const cursor = el.selectionStart;
             const content = el.value.slice(0, cursor);
 
-            const valid = /\w/;
+            const valid = /[\w\-]/;
 
             let j = content.length - 1;
             if (content[j] === "@") {
