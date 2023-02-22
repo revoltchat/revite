@@ -1,4 +1,5 @@
 import { API, Message as MessageInterface, User } from "revolt.js";
+import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 
@@ -26,6 +27,13 @@ const USER_REASONS: API.UserReportReason[] = [
     "BanEvasion",
     "Underage",
 ];
+
+/**
+ * Add padding to the message container
+ */
+const MessageContainer = styled.div`
+    margin-block-end: 16px;
+`;
 
 /**
  * Report creation modal
@@ -63,7 +71,9 @@ export default function ReportContent({
                 selected: {
                     element:
                         target instanceof MessageInterface ? (
-                            <Message message={target} head />
+                            <MessageContainer>
+                                <Message message={target} head attachContext />
+                            </MessageContainer>
                         ) : target instanceof User ? (
                             <Row centred>
                                 <UserShort user={target} size={32} />

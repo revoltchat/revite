@@ -3,6 +3,7 @@ type Element =
     | {
           type: "image";
           src: string;
+          shadow?: boolean;
       };
 
 export interface ChangelogPost {
@@ -27,6 +28,19 @@ export const changelogEntries: Record<number, ChangelogPost> = {
                 src: "https://autumn.revolt.chat/attachments/LWRYoKR2tE1ggW_Lzm547P1pnrkNgmBaoCAfWvHE74/image.png",
             },
             "Other authentication methods coming later, stay tuned!",
+        ],
+    },
+    2: {
+        date: new Date("2023-02-22T17:30:00.000Z"),
+        title: "In-App Reporting Is Here",
+        content: [
+            "You can now report any user, server, or message directly from the app.",
+            {
+                type: "image",
+                src: "https://autumn.revolt.chat/attachments/ZuDVIjGiCl61Pk9XGk5qfc8-idN9EnFAk55DUQp713/the.png",
+                shadow: true,
+            },
+            "If you want to learn more about how we're making Revolt safer for you, check out our new blog post :point_right: [https://revolt.chat/posts/improving-user-safety](https://revolt.chat/posts/improving-user-safety)",
         ],
     },
 };
