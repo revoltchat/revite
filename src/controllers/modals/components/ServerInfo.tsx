@@ -28,16 +28,24 @@ export default function ServerInfo({
             }
             actions={[
                 {
-                    onClick: () =>
+                    onClick: () => {
                         modalController.push({
                             type: "server_identity",
                             member: server.member!,
-                        }),
+                        });
+                        return true;
+                    },
                     children: "Edit Identity",
                     palette: "primary",
                 },
                 {
-                    onClick: () => report(server),
+                    onClick: () => {
+                        modalController.push({
+                            type: "report",
+                            target: server,
+                        });
+                        return true;
+                    },
                     children: <Text id="app.special.modals.actions.report" />,
                     palette: "error",
                 },
