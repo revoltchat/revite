@@ -9,7 +9,7 @@ export default observer(() => {
     const history = useHistory();
 
     useEffect(() => {
-        function keyUp(event: KeyboardEvent) {
+        function keyDown(event: KeyboardEvent) {
             if (event.key === "Escape") {
                 modalController.pop("close");
             } else if (event.key === "Enter") {
@@ -18,8 +18,8 @@ export default observer(() => {
             }
         }
 
-        document.addEventListener("keyup", keyUp);
-        return () => document.removeEventListener("keyup", keyUp);
+        document.addEventListener("keydown", keyDown);
+        return () => document.removeEventListener("keydown", keyDown);
     }, []);
 
     return (
