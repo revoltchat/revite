@@ -111,7 +111,8 @@ type Action =
           action: "set_notification_state";
           key: string;
           state?: NotificationState;
-      };
+      }
+    | { action: "report"; target: User | Server | Message };
 
 // ! FIXME: I dare someone to re-write this
 // Tip: This should just be split into separate context menus per logical area.
@@ -449,6 +450,12 @@ export default function ContextMenus() {
                 case "open_server_settings":
                     history.push(`/server/${data.id}/settings`);
                     break;
+                case "report":
+                    modalController.push({
+                        type: "report",
+                        target: data.target,
+                    });
+                    break;
             }
         })().catch((err) => {
             modalController.push({
@@ -669,6 +676,19 @@ export default function ContextMenus() {
                                 } as unknown as Action);
                             }
                         }
+
+                        if (user._id !== userId) {
+                            generateAction(
+                                {
+                                    action: "report",
+                                    target: user,
+                                },
+                                "report_user",
+                                undefined,
+                                undefined,
+                                "var(--error)",
+                            );
+                        }
                     }
 
                     if (contextualChannel) {
@@ -795,14 +815,33 @@ export default function ContextMenus() {
                             });
                         }
 
+                        if (message.author_id !== userId) {
+                            generateAction(
+                                {
+                                    action: "report",
+                                    target: message,
+                                },
+                                "report_message",
+                                undefined,
+                                undefined,
+                                "var(--error)",
+                            );
+                        }
+
                         if (
                             message.author_id === userId ||
                             channelPermissions & Permission.ManageMessages
                         ) {
-                            generateAction({
-                                action: "delete_message",
-                                target: message,
-                            });
+                            generateAction(
+                                {
+                                    action: "delete_message",
+                                    target: message,
+                                },
+                                undefined,
+                                undefined,
+                                undefined,
+                                "var(--error)",
+                            );
                         }
 
                         if (
@@ -1035,6 +1074,17 @@ export default function ContextMenus() {
                                     "var(--error)",
                                 );
                             } else {
+                                generateAction(
+                                    {
+                                        action: "report",
+                                        target: server,
+                                    },
+                                    "report_server",
+                                    undefined,
+                                    undefined,
+                                    "var(--error)",
+                                );
+
                                 generateAction(
                                     { action: "leave_server", target: server },
                                     "leave_server",

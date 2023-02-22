@@ -41,6 +41,7 @@ import MFARecovery from "./components/MFARecovery";
 import ModifyAccount from "./components/ModifyAccount";
 import OutOfDate from "./components/OutOfDate";
 import PendingFriendRequests from "./components/PendingFriendRequests";
+import ReportContent from "./components/Report";
 import ServerIdentity from "./components/ServerIdentity";
 import ServerInfo from "./components/ServerInfo";
 import ShowToken from "./components/ShowToken";
@@ -276,4 +277,5 @@ export const modalController = new ModalControllerExtended({
     sign_out_sessions: SignOutSessions,
     user_picker: UserPicker,
     user_profile: UserProfile,
+    report: ReportContent,
 });
