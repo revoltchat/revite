@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { Text } from "preact-i18n";
 import { useMemo, useState } from "preact/hooks";
@@ -14,10 +14,17 @@ import {
     changelogEntryArray,
     ChangelogPost,
 } from "../../../assets/changelogs";
+import Markdown from "../../../components/markdown/Markdown";
 import { ModalProps } from "../types";
 
-const Image = styled.img`
+const Image = styled.img<{ shadow?: boolean }>`
     border-radius: var(--border-radius);
+
+    ${(props) =>
+        props.shadow &&
+        css`
+            filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.5));
+        `}
 `;
 
 function RenderLog({ post }: { post: ChangelogPost }) {
@@ -25,9 +32,9 @@ function RenderLog({ post }: { post: ChangelogPost }) {
         <Column>
             {post.content.map((entry) =>
                 typeof entry === "string" ? (
-                    <span>{entry}</span>
+                    <Markdown content={entry} />
                 ) : (
-                    <Image src={entry.src} />
+                    <Image src={entry.src} shadow={entry.shadow} />
                 ),
             )}
         </Column>
