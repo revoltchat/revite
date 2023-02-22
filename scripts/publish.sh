@@ -18,7 +18,7 @@ export REVOLT_SAAS=https://github.com/revoltchat/assets
 set -e
 
 # 1. Build Revite
-yarn build
+yarn build:highmem
 
 # 2. Archive built files
 tar -czvf build.tar.gz dist

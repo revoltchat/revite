@@ -8016,14 +8016,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"revolt-api@npm:0.5.7":
-  version: 0.5.7
-  resolution: "revolt-api@npm:0.5.7"
+"revolt-api@npm:0.5.8":
+  version: 0.5.8
+  resolution: "revolt-api@npm:0.5.8"
   dependencies:
     "@insertish/oapi": 0.1.18
     axios: ^0.26.1
     lodash.defaultsdeep: ^4.6.1
-  checksum: ce5d24f1f71c039789b71c33cce12a9bc1ee4709e2c37f88ac95caff193096ff4f5e90fd48ba0ed6f6bbb71d080cd410f8ba8a3998da8bd8083766a016b18306
+  checksum: d488fa87774e4e9d0b3136779c555cbed257d2b76a298b17dca346cc3909f81e84aa516c10a415a7c20cd31990d540ade5489f69e06f69e14ba4974a26aa145e
   languageName: node
   linkType: hard
 
@@ -8040,7 +8040,7 @@ __metadata:
     lodash.isequal: ^4.5.0
     long: ^5.2.0
     mobx: ^6.3.2
-    revolt-api: 0.5.7
+    revolt-api: 0.5.8
     ulid: ^2.3.0
     ws: ^8.2.2
   languageName: node
