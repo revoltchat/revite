@@ -13,6 +13,7 @@ export default observer(() => {
             if (event.key === "Escape") {
                 modalController.pop("close");
             } else if (event.key === "Enter") {
+                if (event.target instanceof HTMLSelectElement) return;
                 modalController.pop("confirm");
             }
         }
