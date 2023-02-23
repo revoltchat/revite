@@ -8,6 +8,7 @@ import { ModalForm, Row } from "@revoltchat/ui";
 import Message from "../../../components/common/messaging/Message";
 import UserShort from "../../../components/common/user/UserShort";
 import { useClient } from "../../client/ClientController";
+import { modalController } from "../ModalController";
 import { ModalProps } from "../types";
 
 const CONTENT_REASONS: API.ContentReportReason[] = [
@@ -125,6 +126,16 @@ export default function ReportContent({
                         report_reason: reason as any,
                     },
                     additional_context,
+                });
+
+                modalController.push({
+                    type: "report_success",
+                    user:
+                        target instanceof MessageInterface
+                            ? target.author
+                            : target instanceof User
+                            ? target
+                            : undefined,
                 });
             }}
             submit={{
