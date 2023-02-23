@@ -1,7 +1,7 @@
 import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
 
-import { Button } from "@revoltchat/ui";
+import { Button, Tip } from "@revoltchat/ui";
 
 interface Props {
     email?: string;
@@ -115,6 +115,15 @@ export function MailProvider({ email }: Props) {
                     />
                 </Button>
             </a>
+            {provider[0] === "iCloud Mail" && (
+                <Tip palette="error">
+                    <span>
+                        iCloud users may not receive any emails due to a block
+                        by Proofpoint. Please use a different email provider if
+                        you do not receive anything.
+                    </span>
+                </Tip>
+            )}
         </div>
     );
 }
