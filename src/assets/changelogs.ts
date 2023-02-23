@@ -31,7 +31,7 @@ export const changelogEntries: Record<number, ChangelogPost> = {
         ],
     },
     2: {
-        date: new Date("2023-02-22T17:30:00.000Z"),
+        date: new Date("2023-02-23T20:00:00.000Z"),
         title: "In-App Reporting Is Here",
         content: [
             "You can now report any user, server, or message directly from the app.",
