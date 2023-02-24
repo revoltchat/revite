@@ -23,6 +23,7 @@ import {
 } from "../../../lib/renderer/Singleton";
 
 import { state, useApplicationState } from "../../../mobx/State";
+import { DraftObject } from "../../../mobx/stores/Draft";
 import { Reply } from "../../../mobx/stores/MessageQueue";
 
 import { dayjs } from "../../../context/Locale";
@@ -44,8 +45,6 @@ import AutoComplete, { useAutoComplete } from "../AutoComplete";
 import { PermissionTooltip } from "../Tooltip";
 import FilePreview from "./bars/FilePreview";
 import ReplyBar from "./bars/ReplyBar";
-
-import { DraftObject } from "../../../mobx/stores/Draft";
 
 type Props = {
     channel: Channel;
@@ -281,9 +280,9 @@ export default observer(({ channel }: Props) => {
     const setMessage = useCallback(
         (content?: string) => {
             const dobj: DraftObject = {
-                content
-            }
-            state.draft.set(channel._id, dobj)
+                content,
+            };
+            state.draft.set(channel._id, dobj);
         },
         [state.draft, channel._id],
     );
@@ -615,12 +614,11 @@ export default observer(({ channel }: Props) => {
                         onSelect={(emoji) => {
                             const v = state.draft.get(channel._id);
                             const cnt: DraftObject = {
-                                content: (v == null ? "" : `${v.content} `) + `:${emoji}:` 
-                            }
-                            state.draft.set(
-                                channel._id,
-                                cnt,
-                            );
+                                content:
+                                    (v?.content ? `${v.content} ` : "") +
+                                    `:${emoji}:`,
+                            };
+                            state.draft.set(channel._id, cnt);
                         }}
                         onClose={closePicker}
                     />
