@@ -61,15 +61,6 @@ const Option = styled.div`
         font-size: 16px;
         margin-right: 16px;
     }
-
-    .select-container {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
 `;
 
 export default function InviteBot() {
