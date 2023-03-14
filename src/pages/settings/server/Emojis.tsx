@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { Text } from "preact-i18n";
 
-import { Button, Column, Row, Stacked } from "@revoltchat/ui";
+import { Button, Column, Row, Stacked, Tip } from "@revoltchat/ui";
 
 import UserShort from "../../../components/common/user/UserShort";
 import { EmojiUploader } from "../../../components/settings/customisation/EmojiUploader";
@@ -33,6 +33,22 @@ export const Emojis = observer(({ server }: Props) => {
 
     return (
         <Column>
+            <Tip palette="warning">
+                <span>
+                    This UI was never finished and will be polished in the{" "}
+                    <a
+                        style={{ color: "inherit", fontWeight: "600" }}
+                        href="https://github.com/revoltchat/frontend/issues/14"
+                        target="_blank"
+                        rel="noreferrer">
+                        new client
+                    </a>
+                    .<br />
+                    <br />
+                    Also please note that emoji names must be lowercase
+                    alphanumeric!
+                </span>
+            </Tip>
             {server.havePermission("ManageCustomisation") && (
                 <EmojiUploader server={server} />
             )}
