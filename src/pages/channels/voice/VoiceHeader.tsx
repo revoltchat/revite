@@ -29,6 +29,7 @@ const VoiceBase = styled.div`
     margin-top: 48px;
     padding: 20px;
     background: var(--secondary-background);
+    flex-grow: 1;
 
     .status {
         flex: 1 0;
@@ -53,8 +54,6 @@ const VoiceBase = styled.div`
 
     display: flex;
     flex-direction: column;
-
-    overflow-y: scroll;
 
     .participants {
         margin: 40px 20px;
