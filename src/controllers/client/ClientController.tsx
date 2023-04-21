@@ -252,7 +252,7 @@ class ClientController {
         // Start client lifecycle
         this.addSession(
             {
-                session,
+                session: session as never,
             },
             "new",
         );
