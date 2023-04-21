@@ -3,6 +3,7 @@ import { API, Client } from "revolt.js";
 
 import { state } from "../../mobx/State";
 
+import { resetMemberSidebarFetched } from "../../components/navigation/right/MemberSidebar";
 import { modalController } from "../modals/ModalController";
 
 /**
@@ -97,6 +98,7 @@ export default class Session {
      * Called when the client signals it has received the Ready packet
      */
     private onReady() {
+        resetMemberSidebarFetched();
         this.emit({
             action: "SUCCESS",
         });
