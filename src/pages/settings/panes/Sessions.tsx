@@ -38,7 +38,9 @@ dayjs.extend(relativeTime);
 export function Sessions() {
     const client = useClient();
     const deviceId =
-        typeof client.session === "object" ? client.session._id : undefined;
+        typeof client.session === "object"
+            ? (client.session as unknown as { _id: string })._id
+            : undefined;
 
     const [sessions, setSessions] = useState<API.SessionInfo[] | undefined>(
         undefined,
