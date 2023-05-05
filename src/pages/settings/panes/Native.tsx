@@ -66,7 +66,7 @@ export function Native() {
                 title="Enable Discord status"
                 description="Rep Revolt on your Discord status."
             />
-            <Checkbox
+            {/* <Checkbox
                 value={config.build === "nightly"}
                 onChange={(nightly) => {
                     const build = nightly ? "nightly" : "stable";
@@ -79,7 +79,7 @@ export function Native() {
                 }}
                 title="Revolt Nightly"
                 description="Use the beta branch of Revolt."
-            />
+            /> */}
 
             <h3>Titlebar</h3>
             <Checkbox
