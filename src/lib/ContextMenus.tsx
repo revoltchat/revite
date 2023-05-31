@@ -47,6 +47,7 @@ interface ContextMenuData {
     unread?: boolean;
     queued?: QueuedMessage;
     contextualChannel?: string;
+    contextualMessage?: string;
 }
 
 type Action =
@@ -112,7 +113,7 @@ type Action =
           key: string;
           state?: NotificationState;
       }
-    | { action: "report"; target: User | Server | Message };
+    | { action: "report"; target: User | Server | Message; messageId?: string };
 
 // ! FIXME: I dare someone to re-write this
 // Tip: This should just be split into separate context menus per logical area.
@@ -454,6 +455,7 @@ export default function ContextMenus() {
                     modalController.push({
                         type: "report",
                         target: data.target,
+                        messageId: data.messageId,
                     });
                     break;
             }
@@ -478,6 +480,7 @@ export default function ContextMenus() {
                     queued,
                     unread,
                     contextualChannel: cxid,
+                    contextualMessage,
                 }: ContextMenuData) => {
                     const elements: Children[] = [];
                     let lastDivider = false;
@@ -682,6 +685,7 @@ export default function ContextMenus() {
                                 {
                                     action: "report",
                                     target: user,
+                                    messageId: contextualMessage,
                                 },
                                 "report_user",
                                 undefined,

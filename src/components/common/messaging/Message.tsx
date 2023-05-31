@@ -63,6 +63,7 @@ const Message = observer(
             ? useTriggerEvents("Menu", {
                   user: message.author_id,
                   contextualChannel: message.channel_id,
+                  contextualMessage: message._id,
                   // eslint-disable-next-line
               })
             : undefined;

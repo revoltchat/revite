@@ -41,6 +41,7 @@ const MessageContainer = styled.div`
  */
 export default function ReportContent({
     target,
+    messageId,
     ...props
 }: ModalProps<"report">) {
     const client = useClient();
@@ -124,6 +125,7 @@ export default function ReportContent({
                                 ? "User"
                                 : "Server",
                         report_reason: reason as any,
+                        message_id: messageId,
                     },
                     additional_context,
                 });

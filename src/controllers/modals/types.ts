@@ -182,6 +182,7 @@ export type Modal = {
     | {
           type: "report";
           target: Server | User | Message;
+          messageId?: string;
       }
     | {
           type: "report_success";
