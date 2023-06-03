@@ -39,6 +39,7 @@ type UsernameProps = Omit<
     masquerade?: API.Masquerade;
     showServerIdentity?: boolean | "both";
 
+    override?: string;
     innerRef?: Ref<any>;
 };
 
@@ -64,13 +65,16 @@ export const Username = observer(
         masquerade,
         showServerIdentity,
         innerRef,
+        override,
         ...otherProps
     }: UsernameProps) => {
         let username = user?.username;
         let color = masquerade?.colour;
         let timed_out: Date | undefined;
 
-        if (user && showServerIdentity) {
+        if (override) {
+            username = override;
+        } else if (user && showServerIdentity) {
             const { server } = useParams<{ server?: string }>();
             if (server) {
                 const client = useClient();
@@ -141,6 +145,17 @@ export const Username = observer(
                         ) : (
                             <Text id="app.main.channel.bot" />
                         )}
+                    </BotBadge>
+                </>
+            );
+        }
+
+        if (override) {
+            return (
+                <>
+                    {el}
+                    <BotBadge>
+                        <Text id="app.main.channel.bot" />
                     </BotBadge>
                 </>
             );

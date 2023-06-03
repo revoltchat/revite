@@ -14,6 +14,7 @@ import IconBase, { IconBaseProps } from "../IconBase";
 type VoiceStatus = "muted" | "deaf";
 interface Props extends IconBaseProps<User> {
     status?: boolean;
+    override?: string;
     voice?: VoiceStatus;
     masquerade?: API.Masquerade;
     showServerIdentity?: boolean;
@@ -70,12 +71,15 @@ export default observer(
             showServerIdentity,
             masquerade,
             innerRef,
+            override,
             ...svgProps
         } = props;
 
         let { url } = props;
         if (masquerade?.avatar) {
             url = client.proxyFile(masquerade.avatar);
+        } else if (override) {
+            url = override;
         } else if (!url) {
             let override;
             if (target && showServerIdentity) {
