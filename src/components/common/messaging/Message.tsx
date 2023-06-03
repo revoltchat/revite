@@ -33,7 +33,7 @@ import InviteList from "./embed/EmbedInvite";
 interface Props {
     attachContext?: boolean;
     queued?: QueuedMessage;
-    message: MessageObject;
+    message: MessageObject & { webhook: { name: string; avatar?: string } };
     highlight?: boolean;
     contrast?: boolean;
     content?: Children;
@@ -138,6 +138,11 @@ const Message = observer(
                             <UserIcon
                                 className="avatar"
                                 url={message.generateMasqAvatarURL()}
+                                override={
+                                    message.webhook?.avatar
+                                        ? `https://autumn.revolt.chat/avatars/${message.webhook.avatar}`
+                                        : undefined
+                                }
                                 target={user}
                                 size={36}
                                 onClick={handleUserClick}
@@ -158,6 +163,7 @@ const Message = observer(
                                     showServerIdentity
                                     onClick={handleUserClick}
                                     masquerade={message.masquerade!}
+                                    override={message.webhook?.name}
                                     {...userContext}
                                 />
                                 <MessageDetail
