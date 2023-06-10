@@ -163,16 +163,22 @@ export const UserProfile = observer(
                             }
                         />
                         <div className={styles.details}>
-                            <Localizer>
+                            <div className={styles.usernameDetail}>
+                                <span
+                                    className={styles.displayname}
+                                    onClick={() =>
+                                        modalController.writeText(user.username)
+                                    }>
+                                    {user.username}
+                                </span>
                                 <span
                                     className={styles.username}
                                     onClick={() =>
                                         modalController.writeText(user.username)
                                     }>
-                                    {"@"}
-                                    {user.username}
+                                    {user.username}#0000
                                 </span>
-                            </Localizer>
+                            </div>
                             {user.status?.text && (
                                 <span className={styles.status}>
                                     <UserStatus user={user} tooltip />

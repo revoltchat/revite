@@ -694,3 +694,23 @@
 section {
     margin-bottom: 20px;
 }
+
+.titleNew {
+    display: flex;
+    margin: 15px 0;
+    gap: 8px;
+    align-items: center;
+
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--secondary-foreground);
+
+    .new {
+        font-size: 10px;
+        background: red;
+        padding: 3px 5px;
+        border-radius: 20px;
+        color: white;
+    }
+}

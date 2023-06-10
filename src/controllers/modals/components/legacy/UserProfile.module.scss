@@ -46,13 +46,26 @@
             text-overflow: ellipsis;
         }
 
-        .username {
+        .usernameDetail {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 4px;
+        }
+
+        .displayname {
             font-size: 22px;
             font-weight: 600;
         }
 
+        .username {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--secondary-foreground);
+        }
+
         .status {
             font-size: 13px;
+            color: var(--secondary-foreground);
 
             > div {
                 display: inline !important;
