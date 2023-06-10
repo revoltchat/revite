@@ -37,7 +37,7 @@ export default observer(() => {
 
             {(
                 [
-                    ["username", client.user!.username, At],
+                    ["username", client.user!.username + "#0000", At],
                     ["email", email, Envelope],
                     ["password", "•••••••••", Key],
                 ] as const
