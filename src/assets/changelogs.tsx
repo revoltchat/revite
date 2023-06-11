@@ -1,10 +1,17 @@
+import Lottie, { LottieRefCurrentProps } from "lottie-react";
+
+import { JSX } from "preact";
+
+import usernameAnim from "../controllers/modals/components/legacy/usernameUpdateLottie.json";
+
 type Element =
     | string
     | {
           type: "image";
           src: string;
           shadow?: boolean;
-      };
+      }
+    | { type: "element"; element: JSX.Element };
 
 export interface ChangelogPost {
     date: Date;
@@ -41,6 +48,33 @@ export const changelogEntries: Record<number, ChangelogPost> = {
                 shadow: true,
             },
             "If you want to learn more about how we're making Revolt safer for you, check out our new blog post :point_right: [https://revolt.chat/posts/improving-user-safety](https://revolt.chat/posts/improving-user-safety)",
+        ],
+    },
+    3: {
+        date: new Date("2023-06-11T15:00:00.000Z"),
+        title: "Usernames are Changing",
+        content: [
+            {
+                type: "element",
+                element: (
+                    <Lottie
+                        animationData={usernameAnim}
+                        style={{
+                            background: "var(--secondary-background)",
+                            borderRadius: "6px",
+                        }}
+                    />
+                ),
+            },
+            "Revolt has undergone a significant change to its username system, transitioning from unique username handles to a new system of display names and usernames with four-digit number tags called discriminators. The four-digit number tags serve as identifiers to differentiate users with the same username, allowing individuals to select desired usernames that reflect their identity.",
+            {
+                type: "element",
+                element: (
+                    <a href="https://revolt.chat/post/evolving-usernames">
+                        Read more on our blog!
+                    </a>
+                ),
+            },
         ],
     },
 };

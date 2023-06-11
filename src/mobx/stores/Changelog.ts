@@ -1,6 +1,6 @@
 import { action, makeAutoObservable, runInAction } from "mobx";
 
-import { latestChangelog } from "../../assets/changelogs";
+import { changelogEntries, latestChangelog } from "../../assets/changelogs";
 import { modalController } from "../../controllers/modals/ModalController";
 import Persistent from "../interfaces/Persistent";
 import Store from "../interfaces/Store";
@@ -58,13 +58,28 @@ export default class Changelog implements Store, Persistent<Data>, Syncable {
      */
     checkForUpdates() {
         if (this.viewed < latestChangelog) {
-            modalController.push({
-                type: "changelog",
-                initial: latestChangelog,
-            });
+            const expires = new Date(+changelogEntries[latestChangelog].date);
+            expires.setDate(expires.getDate() + 7);
+
+            if (+new Date() < +expires) {
+                if (latestChangelog === 3) {
+                    modalController.push({
+                        type: "changelog_usernames",
+                    });
+                } else {
+                    modalController.push({
+                        type: "changelog",
+                        initial: latestChangelog,
+                    });
+                }
+            }
 
             runInAction(() => {
                 this.viewed = latestChangelog;
+            });
+        } else {
+            modalController.push({
+                type: "changelog_usernames",
             });
         }
     }
