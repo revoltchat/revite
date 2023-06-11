@@ -23,6 +23,7 @@ export default function AddFriend({ ...props }: ModalProps<"add_friend">) {
             data={{
                 username: {
                     field: "Username",
+                    placeholder: "username#1234",
                 },
             }}
             callback={({ username }) =>
