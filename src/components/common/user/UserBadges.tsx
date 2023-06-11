@@ -22,12 +22,11 @@ enum Badges {
 const BadgesBase = styled.div`
     gap: 8px;
     display: flex;
-    margin-top: 4px;
     flex-direction: row;
 
     img {
-        width: 32px;
-        height: 32px;
+        width: 24px;
+        height: 24px;
     }
 `;
 
@@ -103,7 +102,7 @@ export default function UserBadges({ badges, uid }: Props) {
                         content={
                             <Text id="app.special.popovers.user_profile.badges.responsible_disclosure" />
                         }>
-                        <Shield size={32} color="gray" />
+                        <Shield size={24} color="gray" />
                     </Tooltip>
                 ) : (
                     <></>
