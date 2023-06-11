@@ -29,9 +29,14 @@ const HeaderBase = styled.div`
         text-overflow: ellipsis;
     }
 
+    .new-name {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
     .username {
         cursor: pointer;
-        font-size: 16px;
+        font-size: 13px;
         font-weight: 600;
     }
 
@@ -50,6 +55,9 @@ export default observer(({ user }: Props) => {
     return (
         <Header topBorder palette="secondary">
             <HeaderBase>
+                <div className="new-name">
+                    {user.display_name ?? user.username}
+                </div>
                 <Localizer>
                     <Tooltip content={<Text id="app.special.copy_username" />}>
                         <span
@@ -57,7 +65,9 @@ export default observer(({ user }: Props) => {
                             onClick={() =>
                                 modalController.writeText(user.username)
                             }>
-                            @{user.username}
+                            {user.username}
+                            {"#"}
+                            {user.discriminator}
                         </span>
                     </Tooltip>
                 </Localizer>

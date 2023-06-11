@@ -80,8 +80,13 @@ const AccountHeader = styled.div`
             font-size: 12px;
             gap: 2px;
 
-            > span {
+            .new {
                 font-size: 20px;
+                font-weight: 600;
+            }
+
+            .full {
+                font-size: 14px;
                 font-weight: 600;
             }
         }
@@ -336,7 +341,15 @@ export default observer(() => {
                             onClick={() => openContextMenu("Status")}
                         />
                         <div className="details">
-                            <Username user={client.user!} prefixAt />
+                            <span className="new">
+                                {client.user.display_name ??
+                                    client.user.username}
+                            </span>
+                            <span className="full">
+                                {client.user.username}
+                                {"#"}
+                                {client.user.discriminator}
+                            </span>
                             <UserStatus user={client.user!} />
                         </div>
                     </div>

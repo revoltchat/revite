@@ -119,19 +119,18 @@ export const MessageOverlayBar = observer(
                     </Tooltip>
                 )}
 
-                {message.channel?.havePermission("React") &&
-                    state.experiments.isEnabled("picker") && (
-                        <ReactionWrapper
-                            open={reactionsOpen}
-                            setOpen={setReactionsOpen}
-                            message={message}>
-                            <Tooltip content="React">
-                                <Entry>
-                                    <HappyBeaming size={18} />
-                                </Entry>
-                            </Tooltip>
-                        </ReactionWrapper>
-                    )}
+                {message.channel?.havePermission("React") && (
+                    <ReactionWrapper
+                        open={reactionsOpen}
+                        setOpen={setReactionsOpen}
+                        message={message}>
+                        <Tooltip content="React">
+                            <Entry>
+                                <HappyBeaming size={18} />
+                            </Entry>
+                        </Tooltip>
+                    </ReactionWrapper>
+                )}
 
                 {isAuthor && (
                     <Tooltip content="Edit">
