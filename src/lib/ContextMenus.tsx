@@ -20,7 +20,7 @@ import {
 } from "preact-context-menu";
 import { Text } from "preact-i18n";
 
-import { IconButton, LineDivider } from "@revoltchat/ui";
+import { Column, IconButton, LineDivider } from "@revoltchat/ui";
 
 import { useApplicationState } from "../mobx/State";
 import { QueuedMessage } from "../mobx/stores/MessageQueue";
@@ -1142,7 +1142,21 @@ export default function ContextMenus() {
                                             content={
                                                 <Text id="app.special.copy_username" />
                                             }>
-                                            @{user.username}
+                                            <Column gap="0">
+                                                <span>
+                                                    {user.display_name ??
+                                                        user.username}
+                                                </span>
+                                                <span
+                                                    style={{
+                                                        fontSize: "0.8em",
+                                                    }}>
+                                                    {user.username}
+                                                    {"#"}
+                                                    {user.discriminator ??
+                                                        "0000"}
+                                                </span>
+                                            </Column>
                                         </Tooltip>
                                     </div>
                                     <div

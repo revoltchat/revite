@@ -77,10 +77,6 @@ export default class Changelog implements Store, Persistent<Data>, Syncable {
             runInAction(() => {
                 this.viewed = latestChangelog;
             });
-        } else {
-            modalController.push({
-                type: "changelog_usernames",
-            });
         }
     }
 }

@@ -79,7 +79,6 @@ export default observer(() => {
                     id: "emojis",
                     icon: <HappyBeaming size={20} />,
                     title: <Text id="app.settings.server_pages.emojis.title" />,
-                    hidden: !state.experiments.isEnabled("picker"),
                 },
                 {
                     category: (
