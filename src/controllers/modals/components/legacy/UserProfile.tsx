@@ -174,9 +174,20 @@ export const UserProfile = observer(
                                 <span
                                     className={styles.username}
                                     onClick={() =>
-                                        modalController.writeText(user.username)
+                                        modalController.writeText(
+                                            user.username +
+                                                "#" +
+                                                user.discriminator,
+                                        )
                                     }>
-                                    {user.username}#{user.discriminator}
+                                    <Localizer>
+                                        <Tooltip
+                                            content={
+                                                <Text id="app.special.copy_username" />
+                                            }>
+                                            {user.username}#{user.discriminator}
+                                        </Tooltip>
+                                    </Localizer>
                                 </span>
                             </div>
                             {user.status?.text && (
