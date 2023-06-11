@@ -46,6 +46,7 @@
     "dependencies": {
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
+        "lottie-react": "^2.4.0",
         "sirv-cli": "^1.0.14",
         "vite": "^3.0.5"
     },

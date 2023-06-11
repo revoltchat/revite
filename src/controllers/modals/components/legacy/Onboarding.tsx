@@ -72,9 +72,8 @@ export function OnboardingModal({
                                     />
                                 </div>
                                 <p>
-                                    You will be automatically assigned a
-                                    discriminator which you can find from
-                                    settings.
+                                    You will be automatically assigned a number
+                                    tag which you can find from settings.
                                 </p>
                                 <Button palette="accent">
                                     {"Looks good!"}

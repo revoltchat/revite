@@ -41,6 +41,7 @@ export type Modal = {
           type: "changelog";
           initial?: number;
       }
+    | { type: "changelog_usernames" }
     | {
           type: "sign_out_sessions";
           client: Client;

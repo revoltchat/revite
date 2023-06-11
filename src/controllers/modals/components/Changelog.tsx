@@ -33,6 +33,8 @@ function RenderLog({ post }: { post: ChangelogPost }) {
             {post.content.map((entry) =>
                 typeof entry === "string" ? (
                     <Markdown content={entry} />
+                ) : entry.type === "element" ? (
+                    entry.element
                 ) : (
                     <Image src={entry.src} shadow={entry.shadow} />
                 ),

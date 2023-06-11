@@ -170,9 +170,8 @@ export default function ModifyAccount({
                 {field === "username" && (
                     <div style={{ marginTop: "8px" }}>
                         <Tip palette="warning">
-                            Changing your username may change your
-                            discriminator. You can freely change the case of
-                            your username.
+                            Changing your username may change your number tag.
+                            You can freely change the case of your username.
                         </Tip>
                     </div>
                 )}
