@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import { Category, Error, Modal } from "@revoltchat/ui";
+import { Category, Error, InputBox, Modal, Tip } from "@revoltchat/ui";
 
 import { noopTrue } from "../../../lib/js";
 
@@ -120,14 +120,34 @@ export default function ModifyAccount({
                     />
                 )}
                 {field === "username" && (
-                    <FormField
-                        type="username"
-                        name="new_username"
-                        register={register}
-                        showOverline
-                        error={errors.new_username?.message}
-                        disabled={processing}
-                    />
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "end",
+                            gap: "8px",
+                        }}>
+                        <div style={{ flexGrow: 1 }}>
+                            <FormField
+                                type="username"
+                                name="new_username"
+                                register={register}
+                                showOverline
+                                error={errors.new_username?.message}
+                                disabled={processing}
+                            />
+                        </div>
+                        <div
+                            style={{
+                                flexShrink: 0,
+                                width: "80px",
+                                textAlign: "center",
+                            }}>
+                            <InputBox
+                                disabled
+                                value={"#" + client.user.discriminator}
+                            />
+                        </div>
+                    </div>
                 )}
                 <FormField
                     type="current_password"
@@ -145,6 +165,16 @@ export default function ModifyAccount({
                             }
                         />
                     </Category>
+                )}
+
+                {field === "username" && (
+                    <div style={{ marginTop: "8px" }}>
+                        <Tip palette="warning">
+                            Changing your username may change your
+                            discriminator. You can freely change the case of
+                            your username.
+                        </Tip>
+                    </div>
                 )}
             </form>
         </Modal>

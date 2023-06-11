@@ -68,7 +68,9 @@ export const Username = observer(
         override,
         ...otherProps
     }: UsernameProps) => {
-        let username = user?.username;
+        let username =
+            (user as unknown as { display_name: string })?.display_name ??
+            user?.username;
         let color = masquerade?.colour;
         let timed_out: Date | undefined;
 

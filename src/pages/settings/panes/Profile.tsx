@@ -1,9 +1,8 @@
 import { Markdown } from "@styled-icons/boxicons-logos";
+import { UserCircle } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { API } from "revolt.js";
-
-import { UserCircle } from "@styled-icons/boxicons-solid";
 
 import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
@@ -19,6 +18,7 @@ import AutoComplete, {
 } from "../../../components/common/AutoComplete";
 import { useSession } from "../../../controllers/client/ClientController";
 import { FileUploader } from "../../../controllers/client/jsx/legacy/FileUploads";
+import { modalController } from "../../../controllers/modals/ModalController";
 import { UserProfile } from "../../../controllers/modals/components/legacy/UserProfile";
 
 export const Profile = observer(() => {
@@ -84,6 +84,9 @@ export const Profile = observer(() => {
                 <div className={styles.new}>NEW</div>
             </div>
             <CategoryButton
+                onClick={() =>
+                    modalController.push({ type: "modify_displayname" })
+                }
                 icon={<UserCircle size={24} />}
                 action="chevron"
                 description={"Change your display name to whatever you like"}>
