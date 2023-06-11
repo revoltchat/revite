@@ -71,6 +71,11 @@ export function OnboardingModal({
                                         error={error}
                                     />
                                 </div>
+                                <p>
+                                    You will be automatically assigned a
+                                    discriminator which you can find from
+                                    settings.
+                                </p>
                                 <Button palette="accent">
                                     {"Looks good!"}
                                 </Button>

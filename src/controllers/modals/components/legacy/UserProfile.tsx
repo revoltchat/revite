@@ -169,14 +169,14 @@ export const UserProfile = observer(
                                     onClick={() =>
                                         modalController.writeText(user.username)
                                     }>
-                                    {user.username}
+                                    {user.display_name ?? user.username}
                                 </span>
                                 <span
                                     className={styles.username}
                                     onClick={() =>
                                         modalController.writeText(user.username)
                                     }>
-                                    {user.username}#0000
+                                    {user.username}#{user.discriminator}
                                 </span>
                             </div>
                             {user.status?.text && (

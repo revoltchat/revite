@@ -9,6 +9,7 @@ export type Modal = {
               | "create_group"
               | "create_server"
               | "custom_status"
+              | "modify_displayname"
               | "add_friend";
       }
     | ({
