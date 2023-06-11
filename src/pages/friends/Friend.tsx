@@ -136,7 +136,7 @@ export const Friend = observer(({ user }: Props) => {
             })}>
             <UserIcon target={user} size={36} status />
             <div className={styles.name}>
-                <span>{user.username}</span>
+                <span>{user.display_name ?? user.username}</span>
                 {subtext && <span className={styles.subtext}>{subtext}</span>}
             </div>
             <div className={styles.actions}>{actions}</div>
