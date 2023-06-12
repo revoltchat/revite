@@ -208,11 +208,24 @@ class ModalControllerExtended extends ModalController<Modal> {
      * Safely open external or internal link
      * @param href Raw URL
      * @param trusted Whether we trust this link
+     * @param mismatch Whether to always open link warning
      * @returns Whether to cancel default event
      */
-    openLink(href?: string, trusted?: boolean) {
+    openLink(href?: string, trusted?: boolean, mismatch?: boolean) {
         const link = determineLink(href);
         const settings = getApplicationState().settings;
+
+        if (mismatch) {
+            if (href) {
+                modalController.push({
+                    type: "link_warning",
+                    link: href,
+                    callback: () => this.openLink(href, true) as true,
+                });
+            }
+
+            return true;
+        }
 
         switch (link.type) {
             case "navigate": {

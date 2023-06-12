@@ -27,7 +27,11 @@ export function RenderAnchor({
             target="_blank"
             rel="noreferrer"
             onClick={(ev) =>
-                modalController.openLink(href) && ev.preventDefault()
+                modalController.openLink(
+                    href,
+                    undefined,
+                    ev.currentTarget.innerText !== href,
+                ) && ev.preventDefault()
             }
         />
     );
