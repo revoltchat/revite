@@ -17,6 +17,7 @@ import { Bar } from "./JumpToBottom";
 export default observer(
     ({ channel, last_id }: { channel: Channel; last_id?: string }) => {
         const [hidden, setHidden] = useState(false);
+        const [timeAgo, setTimeAgo] = useState("");
         const hide = () => setHidden(true);
 
         useEffect(() => setHidden(false), [last_id]);
@@ -28,6 +29,14 @@ export default observer(
             document.addEventListener("keydown", onKeyDown);
             return () => document.removeEventListener("keydown", onKeyDown);
         }, []);
+
+        useEffect(() => {
+            if (last_id) {
+                try {
+                    setTimeAgo(dayjs(decodeTime(last_id)).fromNow());
+                } catch (err) {}
+            }
+        }, [last_id]);
 
         const renderer = getRenderer(channel);
         const history = useHistory();
@@ -52,7 +61,7 @@ export default observer(
                         <Text
                             id="app.main.channel.misc.new_messages"
                             fields={{
-                                time_ago: dayjs(decodeTime(last_id)).fromNow(),
+                                time_ago: timeAgo,
                             }}
                         />
                     </div>
