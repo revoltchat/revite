@@ -142,7 +142,11 @@ export default function Embed({ embed }: Props) {
                                 <a
                                     onMouseDown={(ev) =>
                                         (ev.button === 0 || ev.button === 1) &&
-                                        modalController.openLink(embed.url!)
+                                        modalController.openLink(
+                                            embed.url!,
+                                            undefined,
+                                            true,
+                                        )
                                     }
                                     className={styles.title}>
                                     {embed.title}
@@ -194,7 +198,8 @@ export default function Embed({ embed }: Props) {
                         modalController.push({ type: "image_viewer", embed })
                     }
                     onMouseDown={(ev) =>
-                        ev.button === 1 && modalController.openLink(embed.url)
+                        ev.button === 1 &&
+                        modalController.openLink(embed.url, undefined, true)
                     }
                 />
             );
