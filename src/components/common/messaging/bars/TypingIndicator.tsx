@@ -76,7 +76,9 @@ export default observer(({ channel }: Props) => {
         if (users.length >= 5) {
             text = <Text id="app.main.channel.typing.several" />;
         } else if (users.length > 1) {
-            const userlist = [...users].map((x) => x!.username);
+            const userlist = [...users].map(
+                (x) => x!.display_name ?? x!.username,
+            );
             const user = userlist.pop();
 
             text = (
@@ -92,7 +94,9 @@ export default observer(({ channel }: Props) => {
             text = (
                 <Text
                     id="app.main.channel.typing.single"
-                    fields={{ user: users[0]!.username }}
+                    fields={{
+                        user: users[0]!.display_name ?? users[0]!.username,
+                    }}
                 />
             );
         }
