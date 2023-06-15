@@ -161,7 +161,10 @@ export default function ModifyAccount({
                     <Category compact>
                         <Error
                             error={
-                                <Text id="app.special.modals.account.failed" />
+                                <>
+                                    <Text id="app.special.modals.account.failed" />{" "}
+                                    <Text id={`error.${error}`}>{error}</Text>
+                                </>
                             }
                         />
                     </Category>
@@ -171,7 +174,8 @@ export default function ModifyAccount({
                     <div style={{ marginTop: "8px" }}>
                         <Tip palette="warning">
                             Changing your username may change your number tag.
-                            You can freely change the case of your username.
+                            You can freely change the case of your username. You
+                            may change your number tag up to once a day.
                         </Tip>
                     </div>
                 )}
