@@ -1,5 +1,4 @@
 import "katex/dist/katex.min.css";
-import rehypeKatex from "rehype-katex";
 import rehypePrism from "rehype-prism";
 import rehypeReact from "rehype-react";
 import remarkBreaks from "remark-breaks";
@@ -13,6 +12,9 @@ import { unified } from "unified";
 import { createElement } from "preact";
 import { memo } from "preact/compat";
 import { useLayoutEffect, useMemo, useState } from "preact/hooks";
+
+// @ts-expect-error no typings
+import rehypeKatex from "@revoltchat/rehype-katex";
 
 import { MarkdownProps } from "./Markdown";
 import { handlers } from "./hast";
@@ -146,6 +148,7 @@ const render = unified()
     .use(rehypeKatex, {
         maxSize: 10,
         maxExpand: 0,
+        maxLength: 128,
         trust: false,
         strict: false,
         output: "html",
