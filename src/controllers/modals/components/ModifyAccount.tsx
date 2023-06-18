@@ -174,8 +174,8 @@ export default function ModifyAccount({
                     <div style={{ marginTop: "8px" }}>
                         <Tip palette="warning">
                             Changing your username may change your number tag.
-                            You can freely change the case of your username. You
-                            may change your number tag up to once a day.
+                            You can freely change the case of your username.
+                            Your number tag may change at most once a day.
                         </Tip>
                     </div>
                 )}

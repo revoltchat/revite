@@ -148,7 +148,7 @@ const render = unified()
     .use(rehypeKatex, {
         maxSize: 10,
         maxExpand: 0,
-        maxLength: 128,
+        maxLength: 512,
         trust: false,
         strict: false,
         output: "html",

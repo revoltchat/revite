@@ -44,7 +44,7 @@
         }
     },
     "dependencies": {
-        "@revoltchat/rehype-katex": "^6.0.3",
+        "@revoltchat/rehype-katex": "6.0.3-patch.1",
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
         "lottie-react": "^2.4.0",
