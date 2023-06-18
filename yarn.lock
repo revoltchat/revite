@@ -2299,17 +2299,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@revoltchat/rehype-katex@npm:^6.0.3":
-  version: 6.0.3
-  resolution: "@revoltchat/rehype-katex@npm:6.0.3"
+"@revoltchat/rehype-katex@npm:6.0.3-patch.1":
+  version: 6.0.3-patch.1
+  resolution: "@revoltchat/rehype-katex@npm:6.0.3-patch.1"
   dependencies:
     "@types/hast": ^2.0.0
     "@types/katex": ^0.14.0
     hast-util-from-html-isomorphic: ^1.0.0
     hast-util-to-text: ^3.1.0
-    katex: ^0.16.0
+    katex: ^0.16.7
     unist-util-visit: ^4.0.0
-  checksum: b655a6f5ddaf107ef030aa0ba8bf5eef745e44316a5cb44aa137ea5e2e3f6c7b68470ff6645d224f5cd47982d729a6726e2a595201c51fdb44e2dbc9acd2b8e2
+  checksum: 1b7e57ddafa300e96396a5f5d64dad947c201b514562b1d581ac1a683252bc074fcb620fb271c136dd8b84c069dad23cd98ef0b01585be426bb2ce3f5dde004f
   languageName: node
   linkType: hard
 
@@ -3709,7 +3709,7 @@ __metadata:
     "@hcaptcha/react-hcaptcha": ^1.4.4
     "@insertish/vite-plugin-babel-macros": ^1.0.5
     "@preact/preset-vite": ^2.0.0
-    "@revoltchat/rehype-katex": ^6.0.3
+    "@revoltchat/rehype-katex": 6.0.3-patch.1
     "@revoltchat/ui": ^1.0.77
     "@rollup/plugin-replace": ^2.4.2
     "@styled-icons/boxicons-logos": ^10.38.0
@@ -6069,7 +6069,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"katex@npm:^0.16.0":
+"katex@npm:^0.16.7":
   version: 0.16.7
   resolution: "katex@npm:0.16.7"
   dependencies:
