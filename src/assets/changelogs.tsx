@@ -70,7 +70,7 @@ export const changelogEntries: Record<number, ChangelogPost> = {
             {
                 type: "element",
                 element: (
-                    <a href="https://revolt.chat/post/evolving-usernames">
+                    <a href="https://revolt.chat/posts/evolving-usernames">
                         Read more on our blog!
                     </a>
                 ),
