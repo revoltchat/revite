@@ -78,7 +78,7 @@ export function useSystemAlert() {
  */
 async function checkVersion() {
     const { version, poll_rate, alert } = (await fetch(
-        "https://api.revolt.chat/release",
+        "https://health.revolt.chat/api/health",
     ).then((res) => res.json())) as {
         version: string;
         poll_rate?: number;
@@ -111,7 +111,10 @@ async function checkVersion() {
     }
 }
 
-if (import.meta.env.VITE_API_URL === "https://api.revolt.chat") {
+if (
+    import.meta.env.VITE_API_URL === "https://api.revolt.chat" ||
+    import.meta.env.VITE_API_URL === "https://app.revolt.chat/api"
+) {
     // Check for critical updates hourly
     schedule();
     checkVersion();

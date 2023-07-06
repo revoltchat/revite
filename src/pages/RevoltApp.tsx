@@ -28,7 +28,7 @@ const AppContainer = styled.div`
     background-position: center center !important;
 `;
 
-const StatusBar = styled.div`
+export const StatusBar = styled.div`
     height: 40px;
     width: 100%;
     display: flex;
