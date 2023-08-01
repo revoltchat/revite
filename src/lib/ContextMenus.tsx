@@ -52,6 +52,7 @@ interface ContextMenuData {
 
 type Action =
     | { action: "copy_id"; id: string }
+    | { action: "admin"; id: string; type: "channel" | "message" | "user" }
     | { action: "copy_message_link"; message: Message }
     | { action: "copy_selection" }
     | { action: "copy_text"; content: string }
@@ -132,6 +133,12 @@ export default function ContextMenus() {
             switch (data.action) {
                 case "copy_id":
                     modalController.writeText(data.id);
+                    break;
+                case "admin":
+                    window.open(
+                        `https://admin.revolt.chat/panel/inspect/${data.type}/${data.id}`,
+                        "_blank",
+                    );
                     break;
                 case "copy_message_link":
                     {
@@ -496,11 +503,15 @@ export default function ContextMenus() {
                         elements.push(
                             <MenuItem data={action} disabled={disabled}>
                                 <span style={{ color }}>
-                                    <Text
-                                        id={`app.context_menu.${
-                                            locale ?? action.action
-                                        }`}
-                                    />
+                                    {locale === "admin" ? (
+                                        "Open in Admin Panel"
+                                    ) : (
+                                        <Text
+                                            id={`app.context_menu.${
+                                                locale ?? action.action
+                                            }`}
+                                        />
+                                    )}
                                 </span>
                                 {tip && <div className="tip">{tip}</div>}
                             </MenuItem>,
@@ -1107,6 +1118,21 @@ export default function ContextMenus() {
                         }
 
                         if (!hideIDButton) {
+                            if (state.experiments.isEnabled("admin_beta")) {
+                                generateAction(
+                                    {
+                                        action: "admin",
+                                        id,
+                                        type: cid
+                                            ? "channel"
+                                            : message
+                                            ? "message"
+                                            : "user",
+                                    },
+                                    "admin",
+                                );
+                            }
+
                             generateAction(
                                 { action: "copy_id", id },
                                 cid
