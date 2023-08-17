@@ -39,7 +39,7 @@ export default function AccountManagement() {
             <CategoryButton
                 icon={<Block size={24} color="var(--error)" />}
                 description={
-                    "Disable your account. You won't be able to access it unless you contact support."
+                    <Text id="app.settings.pages.account.manage.disable_description" />
                 }
                 action="chevron"
                 onClick={callback("disable")}>
@@ -49,7 +49,7 @@ export default function AccountManagement() {
             <CategoryButton
                 icon={<Trash size={24} color="var(--error)" />}
                 description={
-                    "Your account will be queued for deletion, a confirmation email will be sent."
+                    <Text id="app.settings.pages.account.manage.delete_description" />
                 }
                 action="chevron"
                 onClick={callback("delete")}>
