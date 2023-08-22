@@ -1941,8 +1941,6 @@ export const emojiDictionary = {
         charle: "custom:charle.gif",
         sadge: "custom:sadge.webp",
         sus: "custom:sus.webp",
-        chade: "custom:chade.gif",
-        gigachad: "custom:gigachad.webp",
         sippy: "custom:sippy.webp",
         ayame_heart: "custom:ayame_heart.png",
         catgirl_peek: "custom:catgirl_peek.png",
