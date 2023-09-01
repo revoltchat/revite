@@ -2,31 +2,28 @@ import { ChevronRight, Trash } from "@styled-icons/boxicons-regular";
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { isFirefox } from "react-device-detect";
 import { useHistory } from "react-router-dom";
-import {
-    Channel,
-    Message,
-    Server,
-    User,
-    API,
-    Permission,
-    UserPermission,
-    Member,
-} from "revolt.js";
+import { Channel, Message, Server, User, API, Permission, UserPermission, Member } from "revolt.js";
 
-import {
-    ContextMenuWithData,
-    MenuItem,
-    openContextMenu,
-} from "preact-context-menu";
+
+
+import { ContextMenuWithData, MenuItem, openContextMenu } from "preact-context-menu";
 import { Text } from "preact-i18n";
 
+
+
 import { Column, IconButton, LineDivider } from "@revoltchat/ui";
+
+
 
 import { useApplicationState } from "../mobx/State";
 import { QueuedMessage } from "../mobx/stores/MessageQueue";
 import { NotificationState } from "../mobx/stores/NotificationOptions";
 
+
+
 import CMNotifications from "./contextmenu/CMNotifications";
+
+
 
 import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
@@ -35,6 +32,7 @@ import { takeError } from "../controllers/client/jsx/error";
 import { modalController } from "../controllers/modals/ModalController";
 import { internalEmit } from "./eventEmitter";
 import { getRenderer } from "./renderer/Singleton";
+
 
 interface ContextMenuData {
     user?: string;
@@ -53,6 +51,7 @@ interface ContextMenuData {
 type Action =
     | { action: "copy_id"; id: string }
     | { action: "admin"; id: string; type: "channel" | "message" | "user" }
+    | { action: "admin_system"; id: string }
     | { action: "copy_message_link"; message: Message }
     | { action: "copy_selection" }
     | { action: "copy_text"; content: string }
@@ -137,6 +136,12 @@ export default function ContextMenus() {
                 case "admin":
                     window.open(
                         `https://admin.revolt.chat/panel/inspect/${data.type}/${data.id}`,
+                        "_blank",
+                    );
+                    break;
+                case "admin_system":
+                    window.open(
+                        `https://admin.revolt.chat/panel/inspect/user/${data.id}`,
                         "_blank",
                     );
                     break;
@@ -505,6 +510,8 @@ export default function ContextMenus() {
                                 <span style={{ color }}>
                                     {locale === "admin" ? (
                                         "Open in Admin Panel"
+                                    ) : locale === "admin_system" ? (
+                                        "Inspect user"
                                     ) : (
                                         <Text
                                             id={`app.context_menu.${
@@ -1131,6 +1138,22 @@ export default function ContextMenus() {
                                     },
                                     "admin",
                                 );
+
+                                switch (message?.system?.type) {
+                                    case "user_added":
+                                    case "user_remove":
+                                    case "user_joined":
+                                    case "user_left":
+                                    case "user_kicked":
+                                    case "user_banned":
+                                        generateAction(
+                                            {
+                                                action: "admin_system",
+                                                id: message.system.id,
+                                            },
+                                            "admin_system",
+                                        );
+                                }
                             }
 
                             generateAction(
