@@ -511,7 +511,7 @@ export default function ContextMenus() {
                                     {locale === "admin" ? (
                                         "Open in Admin Panel"
                                     ) : locale === "admin_system" ? (
-                                        "Inspect user"
+                                        "Open User in Admin Panel"
                                     ) : (
                                         <Text
                                             id={`app.context_menu.${
