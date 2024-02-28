@@ -10,8 +10,9 @@ export function takeError(error: any): string {
             case 429:
                 return "TooManyRequests";
             case 401:
+                return "Unauthorized"
             case 403:
-                return "Unauthorized";
+                return "Forbidden";
             default:
                 return "UnknownError";
         }
