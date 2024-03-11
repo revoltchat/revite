@@ -252,23 +252,6 @@ export const Form = observer(({ page, callback }: Props) => {
                             <Text id="login.resend" />
                         </Link>
                     </span>
-                    {!IS_REVOLT && (
-                        <>
-                            <br />
-                            <Tip palette="primary">
-                                <span>
-                                    <Text id="login.unofficial_instance" />{" "}
-                                    <a
-                                        href="https://developers.revolt.chat/faq/instances#what-is-a-third-party-instance"
-                                        style={{ color: "var(--accent)" }}
-                                        target="_blank"
-                                        rel="noreferrer">
-                                        <Text id="general.learn_more" />
-                                    </a>
-                                </span>
-                            </Tip>
-                        </>
-                    )}
                 </>
             )}
             {(page === "reset" ||
