@@ -324,7 +324,7 @@ export default observer(({ channel }: Props) => {
             return;
 
         const content = state.draft.get(channel._id)?.content?.trim() ?? "";
-        if (uploadState.type === "attached") return sendFile(content);
+        if (uploadState.type !== "none") return sendFile(content);
         if (content.length === 0) return;
 
         internalEmit("NewMessages", "hide");
@@ -406,7 +406,9 @@ export default observer(({ channel }: Props) => {
      * @returns
      */
     async function sendFile(content: string) {
-        if (uploadState.type !== "attached") return;
+        if (uploadState.type !== "attached" && uploadState.type !== "failed")
+            return;
+
         const attachments: string[] = [];
         setMessage;
 
