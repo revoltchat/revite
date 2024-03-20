@@ -1,3 +1,30 @@
+# Deprecation Notice
+
+This project is deprecated, however it still may receive maintenance updates.
+
+PRs for small fixes are more than welcome.
+
+## Deploying a new release
+
+Ensure `.env.local` points to `https://app.revolt.chat/api`.
+
+```bash
+cd ~/deployments/revite
+git pull
+git submodule update
+
+# check:
+git status
+
+export REVOLT_SAAS_BRANCH=revite/main
+export REMOTE=root@production
+scripts/publish.sh
+
+# SSH in and restart revite:
+ssh $REMOTE
+tmux a -t 4
+```
+
 # Revite
 
 ## Description

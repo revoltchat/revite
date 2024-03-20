@@ -159,7 +159,7 @@ class ClientController {
             })
             .catch((err) => {
                 const error = takeError(err);
-                if (error === "Forbidden" || error === "Unauthorized") {
+                if (error === "Unauthorized") {
                     this.sessions.delete(user_id);
                     this.current = null;
                     this.pickNextSession();
