@@ -21,31 +21,6 @@ const ALLOWED_ORIGINS = [
 ];
 
 /**
- * Permissible protocols in URLs
- */
-const PROTOCOL_WHITELIST = [
-    "http:",
-    "https:",
-    "ftp:",
-    "ftps:",
-    "mailto:",
-    "news:",
-    "irc:",
-    "gopher:",
-    "nntp:",
-    "feed:",
-    "telnet:",
-    "mms:",
-    "rtsp:",
-    "svn:",
-    "git:",
-    "tel:",
-    "fax:",
-    "xmpp:",
-    "magnet:",
-];
-
-/**
  * Determine what kind of link we are dealing with and sanitise any malicious input
  * @param href Input URL
  * @returns Link Type
@@ -65,9 +40,7 @@ export function determineLink(href?: string): LinkType {
         } catch (err) {}
 
         if (!internal && url) {
-            if (PROTOCOL_WHITELIST.includes(url.protocol)) {
-                return { type: "external", href, url };
-            }
+            return { type: "external", href, url };
         }
     }
 
