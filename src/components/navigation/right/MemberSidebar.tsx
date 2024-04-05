@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Channel, Server, User, API } from "revolt.js";
 
-import { useEffect, useLayoutEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import {
     useSession,
@@ -90,7 +90,10 @@ function useEntries(
             const sort = member?.nickname ?? u.username;
             const entry = [u, sort] as [User, string];
 
-            if (member?.hasPermission(channel, "ViewChannel")) {
+            if (
+                member?.hasPermission(channel, "ViewChannel") ||
+                channel.recipient_ids?.includes(u._id)
+            ) {
                 if (!u.online || u.status?.presence === "Invisible") {
                     categories.offline.push(entry);
                 } else {
