@@ -29,7 +29,7 @@ precacheAndRoute(
                 }
 
                 for (const key of locale_keys) {
-                    if (fn.startsWith(`${key  }.`)) {
+                    if (fn.startsWith(`${key}.`)) {
                         return false;
                     }
                 }
@@ -52,7 +52,7 @@ self.addEventListener("push", (event) => {
                 body: data.body,
                 timestamp: data.timestamp * 1000,
                 tag: data.tag,
-                badge: "https://app.revolt.chat/assets/icons/monochrome.svg",
+                badge: "https://onech.at/assets/icons/monochrome.svg",
                 data: data.url,
             });
         }
