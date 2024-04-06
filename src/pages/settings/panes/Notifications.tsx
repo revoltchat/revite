@@ -26,6 +26,7 @@ export const Notifications = observer(() => {
             ?.getRegistration()
             .then(async (registration) => {
                 const sub = await registration?.pushManager?.getSubscription();
+                console.log(sub);
                 setPushEnabled(sub !== null && sub !== undefined);
             });
     }, []);
@@ -73,8 +74,24 @@ export const Notifications = observer(() => {
                         }
                         onChange={async (pushEnabled) => {
                             try {
-                                const reg =
-                                    await navigator.serviceWorker?.getRegistration();
+                                if (!("serviceWorker" in navigator)) {
+                                    return modalController.push({
+                                        type: "error",
+                                        error: "NoServiceWorker",
+                                    });
+                                }
+
+                                let reg =
+                                    await navigator.serviceWorker.getRegistration(
+                                        `${window.location.origin}/sw.js`,
+                                    );
+                                if (!reg) {
+                                    reg =
+                                        await navigator.serviceWorker.register(
+                                            `${window.location.origin}/sw.js`,
+                                        );
+                                }
+
                                 if (reg) {
                                     if (pushEnabled) {
                                         const sub =
@@ -86,6 +103,8 @@ export const Notifications = observer(() => {
                                                             .vapid,
                                                     ),
                                             });
+
+                                        console.log(sub);
 
                                         // tell the server we just subscribed
                                         const json = sub.toJSON();
