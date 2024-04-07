@@ -74,6 +74,12 @@ export const Notifications = observer(() => {
                         }
                         onChange={async (pushEnabled) => {
                             try {
+                                console.log(
+                                    urlBase64ToUint8Array(
+                                        client.configuration!.vapid,
+                                    ),
+                                );
+
                                 if (!("serviceWorker" in navigator)) {
                                     return modalController.push({
                                         type: "error",
@@ -81,16 +87,19 @@ export const Notifications = observer(() => {
                                     });
                                 }
 
-                                let reg =
+                                const regReady = await navigator.serviceWorker
+                                    .ready;
+                                if (!regReady) {
+                                    return modalController.push({
+                                        type: "error",
+                                        error: "ServiceWorkerNotReady",
+                                    });
+                                }
+
+                                const reg =
                                     await navigator.serviceWorker.getRegistration(
                                         `${window.location.origin}/sw.js`,
                                     );
-                                if (!reg) {
-                                    reg =
-                                        await navigator.serviceWorker.register(
-                                            `${window.location.origin}/sw.js`,
-                                        );
-                                }
 
                                 if (reg) {
                                     if (pushEnabled) {
