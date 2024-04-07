@@ -97,9 +97,7 @@ export const Notifications = observer(() => {
                                 }
 
                                 const reg =
-                                    await navigator.serviceWorker.getRegistration(
-                                        `${window.location.origin}/sw.js`,
-                                    );
+                                    await navigator.serviceWorker.getRegistration();
 
                                 if (reg) {
                                     if (pushEnabled) {
@@ -112,8 +110,6 @@ export const Notifications = observer(() => {
                                                             .vapid,
                                                     ),
                                             });
-
-                                        console.log(sub);
 
                                         // tell the server we just subscribed
                                         const json = sub.toJSON();
