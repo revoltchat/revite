@@ -29,7 +29,7 @@ precacheAndRoute(
                 }
 
                 for (const key of locale_keys) {
-                    if (fn.startsWith(`${key  }.`)) {
+                    if (fn.startsWith(`${key}.`)) {
                         return false;
                     }
                 }

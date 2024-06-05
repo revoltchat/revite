@@ -67,13 +67,12 @@ export function PermissionSelect({
             }
 
             return "Neutral";
-        } 
-            if (Long.fromNumber(value).and(permission).eq(permission)) {
-                return "Allow";
-            }
+        }
+        if (Long.fromNumber(value).and(permission).eq(permission)) {
+            return "Allow";
+        }
 
-            return "Neutral";
-        
+        return "Neutral";
     }, [value]);
 
     function onSwitch(state: State) {

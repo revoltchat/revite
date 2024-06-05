@@ -51,7 +51,7 @@ export default observer(() => {
         state.settings.set("appearance:seasonal", !seasonalTheme);
 
     const isDecember = !isTouchscreenDevice && new Date().getMonth() === 11;
-    const isOctober = !isTouchscreenDevice && new Date().getMonth() === 9
+    const isOctober = !isTouchscreenDevice && new Date().getMonth() === 9;
     const snowflakes = useMemo(() => {
         const flakes: string[] = [];
 
