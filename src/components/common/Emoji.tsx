@@ -43,11 +43,11 @@ function toCodePoint(rune: string) {
 }
 
 export function parseEmoji(emoji: string) {
-    if (emoji.startsWith("custom:")) {
-        return `https://dl.insrt.uk/projects/revolt/emotes/${emoji.substring(
-            7,
-        )}`;
-    }
+    // if (emoji.startsWith("custom:")) {
+    //     return `https://dl.insrt.uk/projects/revolt/emotes/${emoji.substring(
+    //         7,
+    //     )}`;
+    // }
 
     const codepoint = toCodePoint(emoji);
     return `https://static.revolt.chat/emoji/${EMOJI_PACK}/${codepoint}.svg?rev=${REVISION}`;
