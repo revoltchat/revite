@@ -103,10 +103,43 @@ export const Members = ({ server }: Props) => {
     const [query, setQuery] = useState("");
 
     useEffect(() => {
-        server
-            .fetchMembers()
-            .then((data) => data.members)
-            .then(setData);
+        function fetch() {
+            server
+                .fetchMembers()
+                .then((data) => data.members)
+                .then(setData);
+        }
+
+        fetch();
+
+        // Members may be invalidated if we stop receiving events
+        // This is not very accurate, this should be tracked within
+        // revolt.js so we know the true validity.
+        let valid = true,
+            invalidationTimer: number;
+
+        function waitToInvalidate() {
+            invalidationTimer = setTimeout(() => {
+                valid = false;
+            }, 15 * 60e3) as never; // 15 minutes
+        }
+
+        function cancelInvalidation() {
+            if (!valid) {
+                fetch();
+                valid = true;
+            }
+
+            clearTimeout(invalidationTimer);
+        }
+
+        addEventListener("blur", waitToInvalidate);
+        addEventListener("focus", cancelInvalidation);
+
+        return () => {
+            removeEventListener("blur", waitToInvalidate);
+            removeEventListener("focus", cancelInvalidation);
+        };
     }, [server, setData]);
 
     const members = useMemo(

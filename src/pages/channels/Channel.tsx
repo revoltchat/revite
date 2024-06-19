@@ -163,6 +163,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
 
         const checkUnread = () =>
             channel.unread &&
+            document.hasFocus() &&
             channel.client.unreads!.markRead(
                 channel._id,
                 channel.last_message_id!,
@@ -174,6 +175,45 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
             () => channel.last_message_id,
             () => checkUnread(),
         );
+    }, [channel]);
+
+    useEffect(() => {
+        let lastSubscribed: number | undefined;
+        function subscribe() {
+            if (document.hasFocus()) {
+                const tenMinutesAgo = new Date();
+                tenMinutesAgo.setMinutes(tenMinutesAgo.getMinutes() - 10);
+
+                if (!lastSubscribed || +tenMinutesAgo > lastSubscribed) {
+                    channel.server?.subscribe();
+                    lastSubscribed = +tenMinutesAgo;
+                }
+            }
+        }
+
+        // Trigger logic every minute
+        const subTimer = setInterval(subscribe, 60e3);
+
+        function onFocus() {
+            // Mark channel as read if it's unread
+            if (channel.unread) {
+                channel.client.unreads!.markRead(
+                    channel._id,
+                    channel.last_message_id!,
+                    true,
+                );
+            }
+
+            // Subscribe to channel if expired
+            subscribe();
+        }
+
+        addEventListener("focus", onFocus);
+
+        return () => {
+            removeEventListener("focus", onFocus);
+            clearInterval(subTimer);
+        };
     }, [channel]);
 
     return (
