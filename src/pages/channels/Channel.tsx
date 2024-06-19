@@ -1,5 +1,6 @@
 import { Hash } from "@styled-icons/boxicons-regular";
 import { Ghost } from "@styled-icons/boxicons-solid";
+import dayjs from "dayjs";
 import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router-dom";
@@ -181,18 +182,19 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
         let lastSubscribed: number | undefined;
         function subscribe() {
             if (document.hasFocus()) {
-                const tenMinutesAgo = new Date();
-                tenMinutesAgo.setMinutes(tenMinutesAgo.getMinutes() - 10);
-
-                if (!lastSubscribed || +tenMinutesAgo > lastSubscribed) {
+                if (
+                    !lastSubscribed ||
+                    dayjs().subtract(10, "minutes").isAfter(lastSubscribed)
+                ) {
+                    lastSubscribed = +new Date();
                     channel.server?.subscribe();
-                    lastSubscribed = +tenMinutesAgo;
                 }
             }
         }
 
         // Trigger logic every minute
         const subTimer = setInterval(subscribe, 60e3);
+        subscribe();
 
         function onFocus() {
             // Mark channel as read if it's unread
