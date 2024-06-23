@@ -6,6 +6,7 @@ import {
     UserX,
     Group,
     InfoCircle,
+    Flag,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory } from "react-router-dom";
@@ -245,6 +246,24 @@ export const UserProfile = observer(
                             <IconButton onClick={() => user.removeFriend()}>
                                 <UserX size={28} />
                             </IconButton>
+                        )}
+                        {!user.bot && flags != 2 && flags != 4 && (
+                            <Localizer>
+                                <Tooltip
+                                    content={
+                                        <Text id="app.context_menu.report_user" />
+                                    }>
+                                    <IconButton
+                                        onClick={() =>
+                                            modalController.push({
+                                                type: "report",
+                                                target: user,
+                                            })
+                                        }>
+                                        <Flag size={28} />
+                                    </IconButton>
+                                </Tooltip>
+                            </Localizer>
                         )}
                     </div>
                     {badges > 0 && (
