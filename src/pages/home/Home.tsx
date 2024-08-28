@@ -1,37 +1,27 @@
-import { Money } from "@styled-icons/boxicons-regular";
 import {
     Home as HomeIcon,
-    PlusCircle,
-    Compass,
-    Megaphone,
-    Group,
-    Cog,
-    RightArrowCircle,
+    MessageDots,
+    MessageAdd,
+    Lock,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 
 import styles from "./Home.module.scss";
-import "./snow.scss";
 import { Text } from "preact-i18n";
-import { useMemo } from "preact/hooks";
 
 import { CategoryButton } from "@revoltchat/ui";
-
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-
-import { useApplicationState } from "../../mobx/State";
 
 import wideSVG from "/assets/wide.svg";
 
 import { PageHeader } from "../../components/ui/Header";
 import { useClient } from "../../controllers/client/ClientController";
-import { modalController } from "../../controllers/modals/ModalController";
 
 const Overlay = styled.div`
     display: grid;
     height: 100%;
+    overflow-y: scroll;
 
     > * {
         grid-area: 1 / 1;
@@ -40,65 +30,137 @@ const Overlay = styled.div`
     .content {
         z-index: 1;
     }
+
+    h3 {
+        padding-top: 1rem;
+    }
+`;
+
+const DisabledButtonWrapper = styled.div`
+    opacity: 0.5;
+    pointer-events: none;
 `;
 
 export default observer(() => {
     const client = useClient();
-    const state = useApplicationState();
 
-    const seasonalTheme = state.settings.get("appearance:seasonal", true);
-    const toggleSeasonalTheme = () =>
-        state.settings.set("appearance:seasonal", !seasonalTheme);
+    const servers = [
+        {
+            id: "01J544PT4T3WQBVBSDK3TBFZW7",
+            name: "PepChat Official",
+            description:
+                "Get your questions answered and stay up-to-date with the state of the project.",
+            inviteCode: "pepchatdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J5ZQMJSQ5AFZJJ3S204JK5Q4",
+            name: "Elite Group Buy (EGB)",
+            description: "Group buy peptides, amino blends & more.",
+            inviteCode: "elitegroupbuydiscover",
+            disabled: false,
+        },
+        {
+            id: "01J63A8HQ8S10MM4B3K85VMYBW",
+            name: "Wonderland",
+            description: "Peptide life social group.",
+            inviteCode: "wonderlanddiscover",
+            disabled: false,
+        },
+        {
+            id: "01J545CBXQRWZZAASZQ6THKE96",
+            name: "Qingdao Sigma Chemical (QSC)",
+            description:
+                "China wholesale bioactive compounds. (International, US, EU, Canada and Australia domestic)",
+            inviteCode: "qscdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J5TQYA639STTEX7SH5KXC96M",
+            name: "Joe Lu's Hideout",
+            description: "Peptide group buys.",
+            inviteCode: "placeholder",
+            disabled: true,
+        },
+        {
+            id: "01J64CC6710N7CCWBBT625VXQ3",
+            name: "The Raven Nest",
+            description:
+                "Group buys, protocols, social, and all things peptides.",
+            inviteCode: "placeholder",
+            disabled: true,
+        },
+        {
+            id: "01J5Z5QBQWREPZZPMVKJNCBDP2",
+            name: "Joyous",
+            description: "Peptide group buys.",
+            inviteCode: "placeholder",
+            disabled: true,
+        },
+        {
+            id: "01J5VPXSS0EK69QD69RX6SKZHW",
+            name: "Kimmes Korner",
+            description: "Peptide group buys.",
+            inviteCode: "placeholder",
+            disabled: true,
+        },
+        {
+            id: "placeholder",
+            name: "Polypeptide Universe",
+            description: "The science of peptides in depth.",
+            inviteCode: "placeholder",
+            disabled: true,
+        },
+        {
+            id: "placeholder",
+            name: "Deb's Peptalk",
+            description:
+                "Group buys, protocols, social, and all things peptides.",
+            inviteCode: "placeholder",
+            disabled: true,
+        },
+    ];
 
-    const isDecember = !isTouchscreenDevice && new Date().getMonth() === 11;
-    const isOctober = !isTouchscreenDevice && new Date().getMonth() === 9
-    const snowflakes = useMemo(() => {
-        const flakes: string[] = [];
+    const renderServerButton = (server) => {
+        const isServerJoined = client.servers.get(server.id);
+        const linkTo = isServerJoined
+            ? `/server/${server.id}`
+            : `/invite/${server.inviteCode}`;
 
-        if (isDecember) {
-            for (let i = 0; i < 15; i++) {
-                flakes.push("❄️");
-                flakes.push("❄");
-            }
+        const buttonContent = (
+            <CategoryButton
+                key={server.id}
+                action={server.disabled ? undefined : "chevron"}
+                icon={
+                    server.disabled ? (
+                        <Lock size={32} />
+                    ) : isServerJoined ? (
+                        <MessageDots size={32} />
+                    ) : (
+                        <MessageAdd size={32} />
+                    )
+                }
+                description={server.description}>
+                {server.name}
+            </CategoryButton>
+        );
 
-            for (let i = 0; i < 2; i++) {
-                flakes.push("🎄");
-                flakes.push("☃️");
-                flakes.push("⛄");
-            }
-
-            return flakes;
+        if (server.disabled) {
+            return (
+                <DisabledButtonWrapper>{buttonContent}</DisabledButtonWrapper>
+            );
+        } else {
+            return (
+                <Link to={linkTo} key={server.id}>
+                    {buttonContent}
+                </Link>
+            );
         }
-        if (isOctober) {
-            for (let i = 0; i < 15; i++) {
-                flakes.push("🎃");
-                flakes.push("💀");
-            }
-
-            for (let i = 0; i < 2; i++) {
-                flakes.push("👻");
-                flakes.push("⚰️");
-                flakes.push("🕷️");
-            }
-
-            return flakes;
-        }
-
-        return flakes;
-    }, []);
+    };
 
     return (
         <div className={styles.home}>
             <Overlay>
-                {seasonalTheme && (
-                    <div className="snowfall">
-                        {snowflakes.map((emoji, index) => (
-                            <div key={index} className="snowflake">
-                                {emoji}
-                            </div>
-                        ))}
-                    </div>
-                )}
                 <div className="content">
                     <PageHeader icon={<HomeIcon size={24} />} withTransparency>
                         <Text id="app.navigation.tabs.home" />
@@ -110,100 +172,8 @@ export default observer(() => {
                             <img src={wideSVG} />
                         </h3>
                         <div className={styles.actions}>
-                            <a
-                                onClick={() =>
-                                    modalController.push({
-                                        type: "create_group",
-                                    })
-                                }>
-                                <CategoryButton
-                                    action="chevron"
-                                    icon={<PlusCircle size={32} />}
-                                    description={
-                                        <Text id="app.home.group_desc" />
-                                    }>
-                                    <Text id="app.home.group" />
-                                </CategoryButton>
-                            </a>
-                            <Link to="/discover">
-                                <a>
-                                    <CategoryButton
-                                        action="chevron"
-                                        icon={<Compass size={32} />}
-                                        description={
-                                            <Text id="app.home.discover_desc" />
-                                        }>
-                                        <Text id="app.home.discover" />
-                                    </CategoryButton>
-                                </a>
-                            </Link>
-
-                            {client.servers.get(
-                                "01F7ZSBSFHQ8TA81725KQCSDDP",
-                            ) ? (
-                                <Link to="/server/01F7ZSBSFHQ8TA81725KQCSDDP">
-                                    <CategoryButton
-                                        action="chevron"
-                                        icon={<RightArrowCircle size={32} />}
-                                        description={
-                                            <Text id="app.home.goto-testers_desc" />
-                                        }>
-                                        <Text id="app.home.goto-testers" />
-                                    </CategoryButton>
-                                </Link>
-                            ) : (
-                                <Link to="/invite/Testers">
-                                    <CategoryButton
-                                        action="chevron"
-                                        icon={<Group size={32} />}
-                                        description={
-                                            <Text id="app.home.join-testers_desc" />
-                                        }>
-                                        <Text id="app.home.join-testers" />
-                                    </CategoryButton>
-                                </Link>
-                            )}
-
-                            <Link to="/settings/feedback">
-                                <CategoryButton
-                                    action="chevron"
-                                    icon={<Megaphone size={32} />}
-                                    description={
-                                        <Text id="app.home.feedback_desc" />
-                                    }>
-                                    <Text id="app.home.feedback" />
-                                </CategoryButton>
-                            </Link>
-                            <a
-                                href="https://insrt.uk/donate"
-                                target="_blank"
-                                rel="noreferrer">
-                                <CategoryButton
-                                    action="external"
-                                    description={
-                                        <Text id="app.home.donate_desc" />
-                                    }
-                                    icon={<Money size={32} />}>
-                                    <Text id="app.home.donate" />
-                                </CategoryButton>
-                            </a>
-                            <Link to="/settings">
-                                <CategoryButton
-                                    action="chevron"
-                                    description={
-                                        <Text id="app.home.settings-tooltip" />
-                                    }
-                                    icon={<Cog size={32} />}>
-                                    <Text id="app.home.settings" />
-                                </CategoryButton>
-                            </Link>
+                            {servers.map(renderServerButton)}
                         </div>
-                        {isDecember && (
-                            <a href="#" onClick={toggleSeasonalTheme}>
-                                Turn {seasonalTheme ? "off" : "on"} homescreen
-                                effects
-                            </a>
-                        )}
                     </div>
                 </div>
             </Overlay>{" "}
