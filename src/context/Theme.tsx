@@ -30,7 +30,7 @@ export type Variables =
     | "tertiary-foreground"
     | "tooltip"
     | "status-online"
-    | "status-away"
+    | "status-idle"
     | "status-focus"
     | "status-busy"
     | "status-streaming"
@@ -283,7 +283,7 @@ export const PRESETS: Record<string, Theme> = {
         "tertiary-background": "#4D4D4D",
         "tertiary-foreground": "#3a3a3a",
         "status-online": "#3ABF7E",
-        "status-away": "#F39F00",
+        "status-idle": "#F39F00",
         "status-focus": "#4799F0",
         "status-busy": "#F84848",
         "status-streaming": "#977EFF",
@@ -311,7 +311,7 @@ export const PRESETS: Record<string, Theme> = {
         "tertiary-background": "#4D4D4D",
         "tertiary-foreground": "#848484",
         "status-online": "#3ABF7E",
-        "status-away": "#F39F00",
+        "status-idle": "#F39F00",
         "status-focus": "#4799F0",
         "status-busy": "#F84848",
         "status-streaming": "#977EFF",
