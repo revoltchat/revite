@@ -104,7 +104,7 @@ export default observer(() => {
                                     <Github size={24} />
                                 </a>
                             </div>
-							{/*<div className={styles.bullet} />
+                            {/*<div className={styles.bullet} />
                             <div className={styles.revolt}>
                                 <a
                                     href="https://revolt.chat/about"
@@ -128,11 +128,11 @@ export default observer(() => {
                         </div>
                         <a
                             className={styles.attribution}
-                            href="https://unsplash.com/@dilucidus"
+                            href="https://unsplash.com/@kirp"
                             target="_blank"
                             rel="noreferrer">
-                            <Text id="general.image_by" /> &lrm;@dilucidus
-                            &rlm;· unsplash.com
+                            <Text id="general.image_by" /> &lrm;@kirp &rlm;·
+                            unsplash.com
                         </a>
                     </div>
                 </div>
