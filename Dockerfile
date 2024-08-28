@@ -1,8 +1,8 @@
 FROM node:16-buster AS builder
 
 WORKDIR /usr/src/app
-COPY . .
-COPY .env.build .env
+COPY ./revolt-revite .
+COPY ./revolt-revite/.env.build ./revolt-revite/.env
 
 RUN yarn install --frozen-lockfile
 RUN yarn build:deps
