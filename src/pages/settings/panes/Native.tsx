@@ -144,7 +144,7 @@ export function Native() {
                 </Button>
             </p>
             <h3 style={{ marginTop: "4em" }}>Local Development Mode</h3>
-            {config.build === "dev" ? (
+            {/*config.build === "dev" ? (
                 <>
                     <h5>Development mode is currently on.</h5>
                     <Button
@@ -197,7 +197,7 @@ export function Native() {
                         </Button>
                     </p>
                 </>
-            )}
+            )*/}
             <hr />
             <CategoryButton
                 icon={<img src={RLogo} draggable={false} />}
