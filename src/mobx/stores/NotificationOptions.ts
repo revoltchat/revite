@@ -30,7 +30,6 @@ export const DEFAULT_STATES: {
     DirectMessage: "all",
     Group: "all",
     TextChannel: undefined!,
-    VoiceChannel: undefined!,
 };
 
 /**

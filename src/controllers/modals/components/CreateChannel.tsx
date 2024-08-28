@@ -22,7 +22,6 @@ export default function CreateChannel({
             title={<Text id="app.context_menu.create_channel" />}
             schema={{
                 name: "text",
-                type: "radio",
             }}
             data={{
                 name: {
@@ -30,32 +29,10 @@ export default function CreateChannel({
                         <Text id="app.main.servers.channel_name" />
                     ) as React.ReactChild,
                 },
-                type: {
-                    field: (
-                        <Text id="app.main.servers.channel_type" />
-                    ) as React.ReactChild,
-                    choices: [
-                        {
-                            name: (
-                                <Text id="app.main.servers.text_channel" />
-                            ) as React.ReactChild,
-                            value: "Text",
-                        },
-                        {
-                            name: (
-                                <Text id="app.main.servers.voice_channel" />
-                            ) as React.ReactChild,
-                            value: "Voice",
-                        },
-                    ],
-                },
             }}
-            defaults={{
-                type: "Text",
-            }}
-            callback={async ({ name, type }) => {
+            callback={async ({ name }) => {
                 const channel = await target.createChannel({
-                    type: type as "Text" | "Voice",
+					type: "Text",
                     name,
                 });
 

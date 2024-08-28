@@ -1,5 +1,5 @@
 import { ChevronRight, Trash } from "@styled-icons/boxicons-regular";
-import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
+import { Cog } from "@styled-icons/boxicons-solid";
 import { isFirefox } from "react-device-detect";
 import { useHistory } from "react-router-dom";
 import { Channel, Message, Server, User, API, Permission, UserPermission, Member } from "revolt.js";
@@ -163,8 +163,7 @@ export default function ContextMenus() {
                 case "mark_as_read":
                     {
                         if (
-                            data.channel.channel_type === "SavedMessages" ||
-                            data.channel.channel_type === "VoiceChannel"
+                            data.channel.channel_type === "SavedMessages"
                         )
                             return;
 
@@ -574,8 +573,7 @@ export default function ContextMenus() {
                     const user = uid ? client.users.get(uid) : undefined;
                     const serverChannel =
                         targetChannel &&
-                        (targetChannel.channel_type === "TextChannel" ||
-                            targetChannel.channel_type === "VoiceChannel")
+                        (targetChannel.channel_type === "TextChannel")
                             ? targetChannel
                             : undefined;
 
@@ -961,7 +959,7 @@ export default function ContextMenus() {
                         pushDivider();
 
                         if (channel) {
-                            if (channel.channel_type !== "VoiceChannel") {
+                            if (channel.channel_type) {
                                 generateAction(
                                     {
                                         action: "open_notification_options",
@@ -998,7 +996,6 @@ export default function ContextMenus() {
                                     });
                                     break;
                                 case "TextChannel":
-                                case "VoiceChannel":
                                     if (
                                         channelPermissions &
                                         Permission.InviteOthers
@@ -1275,7 +1272,6 @@ export default function ContextMenus() {
                             <MenuItem
                                 data={{ action: "set_status" }}
                                 disabled={!isOnline}>
-                                <UserVoice size={18} />
                                 <Text id={`app.context_menu.custom_status`} />
                                 {client.user!.status?.text && (
                                     <IconButton>

@@ -26,7 +26,6 @@ import { PageHeader } from "../../components/ui/Header";
 import { useClient } from "../../controllers/client/ClientController";
 import ChannelHeader from "./ChannelHeader";
 import { MessageArea } from "./messaging/MessageArea";
-import VoiceHeader from "./voice/VoiceHeader";
 
 const ChannelMain = styled.div.attrs({ "data-component": "channel" })`
     flex-grow: 1;
@@ -126,9 +125,6 @@ export const Channel = observer(
         }
 
         const channel = client.channels.get(id)!;
-        if (channel.channel_type === "VoiceChannel") {
-            return <VoiceChannel channel={channel} />;
-        }
 
         return <TextChannel channel={channel} />;
     },
@@ -191,7 +187,6 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
             <ChannelMain>
                 <ErrorBoundary section="renderer">
                     <ChannelContent>
-                        <VoiceHeader id={channel._id} />
                         <NewMessages channel={channel} last_id={lastId} />
                         <MessageArea channel={channel} last_id={lastId} />
                         <TypingIndicator channel={channel} />
@@ -207,15 +202,6 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
         </AgeGate>
     );
 });
-
-function VoiceChannel({ channel }: { channel: ChannelI }) {
-    return (
-        <>
-            <ChannelHeader channel={channel} />
-            <VoiceHeader id={channel._id} />
-        </>
-    );
-}
 
 function ChannelPlaceholder() {
     return (

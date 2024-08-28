@@ -37,14 +37,10 @@ export default observer(
         const isServerChannel =
             server ||
             (target &&
-                (target.channel_type === "TextChannel" ||
-                    target.channel_type === "VoiceChannel"));
+                (target.channel_type === "TextChannel"));
 
         if (typeof iconURL === "undefined") {
             if (isServerChannel) {
-                if (target?.channel_type === "VoiceChannel") {
-                    return <VolumeFull size={size} />;
-                }
                 return <Hash size={size} />;
             }
         }
