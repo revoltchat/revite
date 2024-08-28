@@ -1,4 +1,4 @@
-import { Message, Group, Compass } from "@styled-icons/boxicons-solid";
+import { Message, Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory, useLocation } from "react-router";
 import styled, { css } from "styled-components/macro";
@@ -114,15 +114,6 @@ export default observer(() => {
                         </IconButton>
                     </ConditionalLink>
                 </Button>*/}
-                <Button active={discoverActive}>
-                    <IconButton>
-                        <ConditionalLink
-                            active={discoverActive}
-                            to="/discover/servers">
-                            <Compass size={24} />
-                        </ConditionalLink>
-                    </IconButton>
-                </Button>
                 <Button active={settingsActive}>
                     <IconButton>
                         <ConditionalLink active={settingsActive} to="/settings">
