@@ -59,18 +59,6 @@ export default function AppearanceOptions() {
                         <Text id="app.settings.pages.appearance.theme_options.transparency_desc" />
                     }
                 />
-                {/* Option to toggle seasonal effects. */}
-                <ObservedInputElement
-                    type="checkbox"
-                    value={() => settings.get("appearance:seasonal") ?? true}
-                    onChange={(v) => settings.set("appearance:seasonal", v)}
-                    title={
-                        <Text id="app.settings.pages.appearance.theme_options.seasonal" />
-                    }
-                    description={
-                        <Text id="app.settings.pages.appearance.theme_options.seasonal_desc" />
-                    }
-                />
             </Column>
         </>
     );
