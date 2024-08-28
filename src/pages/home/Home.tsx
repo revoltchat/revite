@@ -166,11 +166,7 @@ export default observer(() => {
                         <Text id="app.navigation.tabs.home" />
                     </PageHeader>
                     <div className={styles.homeScreen}>
-                        <h3>
-                            <Text id="app.special.modals.onboarding.welcome" />
-                            <br />
-                            <img src={wideSVG} />
-                        </h3>
+                        <h3>Welcome to PepChat</h3>
                         <div className={styles.actions}>
                             {servers.map(renderServerButton)}
                         </div>
