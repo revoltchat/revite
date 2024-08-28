@@ -16,7 +16,6 @@ import { IconButton } from "@revoltchat/ui";
 import { chainedDefer, defer } from "../../../lib/defer";
 import { internalEmit } from "../../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
-import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
 
 import { useApplicationState } from "../../../mobx/State";
 import { SIDEBAR_MEMBERS } from "../../../mobx/stores/Layout";
@@ -132,7 +131,6 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
                         </IconButton>
                     </>
                 )}
-                <VoiceActions channel={channel} />
                 {(channel.channel_type === "Group" ||
                     channel.channel_type === "TextChannel") && (
                     <IconButton onClick={openMembers}>

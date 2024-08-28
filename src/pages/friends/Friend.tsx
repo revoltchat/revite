@@ -12,7 +12,6 @@ import { Text } from "preact-i18n";
 import { IconButton } from "@revoltchat/ui";
 
 import { stopPropagation } from "../../lib/stopPropagation";
-import { voiceState } from "../../lib/vortex/VoiceState";
 
 import UserIcon from "../../components/common/user/UserIcon";
 import UserStatus from "../../components/common/user/UserStatus";
@@ -32,20 +31,6 @@ export const Friend = observer(({ user }: Props) => {
         subtext = <UserStatus user={user} />;
         actions.push(
             <>
-                <IconButton
-                    shape="circle"
-                    className={classNames(styles.button, styles.success)}
-                    onClick={(ev) =>
-                        stopPropagation(
-                            ev,
-                            user
-                                .openDM()
-                                .then(voiceState.connect)
-                                .then((x) => history.push(`/channel/${x._id}`)),
-                        )
-                    }>
-                    <PhoneCall size={20} />
-                </IconButton>
                 <IconButton
                     shape="circle"
                     className={styles.button}
