@@ -10,8 +10,4 @@ dist-ssr
 .yarn/cache
 .yarn/install-state.gz
 
-public/assets
-public/assets_*
-!public/assets_default
-
 .vscode/chrome_data
