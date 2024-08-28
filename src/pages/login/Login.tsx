@@ -1,7 +1,7 @@
-import { Twitter, Github, Mastodon } from "@styled-icons/boxicons-logos";
+import { Github } from "@styled-icons/boxicons-logos";
 import { observer } from "mobx-react-lite";
 import { Helmet } from "react-helmet";
-import { Link, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import styles from "./Login.module.scss";
 import { Text } from "preact-i18n";
@@ -98,25 +98,13 @@ export default observer(() => {
                         <div className={styles.links}>
                             <div className={styles.socials}>
                                 <a
-                                    href="https://github.com/revoltchat"
+                                    href="https://github.com/archem-team"
                                     target="_blank"
                                     rel="noreferrer">
                                     <Github size={24} />
                                 </a>
-                                <a
-                                    href="https://twitter.com/revoltchat"
-                                    target="_blank"
-                                    rel="noreferrer">
-                                    <Twitter size={24} />
-                                </a>
-                                <a
-                                    href="https://mastodon.social/@revoltchat"
-                                    target="_blank"
-                                    rel="noreferrer">
-                                    <Mastodon size={24} />
-                                </a>
                             </div>
-                            <div className={styles.bullet} />
+							{/*<div className={styles.bullet} />
                             <div className={styles.revolt}>
                                 <a
                                     href="https://revolt.chat/about"
@@ -136,15 +124,15 @@ export default observer(() => {
                                     rel="noreferrer">
                                     <Text id="general.privacy" />
                                 </a>
-                            </div>
+                            </div>*/}
                         </div>
                         <a
                             className={styles.attribution}
-                            href="https://unsplash.com/@fakurian"
+                            href="https://unsplash.com/@dilucidus"
                             target="_blank"
                             rel="noreferrer">
-                            <Text id="general.image_by" /> &lrm;@fakurian &rlm;·
-                            unsplash.com
+                            <Text id="general.image_by" /> &lrm;@dilucidus
+                            &rlm;· unsplash.com
                         </a>
                     </div>
                 </div>
