@@ -18,7 +18,6 @@ export interface ISettings {
 
     "appearance:emoji": EmojiPack;
     "appearance:ligatures": boolean;
-    "appearance:seasonal": boolean;
     "appearance:transparency": boolean;
     "appearance:show_send_button": boolean;
     "appearance:show_account_age": boolean;
@@ -129,7 +128,6 @@ export default class Settings
     ) {
         if (key === "appearance") {
             this.remove("appearance:emoji");
-            this.remove("appearance:seasonal");
             this.remove("appearance:transparency");
         } else {
             this.remove("appearance:ligatures");
@@ -159,7 +157,6 @@ export default class Settings
         const data: Record<"appearance" | "theme", Partial<ISettings>> = {
             appearance: this.pullKeys([
                 "appearance:emoji",
-                "appearance:seasonal",
                 "appearance:transparency",
             ]),
             theme: this.pullKeys([
