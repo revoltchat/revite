@@ -1,8 +1,6 @@
-import { VolumeMute, MicrophoneOff } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { User, API } from "revolt.js";
-import styled, { css } from "styled-components/macro";
 
 import { useApplicationState } from "../../../mobx/State";
 
@@ -11,11 +9,9 @@ import fallback from "../assets/user.png";
 import { useClient } from "../../../controllers/client/ClientController";
 import IconBase, { IconBaseProps } from "../IconBase";
 
-type VoiceStatus = "muted" | "deaf";
 interface Props extends IconBaseProps<User> {
     status?: boolean;
     override?: string;
-    voice?: VoiceStatus;
     masquerade?: API.Masquerade;
     showServerIdentity?: boolean;
 }
@@ -33,22 +29,6 @@ export function useStatusColour(user?: User) {
             : theme.getVariable("status-online")
         : theme.getVariable("status-invisible");
 }
-
-const VoiceIndicator = styled.div<{ status: VoiceStatus }>`
-    width: 10px;
-    height: 10px;
-    border-radius: var(--border-radius-half);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    ${(props) =>
-        (props.status === "muted" || props.status === "deaf") &&
-        css`
-            background: var(--error);
-        `}
-`;
 
 export default observer(
     (
@@ -130,18 +110,6 @@ export default observer(
                         r="5"
                         fill={useStatusColour(target)}
                     />
-                )}
-                {props.voice && (
-                    <foreignObject x="22" y="22" width="10" height="10">
-                        <VoiceIndicator status={props.voice}>
-                            {(props.voice === "deaf" && (
-                                <VolumeMute size={6} />
-                            )) ||
-                                (props.voice === "muted" && (
-                                    <MicrophoneOff size={6} />
-                                ))}
-                        </VoiceIndicator>
-                    </foreignObject>
                 )}
             </IconBase>
         );
