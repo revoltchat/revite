@@ -157,13 +157,7 @@ export const Form = observer(({ page, callback }: Props) => {
                     />
                 </div>
                 <div className={styles.subtitle}>
-                    <Text
-                        id={
-                            page === "create"
-                                ? "login.subtitle2"
-                                : "login.subtitle"
-                        }
-                    />
+                    <Text id={page === "create" ? "login.subtitle2" : ""} />
                     <div>(app.revolt.chat)</div>
                 </div>
             </div>
@@ -234,6 +228,25 @@ export const Form = observer(({ page, callback }: Props) => {
             )}
             {page === "login" && (
                 <>
+                    {!IS_REVOLT && (
+                        <>
+                            <br />
+                            <Tip palette="primary">
+                                <span>
+                                    <Text id="login.unofficial_instance" /> You{" "}
+                                    <b>cannot</b> use your login from the
+                                    official instance.&ensp;
+                                    <a
+                                        href="https://developers.revolt.chat/faq.html#admonition-what-can-i-do-with-revolt-and-how-do-i-self-host"
+                                        style={{ color: "var(--accent)" }}
+                                        target="_blank"
+                                        rel="noreferrer">
+                                        <Text id="general.learn_more" />
+                                    </a>
+                                </span>
+                            </Tip>
+                        </>
+                    )}
                     <span className={styles.create}>
                         <Text id="login.new" />{" "}
                         <Link to="/login/create">
@@ -252,23 +265,6 @@ export const Form = observer(({ page, callback }: Props) => {
                             <Text id="login.resend" />
                         </Link>
                     </span>
-                    {!IS_REVOLT && (
-                        <>
-                            <br />
-                            <Tip palette="primary">
-                                <span>
-                                    <Text id="login.unofficial_instance" />{" "}
-                                    <a
-                                        href="https://developers.revolt.chat/faq/instances#what-is-a-third-party-instance"
-                                        style={{ color: "var(--accent)" }}
-                                        target="_blank"
-                                        rel="noreferrer">
-                                        <Text id="general.learn_more" />
-                                    </a>
-                                </span>
-                            </Tip>
-                        </>
-                    )}
                 </>
             )}
             {(page === "reset" ||
