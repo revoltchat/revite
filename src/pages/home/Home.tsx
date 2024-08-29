@@ -76,6 +76,13 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J5VPXSS0EK69QD69RX6SKZHW",
+            name: "Kimmes Korner",
+            description: "Peptide group buys.",
+            inviteCode: "kimmeskornerdiscover",
+            disabled: false,
+        },
+        {
             id: "01J5TQYA639STTEX7SH5KXC96M",
             name: "Joe Lu's Hideout",
             description: "Peptide group buys.",
@@ -98,24 +105,9 @@ export default observer(() => {
             disabled: true,
         },
         {
-            id: "01J5VPXSS0EK69QD69RX6SKZHW",
-            name: "Kimmes Korner",
-            description: "Peptide group buys.",
-            inviteCode: "placeholder",
-            disabled: true,
-        },
-        {
             id: "placeholder",
             name: "Polypeptide Universe",
             description: "The science of peptides in depth.",
-            inviteCode: "placeholder",
-            disabled: true,
-        },
-        {
-            id: "placeholder",
-            name: "Deb's Peptalk",
-            description:
-                "Group buys, protocols, social, and all things peptides.",
             inviteCode: "placeholder",
             disabled: true,
         },
