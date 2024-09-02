@@ -90,6 +90,13 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J6FNC5667A6RWV1SK4FMP19S",
+            name: "Rabbit Hole Research",
+            description: "A peptide research collective focused on community, education, and facilitating group buys.",
+            inviteCode: "rabbitholediscover",
+            disabled: false,
+        },
+        {
             id: "01J5TQYA639STTEX7SH5KXC96M",
             name: "Joe Lu's Hideout",
             description: "Peptide group buys.",
