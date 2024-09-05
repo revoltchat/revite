@@ -61,18 +61,18 @@ export default observer(() => {
             disabled: false,
         },
         {
-            id: "01J63A8HQ8S10MM4B3K85VMYBW",
-            name: "Wonderland",
-            description: "Peptide life social group.",
-            inviteCode: "wonderlanddiscover",
-            disabled: false,
-        },
-        {
             id: "01J545CBXQRWZZAASZQ6THKE96",
             name: "Qingdao Sigma Chemical (QSC)",
             description:
                 "China wholesale bioactive compounds. (International, US, EU, Canada and Australia domestic)",
             inviteCode: "qscdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J63A8HQ8S10MM4B3K85VMYBW",
+            name: "Wonderland",
+            description: "Peptide life social group.",
+            inviteCode: "wonderlanddiscover",
             disabled: false,
         },
         {
@@ -92,8 +92,17 @@ export default observer(() => {
         {
             id: "01J6FNC5667A6RWV1SK4FMP19S",
             name: "Rabbit Hole Research",
-            description: "A peptide research collective focused on community, education, and facilitating group buys.",
+            description:
+                "A peptide research collective focused on community, education, and facilitating group buys.",
             inviteCode: "rabbitholediscover",
+            disabled: false,
+        },
+        {
+            id: "01J6DDFWNT3SFKVQHK8J29RPXE",
+            name: "Johnny 5",
+            description:
+                "Amazing community of helpful people. Focus on weight loss group buys.",
+            inviteCode: "johnny5discover",
             disabled: false,
         },
         {
@@ -115,13 +124,6 @@ export default observer(() => {
             id: "placeholder",
             name: "Polypeptide Universe",
             description: "The science of peptides in depth.",
-            inviteCode: "placeholder",
-            disabled: true,
-        },
-        {
-            id: "01J6DDFWNT3SFKVQHK8J29RPXE",
-            name: "Johnny 5",
-            description: "Peptide group buys.",
             inviteCode: "placeholder",
             disabled: true,
         },
