@@ -106,6 +106,36 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J64CC6710N7CCWBBT625VXQ3",
+            name: "The Raven Nest",
+            description:
+                "Group buys, protocols, social, and all things peptides.",
+            inviteCode: "ravennestdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J6ZRS52BA42BJFVT0M4WY0Q6",
+            name: "Deb's PepTalk",
+            description: "Peptide GB's, education & ramblings.",
+            inviteCode: "debspeptalkdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J6ZT36PMKPEV8B60YCS23NE1",
+            name: "Sunny Solutions",
+            description:
+                "Pep Ancillaries. BAC water, Humapen, Filter kits & more.",
+            inviteCode: "sunnysolutionsdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J6DHAK4RH0H6QK35CZ4G3ZSW",
+            name: "Cousin Eddie's Corner",
+            description: "Peptides with a dose of humour!",
+            inviteCode: "cousineddiescornerdiscover",
+            disabled: false,
+        },
+        {
             id: "01J5TQYA639STTEX7SH5KXC96M",
             name: "Joe Lu's Hideout",
             description: "Peptide group buys.",
@@ -113,10 +143,9 @@ export default observer(() => {
             disabled: true,
         },
         {
-            id: "01J64CC6710N7CCWBBT625VXQ3",
-            name: "The Raven Nest",
-            description:
-                "Group buys, protocols, social, and all things peptides.",
+            id: "placeholder",
+            name: "HYB",
+            description: "China wholesale direct.",
             inviteCode: "placeholder",
             disabled: true,
         },
