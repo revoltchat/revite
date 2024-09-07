@@ -114,6 +114,14 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J72VR94J6722AHF1MD33DB4F",
+            name: "New Beginnings Research",
+            description:
+                "Peptide community focused on education, research, and organized group buys.",
+            inviteCode: "newbeginningsdiscover",
+            disabled: false,
+        },
+        {
             id: "01J6ZRS52BA42BJFVT0M4WY0Q6",
             name: "Deb's PepTalk",
             description: "Peptide GB's, education & ramblings.",
