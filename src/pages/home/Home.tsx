@@ -152,16 +152,16 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J6RS5RR3YKPMW09M7D71BTD2",
+            name: "HYB",
+            description: "China wholesale direct.",
+            inviteCode: "hybdiscover",
+            disabled: false,
+        },
+        {
             id: "01J5TQYA639STTEX7SH5KXC96M",
             name: "Joe Lu's Hideout",
             description: "Peptide group buys.",
-            inviteCode: "placeholder",
-            disabled: true,
-        },
-        {
-            id: "placeholder",
-            name: "HYB",
-            description: "China wholesale direct.",
             inviteCode: "placeholder",
             disabled: true,
         },
