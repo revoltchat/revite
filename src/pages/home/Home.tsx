@@ -129,6 +129,14 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J74BC8PFE9XBDX05J3Y9R9PV",
+            name: "Monkey Peps",
+            description:
+                "A Peptide Community for support, sourcing and group testing.",
+            inviteCode: "monkeypepsdiscover",
+            disabled: false,
+        },
+        {
             id: "01J6ZT36PMKPEV8B60YCS23NE1",
             name: "Sunny Solutions",
             description:
