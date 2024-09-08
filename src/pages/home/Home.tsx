@@ -165,13 +165,6 @@ export default observer(() => {
             inviteCode: "placeholder",
             disabled: true,
         },
-        {
-            id: "placeholder",
-            name: "Polypeptide Universe",
-            description: "The science of peptides in depth.",
-            inviteCode: "placeholder",
-            disabled: true,
-        },
     ];
 
     const renderServerButton = (server) => {
