@@ -129,14 +129,6 @@ export default observer(() => {
             disabled: false,
         },
         {
-            id: "01J74BC8PFE9XBDX05J3Y9R9PV",
-            name: "Monkey Peps",
-            description:
-                "A Peptide Community for support, sourcing and group testing.",
-            inviteCode: "monkeypepsdiscover",
-            disabled: false,
-        },
-        {
             id: "01J6ZT36PMKPEV8B60YCS23NE1",
             name: "Sunny Solutions",
             description:
@@ -159,9 +151,25 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J740MT75NC05F6VB9EJ4Y115",
+            name: "Royal Peptides",
+            description:
+                "USA domestic wholesale vendor with 3rd party tested kits.",
+            inviteCode: "royalpeptidesdiscover",
+            disabled: false,
+        },
+        {
             id: "01J5TQYA639STTEX7SH5KXC96M",
             name: "Joe Lu's Hideout",
             description: "Peptide group buys.",
+            inviteCode: "placeholder",
+            disabled: true,
+        },
+        {
+            id: "01J74BC8PFE9XBDX05J3Y9R9PV",
+            name: "Monkey Peps",
+            description:
+                "A Peptide Community for support, sourcing and group testing.",
             inviteCode: "placeholder",
             disabled: true,
         },
