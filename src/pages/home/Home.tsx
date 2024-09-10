@@ -13,8 +13,6 @@ import { Text } from "preact-i18n";
 
 import { CategoryButton } from "@revoltchat/ui";
 
-import wideSVG from "/assets/wide.svg";
-
 import { PageHeader } from "../../components/ui/Header";
 import { useClient } from "../../controllers/client/ClientController";
 
@@ -156,6 +154,14 @@ export default observer(() => {
             description:
                 "USA domestic wholesale vendor with 3rd party tested kits.",
             inviteCode: "royalpeptidesdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J78Z1C1XW209S5YSQZMPS0E4",
+            name: "The Pep Planner",
+            description:
+                "Planner to keep track of daily pins, peptide information, orders & more.",
+            inviteCode: "thepepplannerdiscover",
             disabled: false,
         },
         {
