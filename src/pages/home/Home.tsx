@@ -127,11 +127,10 @@ export default observer(() => {
             disabled: false,
         },
         {
-            id: "01J6ZT36PMKPEV8B60YCS23NE1",
-            name: "Sunny Solutions",
-            description:
-                "Pep Ancillaries. BAC water, Humapen, Filter kits & more.",
-            inviteCode: "sunnysolutionsdiscover",
+            id: "01J7E2NW9WXSHWJR7B75CDB2AC",
+            name: "AOB",
+            description: "Handmade organic beauty products",
+            inviteCode: "aobdiscover",
             disabled: false,
         },
         {
@@ -165,17 +164,17 @@ export default observer(() => {
             disabled: false,
         },
         {
-            id: "01J5TQYA639STTEX7SH5KXC96M",
-            name: "Joe Lu's Hideout",
-            description: "Peptide group buys.",
-            inviteCode: "placeholder",
-            disabled: true,
-        },
-        {
             id: "01J74BC8PFE9XBDX05J3Y9R9PV",
             name: "Monkey Peps",
             description:
                 "A Peptide Community for support, sourcing and group testing.",
+            inviteCode: "monkeypepsdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J5TQYA639STTEX7SH5KXC96M",
+            name: "Joe Lu's Hideout",
+            description: "Peptide group buys.",
             inviteCode: "placeholder",
             disabled: true,
         },
