@@ -172,6 +172,14 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J7EGW77XE2GSJGPR87MQXZW4",
+            name: "SRY-LAB",
+            description:
+                "Peptide factory in China. Wholesale, retail and customization.",
+            inviteCode: "srylabdiscover",
+            disabled: false,
+        },
+        {
             id: "01J5TQYA639STTEX7SH5KXC96M",
             name: "Joe Lu's Hideout",
             description: "Peptide group buys.",
