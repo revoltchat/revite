@@ -104,27 +104,27 @@ export default observer(() => {
                                     <Github size={24} />
                                 </a>
                             </div>
-                            {/*<div className={styles.bullet} />
+                            <div className={styles.bullet} />
                             <div className={styles.revolt}>
                                 <a
-                                    href="https://revolt.chat/about"
+                                    href="https://copper-mildrid-58.tiiny.site"
                                     target="_blank"
                                     rel="noreferrer">
-                                    <Text id="general.about" />
+                                    Acceptable Usage Policy
                                 </a>
                                 <a
-                                    href="https://revolt.chat/terms"
+                                    href="https://emerald-theresita-57.tiiny.site"
                                     target="_blank"
                                     rel="noreferrer">
                                     <Text id="general.tos" />
                                 </a>
                                 <a
-                                    href="https://revolt.chat/privacy"
+                                    href="https://crimson-elena-61.tiiny.site"
                                     target="_blank"
                                     rel="noreferrer">
                                     <Text id="general.privacy" />
                                 </a>
-                            </div>*/}
+                            </div>
                         </div>
                         <a
                             className={styles.attribution}
