@@ -180,6 +180,29 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J7NZR6KTG9BTRMNPCQQJ1VES",
+            name: "Shanghai Nexa Pharma",
+            description:
+                "Ship from domestic USA 3-5 business days. Custom batch manufacture MOQ 300 vials.",
+            inviteCode: "snpdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J72F71TZWQFEBNSSFBMSDZK1",
+            name: "Angel Shanghai Chem (ASC)",
+            description: "Manufacturer of Peptides",
+            inviteCode: "ascdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J7HYARZBNXEBVT07YVBD33FJ",
+            name: "Tianjin Cangtu",
+            description:
+                "Peptide manufacturers from China. Promotions and group purchases.",
+            inviteCode: "tianjincangtudiscover",
+            disabled: false,
+        },
+        {
             id: "01J5TQYA639STTEX7SH5KXC96M",
             name: "Joe Lu's Hideout",
             description: "Peptide group buys.",
