@@ -203,6 +203,14 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J72C64KX97MP5K6ABDRP62P4",
+            name: "The Hood",
+            description:
+                "Welcome to the neighbour-hood. A magical place full of potions and peps.",
+            inviteCode: "thehooddiscover",
+            disabled: false,
+        },
+        {
             id: "01J5TQYA639STTEX7SH5KXC96M",
             name: "Joe Lu's Hideout",
             description: "Peptide group buys.",
