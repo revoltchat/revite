@@ -211,6 +211,28 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J7RF37VXVMTS55K1C18PQ2HY",
+            name: "Peppy Princess",
+            description: "Beauty and skin-care experts.",
+            inviteCode: "peppyprincessdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J71Z3FVMJVCVCD8X4WGVR1SF",
+            name: "JoLynn's World",
+            description: "Pep talk and group buys.",
+            inviteCode: "jolynnsworlddiscover",
+            disabled: false,
+        },
+        {
+            id: "01J84NMVTR2NQVHV9FQ1VR6YBN",
+            name: "Henan Tirzepa Peptides",
+            description:
+                "Factory direct wholesale of peptide products, door-to-door delivery.",
+            inviteCode: "henantirzepadiscover",
+            disabled: false,
+        },
+        {
             id: "01J5TQYA639STTEX7SH5KXC96M",
             name: "Joe Lu's Hideout",
             description: "Peptide group buys.",
