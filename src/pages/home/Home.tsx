@@ -233,6 +233,22 @@ export default observer(() => {
             disabled: false,
         },
         {
+            id: "01J8CQBJRR8EYVQFM7ARD1P11P",
+            name: "Peptopia",
+            description:
+                "Discussions about safe use, sourcing, testing, & more. GBs for Tirz, Reta, Sema, Cagri & more.",
+            inviteCode: "peptopiadiscover",
+            disabled: false,
+        },
+        {
+            id: "01J6SDFY9D1J8B62HN35P63VHM",
+            name: "John GYC",
+            description:
+                "Medical-grade Semaglutide/Tirzepatide/Retatrutide for injection with 99% purity.",
+            inviteCode: "johngycdiscover",
+            disabled: false,
+        },
+        {
             id: "01J5TQYA639STTEX7SH5KXC96M",
             name: "Joe Lu's Hideout",
             description: "Peptide group buys.",
