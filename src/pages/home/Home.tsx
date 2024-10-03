@@ -241,11 +241,11 @@ export default observer(() => {
             disabled: false,
         },
         {
-            id: "01J6SDFY9D1J8B62HN35P63VHM",
-            name: "John GYC",
+            id: "01J8GZYC66E5T7PZNYVHD4DC6V",
+            name: "GYC Peptides",
             description:
-                "Medical-grade Semaglutide/Tirzepatide/Retatrutide for injection with 99% purity.",
-            inviteCode: "johngycdiscover",
+                "High quality peptides with 99% purity from manufacturers.",
+            inviteCode: "gycdiscover",
             disabled: false,
         },
         {
