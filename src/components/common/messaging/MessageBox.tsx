@@ -1,7 +1,7 @@
 import { HappyBeaming, Send, ShieldX } from "@styled-icons/boxicons-solid";
 import Axios, { CancelTokenSource } from "axios";
 import { observer } from "mobx-react-lite";
-import { Channel, User } from "revolt.js";
+import { Channel } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 import { ulid } from "ulid";
 
@@ -229,19 +229,6 @@ export default observer(({ channel }: Props) => {
 
     const renderer = getRenderer(channel);
 
-    const isBlocked = () => {
-        if (channel.channel_type === "DirectMessage") {
-            const recipient = channel.recipient;
-            if (recipient instanceof User) {
-                return (
-                    recipient.relationship === "Blocked" ||
-                    recipient.relationship === "BlockedOther"
-                );
-            }
-        }
-        return false;
-    };
-
     if (channel.server?.member?.timeout) {
         return (
             <Base>
@@ -270,12 +257,7 @@ export default observer(({ channel }: Props) => {
         );
     }
 
-    if (
-        (channel.channel_type !== "DirectMessage" &&
-            channel.channel_type !== "Group" &&
-            !channel.havePermission("SendMessage")) ||
-        isBlocked()
-    ) {
+    if (!channel.havePermission("SendMessage")) {
         return (
             <Base>
                 <Blocked>
