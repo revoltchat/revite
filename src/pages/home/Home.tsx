@@ -242,10 +242,17 @@ export default observer(() => {
         },
         {
             id: "01J8GZYC66E5T7PZNYVHD4DC6V",
-            name: "GYC Peptides",
+            name: "Nantong Guangyuan Chemical (GYC)",
             description:
                 "High quality peptides with 99% purity from manufacturers.",
             inviteCode: "gycdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J9QDPBRHTCBV4DJ15G28393H",
+            name: "Uther Pharmaceutical Peptide",
+            description: "Chemistry changes the world.",
+            inviteCode: "uppdiscover",
             disabled: false,
         },
         {
