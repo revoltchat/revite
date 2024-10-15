@@ -1,0 +1,51 @@
+id,name,description,compound,dose,measurement,format,quantity,priceUSD,shipping,testing,guarantees,vendorRating
+1,Compound Vendor A,High-quality chemical compounds,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.5
+2,Compound Vendor B,Specialized in organic compounds,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.0
+3,Compound Vendor C,Leading supplier of rare compounds,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.2
+4,Compound Vendor D,Trusted by researchers globally,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.1
+5,Compound Vendor E,Innovative solutions for compounds,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.3
+6,Compound Vendor F,Quality compounds at competitive prices,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.0
+7,Compound Vendor G,Your partner in chemical research,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.4
+8,Compound Vendor H,Excellence in compound distribution,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.2
+9,Compound Vendor I,Global leader in compound supply,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.6
+10,Compound Vendor J,Trusted by top laboratories,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.1
+11,Compound Vendor K,Innovative compound solutions,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.3
+12,Compound Vendor L,Quality compounds for research,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.0
+13,Compound Vendor M,Leading supplier of chemical compounds,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.5
+14,Compound Vendor N,Trusted by researchers worldwide,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.2
+15,Compound Vendor O,Innovative solutions for chemical research,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.4
+16,Compound Vendor P,Quality compounds at affordable prices,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.1
+17,Compound Vendor Q,Your partner in compound research,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.3
+18,Compound Vendor R,Excellence in compound supply,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.0
+19,Compound Vendor S,Global leader in chemical distribution,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.5
+20,Compound Vendor T,Trusted by top research labs,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.2
+21,Compound Vendor U,Innovative compound solutions for research,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.4
+22,Compound Vendor V,Quality compounds for scientific research,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.1
+23,Compound Vendor W,Leading supplier of research compounds,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.3
+24,Compound Vendor X,Trusted by researchers globally,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.0
+25,Compound Vendor Y,Innovative solutions for compound research,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.5
+26,Compound Vendor Z,Quality compounds at competitive prices,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.2
+27,Compound Vendor AA,Your partner in chemical research,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.4
+28,Compound Vendor AB,Excellence in compound distribution,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.1
+29,Compound Vendor AC,Global leader in compound supply,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.6
+30,Compound Vendor AD,Trusted by top laboratories,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.1
+31,Compound Vendor AE,Innovative compound solutions,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.3
+32,Compound Vendor AF,Quality compounds for research,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.0
+33,Compound Vendor AG,Leading supplier of chemical compounds,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.5
+34,Compound Vendor AH,Trusted by researchers worldwide,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.2
+35,Compound Vendor AI,Innovative solutions for chemical research,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.4
+36,Compound Vendor AJ,Quality compounds at affordable prices,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.1
+37,Compound Vendor AK,Your partner in compound research,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.3
+38,Compound Vendor AL,Excellence in compound supply,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.0
+39,Compound Vendor AM,Global leader in chemical distribution,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.5
+40,Compound Vendor AN,Trusted by top research labs,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.2
+41,Compound Vendor AO,Innovative compound solutions for research,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.4
+42,Compound Vendor AP,Quality compounds for scientific research,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.1
+43,Compound Vendor AQ,Leading supplier of research compounds,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.3
+44,Compound Vendor AR,Trusted by researchers globally,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.0
+45,Compound Vendor AS,Innovative solutions for compound research,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.5
+46,Compound Vendor AT,Quality compounds at competitive prices,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.2
+47,Compound Vendor AU,Your partner in chemical research,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity",4.4
+48,Compound Vendor AV,Excellence in compound distribution,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity, Reshipping",4.1
+49,Compound Vendor AW,Global leader in compound supply,Semaglutide,10,mg,vial,10,95,Worldwide,"Purity, Stability","Purity, Quantity, Reshipping",4.6
+50,Compound Vendor AX,Trusted by top laboratories,Semaglutide,10,mg,vial,10,95,Domestic,"Purity","Purity",4.1

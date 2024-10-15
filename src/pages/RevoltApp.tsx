@@ -14,6 +14,7 @@ import RightSidebar from "../components/navigation/RightSidebar";
 import { useSystemAlert } from "../updateWorker";
 import Open from "./Open";
 import Channel from "./channels/Channel";
+import CompoundBay from "./compoundbay/CompoundBay";
 import Developer from "./developer/Developer";
 import Discover from "./discover/Discover";
 import Friends from "./friends/Friends";
@@ -216,6 +217,10 @@ export default function App() {
                             <Route path="/discover" component={Discover} />
 
                             <Route path="/dev" component={Developer} />
+                            <Route
+                                path="/compoundbay"
+                                component={CompoundBay}
+                            />
                             <Route path="/friends" component={Friends} />
                             <Route path="/open/:id" component={Open} />
                             <Route path="/bot/:id" component={InviteBot} />

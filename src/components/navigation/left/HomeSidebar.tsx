@@ -24,6 +24,7 @@ import placeholderSVG from "../items/placeholder.svg";
 
 import { useClient } from "../../../controllers/client/ClientController";
 import { modalController } from "../../../controllers/modals/ModalController";
+import CompoundBay from "../../../pages/compoundbay/CompoundBay";
 import { GenericSidebarBase, GenericSidebarList } from "../SidebarBase";
 import ButtonItem, { ChannelButton } from "../items/ButtonItem";
 import ConnectionStatus from "../items/ConnectionStatus";
@@ -85,6 +86,14 @@ export default observer(() => {
                         </span>
                     </ButtonItem>
                 </ConditionalLink>
+                <Link to="/compoundbay">
+                    <ButtonItem active={pathname === "/compoundbay"}>
+                        <Wrench size={20} />
+                        <span>
+                            <Text id="app.navigation.tabs.compoundbay" />
+                        </span>
+                    </ButtonItem>
+                </Link>
                 {!isTouchscreenDevice && (
                     <>
                         <ConditionalLink
@@ -115,6 +124,7 @@ export default observer(() => {
                         </span>
                     </ButtonItem>
                 </ConditionalLink>
+
                 {import.meta.env.DEV && (
                     <Link to="/dev">
                         <ButtonItem active={pathname === "/dev"}>
