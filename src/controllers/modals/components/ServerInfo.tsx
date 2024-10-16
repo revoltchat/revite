@@ -41,6 +41,17 @@ export default function ServerInfo({
                 {
                     onClick: () => {
                         modalController.push({
+                            type: "leave_server",
+                            target: server,
+                        });
+                        return true;
+                    },
+                    children: "Leave Server",
+                    palette: "error",
+                },
+                {
+                    onClick: () => {
+                        modalController.push({
                             type: "report",
                             target: server,
                         });
