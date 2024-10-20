@@ -195,14 +195,6 @@ export default observer(() => {
             disabled: false,
         },
         {
-            id: "01J7HYARZBNXEBVT07YVBD33FJ",
-            name: "Tianjin Cangtu",
-            description:
-                "Peptide manufacturers from China. Promotions and group purchases.",
-            inviteCode: "tianjincangtudiscover",
-            disabled: false,
-        },
-        {
             id: "01J72C64KX97MP5K6ABDRP62P4",
             name: "The Hood",
             description:
@@ -253,6 +245,22 @@ export default observer(() => {
             name: "Uther Pharmaceutical Peptide",
             description: "Chemistry changes the world.",
             inviteCode: "uppdiscover",
+            disabled: false,
+        },
+        {
+            id: "01J9R4AP31FG4VX4FTZTSMWHFF",
+            name: "Tianjin Cangtu",
+            description:
+                "Direct factory supply with 99%+ purity and safe delivery.",
+            inviteCode: "tianjincangtudiscover",
+            disabled: false,
+        },
+        {
+            id: "01JAJBYY4N7ZATDG446M4XGTMA",
+            name: "Shanghai Sigma Audley",
+            description:
+                "China peptides, steroid tablets, oil, and APIs supplier.",
+            inviteCode: "shanghaisigmaaudleydiscover",
             disabled: false,
         },
         {
