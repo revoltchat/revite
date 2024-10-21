@@ -1,200 +1,227 @@
 import { observer } from "mobx-react-lite";
 import Papa from "papaparse";
 import { useState, useEffect } from "react";
-import styled from "styled-components/macro";
+import { FaSearch } from "react-icons/fa";
 
-const Container = styled.div`
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f0f0f0;
-    font-family: "Roboto", sans-serif;
-`;
+import styles from "./CompoundBay.module.scss";
 
-const Banner = styled.h1`
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    color: #1a237e;
-    font-weight: 500;
-`;
-
-const SearchBar = styled.input`
-    width: 50%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #bdbdbd;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 1em;
-    font-family: "Roboto", sans-serif;
-`;
-
-const Content = styled.div`
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-`;
-
-const Filters = styled.div`
-    flex: 1;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-right: 20px;
-`;
-
-const Results = styled.div`
-    flex: 3;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    height: 600px; /* Set a fixed height for scrolling */
-`;
-
-const FilterTitle = styled.h3`
-    margin-bottom: 10px;
-    color: #1a237e;
-    font-size: 1.2em;
-    font-weight: 500;
-`;
-
-const FilterOption = styled.div`
-    margin-bottom: 10px;
-    color: #424242;
-    cursor: pointer;
-    font-size: 1em;
-    &:hover {
-        color: #1a237e;
-    }
-`;
-
-const ResultCard = styled.div`
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-`;
-
-const VendorName = styled.h3`
-    color: #1a237e;
-    font-size: 1.5em;
-    font-weight: 500;
-    margin-bottom: 10px;
-`;
-
-const VendorDescription = styled.p`
-    color: #616161;
-    font-size: 1em;
-    margin-bottom: 10px;
-`;
-
-const VendorDetail = styled.p`
-    color: #424242;
-    font-size: 0.9em;
-    margin-bottom: 5px;
-`;
+import { GroupBuySale } from "../../types/groupBuySale";
+import FilterSidebar from "./FilterSidebar";
+import ResultsSidebar from "./ResultsSidebar";
 
 const CompoundBay = observer(() => {
+    const [groupBuySales, setGroupBuySales] = useState<GroupBuySale[]>([]);
+    const [visibleGroupBuySales, setVisibleGroupBuySales] = useState<
+        GroupBuySale[]
+    >([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [vendors, setVendors] = useState([]);
-    const [visibleVendors, setVisibleVendors] = useState([]);
     const [loadCount, setLoadCount] = useState(10);
+    const [expandedSales, setExpandedSales] = useState<Set<string>>(new Set());
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    // Filter states
+    const [vendorRating, setVendorRating] = useState("");
+    const [vendor, setVendor] = useState("");
+    const [shipsFromCountry, setShipsFromCountry] = useState("");
+    const [compound, setCompound] = useState("");
+
+    // Add new state for dropdown options
+    const [vendorOptions, setVendorOptions] = useState<string[]>([]);
+    const [countryOptions, setCountryOptions] = useState<string[]>([]);
+    const [compoundOptions, setCompoundOptions] = useState<string[]>([]);
 
     useEffect(() => {
-        // Load and parse the CSV file
-        Papa.parse("/src/data/vendors.csv", {
-            download: true,
-            header: true,
-            complete: (results) => {
-                setVendors(results.data);
-                setVisibleVendors(results.data.slice(0, loadCount));
-            },
-        });
+        const fetchGroupBuySales = async () => {
+            setIsLoading(true);
+            try {
+                const response = await fetch("/data/group_buy_sales.csv");
+                const csvText = await response.text();
+                Papa.parse(csvText, {
+                    header: true,
+                    complete: (results) => {
+                        const parsedSales = results.data.map((row: any) => ({
+                            vendor: row.Vendor,
+                            vendorRating: row["Vendor rating"],
+                            type: row.Type,
+                            compound: row.Compound,
+                            dose: row.Dose,
+                            unit: row.Unit,
+                            format: row.Format,
+                            quantity: row.Quantity,
+                            price: row.Price,
+                            shipsFromCountry: row["Ships from Country"],
+                            shippingCost: row["Shipping $"],
+                            moq: row.MOQ,
+                            analysis: row.Analysis,
+                            purityGuarantee: row["Purity guarantee"],
+                            massGuarantee: row["Mass guarantee"],
+                            reshipGuarantee: row["Re-ship guarantee"],
+                            start: row.Start,
+                            close: row.Close,
+                            pepChatLink: row["PepChat Link"],
+                            discordLink: row["Discord Link"],
+                            telegramLink: row["Telegram Link"],
+                            notes: row.Notes,
+                        })) as GroupBuySale[];
+
+                        console.log("Parsed sales:", parsedSales); // Debug log
+
+                        // Check for missing properties
+                        const validSales = parsedSales.filter((sale) => {
+                            if (
+                                !sale.vendor ||
+                                !sale.compound ||
+                                !sale.shipsFromCountry
+                            ) {
+                                console.warn("Invalid sale object:", sale);
+                                return false;
+                            }
+                            return true;
+                        });
+
+                        setGroupBuySales(validSales);
+                        setVisibleGroupBuySales(validSales.slice(0, loadCount));
+
+                        // Extract unique options for dropdowns
+                        const vendors = [
+                            ...new Set(validSales.map((sale) => sale.vendor)),
+                        ];
+                        const countries = [
+                            ...new Set(
+                                validSales.map((sale) => sale.shipsFromCountry),
+                            ),
+                        ];
+                        const compounds = [
+                            ...new Set(validSales.map((sale) => sale.compound)),
+                        ];
+
+                        setVendorOptions(vendors);
+                        setCountryOptions(countries);
+                        setCompoundOptions(compounds);
+                    },
+                    error: (err) => {
+                        console.error("Error parsing CSV:", err);
+                        setError("Failed to load group buy sales data.");
+                    },
+                });
+            } catch (err) {
+                console.error("Error fetching CSV:", err);
+                setError("Failed to fetch group buy sales data.");
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchGroupBuySales();
     }, []);
 
-    const loadMoreVendors = () => {
-        setLoadCount((prevCount) => prevCount + 10);
-        setVisibleVendors(vendors.slice(0, loadCount + 10));
+    useEffect(() => {
+        const filteredSales = groupBuySales.filter((sale) => {
+            return (
+                (vendorRating === "" || sale.vendorRating === vendorRating) &&
+                (vendor === "" ||
+                    sale.vendor.toLowerCase().includes(vendor.toLowerCase())) &&
+                (shipsFromCountry === "" ||
+                    sale.shipsFromCountry
+                        .toLowerCase()
+                        .includes(shipsFromCountry.toLowerCase())) &&
+                (compound === "" ||
+                    sale.compound
+                        .toLowerCase()
+                        .includes(compound.toLowerCase())) &&
+                (searchTerm === "" ||
+                    sale.vendor
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()) ||
+                    sale.compound
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()))
+            );
+        });
+
+        console.log("Filtered sales:", filteredSales); // Debug log
+        setVisibleGroupBuySales(filteredSales.slice(0, loadCount));
+    }, [
+        groupBuySales,
+        vendorRating,
+        vendor,
+        shipsFromCountry,
+        compound,
+        searchTerm,
+        loadCount,
+    ]);
+
+    const handleSearch = () => {
+        setLoadCount(10);
     };
 
-    const handleScroll = (e) => {
-        const bottom =
-            e.target.scrollHeight - e.target.scrollTop ===
-            e.target.clientHeight;
-        if (bottom) {
-            loadMoreVendors();
+    const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+        const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+        if (scrollHeight - scrollTop <= clientHeight * 1.5) {
+            setLoadCount((prevCount) => prevCount + 10);
         }
     };
 
+    const toggleExpand = (id: string) => {
+        setExpandedSales((prevExpanded) => {
+            const newExpanded = new Set(prevExpanded);
+            if (newExpanded.has(id)) {
+                newExpanded.delete(id);
+            } else {
+                newExpanded.add(id);
+            }
+            return newExpanded;
+        });
+    };
+
+    const clearFilters = () => {
+        setVendorRating("");
+        setVendor("");
+        setShipsFromCountry("");
+        setCompound("");
+        setSearchTerm("");
+        setLoadCount(10);
+    };
+
     return (
-        <Container>
-            <Banner>CompoundBay</Banner>
-            <SearchBar
-                type="text"
-                placeholder="Search vendors..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <Content>
-                <Filters>
-                    <FilterTitle>Sort By</FilterTitle>
-                    <FilterOption>Relevance</FilterOption>
-                    <FilterOption>Rating</FilterOption>
-                    <FilterTitle>Categories</FilterTitle>
-                    <FilterOption>Organic</FilterOption>
-                    <FilterOption>Inorganic</FilterOption>
-                    <FilterTitle>Available On</FilterTitle>
-                    <FilterOption>Online</FilterOption>
-                    <FilterOption>In-store</FilterOption>
-                </Filters>
-                <Results onScroll={handleScroll}>
-                    {visibleVendors.map((vendor) => (
-                        <ResultCard key={vendor.id}>
-                            <VendorName>{vendor.name}</VendorName>
-                            <VendorDescription>
-                                {vendor.description}
-                            </VendorDescription>
-                            <VendorDetail>
-                                <strong>Compound:</strong> {vendor.compound}
-                            </VendorDetail>
-                            <VendorDetail>
-                                <strong>Dose:</strong> {vendor.dose}{" "}
-                                {vendor.measurement}
-                            </VendorDetail>
-                            <VendorDetail>
-                                <strong>Format:</strong> {vendor.format}
-                            </VendorDetail>
-                            <VendorDetail>
-                                <strong>Quantity:</strong> {vendor.quantity}
-                            </VendorDetail>
-                            <VendorDetail>
-                                <strong>Price USD:</strong> ${vendor.priceUSD}
-                            </VendorDetail>
-                            <VendorDetail>
-                                <strong>Shipping:</strong> {vendor.shipping}
-                            </VendorDetail>
-                            <VendorDetail>
-                                <strong>Testing:</strong> {vendor.testing}
-                            </VendorDetail>
-                            <VendorDetail>
-                                <strong>Guarantees:</strong> {vendor.guarantees}
-                            </VendorDetail>
-                            <VendorDetail>
-                                <strong>Vendor Rating:</strong>{" "}
-                                {vendor.vendorRating} / 5
-                            </VendorDetail>
-                        </ResultCard>
-                    ))}
-                </Results>
-            </Content>
-        </Container>
+        <div className={styles.container}>
+            <h1 className={styles.banner}>CompoundBay</h1>
+            <div className={styles.searchBarContainer}>
+                <input
+                    type="text"
+                    placeholder="Search compounds..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className={styles.searchBar}
+                />
+                <button className={styles.searchButton} onClick={handleSearch}>
+                    <FaSearch />
+                </button>
+            </div>
+            <div className={styles.content}>
+                <FilterSidebar
+                    vendorRating={vendorRating}
+                    vendor={vendor}
+                    shipsFromCountry={shipsFromCountry}
+                    compound={compound}
+                    handleVendorRatingChange={setVendorRating}
+                    handleVendorChange={setVendor}
+                    handleShipsFromCountryChange={setShipsFromCountry}
+                    handleCompoundChange={setCompound}
+                    clearFilters={clearFilters}
+                    vendorOptions={vendorOptions}
+                    countryOptions={countryOptions}
+                    compoundOptions={compoundOptions}
+                />
+                <ResultsSidebar
+                    visibleGroupBuySales={visibleGroupBuySales}
+                    expandedSales={expandedSales}
+                    toggleExpand={toggleExpand}
+                    handleScroll={handleScroll}
+                />
+            </div>
+        </div>
     );
 });
 

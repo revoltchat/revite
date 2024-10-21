@@ -1,0 +1,62 @@
+/* CompoundBay.module.scss */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+}
+
+.banner {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+}
+
+.searchBarContainer {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #444;
+}
+
+.searchBar {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+}
+
+.searchButton {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+// Styles for FilterSidebar
+.filterSidebar {
+    width: 250px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    overflow-y: auto;
+    height: 100%;
+    color: #333;
+}
+
+// Styles for ResultsSidebar
+.results {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    height: 100%;
+    background-color: white;
+}
