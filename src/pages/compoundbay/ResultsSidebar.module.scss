@@ -53,7 +53,8 @@
 .links {
     margin-top: 15px;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .linkItem {
@@ -71,5 +72,57 @@ a {
 
     &:hover {
         text-decoration: underline;
+    }
+}
+
+@media (max-width: 768px) {
+    .results {
+        padding: 15px;
+    }
+
+    .saleItem {
+        padding: 12px;
+    }
+
+    .saleTitle {
+        font-size: 16px;
+    }
+
+    .detailsGrid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .detailItem,
+    .notes,
+    .linkItem {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .results {
+        padding: 10px;
+    }
+
+    .saleItem {
+        padding: 10px;
+    }
+
+    .saleTitle {
+        font-size: 15px;
+    }
+
+    .detailsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .detailItem,
+    .notes,
+    .linkItem {
+        font-size: 12px;
+    }
+
+    .links {
+        flex-direction: column;
     }
 }

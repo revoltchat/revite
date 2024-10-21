@@ -4,36 +4,39 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    width: 100%;
-}
-
-.banner {
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
-    color: white;
+    overflow: hidden;
+    background-color: #1e1e1e;
 }
 
 .searchBarContainer {
     display: flex;
     justify-content: center;
-    padding: 20px;
-    background-color: #444;
+    align-items: center;
+    padding: 15px;
+    gap: 10px;
 }
 
 .searchBar {
-    width: 300px;
+    width: 70%;
+    max-width: 600px;
     padding: 10px;
     font-size: 16px;
-    border: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.searchButton {
+.searchButton,
+.mobileFilterButton {
     padding: 10px;
     background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 4px;
+}
+
+.mobileFilterButton {
+    display: none;
 }
 
 .content {
@@ -50,6 +53,7 @@
     overflow-y: auto;
     height: 100%;
     color: #333;
+    transition: transform 0.3s ease-in-out;
 }
 
 // Styles for ResultsSidebar
@@ -59,4 +63,53 @@
     overflow-y: auto;
     height: 100%;
     background-color: white;
+}
+
+@media (max-width: 1024px) {
+    .filterSidebar {
+        width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .searchBar {
+        width: calc(100% - 80px);
+    }
+
+    .mobileFilterButton {
+        display: block;
+    }
+
+    .content {
+        flex-direction: column;
+    }
+
+    .filterSidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 80%;
+        max-width: 300px;
+        height: 100%;
+        z-index: 1000;
+        transform: translateX(-100%);
+    }
+
+    .filterSidebar.visible {
+        transform: translateX(0);
+    }
+
+    .results {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .searchBarContainer {
+        padding: 10px;
+    }
+
+    .searchBar {
+        font-size: 14px;
+    }
 }

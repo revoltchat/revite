@@ -6,12 +6,15 @@
 }
 
 .filterSidebar {
-    width: 250px;
+    width: 300px;
+    min-width: 300px;
     padding: 20px;
     background-color: #f8f9fa;
     border-right: 1px solid #ddd;
     overflow-y: auto;
     color: #333;
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
 }
 
 .filterSection {
@@ -19,6 +22,7 @@
 
     h3 {
         margin-bottom: 10px;
+        font-size: 18px;
     }
 
     label {
@@ -28,7 +32,10 @@
 
     select {
         width: 100%;
-        padding: 5px;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
     }
 }
 
@@ -38,10 +45,66 @@
     background-color: #007bff;
     color: white;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
     margin-top: 20px;
+    font-size: 16px;
 
     &:hover {
         background-color: #0056b3;
+    }
+}
+
+.closeMobileFilter {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .filterSidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 80%;
+        max-width: 300px;
+        height: 100%;
+        z-index: 1000;
+        transform: translateX(-100%);
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .visible {
+        transform: translateX(0);
+    }
+
+    .closeMobileFilter {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        font-size: 16px;
+        text-align: right;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 480px) {
+    .filterSidebar {
+        width: 90%;
+    }
+
+    .filterSection {
+        h3 {
+            font-size: 16px;
+        }
+
+        select {
+            font-size: 14px;
+        }
+    }
+
+    .clearFilters {
+        font-size: 14px;
     }
 }

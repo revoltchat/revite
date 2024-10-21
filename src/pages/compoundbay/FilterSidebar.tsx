@@ -15,6 +15,9 @@ interface FilterSidebarProps {
     vendorOptions: string[];
     countryOptions: string[];
     compoundOptions: string[];
+    vendorRatingOptions: string[];
+    isMobileFilterVisible: boolean;
+    toggleMobileFilter: () => void;
 }
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({
@@ -30,9 +33,20 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     vendorOptions,
     countryOptions,
     compoundOptions,
+    vendorRatingOptions,
+    isMobileFilterVisible,
+    toggleMobileFilter,
 }) => {
     return (
-        <div className={styles.filterSidebar}>
+        <div
+            className={`${styles.filterSidebar} ${
+                isMobileFilterVisible ? styles.visible : ""
+            }`}>
+            <button
+                className={styles.closeMobileFilter}
+                onClick={toggleMobileFilter}>
+                Close
+            </button>
             <h2>Filters</h2>
 
             <div className={styles.filterSection}>
@@ -41,9 +55,11 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
                     value={vendorRating}
                     onChange={(e) => handleVendorRatingChange(e.target.value)}>
                     <option value="">All</option>
-                    <option value="A">A</option>
-                    <option value="AA">AA</option>
-                    <option value="AAA">AAA</option>
+                    {vendorRatingOptions.map((rating) => (
+                        <option key={rating} value={rating}>
+                            {rating}
+                        </option>
+                    ))}
                 </select>
             </div>
 
