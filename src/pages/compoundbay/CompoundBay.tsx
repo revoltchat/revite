@@ -19,7 +19,6 @@ const CompoundBay = observer(() => {
     >([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [loadCount, setLoadCount] = useState(10);
-    //const [expandedSales, setExpandedSales] = useState<Set<string>>(new Set());
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -28,12 +27,6 @@ const CompoundBay = observer(() => {
     const [vendor, setVendor] = useState("");
     const [shipsFromCountry, setShipsFromCountry] = useState("");
     const [compound, setCompound] = useState("");
-
-    // Add new state for dropdown options
-    const [vendorOptions, setVendorOptions] = useState<string[]>([]);
-    const [countryOptions, setCountryOptions] = useState<string[]>([]);
-    const [compoundOptions, setCompoundOptions] = useState<string[]>([]);
-
     const [isMobileFilterVisible, setIsMobileFilterVisible] = useState(false);
 
     const fetchGroupBuySales = async () => {
@@ -48,23 +41,6 @@ const CompoundBay = observer(() => {
                     const sales = results.data as GroupBuySale[];
                     setGroupBuySales(sales);
                     setVisibleGroupBuySales(sales.slice(0, loadCount));
-
-                    // Extract unique options for dropdowns
-                    const vendors = [
-                        ...new Set(sales.map((sale) => sale.Vendor)),
-                    ];
-                    const countries = [
-                        ...new Set(
-                            sales.map((sale) => sale["Ships from Country"]),
-                        ),
-                    ];
-                    const compounds = [
-                        ...new Set(sales.map((sale) => sale.Compound)),
-                    ];
-
-                    setVendorOptions(vendors);
-                    setCountryOptions(countries);
-                    setCompoundOptions(compounds);
                 },
                 error: (error) => {
                     console.error("Error parsing CSV:", error);
@@ -82,7 +58,6 @@ const CompoundBay = observer(() => {
     useEffect(() => {
         fetchGroupBuySales();
         const intervalId = setInterval(fetchGroupBuySales, 15 * 60 * 1000); // Refresh every 15 minutes
-
         return () => clearInterval(intervalId);
     }, []);
 
