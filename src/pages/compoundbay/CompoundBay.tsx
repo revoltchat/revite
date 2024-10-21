@@ -107,7 +107,10 @@ const CompoundBay = observer(() => {
                     ) ||
                     sale.Compound.toLowerCase().includes(
                         searchTerm.toLowerCase(),
-                    ))
+                    ) ||
+                    sale["Ships from Country"]
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()))
             );
         });
     }, [
