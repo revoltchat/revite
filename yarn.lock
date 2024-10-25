@@ -2731,6 +2731,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/papaparse@npm:^5.3.15":
+  version: 5.3.15
+  resolution: "@types/papaparse@npm:5.3.15"
+  dependencies:
+    "@types/node": "*"
+  checksum: 265cc2fd7e36514568398491a9b1d47ad4408f3946fd19f69202ef7af313c8d094ef1562172a36bec6e34ae8e9daf80fc1c5a36327858c236c50c6ebaac3e221
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -3724,6 +3733,7 @@ __metadata:
     "@types/lodash.defaultsdeep": ^4.6.6
     "@types/lodash.isequal": ^4.5.5
     "@types/node": ^15.14.9
+    "@types/papaparse": ^5.3.15
     "@types/preact-i18n": ^2.3.0
     "@types/prismjs": ^1.26.0
     "@types/react-beautiful-dnd": ^13
@@ -3759,6 +3769,7 @@ __metadata:
     mediasoup-client: "npm:@insertish/mediasoup-client@3.6.36-esnext"
     mobx: ^6.6.0
     mobx-react-lite: 3.4.0
+    papaparse: ^5.4.1
     preact: ^10.5.14
     preact-context-menu: 0.4.1
     preact-i18n: ^2.4.0-preactx
@@ -7321,6 +7332,13 @@ __metadata:
   dependencies:
     aggregate-error: ^3.0.0
   checksum: cb0ab21ec0f32ddffd31dfc250e3afa61e103ef43d957cc45497afe37513634589316de4eb88abdfd969fe6410c22c0b93ab24328833b8eb1ccc087fc0442a1c
+  languageName: node
+  linkType: hard
+
+"papaparse@npm:^5.4.1":
+  version: 5.4.1
+  resolution: "papaparse@npm:5.4.1"
+  checksum: fc9e52f7158dca3517c229e3309065b1ab5da6c7194572fba4f31ff138bc43e3c91182cc40365cc828f97fe10d0aca416068fd731661058bea0f69ddb84a411a
   languageName: node
   linkType: hard
 
