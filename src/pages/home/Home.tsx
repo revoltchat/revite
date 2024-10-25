@@ -55,7 +55,7 @@ interface CachedData {
 }
 
 const CACHE_KEY = "server_list_cache";
-const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes in milliseconds
+const CACHE_DURATION = 1 * 60 * 1000; // 1 minutes in milliseconds
 
 // Safe localStorage wrapper
 const safeStorage = {
