@@ -5,6 +5,8 @@ import {
     Lock,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
+import Papa from "papaparse";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components/macro";
 
@@ -39,240 +41,116 @@ const DisabledButtonWrapper = styled.div`
     pointer-events: none;
 `;
 
-export default observer(() => {
+interface Server {
+    id: string;
+    name: string;
+    description: string;
+    inviteCode: string;
+    disabled: boolean;
+}
+
+interface CachedData {
+    timestamp: number;
+    data: Server[];
+}
+
+const CACHE_KEY = "server_list_cache";
+const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes in milliseconds
+
+// Safe localStorage wrapper
+const safeStorage = {
+    getItem: (key: string): string | null => {
+        try {
+            return localStorage.getItem(key);
+        } catch (e) {
+            console.warn("Failed to read from localStorage:", e);
+            return null;
+        }
+    },
+    setItem: (key: string, value: string): void => {
+        try {
+            localStorage.setItem(key, value);
+        } catch (e) {
+            console.warn("Failed to write to localStorage:", e);
+        }
+    },
+};
+
+const Home: React.FC = () => {
     const client = useClient();
+    const [servers, setServers] = useState<Server[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
-    const servers = [
-        {
-            id: "01J544PT4T3WQBVBSDK3TBFZW7",
-            name: "PepChat Official",
-            description:
-                "Get your questions answered and stay up-to-date with the state of the project.",
-            inviteCode: "pepchatdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J5ZQMJSQ5AFZJJ3S204JK5Q4",
-            name: "Elite Group Buy (EGB)",
-            description: "Group buy peptides, amino blends & more.",
-            inviteCode: "elitegroupbuydiscover",
-            disabled: false,
-        },
-        {
-            id: "01J545CBXQRWZZAASZQ6THKE96",
-            name: "Qingdao Sigma Chemical (QSC)",
-            description:
-                "China wholesale bioactive compounds. (International, US, EU, Canada and Australia domestic)",
-            inviteCode: "qscdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J63A8HQ8S10MM4B3K85VMYBW",
-            name: "Wonderland",
-            description: "Peptide life social group.",
-            inviteCode: "wonderlanddiscover",
-            disabled: false,
-        },
-        {
-            id: "01J5VPXSS0EK69QD69RX6SKZHW",
-            name: "Kimmes Korner",
-            description: "Peptide group buys.",
-            inviteCode: "kimmeskornerdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J5Z5QBQWREPZZPMVKJNCBDP2",
-            name: "Joyous",
-            description: "Peptide group buys.",
-            inviteCode: "joyousdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J6FNC5667A6RWV1SK4FMP19S",
-            name: "Rabbit Hole Research",
-            description:
-                "A peptide research collective focused on community, education, and facilitating group buys.",
-            inviteCode: "rabbitholediscover",
-            disabled: false,
-        },
-        {
-            id: "01J6DDFWNT3SFKVQHK8J29RPXE",
-            name: "Johnny 5",
-            description:
-                "Amazing community of helpful people. Focus on weight loss group buys.",
-            inviteCode: "johnny5discover",
-            disabled: false,
-        },
-        {
-            id: "01J64CC6710N7CCWBBT625VXQ3",
-            name: "The Raven Nest",
-            description:
-                "Group buys, protocols, social, and all things peptides.",
-            inviteCode: "ravennestdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J72VR94J6722AHF1MD33DB4F",
-            name: "New Beginnings Research",
-            description:
-                "Peptide community focused on education, research, and organized group buys.",
-            inviteCode: "newbeginningsdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J6ZRS52BA42BJFVT0M4WY0Q6",
-            name: "Deb's PepTalk",
-            description: "Peptide GB's, education & ramblings.",
-            inviteCode: "debspeptalkdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J7E2NW9WXSHWJR7B75CDB2AC",
-            name: "AOB",
-            description: "Handmade organic beauty products",
-            inviteCode: "aobdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J6DHAK4RH0H6QK35CZ4G3ZSW",
-            name: "Cousin Eddie's Corner",
-            description: "Peptides with a dose of humour!",
-            inviteCode: "cousineddiescornerdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J6RS5RR3YKPMW09M7D71BTD2",
-            name: "HYB",
-            description: "China wholesale direct.",
-            inviteCode: "hybdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J740MT75NC05F6VB9EJ4Y115",
-            name: "Royal Peptides",
-            description:
-                "USA domestic wholesale vendor with 3rd party tested kits.",
-            inviteCode: "royalpeptidesdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J78Z1C1XW209S5YSQZMPS0E4",
-            name: "The Pep Planner",
-            description:
-                "Planner to keep track of daily pins, peptide information, orders & more.",
-            inviteCode: "thepepplannerdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J74BC8PFE9XBDX05J3Y9R9PV",
-            name: "Monkey Peps",
-            description:
-                "A Peptide Community for support, sourcing and group testing.",
-            inviteCode: "monkeypepsdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J7EGW77XE2GSJGPR87MQXZW4",
-            name: "SRY-LAB",
-            description:
-                "Peptide factory in China. Wholesale, retail and customization.",
-            inviteCode: "srylabdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J7NZR6KTG9BTRMNPCQQJ1VES",
-            name: "Shanghai Nexa Pharma",
-            description:
-                "Ship from domestic USA 3-5 business days. Custom batch manufacture MOQ 300 vials.",
-            inviteCode: "snpdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J72F71TZWQFEBNSSFBMSDZK1",
-            name: "Angel Shanghai Chem (ASC)",
-            description: "Manufacturer of Peptides",
-            inviteCode: "ascdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J72C64KX97MP5K6ABDRP62P4",
-            name: "The Hood",
-            description:
-                "Welcome to the neighbour-hood. A magical place full of potions and peps.",
-            inviteCode: "thehooddiscover",
-            disabled: false,
-        },
-        {
-            id: "01J7RF37VXVMTS55K1C18PQ2HY",
-            name: "Peppy Princess",
-            description: "Beauty and skin-care experts.",
-            inviteCode: "peppyprincessdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J71Z3FVMJVCVCD8X4WGVR1SF",
-            name: "JoLynn's World",
-            description: "Pep talk and group buys.",
-            inviteCode: "jolynnsworlddiscover",
-            disabled: false,
-        },
-        {
-            id: "01J84NMVTR2NQVHV9FQ1VR6YBN",
-            name: "Henan Tirzepa Peptides",
-            description:
-                "Factory direct wholesale of peptide products, door-to-door delivery.",
-            inviteCode: "henantirzepadiscover",
-            disabled: false,
-        },
-        {
-            id: "01J8CQBJRR8EYVQFM7ARD1P11P",
-            name: "Peptopia",
-            description:
-                "Discussions about safe use, sourcing, testing, & more. GBs for Tirz, Reta, Sema, Cagri & more.",
-            inviteCode: "peptopiadiscover",
-            disabled: false,
-        },
-        {
-            id: "01J8GZYC66E5T7PZNYVHD4DC6V",
-            name: "Nantong Guangyuan Chemical (GYC)",
-            description:
-                "High quality peptides with 99% purity from manufacturers.",
-            inviteCode: "gycdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J9QDPBRHTCBV4DJ15G28393H",
-            name: "Uther Pharmaceutical Peptide",
-            description: "Chemistry changes the world.",
-            inviteCode: "uppdiscover",
-            disabled: false,
-        },
-        {
-            id: "01J9R4AP31FG4VX4FTZTSMWHFF",
-            name: "Tianjin Cangtu",
-            description:
-                "Direct factory supply with 99%+ purity and safe delivery.",
-            inviteCode: "tianjincangtudiscover",
-            disabled: false,
-        },
-        {
-            id: "01JAJBYY4N7ZATDG446M4XGTMA",
-            name: "Shanghai Sigma Audley",
-            description:
-                "China peptides, steroid tablets, oil, and APIs supplier.",
-            inviteCode: "shanghaisigmaaudleydiscover",
-            disabled: false,
-        },
-        {
-            id: "01J5TQYA639STTEX7SH5KXC96M",
-            name: "Joe Lu's Hideout",
-            description: "Peptide group buys.",
-            inviteCode: "placeholder",
-            disabled: true,
-        },
-    ];
+    const fetchAndCacheData = async () => {
+        try {
+            const csvUrl =
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vRY41D-NgTE6bC3kTN3dRpisI-DoeHG8Eg7n31xb1CdydWjOLaphqYckkTiaG9oIQSWP92h3NE-7cpF/pub?gid=0&single=true&output=csv";
 
-    const renderServerButton = (server) => {
+            Papa.parse<Server>(csvUrl, {
+                download: true,
+                header: true,
+                dynamicTyping: true,
+                complete: (result) => {
+                    if (result.errors.length > 0) {
+                        console.error("CSV parsing errors:", result.errors);
+                        setError("Error parsing server data");
+                        setLoading(false);
+                        return;
+                    }
+
+                    const cacheData: CachedData = {
+                        timestamp: Date.now(),
+                        data: result.data,
+                    };
+
+                    safeStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+                    setServers(result.data);
+                    setLoading(false);
+                },
+                error: (err) => {
+                    console.error("Error fetching CSV:", err);
+                    setError(
+                        "Failed to load server data. Please try again later.",
+                    );
+                    setLoading(false);
+                },
+            });
+        } catch (err) {
+            console.error("Unexpected error:", err);
+            setError("An unexpected error occurred. Please try again later.");
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        const getCachedOrFetchData = async () => {
+            try {
+                const cachedData = safeStorage.getItem(CACHE_KEY);
+
+                if (cachedData) {
+                    const parsed: CachedData = JSON.parse(cachedData);
+                    const isExpired =
+                        Date.now() - parsed.timestamp > CACHE_DURATION;
+
+                    if (!isExpired && Array.isArray(parsed.data)) {
+                        setServers(parsed.data);
+                        setLoading(false);
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.warn("Error reading cache:", err);
+                // Continue to fetch fresh data if cache read fails
+            }
+
+            await fetchAndCacheData();
+        };
+
+        getCachedOrFetchData();
+    }, []);
+
+    const renderServerButton = (server: Server) => {
         const isServerJoined = client.servers.get(server.id);
         const linkTo = isServerJoined
             ? `/server/${server.id}`
@@ -298,7 +176,9 @@ export default observer(() => {
 
         if (server.disabled) {
             return (
-                <DisabledButtonWrapper>{buttonContent}</DisabledButtonWrapper>
+                <DisabledButtonWrapper key={server.id}>
+                    {buttonContent}
+                </DisabledButtonWrapper>
             );
         } else {
             return (
@@ -308,6 +188,14 @@ export default observer(() => {
             );
         }
     };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
 
     return (
         <div className={styles.home}>
@@ -323,7 +211,9 @@ export default observer(() => {
                         </div>
                     </div>
                 </div>
-            </Overlay>{" "}
+            </Overlay>
         </div>
     );
-});
+};
+
+export default observer(Home);
