@@ -48,6 +48,7 @@
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
         "lottie-react": "^2.4.0",
+        "papaparse": "^5.4.1",
         "sirv-cli": "^1.0.14",
         "vite": "^3.0.5"
     },
@@ -92,6 +93,7 @@
         "@types/lodash.defaultsdeep": "^4.6.6",
         "@types/lodash.isequal": "^4.5.5",
         "@types/node": "^15.14.9",
+        "@types/papaparse": "^5.3.15",
         "@types/preact-i18n": "^2.3.0",
         "@types/prismjs": "^1.26.0",
         "@types/react-beautiful-dnd": "^13",
