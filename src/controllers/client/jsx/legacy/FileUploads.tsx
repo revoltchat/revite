@@ -12,7 +12,7 @@ import { IconButton, Preloader } from "@revoltchat/ui";
 import { determineFileSize } from "../../../../lib/fileSize";
 
 import { modalController } from "../../../modals/ModalController";
-import { useClient } from "../../ClientController";
+import { clientController, useClient } from "../../ClientController";
 import { takeError } from "../error";
 
 type BehaviourType =
@@ -67,9 +67,16 @@ export async function uploadFile(
     const formData = new FormData();
     formData.append("file", file);
 
+    const client = clientController.getActiveSession()?.client;
+    const sesToken =
+        typeof client?.session === "string"
+            ? client.session
+            : client?.session?.token;
+
     const res = await Axios.post(`${autumnURL}/${tag}`, formData, {
         headers: {
             "Content-Type": "multipart/form-data",
+            "X-Session-Token": sesToken,
         },
         ...config,
     });
