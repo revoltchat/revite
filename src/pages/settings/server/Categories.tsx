@@ -369,7 +369,9 @@ function ListElement({
                     <KanbanList last={false} key={category.id}>
                         <div className="inner">
                             <Row>
-                                <KanbanListHeader {...provided.dragHandleProps}>
+                                <KanbanListHeader 
+                                    {...provided.dragHandleProps}
+                                    onClick={startEditing}>
                                     {editing !== undefined ? (
                                         <input
                                             value={editing}
@@ -384,7 +386,7 @@ function ListElement({
                                             id={category.id}
                                         />
                                     ) : (
-                                        <span onClick={startEditing}>
+                                        <span>
                                             {category.title}
                                         </span>
                                     )}
