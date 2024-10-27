@@ -47,12 +47,18 @@ interface Server {
     description: string;
     inviteCode: string;
     disabled: boolean;
+    new: boolean; // Add the new field
 }
 
-interface CachedData {
-    timestamp: number;
-    data: Server[];
-}
+// Add a styled component for the new text color
+const NewServerWrapper = styled.div`
+    color: #fadf4f;
+
+    // Preserve all other styles
+    a {
+        color: #fadf4f;
+    }
+`;
 
 const CACHE_KEY = "server_list_cache";
 const CACHE_DURATION = 1 * 60 * 1000; // 1 minutes in milliseconds
@@ -177,19 +183,22 @@ const Home: React.FC = () => {
             </CategoryButton>
         );
 
-        if (server.disabled) {
-            return (
-                <DisabledButtonWrapper key={server.id}>
-                    {buttonContent}
-                </DisabledButtonWrapper>
-            );
-        } else {
-            return (
-                <Link to={linkTo} key={server.id}>
-                    {buttonContent}
-                </Link>
-            );
-        }
+        const content = server.disabled ? (
+            <DisabledButtonWrapper key={server.id}>
+                {buttonContent}
+            </DisabledButtonWrapper>
+        ) : (
+            <Link to={linkTo} key={server.id}>
+                {buttonContent}
+            </Link>
+        );
+
+        // Wrap with NewServerWrapper if server is new
+        return server.new ? (
+            <NewServerWrapper key={server.id}>{content}</NewServerWrapper>
+        ) : (
+            content
+        );
     };
 
     if (loading) {
