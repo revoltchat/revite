@@ -2,28 +2,31 @@ import { ChevronRight, Trash } from "@styled-icons/boxicons-regular";
 import { Cog, UserVoice } from "@styled-icons/boxicons-solid";
 import { isFirefox } from "react-device-detect";
 import { useHistory } from "react-router-dom";
-import { Channel, Message, Server, User, API, Permission, UserPermission, Member } from "revolt.js";
+import {
+    Channel,
+    Message,
+    Server,
+    User,
+    API,
+    Permission,
+    UserPermission,
+    Member,
+} from "revolt.js";
 
-
-
-import { ContextMenuWithData, MenuItem, openContextMenu } from "preact-context-menu";
+import {
+    ContextMenuWithData,
+    MenuItem,
+    openContextMenu,
+} from "preact-context-menu";
 import { Text } from "preact-i18n";
 
-
-
 import { Column, IconButton, LineDivider } from "@revoltchat/ui";
-
-
 
 import { useApplicationState } from "../mobx/State";
 import { QueuedMessage } from "../mobx/stores/MessageQueue";
 import { NotificationState } from "../mobx/stores/NotificationOptions";
 
-
-
 import CMNotifications from "./contextmenu/CMNotifications";
-
-
 
 import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
@@ -32,7 +35,6 @@ import { takeError } from "../controllers/client/jsx/error";
 import { modalController } from "../controllers/modals/ModalController";
 import { internalEmit } from "./eventEmitter";
 import { getRenderer } from "./renderer/Singleton";
-
 
 interface ContextMenuData {
     user?: string;

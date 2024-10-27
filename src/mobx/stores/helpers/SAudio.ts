@@ -82,11 +82,10 @@ export default class SAudio {
     getAudio(path: string) {
         if (this.cache.has(path)) {
             return this.cache.get(path)!;
-        } 
-            const el = new Audio(path);
-            this.cache.set(path, el);
-            return el;
-        
+        }
+        const el = new Audio(path);
+        this.cache.set(path, el);
+        return el;
     }
 
     loadCache() {
@@ -100,7 +99,7 @@ export default class SAudio {
             try {
                 audio.play();
             } catch (err) {
-                console.error("Hit error while playing", `${sound  }:`, err);
+                console.error("Hit error while playing", `${sound}:`, err);
             }
         }
     }
