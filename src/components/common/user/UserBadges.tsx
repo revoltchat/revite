@@ -119,7 +119,7 @@ export default function UserBadges({ badges, uid }: Props) {
                             }}
                             onClick={() => {
                                 window.open(
-                                    "https://insrt.uk/donate",
+                                    "https://wiki.revolt.chat/notes/project/financial-support/",
                                     "_blank",
                                 );
                             }}

@@ -51,7 +51,7 @@ export default observer(() => {
         state.settings.set("appearance:seasonal", !seasonalTheme);
 
     const isDecember = !isTouchscreenDevice && new Date().getMonth() === 11;
-    const isOctober = !isTouchscreenDevice && new Date().getMonth() === 9
+    const isOctober = !isTouchscreenDevice && new Date().getMonth() === 9;
     const snowflakes = useMemo(() => {
         const flakes: string[] = [];
 
@@ -175,7 +175,7 @@ export default observer(() => {
                                 </CategoryButton>
                             </Link>
                             <a
-                                href="https://insrt.uk/donate"
+                                href="https://wiki.revolt.chat/notes/project/financial-support/"
                                 target="_blank"
                                 rel="noreferrer">
                                 <CategoryButton
