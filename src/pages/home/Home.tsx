@@ -36,9 +36,10 @@ const Overlay = styled.div`
     }
 `;
 
-const DisabledButtonWrapper = styled.div`
+const DisabledWrapper = styled.div`
     opacity: 0.5;
     pointer-events: none;
+    margin-bottom: -10px;
 `;
 
 interface Server {
@@ -47,14 +48,15 @@ interface Server {
     description: string;
     inviteCode: string;
     disabled: boolean;
-    new: boolean; // Add the new field
+    new: boolean;
+    sortorder: number;
 }
 
 // Add a styled component for the new text color
 const NewServerWrapper = styled.div`
     color: #fadf4f;
+    display: contents;
 
-    // Preserve all other styles
     a {
         color: #fadf4f;
     }
@@ -108,13 +110,18 @@ const Home: React.FC = () => {
                         return;
                     }
 
+                    // Sort the servers by sortorder before caching
+                    const sortedData = [...result.data].sort(
+                        (a, b) => (a.sortorder || 0) - (b.sortorder || 0),
+                    );
+
                     const cacheData: CachedData = {
                         timestamp: Date.now(),
-                        data: result.data,
+                        data: sortedData,
                     };
 
                     safeStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
-                    setServers(result.data);
+                    setServers(sortedData);
                     setLoading(false);
                 },
                 error: (err) => {
@@ -167,7 +174,6 @@ const Home: React.FC = () => {
 
         const buttonContent = (
             <CategoryButton
-                key={server.id}
                 action={server.disabled ? undefined : "chevron"}
                 icon={
                     server.disabled ? (
@@ -183,19 +189,14 @@ const Home: React.FC = () => {
             </CategoryButton>
         );
 
-        const content = server.disabled ? (
-            <DisabledButtonWrapper key={server.id}>
-                {buttonContent}
-            </DisabledButtonWrapper>
+        let content = server.disabled ? (
+            <DisabledWrapper>{buttonContent}</DisabledWrapper>
         ) : (
-            <Link to={linkTo} key={server.id}>
-                {buttonContent}
-            </Link>
+            <Link to={linkTo}>{buttonContent}</Link>
         );
 
-        // Wrap with NewServerWrapper if server is new
         return server.new ? (
-            <NewServerWrapper key={server.id}>{content}</NewServerWrapper>
+            <NewServerWrapper>{content}</NewServerWrapper>
         ) : (
             content
         );
@@ -217,7 +218,6 @@ const Home: React.FC = () => {
                         <Text id="app.navigation.tabs.home" />
                     </PageHeader>
                     <div className={styles.homeScreen}>
-                        <h3>Welcome to PepChat</h3>
                         <div className={styles.actions}>
                             {servers.map(renderServerButton)}
                         </div>
