@@ -10,16 +10,7 @@
         align-items: center;
         height: 100%;
         padding: 12px;
-
-        h3 {
-            margin: 20px 0;
-            font-size: 48px;
-            text-align: center;
-
-            img {
-                height: 36px;
-            }
-        }
+        padding-top: 64px;
 
         a {
             font-size: 13px;
@@ -54,4 +45,3 @@
 [data-light="true"] .home svg {
     filter: invert(100%);
 }
-
