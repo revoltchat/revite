@@ -185,7 +185,8 @@ const Container = styled.div<{ largeEmoji: boolean }>`
 /**
  * Regex for matching execessive recursion of blockquotes and lists
  */
-const RE_RECURSIVE = /(^(?:[>*+-][^\S\r\n]*){5})(?:[>*+-][^\S\r\n]*)+(.*$)/gm;
+const RE_RECURSIVE =
+    /(^(?:(?:[>*+-]|\d+\.)[^\S\r\n]*){5})(?:(?:[>*+-]|\d+\.)[^\S\r\n]*)+(.*$)/gm;
 
 /**
  * Regex for matching multi-line blockquotes
@@ -247,9 +248,13 @@ export default memo(({ content, disallowBigEmoji }: MarkdownProps) => {
     const [Content, setContent] = useState<React.ReactElement>(null!);
 
     useLayoutEffect(() => {
-        render
-            .process(sanitisedContent)
-            .then((file) => setContent(file.result));
+        try {
+            render
+                .process(sanitisedContent)
+                .then((file) => setContent(file.result));
+        } catch (err) {
+            setContent("Message failed to render." as never);
+        }
     }, [sanitisedContent]);
 
     const largeEmoji = useMemo(
