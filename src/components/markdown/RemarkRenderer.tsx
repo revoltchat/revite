@@ -135,7 +135,9 @@ const render = unified()
     .use(remarkParse)
     .use(remarkBreaks)
     .use(remarkGfm)
-    .use(remarkMath)
+    .use(remarkMath, {
+        singleDollarTextMath: false,
+    })
     .use(remarkSpoiler)
     .use(remarkChannels)
     .use(remarkTimestamps)
