@@ -135,7 +135,9 @@ const render = unified()
     .use(remarkParse)
     .use(remarkBreaks)
     .use(remarkGfm)
-    .use(remarkMath)
+    .use(remarkMath, {
+        singleDollarTextMath: false,
+    })
     .use(remarkSpoiler)
     .use(remarkChannels)
     .use(remarkTimestamps)
@@ -146,11 +148,11 @@ const render = unified()
         handlers,
     })
     .use(rehypeKatex, {
+        strict: true,
         maxSize: 10,
         maxExpand: 0,
         maxLength: 512,
         trust: false,
-        strict: false,
         output: "html",
         throwOnError: false,
         errorColor: "var(--error)",
