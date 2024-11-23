@@ -54,8 +54,8 @@ export default defineConfig({
             filename: "sw.ts",
             strategies: "injectManifest",
             manifest: {
-                name: "One Chat",
-                short_name: "onech.at",
+                name: "One Chat Revolt",
+                short_name: "revolt.onech.at",
                 description: "User-first, privacy-focused chat platform.",
                 categories: ["communication", "chat", "messaging"],
                 start_url: "/",
