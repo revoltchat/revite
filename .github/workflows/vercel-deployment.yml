@@ -1,0 +1,41 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js (if using Node.js/React/Next.js)
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Specify the Node.js version
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Build the application (if applicable)
+      - name: Build app
+        run: npm run build  # Change to your build command, if different
+
+      # Step 5: Deploy to Vercel
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}        # Vercel token for authentication
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}  # Project ID from Vercel dashboard
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}        # Organization ID from Vercel dashboard
+          vercel-arg: '--prod'                             # Option to deploy to production
