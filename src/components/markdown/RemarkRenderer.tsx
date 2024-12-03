@@ -26,7 +26,6 @@ import { remarkHtmlToText } from "./plugins/htmlToText";
 import { remarkMention, RenderMention } from "./plugins/mentions";
 import { remarkSpoiler, RenderSpoiler } from "./plugins/spoiler";
 import { remarkTimestamps } from "./plugins/timestamps";
-import { remarkTableLineBreaks } from "./plugins/tableLineBreaks";
 import "./prism";
 
 /**
@@ -145,7 +144,6 @@ const render = unified()
     .use(remarkEmoji)
     .use(remarkMention)
     .use(remarkHtmlToText)
-    .use(remarkTableLineBreaks)
     .use(remarkRehype, {
         handlers,
     })
