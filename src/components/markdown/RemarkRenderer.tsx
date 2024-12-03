@@ -81,11 +81,13 @@ const components = {
     `,
     table: styled.table`
         border-collapse: collapse;
+        width: 100%;
+        table-layout: fixed;
 
         th,
         td {
             padding: 6px;
-            border: 1px solid var(--tertiary-foreground);
+            border: 0px solid var(--tertiary-foreground);
         }
     `,
     ul: styled.ul`
