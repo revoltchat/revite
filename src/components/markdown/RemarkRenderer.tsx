@@ -210,11 +210,6 @@ const RE_EMPTY_LINE = /^\s*?$/gm;
 const RE_PLUS = /^\s*\+(?:$|[^+])/gm;
 
 /**
- * Regex for replaceing a newline with <br> within a table
- */
-const RE_TABLE_NEWLINE = /(?<=\|[^\|]*)\n(?=[^\|]*\|)/g;
-
-/**
  * Sanitise Markdown input before rendering
  * @param content Input string
  * @returns Sanitised string
@@ -222,9 +217,6 @@ const RE_TABLE_NEWLINE = /(?<=\|[^\|]*)\n(?=[^\|]*\|)/g;
 function sanitise(content: string) {
     return (
         content
-            // Makes a newline within a table replace with <br> rather then start a new cell
-            .replace(RE_TABLE_NEWLINE, "<br>")
-        
             // Strip excessive blockquote or list indentation
             .replace(RE_RECURSIVE, (_, m0, m1) => m0 + m1)
 
