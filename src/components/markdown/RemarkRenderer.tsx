@@ -1,6 +1,7 @@
 import "katex/dist/katex.min.css";
 import rehypePrism from "rehype-prism";
 import rehypeReact from "rehype-react";
+import rehypeRaw from 'rehype-raw'
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -147,6 +148,7 @@ const render = unified()
     .use(remarkRehype, {
         handlers,
     })
+    .use(rehypeRaw)
     .use(rehypeKatex, {
         maxSize: 10,
         maxExpand: 0,
