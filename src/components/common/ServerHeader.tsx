@@ -79,50 +79,23 @@ export default observer(({ server }: Props) => {
             }}>
             <div className="container">
                 {server.flags && server.flags & 1 ? (
-                    <Tooltip
-                        content={
-                            <Text id="app.special.server-badges.official" />
-                        }
-                        placement={"bottom-start"}>
-                        <svg width="20" height="20">
-                            <image
-                                xlinkHref="/assets/badges/verified.svg"
-                                height="20"
-                                width="20"
-                            />
-                            <image
-                                xlinkHref="/assets/badges/revolt_r.svg"
-                                height="15"
-                                width="15"
-                                x="2"
-                                y="3"
-                                style={
-                                    "justify-content: center; align-items: center; filter: brightness(0);"
-                                }
-                            />
-                        </svg>
+                    <Tooltip content="Verified GB" placement={"bottom-start"}>
+                        <img
+                            src="/assets/badges/verified-GB.png"
+                            width="20"
+                            height="20"
+                        />
                     </Tooltip>
                 ) : undefined}
                 {server.flags && server.flags & 2 ? (
                     <Tooltip
-                        content={
-                            <Text id="app.special.server-badges.verified" />
-                        }
+                        content="Verified Vendor"
                         placement={"bottom-start"}>
-                        <svg width="20" height="20">
-                            <image
-                                xlinkHref="/assets/badges/verified.svg"
-                                height="20"
-                                width="20"
-                            />
-                            <foreignObject x="2" y="2" width="15" height="15">
-                                <Check
-                                    size={15}
-                                    color="black"
-                                    strokeWidth={8}
-                                />
-                            </foreignObject>
-                        </svg>
+                        <img
+                            src="/assets/badges/verified-vendor.png"
+                            width="20"
+                            height="20"
+                        />
                     </Tooltip>
                 ) : undefined}
                 <a
