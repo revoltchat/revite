@@ -77,7 +77,8 @@ const components = {
         font-size: 90%;
         font-family: var(--monospace-font), monospace;
 
-        border-radius: 3px;
+        border-radius: 5px;
+        padding: 3px 5px;
         box-decoration-break: clone;
     `,
     table: styled.table`
