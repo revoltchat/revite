@@ -305,7 +305,7 @@ export default observer(({ channel }: Props) => {
             if (!state.draft.has(channel._id)) {
                 setMessage(text);
             } else {
-                setMessage(`${state.draft.get(channel._id)}\n${text}`);
+                setMessage(`${state.draft.get(channel._id)?.content}\n${text}`);
             }
         }
 
