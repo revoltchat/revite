@@ -288,11 +288,7 @@ export default function ContextMenus() {
                         window.open(
                             // ! FIXME: do this from revolt.js
                             client
-                                .generateFileURL(data.attachment)
-                                ?.replace(
-                                    "attachments",
-                                    "attachments/download",
-                                ),
+                                .generateFileURL(data.attachment),
                             isFirefox || window.native ? "_blank" : "_self",
                         );
                     }
