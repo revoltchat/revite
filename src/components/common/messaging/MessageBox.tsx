@@ -45,6 +45,7 @@ import AutoComplete, { useAutoComplete } from "../AutoComplete";
 import { PermissionTooltip } from "../Tooltip";
 import FilePreview from "./bars/FilePreview";
 import ReplyBar from "./bars/ReplyBar";
+import { User } from "@styled-icons/boxicons-regular";
 
 type Props = {
     channel: Channel;
@@ -256,8 +257,8 @@ export default observer(({ channel }: Props) => {
             </Base>
         );
     }
-
-    if (!channel.havePermission("SendMessage")) {
+    console.log(channel)
+    if (!channel.havePermission("SendMessage") && channel.recipient?.relationship == "Blocked" || channel.recipient?.relationship == "BlockedOther"){
         return (
             <Base>
                 <Blocked>
@@ -275,7 +276,6 @@ export default observer(({ channel }: Props) => {
             </Base>
         );
     }
-
     // Push message content to draft.
     const setMessage = useCallback(
         (content?: string) => {
