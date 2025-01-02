@@ -627,7 +627,7 @@ export default observer(({ channel }: Props) => {
                 )}
             </FloatingLayer>
             <Base>
-                {channel.havePermission("UploadFiles") ? (
+                {/* {channel.havePermission("UploadFiles") ? ( */}
                     <FileAction>
                         <FileUploader
                             size={24}
@@ -664,9 +664,9 @@ export default observer(({ channel }: Props) => {
                             }}
                         />
                     </FileAction>
-                ) : (
+                {/* ) : (
                     <ThisCodeWillBeReplacedAnywaysSoIMightAsWellJustDoItThisWay__Padding />
-                )}
+                )} */}
                 <TextAreaAutoSize
                     autoFocus
                     hideBorder
