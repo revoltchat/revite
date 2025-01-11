@@ -7,10 +7,10 @@ import { ModalForm } from "@revoltchat/ui";
 
 import { noopAsync } from "../../../lib/js";
 
-import { IS_REVOLT } from "../../../version";
 import { takeError } from "../../client/jsx/error";
 import { modalController } from "../ModalController";
 import { ModalProps } from "../types";
+import { IS_REVOLT } from "../../../version";
 
 /**
  * Code block which displays invite
@@ -37,6 +37,7 @@ export default function CreateInvite({
 }: ModalProps<"create_invite">) {
     const [processing, setProcessing] = useState(false);
     const [code, setCode] = useState("abcdef");
+    const [url, setUrl] = useState("abcdef");
 
     // Generate an invite code
     useEffect(() => {
@@ -44,7 +45,10 @@ export default function CreateInvite({
 
         target
             .createInvite()
-            .then(({ _id }) => setCode(_id))
+            .then((res) => {
+                setUrl(res.url || "default_url");
+                setCode(res._id || "default_code");
+            })
             .catch((err) =>
                 modalController.push({ type: "error", error: takeError(err) }),
             )
@@ -65,7 +69,7 @@ export default function CreateInvite({
                     ) : (
                         <Invite>
                             <Text id="app.special.modals.prompt.create_invite_created" />
-                            <code>{code}</code>
+                            <code style="font-size:14px">{url}</code>
                         </Invite>
                     ),
                 },
@@ -79,9 +83,7 @@ export default function CreateInvite({
                     children: <Text id="app.context_menu.copy_link" />,
                     onClick: () =>
                         modalController.writeText(
-                            IS_REVOLT
-                                ? `https://rvlt.gg/${code}`
-                                : `https://${window.location.host}/invite/${code}`,
+                            `${url}`
                         ),
                 },
             ]}
