@@ -257,25 +257,27 @@ export default observer(({ channel }: Props) => {
             </Base>
         );
     }
-    console.log(channel)
-    if (!channel.havePermission("SendMessage") && channel.recipient?.relationship == "Blocked" || channel.recipient?.relationship == "BlockedOther"){
-        return (
-            <Base>
-                <Blocked>
-                    <Action>
-                        <PermissionTooltip
-                            permission="SendMessages"
-                            placement="top">
-                            <ShieldX size={22} />
-                        </PermissionTooltip>
-                    </Action>
-                    <div className="text">
-                        <Text id="app.main.channel.misc.no_sending" />
-                    </div>
-                </Blocked>
-            </Base>
-        );
-    }
+    console.log(channel) //||  channel.channel_type != "DirectMessage"
+    if (channel.channel_type != "SavedMessages")
+        if (!channel.havePermission("SendMessage") && channel.channel_type == "TextChannel" || channel.recipient?.relationship == "Blocked" || channel.recipient?.relationship == "BlockedOther"){
+
+            return (
+                <Base>
+                    <Blocked>
+                        <Action>
+                            <PermissionTooltip
+                                permission="SendMessages"
+                                placement="top">
+                                <ShieldX size={22} />
+                            </PermissionTooltip>
+                        </Action>
+                        <div className="text">
+                            <Text id="app.main.channel.misc.no_sending" />
+                        </div>
+                    </Blocked>
+                </Base>
+            );
+        }
     // Push message content to draft.
     const setMessage = useCallback(
         (content?: string) => {
