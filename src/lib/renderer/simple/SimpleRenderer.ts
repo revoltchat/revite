@@ -28,6 +28,7 @@ export const SimpleRenderer: RendererRoutines = {
                 renderer.channel
                     .fetchMessagesWithUsers({})
                     .then(({ messages }) => {
+                        console.log(messages, 9090);
                         messages.reverse();
 
                         runInAction(() => {

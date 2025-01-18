@@ -1,0 +1,423 @@
+import { LeftArrow, LeftArrowAlt, Pin, UpArrowAlt } from "@styled-icons/boxicons-regular";
+import { observer } from "mobx-react-lite";
+import { useHistory } from "react-router-dom";
+import { Channel } from "revolt.js";
+import { decodeTime } from "ulid";
+
+import { Text } from "preact-i18n";
+import { useEffect, useState } from "preact/hooks";
+
+import { internalSubscribe } from "../../../../lib/eventEmitter";
+import { getRenderer } from "../../../../lib/renderer/Singleton";
+
+import { dayjs } from "../../../../context/Locale";
+import styled, { css } from "styled-components/macro";
+
+import classNames from "classnames";
+import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
+import { useClient } from "../../../../controllers/client/ClientController";
+import { Message } from "revolt.js/esm";
+export const PinBar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
+    z-index: 2;
+    position: relative;
+
+    @keyframes bottomBounce {
+        0% {
+            transform: translateY(33px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    @keyframes topBounce {
+        0% {
+            transform: translateY(-33px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    ${(props) =>
+        props.position === "top" &&
+        css`
+            top: 0;
+           
+            
+            animation: topBounce 1s cubic-bezier(0.2, 0.9, 0.5, 1.16)
+                forwards;
+        `}
+
+    ${(props) =>
+        props.position === "bottom" &&
+        css`
+            top: -28px;
+            animation: bottomBounce 340ms cubic-bezier(0.2, 0.9, 0.5, 1.16)
+                forwards;
+
+            ${() =>
+                isTouchscreenDevice &&
+                css`
+                    top: -90px;
+                `}
+        `}
+
+    > div {
+     min-height: 120px;
+     max-height: 200px;
+     
+        height: auto;
+        width: 40%;
+        right : 0px !important;
+        position: absolute;
+        display: block;
+        align-items: center;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 0 8px;
+        user-select: none;
+        justify-content: space-between;
+        transition: color ease-in-out 0.08s;
+
+        white-space: nowrap;
+        overflow: scroll;
+        text-overflow: ellipsis;
+
+        ${(props) =>
+        props.accent
+            ? css`
+                      color: var(--accent-contrast);
+                      background-color: var(--hover)!important;
+                      backdrop-filter: blur(20px);
+                  `
+            : css`
+                      color: var(--secondary-foreground);
+                      background-color: rgba(
+                          var(--secondary-background-rgb),
+                          max(var(--min-opacity), 0.9)
+                      );
+                      backdrop-filter: blur(20px);
+                  `}
+
+        ${(props) =>
+        props.position === "top"
+            ? css`
+                      top: 48px;
+                      border-radius: 0 0 var(--border-radius)
+                          var(--border-radius);
+                  `
+            : css`
+                      border-radius: var(--border-radius) var(--border-radius) 0
+                          0;
+                  `}
+
+                  ${() =>
+        isTouchscreenDevice &&
+        css`
+                top: 56px;
+            `}
+
+        > div {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        &:hover {
+            color: var(--primary-text);
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+
+        ${() =>
+        isTouchscreenDevice &&
+        css`
+                height: 34px;
+                padding: 0 12px;
+            `}
+    }
+
+    @media only screen and (max-width: 800px) {
+        .right > span {
+            display: none;
+        }
+    }
+`;
+
+
+
+
+
+export const PinIcon = styled.div<{ position: "top" | "bottom", accent?: boolean }>`
+    z-index: 2;
+    position: relative;
+
+    @keyframes bottomBounce {
+        0% {
+            transform: translateY(33px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    @keyframes topBounce {
+        0% {
+            transform: translateY(-33px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+   ${(props) =>
+        props.accent
+            ? css`
+                      color: var(--accent-contrast);
+                      background-color: var(--hover)!important;
+                      backdrop-filter: blur(20px);
+                  `
+            : css`
+                      color: var(--secondary-foreground);
+                      background-color: rgba(
+                          var(--secondary-background-rgb),
+                          max(var(--min-opacity), 0.9)
+                      );
+                      backdrop-filter: blur(20px);
+                  `}
+
+    ${(props) =>
+        props.position === "top" &&
+        css`
+            top: 5;
+            animation: topBounce 1s cubic-bezier(0.2, 0.9, 0.5, 1.16)
+                forwards;
+        `}
+
+   
+    > div {
+        height: auto;
+        width: auto;
+        right : 5px !important;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 8px 8px;
+        user-select: none;
+        justify-content: space-between;
+        transition: color ease-in-out 0.08s;
+
+        white-space: nowrap;
+    
+  ${(props) =>
+        props.accent
+            ? css`
+                      color: var(--accent-contrast);
+                      background-color: var(--hover)!important;
+                      backdrop-filter: blur(20px);
+                  `
+            : css`
+                      color: var(--secondary-foreground);
+                      background-color: rgba(
+                          var(--secondary-background-rgb),
+                          max(var(--min-opacity), 0.9)
+                      );
+                      backdrop-filter: blur(20px);
+                  `}
+
+        ${(props) =>
+        props.position === "top"
+            ? css`
+                      top: 52px;
+                      border-radius: 0 0 var(--border-radius)
+                          var(--border-radius);
+                  `
+            : css`
+                      border-radius: var(--border-radius) var(--border-radius) 0
+                          0;
+                  `}
+
+                  ${() =>
+        isTouchscreenDevice &&
+        css`
+                top: 56px;
+            `}
+
+        
+    }
+
+    @media only screen and (max-width: 800px) {
+        .right > span {
+            display: none;
+        }
+    }
+`;
+
+
+
+
+export default observer(
+    ({ channel }: { channel: Channel; }) => {
+        const [hidden, setHidden] = useState(true);
+        const unhide = () => setHidden(false);
+
+        // useEffect(() => setHidden(false), [last_id]);
+        // useEffect(() => internalSubscribe("NewMessages", "hide", hide), []);
+        // useEffect(() => {
+        //     const onKeyDown = (e: KeyboardEvent) =>
+        //         e.key === "Escape" && hide();
+
+        //     document.addEventListener("keydown", onKeyDown);
+        //     return () => document.removeEventListener("keydown", onKeyDown);
+        // }, []);
+
+        // const extendedMessage = new MessageExtendedClass(client);
+
+
+        // useEffect(() => {
+        //     if (last_id) {
+        //         try {
+        //             setTimeAgo(dayjs(decodeTime(last_id)).fromNow());
+        //         } catch (err) { }
+        //     }
+        // }, [last_id]);
+
+        const renderer = getRenderer(channel);
+        const history = useHistory();
+        if (renderer.state !== "RENDER") return null;
+        // if (!last_id) return null;
+        // if (hidden) return null;
+
+
+        // renderer.messages.slice().reverse().map((res, i) => {
+        //     console.log(res, 8989)
+        // })
+        function truncateText(text: string, chars: number) {
+            if (text.length > chars) {
+                return text.slice(0, chars) + "..";
+            }
+            return text;
+        }
+
+
+
+        let pinFound = false
+        return (
+            <>
+                <PinIcon position="top" accent>
+                    <div
+                        onClick={() => unhide()}
+                    >
+
+                        <Pin size={24} />
+                    </div>
+                </PinIcon>
+
+
+                {!hidden && <PinBar accent position="top"  >
+                    <div>
+                        <div
+                            onClick={() => setHidden(true)}
+                            style={{
+                                backgroundColor: "var(--block)",
+                                width: "100%",
+                                position: "sticky",
+                                top: "0px",
+                                display: "flex",
+
+                                justifyContent: "space-between",
+                                borderRadius: "5px",
+                                padding: "8px 8px"
+
+                            }}>
+
+                            <LeftArrowAlt size={20} onClick={() => setHidden(true)} />
+
+                            <Text
+                                id="app.main.channel.misc.pinned_message_title"
+                            />
+                            <Pin size={20} />
+                        </div>
+
+
+
+                        <div style={{ display: 'grid', flexDirection: "column" }} >
+                            {
+
+                                renderer.messages.slice().reverse().map((msg, i) => {
+                                    if (msg.is_pinned) {
+                                        // console.log(msg, 8989)
+                                        let content = msg.content ? truncateText(msg.content, 20) : ""
+                                        pinFound = true
+                                        return (
+
+                                            <div
+
+                                                onClick={() => {
+                                                    // setHidden(true);
+                                                    if (channel.channel_type === "TextChannel") {
+                                                        history.push(
+                                                            `/server/${channel.server_id}/channel/${channel._id}/${msg._id}`,
+                                                        );
+                                                    } else {
+                                                        history.push(`/channel/${channel._id}/${msg._id}`);
+                                                    }
+                                                }}
+
+
+                                                style={{ display: 'flex', paddingTop: "5px" }}>
+                                                <>. {" "}</>
+                                                <Text
+
+                                                    id="app.main.channel.misc.pinned_message"
+                                                    fields={{
+                                                        message_summery: content,
+                                                    }}
+                                                />
+                                            </div>
+                                        )
+                                    }
+
+                                })
+
+
+
+                            }
+
+                            {!renderer.atTop && <div
+
+                                onClick={() => {
+                                    // setHidden(true);
+                                    renderer.loadTop()
+                                }}
+
+
+                                style={{ display: 'flex', paddingTop: "5px", justifyContent: "center" }}>
+
+                                <Text
+
+                                    id="app.main.channel.misc.pinned_load_more"
+
+                                />
+                            </div>}
+
+                        </div>
+
+
+
+
+                    </div>
+                </PinBar>}
+            </>
+        );
+    },
+);

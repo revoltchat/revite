@@ -25,6 +25,8 @@ export function internalEmit(ns: string, event: string, ...args: unknown[]) {
 // - Intermediate/open_profile
 // - Intermediate/navigate
 // - MessageBox/append
+// - MessageBox/pin
+// - MessageBox/unpin
 // - TextArea/focus
 // - ReplyBar/add
 // - Modal/close
