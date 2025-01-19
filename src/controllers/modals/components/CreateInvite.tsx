@@ -65,7 +65,7 @@ export default function CreateInvite({
                     ) : (
                         <Invite>
                             <Text id="app.special.modals.prompt.create_invite_created" />
-                            <code>{code}</code>
+                            <code style="font-size:14px">https://{window.location.host}/invite/{code}</code>
                         </Invite>
                     ),
                 },
