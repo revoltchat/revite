@@ -46,7 +46,6 @@ export default function CreateInvite({
         target
             .createInvite()
             .then((res) => {
-                setUrl(res.url || "default_url");
                 setCode(res._id || "default_code");
             })
             .catch((err) =>
