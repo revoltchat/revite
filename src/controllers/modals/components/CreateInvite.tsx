@@ -37,7 +37,6 @@ export default function CreateInvite({
 }: ModalProps<"create_invite">) {
     const [processing, setProcessing] = useState(false);
     const [code, setCode] = useState("abcdef");
-    const [url, setUrl] = useState("abcdef");
 
     // Generate an invite code
     useEffect(() => {
