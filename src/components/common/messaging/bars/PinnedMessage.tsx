@@ -45,11 +45,9 @@ export const PinBar = styled.div<{ position: "top" | "bottom"; accent?: boolean 
     ${(props) =>
         props.position === "top" &&
         css`
-            top: 10;           
+            top: 0;
             animation: topBounce 1s cubic-bezier(0.2, 0.9, 0.5, 1.16)
                 forwards;
-
-           
         `}
 
     ${(props) =>
@@ -71,27 +69,14 @@ export const PinBar = styled.div<{ position: "top" | "bottom"; accent?: boolean 
         isMobile ?
             css`
             width: 100%;
-     
-               
-                
                 ` : isDesktop ?
                 css`
-              
-              
-               
-                 width: 40%;
-                    `
+                 width: 40%;`
                 :
                 css`
-              
-             
-               
                  width: 70%;
                     `
     }
-
-     
-       
         right : 0px !important;
         height: auto;
         max-height: 600px;
@@ -400,33 +385,15 @@ export default observer(
                                                 }}
                                                 style={{ display: 'flex', paddingTop: "5px" }}
                                             >
-
                                                 <Message
-
                                                     message={msg}
                                                     key={msg._id}
                                                     head={true}
                                                     content={
                                                         undefined
                                                     }
-
-
                                                 />
                                             </div>
-                                            // <div
-
-
-
-                                            // >
-                                            //     <>. {" "}</>
-                                            //     <Text
-
-                                            //         id="app.main.channel.misc.pinned_message"
-                                            //         fields={{
-                                            //             message_summery: content,
-                                            //         }}
-                                            //     />
-                                            // </div>
                                         )
                                     }
 
