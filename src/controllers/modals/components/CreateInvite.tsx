@@ -37,6 +37,7 @@ export default function CreateInvite({
 }: ModalProps<"create_invite">) {
     const [processing, setProcessing] = useState(false);
     const [code, setCode] = useState("abcdef");
+    const [url, setUrl] = useState("abcdef");
 
     // Generate an invite code
     useEffect(() => {
@@ -44,7 +45,10 @@ export default function CreateInvite({
 
         target
             .createInvite()
-            .then(({ _id }) => setCode(_id))
+            .then((res) => {
+                setUrl(res.url || "default_url");
+                setCode(res._id || "default_code");
+            })
             .catch((err) =>
                 modalController.push({ type: "error", error: takeError(err) }),
             )
@@ -65,7 +69,7 @@ export default function CreateInvite({
                     ) : (
                         <Invite>
                             <Text id="app.special.modals.prompt.create_invite_created" />
-                            <code style="font-size:14px">https://{window.location.host}/invite/{code}</code>
+                            <code style="font-size:14px">{url}</code>
                         </Invite>
                     ),
                 },
@@ -79,11 +83,10 @@ export default function CreateInvite({
                     children: <Text id="app.context_menu.copy_link" />,
                     onClick: () =>
                         modalController.writeText(
-                            `https://${window.location.host}/invite/${code}`
+                            `${url}`
                         ),
                 },
             ]}
         />
     );
 }
-
