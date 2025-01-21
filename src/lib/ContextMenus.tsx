@@ -59,6 +59,7 @@ type Action =
     | { action: "mark_server_as_read"; server: Server }
     | { action: "mark_unread"; message: Message }
     | { action: "pin_message"; channel: any; message: any }
+    | { action: "unpin_message"; channel: any; message: any }
     | { action: "retry_message"; message: QueuedMessage }
     | { action: "cancel_message"; message: QueuedMessage }
     | { action: "mention"; user: string }
@@ -213,11 +214,13 @@ export default function ContextMenus() {
                         const index = messages.findIndex(
                             (x) => x._id === data.message._id,
                         );
+                    
                         let message
 
-                        if (index > 0) {
+                        if (index > -1) {
                             message = messages[index];
                         }
+                        console.log(message,7878)
 
                         internalEmit("MessageBox", "pin", message);
 
