@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { Channel } from "revolt.js";
 import { decodeTime } from "ulid";
+import { isDesktop, isMobile, isTablet } from "react-device-detect";
 
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
@@ -16,7 +17,9 @@ import styled, { css } from "styled-components/macro";
 import classNames from "classnames";
 import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import { useClient } from "../../../../controllers/client/ClientController";
-import { Message } from "revolt.js/esm";
+import Message from "../Message";
+import { API, Message as MessageI, Nullable } from "revolt.js";
+
 export const PinBar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
     z-index: 2;
     position: relative;
@@ -42,11 +45,11 @@ export const PinBar = styled.div<{ position: "top" | "bottom"; accent?: boolean 
     ${(props) =>
         props.position === "top" &&
         css`
-            top: 0;
-           
-            
+            top: 10;           
             animation: topBounce 1s cubic-bezier(0.2, 0.9, 0.5, 1.16)
                 forwards;
+
+           
         `}
 
     ${(props) =>
@@ -64,12 +67,35 @@ export const PinBar = styled.div<{ position: "top" | "bottom"; accent?: boolean 
         `}
 
     > div {
-     min-height: 120px;
-     max-height: 200px;
+      ${() =>
+        isMobile ?
+            css`
+            width: 100%;
      
-        height: auto;
-        width: 40%;
+               
+                
+                ` : isDesktop ?
+                css`
+              
+              
+               
+                 width: 40%;
+                    `
+                :
+                css`
+              
+             
+               
+                 width: 70%;
+                    `
+    }
+
+     
+       
         right : 0px !important;
+        height: auto;
+        max-height: 600px;
+        min-height: 120px;
         position: absolute;
         display: block;
         align-items: center;
@@ -307,6 +333,7 @@ export default observer(
             }
             return text;
         }
+        const client = useClient()
 
 
 
@@ -333,7 +360,7 @@ export default observer(
                                 position: "sticky",
                                 top: "0px",
                                 display: "flex",
-
+                                zIndex: 2,
                                 justifyContent: "space-between",
                                 borderRadius: "5px",
                                 padding: "8px 8px"
@@ -355,13 +382,11 @@ export default observer(
 
                                 renderer.messages.slice().reverse().map((msg, i) => {
                                     if (msg.is_pinned) {
-                                        // console.log(msg, 8989)
-                                        let content = msg.content ? truncateText(msg.content, 20) : ""
+                                        let content = msg.content ? truncateText(msg.content, 220) : ""
                                         pinFound = true
                                         return (
 
                                             <div
-
                                                 onClick={() => {
                                                     // setHidden(true);
                                                     if (channel.channel_type === "TextChannel") {
@@ -371,19 +396,37 @@ export default observer(
                                                     } else {
                                                         history.push(`/channel/${channel._id}/${msg._id}`);
                                                     }
+                                                    setHidden(true)
                                                 }}
+                                                style={{ display: 'flex', paddingTop: "5px" }}
+                                            >
+
+                                                <Message
+
+                                                    message={msg}
+                                                    key={msg._id}
+                                                    head={true}
+                                                    content={
+                                                        undefined
+                                                    }
 
 
-                                                style={{ display: 'flex', paddingTop: "5px" }}>
-                                                <>. {" "}</>
-                                                <Text
-
-                                                    id="app.main.channel.misc.pinned_message"
-                                                    fields={{
-                                                        message_summery: content,
-                                                    }}
                                                 />
                                             </div>
+                                            // <div
+
+
+
+                                            // >
+                                            //     <>. {" "}</>
+                                            //     <Text
+
+                                            //         id="app.main.channel.misc.pinned_message"
+                                            //         fields={{
+                                            //             message_summery: content,
+                                            //         }}
+                                            //     />
+                                            // </div>
                                         )
                                     }
 

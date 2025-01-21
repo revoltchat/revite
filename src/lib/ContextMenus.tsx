@@ -241,7 +241,7 @@ export default function ContextMenus() {
                         );
                         let message
 
-                        if (index > 0) {
+                        if (index > -1) {
                             message = messages[index];
                         }
 
