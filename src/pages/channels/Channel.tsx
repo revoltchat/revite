@@ -98,10 +98,9 @@ export const Channel = observer(
     ({ id, server_id }: { id: string; server_id: string }) => {
         const client = useClient();
         const state = useApplicationState();
-
-        if (!client.channels.exists(id)) {
-            if (server_id && !client.channels.exists(id)) {
-                const server = client.servers.get(server_id);
+        if (!client.channels.get(id)) {      
+            if (server_id) {
+                  const server = client.servers.get(server_id);
                 if (server && server.channel_ids.length > 0) {
                     let target_id = server.channel_ids[0];
                     const last_id = state.layout.getLastOpened(server_id);
