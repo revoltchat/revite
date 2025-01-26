@@ -8,4 +8,4 @@
 [submodule "external/revolt.js"]
 	path = external/revolt.js
 	url = https://github.com/archem-team/revolt.js
-	branch = revite-backports
+	branch = pin_message
