@@ -308,8 +308,8 @@ export default observer(
         // if (!last_id) return null;
         // if (hidden) return null;
 
-
-        // renderer.messages.slice().reverse().map((res, i) => {
+        // console.log(renderer.pinned_messages, "PINNED MESSAGES")
+        // renderer.pinned_messages.slice().reverse().map((res, i) => {
         //     console.log(res, 8989)
         // })
         function truncateText(text: string, chars: number) {
@@ -365,7 +365,7 @@ export default observer(
                         <div style={{ display: 'grid', flexDirection: "column" }} >
                             {
 
-                                renderer.messages.slice().reverse().map((msg, i) => {
+                                renderer.pinned_messages.slice().reverse().map((msg, i) => {
                                     if (msg.is_pinned) {
                                         let content = msg.content ? truncateText(msg.content, 220) : ""
                                         pinFound = true
@@ -413,11 +413,11 @@ export default observer(
 
                                 style={{ display: 'flex', paddingTop: "5px", justifyContent: "center" }}>
 
-                                <Text
+                                {/* <Text
 
                                     id="app.main.channel.misc.pinned_load_more"
 
-                                />
+                                /> */}
                             </div>}
 
                         </div>
