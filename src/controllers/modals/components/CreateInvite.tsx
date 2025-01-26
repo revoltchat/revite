@@ -69,7 +69,7 @@ export default function CreateInvite({
                     ) : (
                         <Invite>
                             <Text id="app.special.modals.prompt.create_invite_created" />
-                            <code style="font-size:14px">{url}</code>
+                            <code>{code}</code>
                         </Invite>
                     ),
                 },
@@ -83,7 +83,7 @@ export default function CreateInvite({
                     children: <Text id="app.context_menu.copy_link" />,
                     onClick: () =>
                         modalController.writeText(
-                            `${url}`
+                            IS_REVOLT ? `https://rvlt.gg/${code}` : `${window.location.host}/invite/${code}`
                         ),
                 },
             ]}
