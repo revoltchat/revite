@@ -45,6 +45,8 @@
     },
     "dependencies": {
         "@revoltchat/rehype-katex": "6.0.3-patch.1",
+        "@sentry/react": "^8.51.0",
+        "@sentry/tracing": "^7.120.3",
         "fs-extra": "^10.0.0",
         "klaw": "^3.0.0",
         "lottie-react": "^2.4.0",
