@@ -280,38 +280,28 @@ export default observer(
     ({ channel }: { channel: Channel; }) => {
         const [hidden, setHidden] = useState(true);
         const unhide = () => setHidden(false);
-
-        // useEffect(() => setHidden(false), [last_id]);
-        // useEffect(() => internalSubscribe("NewMessages", "hide", hide), []);
-        // useEffect(() => {
-        //     const onKeyDown = (e: KeyboardEvent) =>
-        //         e.key === "Escape" && hide();
-
-        //     document.addEventListener("keydown", onKeyDown);
-        //     return () => document.removeEventListener("keydown", onKeyDown);
-        // }, []);
-
-        // const extendedMessage = new MessageExtendedClass(client);
-
-
-        // useEffect(() => {
-        //     if (last_id) {
-        //         try {
-        //             setTimeAgo(dayjs(decodeTime(last_id)).fromNow());
-        //         } catch (err) { }
-        //     }
-        // }, [last_id]);
-
         const renderer = getRenderer(channel);
+        useEffect(() => {
+            // Subscribe to the update event for pinned messages
+            const unsubscribe = internalSubscribe(
+                "PinnedMessage",
+                "update",
+                (newMessage: unknown) => {
+                    const message = newMessage as MessageI;
+                    if (!renderer.pinned_messages.find((msg) => msg._id === message._id)) {
+                        renderer.pinned_messages.push(message);
+                    }
+                }
+            );
+
+            // Cleanup subscription on unmount
+            return () => unsubscribe();
+        }, [renderer]);
+
+
+
         const history = useHistory();
         if (renderer.state !== "RENDER") return null;
-        // if (!last_id) return null;
-        // if (hidden) return null;
-
-        // console.log(renderer.pinned_messages, "PINNED MESSAGES")
-        // renderer.pinned_messages.slice().reverse().map((res, i) => {
-        //     console.log(res, 8989)
-        // })
         function truncateText(text: string, chars: number) {
             if (text.length > chars) {
                 return text.slice(0, chars) + "..";
@@ -319,7 +309,6 @@ export default observer(
             return text;
         }
         const client = useClient()
-
 
 
         let pinFound = false

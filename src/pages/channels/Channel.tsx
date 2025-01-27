@@ -100,7 +100,7 @@ export const Channel = observer(
         const client = useClient();
         const state = useApplicationState();
 
-        if (!client.channels.exists(id) && server_id) {
+        if (!client.channels.get(id)) {
             if (server_id) {
                 const server = client.servers.get(server_id);
                 if (server && server.channel_ids.length > 0) {

@@ -214,14 +214,16 @@ export default function ContextMenus() {
                         const index = messages.findIndex(
                             (x) => x._id === data.message._id,
                         );
-                    
+
                         let message
 
                         if (index > -1) {
                             message = messages[index];
                         }
-                        console.log(message,7878)
 
+                        if (message) {
+                            internalEmit("PinnedMessage", "update", message);
+                        }
                         internalEmit("MessageBox", "pin", message);
 
                         // data.message.channel?.ack(pin_id, true);
