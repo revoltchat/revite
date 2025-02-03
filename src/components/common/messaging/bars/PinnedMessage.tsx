@@ -299,7 +299,6 @@ export default observer(
         }, [renderer]);
 
 
-
         const history = useHistory();
         if (renderer.state !== "RENDER") return null;
         function truncateText(text: string, chars: number) {
@@ -322,7 +321,7 @@ export default observer(
                     </PinIcon>
                 )}
                 {!hidden && <PinBar accent position="top"  >
-                    <div>
+                    <div style={{ height: 'auto' }}>
                         <div
                             onClick={() => setHidden(true)}
                             style={{
