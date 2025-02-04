@@ -93,7 +93,7 @@ export const PinMessageBox = observer(
 
 
         let children = null;
-        let userName = message.client ? message.client.user?.username : ""
+        let userName = message.client ? message.system.by_username : ""
 
 
         if (data.type as string == "message_pinned") {

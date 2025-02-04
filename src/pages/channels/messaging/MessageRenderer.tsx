@@ -164,8 +164,6 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
                 previous.masquerade,
             );
         }
-        // console.log(renderer.messages[i].content, 7979)
-
 
         if (message.system?.type as any == "message_pinned" || message.system?.type as any == "message_unpinned") {
             render.push(
