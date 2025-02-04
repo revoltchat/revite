@@ -282,8 +282,8 @@ export default observer(
         const unhide = () => setHidden(false);
         const renderer = getRenderer(channel);
         useEffect(() => {
-            // Subscribe to the update event for pinned messages
-            const unsubscribe = internalSubscribe(
+            // Subscribe to the update and delete events for pinned messages
+            const unsubscribeUpdate = internalSubscribe(
                 "PinnedMessage",
                 "update",
                 (newMessage: unknown) => {
@@ -294,8 +294,22 @@ export default observer(
                 }
             );
 
-            // Cleanup subscription on unmount
-            return () => unsubscribe();
+            const unsubscribeDelete = internalSubscribe(
+                "PinnedMessage",
+                "delete",
+                (deletedMessageId: unknown) => {
+                    const message = deletedMessageId as MessageI;
+                    renderer.pinned_messages = renderer.pinned_messages.filter(
+                        (msg) => msg._id !== deletedMessageId
+                    );
+                }
+            );
+
+            // Cleanup subscriptions on unmount
+            return () => {
+                unsubscribeUpdate();
+                unsubscribeDelete();
+            };
         }, [renderer]);
 
 
