@@ -377,6 +377,7 @@ export default observer(
                                                     content={
                                                         undefined
                                                     }
+                                                    type_msg="pin"
                                                 />
                                             </div>
                                         )

@@ -51,6 +51,7 @@ const Message = observer(
         head: preferHead,
         queued,
         hideReply,
+        type_msg,
     }: Props) => {
         const client = message.client;
         const user = message.author;
@@ -61,11 +62,11 @@ const Message = observer(
 
         const userContext = attachContext
             ? useTriggerEvents("Menu", {
-                  user: message.author_id,
-                  contextualChannel: message.channel_id,
-                  contextualMessage: message._id,
-                  // eslint-disable-next-line
-              })
+                user: message.author_id,
+                contextualChannel: message.channel_id,
+                contextualMessage: message._id,
+                // eslint-disable-next-line
+            })
             : undefined;
 
         const openProfile = () =>
@@ -110,11 +111,11 @@ const Message = observer(
                         hideReply
                             ? false
                             : (head &&
-                                  !(
-                                      message.reply_ids &&
-                                      message.reply_ids.length > 0
-                                  )) ??
-                              false
+                                !(
+                                    message.reply_ids &&
+                                    message.reply_ids.length > 0
+                                )) ??
+                            false
                     }
                     contrast={contrast}
                     sending={typeof queued !== "undefined"}
@@ -126,10 +127,10 @@ const Message = observer(
                     failed={typeof queued?.error !== "undefined"}
                     {...(attachContext
                         ? useTriggerEvents("Menu", {
-                              message,
-                              contextualChannel: message.channel_id,
-                              queued,
-                          })
+                            message,
+                            contextualChannel: message.channel_id,
+                            queued,
+                        })
                         : undefined)}
                     onMouseEnter={() => setAnimate(true)}
                     onMouseLeave={() => setAnimate(false)}>
@@ -195,7 +196,7 @@ const Message = observer(
                         ))}
                         <Reactions message={message} />
                         {(mouseHovering || reactionsOpen) &&
-                            !replacement &&
+                            !replacement && !type_msg &&
                             !isTouchscreenDevice && (
                                 <MessageOverlayBar
                                     reactionsOpen={reactionsOpen}
