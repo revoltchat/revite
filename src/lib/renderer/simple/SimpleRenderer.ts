@@ -9,12 +9,14 @@ export const SimpleRenderer: RendererRoutines = {
             if (nearby)
                 renderer.channel
                     .fetchMessagesWithUsers({ nearby, limit: 100 })
-                    .then(({ messages }) => {
+                    .then(({ messages, pinned_messages }) => {
                         messages.sort((a, b) => a._id.localeCompare(b._id));
 
                         runInAction(() => {
                             renderer.state = "RENDER";
                             renderer.messages = messages;
+                            renderer.pinned_messages = pinned_messages;
+
                             renderer.atTop = false;
                             renderer.atBottom = false;
 
@@ -27,12 +29,12 @@ export const SimpleRenderer: RendererRoutines = {
             else
                 renderer.channel
                     .fetchMessagesWithUsers({})
-                    .then(({ messages }) => {
+                    .then(({ messages, pinned_messages }) => {
                         messages.reverse();
-
                         runInAction(() => {
                             renderer.state = "RENDER";
                             renderer.messages = messages;
+                            renderer.pinned_messages = pinned_messages;
                             renderer.atTop = messages.length < 50;
                             renderer.atBottom = true;
 

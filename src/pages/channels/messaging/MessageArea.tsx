@@ -23,11 +23,12 @@ import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { getRenderer } from "../../../lib/renderer/Singleton";
 import { ScrollState } from "../../../lib/renderer/types";
 
-import { useSession } from "../../../controllers/client/ClientController";
+import { useClient, useSession } from "../../../controllers/client/ClientController";
 import RequiresOnline from "../../../controllers/client/jsx/RequiresOnline";
 import { modalController } from "../../../controllers/modals/ModalController";
 import ConversationStart from "./ConversationStart";
 import MessageRenderer from "./MessageRenderer";
+import { Message } from "revolt.js/esm";
 
 const Area = styled.div.attrs({ "data-scroll-offset": "with-padding" })`
     height: 100%;
@@ -115,8 +116,8 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
                             101,
                             ref.current
                                 ? ref.current.scrollTop +
-                                      (ref.current.scrollHeight -
-                                          scrollState.current.previousHeight)
+                                (ref.current.scrollHeight -
+                                    scrollState.current.previousHeight)
                                 : 101,
                         ),
                         {
@@ -148,20 +149,48 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
     const atBottom = (offset = 0) =>
         ref.current
             ? Math.floor(ref.current?.scrollHeight - ref.current?.scrollTop) -
-                  offset <=
-              ref.current?.clientHeight
+            offset <=
+            ref.current?.clientHeight
             : true;
 
     const atTop = (offset = 0) =>
         ref.current ? ref.current.scrollTop <= offset : false;
+    const client = useClient()
+    function pin(message: Message) {
+        client.api.post(`/channels/${message.channel_id}/messages/${message._id}/pin` as any)
+        message.is_pinned = true
+    }
 
+    function unpin(message: Message) {
+        client.api.delete(`/channels/${message.channel_id}/messages/${message._id}/pin` as any)
+        message.is_pinned = false
+    }
     // ? Handle global jump to bottom, e.g. when editing last message in chat.
     useEffect(() => {
+
         return internalSubscribe("MessageArea", "jump_to_bottom", () =>
             setScrollState({ type: "ScrollToBottom" }),
         );
     }, [setScrollState]);
 
+    useEffect(() => {
+
+
+        return internalSubscribe(
+            "MessageBox",
+            "pin",
+            pin as (...args: unknown[]) => void,
+        );
+    }, []);
+    useEffect(() => {
+
+
+        return internalSubscribe(
+            "MessageBox",
+            "unpin",
+            unpin as (...args: unknown[]) => void,
+        );
+    }, []);
     // ? Handle events from renderer.
     useLayoutEffect(
         () => setScrollState(renderer.scrollState),

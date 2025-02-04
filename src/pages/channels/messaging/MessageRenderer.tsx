@@ -23,6 +23,7 @@ import { useClient } from "../../../controllers/client/ClientController";
 import RequiresOnline from "../../../controllers/client/jsx/RequiresOnline";
 import ConversationStart from "./ConversationStart";
 import MessageEditor from "./MessageEditor";
+import { PinMessageBox } from "../../../components/common/messaging/PinMessageBox";
 
 interface Props {
     last_id?: string;
@@ -150,8 +151,9 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
         );
         blocked = 0;
     }
+    let lastPinned = null
 
-    for (const message of renderer.messages) {
+    for (const [i, message] of renderer.messages.entries()) {
         if (previous) {
             compare(
                 message._id,
@@ -162,8 +164,21 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
                 previous.masquerade,
             );
         }
+        // console.log(renderer.messages[i].content, 7979)
 
-        if (message.author_id === "00000000000000000000000000") {
+
+        if (message.system?.type as any == "message_pinned" || message.system?.type as any == "message_unpinned") {
+            render.push(
+                <PinMessageBox
+                    key={message._id}
+                    message={message}
+                    attachContext
+                    channel={renderer.channel}
+                    highlight={highlight === message._id}
+                />
+                ,
+            );
+        } else if (message.author_id === "00000000000000000000000000") {
             render.push(
                 <SystemMessage
                     key={message._id}
@@ -171,7 +186,7 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
                     attachContext
                     highlight={highlight === message._id}
                 />,
-            );
+            )
         } else if (message.author?.relationship === "Blocked") {
             blocked++;
         } else {
@@ -204,6 +219,7 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
     const nonces = renderer.messages.map((x) => x.nonce);
     if (renderer.atBottom) {
         for (const msg of queue.get(renderer.channel._id)) {
+
             if (nonces.includes(msg.id)) continue;
 
             if (previous) {
@@ -221,6 +237,7 @@ export default observer(({ last_id, renderer, highlight }: Props) => {
                     author_id: userId!,
                 } as MessageI;
             }
+
 
             render.push(
                 <Message

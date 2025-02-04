@@ -26,6 +26,7 @@ import { PageHeader } from "../../components/ui/Header";
 import { useClient } from "../../controllers/client/ClientController";
 import ChannelHeader from "./ChannelHeader";
 import { MessageArea } from "./messaging/MessageArea";
+import PinnedMessage from "../../components/common/messaging/bars/PinnedMessage";
 
 const ChannelMain = styled.div.attrs({ "data-component": "channel" })`
     flex-grow: 1;
@@ -98,9 +99,10 @@ export const Channel = observer(
     ({ id, server_id }: { id: string; server_id: string }) => {
         const client = useClient();
         const state = useApplicationState();
-        if (!client.channels.get(id)) {      
+
+        if (!client.channels.get(id)) {
             if (server_id) {
-                  const server = client.servers.get(server_id);
+                const server = client.servers.get(server_id);
                 if (server && server.channel_ids.length > 0) {
                     let target_id = server.channel_ids[0];
                     const last_id = state.layout.getLastOpened(server_id);
@@ -109,7 +111,7 @@ export const Channel = observer(
                             target_id = last_id;
                         }
                     }
-                    
+
                     return (
                         <Redirect
                             to={`/server/${server_id}/channel/${target_id}`}
@@ -187,6 +189,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                 <ErrorBoundary section="renderer">
                     <ChannelContent>
                         <NewMessages channel={channel} last_id={lastId} />
+                        <PinnedMessage channel={channel} />
                         <MessageArea channel={channel} last_id={lastId} />
                         <TypingIndicator channel={channel} />
                         <JumpToBottom channel={channel} />

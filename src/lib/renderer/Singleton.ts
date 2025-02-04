@@ -15,6 +15,7 @@ export class ChannelRenderer {
     atTop: Nullable<boolean> = null;
     atBottom: Nullable<boolean> = null;
     messages: Message[] = [];
+    pinned_messages: Message[] = [];
 
     currentRenderer: RendererRoutines = SimpleRenderer;
 

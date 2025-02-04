@@ -55,11 +55,11 @@ export type UploadState =
     | { type: "none" }
     | { type: "attached"; files: File[] }
     | {
-          type: "uploading";
-          files: File[];
-          percent: number;
-          cancel: CancelTokenSource;
-      }
+        type: "uploading";
+        files: File[];
+        percent: number;
+        cancel: CancelTokenSource;
+    }
     | { type: "sending"; files: File[] }
     | { type: "failed"; files: File[]; error: string };
 
@@ -259,7 +259,7 @@ export default observer(({ channel }: Props) => {
     }
     console.log(channel) //||  channel.channel_type != "DirectMessage"
     if (channel.channel_type != "SavedMessages")
-        if (!channel.havePermission("SendMessage") && channel.channel_type == "TextChannel" || channel.recipient?.relationship == "Blocked" || channel.recipient?.relationship == "BlockedOther"){
+        if (!channel.havePermission("SendMessage") && channel.channel_type == "TextChannel" || channel.recipient?.relationship == "Blocked" || channel.recipient?.relationship == "BlockedOther") {
 
             return (
                 <Base>
@@ -299,9 +299,9 @@ export default observer(({ channel }: Props) => {
             const text =
                 action === "quote"
                     ? `${content
-                          .split("\n")
-                          .map((x) => `> ${x}`)
-                          .join("\n")}\n\n`
+                        .split("\n")
+                        .map((x) => `> ${x}`)
+                        .join("\n")}\n\n`
                     : `${content} `;
 
             if (!state.draft.has(channel._id)) {
@@ -355,8 +355,8 @@ export default observer(({ channel }: Props) => {
                     toReplace == ""
                         ? msg.content.toString() + newText
                         : msg.content
-                              .toString()
-                              .replace(new RegExp(toReplace, flags), newText);
+                            .toString()
+                            .replace(new RegExp(toReplace, flags), newText);
 
                 if (newContent != msg.content) {
                     if (newContent.length == 0) {
@@ -434,10 +434,10 @@ export default observer(({ channel }: Props) => {
                                     files,
                                     percent: Math.round(
                                         (i * 100 + (100 * e.loaded) / e.total) /
-                                            Math.min(
-                                                files.length,
-                                                CAN_UPLOAD_AT_ONCE,
-                                            ),
+                                        Math.min(
+                                            files.length,
+                                            CAN_UPLOAD_AT_ONCE,
+                                        ),
                                     ),
                                     cancel,
                                 }),
@@ -630,42 +630,42 @@ export default observer(({ channel }: Props) => {
             </FloatingLayer>
             <Base>
                 {/* {channel.havePermission("UploadFiles") ? ( */}
-                    <FileAction>
-                        <FileUploader
-                            size={24}
-                            behaviour="multi"
-                            style="attachment"
-                            fileType="attachments"
-                            maxFileSize={20_000_000}
-                            attached={uploadState.type !== "none"}
-                            uploading={
-                                uploadState.type === "uploading" ||
-                                uploadState.type === "sending"
-                            }
-                            remove={async () =>
-                                setUploadState({ type: "none" })
-                            }
-                            onChange={(files) =>
-                                setUploadState({ type: "attached", files })
-                            }
-                            cancel={() =>
-                                uploadState.type === "uploading" &&
-                                uploadState.cancel.cancel("cancel")
-                            }
-                            append={(files) => {
-                                if (files.length === 0) return;
+                <FileAction>
+                    <FileUploader
+                        size={24}
+                        behaviour="multi"
+                        style="attachment"
+                        fileType="attachments"
+                        maxFileSize={20_000_000}
+                        attached={uploadState.type !== "none"}
+                        uploading={
+                            uploadState.type === "uploading" ||
+                            uploadState.type === "sending"
+                        }
+                        remove={async () =>
+                            setUploadState({ type: "none" })
+                        }
+                        onChange={(files) =>
+                            setUploadState({ type: "attached", files })
+                        }
+                        cancel={() =>
+                            uploadState.type === "uploading" &&
+                            uploadState.cancel.cancel("cancel")
+                        }
+                        append={(files) => {
+                            if (files.length === 0) return;
 
-                                if (uploadState.type === "none") {
-                                    setUploadState({ type: "attached", files });
-                                } else if (uploadState.type === "attached") {
-                                    setUploadState({
-                                        type: "attached",
-                                        files: [...uploadState.files, ...files],
-                                    });
-                                }
-                            }}
-                        />
-                    </FileAction>
+                            if (uploadState.type === "none") {
+                                setUploadState({ type: "attached", files });
+                            } else if (uploadState.type === "attached") {
+                                setUploadState({
+                                    type: "attached",
+                                    files: [...uploadState.files, ...files],
+                                });
+                            }
+                        }}
+                    />
+                </FileAction>
                 {/* ) : (
                     <ThisCodeWillBeReplacedAnywaysSoIMightAsWellJustDoItThisWay__Padding />
                 )} */}
@@ -728,13 +728,13 @@ export default observer(({ channel }: Props) => {
                     placeholder={
                         channel.channel_type === "DirectMessage"
                             ? translate("app.main.channel.message_who", {
-                                  person: channel.recipient?.username,
-                              })
+                                person: channel.recipient?.username,
+                            })
                             : channel.channel_type === "SavedMessages"
-                            ? translate("app.main.channel.message_saved")
-                            : translate("app.main.channel.message_where", {
-                                  channel_name: channel.name ?? undefined,
-                              })
+                                ? translate("app.main.channel.message_saved")
+                                : translate("app.main.channel.message_where", {
+                                    channel_name: channel.name ?? undefined,
+                                })
                     }
                     disabled={
                         uploadState.type === "uploading" ||

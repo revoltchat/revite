@@ -58,6 +58,8 @@ type Action =
     | { action: "mark_as_read"; channel: Channel }
     | { action: "mark_server_as_read"; server: Server }
     | { action: "mark_unread"; message: Message }
+    | { action: "pin_message"; channel: any; message: any }
+    | { action: "unpin_message"; channel: any; message: any }
     | { action: "retry_message"; message: QueuedMessage }
     | { action: "cancel_message"; message: QueuedMessage }
     | { action: "mention"; user: string }
@@ -87,32 +89,32 @@ type Action =
     | { action: "create_channel"; target: Server }
     | { action: "create_category"; target: Server }
     | {
-          action: "create_invite";
-          target: Channel;
-      }
+        action: "create_invite";
+        target: Channel;
+    }
     | { action: "leave_group"; target: Channel }
     | {
-          action: "delete_channel";
-          target: Channel;
-      }
+        action: "delete_channel";
+        target: Channel;
+    }
     | { action: "close_dm"; target: Channel }
     | { action: "leave_server"; target: Server }
     | { action: "delete_server"; target: Server }
     | { action: "edit_identity"; target: Member }
     | {
-          action: "open_notification_options";
-          channel?: Channel;
-          server?: Server;
-      }
+        action: "open_notification_options";
+        channel?: Channel;
+        server?: Server;
+    }
     | { action: "open_settings" }
     | { action: "open_channel_settings"; id: string }
     | { action: "open_server_settings"; id: string }
     | { action: "open_server_channel_settings"; server: string; id: string }
     | {
-          action: "set_notification_state";
-          key: string;
-          state?: NotificationState;
-      }
+        action: "set_notification_state";
+        key: string;
+        state?: NotificationState;
+    }
     | { action: "report"; target: User | Server | Message; messageId?: string };
 
 // ! FIXME: I dare someone to re-write this
@@ -202,8 +204,54 @@ export default function ContextMenus() {
                         internalEmit("NewMessages", "mark", unread_id);
                         data.message.channel?.ack(unread_id, true);
                     }
+                case "pin_message":
+                    {
+
+
+                        const messages = getRenderer(
+                            data.message.channel!,
+                        ).messages;
+                        const index = messages.findIndex(
+                            (x) => x._id === data.message._id,
+                        );
+
+                        let message
+
+                        if (index > -1) {
+                            message = messages[index];
+                        }
+
+                        if (message) {
+                            internalEmit("PinnedMessage", "update", message);
+                        }
+                        internalEmit("MessageBox", "pin", message);
+
+                        // data.message.channel?.ack(pin_id, true);
+                    }
                     break;
 
+
+                case "unpin_message":
+                    {
+
+
+                        const messages = getRenderer(
+                            data.message.channel!,
+                        ).messages;
+                        const index = messages.findIndex(
+                            (x) => x._id === data.message._id,
+                        );
+                        let message
+
+                        if (index > -1) {
+                            message = messages[index];
+                        }
+
+                        internalEmit("MessageBox", "unpin", message);
+
+                        // data.message.channel?.ack(pin_id, true);
+                    }
+                    break;
                 case "retry_message":
                     {
                         const nonce = data.message.id;
@@ -513,9 +561,8 @@ export default function ContextMenus() {
                                         "Open User in Admin Panel"
                                     ) : (
                                         <Text
-                                            id={`app.context_menu.${
-                                                locale ?? action.action
-                                            }`}
+                                            id={`app.context_menu.${locale ?? action.action
+                                                }`}
                                         />
                                     )}
                                 </span>
@@ -573,7 +620,7 @@ export default function ContextMenus() {
                     const user = uid ? client.users.get(uid) : undefined;
                     const serverChannel =
                         targetChannel &&
-                        (targetChannel.channel_type === "TextChannel")
+                            (targetChannel.channel_type === "TextChannel")
                             ? targetChannel
                             : undefined;
 
@@ -585,8 +632,8 @@ export default function ContextMenus() {
                         (server
                             ? server.permission
                             : serverChannel
-                            ? serverChannel.server?.permission
-                            : 0) || 0;
+                                ? serverChannel.server?.permission
+                                : 0) || 0;
                     const userPermissions = (user ? user.permission : 0) || 0;
 
                     if (unread) {
@@ -810,6 +857,24 @@ export default function ContextMenus() {
                             action: "mark_unread",
                             message,
                         });
+                        if (sendPermission) {
+
+
+                            if (message.is_pinned && channel?.channel_type != "DirectMessage") {
+                                generateAction({
+                                    action: "unpin_message",
+                                    channel,
+                                    message
+                                });
+                            } else {
+                                generateAction({
+                                    action: "pin_message",
+                                    channel,
+                                    message
+                                });
+                            }
+
+                        }
 
                         if (
                             typeof message.content === "string" &&
@@ -880,8 +945,8 @@ export default function ContextMenus() {
                                 type === "Image"
                                     ? "open_image"
                                     : type === "Video"
-                                    ? "open_video"
-                                    : "open_file",
+                                        ? "open_video"
+                                        : "open_file",
                             );
 
                             generateAction(
@@ -892,8 +957,8 @@ export default function ContextMenus() {
                                 type === "Image"
                                     ? "save_image"
                                     : type === "Video"
-                                    ? "save_video"
-                                    : "save_file",
+                                        ? "save_video"
+                                        : "save_file",
                             );
 
                             generateAction(
@@ -929,8 +994,8 @@ export default function ContextMenus() {
                             type === "Image"
                                 ? "open_image"
                                 : type === "Video"
-                                ? "open_video"
-                                : "open_file",
+                                    ? "open_video"
+                                    : "open_file",
                         );
 
                         generateAction(
@@ -941,8 +1006,8 @@ export default function ContextMenus() {
                             type === "Image"
                                 ? "save_image"
                                 : type === "Video"
-                                ? "save_video"
-                                : "save_file",
+                                    ? "save_video"
+                                    : "save_file",
                         );
 
                         generateAction(
@@ -1130,8 +1195,8 @@ export default function ContextMenus() {
                                         type: cid
                                             ? "channel"
                                             : message
-                                            ? "message"
-                                            : "user",
+                                                ? "message"
+                                                : "user",
                                     },
                                     "admin",
                                 );
@@ -1158,8 +1223,8 @@ export default function ContextMenus() {
                                 cid
                                     ? "copy_cid"
                                     : message
-                                    ? "copy_mid"
-                                    : "copy_uid",
+                                        ? "copy_mid"
+                                        : "copy_uid",
                             );
                         }
                     }
