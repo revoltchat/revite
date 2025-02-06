@@ -329,9 +329,9 @@ export default observer(
             <>
                 {channel.channel_type != "DirectMessage" && (
                     <PinIcon position="top" accent>
-                        {/* <div onClick={() => unhide()}>
+                        <div onClick={() => unhide()}>
                             <Pin size={24} />
-                        </div> */}
+                        </div>
                     </PinIcon>
                 )}
                 {!hidden && <PinBar accent position="top"  >

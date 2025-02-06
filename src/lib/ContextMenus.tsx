@@ -857,7 +857,7 @@ export default function ContextMenus() {
                             action: "mark_unread",
                             message,
                         });
-                        if (1 == 2) {
+                        if (sendPermission) {
 
 
                             if (message.is_pinned && channel?.channel_type != "DirectMessage") {
