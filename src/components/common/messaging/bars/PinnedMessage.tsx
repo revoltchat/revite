@@ -327,7 +327,7 @@ export default observer(
         let pinFound = false
         return (
             <>
-                {channel.channel_type != "DirectMessage" && (
+                {(
                     <PinIcon position="top" accent>
                         <div onClick={() => unhide()}>
                             <Pin size={24} />
