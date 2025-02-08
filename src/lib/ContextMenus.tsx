@@ -204,6 +204,8 @@ export default function ContextMenus() {
                         internalEmit("NewMessages", "mark", unread_id);
                         data.message.channel?.ack(unread_id, true);
                     }
+                    break;
+
                 case "pin_message":
                     {
 
