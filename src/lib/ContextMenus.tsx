@@ -862,7 +862,7 @@ export default function ContextMenus() {
                         if (sendPermission) {
 
 
-                            if (message.is_pinned && channel?.channel_type != "DirectMessage") {
+                            if (message.is_pinned) {
                                 generateAction({
                                     action: "unpin_message",
                                     channel,
