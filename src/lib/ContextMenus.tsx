@@ -859,9 +859,8 @@ export default function ContextMenus() {
                             action: "mark_unread",
                             message,
                         });
-                        if (sendPermission) {
 
-
+                        if (channelPermissions & Permission.ManageMessages) {
                             if (message.is_pinned) {
                                 generateAction({
                                     action: "unpin_message",
@@ -875,7 +874,20 @@ export default function ContextMenus() {
                                     message
                                 });
                             }
-
+                        } else if (message.channel?.channel_type == "DirectMessage") {
+                            if (message.is_pinned) {
+                                generateAction({
+                                    action: "unpin_message",
+                                    channel,
+                                    message
+                                });
+                            } else {
+                                generateAction({
+                                    action: "pin_message",
+                                    channel,
+                                    message
+                                });
+                            }
                         }
 
                         if (
