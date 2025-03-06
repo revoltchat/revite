@@ -19,6 +19,7 @@ import Tooltip from "../../common/Tooltip";
 import UserIcon from "../../common/user/UserIcon";
 import { Username } from "../../common/user/UserShort";
 import UserStatus from "../../common/user/UserStatus";
+import { useClient } from "../../../controllers/client/ClientController";
 
 type CommonProps = Omit<
     JSX.HTMLAttributes<HTMLDivElement>,
@@ -37,6 +38,15 @@ type UserProps = CommonProps & {
     channel?: Channel;
 };
 
+// Helper function to convert mentions to usernames
+function convertMentionsToUsernames(content: string, client: any): string {
+    const mentionRegex = /<@([A-z0-9]{26})>/g;
+    return content.replace(mentionRegex, (match, userId) => {
+        const user = client.users.get(userId);
+        return user ? `@${user.username}` : match;
+    });
+}
+
 // TODO: Gray out blocked names.
 export const UserButton = observer((props: UserProps) => {
     const {
@@ -49,6 +59,8 @@ export const UserButton = observer((props: UserProps) => {
         channel,
         ...divProps
     } = props;
+
+    const client = useClient();
 
     return (
         <div
@@ -81,8 +93,8 @@ export const UserButton = observer((props: UserProps) => {
                 {
                     <div className={styles.subText}>
                         {typeof channel?.last_message?.content === "string" &&
-                        alert ? (
-                            channel.last_message.content.slice(0, 32)
+                            alert ? (
+                            convertMentionsToUsernames(channel.last_message.content, client).slice(0, 32)
                         ) : (
                             <UserStatus user={user} tooltip />
                         )}
@@ -140,6 +152,8 @@ export const ChannelButton = observer((props: ChannelProps) => {
         ...divProps
     } = props;
 
+    const client = useClient();
+
     if (channel.channel_type === "SavedMessages") throw "Invalid channel type.";
     if (channel.channel_type === "DirectMessage") {
         if (typeof user === "undefined") throw "No user provided.";
@@ -170,9 +184,9 @@ export const ChannelButton = observer((props: ChannelProps) => {
                 {channel.channel_type === "Group" && (
                     <div className={styles.subText}>
                         {typeof channel.last_message?.content === "string" &&
-                        alert &&
-                        !muted ? (
-                            channel.last_message.content.slice(0, 32)
+                            alert &&
+                            !muted ? (
+                            convertMentionsToUsernames(channel.last_message.content, client).slice(0, 32)
                         ) : (
                             <Text
                                 id="quantities.members"
