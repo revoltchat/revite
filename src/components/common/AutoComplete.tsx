@@ -17,19 +17,19 @@ import UserIcon from "./user/UserIcon";
 export type AutoCompleteState =
     | { type: "none" }
     | ({ selected: number; within: boolean } & (
-          | {
-                type: "emoji";
-                matches: (string | CustomEmoji)[];
-            }
-          | {
-                type: "user";
-                matches: User[];
-            }
-          | {
-                type: "channel";
-                matches: Channel[];
-            }
-      ));
+        | {
+            type: "emoji";
+            matches: (string | CustomEmoji)[];
+        }
+        | {
+            type: "user";
+            matches: User[];
+        }
+        | {
+            type: "channel";
+            matches: Channel[];
+        }
+    ));
 
 export type SearchClues = {
     users?: { type: "channel"; id: string } | { type: "all" };
@@ -89,8 +89,8 @@ export function useAutoComplete(
                         current === "#"
                             ? "channel"
                             : current === ":"
-                            ? "emoji"
-                            : "user",
+                                ? "emoji"
+                                : "user",
                         search.toLowerCase(),
                         current === ":" ? j + 1 : j,
                     ];
@@ -177,8 +177,8 @@ export function useAutoComplete(
                 const matches = (
                     search.length > 0
                         ? users.filter((user) =>
-                              user.username.toLowerCase().match(regex),
-                          )
+                            user.username.toLowerCase().match(regex),
+                        )
                         : users
                 )
                     .splice(0, 5)
@@ -209,8 +209,8 @@ export function useAutoComplete(
                 const matches = (
                     search.length > 0
                         ? channels.filter((channel) =>
-                              channel.name!.toLowerCase().match(regex),
-                          )
+                            channel.name!.toLowerCase().match(regex),
+                        )
                         : channels
                 )
                     .splice(0, 5)
@@ -255,12 +255,13 @@ export function useAutoComplete(
                         ": ",
                     );
                 } else if (state.type === "user") {
+                    const selectedUser = state.matches[state.selected];
                     content.splice(
                         index,
                         search.length + 1,
-                        "<@",
-                        state.matches[state.selected]._id,
-                        "> ",
+                        "@",
+                        selectedUser.username,
+                        " ",
                     );
                 } else {
                     content.splice(
@@ -460,11 +461,10 @@ export default function AutoComplete({
                                         size={20}
                                     />
                                 )}
-                                <span style={{ paddingLeft: "4px" }}>{`:${
-                                    match instanceof CustomEmoji
+                                <span style={{ paddingLeft: "4px" }}>{`:${match instanceof CustomEmoji
                                         ? match.name
                                         : match
-                                }:`}</span>
+                                    }:`}</span>
                             </div>
                             {match instanceof CustomEmoji &&
                                 match.parent.type == "Server" && (
