@@ -13,7 +13,7 @@ import { IconButton, Picker } from "@revoltchat/ui";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
 import { debounce } from "../../../lib/debounce";
-import { defer } from "../../../lib/defer";
+import { defer, chainedDefer } from "../../../lib/defer";
 import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { useTranslation } from "../../../lib/i18n";
 import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
@@ -325,9 +325,28 @@ export default observer(({ channel }: Props) => {
         if (uploadState.type === "uploading" || uploadState.type === "sending")
             return;
 
-        const content = state.draft.get(channel._id)?.content?.trim() ?? "";
+        let content = state.draft.get(channel._id)?.content?.trim() ?? "";
         if (uploadState.type !== "none") return sendFile(content);
         if (content.length === 0) return;
+
+        // Convert @username mentions to <@USER_ID> format
+        const mentionRegex = /@([a-zA-Z0-9_]+)/g;
+        const mentionMatches = content.match(mentionRegex);
+
+        if (mentionMatches) {
+            for (const mention of mentionMatches) {
+                const username = mention.substring(1); // Remove the @ symbol
+                // Find the user with this username
+                const user = Array.from(client.users.values()).find(
+                    (u) => u.username.toLowerCase() === username.toLowerCase()
+                );
+
+                if (user) {
+                    // Replace @username with <@USER_ID>
+                    content = content.replace(mention, `<@${user._id}>`);
+                }
+            }
+        }
 
         internalEmit("NewMessages", "hide");
         stopTyping();
@@ -366,7 +385,7 @@ export default observer(({ channel }: Props) => {
                             content: newContent.substr(0, 2000),
                         })
                             .then(() =>
-                                defer(() =>
+                                chainedDefer(() =>
                                     renderer.jumpToBottom(
                                         SMOOTH_SCROLL_ON_RECEIVE,
                                     ),
@@ -388,7 +407,8 @@ export default observer(({ channel }: Props) => {
                 replies,
             });
 
-            defer(() => renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE));
+            // Use chainedDefer for more reliable scrolling
+            chainedDefer(() => renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE));
 
             try {
                 await channel.sendMessage({
@@ -396,6 +416,9 @@ export default observer(({ channel }: Props) => {
                     nonce,
                     replies,
                 });
+
+                // Add another scroll to bottom after the message is sent
+                chainedDefer(() => renderer.jumpToBottom(SMOOTH_SCROLL_ON_RECEIVE));
             } catch (error) {
                 state.queue.fail(nonce, takeError(error));
             }
