@@ -202,11 +202,8 @@ export const Form = observer(({ page, callback }: Props) => {
                     />
                 )}
                 {error && (
-                    <p style={{ fontSize: "0.8em" }}>
-                        <Text id={`login.error.${page}`} /> &middot;{" "}
-                        <span style={{ color: "var(--error)" }}>
-                            <Text id={`error.${error}`} children={error} />
-                        </span>
+                    <p style={{ fontSize: "0.8em", color: "var(--error)" }}>
+                        <Text id={`error.${error}`} children={error} />
                     </p>
                 )}
                 <Button>
