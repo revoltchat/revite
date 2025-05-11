@@ -30,55 +30,18 @@ on:
     workflow_dispatch:
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                architecture: [linux/amd64]
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v2
-              with:
-                  submodules: "recursive"
-            - name: Set up QEMU
-              uses: docker/setup-qemu-action@v1
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v1
-            - name: Cache Docker layers
-              uses: actions/cache@v2
-              with:
-                  path: /tmp/.buildx-cache/${{ matrix.architecture }}
-                  key: ${{ runner.os }}-buildx-${{ matrix.architecture }}-${{ github.sha }}
-            - name: Build
-              uses: docker/build-push-action@v2
-              with:
-                  context: .
-                  platforms: ${{ matrix.architecture }}
-                  cache-from: type=local,src=/tmp/.buildx-cache/${{ matrix.architecture }}
-                  cache-to: type=local,dest=/tmp/.buildx-cache-new/${{ matrix.architecture }},mode=max
-            - name: Move cache
-              run: |
-                  rm -rf /tmp/.buildx-cache/${{ matrix.architecture }}
-                  mv /tmp/.buildx-cache-new/${{ matrix.architecture }} /tmp/.buildx-cache/${{ matrix.architecture }}
-
     publish:
-        needs: [test]
         runs-on: ubuntu-latest
         if: github.event_name != 'pull_request'
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                   submodules: "recursive"
             - name: Set up QEMU
-              uses: docker/setup-qemu-action@v1
+              uses: docker/setup-qemu-action@v3
             - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v1
-            - name: Cache amd64 Docker layers
-              uses: actions/cache@v2
-              with:
-                  path: /tmp/.buildx-cache/linux/amd64
-                  key: ${{ runner.os }}-buildx-linux/amd64-${{ github.sha }}
+              uses: docker/setup-buildx-action@v3
             - name: Docker meta
               id: meta
               uses: docker/metadata-action@v3
@@ -86,26 +49,22 @@ jobs:
                   images: revoltchat/client, ghcr.io/revoltchat/client
             - name: Login to DockerHub
               uses: docker/login-action@v1
+              if: github.event_name != 'pull_request'
               with:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_TOKEN }}
             - name: Login to Github Container Registry
-              uses: docker/login-action@v1
+              uses: docker/login-action@v3
+              if: github.event_name != 'pull_request'
               with:
                   registry: ghcr.io
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
             - name: Build and publish
-              uses: docker/build-push-action@v2
+              uses: docker/build-push-action@v6
               with:
                   context: .
-                  push: true
+                  push: ${{ github.event_name != 'pull_request' }}
                   platforms: linux/amd64
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
-                  cache-from: type=local,src=/tmp/.buildx-cache/linux/amd64
-                  cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-            - name: Move cache
-              run: |
-                  rm -rf /tmp/.buildx-cache
-                  mv /tmp/.buildx-cache-new /tmp/.buildx-cache
