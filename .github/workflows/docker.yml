@@ -4,6 +4,7 @@ on:
     push:
         branches:
             - "master"
+            - "pre-production"
         tags:
             - "*"
         paths-ignore:
@@ -18,6 +19,7 @@ on:
     pull_request:
         branches:
             - "master"
+            - "pre-production"
         paths-ignore:
             - ".github/**"
             - "!.github/workflows/docker.yml"
@@ -30,39 +32,39 @@ on:
     workflow_dispatch:
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                architecture: [linux/amd64]
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v2
-              with:
-                  submodules: "recursive"
-            - name: Set up QEMU
-              uses: docker/setup-qemu-action@v1
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v1
-            - name: Cache Docker layers
-              uses: actions/cache@v2
-              with:
-                  path: /tmp/.buildx-cache/${{ matrix.architecture }}
-                  key: ${{ runner.os }}-buildx-${{ matrix.architecture }}-${{ github.sha }}
-            - name: Build
-              uses: docker/build-push-action@v2
-              with:
-                  context: .
-                  platforms: ${{ matrix.architecture }}
-                  cache-from: type=local,src=/tmp/.buildx-cache/${{ matrix.architecture }}
-                  cache-to: type=local,dest=/tmp/.buildx-cache-new/${{ matrix.architecture }},mode=max
-            - name: Move cache
-              run: |
-                  rm -rf /tmp/.buildx-cache/${{ matrix.architecture }}
-                  mv /tmp/.buildx-cache-new/${{ matrix.architecture }} /tmp/.buildx-cache/${{ matrix.architecture }}
+    # test:
+    #     runs-on: ubuntu-latest
+    #     strategy:
+    #         matrix:
+    #             architecture: [linux/amd64]
+    #     steps:
+    #         - name: Checkout
+    #           uses: actions/checkout@v2
+    #           with:
+    #               submodules: "recursive"
+    #         - name: Set up QEMU
+    #           uses: docker/setup-qemu-action@v1
+    #         - name: Set up Docker Buildx
+    #           uses: docker/setup-buildx-action@v1
+    #         - name: Cache Docker layers
+    #           uses: actions/cache@v2
+    #           with:
+    #               path: /tmp/.buildx-cache/${{ matrix.architecture }}
+    #               key: ${{ runner.os }}-buildx-${{ matrix.architecture }}-${{ github.sha }}
+    #         - name: Build
+    #           uses: docker/build-push-action@v2
+    #           with:
+    #               context: .
+    #               platforms: ${{ matrix.architecture }}
+    #               cache-from: type=local,src=/tmp/.buildx-cache/${{ matrix.architecture }}
+    #               cache-to: type=local,dest=/tmp/.buildx-cache-new/${{ matrix.architecture }},mode=max
+    #         - name: Move cache
+    #           run: |
+    #               rm -rf /tmp/.buildx-cache/${{ matrix.architecture }}
+    #               mv /tmp/.buildx-cache-new/${{ matrix.architecture }} /tmp/.buildx-cache/${{ matrix.architecture }}
 
     publish:
-        needs: [test]
+        # needs: [test]
         runs-on: ubuntu-latest
         if: github.event_name != 'pull_request'
         steps:
@@ -83,18 +85,20 @@ jobs:
               id: meta
               uses: docker/metadata-action@v3
               with:
-                  images: revoltchat/client, ghcr.io/revoltchat/client
-            - name: Login to DockerHub
-              uses: docker/login-action@v1
-              with:
-                  username: ${{ secrets.DOCKERHUB_USERNAME }}
-                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+                  images: ghcr.io/abronstudio/revolt-revite-pre
+                  tags: |
+                    type=raw,value=${{ github.sha }}
+            # - name: Login to DockerHub
+            #   uses: docker/login-action@v1
+            #   with:
+            #       username: ${{ secrets.DOCKERHUB_USERNAME }}
+            #       password: ${{ secrets.DOCKERHUB_TOKEN }}
             - name: Login to Github Container Registry
               uses: docker/login-action@v1
               with:
                   registry: ghcr.io
-                  username: ${{ github.actor }}
-                  password: ${{ secrets.GITHUB_TOKEN }}
+                  username: teamabron
+                  password: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
             - name: Build and publish
               uses: docker/build-push-action@v2
               with:
@@ -103,9 +107,43 @@ jobs:
                   platforms: linux/amd64
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
-                  cache-from: type=local,src=/tmp/.buildx-cache/linux/amd64
-                  cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-            - name: Move cache
+                  # cache-from: type=local,src=/tmp/.buildx-cache/linux/amd64
+                  # cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+            # - name: Move cache
+            #   run: |
+            #       rm -rf /tmp/.buildx-cache
+            #       mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+    deploy:
+        needs: [publish]
+        runs-on: ubuntu-latest
+        env:
+          CONFIG_BRANCH: main
+          CLONE_DIR: $GITHUB_WORKSPACE/config
+          CONFIG_FILE: $GITHUB_WORKSPACE/config/apps/pepchat/kustomization.yaml
+        if: github.event_name != 'pull_request'
+        steps:
+            - name: Checkout Configuration Repository
               run: |
-                  rm -rf /tmp/.buildx-cache
-                  mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+                  echo "Cloning configuration repository"
+                  mkdir -p $CLONE_DIR
+                  git clone -b $CONFIG_BRANCH ${{ secrets.K8_CONFIG_REPO }} $CLONE_DIR
+            
+            - name: Set Up Git Identity
+              run: |
+                  cd $CLONE_DIR
+                  git config user.email "ci@example.com"
+                  git config user.name "CI Bot"
+
+
+            - name: Update Image Tag in kustomization.yaml
+              run: |
+                  awk -v value="  newTag: ${{ github.sha }}" '{sub(/^  newTag: .*/, value); print}' $CONFIG_FILE > temp.yml && mv temp.yml $CONFIG_FILE
+                  awk -v value="  newName: ghcr.io/abronstudio/revolt-revite-pre" '{sub(/^  newName: .*/, value); print}' $CONFIG_FILE > temp.yml && mv temp.yml $CONFIG_FILE
+
+
+            - name: Commit & Push Changes
+              run: |
+                  cd $CLONE_DIR
+                  git add .
+                  git commit -am "Update image tag to ${{ github.sha }}"
+                  git push origin $CONFIG_BRANCH              
