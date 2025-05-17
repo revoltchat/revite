@@ -35,6 +35,7 @@ import { modalController } from "../../../controllers/modals/ModalController";
 
 interface Data {
     _id: string;
+    token: string;
     username: string;
     public: boolean;
     interactions_url?: string;
@@ -74,6 +75,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
     const [user, setUser] = useState<User>(client.users.get(bot._id)!);
     const [data, setData] = useState<Data>({
         _id: bot._id,
+        token: bot.token,
         username: user.username,
         public: bot.public,
         interactions_url: bot.interactions_url as any,
@@ -94,7 +96,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
     const refreshProfile = useCallback(() => {
         client.api
             .get(`/users/${bot._id as ""}/profile`, undefined, {
-                headers: { "x-bot-token": bot.token },
+                headers: { "x-bot-token": data.token },
             })
             .then((profile) => setProfile(profile ?? {}));
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -149,7 +151,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
             "/users/@me",
             avatar ? { avatar } : { remove: ["Avatar"] },
             {
-                headers: { "x-bot-token": bot.token },
+                headers: { "x-bot-token": data.token },
             },
         );
 
@@ -168,7 +170,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                 ? { profile: { background } }
                 : { remove: ["ProfileBackground"] },
             {
-                headers: { "x-bot-token": bot.token },
+                headers: { "x-bot-token": data.token },
             },
         );
 
@@ -184,7 +186,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
             "/users/@me",
             content ? { profile: { content } } : { remove: ["ProfileContent"] },
             {
-                headers: { "x-bot-token": bot.token },
+                headers: { "x-bot-token": data.token },
             },
         );
 
@@ -312,6 +314,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                         if (editMode) {
                             setData({
                                 _id: bot._id,
+                                token: data.token,
                                 username: user!.username,
                                 public: bot.public,
                                 interactions_url: bot.interactions_url as any,
@@ -334,7 +337,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                 <CategoryButton
                     account
                     icon={<Key size={24} />}
-                    onClick={() => modalController.writeText(bot.token)}
+                    onClick={() => modalController.writeText(data.token)}
                     description={
                         <>
                             {"••••• "}
@@ -344,7 +347,7 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                         ev,
                                         modalController.push({
                                             type: "show_token",
-                                            token: bot.token,
+                                            token: data.token,
                                             name: user!.username,
                                         }),
                                     )
@@ -489,6 +492,25 @@ function BotCard({ bot, onDelete, onUpdate }: Props) {
                                 )
                             }>
                             <Text id="app.settings.pages.bots.add" />
+                        </Button>
+                        <Button
+                        palette="error"
+                            onClick={ async () => {
+                                    modalController.push({
+                                        type: "reset_bot_token",
+                                        target: { name: user.username, id: bot._id },
+                                        callback: async () => {
+                                            const updatedBot = await client.bots.fetch(bot._id);
+                                            setData({
+                                                ...data,
+                                                token: updatedBot.bot.token
+                                            })
+                                        }
+                                    })
+
+                            }
+                            }>
+                                <Text id="app.settings.pages.bots.reset_token" />
                         </Button>
                     </>
                 )}
