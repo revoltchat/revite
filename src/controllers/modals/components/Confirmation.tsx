@@ -20,6 +20,7 @@ export default function Confirmation(
         | "delete_bot"
         | "block_user"
         | "unfriend_user"
+        | "reset_bot_token"
     >,
 ) {
     const history = useHistory();
@@ -31,6 +32,7 @@ export default function Confirmation(
         delete_bot: ["confirm_delete", "delete"],
         unfriend_user: ["unfriend_user", "remove"],
         block_user: ["block_user", "block"],
+        reset_bot_token: ["reset_bot_token", "reset"],
     };
 
     const event = EVENTS[props.type];
@@ -88,6 +90,12 @@ export default function Confirmation(
                             .bots.delete(props.target);
                         props.cb?.();
                         break;
+                    case "reset_bot_token":
+                        clientController
+                            .getAvailableClient()
+                            .bots
+                            .edit(props.target.id, { remove: ["Token"] })
+                            .then(props.callback)
                 }
             }}
             submit={{

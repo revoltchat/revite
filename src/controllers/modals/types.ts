@@ -190,6 +190,11 @@ export type Modal = {
           type: "report_success";
           user?: User;
       }
+    | {
+          type: "reset_bot_token";
+          target: { name: string, id: string },
+          callback: () => Promise<void>;
+    }
 );
 
 export type ModalProps<T extends Modal["type"]> = Modal & { type: T } & {

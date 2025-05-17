@@ -297,4 +297,5 @@ export const modalController = new ModalControllerExtended({
     report_success: ReportSuccess,
     modify_displayname: ModifyDisplayname,
     changelog_usernames: ChangelogUsernames,
+    reset_bot_token: Confirmation
 });
