@@ -1,8 +1,8 @@
 FROM node:16-buster AS builder
-
+ENV NODE_OPTIONS="--max_old_space_size=16384"
 WORKDIR /usr/src/app
-COPY ./revolt-revite .
-COPY ./revolt-revite/.env.build ./revolt-revite/.env
+COPY . .
+COPY .env.build ./.env
 
 RUN yarn install --frozen-lockfile
 RUN yarn build:deps
