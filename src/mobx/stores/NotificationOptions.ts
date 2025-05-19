@@ -259,10 +259,7 @@ export default class NotificationOptions
      */
     async onMessage(message: Message) {
         // Ignore if we are currently looking and focused on the channel.
-        if (
-            message.channel_id === routeInformation.getChannel() &&
-            document.hasFocus()
-        )
+        if (message.channel_id === routeInformation.getChannel())
             return;
 
         // Ignore if muted.
