@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Link } from "react-router-dom";
-import { Channel, User } from "revolt.js";
+import { Channel, User, Role } from "revolt.js";
 import { Emoji as CustomEmoji } from "revolt.js/esm/maps/Emojis";
 import styled, { css } from "styled-components/macro";
 
@@ -29,11 +29,16 @@ export type AutoCompleteState =
                 type: "channel";
                 matches: Channel[];
             }
+          | {
+                type: "role";
+                matches: Role[];
+            }
       ));
 
 export type SearchClues = {
     users?: { type: "channel"; id: string } | { type: "all" };
     channels?: { server: string };
+    roles?: { server: string };
 };
 
 export type AutoCompleteProps = {
@@ -59,7 +64,7 @@ export function useAutoComplete(
 
     function findSearchString(
         el: HTMLTextAreaElement,
-    ): ["emoji" | "user" | "channel", string, number] | undefined {
+    ): ["emoji" | "user" | "channel" | "role", string, number] | undefined {
         if (el.selectionStart === el.selectionEnd) {
             const cursor = el.selectionStart;
             const content = el.value.slice(0, cursor);
@@ -71,6 +76,8 @@ export function useAutoComplete(
                 return ["user", "", j];
             } else if (content[j] === "#") {
                 return ["channel", "", j];
+            } else if (content[j] === "%") {
+                return ["role", "", j];
             }
 
             while (j >= 0 && valid.test(content[j])) {
@@ -80,7 +87,12 @@ export function useAutoComplete(
             if (j === -1) return;
             const current = content[j];
 
-            if (current === ":" || current === "@" || current === "#") {
+            if (
+                current === ":" ||
+                current === "@" ||
+                current === "#" ||
+                current === "%"
+            ) {
                 const search = content.slice(j + 1, content.length);
                 const minLen = current === ":" ? 2 : 1;
 
@@ -90,6 +102,8 @@ export function useAutoComplete(
                             ? "channel"
                             : current === ":"
                             ? "emoji"
+                            : current === "%"
+                            ? "role"
                             : "user",
                         search.toLowerCase(),
                         current === ":" ? j + 1 : j,
@@ -230,6 +244,42 @@ export function useAutoComplete(
                     return;
                 }
             }
+
+            if (type === "role" && searchClues?.roles) {
+                const server = client.servers.get(searchClues.roles.server);
+
+                let roles: (Role & { id: string })[] = [];
+                if (server?.roles) {
+                    roles = Object.entries(server.roles).map(([id, role]) => ({
+                        ...role,
+                        id,
+                    }));
+                }
+
+                const matches = (
+                    search.length > 0
+                        ? roles.filter((role) =>
+                              role.name.toLowerCase().match(regex),
+                          )
+                        : roles
+                )
+                    .splice(0, 5)
+                    .filter((x) => typeof x !== "undefined");
+
+                if (matches.length > 0) {
+                    const currentPosition =
+                        state.type !== "none" ? state.selected : 0;
+
+                    setState({
+                        type: "role",
+                        matches,
+                        selected: Math.min(currentPosition, matches.length - 1),
+                        within: false,
+                    });
+
+                    return;
+                }
+            }
         }
 
         if (state.type !== "none") {
@@ -260,6 +310,14 @@ export function useAutoComplete(
                         search.length + 1,
                         "<@",
                         state.matches[state.selected]._id,
+                        "> ",
+                    );
+                } else if (state.type === "role") {
+                    content.splice(
+                        index,
+                        search.length + 1,
+                        "<%",
+                        state.matches[state.selected].id,
                         "> ",
                     );
                 } else {
@@ -492,7 +550,7 @@ export default function AutoComplete({
                 {state.type === "user" &&
                     state.matches.map((match, i) => (
                         <button
-                            key={match}
+                            key={match._id}
                             className={i === state.selected ? "active" : ""}
                             onMouseEnter={() =>
                                 (i !== state.selected || !state.within) &&
@@ -517,7 +575,7 @@ export default function AutoComplete({
                 {state.type === "channel" &&
                     state.matches.map((match, i) => (
                         <button
-                            key={match}
+                            key={match._id}
                             className={i === state.selected ? "active" : ""}
                             onMouseEnter={() =>
                                 (i !== state.selected || !state.within) &&
@@ -536,6 +594,40 @@ export default function AutoComplete({
                             }
                             onClick={onClick}>
                             <ChannelIcon size={24} target={match} />
+                            {match.name}
+                        </button>
+                    ))}
+                {state.type === "role" &&
+                    state.matches.map((match, i) => (
+                        <button
+                            key={match._id}
+                            className={i === state.selected ? "active" : ""}
+                            onMouseEnter={() =>
+                                (i !== state.selected || !state.within) &&
+                                setState({
+                                    ...state,
+                                    selected: i,
+                                    within: true,
+                                })
+                            }
+                            onMouseLeave={() =>
+                                state.within &&
+                                setState({
+                                    ...state,
+                                    within: false,
+                                })
+                            }
+                            onClick={onClick}>
+                            <div
+                                style={{
+                                    width: "16px",
+                                    height: "16px",
+                                    borderRadius: "50%",
+                                    backgroundColor: match.colour || "#7c7c7c",
+                                    marginRight: "8px",
+                                    flexShrink: 0,
+                                }}
+                            />
                             {match.name}
                         </button>
                     ))}

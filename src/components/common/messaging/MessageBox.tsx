@@ -567,6 +567,7 @@ export default observer(({ channel }: Props) => {
             channel.channel_type === "TextChannel"
                 ? { server: channel.server_id! }
                 : undefined,
+        roles: { server: channel.server_id! },
     });
 
     return (
