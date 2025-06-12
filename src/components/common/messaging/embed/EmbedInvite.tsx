@@ -123,15 +123,15 @@ export function EmbedInvite({ code }: Props) {
                     size={55}
                 />
                 <EmbedInviteDetails>
-  <EmbedInviteName>{invite.server_name}</EmbedInviteName>
-  <EmbedInviteMemberCount>
-    <Group size={12} />
-    {invite.member_count != null
-      ? invite.member_count.toLocaleString()
-      : "N/A"}{" "}
-    {invite.member_count === 1 ? "member" : "members"}
-  </EmbedInviteMemberCount>
-</EmbedInviteDetails>
+                    <EmbedInviteName>{invite.server_name}</EmbedInviteName>
+                    <EmbedInviteMemberCount>
+                        <Group size={12} />
+                        {invite.member_count != null
+                            ? invite.member_count.toLocaleString()
+                            : "N/A"}{" "}
+                        {invite.member_count === 1 ? "member" : "members"}
+                    </EmbedInviteMemberCount>
+                </EmbedInviteDetails>
                 {processing ? (
                     <div>
                         <Preloader type="ring" />
