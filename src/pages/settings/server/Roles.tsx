@@ -229,26 +229,6 @@ export const Roles = observer(({ server }: Props) => {
                                         />
                                     </p>
                                 </section>
-                                <section>
-                                    <Category>
-                                        <Text id="app.settings.permissions.role_ranking" />
-                                    </Category>
-                                    <p>
-                                        <InputBox
-                                            type="number"
-                                            value={currentRoleValue.rank ?? 0}
-                                            onChange={(e) =>
-                                                setValue({
-                                                    ...value,
-                                                    rank: parseInt(
-                                                        e.currentTarget.value,
-                                                    ),
-                                                })
-                                            }
-                                            palette="secondary"
-                                        />
-                                    </p>
-                                </section>
                             </>
                         )}
                         <h1>
