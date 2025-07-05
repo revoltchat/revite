@@ -120,9 +120,10 @@ const Message = observer(
                     contrast={contrast}
                     sending={typeof queued !== "undefined"}
                     mention={
-                        message.mention_ids && client.user
-                            ? message.mention_ids.includes(client.user._id)
-                            : undefined
+                        client.user && (
+                            (message.mention_ids?.includes(client.user._id)) ||
+                            (message as any).mentionsEveryone
+                        ) || undefined
                     }
                     failed={typeof queued?.error !== "undefined"}
                     {...(attachContext
