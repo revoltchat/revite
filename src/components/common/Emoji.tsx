@@ -1,12 +1,13 @@
 import { emojiDictionary } from "../../assets/emojis";
 
 export type EmojiPack = "mutant" | "twemoji" | "noto" | "openmoji";
-
-let EMOJI_PACK: EmojiPack = "mutant";
+const storedPack = localStorage.getItem("emojiPack")
+let EMOJI_PACK: EmojiPack = storedPack === "mutant" || storedPack === "twemoji" || storedPack === "noto" || storedPack === "openmoji" ? storedPack : "mutant"
 const REVISION = 3;
 
 export function setGlobalEmojiPack(pack: EmojiPack) {
     EMOJI_PACK = pack;
+    localStorage.setItem("emojiPack", pack)
 }
 
 // Originally taken from Twemoji source code,
