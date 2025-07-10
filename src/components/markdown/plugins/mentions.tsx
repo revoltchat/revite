@@ -1,4 +1,7 @@
-import { RE_MENTIONS, RE_EVERYONE } from "revolt.js";
+import { RE_MENTIONS } from "revolt.js";
+
+// RE_EVERYONE is not exported in the ESM build, define it locally
+const RE_EVERYONE = /@everyone/g;
 import styled from "styled-components";
 import { clientController } from "../../../controllers/client/ClientController";
 import UserShort from "../../common/user/UserShort";
