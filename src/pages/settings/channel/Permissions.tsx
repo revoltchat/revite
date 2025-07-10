@@ -22,25 +22,25 @@ export default observer(({ channel }: Props) => {
     const currentRoles =
         channel.channel_type === "Group"
             ? ([
-                  {
-                      id: "default",
-                      name: "Default",
-                      permissions:
-                          channel.permissions ??
-                          DEFAULT_PERMISSION_DIRECT_MESSAGE,
-                  },
-              ] as RoleOrDefault[])
+                {
+                    id: "default",
+                    name: "Default",
+                    permissions:
+                        channel.permissions ??
+                        DEFAULT_PERMISSION_DIRECT_MESSAGE,
+                },
+            ] as RoleOrDefault[])
             : (useRoles(channel.server! as any).map((role) => {
-                  return {
-                      ...role,
-                      permissions: (role.id === "default"
-                          ? channel.default_permissions
-                          : channel.role_permissions?.[role.id]) ?? {
-                          a: 0,
-                          d: 0,
-                      },
-                  };
-              }) as RoleOrDefault[]);
+                return {
+                    ...role,
+                    permissions: (role.id === "default"
+                        ? channel.default_permissions
+                        : channel.role_permissions?.[role.id]) ?? {
+                        a: 0,
+                        d: 0,
+                    },
+                };
+            }) as RoleOrDefault[]);
 
     return (
         <PermissionsLayout
@@ -69,9 +69,9 @@ export default observer(({ channel }: Props) => {
                         typeof currentValue === "number"
                             ? currentValue
                             : ({
-                                  allow: currentValue.a,
-                                  deny: currentValue.d,
-                              } as any),
+                                allow: currentValue.a,
+                                deny: currentValue.d,
+                            } as any),
                     );
                 }
 
@@ -109,6 +109,7 @@ export default observer(({ channel }: Props) => {
                                 "UploadFiles",
                                 "Masquerade",
                                 "React",
+                                "MentionEveryone",
                                 "ManageChannel",
                                 "ManagePermissions",
                             ]}

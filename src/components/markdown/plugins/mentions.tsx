@@ -48,12 +48,12 @@ export function RenderMention({ match }: CustomComponentProps) {
 }
 
 const EveryoneMention = styled.span`
-    padding: 0 4px;
+    padding: 0 6px;
     flex-shrink: 0;
     
     font-weight: 600;
-    cursor: default;
-    color: var(--foreground);
+    cursor: pointer;
+    color: var(--accent);
     background: var(--secondary-background);
     border-radius: calc(var(--border-radius) * 2);
     

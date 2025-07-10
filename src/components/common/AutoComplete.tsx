@@ -174,7 +174,7 @@ export function useAutoComplete(
                     (x) => x._id !== "00000000000000000000000000",
                 );
 
-                const matches = (
+                let matches = (
                     search.length > 0
                         ? users.filter((user) =>
                             user.username.toLowerCase().match(regex),
@@ -183,6 +183,13 @@ export function useAutoComplete(
                 )
                     .splice(0, 5)
                     .filter((x) => typeof x !== "undefined");
+
+                // Add @everyone if it matches the search and we're in a channel context
+                if (searchClues.users.type === "channel" && 
+                    (search.length === 0 || "everyone".match(regex))) {
+                    // Add a special "everyone" entry at the beginning
+                    matches = [{ _id: "@everyone", username: "everyone" } as any, ...matches].slice(0, 5);
+                }
 
                 if (matches.length > 0) {
                     const currentPosition =
@@ -256,13 +263,22 @@ export function useAutoComplete(
                     );
                 } else if (state.type === "user") {
                     const selectedUser = state.matches[state.selected];
-                    content.splice(
-                        index,
-                        search.length + 1,
-                        "@",
-                        selectedUser.username,
-                        " ",
-                    );
+                    // Handle @everyone special case
+                    if (selectedUser._id === "@everyone") {
+                        content.splice(
+                            index,
+                            search.length + 1,
+                            "@everyone ",
+                        );
+                    } else {
+                        content.splice(
+                            index,
+                            search.length + 1,
+                            "@",
+                            selectedUser.username,
+                            " ",
+                        );
+                    }
                 } else {
                     content.splice(
                         index,
@@ -492,7 +508,7 @@ export default function AutoComplete({
                 {state.type === "user" &&
                     state.matches.map((match, i) => (
                         <button
-                            key={match}
+                            key={match._id || match}
                             className={i === state.selected ? "active" : ""}
                             onMouseEnter={() =>
                                 (i !== state.selected || !state.within) &&
@@ -510,8 +526,28 @@ export default function AutoComplete({
                                 })
                             }
                             onClick={onClick}>
-                            <UserIcon size={24} target={match} status={true} />
-                            {match.username}
+                            {match._id === "@everyone" ? (
+                                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                    <span style={{ 
+                                        width: "24px", 
+                                        height: "24px", 
+                                        display: "flex", 
+                                        alignItems: "center", 
+                                        justifyContent: "center",
+                                        fontSize: "14px",
+                                        background: "var(--accent)",
+                                        color: "var(--accent-contrast)",
+                                        borderRadius: "50%",
+                                        fontWeight: "600"
+                                    }}>@</span>
+                                    <span>everyone</span>
+                                </div>
+                            ) : (
+                                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                    <UserIcon size={24} target={match} status={true} />
+                                    <span>{match.username}</span>
+                                </div>
+                            )}
                         </button>
                     ))}
                 {state.type === "channel" &&
