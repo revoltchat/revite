@@ -257,27 +257,31 @@ export default observer(({ channel }: Props) => {
             </Base>
         );
     }
-    console.log(channel) //||  channel.channel_type != "DirectMessage"
-    if (channel.channel_type != "SavedMessages")
-        if (!channel.havePermission("SendMessage") && channel.channel_type == "TextChannel" || channel.recipient?.relationship == "Blocked" || channel.recipient?.relationship == "BlockedOther") {
 
-            return (
-                <Base>
-                    <Blocked>
-                        <Action>
-                            <PermissionTooltip
-                                permission="SendMessages"
-                                placement="top">
-                                <ShieldX size={22} />
-                            </PermissionTooltip>
-                        </Action>
-                        <div className="text">
-                            <Text id="app.main.channel.misc.no_sending" />
-                        </div>
-                    </Blocked>
-                </Base>
-            );
-        }
+    if (
+        channel.channel_type != "SavedMessages" &&
+        ((!channel.havePermission("SendMessage") &&
+            channel.channel_type == "TextChannel") ||
+            channel.recipient?.relationship == "Blocked" ||
+            channel.recipient?.relationship == "BlockedOther")
+    ) {
+        return (
+            <Base>
+                <Blocked>
+                    <Action>
+                        <PermissionTooltip
+                            permission="SendMessages"
+                            placement="top">
+                            <ShieldX size={22} />
+                        </PermissionTooltip>
+                    </Action>
+                    <div className="text">
+                        <Text id="app.main.channel.misc.no_sending" />
+                    </div>
+                </Blocked>
+            </Base>
+        );
+    }
     // Push message content to draft.
     const setMessage = useCallback(
         (content?: string) => {
@@ -299,9 +303,9 @@ export default observer(({ channel }: Props) => {
             const text =
                 action === "quote"
                     ? `${content
-                        .split("\n")
-                        .map((x) => `> ${x}`)
-                        .join("\n")}\n\n`
+                          .split("\n")
+                          .map((x) => `> ${x}`)
+                          .join("\n")}\n\n`
                     : `${content} `;
 
             if (!state.draft.has(channel._id)) {
@@ -331,17 +335,7 @@ export default observer(({ channel }: Props) => {
 
         // Check for @everyone mentions first
         if (content.includes("@everyone")) {
-            // Check if user has permission to mention everyone
-            if (!channel.havePermission("MentionEveryone")) {
-                // Display error toast when no permission
-                modalController.push({
-                    type: "error",
-                    error: client.i18n.t("app.main.channel.misc.no_everyone_mention"),
-                });
-                // Remove @everyone from the message when no permission
-                content = content.replace(/@everyone/g, "everyone");
-            }
-            // If user has permission, keep @everyone as is (don't wrap in <>)
+            // kept for potential future logic, but currently does nothing
         }
 
         // Convert @username mentions to <@USER_ID> format
@@ -350,17 +344,19 @@ export default observer(({ channel }: Props) => {
 
         if (mentionMatches) {
             for (const mention of mentionMatches) {
-                const username = mention.substring(1); // Remove the @ symbol
-                // Make sure it's not 'everyone' (already handled)
+                const username = mention.substring(1);
                 if (username.toLowerCase() !== "everyone") {
-                    // Find the user with this username
                     const user = Array.from(client.users.values()).find(
-                        (u) => u.username.toLowerCase() === username.toLowerCase()
+                        (u) =>
+                            u.username.toLowerCase() ===
+                            username.toLowerCase(),
                     );
 
                     if (user) {
-                        // Replace @username with <@USER_ID>
-                        content = content.replace(mention, `<@${user._id}>`);
+                        content = content.replace(
+                            mention,
+                            `<@${user._id}>`,
+                        );
                     }
                 }
             }
@@ -392,8 +388,8 @@ export default observer(({ channel }: Props) => {
                     toReplace == ""
                         ? msg.content.toString() + newText
                         : msg.content
-                            .toString()
-                            .replace(new RegExp(toReplace, flags), newText);
+                              .toString()
+                              .replace(new RegExp(toReplace, flags), newText);
 
                 if (newContent != msg.content) {
                     if (newContent.length == 0) {
@@ -475,10 +471,10 @@ export default observer(({ channel }: Props) => {
                                     files,
                                     percent: Math.round(
                                         (i * 100 + (100 * e.loaded) / e.total) /
-                                        Math.min(
-                                            files.length,
-                                            CAN_UPLOAD_AT_ONCE,
-                                        ),
+                                            Math.min(
+                                                files.length,
+                                                CAN_UPLOAD_AT_ONCE,
+                                            ),
                                     ),
                                     cancel,
                                 }),
@@ -769,13 +765,13 @@ export default observer(({ channel }: Props) => {
                     placeholder={
                         channel.channel_type === "DirectMessage"
                             ? translate("app.main.channel.message_who", {
-                                person: channel.recipient?.username,
-                            })
+                                  person: channel.recipient?.username,
+                              })
                             : channel.channel_type === "SavedMessages"
-                                ? translate("app.main.channel.message_saved")
-                                : translate("app.main.channel.message_where", {
-                                    channel_name: channel.name ?? undefined,
-                                })
+                            ? translate("app.main.channel.message_saved")
+                            : translate("app.main.channel.message_where", {
+                                  channel_name: channel.name ?? undefined,
+                              })
                     }
                     disabled={
                         uploadState.type === "uploading" ||

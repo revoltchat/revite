@@ -158,7 +158,7 @@ export default class NotificationOptions
 
         // Check channel notification settings
         const mentioned = message.mention_ids?.includes(user._id) || 
-                         (message as any).mentionsEveryone;
+                         message.mentionsEveryone;
         switch (this.computeForChannel(message.channel!)) {
             case "muted":
             case "none":

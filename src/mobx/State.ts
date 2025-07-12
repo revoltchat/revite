@@ -165,14 +165,6 @@ export default class State {
             // Register events for notifications.
             client.addListener("message", this.notifications.onMessage);
             client.addListener(
-                "message/mention",
-                this.notifications.onMessage,
-            );
-            client.addListener(
-                "message/mention/everyone", 
-                this.notifications.onMessage,
-            );
-            client.addListener(
                 "user/relationship",
                 this.notifications.onRelationship,
             );
@@ -276,14 +268,6 @@ export default class State {
                 client.removeListener("message", this.queue.onMessage);
                 client.removeListener("packet", this.onPacket);
                 client.removeListener("message", this.notifications.onMessage);
-                client.removeListener(
-                    "message/mention",
-                    this.notifications.onMessage,
-                );
-                client.removeListener(
-                    "message/mention/everyone",
-                    this.notifications.onMessage,
-                );
                 client.removeListener(
                     "user/relationship",
                     this.notifications.onRelationship,
