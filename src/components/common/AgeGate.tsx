@@ -100,19 +100,9 @@ export default observer((props: Props) => {
 
             {geoBlock.isAgeRestrictedGeo ? (
                 <div style={{ maxWidth: "420px", textAlign: "center" }}>
-                    This content is not available in your country.
-                    {geoBlock.countryCode === "GB" && (
-                        <>
-                            <br />
-                            <br />
-                            Ofcom sets a legal requirement for platforms to
-                            verify the age of users to access age restricted
-                            content. Revolt neither has the ability to implement
-                            nor currently intends to implement these measures as
-                            the current available solutions come with privacy
-                            and cost concerns.
-                        </>
-                    )}
+                    {geoBlock.countryCode === "GB"
+                        ? "This channel is not available in your region while we review options on legal compliance."
+                        : "This content is not available in your region."}
                 </div>
             ) : (
                 <>
