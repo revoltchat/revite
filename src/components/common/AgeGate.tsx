@@ -4,9 +4,9 @@ import { Channel } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
-import { Button, Checkbox } from "@revoltchat/ui";
+import { Button, Checkbox, Preloader } from "@revoltchat/ui";
 
 import { useApplicationState } from "../../mobx/State";
 import { SECTION_NSFW } from "../../mobx/stores/Layout";
@@ -45,14 +45,36 @@ type Props = {
     channel: Channel;
 };
 
+let geoBlock:
+    | undefined
+    | {
+          countryCode: string;
+          isAgeRestrictedGeo: true;
+      };
+
 export default observer((props: Props) => {
     const history = useHistory();
     const layout = useApplicationState().layout;
+    const [geoLoaded, setGeoLoaded] = useState(typeof geoBlock !== "undefined");
     const [ageGate, setAgeGate] = useState(false);
 
-    if (ageGate || !props.gated) {
+    useEffect(() => {
+        if (!geoLoaded) {
+            fetch("https://geo.revolt.chat")
+                .then((res) => res.json())
+                .then((data) => {
+                    geoBlock = data;
+                    setGeoLoaded(true);
+                });
+        }
+    }, []);
+
+    if (!geoBlock) return <Preloader type="spinner" />;
+
+    if ((ageGate && !geoBlock.isAgeRestrictedGeo) || !props.gated) {
         return <>{props.children}</>;
     }
+
     if (
         !(
             props.channel.channel_type === "Group" ||
@@ -76,23 +98,50 @@ export default observer((props: Props) => {
                 </a>
             </span>
 
-            <Checkbox
-                title={<Text id="app.main.channel.nsfw.confirm" />}
-                value={layout.getSectionState(SECTION_NSFW, false)}
-                onChange={() => layout.toggleSectionState(SECTION_NSFW, false)}
-            />
-            <div className="actions">
-                <Button palette="secondary" onClick={() => history.goBack()}>
-                    <Text id="app.special.modals.actions.back" />
-                </Button>
-                <Button
-                    palette="secondary"
-                    onClick={() =>
-                        layout.getSectionState(SECTION_NSFW) && setAgeGate(true)
-                    }>
-                    <Text id={`app.main.channel.nsfw.${props.type}.confirm`} />
-                </Button>
-            </div>
+            {geoBlock.isAgeRestrictedGeo ? (
+                <div style={{ maxWidth: "420px", textAlign: "center" }}>
+                    This content is not available in your country.
+                    {geoBlock.countryCode === "GB" && (
+                        <>
+                            <br />
+                            <br />
+                            Ofcom sets a legal requirement for platforms to
+                            verify the age of users to access age restricted
+                            content. Revolt neither has the ability to implement
+                            nor currently intends to implement these measures as
+                            the current available solutions come with privacy
+                            and cost concerns.
+                        </>
+                    )}
+                </div>
+            ) : (
+                <>
+                    <Checkbox
+                        title={<Text id="app.main.channel.nsfw.confirm" />}
+                        value={layout.getSectionState(SECTION_NSFW, false)}
+                        onChange={() =>
+                            layout.toggleSectionState(SECTION_NSFW, false)
+                        }
+                    />
+                    <div className="actions">
+                        <Button
+                            palette="secondary"
+                            onClick={() => history.goBack()}>
+                            <Text id="app.special.modals.actions.back" />
+                        </Button>
+                        <Button
+                            palette="secondary"
+                            onClick={() =>
+                                layout.getSectionState(SECTION_NSFW) &&
+                                setAgeGate(true)
+                            }>
+                            <Text
+                                id={`app.main.channel.nsfw.${props.type}.confirm`}
+                            />
+                        </Button>
+                    </div>
+                </>
+            )}
         </Base>
     );
 });
