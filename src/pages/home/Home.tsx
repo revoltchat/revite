@@ -49,6 +49,7 @@ interface Server {
     inviteCode: string;
     disabled: boolean;
     new: boolean;
+    showcolor: string;
     sortorder: number;
 }
 
@@ -59,6 +60,16 @@ const NewServerWrapper = styled.div`
 
     a {
         color: #fadf4f;
+    }
+`;
+
+// Dynamic color wrapper component
+const ColorWrapper = styled.div<{ color: string }>`
+    color: ${props => props.color};
+    display: contents;
+
+    a {
+        color: ${props => props.color};
     }
 `;
 
@@ -195,11 +206,13 @@ const Home: React.FC = () => {
             <Link to={linkTo}>{buttonContent}</Link>
         );
 
-        return server.new ? (
-            <NewServerWrapper>{content}</NewServerWrapper>
-        ) : (
-            content
-        );
+        if (server.showcolor && server.showcolor.trim()) {
+            content = <ColorWrapper color={server.showcolor}>{content}</ColorWrapper>;
+        } else if (server.new) {
+            content = <NewServerWrapper>{content}</NewServerWrapper>;
+        }
+
+        return content;
     };
 
     if (loading) {
