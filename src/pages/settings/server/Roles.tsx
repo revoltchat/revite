@@ -93,122 +93,129 @@ export function useRolesForReorder(server: Server) {
 /**
  * Role reordering component
  */
-const RoleReorderPanel = observer(({ server }: Props) => {
-    const initialRoles = useRolesForReorder(server);
-    const [roles, setRoles] = useState(initialRoles);
-    const [isReordering, setIsReordering] = useState(false);
+const RoleReorderPanel = observer(
+    ({
+        server,
+        onRolesReordered,
+    }: Props & { onRolesReordered: () => void }) => {
+        const initialRoles = useRolesForReorder(server);
+        const [roles, setRoles] = useState(initialRoles);
+        const [isReordering, setIsReordering] = useState(false);
 
-    // Update local state when server roles change
-    useMemo(() => {
-        setRoles(useRolesForReorder(server));
-    }, [server.roles, server.default_permissions]);
+        // Update local state when server roles change
+        useMemo(() => {
+            setRoles(useRolesForReorder(server));
+        }, [server.roles, server.default_permissions]);
 
-    const moveRoleUp = (index: number) => {
-        if (index === 0 || roles[index].id === "default") return;
+        const moveRoleUp = (index: number) => {
+            if (index === 0 || roles[index].id === "default") return;
 
-        const newRoles = [...roles];
-        [newRoles[index - 1], newRoles[index]] = [
-            newRoles[index],
-            newRoles[index - 1],
-        ];
-        setRoles(newRoles);
-    };
+            const newRoles = [...roles];
+            [newRoles[index - 1], newRoles[index]] = [
+                newRoles[index],
+                newRoles[index - 1],
+            ];
+            setRoles(newRoles);
+        };
 
-    const moveRoleDown = (index: number) => {
-        // Can't move down if it's the last non-default role or if it's default
-        if (index >= roles.length - 2 || roles[index].id === "default") return;
+        const moveRoleDown = (index: number) => {
+            // Can't move down if it's the last non-default role or if it's default
+            if (index >= roles.length - 2 || roles[index].id === "default")
+                return;
 
-        const newRoles = [...roles];
-        [newRoles[index], newRoles[index + 1]] = [
-            newRoles[index + 1],
-            newRoles[index],
-        ];
-        setRoles(newRoles);
-    };
+            const newRoles = [...roles];
+            [newRoles[index], newRoles[index + 1]] = [
+                newRoles[index + 1],
+                newRoles[index],
+            ];
+            setRoles(newRoles);
+        };
 
-    const saveReorder = async () => {
-        setIsReordering(true);
-        try {
-            const nonDefaultRoles = roles.filter(
-                (role) => role.id !== "default",
-            );
-            const roleIds = nonDefaultRoles.map((role) => role.id);
+        const saveReorder = async () => {
+            setIsReordering(true);
+            try {
+                const nonDefaultRoles = roles.filter(
+                    (role) => role.id !== "default",
+                );
+                const roleIds = nonDefaultRoles.map((role) => role.id);
 
-            const session = useSession()!;
-            const client = session.client!;
+                const session = useSession()!;
+                const client = session.client!;
 
-            // Make direct API request since it's not in r.js as of writing
-            await client.api.patch(`/servers/${server._id}/roles/ranks`, {
-                ranks: roleIds,
-            });
+                // Make direct API request since it's not in r.js as of writing
+                await client.api.patch(`/servers/${server._id}/roles/ranks`, {
+                    ranks: roleIds,
+                });
 
-            console.log("Roles reordered successfully");
-        } catch (error) {
-            console.error("Failed to reorder roles:", error);
-            setRoles(initialRoles);
-        } finally {
-            setIsReordering(false);
-        }
-    };
+                console.log("Roles reordered successfully");
+                onRolesReordered();
+            } catch (error) {
+                console.error("Failed to reorder roles:", error);
+                setRoles(initialRoles);
+            } finally {
+                setIsReordering(false);
+            }
+        };
 
-    const hasChanges = !isEqual(
-        roles.filter((r) => r.id !== "default").map((r) => r.id),
-        initialRoles.filter((r) => r.id !== "default").map((r) => r.id),
-    );
+        const hasChanges = !isEqual(
+            roles.filter((r) => r.id !== "default").map((r) => r.id),
+            initialRoles.filter((r) => r.id !== "default").map((r) => r.id),
+        );
 
-    return (
-        <div>
-            <SpaceBetween>
-                <H1>
-                    <Text id="app.settings.permissions.role_ranking" />
-                </H1>
-                <Button
-                    palette="secondary"
-                    disabled={!hasChanges || isReordering}
-                    onClick={saveReorder}>
-                    <Text id="app.special.modals.actions.save" />
-                </Button>
-            </SpaceBetween>
+        return (
+            <div>
+                <SpaceBetween>
+                    <H1>
+                        <Text id="app.settings.permissions.role_ranking" />
+                    </H1>
+                    <Button
+                        palette="secondary"
+                        disabled={!hasChanges || isReordering}
+                        onClick={saveReorder}>
+                        <Text id="app.special.modals.actions.save" />
+                    </Button>
+                </SpaceBetween>
 
-            <RoleReorderContainer>
-                {roles.map((role, index) => (
-                    <RoleItem key={role.id}>
-                        <RoleInfo>
-                            <RoleName>{role.name}</RoleName>
-                            <RoleRank>
-                                {role.id === "default" ? (
-                                    <Text id="app.settings.permissions.default_desc" />
-                                ) : (
-                                    <>
-                                        <Text id="app.settings.permissions.role_ranking" />{" "}
-                                        {index}
-                                    </>
-                                )}
-                            </RoleRank>
-                        </RoleInfo>
+                <RoleReorderContainer>
+                    {roles.map((role, index) => (
+                        <RoleItem key={role.id}>
+                            <RoleInfo>
+                                <RoleName>{role.name}</RoleName>
+                                <RoleRank>
+                                    {role.id === "default" ? (
+                                        <Text id="app.settings.permissions.default_desc" />
+                                    ) : (
+                                        <>
+                                            <Text id="app.settings.permissions.role_ranking" />{" "}
+                                            {index}
+                                        </>
+                                    )}
+                                </RoleRank>
+                            </RoleInfo>
 
-                        {role.id !== "default" && (
-                            <RoleControls>
-                                <MoveButton
-                                    palette="secondary"
-                                    disabled={index === 0}
-                                    onClick={() => moveRoleUp(index)}>
-                                    <ChevronUp size={16} />
-                                </MoveButton>
-                                <MoveButton
-                                    palette="secondary"
-                                    disabled={index >= roles.length - 2}
-                                    onClick={() => moveRoleDown(index)}>
-                                    <ChevronDown size={16} />
-                                </MoveButton>
-                            </RoleControls>
-                        )}
-                    </RoleItem>
-                ))}
-            </RoleReorderContainer>
-        </div>
-    );
-});
+                            {role.id !== "default" && (
+                                <RoleControls>
+                                    <MoveButton
+                                        palette="secondary"
+                                        disabled={index === 0}
+                                        onClick={() => moveRoleUp(index)}>
+                                        <ChevronUp size={16} />
+                                    </MoveButton>
+                                    <MoveButton
+                                        palette="secondary"
+                                        disabled={index >= roles.length - 2}
+                                        onClick={() => moveRoleDown(index)}>
+                                        <ChevronDown size={16} />
+                                    </MoveButton>
+                                </RoleControls>
+                            )}
+                        </RoleItem>
+                    ))}
+                </RoleReorderContainer>
+            </div>
+        );
+    },
+);
 
 /**
  * Hook to memo-ize role information.
@@ -237,6 +244,7 @@ export function useRoles(server: Server) {
  */
 export const Roles = observer(({ server }: Props) => {
     const [showReorderPanel, setShowReorderPanel] = useState(false);
+    const [rolesWereReordered, setRolesWereReordered] = useState(false);
 
     // Consolidate all permissions that we can change right now.
     const currentRoles = useRoles(server);
@@ -260,16 +268,26 @@ export const Roles = observer(({ server }: Props) => {
     `;
 
     const ReorderButton = styled(Button)`
-        margin: 0 0 16px 0;
+        margin-inline: auto 8px;
     `;
+
+    const handleBackFromReorder = () => {
+        setShowReorderPanel(false);
+        if (rolesWereReordered) {
+            window.location.reload(); // Refresh because I don't actually care anymore.
+        }
+    };
 
     if (showReorderPanel) {
         return (
             <div>
-                <RoleReorderPanel server={server} />
+                <RoleReorderPanel
+                    server={server}
+                    onRolesReordered={() => setRolesWereReordered(true)}
+                />
                 <Button
                     palette="secondary"
-                    onClick={() => setShowReorderPanel(false)}
+                    onClick={handleBackFromReorder}
                     style={{ marginBottom: "16px" }}>
                     <Text id="app.special.modals.actions.back" />
                 </Button>
@@ -279,11 +297,6 @@ export const Roles = observer(({ server }: Props) => {
 
     return (
         <div>
-            <ReorderButton
-                palette="secondary"
-                onClick={() => setShowReorderPanel(true)}>
-                <Text id="app.settings.permissions.role_ranking" />
-            </ReorderButton>
             <PermissionsLayout
                 server={server}
                 rank={server.member?.ranking ?? Infinity}
@@ -343,6 +356,11 @@ export const Roles = observer(({ server }: Props) => {
                                         fields={{ name: currentRole.name }}
                                     />
                                 </H1>
+                                <ReorderButton
+                                    palette="secondary"
+                                    onClick={() => setShowReorderPanel(true)}>
+                                    <Text id="app.settings.permissions.role_ranking" />
+                                </ReorderButton>
                                 <Button
                                     palette="secondary"
                                     disabled={isEqual(
