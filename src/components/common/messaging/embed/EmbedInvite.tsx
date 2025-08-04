@@ -126,8 +126,16 @@ export function EmbedInvite({ code }: Props) {
                     <EmbedInviteName>{invite.server_name}</EmbedInviteName>
                     <EmbedInviteMemberCount>
                         <Group size={12} />
-                        {invite.member_count.toLocaleString()}{" "}
-                        {invite.member_count === 1 ? "member" : "members"}
+                        {invite.member_count != null ? (
+                            <>
+                                {invite.member_count.toLocaleString()}{" "}
+                                {invite.member_count === 1
+                                    ? "member"
+                                    : "members"}
+                            </>
+                        ) : (
+                            "N/A"
+                        )}
                     </EmbedInviteMemberCount>
                 </EmbedInviteDetails>
                 {processing ? (
