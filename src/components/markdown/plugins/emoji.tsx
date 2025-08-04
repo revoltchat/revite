@@ -34,7 +34,7 @@ export function RenderEmoji({ match }: CustomComponentProps) {
         ? `${
               clientController.getAvailableClient().configuration?.features
                   .autumn.url
-          }/emojis/${match}`
+          }/emojis/${match}/original`
         : parseEmoji(
               match in emojiDictionary
                   ? emojiDictionary[match as keyof typeof emojiDictionary]
