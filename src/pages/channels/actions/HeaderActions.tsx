@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Search } from "@styled-icons/boxicons-regular";
 import {
     UserPlus,
     Cog,
@@ -23,50 +22,12 @@ import { SIDEBAR_MEMBERS } from "../../../mobx/stores/Layout";
 import UpdateIndicator from "../../../components/common/UpdateIndicator";
 import { modalController } from "../../../controllers/modals/ModalController";
 import { ChannelHeaderProps } from "../ChannelHeader";
+import { SearchBar } from "../../../components/navigation/SearchBar";
 
 const Container = styled.div`
     display: flex;
     gap: 16px;
-`;
-
-const SearchBar = styled.div`
-    display: flex;
     align-items: center;
-    background: var(--primary-background);
-    border-radius: 4px;
-    position: relative;
-    width: 120px;
-    transition: width .25s ease;
-
-    :focus-within {
-        width: 200px;
-        box-shadow: 0 0 0 1pt var(--accent);
-    }
-
-    input {
-        all: unset;
-        font-size: 13px;
-        padding: 0 8px;
-        font-weight: 400;
-        height: 100%;
-        width: 100%;
-        }
-    }
-
-    .actions {
-        display: flex;
-        align-items: center;
-        position: absolute;
-        right: 0;
-        padding: 0 8px;
-        pointer-events: none;
-        background: inherit;
-
-        svg {
-            opacity: 0.4;
-            color: var(--foreground);
-        }
-    }
 `;
 
 export default function HeaderActions({ channel }: ChannelHeaderProps) {
@@ -138,19 +99,7 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
                     </IconButton>
                 )}
                 {channel.channel_type !== "VoiceChannel" && (
-                    /*<SearchBar>
-                        <input
-                            type="text"
-                            placeholder="Search..."
-                            onClick={openSearch}
-                        />
-                        <div className="actions">
-                            <Search size={18} />
-                        </div>
-                    </SearchBar>*/
-                    <IconButton onClick={openSearch}>
-                        <Search size={25} />
-                    </IconButton>
+                    <SearchBar />
                 )}
             </Container>
         </>
