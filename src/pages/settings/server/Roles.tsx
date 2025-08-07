@@ -20,6 +20,7 @@ import {
     ColourSwatches,
     InputBox,
     Category,
+    Row,
 } from "@revoltchat/ui";
 
 import Tooltip from "../../../components/common/Tooltip";
@@ -94,10 +95,7 @@ export function useRolesForReorder(server: Server) {
  * Role reordering component
  */
 const RoleReorderPanel = observer(
-    ({
-        server,
-        onRolesReordered,
-    }: Props & { onRolesReordered: () => void }) => {
+    ({ server, onExit }: Props & { onExit: () => void }) => {
         const initialRoles = useRolesForReorder(server);
         const [roles, setRoles] = useState(initialRoles);
         const [isReordering, setIsReordering] = useState(false);
@@ -148,7 +146,6 @@ const RoleReorderPanel = observer(
                 });
 
                 console.log("Roles reordered successfully");
-                onRolesReordered();
             } catch (error) {
                 console.error("Failed to reorder roles:", error);
                 setRoles(initialRoles);
@@ -168,12 +165,20 @@ const RoleReorderPanel = observer(
                     <H1>
                         <Text id="app.settings.permissions.role_ranking" />
                     </H1>
-                    <Button
-                        palette="secondary"
-                        disabled={!hasChanges || isReordering}
-                        onClick={saveReorder}>
-                        <Text id="app.special.modals.actions.save" />
-                    </Button>
+                    <Row>
+                        <Button
+                            palette="secondary"
+                            onClick={onExit}
+                            style={{ marginBottom: "16px" }}>
+                            <Text id="app.special.modals.actions.back" />
+                        </Button>
+                        <Button
+                            palette="secondary"
+                            disabled={!hasChanges || isReordering}
+                            onClick={saveReorder}>
+                            <Text id="app.special.modals.actions.save" />
+                        </Button>
+                    </Row>
                 </SpaceBetween>
 
                 <RoleReorderContainer>
@@ -244,7 +249,6 @@ export function useRoles(server: Server) {
  */
 export const Roles = observer(({ server }: Props) => {
     const [showReorderPanel, setShowReorderPanel] = useState(false);
-    const [rolesWereReordered, setRolesWereReordered] = useState(false);
 
     // Consolidate all permissions that we can change right now.
     const currentRoles = useRoles(server);
@@ -271,26 +275,13 @@ export const Roles = observer(({ server }: Props) => {
         margin-inline: auto 8px;
     `;
 
-    const handleBackFromReorder = () => {
-        setShowReorderPanel(false);
-        if (rolesWereReordered) {
-            window.location.reload(); // Refresh because I don't actually care anymore.
-        }
-    };
-
     if (showReorderPanel) {
         return (
             <div>
                 <RoleReorderPanel
                     server={server}
-                    onRolesReordered={() => setRolesWereReordered(true)}
+                    onExit={() => setShowReorderPanel(false)}
                 />
-                <Button
-                    palette="secondary"
-                    onClick={handleBackFromReorder}
-                    style={{ marginBottom: "16px" }}>
-                    <Text id="app.special.modals.actions.back" />
-                </Button>
             </div>
         );
     }
