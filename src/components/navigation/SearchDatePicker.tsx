@@ -74,16 +74,34 @@ const Days = styled.div`
     gap: 4px;
 `;
 
-const Day = styled.button<{ isToday?: boolean; isSelected?: boolean; isOtherMonth?: boolean }>`
-    background: ${props => props.isSelected ? 'var(--accent)' : 'transparent'};
+const Day = styled.button<{ 
+    isToday?: boolean; 
+    isSelected?: boolean; 
+    isOtherMonth?: boolean;
+    isRangeStart?: boolean;
+    isRangeEnd?: boolean;
+    isInRange?: boolean;
+    isInHoverRange?: boolean;
+}>`
+    background: ${props => {
+        if (props.isSelected || props.isRangeStart || props.isRangeEnd) return 'var(--accent)';
+        if (props.isInRange) return 'var(--accent-disabled)';
+        if (props.isInHoverRange) return 'var(--hover)';
+        return 'transparent';
+    }};
     color: ${props => {
-        if (props.isSelected) return 'var(--accent-contrast)';
+        if (props.isSelected || props.isRangeStart || props.isRangeEnd) return 'var(--accent-contrast)';
         if (props.isOtherMonth) return 'var(--tertiary-foreground)';
         return 'var(--foreground)';
     }};
     border: none;
     padding: 8px;
-    border-radius: 4px;
+    border-radius: ${props => {
+        if (props.isRangeStart || (props.isInHoverRange && props.isOtherMonth === false && !props.isRangeEnd)) return '4px 0 0 4px';
+        if (props.isRangeEnd || (props.isInHoverRange && props.isOtherMonth === false && !props.isRangeStart)) return '0 4px 4px 0';
+        if (props.isInRange || props.isInHoverRange) return '0';
+        return '4px';
+    }};
     cursor: pointer;
     font-size: 13px;
     transition: all 0.1s ease;
@@ -99,12 +117,15 @@ const Day = styled.button<{ isToday?: boolean; isSelected?: boolean; isOtherMont
             width: 4px;
             height: 4px;
             border-radius: 50%;
-            background: var(--accent);
+            background: ${props.isSelected || props.isRangeStart || props.isRangeEnd ? 'var(--accent-contrast)' : 'var(--accent)'};
         }
     `}
     
     &:hover {
-        background: ${props => props.isSelected ? 'var(--accent)' : 'var(--secondary-background)'};
+        background: ${props => {
+            if (props.isSelected || props.isRangeStart || props.isRangeEnd) return 'var(--accent)';
+            return 'var(--secondary-background)';
+        }};
     }
     
     &:disabled {
@@ -119,6 +140,22 @@ const QuickSelects = styled.div`
     margin-top: 12px;
     padding-top: 12px;
     border-top: 1px solid var(--secondary-background);
+`;
+
+const RangePreview = styled.div`
+    margin: 12px 0;
+    padding: 8px 12px;
+    background: var(--secondary-background);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--foreground);
+    text-align: center;
+    
+    .hint {
+        color: var(--tertiary-foreground);
+        font-size: 12px;
+        margin-top: 4px;
+    }
 `;
 
 const QuickSelect = styled.button`
@@ -139,12 +176,16 @@ const QuickSelect = styled.button`
 
 interface Props {
     onSelect: (date: Date) => void;
-    filterType: "before" | "after" | "during";
+    onRangeSelect?: (startDate: Date, endDate: Date) => void;
+    filterType: "before" | "after" | "during" | "between";
 }
 
-export default function SearchDatePicker({ onSelect, filterType }: Props) {
+export default function SearchDatePicker({ onSelect, onRangeSelect, filterType }: Props) {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [rangeStart, setRangeStart] = useState<Date | null>(null);
+    const [rangeEnd, setRangeEnd] = useState<Date | null>(null);
+    const [hoverDate, setHoverDate] = useState<Date | null>(null);
     
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"];
@@ -199,9 +240,43 @@ export default function SearchDatePicker({ onSelect, filterType }: Props) {
         return date1.toDateString() === date2.toDateString();
     };
     
+    const isDateInRange = (date: Date) => {
+        if (!rangeStart || !rangeEnd) return false;
+        return date >= rangeStart && date <= rangeEnd;
+    };
+    
+    const isDateInHoverRange = (date: Date) => {
+        if (filterType !== "between" || !rangeStart || rangeEnd || !hoverDate) return false;
+        const start = rangeStart < hoverDate ? rangeStart : hoverDate;
+        const end = rangeStart < hoverDate ? hoverDate : rangeStart;
+        return date >= start && date <= end;
+    };
+    
     const handleDateSelect = (date: Date) => {
-        setSelectedDate(date);
-        onSelect(date);
+        if (filterType === "between") {
+            if (!rangeStart || (rangeStart && rangeEnd)) {
+                // First click or reset
+                setRangeStart(date);
+                setRangeEnd(null);
+            } else {
+                // Second click
+                if (date < rangeStart) {
+                    setRangeEnd(rangeStart);
+                    setRangeStart(date);
+                } else {
+                    setRangeEnd(date);
+                }
+                // Call the callback with both dates
+                if (onRangeSelect) {
+                    const start = date < rangeStart ? date : rangeStart;
+                    const end = date < rangeStart ? rangeStart : date;
+                    onRangeSelect(start, end);
+                }
+            }
+        } else {
+            setSelectedDate(date);
+            onSelect(date);
+        }
     };
     
     const handleQuickSelect = (option: string) => {
@@ -246,7 +321,10 @@ export default function SearchDatePicker({ onSelect, filterType }: Props) {
                     <ChevronLeft size={20} />
                 </NavButton>
                 <MonthYear>
-                    {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+                    {filterType === "between" && rangeStart && !rangeEnd 
+                        ? "Select end date" 
+                        : `${monthNames[currentMonth.getMonth()]} ${currentMonth.getFullYear()}`
+                    }
                 </MonthYear>
                 <NavButton onClick={() => navigateMonth(1)}>
                     <ChevronRight size={20} />
@@ -264,14 +342,21 @@ export default function SearchDatePicker({ onSelect, filterType }: Props) {
                     <Day
                         key={index}
                         onClick={() => handleDateSelect(day.date)}
+                        onMouseEnter={() => setHoverDate(day.date)}
+                        onMouseLeave={() => setHoverDate(null)}
                         isToday={isToday(day.date)}
-                        isSelected={isSameDate(day.date, selectedDate)}
+                        isSelected={filterType !== "between" && isSameDate(day.date, selectedDate)}
+                        isRangeStart={filterType === "between" && rangeStart && isSameDate(day.date, rangeStart)}
+                        isRangeEnd={filterType === "between" && rangeEnd && isSameDate(day.date, rangeEnd)}
+                        isInRange={filterType === "between" && isDateInRange(day.date)}
+                        isInHoverRange={isDateInHoverRange(day.date)}
                         isOtherMonth={day.isOtherMonth}
                     >
                         {day.date.getDate()}
                     </Day>
                 ))}
             </Days>
+            
             
             <QuickSelects>
                 <QuickSelect onClick={() => handleQuickSelect("today")}>

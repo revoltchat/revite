@@ -109,9 +109,9 @@ interface Props {
         query: string;
         author?: string;
         mention?: string;
-        before_date?: string;
-        after_date?: string;
-        during?: string;
+        date_start?: string;
+        date_end?: string;
+        has?: string;
         server_wide?: boolean;
     };
 }
@@ -132,7 +132,8 @@ export function SearchSidebar({ close, initialQuery = "", searchParams }: Props)
     async function search() {
         const searchQuery = searchParams?.query || query;
         if (!searchQuery && !searchParams?.author && !searchParams?.mention && 
-            !searchParams?.before_date && !searchParams?.after_date && !searchParams?.during && !searchParams?.server_wide) return;
+            !searchParams?.date_start && !searchParams?.date_end && 
+            !searchParams?.has && !searchParams?.server_wide) return;
         
         setState({ type: "loading" });
         const searchOptions: any = { 
@@ -148,20 +149,22 @@ export function SearchSidebar({ close, initialQuery = "", searchParams }: Props)
             searchOptions.mention = searchParams.mention;
         }
         
-        // Add date filters if provided
-        if (searchParams?.before_date) {
-            searchOptions.before_date = searchParams.before_date;
+        // Add date filters if provided using the new standardized parameters
+        if (searchParams?.date_start) {
+            searchOptions.date_start = searchParams.date_start;
         }
-        if (searchParams?.after_date) {
-            searchOptions.after_date = searchParams.after_date;
-        }
-        if (searchParams?.during) {
-            searchOptions.during = searchParams.during;
+        if (searchParams?.date_end) {
+            searchOptions.date_end = searchParams.date_end;
         }
         
         // Add server-wide filter if provided
         if (searchParams?.server_wide) {
             searchOptions.server_wide = true;
+        }
+        
+        // Add has filter if provided
+        if (searchParams?.has) {
+            searchOptions.has = searchParams.has;
         }
         
         const data = await channel.searchWithUsers(searchOptions);
@@ -199,7 +202,14 @@ export function SearchSidebar({ close, initialQuery = "", searchParams }: Props)
                     </div>
                     {state.type === "loading" && <Preloader type="ring" />}
                     {state.type === "results" && (
-                        <div className="list">
+                        <>
+                            <Overline type="subtle" block style={{ textAlign: 'center', marginTop: '12px' }}>
+                                {state.results.length > 0 
+                                    ? `${state.results.length} Result${state.results.length === 1 ? '' : 's'}`
+                                    : 'No Results'
+                                }
+                            </Overline>
+                            <div className="list">
                         {(() => {
                             // Group messages by channel
                             const groupedMessages = state.results.reduce((acc, message) => {
@@ -256,7 +266,8 @@ export function SearchSidebar({ close, initialQuery = "", searchParams }: Props)
                                 );
                             });
                         })()}
-                        </div>
+                            </div>
+                        </>
                     )}
                 </SearchBase>
             </GenericSidebarList>

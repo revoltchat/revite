@@ -36,19 +36,19 @@ export function useSearchAutoComplete(
         const beforeCursor = value.slice(0, cursorPos);
         const afterCursor = value.slice(cursorPos);
         
-        // Check if we're currently typing after "from:" or "mentions:"
-        const fromMatch = beforeCursor.match(/\bfrom:(@?\w*)$/);
+        // Check if we're currently typing after "from:" or "mentions:" (including hyphens)
+        const fromMatch = beforeCursor.match(/\bfrom:(@?[\w-]*)$/);
         if (fromMatch) {
             // Check if there's already a username that continues after cursor
-            const continuationMatch = afterCursor.match(/^(\w*)/);
+            const continuationMatch = afterCursor.match(/^([\w-]*)/);
             const fullUsername = fromMatch[1].replace('@', '') + (continuationMatch ? continuationMatch[1] : '');
             return ["user", fullUsername, fromMatch.index! + 5, "from"];
         }
         
-        const mentionsMatch = beforeCursor.match(/\bmentions:(@?\w*)$/);
+        const mentionsMatch = beforeCursor.match(/\bmentions:(@?[\w-]*)$/);
         if (mentionsMatch) {
             // Check if there's already a username that continues after cursor
-            const continuationMatch = afterCursor.match(/^(\w*)/);
+            const continuationMatch = afterCursor.match(/^([\w-]*)/);
             const fullUsername = mentionsMatch[1].replace('@', '') + (continuationMatch ? continuationMatch[1] : '');
             return ["user", fullUsername, mentionsMatch.index! + 9, "mentions"];
         }
@@ -65,9 +65,9 @@ export function useSearchAutoComplete(
             // Check if we're still within this filter (no space between filter and cursor)
             const betweenFilterAndCursor = value.slice(filterIndex + filterLength, cursorPos);
             if (!betweenFilterAndCursor.includes(" ")) {
-                // Get the username part
+                // Get the username part (including hyphens)
                 const afterFilter = value.slice(filterIndex + filterLength);
-                const usernameMatch = afterFilter.match(/^@?(\w*)/);
+                const usernameMatch = afterFilter.match(/^@?([\w-]*)/);
                 if (usernameMatch) {
                     return ["user", usernameMatch[1] || "", filterIndex + filterLength, filterType];
                 }
@@ -142,10 +142,10 @@ export function useSearchAutoComplete(
                 newMappings[mappingKey] = selectedUser._id;
                 setUserMappings(newMappings);
                 
-                // Find the end of the current username (including @ if present)
+                // Find the end of the current username (including @ if present and hyphens)
                 let endIndex = startIndex;
                 const afterStartIndex = el.value.slice(startIndex);
-                const existingMatch = afterStartIndex.match(/^@?\w*/);
+                const existingMatch = afterStartIndex.match(/^@?[\w-]*/);
                 if (existingMatch) {
                     endIndex = startIndex + existingMatch[0].length;
                 }
@@ -254,17 +254,17 @@ export function useSearchAutoComplete(
 export function transformSearchQuery(
     displayQuery: string,
     userMappings: UserMapping
-): { query: string; author?: string; mention?: string; before_date?: string; after_date?: string; during?: string; server_wide?: boolean } {
+): { query: string; author?: string; mention?: string; date_start?: string; date_end?: string; has?: string; server_wide?: boolean } {
     let query = displayQuery;
     let author: string | undefined;
     let mention: string | undefined;
-    let before_date: string | undefined;
-    let after_date: string | undefined;
-    let during: string | undefined;
+    let date_start: string | undefined;
+    let date_end: string | undefined;
+    let has: string | undefined;
     let server_wide: boolean | undefined;
     
-    // Extract and replace from:@username with user ID
-    const fromMatch = query.match(/\bfrom:@?(\w+)/);
+    // Extract and replace from:@username with user ID (including hyphens)
+    const fromMatch = query.match(/\bfrom:@?([\w-]+)/);
     if (fromMatch) {
         const username = fromMatch[1];
         const userId = userMappings[`from:${username}`];
@@ -275,8 +275,8 @@ export function transformSearchQuery(
         }
     }
     
-    // Extract and replace mentions:@username with user ID
-    const mentionsMatch = query.match(/\bmentions:@?(\w+)/);
+    // Extract and replace mentions:@username with user ID (including hyphens)
+    const mentionsMatch = query.match(/\bmentions:@?([\w-]+)/);
     if (mentionsMatch) {
         const username = mentionsMatch[1];
         const userId = userMappings[`mentions:${username}`];
@@ -288,28 +288,69 @@ export function transformSearchQuery(
     }
     
     // Extract date filters (YYYY-MM-DD format) and convert to ISO 8601
+    // Using the new standardized date_start and date_end approach
     const beforeMatch = query.match(/\bbefore:(\d{4}-\d{2}-\d{2})/);
     if (beforeMatch) {
-        // Convert YYYY-MM-DD to full ISO 8601 format
-        const date = new Date(beforeMatch[1]);
-        before_date = date.toISOString();
+        // "before" means before the START of this day
+        const [year, month, day] = beforeMatch[1].split('-').map(Number);
+        const startOfDay = new Date(year, month - 1, day);
+        startOfDay.setHours(0, 0, 0, 0);
+        
+        date_end = startOfDay.toISOString();
         query = query.replace(beforeMatch[0], "").trim();
     }
     
     const afterMatch = query.match(/\bafter:(\d{4}-\d{2}-\d{2})/);
     if (afterMatch) {
-        // Convert YYYY-MM-DD to full ISO 8601 format
-        const date = new Date(afterMatch[1]);
-        after_date = date.toISOString();
+        // "after" means after the END of this day
+        const [year, month, day] = afterMatch[1].split('-').map(Number);
+        const endOfDay = new Date(year, month - 1, day);
+        endOfDay.setHours(23, 59, 59, 999);
+        
+        date_start = endOfDay.toISOString();
         query = query.replace(afterMatch[0], "").trim();
     }
     
     const duringMatch = query.match(/\bduring:(\d{4}-\d{2}-\d{2})/);
     if (duringMatch) {
-        // Convert YYYY-MM-DD to full ISO 8601 format
-        const date = new Date(duringMatch[1]);
-        during = date.toISOString();
+        // For 'during', capture the full day from start to end
+        const [year, month, day] = duringMatch[1].split('-').map(Number);
+        
+        const startOfDay = new Date(year, month - 1, day);
+        startOfDay.setHours(0, 0, 0, 0);
+        
+        const endOfDay = new Date(year, month - 1, day);
+        endOfDay.setHours(23, 59, 59, 999);
+        
+        date_start = startOfDay.toISOString();
+        date_end = endOfDay.toISOString();
+        
         query = query.replace(duringMatch[0], "").trim();
+    }
+    
+    // Extract between date range filter (between:YYYY-MM-DD..YYYY-MM-DD)
+    const betweenMatch = query.match(/\bbetween:(\d{4}-\d{2}-\d{2})\.\.(\d{4}-\d{2}-\d{2})/);
+    if (betweenMatch) {
+        // Start date: from the START of the first day
+        const [startYear, startMonth, startDay] = betweenMatch[1].split('-').map(Number);
+        const startOfFirstDay = new Date(startYear, startMonth - 1, startDay);
+        startOfFirstDay.setHours(0, 0, 0, 0);
+        date_start = startOfFirstDay.toISOString();
+        
+        // End date: to the END of the last day
+        const [endYear, endMonth, endDay] = betweenMatch[2].split('-').map(Number);
+        const endOfLastDay = new Date(endYear, endMonth - 1, endDay);
+        endOfLastDay.setHours(23, 59, 59, 999);
+        date_end = endOfLastDay.toISOString();
+        
+        query = query.replace(betweenMatch[0], "").trim();
+    }
+    
+    // Extract has: filter for attachment types
+    const hasMatch = query.match(/\bhas:(video|image|link|audio|file)/i);
+    if (hasMatch) {
+        has = hasMatch[1].toLowerCase();
+        query = query.replace(hasMatch[0], "").trim();
     }
     
     // Check for server-wide flag
@@ -318,5 +359,5 @@ export function transformSearchQuery(
         query = query.replace(/\bserver-wide\b/g, "").trim();
     }
     
-    return { query, author, mention, before_date, after_date, during, server_wide };
+    return { query, author, mention, date_start, date_end, has, server_wide };
 }

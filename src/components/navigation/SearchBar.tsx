@@ -7,6 +7,7 @@ import { internalEmit } from "../../lib/eventEmitter";
 import { useSearchAutoComplete, transformSearchQuery, UserMapping } from "../../lib/hooks/useSearchAutoComplete";
 import SearchAutoComplete from "./SearchAutoComplete";
 import SearchDatePicker from "./SearchDatePicker";
+import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 const Container = styled.div`
     position: relative;
@@ -28,24 +29,41 @@ const Input = styled.input`
     background: transparent;
     color: var(--foreground);
     font-size: 14px;
-    padding: 6px 2px 6px 12px;
+    padding: 6px 2px 6px 8px; /* Reduced left padding for more space */
     outline: none;
+    min-width: 0; /* Allow input to shrink properly */
     
     &::placeholder {
         color: var(--tertiary-foreground);
+        font-size: 13px; /* Slightly smaller placeholder on mobile */
+    }
+    
+    @media (max-width: 768px) {
+        font-size: 13px;
+        padding: 6px 2px 6px 6px;
     }
 `;
 
 const IconButton = styled.div`
     display: flex;
     align-items: center;
-    padding: 0 12px 0 8px;
+    padding: 0 8px; /* Symmetrical padding */
     color: var(--tertiary-foreground);
     cursor: pointer;
     transition: color 0.1s ease;
+    flex-shrink: 0; /* Prevent icon from shrinking */
     
     &:hover {
         color: var(--foreground);
+    }
+    
+    @media (max-width: 768px) {
+        padding: 0 6px; /* Less padding on mobile */
+        
+        svg {
+            width: 16px;
+            height: 16px;
+        }
     }
 `;
 
@@ -61,6 +79,29 @@ const OptionsDropdown = styled.div`
     overflow: hidden;
     padding: 8px;
     min-width: 300px;
+    
+    @media (max-width: 768px) {
+        padding: 12px;
+        min-width: 320px;
+        max-width: calc(100vw - 20px);
+        right: -10px; /* Adjust position to prevent edge cutoff */
+        max-height: 40vh; /* Limit height when keyboard is up */
+        overflow-y: auto; /* Make it scrollable */
+        
+        /* Add scrollbar styles for mobile */
+        &::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 2px;
+        }
+    }
 `;
 
 const OptionsHeader = styled.div`
@@ -70,6 +111,11 @@ const OptionsHeader = styled.div`
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    
+    @media (max-width: 768px) {
+        font-size: 11px;
+        padding: 0 8px 8px 8px;
+    }
 `;
 
 const Option = styled.div`
@@ -88,6 +134,18 @@ const Option = styled.div`
     &:last-child {
         margin-bottom: 0;
     }
+    
+    @media (max-width: 768px) {
+        padding: 10px 10px;
+        margin-bottom: 3px;
+        border-radius: 6px;
+        
+        /* Add touch feedback for mobile */
+        &:active {
+            background: var(--secondary-background);
+            transform: scale(0.98);
+        }
+    }
 `;
 
 const OptionLabel = styled.span`
@@ -97,12 +155,21 @@ const OptionLabel = styled.span`
     font-family: var(--monospace-font), monospace;
     font-size: 13px;
     white-space: nowrap;
+    
+    @media (max-width: 768px) {
+        font-size: 13px;
+        margin-right: 10px;
+    }
 `;
 
 const OptionDesc = styled.span`
     color: var(--tertiary-foreground);
     font-size: 13px;
     flex: 1;
+    
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
 `;
 
 const HelpIcon = styled(HelpCircle)`
@@ -150,9 +217,19 @@ const searchOptions: SearchOption[] = [
         tooltip: "Messages after this date"
     },
     {
+        label: "between:",
+        description: "date range",
+        tooltip: "Messages between two dates"
+    },
+    {
         label: "server-wide",
         description: "Entire server",
         tooltip: "Search in entire server instead of just this channel"
+    },
+    {
+        label: "has:",
+        description: "video, image, link, audio, file",
+        tooltip: "Messages with specific attachment types"
     }
 ];
 
@@ -161,7 +238,14 @@ export function SearchBar() {
     const [showOptions, setShowOptions] = useState(false);
     const [isSearching, setIsSearching] = useState(false);
     const [userMappings, setUserMappings] = useState<UserMapping>({});
-    const [showDatePicker, setShowDatePicker] = useState<"before" | "after" | "during" | null>(null);
+    const [showDatePicker, setShowDatePicker] = useState<"before" | "after" | "during" | "between" | null>(null);
+    const [showAttachmentTypes, setShowAttachmentTypes] = useState(false);
+    const [activeDateRange, setActiveDateRange] = useState<{
+        start: string;
+        end: string;
+        startDisplay: string;
+        endDisplay: string;
+    } | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     
     // Setup autocomplete
@@ -218,28 +302,49 @@ export function SearchBar() {
         
         setQuery(value);
         
-        // Check for date filters
+        // Check for filters
         const beforeCursor = value.slice(0, cursorPos);
         const beforeMatch = beforeCursor.match(/\bbefore:\s*$/);
         const afterMatch = beforeCursor.match(/\bafter:\s*$/);
         const duringMatch = beforeCursor.match(/\bduring:\s*$/);
+        const betweenMatch = beforeCursor.match(/\bbetween:\s*$/);
+        const hasMatch = beforeCursor.match(/\bhas:\s*$/);
         
         if (beforeMatch) {
             setShowDatePicker("before");
             setShowOptions(false);
+            setShowAttachmentTypes(false);
             setAutocompleteState({ type: "none" });
         } else if (afterMatch) {
             setShowDatePicker("after");
             setShowOptions(false);
+            setShowAttachmentTypes(false);
             setAutocompleteState({ type: "none" });
         } else if (duringMatch) {
             setShowDatePicker("during");
             setShowOptions(false);
+            setShowAttachmentTypes(false);
+            setAutocompleteState({ type: "none" });
+        } else if (betweenMatch) {
+            setShowDatePicker("between");
+            setShowOptions(false);
+            setShowAttachmentTypes(false);
+            setAutocompleteState({ type: "none" });
+        } else if (hasMatch) {
+            // Show attachment type options
+            setShowAttachmentTypes(true);
+            setShowOptions(false);
+            setShowDatePicker(null);
             setAutocompleteState({ type: "none" });
         } else {
-            // Only trigger autocomplete if no date filter is active
-            const dateFilterActive = value.match(/\b(before:|after:|during:)\s*$/);
-            if (!dateFilterActive) {
+            // Check if "has:" was removed and close attachment types dropdown
+            if (showAttachmentTypes && !value.includes("has:")) {
+                setShowAttachmentTypes(false);
+            }
+            
+            // Only trigger autocomplete if no filter is active
+            const filterActive = value.match(/\b(before:|after:|during:|between:|has:)\s*$/);
+            if (!filterActive) {
                 onAutocompleteChange(e);
                 if (showDatePicker) {
                     setShowDatePicker(null);
@@ -249,28 +354,37 @@ export function SearchBar() {
     };
     
     const handleSearch = () => {
-        const trimmedQuery = query.trim();
+        let trimmedQuery = query.trim();
         
-        // Check for incomplete filters (only user filters, not date filters)
+        // Check for incomplete filters
         const hasIncompleteUserFilter = trimmedQuery.match(/\b(from:|mentions:)\s*$/);
-        const hasIncompleteDateFilter = trimmedQuery.match(/\b(before:|after:|during:)\s*$/);
+        const hasIncompleteDateFilter = trimmedQuery.match(/\b(before:|after:|during:|between:)\s*$/);
+        const hasIncompleteHasFilter = trimmedQuery.match(/\bhas:\s*$/);
         
-        if (hasIncompleteUserFilter || hasIncompleteDateFilter) {
+        if (hasIncompleteUserFilter || hasIncompleteDateFilter || hasIncompleteHasFilter) {
             // Don't search if there's an incomplete filter
             return;
+        }
+        
+        // Check if we have "date-range" in the query and replace it with actual dates
+        if (trimmedQuery.includes("date-range") && activeDateRange) {
+            // Replace "date-range" with the actual between filter for processing
+            trimmedQuery = trimmedQuery.replace(/\bdate-range\b/, `between:${activeDateRange.start}..${activeDateRange.end}`);
         }
         
         // Transform query to use user IDs
         const searchParams = transformSearchQuery(trimmedQuery, userMappings);
         
         // Check if we have any search criteria (query text or filters)
-        const hasSearchCriteria = searchParams.query || 
-                                searchParams.author || 
-                                searchParams.mention || 
-                                searchParams.before_date || 
-                                searchParams.after_date || 
-                                searchParams.during ||
-                                searchParams.server_wide;
+        // Allow empty query string if filters are present
+        const hasFilters = searchParams.author || 
+                          searchParams.mention || 
+                          searchParams.date_start || 
+                          searchParams.date_end ||
+                          searchParams.has ||
+                          searchParams.server_wide;
+        
+        const hasSearchCriteria = (searchParams.query && searchParams.query.trim() !== "") || hasFilters;
         
         if (hasSearchCriteria) {
             // Open search in right sidebar with transformed query
@@ -279,6 +393,17 @@ export function SearchBar() {
             setIsSearching(true);
             setAutocompleteState({ type: "none" });
             inputRef.current?.blur();
+            
+            // On mobile, automatically slide to show search results
+            if (isTouchscreenDevice) {
+                setTimeout(() => {
+                    const panels = document.querySelector("#app > div > div > div");
+                    panels?.scrollTo({
+                        behavior: "smooth",
+                        left: panels.clientWidth * 3,
+                    });
+                }, 100); // Small delay to ensure sidebar is opened first
+            }
         }
     };
     
@@ -286,13 +411,173 @@ export function SearchBar() {
         const currentValue = (e.currentTarget as HTMLInputElement).value;
         const cursorPos = (e.currentTarget as HTMLInputElement).selectionStart || 0;
         
-        // Handle backspace/delete for server-wide
+        // Handle backspace/delete for date filters and server-wide
         if (e.key === "Backspace" || e.key === "Delete") {
             const beforeCursor = currentValue.slice(0, cursorPos);
             const afterCursor = currentValue.slice(cursorPos);
             
-            // Check if we're at the end of "server-wide" or within it
+            // Check for date filters with backspace
             if (e.key === "Backspace") {
+                // Handle single date filters (before:, after:, during:)
+                const singleDateMatch = beforeCursor.match(/\b(before|after|during):(\d{4}-\d{2}-\d{2})\s*$/);
+                if (singleDateMatch) {
+                    e.preventDefault();
+                    const filterStart = singleDateMatch.index!;
+                    
+                    // Remove the entire filter and date
+                    const newValue = currentValue.slice(0, filterStart) + afterCursor;
+                    setQuery(newValue);
+                    
+                    // Position cursor where filter was
+                    setTimeout(() => {
+                        if (inputRef.current) {
+                            inputRef.current.setSelectionRange(filterStart, filterStart);
+                        }
+                    }, 0);
+                    return;
+                }
+                
+                // Handle filter-only patterns (e.g., "before:" without date)
+                const filterOnlyMatch = beforeCursor.match(/\b(before|after|during|between):\s*$/);
+                if (filterOnlyMatch) {
+                    e.preventDefault();
+                    const filterStart = filterOnlyMatch.index!;
+                    
+                    // Remove the entire filter
+                    const newValue = currentValue.slice(0, filterStart) + afterCursor;
+                    setQuery(newValue);
+                    
+                    // Close date picker if open
+                    setShowDatePicker(null);
+                    
+                    setTimeout(() => {
+                        if (inputRef.current) {
+                            inputRef.current.setSelectionRange(filterStart, filterStart);
+                        }
+                    }, 0);
+                    return;
+                }
+                
+                // Handle between date range filter
+                const betweenMatch = beforeCursor.match(/\bbetween:(\d{4}-\d{2}-\d{2})\.\.(\d{4}-\d{2}-\d{2})\s*$/);
+                if (betweenMatch) {
+                    e.preventDefault();
+                    const filterStart = betweenMatch.index!;
+                    const startDate = betweenMatch[1];
+                    
+                    // Remove end date but keep "between:YYYY-MM-DD.."
+                    const newValue = currentValue.slice(0, filterStart) + "between:" + startDate + ".." + afterCursor;
+                    setQuery(newValue);
+                    
+                    const newCursorPos = filterStart + "between:".length + startDate.length + 2;
+                    setTimeout(() => {
+                        if (inputRef.current) {
+                            inputRef.current.setSelectionRange(newCursorPos, newCursorPos);
+                        }
+                    }, 0);
+                    return;
+                }
+                
+                // Handle partial between filter (between:YYYY-MM-DD..)
+                const partialBetweenMatch = beforeCursor.match(/\bbetween:(\d{4}-\d{2}-\d{2})\.\.\s*$/);
+                if (partialBetweenMatch) {
+                    e.preventDefault();
+                    const filterStart = partialBetweenMatch.index!;
+                    const startDate = partialBetweenMatch[1];
+                    
+                    // Remove ".." to get "between:YYYY-MM-DD"
+                    const newValue = currentValue.slice(0, filterStart) + "between:" + startDate + afterCursor;
+                    setQuery(newValue);
+                    
+                    const newCursorPos = filterStart + "between:".length + startDate.length;
+                    setTimeout(() => {
+                        if (inputRef.current) {
+                            inputRef.current.setSelectionRange(newCursorPos, newCursorPos);
+                        }
+                    }, 0);
+                    return;
+                }
+                
+                // Handle between with only start date (between:YYYY-MM-DD)
+                const betweenStartOnlyMatch = beforeCursor.match(/\bbetween:(\d{4}-\d{2}-\d{2})\s*$/);
+                if (betweenStartOnlyMatch) {
+                    e.preventDefault();
+                    const filterStart = betweenStartOnlyMatch.index!;
+                    
+                    // Remove date but keep "between:"
+                    const newValue = currentValue.slice(0, filterStart) + "between:" + afterCursor;
+                    setQuery(newValue);
+                    
+                    const newCursorPos = filterStart + "between:".length;
+                    setTimeout(() => {
+                        if (inputRef.current) {
+                            inputRef.current.setSelectionRange(newCursorPos, newCursorPos);
+                            // Open the date picker in between mode
+                            setShowDatePicker("between");
+                            setShowOptions(false);
+                        }
+                    }, 0);
+                    return;
+                }
+                
+                // Handle date-range keyword removal
+                const dateRangeMatch = beforeCursor.match(/\bdate-range\s*$/);
+                if (dateRangeMatch) {
+                    e.preventDefault();
+                    const filterStart = dateRangeMatch.index!;
+                    
+                    // Remove the keyword and clear the stored date range
+                    const newValue = currentValue.slice(0, filterStart) + afterCursor;
+                    setQuery(newValue);
+                    setActiveDateRange(null);
+                    
+                    // Position cursor where filter was
+                    setTimeout(() => {
+                        if (inputRef.current) {
+                            inputRef.current.setSelectionRange(filterStart, filterStart);
+                        }
+                    }, 0);
+                    return;
+                }
+                
+                // Handle has: filter removal
+                const hasMatch = beforeCursor.match(/\bhas:(video|image|link|audio|file)\s*$/);
+                if (hasMatch) {
+                    e.preventDefault();
+                    const filterStart = hasMatch.index!;
+                    
+                    // Remove the entire filter
+                    const newValue = currentValue.slice(0, filterStart) + afterCursor;
+                    setQuery(newValue);
+                    
+                    // Position cursor where filter was
+                    setTimeout(() => {
+                        if (inputRef.current) {
+                            inputRef.current.setSelectionRange(filterStart, filterStart);
+                        }
+                    }, 0);
+                    return;
+                }
+                
+                // Handle has: without value
+                const hasOnlyMatch = beforeCursor.match(/\bhas:\s*$/);
+                if (hasOnlyMatch) {
+                    e.preventDefault();
+                    const filterStart = hasOnlyMatch.index!;
+                    
+                    // Remove the entire filter
+                    const newValue = currentValue.slice(0, filterStart) + afterCursor;
+                    setQuery(newValue);
+                    
+                    setTimeout(() => {
+                        if (inputRef.current) {
+                            inputRef.current.setSelectionRange(filterStart, filterStart);
+                        }
+                    }, 0);
+                    return;
+                }
+                
+                // Original server-wide handling
                 const serverWideMatch = beforeCursor.match(/\bserver-wide\s*$/);
                 if (serverWideMatch) {
                     e.preventDefault();
@@ -307,7 +592,42 @@ export function SearchBar() {
                     return;
                 }
             } else if (e.key === "Delete") {
-                // Check if cursor is at the beginning of server-wide
+                // Handle date filters with delete key
+                // Check if we're at a filter: position
+                const filterMatch = afterCursor.match(/^(before|after|during|between):(\d{4}-\d{2}-\d{2})?/);
+                if (filterMatch && beforeCursor.match(/\s$|^$/)) {
+                    e.preventDefault();
+                    const filterType = filterMatch[1];
+                    const hasDate = filterMatch[2];
+                    
+                    if (hasDate) {
+                        // Remove entire filter and date
+                        const newValue = beforeCursor + afterCursor.slice(filterMatch[0].length).trimStart();
+                        setQuery(newValue);
+                    } else {
+                        // Just filter: without date, remove it
+                        const newValue = beforeCursor + afterCursor.slice(filterType.length + 1).trimStart();
+                        setQuery(newValue);
+                    }
+                    
+                    setTimeout(() => {
+                        if (inputRef.current) {
+                            inputRef.current.setSelectionRange(beforeCursor.length, beforeCursor.length);
+                        }
+                    }, 0);
+                    return;
+                }
+                
+                // Handle has: filter with delete key
+                const hasAfter = afterCursor.match(/^has:(video|image|link|audio|file)?\s*/);
+                if (hasAfter) {
+                    e.preventDefault();
+                    const newValue = beforeCursor + afterCursor.slice(hasAfter[0].length);
+                    setQuery(newValue);
+                    return;
+                }
+                
+                // Original server-wide handling
                 const serverWideAfter = afterCursor.match(/^server-wide\s*/);
                 if (serverWideAfter) {
                     e.preventDefault();
@@ -377,9 +697,24 @@ export function SearchBar() {
     
     const handleOptionClick = (option: SearchOption) => {
         // If it's a date filter, just show the date picker without adding text
-        if (option.label === "before:" || option.label === "after:" || option.label === "during:") {
-            setShowDatePicker(option.label.slice(0, -1) as "before" | "after" | "during");
+        if (option.label === "before:" || option.label === "after:" || option.label === "during:" || option.label === "between:") {
+            setShowDatePicker(option.label.slice(0, -1) as "before" | "after" | "during" | "between");
             setShowOptions(false);
+        } else if (option.label === "has:") {
+            // For has: filter, add it and show attachment type options
+            const newQuery = query + (query ? " " : "") + "has:";
+            setQuery(newQuery);
+            setShowOptions(false);
+            setShowAttachmentTypes(true);
+            
+            // Move cursor after "has:"
+            setTimeout(() => {
+                if (inputRef.current) {
+                    const endPos = newQuery.length;
+                    inputRef.current.setSelectionRange(endPos, endPos);
+                    inputRef.current.focus();
+                }
+            }, 0);
         } else if (option.label === "server-wide") {
             // For server-wide, add it as a standalone filter with auto-space
             const newQuery = query + (query ? " " : "") + "server-wide ";
@@ -402,11 +737,64 @@ export function SearchBar() {
         }
     };
     
+    const handleAttachmentTypeClick = (type: string) => {
+        // Add the attachment type to the query
+        const newQuery = query + type + " ";
+        setQuery(newQuery);
+        setShowAttachmentTypes(false);
+        
+        // Move cursor to end and focus
+        setTimeout(() => {
+            if (inputRef.current) {
+                const endPos = newQuery.length;
+                inputRef.current.setSelectionRange(endPos, endPos);
+                inputRef.current.focus();
+            }
+        }, 0);
+    };
+    
+    // Format date to YYYY-MM-DD in local timezone
+    const formatLocalDate = (date: Date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+    
     const handleDateSelect = (date: Date) => {
-        const dateStr = date.toISOString().split('T')[0]; // Format as YYYY-MM-DD for display
+        const dateStr = formatLocalDate(date); // Use local date formatting
         
         // Add the filter and date to the query with auto-space
         const filterText = `${showDatePicker}:${dateStr} `;
+        const newQuery = query + (query ? " " : "") + filterText;
+        
+        setQuery(newQuery);
+        setShowDatePicker(null);
+        
+        // Move cursor to end after the space
+        setTimeout(() => {
+            if (inputRef.current) {
+                const endPos = newQuery.length;
+                inputRef.current.setSelectionRange(endPos, endPos);
+                inputRef.current.focus();
+            }
+        }, 0);
+    };
+    
+    const handleRangeSelect = (startDate: Date, endDate: Date) => {
+        const startStr = formatLocalDate(startDate);
+        const endStr = formatLocalDate(endDate);
+        
+        // Store the actual date range in state
+        setActiveDateRange({
+            start: startStr,
+            end: endStr,
+            startDisplay: startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+            endDisplay: endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        });
+        
+        // Only add "date-range" to the query, not the actual dates
+        const filterText = `date-range `;
         const newQuery = query + (query ? " " : "") + filterText;
         
         setQuery(newQuery);
@@ -435,21 +823,22 @@ export function SearchBar() {
         return () => window.removeEventListener("keydown", handleGlobalKeydown);
     }, []);
     
-    // Close date picker when clicking outside
+    // Close date picker or attachment types when clicking outside
     useEffect(() => {
-        if (showDatePicker) {
+        if (showDatePicker || showAttachmentTypes) {
             const handleClickOutside = (e: MouseEvent) => {
                 // Check if click is outside the container
                 const container = e.target as HTMLElement;
                 if (!container.closest('[data-search-container]') && !container.closest('[data-date-picker]')) {
                     setShowDatePicker(null);
+                    setShowAttachmentTypes(false);
                 }
             };
             
             document.addEventListener("mousedown", handleClickOutside);
             return () => document.removeEventListener("mousedown", handleClickOutside);
         }
-    }, [showDatePicker]);
+    }, [showDatePicker, showAttachmentTypes]);
     
     return (
         <Container data-search-container onMouseDown={(e) => e.stopPropagation()}>
@@ -481,7 +870,7 @@ export function SearchBar() {
                     onClick={onAutocompleteClick}
                 />
             )}
-            {showOptions && autocompleteState.type === "none" && !showDatePicker && (
+            {showOptions && autocompleteState.type === "none" && !showDatePicker && !showAttachmentTypes && (
                 <OptionsDropdown onClick={(e) => e.stopPropagation()}>
                     <OptionsHeader>{"Search Options"}</OptionsHeader>
                     {searchOptions.map((option) => (
@@ -501,8 +890,34 @@ export function SearchBar() {
             {showDatePicker && (
                 <SearchDatePicker
                     onSelect={handleDateSelect}
+                    onRangeSelect={handleRangeSelect}
                     filterType={showDatePicker}
                 />
+            )}
+            {showAttachmentTypes && (
+                <OptionsDropdown onClick={(e) => e.stopPropagation()}>
+                    <OptionsHeader>Attachment Types</OptionsHeader>
+                    <Option onClick={() => handleAttachmentTypeClick("video")}>
+                        <OptionLabel>video</OptionLabel>
+                        <OptionDesc>Messages with videos</OptionDesc>
+                    </Option>
+                    <Option onClick={() => handleAttachmentTypeClick("image")}>
+                        <OptionLabel>image</OptionLabel>
+                        <OptionDesc>Messages with images</OptionDesc>
+                    </Option>
+                    <Option onClick={() => handleAttachmentTypeClick("link")}>
+                        <OptionLabel>link</OptionLabel>
+                        <OptionDesc>Messages with links</OptionDesc>
+                    </Option>
+                    <Option onClick={() => handleAttachmentTypeClick("audio")}>
+                        <OptionLabel>audio</OptionLabel>
+                        <OptionDesc>Messages with audio</OptionDesc>
+                    </Option>
+                    <Option onClick={() => handleAttachmentTypeClick("file")}>
+                        <OptionLabel>file</OptionLabel>
+                        <OptionDesc>Messages with files</OptionDesc>
+                    </Option>
+                </OptionsDropdown>
             )}
         </Container>
     );

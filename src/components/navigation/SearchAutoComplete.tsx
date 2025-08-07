@@ -16,6 +16,12 @@ const Base = styled.div`
     overflow: hidden;
     max-height: 200px;
     overflow-y: auto;
+    
+    @media (max-width: 768px) {
+        margin-top: 8px;
+        max-height: 250px;
+        border-radius: 10px;
+    }
 
     button {
         width: 100%;
@@ -43,6 +49,18 @@ const Base = styled.div`
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+        
+        @media (max-width: 768px) {
+            padding: 14px 16px;
+            font-size: 15px;
+            gap: 12px;
+            
+            /* Add touch feedback for mobile */
+            &:active {
+                background: var(--secondary-background);
+                transform: scale(0.98);
+            }
+        }
     }
 `;
 
@@ -54,6 +72,10 @@ interface Props {
 
 export default function SearchAutoComplete({ state, setState, onClick }: Props) {
     if (state.type !== "user") return null;
+    
+    // Detect if we're on mobile
+    const isMobile = window.innerWidth <= 768;
+    const iconSize = isMobile ? 24 : 20;
 
     return (
         <Base>
@@ -82,16 +104,16 @@ export default function SearchAutoComplete({ state, setState, onClick }: Props) 
                             e.stopPropagation();
                             onClick(user._id, user.username);
                         }}>
-                        <UserIcon size={20} target={user} status={true} />
+                        <UserIcon size={iconSize} target={user} status={true} />
                         <span>{user.username}</span>
                     </button>
                 ))
             ) : (
                 <div style={{
-                    padding: "12px",
+                    padding: isMobile ? "16px" : "12px",
                     textAlign: "center",
                     color: "var(--tertiary-foreground)",
-                    fontSize: "13px"
+                    fontSize: isMobile ? "14px" : "13px"
                 }}>
                     No users found
                 </div>
