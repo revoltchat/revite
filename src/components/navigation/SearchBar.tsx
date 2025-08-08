@@ -1014,20 +1014,7 @@ export function SearchBar() {
                     <X size={18} />
                 </IconButton>
             ) : (
-                <IconButton 
-                    onClick={handleSearch}
-                    title={
-                        showServerWideError 
-                            ? "Server-wide search requires at least one other filter or search term"
-                            : showDateRangeError
-                            ? "Only one date range filter is allowed"
-                            : showMultipleHasError
-                            ? "Only one attachment type filter is allowed"
-                            : showDuplicateFilterError
-                            ? "Only one of each filter type is allowed"
-                            : undefined
-                    }
-                >
+                <IconButton onClick={handleSearch}>
                     <Search size={18} />
                 </IconButton>
             )}
