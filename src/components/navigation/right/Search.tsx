@@ -21,7 +21,10 @@ type SearchState =
       }
     | {
           type: "results";
-          results: MessageI[];
+          pages: Map<number, MessageI[]>;
+          currentPage: number;
+          hasMore: boolean;
+          isLoadingPage?: boolean;
       };
 
 // Custom wider sidebar for search results
@@ -128,18 +131,47 @@ export function SearchSidebar({ close, initialQuery = "", searchParams }: Props)
 
     const [state, setState] = useState<SearchState>({ type: "waiting" });
     const [savedSearchParams, setSavedSearchParams] = useState(searchParams);
+    const [pageLastMessageIds, setPageLastMessageIds] = useState<Map<number, string>>(new Map());
+    
+    const MESSAGES_PER_PAGE = 50;
 
-    async function search() {
+    async function searchPage(pageNumber: number) {
         const searchQuery = searchParams?.query || query;
         if (!searchQuery && !searchParams?.author && !searchParams?.mention && 
             !searchParams?.date_start && !searchParams?.date_end && 
             !searchParams?.has && !searchParams?.server_wide) return;
         
-        setState({ type: "loading" });
+        // Check if we already have this page cached
+        if (state.type === "results" && state.pages.has(pageNumber) && pageNumber !== state.currentPage) {
+            setState({ ...state, currentPage: pageNumber });
+            return;
+        }
+        
+        // Mark as loading page
+        if (state.type === "results") {
+            setState({ ...state, isLoadingPage: true });
+        } else {
+            setState({ type: "loading" });
+        }
+        
         const searchOptions: any = { 
             query: searchQuery, 
-            sort 
+            sort,
+            limit: MESSAGES_PER_PAGE
         };
+        
+        // Add pagination cursor for pages after the first
+        if (pageNumber > 1) {
+            const previousPageLastId = pageLastMessageIds.get(pageNumber - 1);
+            if (previousPageLastId) {
+                searchOptions.before = previousPageLastId;
+            } else {
+                // If we don't have the previous page, we need to load pages sequentially
+                // This shouldn't happen in normal navigation
+                console.warn("Previous page not loaded, loading sequentially");
+                return;
+            }
+        }
         
         // Add user filters if provided
         if (searchParams?.author) {
@@ -168,17 +200,72 @@ export function SearchSidebar({ close, initialQuery = "", searchParams }: Props)
         }
         
         const data = await channel.searchWithUsers(searchOptions);
-        setState({ type: "results", results: data.messages });
+        
+        // Store the last message ID for this page
+        if (data.messages.length > 0) {
+            const newPageLastIds = new Map(pageLastMessageIds);
+            newPageLastIds.set(pageNumber, data.messages[data.messages.length - 1]._id);
+            setPageLastMessageIds(newPageLastIds);
+        }
+        
+        if (state.type === "results") {
+            // Add this page to the cache
+            const newPages = new Map(state.pages);
+            newPages.set(pageNumber, data.messages);
+            setState({ 
+                type: "results", 
+                pages: newPages,
+                currentPage: pageNumber,
+                hasMore: data.messages.length === MESSAGES_PER_PAGE,
+                isLoadingPage: false
+            });
+        } else {
+            // First page load
+            const newPages = new Map<number, MessageI[]>();
+            newPages.set(1, data.messages);
+            setState({ 
+                type: "results", 
+                pages: newPages,
+                currentPage: 1,
+                hasMore: data.messages.length === MESSAGES_PER_PAGE,
+                isLoadingPage: false
+            });
+        }
+    }
+    
+    function goToNextPage() {
+        if (state.type === "results" && state.hasMore && !state.isLoadingPage) {
+            searchPage(state.currentPage + 1);
+        }
+    }
+    
+    function goToPreviousPage() {
+        if (state.type === "results" && state.currentPage > 1 && !state.isLoadingPage) {
+            searchPage(state.currentPage - 1);
+        }
     }
 
     useEffect(() => {
-        search();
+        // Reset to page 1 when search params change
+        searchPage(1);
+        // Clear cached pages when search params change
+        setPageLastMessageIds(new Map());
         // Save search params when they change
         if (searchParams) {
             setSavedSearchParams(searchParams);
         }
         // eslint-disable-next-line
-    }, [sort, query, searchParams]);
+    }, [
+        sort, 
+        query, 
+        searchParams?.query,
+        searchParams?.author,
+        searchParams?.mention,
+        searchParams?.date_start,
+        searchParams?.date_end,
+        searchParams?.has,
+        searchParams?.server_wide
+    ]);
 
     return (
         <SearchSidebarBase>
@@ -201,38 +288,31 @@ export function SearchSidebar({ close, initialQuery = "", searchParams }: Props)
                         ))}
                     </div>
                     {state.type === "loading" && <Preloader type="ring" />}
-                    {state.type === "results" && (
-                        <>
-                            <Overline type="subtle" block style={{ textAlign: 'center', marginTop: '12px' }}>
-                                {state.results.length > 0 
-                                    ? `${state.results.length} Result${state.results.length === 1 ? '' : 's'}`
-                                    : 'No Results'
-                                }
-                            </Overline>
-                            <div className="list">
-                        {(() => {
-                            // Group messages by channel
-                            const groupedMessages = state.results.reduce((acc, message) => {
-                                const channelId = message.channel_id;
-                                if (!acc[channelId]) {
-                                    acc[channelId] = [];
-                                }
-                                acc[channelId].push(message);
-                                return acc;
-                            }, {} as Record<string, MessageI[]>);
-
-                            const client = useClient();
-                            
-                            return Object.entries(groupedMessages).map(([channelId, messages]) => {
-                                const messageChannel = client.channels.get(channelId);
-                                const channelName = messageChannel?.name || "Unknown Channel";
+                    {state.type === "results" && (() => {
+                        const currentPageMessages = state.pages.get(state.currentPage) || [];
+                        return (
+                            <>
+                                <Overline type="subtle" block style={{ textAlign: 'center', marginTop: '12px' }}>
+                                    {currentPageMessages.length > 0 
+                                        ? currentPageMessages.length === 1 ? 'Result' : 'Results'
+                                        : 'No Results'
+                                    }
+                                </Overline>
                                 
-                                return (
-                                    <div key={channelId}>
-                                        <Overline type="subtle" block>
-                                            # {channelName}
-                                        </Overline>
-                                        {messages.map((message) => {
+                                {state.isLoadingPage ? (
+                                    <div style={{ textAlign: 'center', padding: '20px' }}>
+                                        <Preloader type="ring" />
+                                    </div>
+                                ) : (
+                                    <div className="list">
+                                        {currentPageMessages.map((message, index) => {
+                                            const messageChannel = client.channels.get(message.channel_id);
+                                            const channelName = messageChannel?.name || "Unknown Channel";
+                                            
+                                            // Check if this is the first message or if the channel changed from the previous message
+                                            const showChannelIndicator = index === 0 || 
+                                                message.channel_id !== currentPageMessages[index - 1].channel_id;
+                                            
                                             let href = "";
                                             if (messageChannel?.channel_type === "TextChannel") {
                                                 href += `/server/${messageChannel.server_id}`;
@@ -240,35 +320,76 @@ export function SearchSidebar({ close, initialQuery = "", searchParams }: Props)
                                             href += `/channel/${message.channel_id}/${message._id}`;
 
                                             return (
-                                                <div 
-                                                    key={message._id}
-                                                    className="message"
-                                                    style={{ cursor: 'pointer' }}
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        // Navigate to the message
-                                                        history.push(href);
-                                                        // Re-emit the search sidebar with the same params to keep it open
-                                                        setTimeout(() => {
-                                                            internalEmit("RightSidebar", "open", "search", savedSearchParams || searchParams);
-                                                        }, 100);
-                                                    }}
-                                                >
-                                                    <Message
-                                                        message={message}
-                                                        head
-                                                        hideReply
-                                                    />
+                                                <div key={message._id}>
+                                                    {showChannelIndicator && (
+                                                        <Overline type="subtle" block>
+                                                            # {channelName}
+                                                        </Overline>
+                                                    )}
+                                                    <div 
+                                                        className="message"
+                                                        style={{ cursor: 'pointer' }}
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            // Navigate to the message
+                                                            history.push(href);
+                                                            // Re-emit the search sidebar with the same params to keep it open
+                                                            setTimeout(() => {
+                                                                internalEmit("RightSidebar", "open", "search", savedSearchParams || searchParams);
+                                                            }, 100);
+                                                        }}
+                                                    >
+                                                        <Message
+                                                            message={message}
+                                                            head
+                                                            hideReply
+                                                        />
+                                                    </div>
                                                 </div>
                                             );
                                         })}
                                     </div>
-                                );
-                            });
-                        })()}
-                            </div>
-                        </>
-                    )}
+                                )}
+                                
+                                {/* Navigation with page count at the bottom - only show if there are results */}
+                                {currentPageMessages.length > 0 && (
+                                    <div style={{ 
+                                        display: 'flex', 
+                                        alignItems: 'center',
+                                        gap: '12px', 
+                                        justifyContent: 'center',
+                                        margin: '16px 0 8px 0'
+                                    }}>
+                                        <Button
+                                            compact
+                                            palette="secondary"
+                                            disabled={state.currentPage === 1 || state.isLoadingPage}
+                                            onClick={goToPreviousPage}
+                                        >
+                                            ← Back
+                                        </Button>
+                                        
+                                        <span style={{ 
+                                            color: 'var(--tertiary-foreground)', 
+                                            fontSize: '13px',
+                                            fontWeight: '500'
+                                        }}>
+                                            Page {state.currentPage}
+                                        </span>
+                                        
+                                        <Button
+                                            compact
+                                            palette="secondary"
+                                            disabled={!state.hasMore || state.isLoadingPage}
+                                            onClick={goToNextPage}
+                                        >
+                                            Next →
+                                        </Button>
+                                    </div>
+                                )}
+                            </>
+                        );
+                    })()}
                 </SearchBase>
             </GenericSidebarList>
         </SearchSidebarBase>

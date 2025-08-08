@@ -8,6 +8,8 @@ import { useSearchAutoComplete, transformSearchQuery, UserMapping } from "../../
 import SearchAutoComplete from "./SearchAutoComplete";
 import SearchDatePicker from "./SearchDatePicker";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+import { useApplicationState } from "../../mobx/State";
+import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
 
 const Container = styled.div`
     position: relative;
@@ -202,6 +204,11 @@ const searchOptions: SearchOption[] = [
         tooltip: "Find messages mentioning a user"
     },
     {
+        label: "has:",
+        description: "video, image, link, audio, file",
+        tooltip: "Messages with specific attachment types"
+    },
+    {
         label: "before:",
         description: "specific date",
         tooltip: "Messages before this date"
@@ -225,15 +232,11 @@ const searchOptions: SearchOption[] = [
         label: "server-wide",
         description: "Entire server",
         tooltip: "Search in entire server instead of just this channel"
-    },
-    {
-        label: "has:",
-        description: "video, image, link, audio, file",
-        tooltip: "Messages with specific attachment types"
     }
 ];
 
 export function SearchBar() {
+    const layout = useApplicationState().layout;
     const [query, setQuery] = useState("");
     const [showOptions, setShowOptions] = useState(false);
     const [isSearching, setIsSearching] = useState(false);
@@ -246,28 +249,72 @@ export function SearchBar() {
         startDisplay: string;
         endDisplay: string;
     } | null>(null);
+    const [showServerWideError, setShowServerWideError] = useState(false);
+    const [showDateRangeError, setShowDateRangeError] = useState(false);
+    const [showMultipleHasError, setShowMultipleHasError] = useState(false);
+    const [showDuplicateFilterError, setShowDuplicateFilterError] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
+    const skipNextFocus = useRef(false);
     
     // Setup autocomplete
     const {
         state: autocompleteState,
         setState: setAutocompleteState,
         onKeyUp,
-        onKeyDown: onAutocompleteKeyDown,
+        onKeyDown: originalOnAutocompleteKeyDown,
         onChange: onAutocompleteChange,
-        onClick: onAutocompleteClick,
+        onClick: originalOnAutocompleteClick,
         onFocus: onAutocompleteFocus,
         onBlur: onAutocompleteBlur,
     } = useSearchAutoComplete(setQuery, userMappings, setUserMappings);
     
+    // Wrap the autocomplete click to show options menu after selection
+    const onAutocompleteClick = (userId: string, username: string) => {
+        originalOnAutocompleteClick(userId, username);
+        // Show options menu after user selection
+        setTimeout(() => {
+            setShowOptions(true);
+        }, 100);
+    };
+    
+    // Wrap the onKeyDown handler to show options menu after Enter selection
+    const onAutocompleteKeyDown = (e: KeyboardEvent) => {
+        const handled = originalOnAutocompleteKeyDown(e);
+        // If Enter or Tab was pressed and autocomplete was active, show options menu
+        if (handled && (e.key === "Enter" || e.key === "Tab") && autocompleteState.type !== "none") {
+            setTimeout(() => {
+                setShowOptions(true);
+            }, 100);
+        }
+        return handled;
+    };
+    
     const handleFocus = () => {
+        // Check if we should skip showing options this time
+        if (skipNextFocus.current) {
+            skipNextFocus.current = false;
+            onAutocompleteFocus();
+            return;
+        }
+        
         onAutocompleteFocus();
-        setShowOptions(true);
+        // Don't show options if we're in the middle of typing a filter
+        const hasIncompleteFilter = query.match(/\b(from:|mentions:|has:|before:|after:|during:|between:)\s*$/);
+        if (!hasIncompleteFilter && !showDatePicker && !showAttachmentTypes && autocompleteState.type === "none") {
+            setShowOptions(true);
+        }
     };
     
     const handleClick = () => {
-        // Show options when clicking on the input, even if already focused
-        if (!showOptions && autocompleteState.type === "none" && !showDatePicker) {
+        // Check if we're currently editing a filter
+        const cursorPos = inputRef.current?.selectionStart || 0;
+        const beforeCursor = query.slice(0, cursorPos);
+        
+        // Check if cursor is within a filter
+        const isInFilter = beforeCursor.match(/\b(from:|mentions:|has:|before:|after:|during:|between:)[^\\s]*$/);
+        
+        // Show options when clicking on the input, if not editing a filter
+        if (!isInFilter && !showOptions && autocompleteState.type === "none" && !showDatePicker && !showAttachmentTypes) {
             setShowOptions(true);
         }
     };
@@ -276,11 +323,12 @@ export function SearchBar() {
         onAutocompleteBlur();
         // Delay to allow clicking on options
         setTimeout(() => {
-            // Check if we have an incomplete filter
-            const hasIncompleteFilter = query.match(/\b(from:|mentions:)\s*$/);
+            // Check if we have an incomplete filter that should keep autocomplete open
+            const hasUserFilter = query.match(/\b(from:|mentions:)[\s\S]*$/);
             const hasIncompleteDateFilter = query.match(/\b(before:|after:|during:)\s*$/);
             
-            if (!hasIncompleteFilter && !hasIncompleteDateFilter && !showDatePicker) {
+            // Don't close options/autocomplete if we have a user filter
+            if (!hasUserFilter && !hasIncompleteDateFilter && !showDatePicker) {
                 setShowOptions(false);
                 if (autocompleteState.type === "none") {
                     setAutocompleteState({ type: "none" });
@@ -304,6 +352,22 @@ export function SearchBar() {
         
         // Check for filters
         const beforeCursor = value.slice(0, cursorPos);
+        
+        // Check for user filters (from: and mentions:) - these should trigger autocomplete
+        const fromMatch = beforeCursor.match(/\bfrom:[\s\S]*$/);
+        const mentionsMatch = beforeCursor.match(/\bmentions:[\s\S]*$/);
+        
+        if (fromMatch || mentionsMatch) {
+            // Close other dropdowns
+            setShowOptions(false);
+            setShowDatePicker(null);
+            setShowAttachmentTypes(false);
+            // Trigger autocomplete immediately for user filters
+            onAutocompleteChange(e);
+            return;
+        }
+        
+        // Check for date filters
         const beforeMatch = beforeCursor.match(/\bbefore:\s*$/);
         const afterMatch = beforeCursor.match(/\bafter:\s*$/);
         const duringMatch = beforeCursor.match(/\bduring:\s*$/);
@@ -342,7 +406,7 @@ export function SearchBar() {
                 setShowAttachmentTypes(false);
             }
             
-            // Only trigger autocomplete if no filter is active
+            // Only trigger autocomplete if no date/has filter is active
             const filterActive = value.match(/\b(before:|after:|during:|between:|has:)\s*$/);
             if (!filterActive) {
                 onAutocompleteChange(e);
@@ -366,14 +430,69 @@ export function SearchBar() {
             return;
         }
         
+        // Check for duplicate filters (only one of each type allowed)
+        const checkDuplicates = (pattern: RegExp, filterName: string): boolean => {
+            const matches = trimmedQuery.match(pattern) || [];
+            if (matches.length > 1) {
+                setShowDuplicateFilterError(true);
+                setTimeout(() => setShowDuplicateFilterError(false), 3000);
+                return true;
+            }
+            return false;
+        };
+        
+        // Check each filter type for duplicates
+        if (checkDuplicates(/\bfrom:@?[\w-]+/gi, "from")) return;
+        if (checkDuplicates(/\bmentions:@?[\w-]+/gi, "mentions")) return;
+        if (checkDuplicates(/\bbefore:\d{4}-\d{2}-\d{2}/gi, "before")) return;
+        if (checkDuplicates(/\bafter:\d{4}-\d{2}-\d{2}/gi, "after")) return;
+        if (checkDuplicates(/\bduring:\d{4}-\d{2}-\d{2}/gi, "during")) return;
+        if (checkDuplicates(/\bbetween:\d{4}-\d{2}-\d{2}\.\.\d{4}-\d{2}-\d{2}/gi, "between")) return;
+        
+        // Check for multiple has: filters (only one attachment type filter allowed)
+        const hasFilterMatches = trimmedQuery.match(/\bhas:(video|image|link|audio|file)/gi) || [];
+        if (hasFilterMatches.length > 1) {
+            // Show tooltip error message - only one attachment type filter is allowed
+            setShowMultipleHasError(true);
+            // Auto-hide after 3 seconds
+            setTimeout(() => setShowMultipleHasError(false), 3000);
+            return;
+        }
+        
+        // Check for multiple date-range occurrences
+        const dateRangeCount = (trimmedQuery.match(/\bdate-range\b/g) || []).length;
+        if (dateRangeCount > 1) {
+            // Show tooltip error message - only one date range is allowed
+            setShowDateRangeError(true);
+            // Auto-hide after 3 seconds
+            setTimeout(() => setShowDateRangeError(false), 3000);
+            return;
+        }
+        
         // Check if we have "date-range" in the query and replace it with actual dates
-        if (trimmedQuery.includes("date-range") && activeDateRange) {
+        if (dateRangeCount === 1 && activeDateRange) {
             // Replace "date-range" with the actual between filter for processing
             trimmedQuery = trimmedQuery.replace(/\bdate-range\b/, `between:${activeDateRange.start}..${activeDateRange.end}`);
         }
         
         // Transform query to use user IDs
         const searchParams = transformSearchQuery(trimmedQuery, userMappings);
+        
+        // Check if only server-wide is present without other filters
+        if (searchParams.server_wide && 
+            !searchParams.query && 
+            !searchParams.author && 
+            !searchParams.mention && 
+            !searchParams.date_start && 
+            !searchParams.date_end && 
+            !searchParams.has) {
+            
+            // Show tooltip error message - server-wide requires other filters
+            setShowServerWideError(true);
+            // Auto-hide after 3 seconds
+            setTimeout(() => setShowServerWideError(false), 3000);
+            return;
+        }
         
         // Check if we have any search criteria (query text or filters)
         // Allow empty query string if filters are present
@@ -387,8 +506,18 @@ export function SearchBar() {
         const hasSearchCriteria = (searchParams.query && searchParams.query.trim() !== "") || hasFilters;
         
         if (hasSearchCriteria) {
-            // Open search in right sidebar with transformed query
-            internalEmit("RightSidebar", "open", "search", searchParams);
+            // Ensure the sidebar container is visible for desktop users
+            if (!isTouchscreenDevice && !layout.getSectionState(SIDEBAR_MEMBERS, true)) {
+                layout.setSectionState(SIDEBAR_MEMBERS, true, true);
+                // Small delay to ensure the sidebar container is rendered first
+                setTimeout(() => {
+                    internalEmit("RightSidebar", "open", "search", searchParams);
+                }, 50);
+            } else {
+                // Sidebar is already visible, emit immediately
+                internalEmit("RightSidebar", "open", "search", searchParams);
+            }
+            
             setShowOptions(false);
             setIsSearching(true);
             setAutocompleteState({ type: "none" });
@@ -700,12 +829,16 @@ export function SearchBar() {
         if (option.label === "before:" || option.label === "after:" || option.label === "during:" || option.label === "between:") {
             setShowDatePicker(option.label.slice(0, -1) as "before" | "after" | "during" | "between");
             setShowOptions(false);
+            // Ensure autocomplete is hidden
+            setAutocompleteState({ type: "none" });
         } else if (option.label === "has:") {
             // For has: filter, add it and show attachment type options
             const newQuery = query + (query ? " " : "") + "has:";
             setQuery(newQuery);
             setShowOptions(false);
             setShowAttachmentTypes(true);
+            // Ensure autocomplete is hidden
+            setAutocompleteState({ type: "none" });
             
             // Move cursor after "has:"
             setTimeout(() => {
@@ -720,8 +853,27 @@ export function SearchBar() {
             const newQuery = query + (query ? " " : "") + "server-wide ";
             setQuery(newQuery);
             setShowOptions(false);
+            // Ensure autocomplete is hidden
+            setAutocompleteState({ type: "none" });
+            
+            // Set flag to skip showing options on the next focus
+            skipNextFocus.current = true;
             
             // Move cursor to end after the space
+            setTimeout(() => {
+                if (inputRef.current) {
+                    const endPos = newQuery.length;
+                    inputRef.current.setSelectionRange(endPos, endPos);
+                    inputRef.current.focus();
+                }
+            }, 0);
+        } else if (option.label === "from:" || option.label === "mentions:") {
+            // For user filters, add the text and let the user type to trigger autocomplete
+            const newQuery = query + (query ? " " : "") + option.label;
+            setQuery(newQuery);
+            setShowOptions(false);
+            
+            // Focus and position cursor
             setTimeout(() => {
                 if (inputRef.current) {
                     const endPos = newQuery.length;
@@ -733,6 +885,8 @@ export function SearchBar() {
             // For other filters, add the text immediately
             const newQuery = query + (query ? " " : "") + option.label;
             setQuery(newQuery);
+            // Ensure autocomplete is hidden
+            setAutocompleteState({ type: "none" });
             inputRef.current?.focus();
         }
     };
@@ -854,15 +1008,31 @@ export function SearchBar() {
                 onKeyDown={handleKeyDown}
                 onKeyUp={onKeyUp}
             />
-            {isSearching ? (
-                <IconButton onClick={handleClear}>
-                    <X size={18} />
-                </IconButton>
-            ) : (
-                <IconButton onClick={handleSearch}>
-                    <Search size={18} />
-                </IconButton>
-            )}
+            <Tooltip 
+                content={
+                    showServerWideError 
+                        ? "Server-wide search requires at least one other filter or search term"
+                        : showDateRangeError
+                        ? "Only one date range filter is allowed"
+                        : showMultipleHasError
+                        ? "Only one attachment type filter is allowed"
+                        : showDuplicateFilterError
+                        ? "Only one of each filter type is allowed"
+                        : ""
+                }
+                visible={!isSearching && (showServerWideError || showDateRangeError || showMultipleHasError || showDuplicateFilterError)}
+                placement="bottom"
+            >
+                {isSearching ? (
+                    <IconButton onClick={handleClear}>
+                        <X size={18} />
+                    </IconButton>
+                ) : (
+                    <IconButton onClick={handleSearch}>
+                        <Search size={18} />
+                    </IconButton>
+                )}
+            </Tooltip>
             {autocompleteState.type !== "none" && (
                 <SearchAutoComplete
                     state={autocompleteState}
