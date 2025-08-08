@@ -9,6 +9,7 @@ import SearchDatePicker from "./SearchDatePicker";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 import { useApplicationState } from "../../mobx/State";
 import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
+import Tooltip from "../common/Tooltip";
 
 const Container = styled.div`
     position: relative;
@@ -1020,6 +1021,7 @@ export function SearchBar() {
                             ? "Server-wide search requires at least one other filter or search term"
                             : showDateRangeError
                             ? "Only one date range filter is allowed"
+                            : showMultipleHasError
                             ? "Only one attachment type filter is allowed"
                             : showDuplicateFilterError
                             ? "Only one of each filter type is allowed"
@@ -1046,7 +1048,9 @@ export function SearchBar() {
                         >
                             <OptionLabel>{option.label}</OptionLabel>
                             <OptionDesc>{option.description}</OptionDesc>
-                            <HelpIcon size={16} title={option.tooltip} />
+                            <Tooltip content={option.tooltip} placement="top">
+                                <HelpIcon size={16} />
+                            </Tooltip>
                         </Option>
                     ))}
                 </OptionsDropdown>
