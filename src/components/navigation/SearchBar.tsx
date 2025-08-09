@@ -350,6 +350,17 @@ export function SearchBar() {
         
         setQuery(value);
         
+        // Clear user mappings and date range when query becomes empty
+        if (value.trim() === "") {
+            setUserMappings({});
+            setActiveDateRange(null);
+            // Reset search state and close sidebar when input is completely cleared
+            if (isSearching) {
+                setIsSearching(false);
+                internalEmit("RightSidebar", "close");
+            }
+        }
+        
         // Check for filters
         const beforeCursor = value.slice(0, cursorPos);
         
@@ -807,10 +818,17 @@ export function SearchBar() {
         } else if (e.key === "Escape") {
             if (query) {
                 setQuery("");
+                setUserMappings({});
+                setActiveDateRange(null);
+                // Reset search state and close sidebar when query is cleared
+                if (isSearching) {
+                    setIsSearching(false);
+                    internalEmit("RightSidebar", "close");
+                }
             } else {
                 inputRef.current?.blur();
             }
-            if (isSearching) {
+            if (isSearching && !query) {
                 internalEmit("RightSidebar", "close");
                 setIsSearching(false);
             }
@@ -820,6 +838,8 @@ export function SearchBar() {
     const handleClear = () => {
         setQuery("");
         setIsSearching(false);
+        setUserMappings({});
+        setActiveDateRange(null);
         inputRef.current?.focus();
         internalEmit("RightSidebar", "close");
     };
