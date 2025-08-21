@@ -10,6 +10,22 @@ import UserIcon from "../../components/common/user/UserIcon";
 import Markdown from "../../components/markdown/Markdown";
 import { useClient } from "../../controllers/client/ClientController";
 
+const Page = styled.div`
+    padding: 6em;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        padding: 2em;
+    }
+
+    @media (max-width: 480px) {
+        padding: 1em;
+    }
+`;
+
 const BotInfo = styled.div`
     gap: 12px;
     display: flex;
@@ -42,7 +58,7 @@ export default function InviteBot() {
     const [group, setGroup] = useState("none");
 
     return (
-        <div style={{ padding: "6em" }}>
+        <Page>
             <Tip palette="warning">This section is under construction.</Tip>
             {typeof data === "undefined" && <Preloader type="spinner" />}
             {data && (
@@ -106,6 +122,7 @@ export default function InviteBot() {
                     </Option>
                 </>
             )}
-        </div>
+        </Page>
     );
 }
+    
