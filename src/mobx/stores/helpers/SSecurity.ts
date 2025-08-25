@@ -2,7 +2,7 @@ import { makeAutoObservable, computed, action } from "mobx";
 
 import Settings from "../Settings";
 
-const TRUSTED_DOMAINS = ["revolt.chat", "revolt.wtf", "gifbox.me", "rvlt.gg"];
+const TRUSTED_DOMAINS = ["revolt.chat", "revolt.wtf", "gifbox.me", "rvlt.gg", "google.com", "youtube.com","en.wikipedia.org", "wikipedia.org", "duckduckgo.com", "github.com", "codeberg.org"];
 
 /**
  * Helper class for changing security options.
