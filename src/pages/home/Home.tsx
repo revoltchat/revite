@@ -104,8 +104,8 @@ const Home: React.FC = () => {
     const fetchAndCacheData = async () => {
         try {
             const csvUrl =
-                "https://docs.google.com/spreadsheets/d/e/2PACX-1vRY41D-NgTE6bC3kTN3dRpisI-DoeHG8Eg7n31xb1CdydWjOLaphqYckkTiaG9oIQSWP92h3NE-7cpF/pub?gid=0&single=true&output=csv";
-
+                //"https://docs.google.com/spreadsheets/d/e/2PACX-1vRY41D-NgTE6bC3kTN3dRpisI-DoeHG8Eg7n31xb1CdydWjOLaphqYckkTiaG9oIQSWP92h3NE-7cpF/pub?gid=0&single=true&output=csv";
+                  "https://docs.google.com/spreadsheets/d/1kNF50scEUJVJ9KD-0_ibX43vJiOzdHrmgauLoSoBy34/edit?usp=sharing"
             // Add cache-busting parameter to prevent browser caching
             const urlWithCacheBust = `${csvUrl}&_cb=${Date.now()}`;
 
