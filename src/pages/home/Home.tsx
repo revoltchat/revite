@@ -50,6 +50,7 @@ interface Server {
     disabled: boolean;
     new: boolean;
     sortorder: number;
+    showcolor: string;
 }
 
 interface CachedData {
@@ -64,6 +65,15 @@ const NewServerWrapper = styled.div`
 
     a {
         color: #fadf4f;
+    }
+`;
+
+// Add a styled component for servers with custom colors
+const ColoredServerWrapper = styled.div<{ customColor: string }>`
+    display: contents;
+
+    a {
+        color: ${props => props.customColor};
     }
 `;
 
@@ -199,6 +209,15 @@ const Home: React.FC = () => {
         ) : (
             <Link to={linkTo}>{buttonContent}</Link>
         );
+
+        // Apply custom color if showcolor is specified
+        if (server.showcolor && server.showcolor.trim() !== '') {
+            content = (
+                <ColoredServerWrapper customColor={server.showcolor}>
+                    {content}
+                </ColoredServerWrapper>
+            );
+        }
 
         return server.new ? (
             <NewServerWrapper>{content}</NewServerWrapper>
