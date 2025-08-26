@@ -53,6 +53,11 @@ interface Server {
     sortorder: number;
 }
 
+interface CachedData {
+    timestamp: number;
+    data: Server[];
+}
+
 // Add a styled component for the new text color
 const NewServerWrapper = styled.div`
     color: #fadf4f;
@@ -75,6 +80,20 @@ const ColorWrapper = styled.div<{ color: string }>`
 
 const CACHE_KEY = "server_list_cache";
 const CACHE_DURATION = 1 * 60 * 1000; // 1 minutes in milliseconds
+
+// Fallback data in case Google Sheets is unavailable
+const FALLBACK_SERVERS: Server[] = [
+
+    {
+        id: "01F7ZSBSFHQ8TA81725KQCSDDP",
+        name: "PlaceHolder",
+        description: "Community",
+        inviteCode: "development",
+        disabled: false,
+        new: false,
+        sortorder: 2
+    }
+];
 
 // Safe localStorage wrapper
 const safeStorage = {
@@ -105,7 +124,7 @@ const Home: React.FC = () => {
         try {
             const csvUrl =
                 //"https://docs.google.com/spreadsheets/d/e/2PACX-1vRY41D-NgTE6bC3kTN3dRpisI-DoeHG8Eg7n31xb1CdydWjOLaphqYckkTiaG9oIQSWP92h3NE-7cpF/pub?gid=0&single=true&output=csv";
-                  "https://docs.google.com/spreadsheets/d/1kNF50scEUJVJ9KD-0_ibX43vJiOzdHrmgauLoSoBy34/edit?single=true&output=csv&gid=0#gid=0";
+                "https://docs.google.com/spreadsheets/d/1kNF50scEUJVJ9KD-0_ibX43vJiOzdHrmgauLoSoBy34/edit?single=true&output=csv&gid=0#gid=0";
             // Add cache-busting parameter to prevent browser caching
             const urlWithCacheBust = `${csvUrl}&_cb=${Date.now()}`;
 
@@ -137,15 +156,19 @@ const Home: React.FC = () => {
                 },
                 error: (err) => {
                     console.error("Error fetching CSV:", err);
-                    setError(
-                        "Failed to load server data. Please try again later.",
-                    );
+                    console.warn("Using fallback server data due to Google Sheets error");
+
+                    // Use fallback data instead of showing error
+                    setServers(FALLBACK_SERVERS);
                     setLoading(false);
                 },
             });
         } catch (err) {
             console.error("Unexpected error:", err);
-            setError("An unexpected error occurred. Please try again later.");
+            console.warn("Using fallback server data due to unexpected error");
+
+            // Use fallback data instead of showing error
+            setServers(FALLBACK_SERVERS);
             setLoading(false);
         }
     };
@@ -171,7 +194,14 @@ const Home: React.FC = () => {
                 // Continue to fetch fresh data if cache read fails
             }
 
-            await fetchAndCacheData();
+            try {
+                await fetchAndCacheData();
+            } catch (err) {
+                console.error("Failed to fetch data even after cache miss:", err);
+                console.warn("Using fallback server data as last resort");
+                setServers(FALLBACK_SERVERS);
+                setLoading(false);
+            }
         };
 
         getCachedOrFetchData();
@@ -183,18 +213,18 @@ const Home: React.FC = () => {
             ? `/server/${server.id}`
             : `/invite/${server.inviteCode}`;
 
+        const iconComponent = server.disabled ? (
+            <Lock size={32} />
+        ) : isServerJoined ? (
+            <MessageDots size={32} />
+        ) : (
+            <MessageAdd size={32} />
+        );
+
         const buttonContent = (
             <CategoryButton
                 action={server.disabled ? undefined : "chevron"}
-                icon={
-                    server.disabled ? (
-                        <Lock size={32} />
-                    ) : isServerJoined ? (
-                        <MessageDots size={32} />
-                    ) : (
-                        <MessageAdd size={32} />
-                    )
-                }
+                icon={iconComponent as any}
                 description={server.description}>
                 {server.name}
             </CategoryButton>
