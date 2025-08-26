@@ -49,7 +49,6 @@ interface Server {
     inviteCode: string;
     disabled: boolean;
     new: boolean;
-    showcolor: string;
     sortorder: number;
 }
 
@@ -68,32 +67,8 @@ const NewServerWrapper = styled.div`
     }
 `;
 
-// Dynamic color wrapper component
-const ColorWrapper = styled.div<{ color: string }>`
-    color: ${props => props.color};
-    display: contents;
-
-    a {
-        color: ${props => props.color};
-    }
-`;
-
 const CACHE_KEY = "server_list_cache";
 const CACHE_DURATION = 1 * 60 * 1000; // 1 minutes in milliseconds
-
-// Fallback data in case Google Sheets is unavailable
-const FALLBACK_SERVERS: Server[] = [
-
-    {
-        id: "01F7ZSBSFHQ8TA81725KQCSDDP",
-        name: "PlaceHolder",
-        description: "Community",
-        inviteCode: "development",
-        disabled: false,
-        new: false,
-        sortorder: 2
-    }
-];
 
 // Safe localStorage wrapper
 const safeStorage = {
@@ -123,8 +98,8 @@ const Home: React.FC = () => {
     const fetchAndCacheData = async () => {
         try {
             const csvUrl =
-                //"https://docs.google.com/spreadsheets/d/e/2PACX-1vRY41D-NgTE6bC3kTN3dRpisI-DoeHG8Eg7n31xb1CdydWjOLaphqYckkTiaG9oIQSWP92h3NE-7cpF/pub?gid=0&single=true&output=csv";
-                "https://docs.google.com/spreadsheets/d/1kNF50scEUJVJ9KD-0_ibX43vJiOzdHrmgauLoSoBy34/edit?single=true&output=csv&gid=0#gid=0";
+                "https://docs.google.com/spreadsheets/d/1kNF50scEUJVJ9KD-0_ibX43vJiOzdHrmgauLoSoBy34/export?format=csv&gid=0";
+
             // Add cache-busting parameter to prevent browser caching
             const urlWithCacheBust = `${csvUrl}&_cb=${Date.now()}`;
 
@@ -156,19 +131,15 @@ const Home: React.FC = () => {
                 },
                 error: (err) => {
                     console.error("Error fetching CSV:", err);
-                    console.warn("Using fallback server data due to Google Sheets error");
-
-                    // Use fallback data instead of showing error
-                    setServers(FALLBACK_SERVERS);
+                    setError(
+                        "Failed to load server data. Please try again later.",
+                    );
                     setLoading(false);
                 },
             });
         } catch (err) {
             console.error("Unexpected error:", err);
-            console.warn("Using fallback server data due to unexpected error");
-
-            // Use fallback data instead of showing error
-            setServers(FALLBACK_SERVERS);
+            setError("An unexpected error occurred. Please try again later.");
             setLoading(false);
         }
     };
@@ -194,14 +165,7 @@ const Home: React.FC = () => {
                 // Continue to fetch fresh data if cache read fails
             }
 
-            try {
-                await fetchAndCacheData();
-            } catch (err) {
-                console.error("Failed to fetch data even after cache miss:", err);
-                console.warn("Using fallback server data as last resort");
-                setServers(FALLBACK_SERVERS);
-                setLoading(false);
-            }
+            await fetchAndCacheData();
         };
 
         getCachedOrFetchData();
@@ -213,18 +177,18 @@ const Home: React.FC = () => {
             ? `/server/${server.id}`
             : `/invite/${server.inviteCode}`;
 
-        const iconComponent = server.disabled ? (
-            <Lock size={32} />
-        ) : isServerJoined ? (
-            <MessageDots size={32} />
-        ) : (
-            <MessageAdd size={32} />
-        );
-
         const buttonContent = (
             <CategoryButton
                 action={server.disabled ? undefined : "chevron"}
-                icon={iconComponent as any}
+                icon={
+                    server.disabled ? (
+                        <Lock size={32} />
+                    ) : isServerJoined ? (
+                        <MessageDots size={32} />
+                    ) : (
+                        <MessageAdd size={32} />
+                    )
+                }
                 description={server.description}>
                 {server.name}
             </CategoryButton>
@@ -236,13 +200,11 @@ const Home: React.FC = () => {
             <Link to={linkTo}>{buttonContent}</Link>
         );
 
-        if (server.showcolor && server.showcolor.trim()) {
-            content = <ColorWrapper color={server.showcolor}>{content}</ColorWrapper>;
-        } else if (server.new) {
-            content = <NewServerWrapper>{content}</NewServerWrapper>;
-        }
-
-        return content;
+        return server.new ? (
+            <NewServerWrapper>{content}</NewServerWrapper>
+        ) : (
+            content
+        );
     };
 
     if (loading) {
