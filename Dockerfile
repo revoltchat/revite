@@ -1,5 +1,5 @@
 FROM node:16-buster AS builder
-ENV NODE_OPTIONS="--max_old_space_size=16384"
+ENV NODE_OPTIONS="--max_old_space_size=32768"
 WORKDIR /usr/src/app
 COPY . .
 COPY .env.build ./.env
