@@ -29,6 +29,7 @@ import { Reactions } from "./attachments/Reactions";
 import { MessageOverlayBar } from "./bars/MessageOverlayBar";
 import Embed from "./embed/Embed";
 import InviteList from "./embed/EmbedInvite";
+import LinkPreview from "./embed/LinkPreview";
 
 interface Props {
     attachContext?: boolean;
@@ -195,6 +196,14 @@ const Message = observer(
                         {message.embeds?.map((embed, index) => (
                             <Embed key={index} embed={embed} />
                         ))}
+                        {/* Fallback LinkPreview if no embeds and message contains URLs */}
+                        {!message.embeds?.length && content && (() => {
+                            const urlRegex = /(https?:\/\/[^\s]+)/g;
+                            const urls = content.match(urlRegex);
+                            return urls?.slice(0, 3).map((url, index) => (
+                                <LinkPreview key={`preview-${index}`} url={url} />
+                            ));
+                        })()}
                         <Reactions message={message} />
                         {(mouseHovering || reactionsOpen) &&
                             !replacement && !type_msg &&
