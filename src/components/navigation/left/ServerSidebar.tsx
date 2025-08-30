@@ -50,8 +50,10 @@ const ServerList = styled.div`
 export default observer(() => {
     const client = useClient();
     const state = useApplicationState();
-    const { server: server_id, channel: channel_id } =
-        useParams<{ server: string; channel?: string }>();
+    const { server: server_id, channel: channel_id } = useParams<{
+        server: string;
+        channel?: string;
+    }>();
 
     const server = client.servers.get(server_id);
     if (!server) return <Redirect to="/" />;
@@ -119,14 +121,18 @@ export default observer(() => {
                 channels.push(addChannel(id));
             }
 
-            elements.push(
-                <CollapsibleSection
-                    id={`category_${category.id}`}
-                    defaultValue
-                    summary={<Category>{category.title}</Category>}>
-                    {channels}
-                </CollapsibleSection>,
-            );
+            if (category.title === "Default") {
+                elements.push(...channels);
+            } else {
+                elements.push(
+                    <CollapsibleSection
+                        id={`category_${category.id}`}
+                        defaultValue
+                        summary={<Category>{category.title}</Category>}>
+                        {channels}
+                    </CollapsibleSection>,
+                );
+            }
         }
     }
 
