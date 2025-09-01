@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { User, API } from "revolt.js";
 import styled, { css } from "styled-components/macro";
+import { decodeTime } from "ulid";
 
 import { Ref } from "preact";
 import { Text } from "preact-i18n";
@@ -16,6 +17,9 @@ import { modalController } from "../../../controllers/modals/ModalController";
 import Tooltip from "../Tooltip";
 import UserIcon from "./UserIcon";
 
+// Configuration constant for easy adjustment
+const NEW_MEMBER_THRESHOLD_DAYS = 14;
+
 const BotBadge = styled.div`
     display: inline-block;
     flex-shrink: 0;
@@ -23,11 +27,31 @@ const BotBadge = styled.div`
     padding: 0 4px;
     font-size: 0.6em;
     user-select: none;
-    margin-inline-start: 4px;
     text-transform: uppercase;
     color: var(--accent-contrast);
     background: var(--accent);
     border-radius: calc(var(--border-radius) / 2);
+`;
+
+const NewHereBadge = styled.div`
+    display: inline-block;
+    flex-shrink: 0;
+    height: 1.3em;
+    padding: 0 5px;
+    font-size: 0.55em;
+    font-weight: 600;
+    user-select: none;
+    text-transform: uppercase;
+    color: white;
+    background: #3BA55D;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+`;
+
+const BadgeWrapper = styled.span`
+    display: flex;
+    align-items: center;
+    gap: 4px;
 `;
 
 type UsernameProps = Omit<
@@ -73,6 +97,7 @@ export const Username = observer(
             user?.username;
         let color = masquerade?.colour;
         let timed_out: Date | undefined;
+        let isNewHere = false;
 
         if (override) {
             username = override;
@@ -109,6 +134,14 @@ export const Username = observer(
             }
         }
 
+        // Check if user account is new
+        if (user) {
+            // Extract account creation timestamp from user ID (ULID)
+            const accountCreatedAt = decodeTime(user._id);
+            const accountAge = dayjs().diff(dayjs(accountCreatedAt), 'day');
+            isNewHere = accountAge <= NEW_MEMBER_THRESHOLD_DAYS;
+        }
+
         const el = (
             <>
                 <Name {...otherProps} ref={innerRef} colour={color}>
@@ -139,7 +172,7 @@ export const Username = observer(
 
         if (user?.bot) {
             return (
-                <>
+                <BadgeWrapper>
                     {el}
                     <BotBadge>
                         {masquerade ? (
@@ -148,18 +181,30 @@ export const Username = observer(
                             <Text id="app.main.channel.bot" />
                         )}
                     </BotBadge>
-                </>
+                </BadgeWrapper>
             );
         }
 
         if (override) {
             return (
-                <>
+                <BadgeWrapper>
                     {el}
                     <BotBadge>
                         <Text id="app.main.channel.bot" />
                     </BotBadge>
-                </>
+                </BadgeWrapper>
+            );
+        }
+
+        // Add new member badge for users with new accounts
+        if (isNewHere) {
+            return (
+                <BadgeWrapper>
+                    {el}
+                    <Tooltip content="I'm new here!">
+                        <NewHereBadge>NEW</NewHereBadge>
+                    </Tooltip>
+                </BadgeWrapper>
             );
         }
 
