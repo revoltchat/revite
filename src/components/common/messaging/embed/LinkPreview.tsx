@@ -23,6 +23,49 @@ const YOUTUBE_REGEX = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|yout
 // Simple URL detector
 const URL_REGEX = /(https?:\/\/[^\s]+)/g;
 
+// Domains and paths that should not have previews
+const BLACKLISTED_PATTERNS = [
+    // Server links
+    { domain: 'peptide.chat', path: '/server' },
+    { domain: 'revolt.chat', path: '/server' },
+    { domain: 'app.revolt.chat', path: '/server' },
+    { domain: 'nightly.revolt.chat', path: '/server' },
+    { domain: 'local.revolt.chat', path: '/server' },
+    { domain: 'rolt.chat', path: '/server' },
+
+    // Channel/Message links
+    { domain: 'peptide.chat', path: '/channel' },
+    { domain: 'revolt.chat', path: '/channel' },
+    { domain: 'app.revolt.chat', path: '/channel' },
+    { domain: 'nightly.revolt.chat', path: '/channel' },
+    { domain: 'local.revolt.chat', path: '/channel' },
+    { domain: 'rolt.chat', path: '/channel' },
+
+    // Invite links
+    { domain: 'peptide.chat', path: '/invite' },
+    { domain: 'revolt.chat', path: '/invite' },
+    { domain: 'app.revolt.chat', path: '/invite' },
+    { domain: 'nightly.revolt.chat', path: '/invite' },
+    { domain: 'local.revolt.chat', path: '/invite' },
+    { domain: 'rolt.chat', path: '/invite' },
+    { domain: 'rvlt.gg', path: '/' }
+];
+
+// Check if URL should be blacklisted
+function isBlacklistedUrl(url: string): boolean {
+    try {
+        const urlObj = new URL(url);
+        return BLACKLISTED_PATTERNS.some(pattern => {
+            const domainMatch = urlObj.hostname === pattern.domain ||
+                urlObj.hostname.endsWith('.' + pattern.domain);
+            const pathMatch = urlObj.pathname.startsWith(pattern.path);
+            return domainMatch && pathMatch;
+        });
+    } catch {
+        return false;
+    }
+}
+
 // Function to fetch metadata from URL with timeout
 async function fetchMetadata(url: string): Promise<Partial<LinkPreviewData>> {
     try {
@@ -163,6 +206,12 @@ export default memo(function LinkPreview({ url }: Props) {
 
     useEffect(() => {
         if (!url) return;
+
+        // Check if URL is blacklisted
+        if (isBlacklistedUrl(url)) {
+            console.log('URL is blacklisted, skipping preview:', url);
+            return;
+        }
 
         let cancelled = false;
         setLoading(true);
