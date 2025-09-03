@@ -49,13 +49,8 @@ interface Server {
     inviteCode: string;
     disabled: boolean;
     new: boolean;
-    sortorder: number;
     showcolor: string;
-}
-
-interface CachedData {
-    timestamp: number;
-    data: Server[];
+    sortorder: number;
 }
 
 // Add a styled component for the new text color
@@ -68,12 +63,13 @@ const NewServerWrapper = styled.div`
     }
 `;
 
-// Add a styled component for servers with custom colors
-const ColoredServerWrapper = styled.div<{ customColor: string }>`
+// Dynamic color wrapper component
+const ColorWrapper = styled.div<{ color: string }>`
+    color: ${props => props.color};
     display: contents;
 
     a {
-        color: ${props => props.customColor};
+        color: ${props => props.color};
     }
 `;
 
@@ -108,7 +104,7 @@ const Home: React.FC = () => {
     const fetchAndCacheData = async () => {
         try {
             const csvUrl =
-                "https://docs.google.com/spreadsheets/d/1kNF50scEUJVJ9KD-0_ibX43vJiOzdHrmgauLoSoBy34/export?format=csv&gid=0";
+                "https://docs.google.com/spreadsheets/d/e/2PACX-1vRY41D-NgTE6bC3kTN3dRpisI-DoeHG8Eg7n31xb1CdydWjOLaphqYckkTiaG9oIQSWP92h3NE-7cpF/pub?gid=0&single=true&output=csv";
 
             // Add cache-busting parameter to prevent browser caching
             const urlWithCacheBust = `${csvUrl}&_cb=${Date.now()}`;
@@ -210,20 +206,13 @@ const Home: React.FC = () => {
             <Link to={linkTo}>{buttonContent}</Link>
         );
 
-        // Apply custom color if showcolor is specified
-        if (server.showcolor && server.showcolor.trim() !== '') {
-            content = (
-                <ColoredServerWrapper customColor={server.showcolor}>
-                    {content}
-                </ColoredServerWrapper>
-            );
+        if (server.showcolor && server.showcolor.trim()) {
+            content = <ColorWrapper color={server.showcolor}>{content}</ColorWrapper>;
+        } else if (server.new) {
+            content = <NewServerWrapper>{content}</NewServerWrapper>;
         }
 
-        return server.new ? (
-            <NewServerWrapper>{content}</NewServerWrapper>
-        ) : (
-            content
-        );
+        return content;
     };
 
     if (loading) {
