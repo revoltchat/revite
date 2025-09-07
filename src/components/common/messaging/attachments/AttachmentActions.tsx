@@ -26,8 +26,8 @@ export default function AttachmentActions({ attachment }: Props) {
     const { filename, metadata, size } = attachment;
 
     const url = client.generateFileURL(attachment);
-    const open_url = `${url}/${filename}`;
-    const download_url = url;
+    const open_url = url;
+    const download_url = `${url}/${filename}`;
 
     const filesize = determineFileSize(size);
 
