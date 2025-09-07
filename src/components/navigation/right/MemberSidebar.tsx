@@ -76,17 +76,25 @@ function useEntries(
 
         keys.forEach((key) => {
             let u;
+            let member;
+
             if (isServer) {
                 const { server, user } = JSON.parse(key);
                 if (server !== channel.server_id) return;
+
                 u = client.users.get(user);
+                member = client.members.get(key);
+
+                if (!member?.hasPermission(channel, "ViewChannel")) {
+                    return;
+                }
             } else {
                 u = client.users.get(key);
+                member = client.members.get(key);
             }
 
             if (!u) return;
 
-            const member = client.members.get(key);
             const sort = member?.nickname ?? u.username;
             const entry = [u, sort] as [User, string];
 
