@@ -98,30 +98,33 @@ function useEntries(
             const sort = member?.nickname ?? u.username;
             const entry = [u, sort] as [User, string];
 
-            if (!u.online || u.status?.presence === "Invisible") {
-                categories.offline.push(entry);
-            } else {
-                if (isServer) {
-                    // Sort users into hoisted roles here.
-                    if (member?.roles && roles) {
-                        let success = false;
-                        for (const role of roleList) {
-                            if (member.roles.includes(role)) {
-                                categories[role].push(entry);
-                                success = true;
-                                break;
-                            }
-                        }
-
-                        if (success) return;
-                    }
+            if (member?.hasPermission(channel, "ViewChannel") || channel.recipient_ids?.includes(u._id)) {
+                if (!u.online || u.status?.presence === "Invisible") {
+                    categories.offline.push(entry);
                 } else {
-                    // Sort users into "participants" list here.
-                    // For voice calls.
+                    if (isServer) {
+                        // Sort users into hoisted roles here.
+                        if (member?.roles && roles) {
+                            let success = false;
+                            for (const role of roleList) {
+                                if (member.roles.includes(role)) {
+                                    categories[role].push(entry);
+                                    success = true;
+                                    break;
+                                }
+                            }
+    
+                            if (success) return;
+                        }
+                    } else {
+                        // Sort users into "participants" list here.
+                        // For voice calls.
+                    }
+    
+                    categories.online.push(entry);
                 }
-
-                categories.online.push(entry);
             }
+               
         });
 
         Object.keys(categories).forEach((key) =>
