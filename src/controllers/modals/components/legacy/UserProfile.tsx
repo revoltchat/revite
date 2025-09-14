@@ -247,24 +247,27 @@ export const UserProfile = observer(
                                 <UserX size={28} />
                             </IconButton>
                         )}
-                        {!user.bot && flags != 2 && flags != 4 && (
-                            <Localizer>
-                                <Tooltip
-                                    content={
-                                        <Text id="app.context_menu.report_user" />
-                                    }>
-                                    <IconButton
-                                        onClick={() =>
-                                            modalController.push({
-                                                type: "report",
-                                                target: user,
-                                            })
+                        {!user.bot &&
+                            user._id !== client.user?._id &&
+                            flags != 2 &&
+                            flags != 4 && (
+                                <Localizer>
+                                    <Tooltip
+                                        content={
+                                            <Text id="app.context_menu.report_user" />
                                         }>
-                                        <Flag size={28} />
-                                    </IconButton>
-                                </Tooltip>
-                            </Localizer>
-                        )}
+                                        <IconButton
+                                            onClick={() =>
+                                                modalController.push({
+                                                    type: "report",
+                                                    target: user,
+                                                })
+                                            }>
+                                            <Flag size={28} />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Localizer>
+                            )}
                     </div>
                     {badges > 0 && (
                         <div
