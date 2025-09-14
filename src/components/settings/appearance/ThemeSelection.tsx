@@ -22,20 +22,24 @@ export const ShimThemeBaseSelector = observer(() => {
         <ThemeBaseSelector
             value={theme.isModified() ? undefined : theme.getBase()}
             setValue={(base) => {
+                const customVars = { ...theme.getCustomVariables() };
                 theme.setBase(base);
-                theme.reset();
+                Object.entries(customVars).forEach(([key, value]) => {
+                    theme.setVariable(key, value);
+                });
             }}
         />
     );
 });
 
-export default function ThemeSelection() {
+export default observer(function ThemeSelection() {
     const theme = useApplicationState().settings.theme;
 
     return (
         <>
             {/** Allow users to change base theme */}
             <ShimThemeBaseSelector />
+
             {/** Provide a link to the theme shop */}
             <Link to="/discover/themes" replace>
                 <CategoryButton
@@ -47,10 +51,12 @@ export default function ThemeSelection() {
                     <Text id="app.settings.pages.appearance.discover.title" />
                 </CategoryButton>
             </Link>
+
             <hr />
             <h3>
                 <Text id="app.settings.pages.appearance.accent_selector" />
             </h3>
+
             <ObservedInputElement
                 type="colour"
                 value={theme.getVariable("accent")}
@@ -61,4 +67,4 @@ export default function ThemeSelection() {
             />
         </>
     );
-}
+});
