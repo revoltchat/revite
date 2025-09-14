@@ -26,7 +26,7 @@ export default function BanMember({
                         <Column centred>
                             <UserIcon target={member.user} size={64} />
                             <Text
-                                id="app.special.modals.prompt.confirm_kick"
+                                id="app.special.modals.prompt.confirm_ban"
                                 fields={{ name: member.user?.username }}
                             />
                         </Column>
