@@ -1,4 +1,4 @@
-import { Reply } from "@styled-icons/boxicons-regular";
+import { Reply, LinkExternal } from "@styled-icons/boxicons-regular";
 import { File } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
@@ -230,6 +230,25 @@ export const MessageReply = observer(
                                             )}
                                         />
                                     )}
+                                    {message.embeds &&
+                                        message.embeds.length > 0 &&
+                                        message.embeds.map((embed, i) =>
+                                            embed.title ? ( // If there's title, display title
+                                                <span
+                                                    key={i}
+                                                    className="embed-title">
+                                                    <strong>
+                                                        {embed.title}
+                                                    </strong>
+                                                </span>
+                                            ) : (
+                                                <LinkExternal // If not, display a link external boxicon
+                                                    key={i}
+                                                    size={16}
+                                                    className="embed-title"
+                                                />
+                                            ),
+                                        )}
                                 </div>
                             </>
                         )}
