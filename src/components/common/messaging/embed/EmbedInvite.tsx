@@ -1,10 +1,10 @@
 import { Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import { Message, API } from "revolt.js";
+import { Message } from "revolt.js";
 import styled, { css } from "styled-components/macro";
 
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import { Button, Category, Preloader } from "@revoltchat/ui";
 
@@ -13,10 +13,7 @@ import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import { I18nError } from "../../../../context/Locale";
 
 import ServerIcon from "../../../../components/common/ServerIcon";
-import {
-    useClient,
-    useSession,
-} from "../../../../controllers/client/ClientController";
+import { useSession } from "../../../../controllers/client/ClientController";
 import { takeError } from "../../../../controllers/client/jsx/error";
 
 const EmbedInviteBase = styled.div`
@@ -74,6 +71,16 @@ type Props = {
     code: string;
 };
 
+function isServerInvite(invite: any): boolean {
+    // Makes sure something is actually an invite, not.. wiki.rvlt.gg/
+    return invite?.type === "Server";
+}
+
+function isGroupInvite(invite: any): boolean {
+    // Might as well handles these too properly, rather than previous N/A
+    return invite?.type === "Group";
+}
+
 export function EmbedInvite({ code }: Props) {
     const history = useHistory();
     const session = useSession()!;
@@ -81,20 +88,16 @@ export function EmbedInvite({ code }: Props) {
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [joinError, setJoinError] = useState<string | undefined>(undefined);
-    const [invite, setInvite] = useState<
-        (API.InviteResponse & { type: "Server" }) | undefined
-    >(undefined);
+    const [invite, setInvite] = useState<any>(undefined);
 
     useEffect(() => {
         if (
             typeof invite === "undefined" &&
             (session.state === "Online" || session.state === "Ready")
         ) {
-            client
-                .fetchInvite(code)
-                .then((data) =>
-                    setInvite(data as API.InviteResponse & { type: "Server" }),
-                )
+            client.api
+                .get(`/invites/${code}`)
+                .then((raw) => setInvite(raw))
                 .catch((err) => setError(takeError(err)));
         }
     }, [client, code, invite, session.state]);
@@ -118,25 +121,56 @@ export function EmbedInvite({ code }: Props) {
         <>
             <EmbedInviteBase>
                 <ServerIcon
-                    attachment={invite.server_icon}
-                    server_name={invite.server_name}
+                    attachment={
+                        invite.type === "Server"
+                            ? invite.server_icon
+                            : invite.type === "Group"
+                            ? invite.user_avatar
+                            : undefined
+                    }
+                    server_name={
+                        invite.type === "Server"
+                            ? invite.server_name
+                            : invite.type === "Group"
+                            ? invite.user_name
+                            : undefined
+                    }
                     size={55}
                 />
+
                 <EmbedInviteDetails>
-                    <EmbedInviteName>{invite.server_name}</EmbedInviteName>
-                    <EmbedInviteMemberCount>
-                        <Group size={12} />
-                        {invite.member_count != null ? (
-                            <>
-                                {invite.member_count.toLocaleString()}{" "}
-                                {invite.member_count === 1
-                                    ? "member"
-                                    : "members"}
-                            </>
-                        ) : (
-                            "N/A"
-                        )}
-                    </EmbedInviteMemberCount>
+                    {invite.type === "Server" && (
+                        <>
+                            <EmbedInviteName>
+                                {invite.server_name}
+                            </EmbedInviteName>
+                            <EmbedInviteMemberCount>
+                                <Group size={12} />
+                                {invite.member_count != null
+                                    ? `${invite.member_count.toLocaleString()} ${
+                                          invite.member_count === 1
+                                              ? "member"
+                                              : "members"
+                                      }`
+                                    : "N/A"}
+                            </EmbedInviteMemberCount>
+                        </>
+                    )}
+
+                    {invite.type === "Group" && (
+                        <>
+                            <EmbedInviteName>
+                                {invite.channel_name}
+                            </EmbedInviteName>
+                            <div
+                                style={{
+                                    fontSize: "0.8em",
+                                    color: "var(--secondary-foreground)",
+                                }}>
+                                Group chat by {invite.user_name}
+                            </div>
+                        </>
+                    )}
                 </EmbedInviteDetails>
                 {processing ? (
                     <div>
@@ -146,20 +180,27 @@ export function EmbedInvite({ code }: Props) {
                     <Button
                         onClick={async () => {
                             setProcessing(true);
-
                             try {
                                 await client.joinInvite(invite);
-
-                                history.push(
-                                    `/server/${invite.server_id}/channel/${invite.channel_id}`,
-                                );
+                                if (isServerInvite(invite)) {
+                                    history.push(
+                                        `/server/${invite.server_id}/channel/${invite.channel_id}`,
+                                    );
+                                } else if (isGroupInvite(invite)) {
+                                    history.push(
+                                        `/channel/${invite.channel_id}`,
+                                    );
+                                }
                             } catch (err) {
                                 setJoinError(takeError(err));
                             } finally {
                                 setProcessing(false);
                             }
                         }}>
-                        {client.servers.get(invite.server_id)
+                        {isGroupInvite(invite)
+                            ? "View" // Not implementing a proper check here
+                            : isServerInvite(invite) &&
+                              client.servers.has(invite.server_id)
                             ? "Joined"
                             : "Join"}
                     </Button>
@@ -177,7 +218,6 @@ export function EmbedInvite({ code }: Props) {
 const INVITE_PATHS = [
     `${location.hostname}/invite`,
     "app.revolt.chat/invite",
-    "nightly.revolt.chat/invite",
     "local.revolt.chat/invite",
     "rvlt.gg",
 ];
@@ -185,7 +225,7 @@ const INVITE_PATHS = [
 const RE_INVITE = new RegExp(
     `(?:${INVITE_PATHS.map((x) => x.replaceAll(".", "\\.")).join(
         "|",
-    )})/([A-Za-z0-9]*)`,
+    )})/([^\\s/]+)`,
     "g",
 );
 
