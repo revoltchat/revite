@@ -20,6 +20,14 @@ import UserIcon from "./UserIcon";
 // Configuration constant for easy adjustment
 const NEW_MEMBER_THRESHOLD_DAYS = 14;
 
+// Vendor badge flags - reusing existing enum values
+const TRUSTED_SELLER_BADGE = 8;           // ResponsibleDisclosure
+const VERIFIED_VENDOR_BADGE = 512;        // ReservedRelevantJokeBadge1  
+const VERIFIED_MANUFACTURER_BADGE = 1024; // ReservedRelevantJokeBadge2
+
+// Combined mask to check for any vendor badge
+const VENDOR_BADGES_MASK = TRUSTED_SELLER_BADGE | VERIFIED_VENDOR_BADGE | VERIFIED_MANUFACTURER_BADGE;
+
 const BotBadge = styled.div`
     display: inline-block;
     flex-shrink: 0;
@@ -46,6 +54,13 @@ const NewHereBadge = styled.div`
     background: #3BA55D;
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+`;
+
+const TrustedSellerBadge = styled.img`
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    vertical-align: middle;
 `;
 
 const BadgeWrapper = styled.span`
@@ -142,6 +157,9 @@ export const Username = observer(
             isNewHere = accountAge <= NEW_MEMBER_THRESHOLD_DAYS;
         }
 
+        // Check if user has any vendor badge
+        const hasVendorBadge = user && user.badges && (user.badges & VENDOR_BADGES_MASK);
+
         const el = (
             <>
                 <Name {...otherProps} ref={innerRef} colour={color}>
@@ -203,6 +221,18 @@ export const Username = observer(
                     {el}
                     <Tooltip content="I'm new here!">
                         <NewHereBadge>NEW</NewHereBadge>
+                    </Tooltip>
+                </BadgeWrapper>
+            );
+        }
+
+        // Add vendor badge (for any of the three vendor types)
+        if (hasVendorBadge) {
+            return (
+                <BadgeWrapper>
+                    {el}
+                    <Tooltip content="Verified Vendor">
+                        <TrustedSellerBadge src="/assets/badges/verifiedvendor.svg" />
                     </Tooltip>
                 </BadgeWrapper>
             );
