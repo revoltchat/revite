@@ -192,7 +192,7 @@ const Message = observer(
                                     (content ? content.length > 0 : false)
                                 }
                             />
-                        ))}
+                    ))}
                         {message.embeds?.map((embed, index) => (
                             <Embed key={index} embed={embed} />
                         ))}
