@@ -180,13 +180,13 @@ export const Form = observer(({ page, callback }: Props) => {
                 {(page === "login" ||
                     page === "create" ||
                     page === "reset") && (
-                    <FormField
-                        type="password"
-                        register={register}
-                        showOverline
-                        error={errors.password?.message}
-                    />
-                )}
+                        <FormField
+                            type="password"
+                            register={register}
+                            showOverline
+                            error={errors.password?.message}
+                        />
+                    )}
                 {configuration?.features.invite_only && page === "create" && (
                     <FormField
                         type="invite"
@@ -208,12 +208,12 @@ export const Form = observer(({ page, callback }: Props) => {
                             page === "create"
                                 ? "login.register"
                                 : page === "login"
-                                ? "login.title"
-                                : page === "reset"
-                                ? "login.set_password"
-                                : page === "resend"
-                                ? "login.resend"
-                                : "login.reset"
+                                    ? "login.title"
+                                    : page === "reset"
+                                        ? "login.set_password"
+                                        : page === "resend"
+                                            ? "login.resend"
+                                            : "login.reset"
                         }
                     />
                 </Button>
@@ -231,20 +231,6 @@ export const Form = observer(({ page, callback }: Props) => {
                     {!IS_REVOLT && (
                         <>
                             <br />
-                            <Tip palette="primary">
-                                <span>
-                                    <Text id="login.unofficial_instance" /> You{" "}
-                                    <b>cannot</b> use your login from the
-                                    official instance.&ensp;
-                                    <a
-                                        href="https://developers.revolt.chat/faq.html#admonition-what-can-i-do-with-revolt-and-how-do-i-self-host"
-                                        style={{ color: "var(--accent)" }}
-                                        target="_blank"
-                                        rel="noreferrer">
-                                        <Text id="general.learn_more" />
-                                    </a>
-                                </span>
-                            </Tip>
                         </>
                     )}
                     <span className={styles.create}>
@@ -270,14 +256,14 @@ export const Form = observer(({ page, callback }: Props) => {
             {(page === "reset" ||
                 page === "resend" ||
                 page === "send_reset") && (
-                <>
-                    <span className={styles.create}>
-                        <Link to="/login">
-                            <Text id="login.remembered" />
-                        </Link>
-                    </span>
-                </>
-            )}
+                    <>
+                        <span className={styles.create}>
+                            <Link to="/login">
+                                <Text id="login.remembered" />
+                            </Link>
+                        </span>
+                    </>
+                )}
         </div>
     );
 });

@@ -54,9 +54,10 @@ export default defineConfig({
             filename: "sw.ts",
             strategies: "injectManifest",
             manifest: {
-                name: "Revolt",
-                short_name: "Revolt",
-                description: "User-first, privacy-focused chat platform.",
+                name: "PepChat – Home of the Peptide Community",
+                short_name: "PepChat",
+                description:
+                    "Join the only chat built for unrestricted peptide discussion. Connect with group buys, Chinese manufacturers, and fellow researchers. No gatekeepers. No censorship. 100% open-source, powered by Revolt.",
                 categories: ["communication", "chat", "messaging"],
                 start_url: "/",
                 orientation: "portrait",
