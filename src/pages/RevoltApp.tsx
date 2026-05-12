@@ -4,6 +4,7 @@ import styled, { css } from "styled-components/macro";
 
 import { useEffect, useState } from "preact/hooks";
 
+import { useClient } from "../controllers/client/ClientController";
 import ContextMenus from "../lib/ContextMenus";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 
@@ -19,6 +20,8 @@ import Discover from "./discover/Discover";
 import Friends from "./friends/Friends";
 import Home from "./home/Home";
 import InviteBot from "./invite/InviteBot";
+import Admin from "./admin/Admin";
+import BookProcessing from "./books/BookProcessing";
 import ChannelSettings from "./settings/ChannelSettings";
 import ServerSettings from "./settings/ServerSettings";
 import Settings from "./settings/Settings";
@@ -98,7 +101,12 @@ export default function App() {
     const inSpecial =
         (path.startsWith("/friends") && isTouchscreenDevice) ||
         path.startsWith("/invite") ||
-        path.includes("/settings");
+        path.includes("/settings") ||
+        path.startsWith("/admin") ||
+        path.endsWith("/books");
+
+    const client = useClient();
+    const isPrivileged = client?.user?.privileged === true;
 
     const alert = useSystemAlert();
     const [statusBar, setStatusBar] = useState(false);
@@ -146,7 +154,7 @@ export default function App() {
                         (alert && statusBar ? " - 40px)" : "")
                     }
                     leftPanel={
-                        inSpecial
+                        inSpecial || (!isPrivileged && path === "/")
                             ? undefined
                             : { width: 290, component: <LeftSidebar /> }
                     }
@@ -201,11 +209,18 @@ export default function App() {
                                 path="/server/:server/channel/:channel"
                                 component={Channel}
                             />
+                            <Route path="/server/:server/books" component={BookProcessing} />
                             <Route path="/server/:server" component={Channel} />
                             <Route
                                 path="/channel/:channel"
                                 component={Channel}
                             />
+
+                            <Route
+                                path="/admin/:page"
+                                component={Admin}
+                            />
+                            <Route path="/admin" component={Admin} />
 
                             <Route
                                 path="/settings/:page"

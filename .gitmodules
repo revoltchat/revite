@@ -3,7 +3,7 @@
 	url = https://github.com/revoltchat/translations
 [submodule "external/components"]
 	path = external/components
-	url = https://github.com/revoltchat/components
+	url = https://github.com/Apricotter/components
 [submodule "external/revolt.js"]
 	path = external/revolt.js
 	url = https://github.com/revoltchat/revolt.js

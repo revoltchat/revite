@@ -6,7 +6,7 @@ import styles from "../Login.module.scss";
 import { Text } from "preact-i18n";
 import { useState } from "preact/hooks";
 
-import { Button, Category, Preloader, Tip } from "@revoltchat/ui";
+import { Button, Category, Preloader } from "@revoltchat/ui";
 
 import { I18nError } from "../../../context/Locale";
 
@@ -14,7 +14,6 @@ import WaveSVG from "../../settings/assets/wave.svg";
 
 import { clientController } from "../../../controllers/client/ClientController";
 import { takeError } from "../../../controllers/client/jsx/error";
-import { IS_REVOLT } from "../../../version";
 import FormField from "../FormField";
 import { CaptchaBlock, CaptchaProps } from "./CaptchaBlock";
 import { MailProvider } from "./MailProvider";
@@ -148,23 +147,12 @@ export const Form = observer(({ page, callback }: Props) => {
             <div className={styles.welcome}>
                 <div className={styles.title}>
                     <img src={WaveSVG} draggable={false} />
-                    <Text
-                        id={
-                            page === "create"
-                                ? "login.welcome2"
-                                : "login.welcome"
-                        }
-                    />
+                    {page === "create" ? "Hello!" : "Welcome!"}
                 </div>
                 <div className={styles.subtitle}>
-                    <Text
-                        id={
-                            page === "create"
-                                ? "login.subtitle2"
-                                : "login.subtitle"
-                        }
-                    />
-                    <div>(app.revolt.chat)</div>
+                    {page === "create"
+                        ? "Create an account"
+                        : "Sign into Apricotter Hub"}
                 </div>
             </div>
 
@@ -233,7 +221,7 @@ export const Form = observer(({ page, callback }: Props) => {
             {page === "login" && (
                 <>
                     <span className={styles.create}>
-                        <Text id="login.new" />{" "}
+                        {"New to Apricotter Hub? "}{" "}
                         <Link to="/login/create">
                             <Text id="login.create" />
                         </Link>
@@ -250,23 +238,6 @@ export const Form = observer(({ page, callback }: Props) => {
                             <Text id="login.resend" />
                         </Link>
                     </span>
-                    {!IS_REVOLT && (
-                        <>
-                            <br />
-                            <Tip palette="primary">
-                                <span>
-                                    <Text id="login.unofficial_instance" />{" "}
-                                    <a
-                                        href="https://developers.revolt.chat/faq.html"
-                                        style={{ color: "var(--accent)" }}
-                                        target="_blank"
-                                        rel="noreferrer">
-                                        <Text id="general.learn_more" />
-                                    </a>
-                                </span>
-                            </Tip>
-                        </>
-                    )}
                 </>
             )}
             {(page === "reset" ||

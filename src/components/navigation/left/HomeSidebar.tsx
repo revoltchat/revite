@@ -125,6 +125,7 @@ export default observer(() => {
                         </ButtonItem>
                     </Link>
                 )}
+
                 <Category>
                     <Text id="app.main.categories.conversations" />
                     <IconButton

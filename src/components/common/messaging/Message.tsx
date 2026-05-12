@@ -55,7 +55,7 @@ const Message = observer(
         const client = message.client;
         const user = message.author;
 
-        const content = message.content;
+        const content = message.content?.replace(/\bONBOARDING_COMPLETE\b/g, "").trimEnd() || message.content;
         const head =
             preferHead || (message.reply_ids && message.reply_ids.length > 0);
 
