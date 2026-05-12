@@ -5,7 +5,7 @@
     }
     10% {
         transform: rotate(14deg);
-    } /* The following five values can be played with to make the waving more or less extreme */
+    }
     20% {
         transform: rotate(-8deg);
     }
@@ -20,23 +20,11 @@
     }
     60% {
         transform: rotate(0deg);
-    } /* Reset for the last half to pause */
+    }
     100% {
         transform: rotate(0deg);
     }
 }
-
-/*@keyframes shrink {
-    0% {
-        background-size: 140% 140%;
-    }
-    10% {
-        background-size: 150% 150%;
-    }
-    100% {
-        background-size: 100% 100%;
-    }
-}*/
 
 .login {
     width: 100%;
@@ -44,11 +32,19 @@
     padding: 40px 35px;
     display: flex;
     user-select: none;
-    background: url("/src/pages/login/background.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    /*animation: shrink 5s normal forwards;*/
+    position: relative;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("/assets/web/bg-library.webp");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        transform: scaleX(-1);
+        z-index: 0;
+    }
 
     .nav {
         display: flex;
@@ -57,7 +53,8 @@
         .logo {
             flex-grow: 1;
             > img {
-                height: 24px;
+                height: 28px;
+                filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.5));
             }
         }
     }
@@ -67,42 +64,43 @@
         flex-direction: column;
         justify-content: space-between;
         flex-grow: 1;
+        position: relative;
+        z-index: 1;
     }
 
     select {
         max-width: 180px;
-        padding: 4px;
+        padding: 4px 8px;
         height: fit-content;
-        background-color: rgba(36, 36, 36, 0.75);
-        border: 2px solid rgba(128, 128, 128, 0.15);
-        backdrop-filter: blur(20px);
+        background: rgba(18, 10, 2, 0.65);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        color: white;
         font-size: 13px;
-    }
-
-    .middle {
-        display: flex;
-        gap: 50px;
-
-        .loginQR {
-            background-color: rgba(36, 36, 36, 0.75);
-            border: 2px solid rgba(128, 128, 128, 0.15);
-            border-radius: 8px;
-            width: 330px;
-        }
+        border-radius: 8px;
     }
 
     .form {
-        background-color: rgba(36, 36, 36, 0.75);
-        border: 2px solid rgba(128, 128, 128, 0.15);
-        backdrop-filter: blur(20px);
-        max-width: 360px;
-        max-height: 600px;
-        padding: 30px 25px;
-        border-radius: 8px;
+        background: rgba(18, 10, 2, 0.68);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+        max-width: 380px;
+        max-height: 620px;
+        padding: 36px 32px;
+        border-radius: 28px;
         margin-inline-start: 50px;
         margin-top: 20px;
         margin-bottom: 20px;
-        box-shadow: 0 2px 10px 0 rgb(0 0 0 / 20%);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+
+        --foreground: rgba(255, 255, 255, 0.9);
+        --secondary-foreground: rgba(255, 255, 255, 0.6);
+        --tertiary-foreground: rgba(255, 255, 255, 0.4);
+        --accent: #f4b978;
+        --accent-contrast: #080c18;
+        color: rgba(255, 255, 255, 0.9);
 
         .captcha {
             display: flex;
@@ -124,7 +122,7 @@
 
             a {
                 cursor: pointer;
-                color: var(--accent);
+                color: #f4b978;
             }
         }
 
@@ -138,7 +136,7 @@
                 word-break: keep-all;
 
                 a {
-                    color: var(--accent);
+                    color: #f4b978;
                     white-space: nowrap;
                 }
             }
@@ -187,17 +185,17 @@
                     margin: 0;
                     margin-bottom: -4px;
                     font-size: 12px;
-                    color: var(--secondary-foreground);
+                    color: rgba(255, 255, 255, 0.6);
                 }
 
                 input {
                     background: var(--secondary-background);
-                    /*border: 2px solid rgba(128, 128, 128, 0.15);*/
                 }
 
                 button {
                     padding: 8px;
-                    background: var(--secondary-background);
+                    background: #f4b978;
+                    color: #080c18;
                     margin-bottom: 15px;
                 }
             }
@@ -223,34 +221,20 @@
             align-items: center;
             gap: 15px;
 
-            .socials {
+            .apricotter-links {
                 display: flex;
-                gap: 10px;
+                gap: 12px;
 
                 a {
-                    transition: opacity 0.2s ease-in-out;
+                    color: rgba(255, 255, 255, 0.7) !important;
+                    font-size: 13px;
+                    text-decoration: none;
+                    transition: color 0.15s;
+
                     &:hover {
-                        opacity: 0.7;
+                        color: white !important;
+                        text-decoration: none;
                     }
-                    &:active {
-                        opacity: 0.5;
-                    }
-                }
-            }
-
-            .bullet {
-                height: 5px;
-                width: 5px;
-                background: grey;
-                border-radius: 50%;
-            }
-
-            .revolt {
-                display: flex;
-                gap: 10px;
-
-                a {
-                    color: white !important;
                 }
             }
         }
@@ -281,25 +265,30 @@
 
     a {
         font-size: 13px;
-        color: var(--accent);
+        color: #f4b978;
     }
 }
 
 @media only screen and (max-width: 768px) {
     .login {
-        padding: 30px 20px;
-        background-image: unset;
-        background-color: var(--primary-background);
+        padding: 28px 20px;
+
+        &::before {
+            display: block;
+            background: url("/assets/web/login-mobile-bg.webp") center 40% / cover no-repeat;
+            transform: none;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 5, 1, 0.45);
+            z-index: 0;
+            pointer-events: none;
+        }
 
         .content {
-            .nav {
-                .logo {
-                    img {
-                        height: 24px;
-                    }
-                }
-            }
-
             .bottom {
                 flex-direction: column;
 
@@ -307,24 +296,13 @@
                     flex-direction: column;
                     gap: 10px;
                 }
-
-                .bullet,
-                .attribution {
-                    display: none;
-                }
             }
         }
 
         .form {
-            border: unset;
             margin-inline-start: 0;
-            padding: 0;
             max-width: unset;
-            box-shadow: unset;
-        }
-
-        .loginQR {
-            display: none;
+            align-self: center;
         }
     }
 }

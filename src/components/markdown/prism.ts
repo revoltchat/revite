@@ -99,4 +99,9 @@ import "prismjs/components/prism-mongodb";
 
 import "prismjs/themes/prism-tomorrow.css";
 
+// Register custom languages so rehypePrism preserves their class names
+// instead of falling back to language-text.
+Prism.languages["thinking"] = {};
+Prism.languages["form"] = {};
+
 export default Prism;

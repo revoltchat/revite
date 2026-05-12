@@ -193,11 +193,16 @@ export default class Session {
                     if (onboarding) {
                         modalController.push({
                             type: "onboarding",
-                            callback: async (username: string) =>
-                                this.client!.completeOnboarding(
-                                    { username },
+                            callback: async (username: string) => {
+                                const entry_code = sessionStorage.getItem("invite_code") ?? undefined;
+                                return this.client!.completeOnboarding(
+                                    { username, entry_code } as any,
                                     false,
-                                ).then(() => this.continueLogin(data)),
+                                ).then(() => {
+                                    sessionStorage.removeItem("invite_code");
+                                    return this.continueLogin(data);
+                                });
+                            },
                         });
 
                         return;

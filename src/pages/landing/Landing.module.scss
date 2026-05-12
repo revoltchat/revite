@@ -1,0 +1,211 @@
+.landing {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    user-select: none;
+    padding: 40px 35px;
+    box-sizing: border-box;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("/assets/web/bg-library.webp");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        transform: scaleX(-1);
+        z-index: 0;
+    }
+
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+        height: 32px;
+        filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.5));
+    }
+
+    a {
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        background: rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 7px 16px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        transition: background 0.15s;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.42);
+        }
+    }
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 50px;
+}
+
+.card {
+    background: rgba(18, 10, 2, 0.68);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border-radius: 28px;
+    padding: 40px 36px;
+    width: 380px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.headline {
+    h1 {
+        margin: 0 0 10px;
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 1.25;
+        color: white;
+    }
+
+    p {
+        margin: 0;
+        font-size: 13.5px;
+        color: rgba(255, 255, 255, 0.62);
+        line-height: 1.6;
+    }
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    input[type="email"] {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px 14px;
+        border-radius: 12px;
+        border: 1.5px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.07);
+        color: white;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.15s, background 0.15s;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.32);
+        }
+
+        &:focus {
+            border-color: #f4b978;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    button {
+        width: 100%;
+        padding: 11px;
+        border-radius: 12px;
+        border: none;
+        background: #f4b978;
+        color: #080c18;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s;
+        letter-spacing: 0.01em;
+
+        &:hover {
+            background: #e89a3f;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+    }
+}
+
+.hint {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.42);
+    text-align: center;
+
+    a {
+        color: #f4b978;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.success {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .title {
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+    }
+
+    .subtitle {
+        font-size: 13.5px;
+        color: rgba(255, 255, 255, 0.58);
+        line-height: 1.55;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .landing {
+        padding: 28px 20px;
+
+        &::before {
+            display: block;
+            background: url("/assets/web/login-mobile-bg.webp") center 40% / cover no-repeat;
+            transform: none;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 5, 1, 0.45);
+            z-index: 0;
+            pointer-events: none;
+        }
+    }
+
+    .main {
+        padding-left: 0;
+        justify-content: center;
+    }
+
+    .card {
+        width: 100%;
+        padding: 32px 24px;
+        transform: translateY(-30px);
+    }
+}

@@ -75,7 +75,7 @@ export default class STheme {
      * @returns Id of base theme
      */
     @computed getBase() {
-        return this.settings.get("appearance:theme:base") ?? "dark";
+        return this.settings.get("appearance:theme:base") ?? "light";
     }
 
     /**

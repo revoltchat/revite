@@ -13,5 +13,9 @@ dist-ssr
 public/assets
 public/assets_*
 !public/assets_default
+!public/assets/web/bg-library.webp
+!public/assets/web/login-mobile-bg.webp
+!public/assets/apricotter-wordmark.webp
+!public/assets/icons/
 
 .vscode/chrome_data
