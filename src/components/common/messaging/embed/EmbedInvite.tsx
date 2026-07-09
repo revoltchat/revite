@@ -82,7 +82,7 @@ export function EmbedInvite({ code }: Props) {
     const [error, setError] = useState<string | undefined>(undefined);
     const [joinError, setJoinError] = useState<string | undefined>(undefined);
     const [invite, setInvite] = useState<
-        (API.InviteResponse & { type: "Server" }) | undefined
+        API.InviteResponse | undefined
     >(undefined);
 
     useEffect(() => {
@@ -93,7 +93,7 @@ export function EmbedInvite({ code }: Props) {
             client
                 .fetchInvite(code)
                 .then((data) =>
-                    setInvite(data as API.InviteResponse & { type: "Server" }),
+                    setInvite(data as API.InviteResponse),
                 )
                 .catch((err) => setError(takeError(err)));
         }
@@ -110,6 +110,17 @@ export function EmbedInvite({ code }: Props) {
         ) : (
             <EmbedInviteBase>
                 <Preloader type="ring" />
+            </EmbedInviteBase>
+        );
+    }
+
+    if (invite.type === "Group") {
+        return (
+            <EmbedInviteBase>
+                <ServerIcon size={55} />
+                <EmbedInviteDetails>
+                    <EmbedInviteName>Group Invites are not supported at this time.</EmbedInviteName>
+                </EmbedInviteDetails>
             </EmbedInviteBase>
         );
     }
